@@ -1,1 +1,11 @@
 * text=auto !eol
+demos/AdPlayerDemo/.classpath -text
+demos/AdPlayerDemo/.project -text
+demos/AdPlayerDemo/README.txt -text
+demos/AdPlayerDemo/examples.jar -text
+demos/AdPlayerDemo/jvlc-core-0.9.0-SNAPSHOT-20080727.jar -text
+demos/AdPlayerDemo/src/com/kesdip/player/Player.java -text
+demos/AdPlayerDemo/src/com/kesdip/player/StringTickerSource.java -text
+demos/AdPlayerDemo/src/com/kesdip/player/TickerPanel.java -text
+demos/AdPlayerDemo/src/com/kesdip/player/TickerSource.java -text
+demos/AdPlayerDemo/src/log4j.xml -text
