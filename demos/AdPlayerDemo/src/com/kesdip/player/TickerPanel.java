@@ -69,13 +69,11 @@ public class TickerPanel extends JPanel {
 		// Now write the content
 		g.setColor(foregroundColor);
 		g.setFont(font);
-		// g.clipRect(0, 0, width, height);
 		String content = getTickerContent(g);
 		if (logger.isDebugEnabled())
 			logger.debug("(" + ((int) currentXPos) + ", " + currentYPos +
 					"): '" + content + "'");
 		g.drawString(content, ((int) currentXPos), currentYPos);
-		// g.setClip(null);
 		
 		// Now move the ticker along
 		currentXPos += (-1.0 * speed);

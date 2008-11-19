@@ -10,6 +10,10 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 
@@ -23,11 +27,54 @@ import com.sun.jna.examples.WindowUtils;
 public class Player implements Runnable, KeyListener {
 	private static final Logger logger = Logger.getLogger(Player.class);
 	
-	private String videoFilename = "ad.mp4";
-	private String vlcPath = "c:\\Program Files\\VideoLAN\\VLC";
+	private static Properties props;
 	
-	private int X_SIZE = 1280;
-	private int Y_SIZE = 800;
+	static {
+		props = new Properties();
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream("demo.properties");
+			props.load(fis);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (fis != null)
+				try { fis.close(); } catch (IOException e) { }
+		}
+	}
+	
+	private static int getDefaultIntProp(String key, int def) {
+		if (!props.containsKey(key))
+			return def;
+		
+		return Integer.valueOf(props.getProperty(key));
+	}
+	
+	private static String getDefaultStringProp(String key, String def) {
+		if (!props.containsKey(key))
+			return def;
+		
+		return props.getProperty(key);
+	}
+	
+	private static boolean getDefaultBoolProp(String key, boolean def) {
+		if (!props.containsKey(key))
+			return def;
+		
+		return props.getProperty(key).equalsIgnoreCase("true");
+	}
+	
+	private String videoFilename = getDefaultStringProp("video.filename",
+			"ad.mp4");
+	private String vlcPath = getDefaultStringProp("vlc.path",
+			"c:\\Program Files\\VideoLAN\\VLC");
+	
+	private int X_SIZE = getDefaultIntProp("x.size", 640);
+	private int Y_SIZE = getDefaultIntProp("y.size", 400);
+	
+	private boolean transparentTicker = getDefaultBoolProp("transparent.ticker", true);
 	
 	private boolean done = false;
 	
@@ -132,6 +179,7 @@ public class Player implements Runnable, KeyListener {
 		
         videoFrame.pack();
         videoFrame.setVisible(true);
+        videoFrame.addKeyListener(this);
         
         startVideoOnCanvas();
 
@@ -150,16 +198,20 @@ public class Player implements Runnable, KeyListener {
 		
 		// The following line controls if the frame will be transparent or not.
 		// Comment out for default Swing behavior.
-		WindowUtils.setWindowTransparent(tickerFrame, true);
+		if (transparentTicker)
+			WindowUtils.setWindowTransparent(tickerFrame, true);
 		
 		tickerFrame.setLocation(0, Y_SIZE - 80);
 
 		tickerPanel = new TickerPanel(new Font("Arial", Font.BOLD, 36),
 				Color.WHITE, 2,
-				new StringTickerSource("This is a test, I say, old chap! "),
+				new StringTickerSource(
+						getDefaultStringProp("ticker.text",
+								"This is a test, I say, old chap! ")),
 				X_SIZE, 80);
 		tickerPanel.addKeyListener(this);
 		tickerFrame.add(tickerPanel);
+		tickerFrame.addKeyListener(this);
 		
 		tickerFrame.pack();
 		tickerFrame.setVisible(true);
