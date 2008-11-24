@@ -4,7 +4,9 @@ demos/AdPlayerDemo/.project -text
 demos/AdPlayerDemo/README.txt -text
 demos/AdPlayerDemo/demo.properties -text
 demos/AdPlayerDemo/examples.jar -text
+demos/AdPlayerDemo/jdom.jar -text
 demos/AdPlayerDemo/jvlc-core-0.9.0-SNAPSHOT-20080727.jar -text
+demos/AdPlayerDemo/rome-1.0RC1.jar -text
 demos/AdPlayerDemo/src/com/kesdip/player/Player.java -text
 demos/AdPlayerDemo/src/com/kesdip/player/RssTickerSource.java -text
 demos/AdPlayerDemo/src/com/kesdip/player/StringTickerSource.java -text
