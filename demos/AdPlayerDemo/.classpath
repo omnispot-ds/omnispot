@@ -4,5 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="examples.jar"/>
 	<classpathentry kind="lib" path="jvlc-core-0.9.0-SNAPSHOT-20080727.jar"/>
+	<classpathentry kind="lib" path="jdom.jar"/>
+	<classpathentry kind="lib" path="rome-1.0RC1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
