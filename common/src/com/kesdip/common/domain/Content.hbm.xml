@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.kesdip.common.domain.generated.Content"
+		table="CONTENT" lazy="true">
+		<meta attribute="class-description">
+			Domain object for the 'Content' entity. Auto-generated
+			code. &lt;strong&gt;Do not modify manually.&lt;/strong&gt;
+			@author gerogias
+		</meta>
+		<meta attribute="implement-equals">true</meta>
+
+		<id name="id" column="ID" type="java.lang.Long">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Primary, surrogate key.
+			</meta>
+			<generator class="increment" />
+		</id>
+
+		<property name="url" column="URL" type="java.lang.String"
+			length="512" not-null="true">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The URL of the content file.
+			</meta>
+		</property>
+
+        <property name="crc" column="CRC" type="java.lang.String" 
+        	length="128">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		CRC for the content file.
+        	</meta>
+        </property>
+
+        <property name="localFile" column="LOCAL_FILE" type="java.lang.String" 
+        	length="512">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		Local file for the content.
+        	</meta>
+        </property>
+
+		<set name="deployments" table="DEPL_CONTENT" cascade="none"
+			lazy="false">
+			<meta attribute="field-description">
+				The deployments of this content.
+			</meta>
+			<key column="CONTENT_ID" />
+			<many-to-many
+				class="com.kesdip.common.domain.generated.Deployment"
+				column="DEPLOYMENT_ID" />
+		</set>
+
+	</class>
+
+</hibernate-mapping>

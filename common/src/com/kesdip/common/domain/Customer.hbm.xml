@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.kesdip.common.domain.generated.Customer"
+		table="CUSTOMER" lazy="true">
+		<meta attribute="class-description">
+			Domain object for the 'Customer' entity. Auto-generated
+			code. &lt;strong&gt;Do not modify manually.&lt;/strong&gt;
+			@author gerogias
+		</meta>
+		<meta attribute="implement-equals">true</meta>
+
+		<id name="id" column="ID" type="java.lang.Long">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Primary, surrogate key.
+			</meta>
+			<generator class="increment" />
+		</id>
+
+		<property name="name" column="NAME" type="java.lang.String"
+			length="50" not-null="true">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The name of the customer.
+			</meta>
+		</property>
+
+        <property name="comments" column="COMMENTS" type="java.lang.String" 
+        	length="512">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		Comments for this customer.
+        	</meta>
+        </property>
+
+		<property name="active" column="ACTIVE" type="boolean"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				If the customer active or not.
+			</meta>
+		</property>
+
+		<set name="sites" table="SITE" cascade="none"
+			lazy="false" inverse="true">
+			<meta attribute="field-description">
+				The parameters of the action.
+			</meta>
+			<key column="ACTION_ID" />
+			<one-to-many
+				class="com.kesdip.common.domain.generated.Parameter"/>
+		</set>
+
+	</class>
+
+</hibernate-mapping>
