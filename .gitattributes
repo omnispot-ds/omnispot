@@ -73,6 +73,8 @@ etc/sql/create-database.sql -text
 etc/sql/drop-database.sql -text
 etc/sql/static-data.sql -text
 etc/sql/test-data.sql -text
+etc/templates/codetemplates.xml -text
+etc/templates/editortemplates.xml -text
 player/.classpath -text
 player/.project -text
 player/appContext.xml -text
