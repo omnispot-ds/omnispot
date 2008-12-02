@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Digital Signage player project" basedir=".">
+	<description>Build file for the player code</description>
+
+	<import file="${etc.ant.scripts.dir}/common-targets.xml" />
+
+	<property name="player.base.dir" location="." />
+
+	<property name="player.build.dir" location="${player.base.dir}/build" />
+	<property name="player.dist.dir" location="${player.base.dir}/dist" />
+	<property name="player.classes.dir" location="${player.build.dir}/classes" />
+
+	<property name="shared.jars.file" location="${player.base.dir}/shared.jars" />
+
+	<target name="player.init">
+		<echo level="info">Initializing...</echo>
+		<uptodate property="compile.notRequired" targetfile="${player.dist.file}">
+			<srcfiles dir="${player.src.dir}" includes="**/*" />
+		</uptodate>
+		<echo level="info">Compile not required ${compile.notRequired}</echo>
+	</target>
+
+	<target name="player.compile" description="compile the logic classes" 
+		depends="player.init" 
+		unless="compile.notRequired">
+		<echo level="info">Compiling sources...</echo>
+		<delete dir="${player.classes.dir}" failonerror="false" />
+		<mkdir dir="${player.classes.dir}" />
+		<javac destdir="${player.classes.dir}" debug="true" encoding="UTF-8">
+			<src path="${player.src.dir}" />
+			<classpath>
+				<fileset dir="${project.base.dir}" includesfile="${shared.jars.file}" />
+			</classpath>
+		</javac>
+		<copy todir="${player.classes.dir}">
+			<fileset dir="${player.src.dir}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<include name="**/*.xsd" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="player.dist" description="create the common JAR file" 
+		depends="player.init" unless="build.notRequired">
+		<echo level="info">Creating distribution</echo>
+		<copy todir="${player.build.dir}">
+			<fileset dir="${player.build.dir}/classes" />
+		</copy>
+
+		<mkdir dir="${player.dist.dir}" />
+
+		<antcall target="zz.create.simple.jar">
+			<param name="base.dir" value="${player.build.dir}" />
+			<param name="dest.file" value="${player.dist.file}" />
+			<param name="fileset.file" value="${shared.jars.file}" />
+			<param name="lib.base.dir" value="${project.base.dir}" />
+			<param name="exclude.patterns" value="classes/**" />
+		</antcall>
+
+	</target>
+
+	<target name="player.clean">
+		<echo level="info">Cleaning files and directories</echo>
+ 		<delete dir="${player.build.dir}" failonerror="false"/>
+ 		<delete dir="${player.dist.dir}" failonerror="false"/>
+	    <mkdir dir="${player.build.dir}"/>
+ 		<mkdir dir="${player.dist.dir}"/>
+	</target>
+
+	<target name="player.all" depends="player.init,player.compile,player.dist,player.clean" />
+</project>
