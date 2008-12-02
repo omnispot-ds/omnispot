@@ -66,6 +66,7 @@ etc/lib/hibernate/jta.jar -text
 etc/lib/jdom/jdom.jar -text
 etc/lib/jvlc/jvlc-core-0.9.0-SNAPSHOT-20080727.jar -text
 etc/lib/log4j/log4j-1.2.14.jar -text
+etc/lib/quartz/quartz-1.6.3.jar -text
 etc/lib/spring/spring.jar -text
 etc/lib/sun/examples.jar -text
 etc/lib/sun/rome-1.0RC1.jar -text
