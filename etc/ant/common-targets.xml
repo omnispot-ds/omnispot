@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Signage-common-targets" basedir=".">
+	<description>Common targets for the Digital Signage build process</description>
+
+	<dirname property="etc.base.dir" file="${ant.file.Signage-common-targets}/.."/>	
+	<property name="etc.lib.dir" value="${etc.base.dir}/lib"/>
+
+	<path id="task.classpath">
+		<fileset dir="${etc.lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>	
+	
+	<!-- All of ant-contrib tasks -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="${etc.lib.dir}/ant-contrib/ant-contrib-1.0b3.jar"/>
+		</classpath>
+	</taskdef>	
+
+	<!-- 
+		Replace all properties in a file.
+		The properties are defined like this #{property.name}
+		@param file path to the file
+		@param properties comma-separated list of properties 
+			to replace in the file
+		 -->
+	<target name="zz.replace.properties"
+		description="Replace all properties in a file">
+
+		<for list="${properties}" trim="true" param="prop">
+			<sequential>
+				<replace 
+					file="${file}" 
+					token="#{@{prop}}"
+					value="${@{prop}}"/>
+			</sequential>			
+		</for>	
+	</target>
+	
+	<!--
+		Creates a JAR file at the specified folder, using the given list of dependent JARs
+		to populate the manifest.
+		@param base.dir the base directory
+		@param dest.file the destination JAR to create		
+		@param fileset.file the location of an includesfile, specifying JAR names under the top-level folder
+		@param lib.base.dir base directory to resolve JARs
+		@param exclude.patterns a list of exclude patterns
+	-->
+	<target name="zz.create.simple.jar"
+		description="Creates a JAR file, complete with the proper manifest entries">
+	
+		<var name="class.path" value=""/>	
+		<for param="filepath">
+			<fileset dir="." includesfile="${fileset.file}"/>
+			<sequential>
+				<propertyregex override="yes"
+				      property="__filename" input="@{filepath}"
+				      regexp=".*\\|/([\w\.jar]+)" replace="\1"/>
+				<var name="class.path" value="${class.path} ${__filename}"/>
+			</sequential>
+		</for>
+
+		<jar 
+			basedir="${base.dir}"
+			destfile="${dest.file}"
+			update="false"
+			excludes="**/*.java ${exclude.patterns}">
+ 			<manifest>
+ 				<attribute name="Class-Path" value="${class.path}"/>
+ 	 			<attribute name="Specification-Title" value="AdHoc Digital Signage application"/>
+ 	 			<attribute name="Specification-Version" value="0.1"/>
+ 	 			<attribute name="Specification-Vendor" value="Kesdip E.P.E."/>
+ 	 			<attribute name="Implementation-Title" value="AdHoc"/>
+ 	 			<attribute name="Implementation-Version" value="0.1"/>
+ 	 			<attribute name="Implementation-Vendor" value="S.&amp;S.&amp;P.&amp;P.&amp;N."/>
+ 			</manifest>
+		</jar>		
+	</target>
+	
+	<!--
+		Creates a WAR file at the specified folder, copying the given list of dependent JARs
+		inside WEB-INF/lib.
+		@param base.dir the base directory
+		@param dest.file the destination WAR to create		
+		@param fileset.file the location of an includesfile, specifying JAR names under the top-level folder
+		@param lib.base.dir base directory to resolve JARs
+		@param exclude.patterns patterns to exclude for the WAR
+	-->
+	<target name="zz.create.war"
+		description="Creates a WAR file, complete with the proper JARs in WEB-INF/lib">
+	
+		<copy todir="${base.dir}/WEB-INF/lib" flatten="true">
+			<fileset dir="${lib.base.dir}" includesfile="${fileset.file}"/>
+		</copy>
+		
+		<var name="class.path" value=""/>	
+		<for param="filepath">
+			<fileset dir="." includesfile="${fileset.file}"/>
+			<sequential>
+				<propertyregex override="yes"
+				      property="__filename" input="@{filepath}"
+				      regexp=".*\\|/([\w\.jar]+)" replace="\1"/>
+				<var name="class.path" value="${class.path} ${__filename}"/>
+			</sequential>
+		</for>
+
+		<war 
+			basedir="${base.dir}"
+			destfile="${dest.file}"
+			update="false"
+			excludes="**/*.java ${exclude.patterns}"
+			webxml="${base.dir}/WEB-INF/web.xml">
+ 			<manifest>
+ 				<attribute name="Class-Path" value="${class.path}"/>
+ 	 			<attribute name="Specification-Title" value="Panou Monitor"/>
+ 	 			<attribute name="Specification-Version" value="0.1"/>
+ 	 			<attribute name="Specification-Vendor" value="Panou E.P.E."/>
+ 	 			<attribute name="Implementation-Title" value="Panou Monitor"/>
+ 	 			<attribute name="Implementation-Version" value="0.1"/>
+ 	 			<attribute name="Implementation-Vendor" value="Stelios Gerogiannakis"/>
+ 			</manifest> 			
+		</war>		
+	</target>
+			
+	<!--
+		Executes an SQL file.
+		@param onerror if on error execution should be aborted or not
+		@param sql.file the file to execute
+		@param jdbc.driver the JDBC driver class
+		@param jdbc.url the JDBC URL
+		@param jdbc.username the username to connect with
+		@param jdbc.password the password
+	-->
+	<target name="zz.execute.sql.file">
+		<sql 
+			onerror="${onerror}"
+			autocommit="true"
+			src="${sql.file}"			
+			driver="${jdbc.driver}"
+			url="${jdbc.url}"
+			userid="${jdbc.username}"
+			password="${jdbc.password}"
+			classpathref="task.classpath"
+			encoding="UTF-8"
+		/>
+	</target>
+	
+	<!--
+		Generates domain objects from a set of Hibernate mapping files.
+		@param hbm.base.dir folder where all hbm.xml files are located
+		@param cfg.xml the hibernate.cfg.xml location
+		@param dest.dir where to put generated java files
+	-->
+	<target name="zz.generate.domain.objects">
+
+		<path id="hibernate.extended.classpath">
+			<path refid="task.classpath"/>
+			<path path="${hbm.base.dir}"/>
+		</path>
+				
+		<!-- Used to auto-generate domain objects from mapping files -->
+		<taskdef name="hibernatetool"
+		        classname="org.hibernate.tool.ant.HibernateToolTask"
+		        classpathref="hibernate.extended.classpath"/>
+		
+		<hibernatetool 
+			destdir="${dest.dir}">
+			<configuration 
+				configurationfile="${cfg.xml}">
+	        </configuration>
+			<hbm2java jdk5="true"/>
+		</hibernatetool>		
+	</target>
+	
+	
+	<!--
+		Generates the schema DDL from a set of Hibernate mapping files.
+		@param hbm.base.dir folder where all hbm.xml files are located
+		@param cfg.xml the hibernate.cfg.xml location
+		@param dest.file where to put generated java files
+		@param create.stmts if "yes", only creates CREATE statements, otherwise 
+			it only creates DROPs 
+	-->
+	<target name="zz.generate.schema.ddl">
+		
+		<path id="hibernate.extended.classpath">
+			<path refid="task.classpath"/>
+			<path path="${hbm.base.dir}"/>
+		</path>
+
+		<taskdef name="schemaexport"
+	        classname="org.hibernate.tool.hbm2ddl.SchemaExportTask"
+	        classpathref="hibernate.extended.classpath"/>
+	    
+		<if>
+			<equals arg1="${create.stmts}" arg2="yes" />
+			<then>
+				<echo level="info" message="Generating CREATE statements..." />
+			    <schemaexport
+			        config="${cfg.xml}"
+			        quiet="no"
+			        text="yes"
+			        drop="no"
+			    	create="yes"
+			        delimiter=";"
+			        output="${dest.file}"/>
+			</then>
+			<else>
+				<echo level="info" message="Generating DROP statements..." />
+			    <schemaexport
+			        config="${cfg.xml}"
+			        quiet="no"
+			        text="yes"
+			        drop="yes"
+			    	create="no"
+			        delimiter=";"
+			        output="${dest.file}"/>
+			</else>
+		</if>			
+	</target>	
+</project>

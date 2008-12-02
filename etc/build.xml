@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Digital Signage application" basedir="." default="generate.domain.objects">
+	<description>Diacool main buildfile</description>
+	
+	<property file="build.properties"/>
+	
+	<property name="project.base.dir" location=".."/>
+	
+	<property name="common.base.dir" location="${project.base.dir}/common"/>
+	<property name="common.src.dir" location="${common.base.dir}/src"/>
+	<property name="common.build.file" location="${common.base.dir}/build.xml"/>
+	<property name="common.dist.file" location="${common.base.dir}/dist/common.jar"/>
+	
+	<property name="player.base.dir" location="${project.base.dir}/player"/>
+	<property name="player.src.dir" location="${player.base.dir}/src"/>
+	<property name="player.build.file" location="${player.base.dir}/build.xml"/>
+	<property name="player.dist.file" location="${player.base.dir}/dist/player.jar"/>
+
+	<property name="admin-console.base.dir" location="${project.base.dir}/admin-console"/>
+	<property name="admin-console.build.file" location="${admin-console.base.dir}/build.xml"/>
+	<property name="admin-console.dist.file" location="${admin-console.base.dir}/dist/admin-console.war"/>
+	
+	<property name="etc.base.dir" location="${project.base.dir}/etc"/>
+	<property name="etc.ant.scripts.dir" location="${etc.base.dir}/ant"/>
+	<property name="etc.db.create.file" location="${etc.ant.scripts.dir}/create-db.xml"/>
+	<property name="etc.sql.scripts.dir" location="${etc.base.dir}/sql"/>
+	<property name="etc.lib.dir" location="${etc.base.dir}/lib"/>
+	
+	<!-- All of ant-contrib tasks -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="${etc.lib.dir}/ant-contrib/ant-contrib-1.0b3.jar"/>
+		</classpath>
+	</taskdef>	
+		
+	<target name="build.common">
+		<ant antfile="${common.build.file}" target="common.init" inheritrefs="true"/>
+		<ant antfile="${common.build.file}" target="common.compile" inheritrefs="true"/>
+		<ant antfile="${common.build.file}" target="common.dist" inheritrefs="true"/>
+	</target>
+
+	<target name="build.player">
+		<ant antfile="${player.build.file}" target="player.init" inheritrefs="true"/>
+		<ant antfile="${player.build.file}" target="player.compile" inheritrefs="true"/>
+		<ant antfile="${player.build.file}" target="player.dist" inheritrefs="true"/>
+	</target>
+
+	<target name="build.admin-console">
+		<ant antfile="${admin-console.build.file}" target="admin-console.init" inheritrefs="true"/>
+		<ant antfile="${admin-console.build.file}" target="admin-console.compile" inheritrefs="true"/>
+		<ant antfile="${admin-console.build.file}" target="admin-console.dist" inheritrefs="true"/>
+	</target>
+	
+	<target name="clean" description="Clean project directories">
+<!--		<ant antfile="${admin-console.build.file}" target="admin-console.clean" inheritrefs="true"/> -->
+		<ant antfile="${player.build.file}" target="player.clean" inheritrefs="true"/>
+		<ant antfile="${common.build.file}" target="common.clean" inheritrefs="true"/>
+	</target>	
+	
+	<target name="recreate.database" description="Recreates the database">
+		<ant antfile="${etc.db.create.file}" target="drop.database" inheritrefs="true"/>
+		<ant antfile="${etc.db.create.file}" target="create.database" inheritrefs="true"/>
+		<ant antfile="${etc.db.create.file}" target="populate.database" inheritrefs="true"/>
+	</target>
+	
+	<target name="generate.domain.objects">
+		<ant antfile="${common.build.file}" target="generate.domain.objects" inheritrefs="true"/>
+	</target>
+	
+	<target name="dist.admin-console" depends="build.admin-console">
+		<copy tofile="${tomcat.home}/webapps/admin-console.war" file="${admin-console.dist.file}" overwrite="true"/>
+	</target>
+	
+	<target name="dist.player" depends="build.common, build.player"/>
+	
+</project>
