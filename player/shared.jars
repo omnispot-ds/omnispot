@@ -5,5 +5,7 @@ etc/lib/jvlc/jvlc-core-0.9.0-SNAPSHOT-20080727.jar
 etc/lib/log4j/log4j-1.2.14.jar
 etc/lib/spring/spring.jar
 
+etc/lib/quartz/quartz-1.6.3.jar
+
 etc/lib/sun/examples.jar
 etc/lib/sun/rome-1.0RC1.jar

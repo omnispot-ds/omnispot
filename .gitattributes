@@ -84,12 +84,15 @@ player/appContextFullScreen.xml -text
 player/build.xml -text
 player/shared.jars -text
 player/src/com/kesdip/player/DeploymentContents.java -text
+player/src/com/kesdip/player/DeploymentLayout.java -text
 player/src/com/kesdip/player/DeploymentSettings.java -text
 player/src/com/kesdip/player/Player.java -text
+player/src/com/kesdip/player/TimingMonitor.java -text
 player/src/com/kesdip/player/components/AbstractComponent.java -text
 player/src/com/kesdip/player/components/Component.java -text
 player/src/com/kesdip/player/components/ComponentException.java -text
 player/src/com/kesdip/player/components/FullScreenComponent.java -text
+player/src/com/kesdip/player/components/Resource.java -text
 player/src/com/kesdip/player/components/RootContainer.java -text
 player/src/com/kesdip/player/components/SimpleContainer.java -text
 player/src/com/kesdip/player/components/Ticker.java -text

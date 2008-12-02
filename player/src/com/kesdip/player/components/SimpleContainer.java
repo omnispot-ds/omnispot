@@ -1,9 +1,16 @@
+/*
+ * Disclaimer:
+ * Copyright 2008 - Ke.S.Di.P. E.P.E - All rights reserved.
+ * eof Disclaimer
+ */
 package com.kesdip.player.components;
 
 import java.awt.Dimension;
 import java.util.List;
 
 import javax.swing.JPanel;
+
+import com.kesdip.player.DeploymentLayout.CompletionStatus;
 
 /**
  * A simple container component.
@@ -57,6 +64,33 @@ public class SimpleContainer extends AbstractComponent {
 	public void repaint() throws ComponentException {
 		for (Component component : contents) {
 			component.repaint();
+		}
+	}
+
+	@Override
+	public CompletionStatus isComplete() {
+		for (Component component : contents) {
+			switch (component.isComplete()) {
+			case COMPLETE:
+				return CompletionStatus.COMPLETE;
+			case INCOMPLETE:
+				return CompletionStatus.INCOMPLETE;
+			case DONT_CARE:
+				// Do nothing
+				break;
+			default:
+				throw new RuntimeException("Unexpected completion " +
+						"state: " + component.isComplete());
+			}
+		}
+		
+		return CompletionStatus.DONT_CARE;
+	}
+
+	@Override
+	public void releaseResources() {
+		for (Component component : contents) {
+			component.releaseResources();
 		}
 	}
 

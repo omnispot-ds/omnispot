@@ -1,6 +1,13 @@
+/*
+ * Disclaimer:
+ * Copyright 2008 - Ke.S.Di.P. E.P.E - All rights reserved.
+ * eof Disclaimer
+ */
 package com.kesdip.player.components;
 
 import java.awt.Color;
+
+import com.kesdip.player.DeploymentLayout.CompletionStatus;
 
 /**
  * Abstract class that encapsulates the common functionality and state that
@@ -34,5 +41,16 @@ public abstract class AbstractComponent implements Component {
 	
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
+	}
+
+	@Override
+	public CompletionStatus isComplete() {
+		return CompletionStatus.DONT_CARE;
+	}
+
+	@Override
+	public void releaseResources() {
+		// Do nothing. Subclasses should override if they need to do something
+		// here. Check the documentation of the Component interface.
 	}
 }

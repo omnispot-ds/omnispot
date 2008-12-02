@@ -1,7 +1,29 @@
+/*
+ * Disclaimer:
+ * Copyright 2008 - Ke.S.Di.P. E.P.E - All rights reserved.
+ * eof Disclaimer
+ */
 package com.kesdip.player.components;
+
+import com.kesdip.player.DeploymentLayout;
 
 /**
  * The interface that all components in the KESDIP player should implement.
+ * 
+ * The component life-cycle is as follows:
+ * <pre>
+ * repeat { // layout loop
+ *     component.init();
+ *     for each child {
+ *         component.add(child); // Only for container components
+ *     }
+ *     repeat { // render loop
+ *         component.isComplete();
+ *         component.repaint();
+ *     }
+ *     component.releaseResources();
+ * }
+ * </pre>
  * 
  * @author Pafsanias Ftakas
  */
@@ -37,4 +59,22 @@ public interface Component {
 	 * @throws ComponentException Iff something goes wrong.
 	 */
 	void repaint() throws ComponentException;
+	
+	/**
+	 * Components for which it makes sense to note them as completed, should
+	 * implement this class. This is intended to be used for components such as
+	 * the video component that plays a list of videos, and some action should
+	 * be taken when that list has finished playing.
+	 * @return One of the different states that determine if this component
+	 * has completed, or if it does not care about completion (most components
+	 * will fit this later category).
+	 */
+	DeploymentLayout.CompletionStatus isComplete();
+	
+	/**
+	 * Components that want to release resources must implement this method.
+	 * Please see the component life-cycle to understand more about when this
+	 * function gets called in the player execution.
+	 */
+	void releaseResources();
 }

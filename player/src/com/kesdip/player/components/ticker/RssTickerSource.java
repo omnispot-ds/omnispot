@@ -1,3 +1,8 @@
+/*
+ * Disclaimer:
+ * Copyright 2008 - Ke.S.Di.P. E.P.E - All rights reserved.
+ * eof Disclaimer
+ */
 package com.kesdip.player.components.ticker;
 
 import java.net.URL;

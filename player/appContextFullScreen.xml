@@ -37,7 +37,14 @@
 					<property name="y" value="0"/>
 					<property name="width" value="1280"/>
 					<property name="height" value="720"/>
-					<property name="content" value="{GUID}"/>
+					<property name="content">
+						<list>
+							<bean class="com.kesdip.player.components.Resource">
+								<property name="identifier" value="{GUID}"/>
+								<property name="checksum" value="{CRC32}"/>
+							</bean>
+						</list>
+					</property>
 				</bean>
 				<bean class="com.kesdip.player.components.Ticker">
 					<property name="x" value="0"/>
@@ -77,9 +84,18 @@
 	</bean>
 	
 	<bean id="deploymentContents" class="com.kesdip.player.DeploymentContents">
-		<property name="contentRoots">
+		<property name="layouts">
 			<list>
-				<ref bean="frameA" />
+				<bean class="com.kesdip.player.DeploymentLayout">
+					<property name="name" value="layout1"/>
+					<!--property name="cronExpression" value="0 0 12 * * ?"/>
+					<property name="duration" value="600"/-->
+					<property name="contentRoots">
+						<list>
+							<ref bean="frameA" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

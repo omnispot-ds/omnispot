@@ -1,5 +1,11 @@
+/*
+ * Disclaimer:
+ * Copyright 2008 - Ke.S.Di.P. E.P.E - All rights reserved.
+ * eof Disclaimer
+ */
 package com.kesdip.player.components;
 
+import java.awt.Color;
 import java.awt.DisplayMode;
 import java.awt.Frame;
 import java.awt.GraphicsDevice;
@@ -52,6 +58,7 @@ public class FullScreenComponent extends AbstractComponent
 		frame.setResizable(false);
 		frame.addKeyListener(PlayerUtils.getExitKeyListener());
 		frame.setCursor(PlayerUtils.getNoCursor());
+		frame.setBackground(Color.BLACK);
 		
 		gd.setFullScreenWindow(frame);
 		if (gd.isDisplayChangeSupported())

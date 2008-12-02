@@ -1,3 +1,8 @@
+/*
+ * Disclaimer:
+ * Copyright 2008 - Ke.S.Di.P. E.P.E - All rights reserved.
+ * eof Disclaimer
+ */
 package com.kesdip.player.components;
 
 import java.awt.Dimension;
@@ -8,6 +13,7 @@ import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
 
+import com.kesdip.player.DeploymentLayout.CompletionStatus;
 import com.kesdip.player.helpers.PlayerUtils;
 import com.sun.jna.examples.WindowUtils;
 
@@ -43,7 +49,6 @@ public class RootContainer extends AbstractComponent {
 	public void createWindowedResources() {
 		frame = new JFrame();
 		frame.setUndecorated(true);
-		frame.setIgnoreRepaint(true);
 		frame.setResizable(false);
 		frame.addKeyListener(PlayerUtils.getExitKeyListener());
 		frame.setCursor(PlayerUtils.getNoCursor());
@@ -54,9 +59,20 @@ public class RootContainer extends AbstractComponent {
 		if (isTransparent) {
 			System.setProperty("sun.java2d.noddraw", "true");
 			WindowUtils.setWindowTransparent(frame, true);
+			frame.setIgnoreRepaint(true);
 		} else {
 			frame.setBackground(backgroundColor);
 		}
+	}
+	
+	public void destroyWindowedResources() {
+		releaseResources();
+		if (frame == null)
+			return; // Something went wrong during the initialization process...
+		
+		frame.setVisible(false);
+		frame.dispose();
+		frame = null;
 	}
 
 	@Override
@@ -95,8 +111,12 @@ public class RootContainer extends AbstractComponent {
 					", " + windowComponent.getY() + "), size: (" +
 					windowComponent.getWidth() + ", " + windowComponent.getHeight() + ")");
 			fullScreenFrame.add(windowComponent);
-		} else
+		} else {
+			logger.info("Adding component at: (" + windowComponent.getX() +
+					", " + windowComponent.getY() + "), size: (" +
+					windowComponent.getWidth() + ", " + windowComponent.getHeight() + ")");
 			frame.add(windowComponent);
+		}
 	}
 
 	@Override
@@ -111,4 +131,30 @@ public class RootContainer extends AbstractComponent {
 		}
 	}
 
+	@Override
+	public CompletionStatus isComplete() {
+		for (Component component : contents) {
+			switch (component.isComplete()) {
+			case COMPLETE:
+				return CompletionStatus.COMPLETE;
+			case INCOMPLETE:
+				return CompletionStatus.INCOMPLETE;
+			case DONT_CARE:
+				// Do nothing
+				break;
+			default:
+				throw new RuntimeException("Unexpected completion " +
+						"state: " + component.isComplete());
+			}
+		}
+		
+		return CompletionStatus.DONT_CARE;
+	}
+
+	@Override
+	public void releaseResources() {
+		for (Component component : contents) {
+			component.releaseResources();
+		}
+	}
 }
