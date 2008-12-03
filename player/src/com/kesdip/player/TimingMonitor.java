@@ -39,15 +39,11 @@ public class TimingMonitor implements Runnable {
 	 * @author Pafsanias Ftakas
 	 */
 	private class LayoutJob implements Job {
-		private DeploymentLayout layout;
-		
-		public LayoutJob(DeploymentLayout layout) {
-			this.layout = layout;
-		}
-
 		@Override
 		public void execute(JobExecutionContext ctx)
 				throws JobExecutionException {
+			DeploymentLayout layout = (DeploymentLayout)
+				ctx.getJobDetail().getJobDataMap().get("layout");
 			logger.info("Scheduler starting layout: " + layout.getName());
 			startLayout(layout);
 		}
@@ -139,6 +135,7 @@ public class TimingMonitor implements Runnable {
 					"layout", layout.getCronExpression());
 			JobDetail jobDetail = new JobDetail(layout.getName() + "_job",
 					"layout", LayoutJob.class);
+			jobDetail.getJobDataMap().put("layout", layout);
 			scheduler.scheduleJob(jobDetail, trigger);
 		}
 
