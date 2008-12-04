@@ -10,6 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.log4j.Logger;
 
+import com.kesdip.bootstrap.message.ContinuationMessage;
 import com.kesdip.bootstrap.message.Message;
 
 /**
@@ -29,6 +30,11 @@ public class MessagePump extends Thread {
 		
 		this.messageQueue = new LinkedBlockingQueue<Message>();
 		this.running = true;
+		
+		// Schedule a continuation message. This will check up front whatever
+		// tasks need to be performed that are the result of tasks from a
+		// previous incarnation of the bootstrap app that crashed.
+		addMessage(new ContinuationMessage());
 	}
 	
 	/**
