@@ -76,6 +76,14 @@ public class Config {
 		return DriverManager.getConnection("jdbc:apache:commons:dbcp:local");
 	}
 	
+	/**
+	 * Helper to set up a connection pool with the driver manager, so as to 
+	 * be used by the getConnection() method above.
+	 * 
+	 * @param connectURI The JDBC URL to use to get the actual connections
+	 * to the database.
+	 * @throws Exception iff something goes wrong.
+	 */
 	private static void setupDriver(String connectURI) throws Exception {
         //
         // First, we'll need a ObjectPool that serves as the
@@ -127,7 +135,14 @@ public class Config {
         		"at jdbc:apache:commons:dbcp:local");
     }
 
-	
+	/**
+	 * Main method used to dump or set the preferences. With no arguments,
+	 * preferences are dumped to the log4j appenders, otherwise the first
+	 * argument is considered to be the path to a properties file whose
+	 * contents are set in the preferences for this node.
+	 * 
+	 * @param args The command line arguments.
+	 */
 	public static void main(String[] args) {
 		if (args.length < 1) {
 			logger.info("You specified no arguments. Dumping preferences.");
