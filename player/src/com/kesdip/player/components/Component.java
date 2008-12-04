@@ -5,6 +5,8 @@
  */
 package com.kesdip.player.components;
 
+import java.util.Set;
+
 import com.kesdip.player.DeploymentLayout;
 
 /**
@@ -77,4 +79,13 @@ public interface Component {
 	 * function gets called in the player execution.
 	 */
 	void releaseResources();
+	
+	/**
+	 * Since components can be containers and can also refer to various
+	 * resources, we want to have a means of gathering all the resources that
+	 * a component hierarchy is using. This method caters for this use case.
+	 * @return The set of resources contained in the hierarchy that is rooted
+	 * in this component.
+	 */
+	Set<Resource> gatherResources();
 }

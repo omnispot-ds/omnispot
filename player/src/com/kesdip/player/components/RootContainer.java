@@ -7,7 +7,9 @@ package com.kesdip.player.components;
 
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JFrame;
 
@@ -157,4 +159,14 @@ public class RootContainer extends AbstractComponent {
 			component.releaseResources();
 		}
 	}
+	
+	@Override
+	public Set<Resource> gatherResources() {
+		HashSet<Resource> retVal = new HashSet<Resource>();
+		for (Component component : contents) {
+			retVal.addAll(component.gatherResources());
+		}
+		return retVal;
+	}
+
 }

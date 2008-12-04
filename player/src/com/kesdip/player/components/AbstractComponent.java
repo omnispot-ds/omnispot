@@ -6,6 +6,8 @@
 package com.kesdip.player.components;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
 
@@ -52,5 +54,10 @@ public abstract class AbstractComponent implements Component {
 	public void releaseResources() {
 		// Do nothing. Subclasses should override if they need to do something
 		// here. Check the documentation of the Component interface.
+	}
+
+	@Override
+	public Set<Resource> gatherResources() {
+		return new HashSet<Resource>();
 	}
 }

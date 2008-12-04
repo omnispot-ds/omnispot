@@ -8,7 +8,9 @@ package com.kesdip.player.components;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.log4j.Logger;
@@ -256,5 +258,13 @@ public class Video extends AbstractComponent
 			logger.error("Unable to release resources. Possible memory leak.", e);
 		}
 	}
+
+	@Override
+	public Set<Resource> gatherResources() {
+		HashSet<Resource> retVal = new HashSet<Resource>();
+		retVal.addAll(contents);
+		return retVal;
+	}
+
 
 }
