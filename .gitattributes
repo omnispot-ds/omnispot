@@ -1,4 +1,16 @@
 * text=auto !eol
+bootstrap/.classpath -text
+bootstrap/.project -text
+bootstrap/build.xml -text
+bootstrap/shared.jars -text
+bootstrap/src/com/kesdip/bootstrap/MessagePump.java -text
+bootstrap/src/com/kesdip/bootstrap/content/ContentHandler.java -text
+bootstrap/src/com/kesdip/bootstrap/content/ContentRetriever.java -text
+bootstrap/src/com/kesdip/bootstrap/content/DescriptorHandler.java -text
+bootstrap/src/com/kesdip/bootstrap/content/ResourceHandler.java -text
+bootstrap/src/com/kesdip/bootstrap/message/DeployMessage.java -text
+bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
+bootstrap/src/log4j.xml -text
 common/.classpath -text
 common/.project -text
 common/build.xml -text
