@@ -63,7 +63,9 @@ etc/build.properties -text
 etc/build.xml -text
 etc/lib/ant-contrib/ant-contrib-1.0b3.jar -text
 etc/lib/apache-commons/commons-collections-3.1.jar -text
+etc/lib/apache-commons/commons-dbcp-1.2.2.jar -text
 etc/lib/apache-commons/commons-logging-1.0.4.jar -text
+etc/lib/apache-commons/commons-pool-1.4.jar -text
 etc/lib/derby/derby.jar -text
 etc/lib/derby/derbyclient.jar -text
 etc/lib/dom4j/dom4j-1.6.1.jar -text

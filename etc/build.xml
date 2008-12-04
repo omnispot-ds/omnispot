@@ -45,7 +45,7 @@
 		<ant antfile="${common.build.file}" target="common.dist" inheritrefs="true"/>
 	</target>
 
-	<target name="build.bootstrap">
+	<target name="build.bootstrap" depends="build.common, build.player">
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.init" inheritrefs="true"/>
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.compile" inheritrefs="true"/>
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.dist" inheritrefs="true"/>
