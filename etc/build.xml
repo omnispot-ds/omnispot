@@ -12,6 +12,11 @@
 	<property name="common.build.file" location="${common.base.dir}/build.xml"/>
 	<property name="common.dist.file" location="${common.base.dir}/dist/common.jar"/>
 	
+	<property name="bootstrap.base.dir" location="${project.base.dir}/bootstrap"/>
+	<property name="bootstrap.src.dir" location="${bootstrap.base.dir}/src"/>
+	<property name="bootstrap.build.file" location="${bootstrap.base.dir}/build.xml"/>
+	<property name="bootstrap.dist.file" location="${bootstrap.base.dir}/dist/player.jar"/>
+
 	<property name="player.base.dir" location="${project.base.dir}/player"/>
 	<property name="player.src.dir" location="${player.base.dir}/src"/>
 	<property name="player.build.file" location="${player.base.dir}/build.xml"/>
@@ -40,6 +45,12 @@
 		<ant antfile="${common.build.file}" target="common.dist" inheritrefs="true"/>
 	</target>
 
+	<target name="build.bootstrap">
+		<ant antfile="${bootstrap.build.file}" target="bootstrap.init" inheritrefs="true"/>
+		<ant antfile="${bootstrap.build.file}" target="bootstrap.compile" inheritrefs="true"/>
+		<ant antfile="${bootstrap.build.file}" target="bootstrap.dist" inheritrefs="true"/>
+	</target>
+
 	<target name="build.player">
 		<ant antfile="${player.build.file}" target="player.init" inheritrefs="true"/>
 		<ant antfile="${player.build.file}" target="player.compile" inheritrefs="true"/>
@@ -54,6 +65,7 @@
 	
 	<target name="clean" description="Clean project directories">
 <!--		<ant antfile="${admin-console.build.file}" target="admin-console.clean" inheritrefs="true"/> -->
+		<ant antfile="${bootstrap.build.file}" target="bootstrap.clean" inheritrefs="true"/>
 		<ant antfile="${player.build.file}" target="player.clean" inheritrefs="true"/>
 		<ant antfile="${common.build.file}" target="common.clean" inheritrefs="true"/>
 	</target>	
@@ -71,6 +83,8 @@
 	<target name="dist.admin-console" depends="build.admin-console">
 		<copy tofile="${tomcat.home}/webapps/admin-console.war" file="${admin-console.dist.file}" overwrite="true"/>
 	</target>
+	
+	<target name="dist.bootstrap" depends="build.common, build.bootstrap"/>
 	
 	<target name="dist.player" depends="build.common, build.player"/>
 	
