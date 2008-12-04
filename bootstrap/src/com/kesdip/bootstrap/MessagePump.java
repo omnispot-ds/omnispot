@@ -22,11 +22,13 @@ public class MessagePump extends Thread {
 	private final static Logger logger = Logger.getLogger(MessagePump.class);
 	
 	private BlockingQueue<Message> messageQueue;
+	private boolean running;
 	
 	public MessagePump() {
 		super("message_pump");
 		
 		this.messageQueue = new LinkedBlockingQueue<Message>();
+		this.running = true;
 	}
 	
 	/**
@@ -40,20 +42,31 @@ public class MessagePump extends Thread {
 		// exception if the capacity (currently Integer.MAX_VALUE) is reached.
 		messageQueue.add(msg);
 	}
+	
+	public synchronized void stopRunning() {
+		running = false;
+		interrupt(); // In case the thread is blocked in the take() method.
+	}
+	
+	public synchronized boolean isRunning() {
+		return running;
+	}
 
 	@Override
 	public void run() {
-		try {
-			Message msg = messageQueue.take(); // potentially blocks
-			
+		while (isRunning()) {
 			try {
-				msg.process();
-			} catch (Exception e) {
-				logger.error("Error processing message " +
-						msg.toMessageString(), e);
+				Message msg = messageQueue.take(); // potentially blocks
+				
+				try {
+					msg.process();
+				} catch (Exception e) {
+					logger.error("Error processing message " +
+							msg.toMessageString(), e);
+				}
+			} catch (Throwable t) {
+				logger.error("Throwable caught in message pump's main method.", t);
 			}
-		} catch (Throwable t) {
-			logger.error("Throwable caught in message pumps main method.", t);
 		}
 	}
 

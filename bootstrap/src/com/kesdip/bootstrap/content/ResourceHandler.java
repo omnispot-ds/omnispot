@@ -29,6 +29,8 @@ public class ResourceHandler implements ContentHandler {
 
 	@Override
 	public void run() {
+		logger.info("Starting download of resource: " + resourceUrl);
+		
 		try {
 			// TODO Download the resource locally from its URL
 			// TODO Do what is necessary in the database

@@ -31,6 +31,8 @@
 			<src path="${bootstrap.src.dir}" />
 			<classpath>
 				<fileset dir="${project.base.dir}" includesfile="${shared.jars.file}" />
+				<fileset file="${common.dist.file}"/>
+				<fileset file="${player.dist.file}"/>
 			</classpath>
 		</javac>
 		<copy todir="${bootstrap.classes.dir}">
