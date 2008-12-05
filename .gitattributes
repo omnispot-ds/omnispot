@@ -48,6 +48,7 @@ common/src/com/kesdip/common/domain/generated/Parameter.java -text
 common/src/com/kesdip/common/domain/generated/Site.java -text
 common/src/com/kesdip/common/domain/generated/StatusEntry.java -text
 common/src/com/kesdip/common/domain/generated/User.java -text
+common/src/com/kesdip/common/util/DBUtils.java -text
 common/src/com/kesdip/common/util/StreamUtils.java -text
 common/src/inactive_hibernate.cfg.xml -text
 demos/AdPlayerDemo/.classpath -text
