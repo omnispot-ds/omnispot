@@ -121,7 +121,7 @@ public class Video extends AbstractComponent
         
         ContentRegistry registry = ContentRegistry.getContentRegistry();
         for (Resource resource : contents) {
-	        String videoFilename = registry.getResourcePath(resource.getIdentifier());
+	        String videoFilename = registry.getResourcePath(resource);
 	        
 	        libVlcClass.
 				getMethod("libvlc_playlist_add", libVlcInstanceClass, String.class, String.class, libVlcExceptionClass).

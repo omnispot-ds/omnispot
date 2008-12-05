@@ -5,6 +5,11 @@
  */
 package com.kesdip.player;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -52,6 +57,7 @@ public class TimingMonitor implements Runnable {
 	
 	private Player player;
 	private Scheduler scheduler;
+	private long lastDeploymentID;
 
 	/**
 	 * Initializing constructor.
@@ -64,6 +70,7 @@ public class TimingMonitor implements Runnable {
 		this.player = player;
 		this.scheduler = StdSchedulerFactory.getDefaultScheduler();
 		this.scheduler.start();
+		this.lastDeploymentID = -1;
 	}
 	
 	/* TRANSIENT STATE */
@@ -111,7 +118,7 @@ public class TimingMonitor implements Runnable {
 	 * @throws SchedulerException Iff some problem occurs while scheduling
 	 * jobs for the layouts that have a cron expression associated with them.
 	 */
-	private void startDeployment(String contextPath)
+	private void startDeployment(long id, String contextPath)
 			throws ParseException, SchedulerException {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext(
 				contextPath);
@@ -141,6 +148,7 @@ public class TimingMonitor implements Runnable {
 
 		player.startDeployment(ctx, settings, contents);
 		deploymentStart = new Date();
+		lastDeploymentID = id;
 	}
 	
 	/**
@@ -157,7 +165,58 @@ public class TimingMonitor implements Runnable {
 	 * the new deployment.
 	 */
 	private void monitorDeployments() {
-		// TODO Implement fetching new deployments through the database.
+		Connection c = null;
+		try {
+			c = player.getConnection();
+			
+			PreparedStatement ps = c.prepareStatement(
+					"SELECT ID, FILENAME FROM DEPLOYMENT WHERE FILENAME != '' AND DEPLOY_DATE > ?" +
+					"ORDER BY DEPLOY_DATE DESC");
+			ResultSet rs = ps.executeQuery();
+			ps.setTimestamp(1, new Timestamp(new Date().getTime()));
+			
+			long potentialDeploymentId = -1;
+			String potentialDeploymentPath = "";
+			if (rs.next()) {
+				// The first row is the latest deployment (potentially)
+				potentialDeploymentId = rs.getLong(1);
+				potentialDeploymentPath = rs.getString(2);
+			}
+			
+			rs.close();
+			ps.close();
+			
+			if (potentialDeploymentId != -1 &&
+					lastDeploymentID != potentialDeploymentId) {
+				ps = c.prepareStatement(
+						"SELECT COUNT(*) FROM PENDING " +
+						"WHERE PENDING.DEPLOYMENT_ID=?");
+				rs = ps.executeQuery();
+				
+				if (!rs.next()) {
+					throw new Exception("Count query returned empty result set.");
+				}
+				
+				if (rs.getInt(1) == 0) {
+					// Deployment is complete. No pending resources exist for it.
+					logger.info("Startind deployment with ID: " +
+							potentialDeploymentId + ", from path: " +
+							potentialDeploymentPath);
+					startDeployment(potentialDeploymentId,
+							potentialDeploymentPath);
+				}
+		
+				rs.close();
+				ps.close();
+			}
+			
+			c.commit();
+		} catch (Exception e) {
+			logger.error("Unable to monitor deployments", e);
+			if (c != null) try { c.rollback(); } catch (SQLException sqle) { }
+		} finally {
+			if (c != null) try { c.close(); } catch (SQLException e) { }
+		}
 	}
 	
 	/**
@@ -187,9 +246,6 @@ public class TimingMonitor implements Runnable {
 	@Override
 	public void run() {
 		try {
-			// start default deployment
-			startDeployment("appContext.xml");
-			
 			while (true) {
 				monitorDeployments();
 				

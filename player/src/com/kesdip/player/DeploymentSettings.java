@@ -18,6 +18,7 @@ public class DeploymentSettings {
 	private int height;
 	private int bitDepth;
 	private String vlcPath;
+	private String jdbcUrl;
 	private String id;
 	private Date startTime;
 	private int sleepInterval = 50;
@@ -52,6 +53,14 @@ public class DeploymentSettings {
 	
 	public void setVlcPath(String vlcPath) {
 		this.vlcPath = vlcPath;
+	}
+	
+	public String getJdbcUrl() {
+		return jdbcUrl;
+	}
+	
+	public void setJdbcUrl(String jdbcUrl) {
+		this.jdbcUrl = jdbcUrl;
 	}
 	
 	public String getId() {

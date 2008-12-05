@@ -7,6 +7,9 @@ package com.kesdip.player.registry;
 
 import java.io.InputStream;
 
+import com.kesdip.player.Player;
+import com.kesdip.player.components.Resource;
+
 /**
  * The interface that the content registry must adhere to.
  * 
@@ -26,25 +29,31 @@ public abstract class ContentRegistry {
 	/**
 	 * Given a GUID this function returns true, iff the resource that
 	 * corresponds to the GUID is existent locally.
-	 * @param guid The resource GUID to look for.
+	 * @param resource The resource to look for.
 	 * @return True iff the resource that corresponds to the GUID is existent
 	 * locally.
 	 */
-	public abstract boolean hasResource(String guid);
+	public abstract boolean hasResource(Resource resource);
 	
 	/**
 	 * Utility function to return a resource as a stream.
-	 * @param guid The resource GUID.
+	 * @param resource The resource.
 	 * @return An InputStream instance for the resource, or null if the
 	 * resource is not existent locally.
 	 */
-	public abstract InputStream getResourceAsStream(String guid);
+	public abstract InputStream getResourceAsStream(Resource resource);
 	
 	/**
 	 * Utility function to return a path to a resource.
-	 * @param guid The resource GUID.
+	 * @param resource The resource.
 	 * @return A path to the resource, or null if the resource is not existent
 	 * locally.
 	 */
-	public abstract String getResourcePath(String guid);
+	public abstract String getResourcePath(Resource resource);
+	
+	/**
+	 * Helper to set the player that is associated with this context registry.
+	 * @param jdbcUrl The player associated with this context registry.
+	 */
+	public abstract void setPlayer(Player player);
 }
