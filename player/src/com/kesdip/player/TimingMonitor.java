@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -25,6 +24,8 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.kesdip.common.util.DBUtils;
 
 /**
  * Helper thread that monitors deployments. Whenever the timing is such that
@@ -113,12 +114,10 @@ public class TimingMonitor implements Runnable {
 	/**
 	 * Helper method to start "playing" a deployment.
 	 * @param contextPath The deployment descriptor path.
-	 * @throws ParseException Iff some parsing error occurs.
-	 * @throws SchedulerException Iff some problem occurs while scheduling
-	 * jobs for the layouts that have a cron expression associated with them.
+	 * @throws Exception 
 	 */
 	private void startDeployment(long id, String contextPath)
-			throws ParseException, SchedulerException {
+			throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext(
 				contextPath);
 		DeploymentSettings settings =
@@ -166,7 +165,7 @@ public class TimingMonitor implements Runnable {
 	private void monitorDeployments() {
 		Connection c = null;
 		try {
-			c = player.getConnection();
+			c = DBUtils.getConnection();
 			
 			PreparedStatement ps = c.prepareStatement(
 					"SELECT ID, FILENAME FROM DEPLOYMENT WHERE FILENAME != '' " +

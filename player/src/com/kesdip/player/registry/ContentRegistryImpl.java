@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
-import com.kesdip.player.Player;
+import com.kesdip.common.util.DBUtils;
 import com.kesdip.player.components.Resource;
 
 /**
@@ -28,8 +28,6 @@ public class ContentRegistryImpl extends ContentRegistry {
 	private static final Logger logger =
 		Logger.getLogger(ContentRegistryImpl.class);
 	
-	private Player player;
-
 	@Override
 	public InputStream getResourceAsStream(Resource resource) {
 		try {
@@ -45,7 +43,7 @@ public class ContentRegistryImpl extends ContentRegistry {
 	public String getResourcePath(Resource resource) {
 		Connection c = null;
 		try {
-			c = player.getConnection();
+			c = DBUtils.getConnection();
 			
 			String retVal = null;
 			
@@ -79,8 +77,4 @@ public class ContentRegistryImpl extends ContentRegistry {
 		return getResourcePath(resource) != null;
 	}
 
-	@Override
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
 }

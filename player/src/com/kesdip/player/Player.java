@@ -7,28 +7,19 @@ package com.kesdip.player;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JFrame;
 
-import org.apache.commons.dbcp.ConnectionFactory;
-import org.apache.commons.dbcp.DriverManagerConnectionFactory;
-import org.apache.commons.dbcp.PoolableConnectionFactory;
-import org.apache.commons.dbcp.PoolingDriver;
-import org.apache.commons.pool.ObjectPool;
-import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
 import org.springframework.context.ApplicationContext;
 
+import com.kesdip.common.util.DBUtils;
 import com.kesdip.player.components.ComponentException;
 import com.kesdip.player.components.FullScreenComponent;
 import com.kesdip.player.components.RootContainer;
 import com.kesdip.player.helpers.PlayerUtils;
-import com.kesdip.player.registry.ContentRegistry;
 
 /**
  * The main class of the KESDIP player. Contains the main method and all the
@@ -81,13 +72,14 @@ public class Player implements Runnable {
 	 * @param ctx The application context of the deployment descriptor.
 	 * @param settings The settings object.
 	 * @param contents The contents object.
+	 * @throws Exception 
 	 */
 	public synchronized void startDeployment(ApplicationContext ctx,
-			DeploymentSettings settings, DeploymentContents contents) {
+			DeploymentSettings settings, DeploymentContents contents) throws Exception {
 		this.ctx = ctx;
 		this.settings = settings;
 		this.contents = contents;
-		ContentRegistry.getContentRegistry().setPlayer(this);
+		DBUtils.setupDriver(settings.getJdbcUrl());
 		this.completeDeployment = true;
 		this.completeLayout = true;
 	}
@@ -326,80 +318,6 @@ public class Player implements Runnable {
 		}
 	}
 	
-	boolean driverSetup = false;
-	
-	/**
-	 * Helper method to get a connection from the connection pool.
-	 * @return A connection from the connection pool.
-	 * @throws SQLException iff something goes wrong.
-	 */
-	public Connection getConnection() throws Exception {
-		if (!driverSetup) {
-			setupDriver();
-			driverSetup = true;
-		}
-		return DriverManager.getConnection("jdbc:apache:commons:dbcp:local");
-	}
-	
-	/**
-	 * Helper to set up a connection pool with the driver manager, so as to 
-	 * be used by the getConnection() method above.
-	 * 
-	 * @param connectURI The JDBC URL to use to get the actual connections
-	 * to the database.
-	 * @throws Exception iff something goes wrong.
-	 */
-	private void setupDriver() throws Exception {
-        //
-        // First, we'll need a ObjectPool that serves as the
-        // actual pool of connections.
-        //
-        // We'll use a GenericObjectPool instance, although
-        // any ObjectPool implementation will suffice.
-        //
-        ObjectPool connectionPool = new GenericObjectPool(null);
-
-        //
-        // Next, we'll create a ConnectionFactory that the
-        // pool will use to create Connections.
-        // We'll use the DriverManagerConnectionFactory,
-        // using the connect string passed in the command line
-        // arguments.
-        //
-        ConnectionFactory connectionFactory =
-        	new DriverManagerConnectionFactory(settings.getJdbcUrl(), null);
-
-        //
-        // Now we'll create the PoolableConnectionFactory, which wraps
-        // the "real" Connections created by the ConnectionFactory with
-        // the classes that implement the pooling functionality.
-        //
-        @SuppressWarnings("unused")
-		PoolableConnectionFactory poolableConnectionFactory =
-			new PoolableConnectionFactory(
-					connectionFactory, connectionPool, null, null, false, false);
-
-        //
-        // Finally, we create the PoolingDriver itself...
-        //
-        Class.forName("org.apache.commons.dbcp.PoolingDriver");
-        PoolingDriver driver = (PoolingDriver)
-        		DriverManager.getDriver("jdbc:apache:commons:dbcp:");
-
-        //
-        // ...and register our pool with it.
-        //
-        driver.registerPool("local", connectionPool);
-
-        //
-        // Now we can just use the connect string "jdbc:apache:commons:dbcp:local"
-        // to access our pool of Connections.
-        //
-        
-        logger.info("We have registered connection pool " +
-        		"at jdbc:apache:commons:dbcp:local");
-    }
-
 	public static void main(String[] args) {
 		try {
 			Player player = new Player();

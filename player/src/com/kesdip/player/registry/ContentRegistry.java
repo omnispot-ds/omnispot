@@ -7,7 +7,6 @@ package com.kesdip.player.registry;
 
 import java.io.InputStream;
 
-import com.kesdip.player.Player;
 import com.kesdip.player.components.Resource;
 
 /**
@@ -50,10 +49,4 @@ public abstract class ContentRegistry {
 	 * locally.
 	 */
 	public abstract String getResourcePath(Resource resource);
-	
-	/**
-	 * Helper to set the player that is associated with this context registry.
-	 * @param jdbcUrl The player associated with this context registry.
-	 */
-	public abstract void setPlayer(Player player);
 }
