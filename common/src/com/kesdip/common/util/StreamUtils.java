@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.zip.CRC32;
 
 import org.apache.log4j.Logger;
 
@@ -149,6 +150,45 @@ public class StreamUtils {
 	}
 
 	/**
+	 * Copies the contents of in to out, which updating the crc checksum
+	 * parameter. The streams are not closed.
+	 * 
+	 * @param in
+	 *            input
+	 * @param out
+	 *            output
+	 * @param crc
+	 * 			  the CRC checksum to update during the stream copy
+	 * @throws IOException
+	 *             on error
+	 * @throws IllegalArgumentException
+	 *             if the arguments are <code>null</code>
+	 */
+	public static final void copyStream(InputStream in, OutputStream out, CRC32 crc)
+			throws IOException, IllegalArgumentException {
+		if (in == null || out == null) {
+			logger.error("Arguments cannot be null");
+			throw new IllegalArgumentException("Arguments cannot be null");
+		}
+		logger.debug("Copying between streams");
+		try {
+			byte[] buffer = new byte[2048];
+			int readCount = 0;
+			while ((readCount = in.read(buffer)) != -1) {
+				out.write(buffer, 0, readCount);
+				if (crc != null)
+					crc.update(buffer, 0, readCount);
+			}
+		} catch (IOException ioe) {
+			logger.error("Error copying streams", ioe);
+			throw ioe;
+		} catch (Exception ex) {
+			logger.error("Error copying streams", ex);
+			throw new IOException(ex.getMessage());
+		}
+	}
+	
+	/**
 	 * Copies the contents of in to out. The streams are not closed.
 	 * 
 	 * @param in
@@ -162,23 +202,6 @@ public class StreamUtils {
 	 */
 	public static final void copyStream(InputStream in, OutputStream out)
 			throws IOException, IllegalArgumentException {
-		if (in == null || out == null) {
-			logger.error("Arguments cannot be null");
-			throw new IllegalArgumentException("Arguments cannot be null");
-		}
-		logger.debug("Copying between streams");
-		try {
-			byte[] buffer = new byte[2048];
-			int readCount = 0;
-			while ((readCount = in.read(buffer)) != -1) {
-				out.write(buffer, 0, readCount);
-			}
-		} catch (IOException ioe) {
-			logger.error("Error copying streams", ioe);
-			throw ioe;
-		} catch (Exception ex) {
-			logger.error("Error copying streams", ex);
-			throw new IOException(ex.getMessage());
-		}
+		copyStream(in, out, null);
 	}
 }
