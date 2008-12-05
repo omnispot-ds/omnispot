@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -170,10 +169,9 @@ public class TimingMonitor implements Runnable {
 			c = player.getConnection();
 			
 			PreparedStatement ps = c.prepareStatement(
-					"SELECT ID, FILENAME FROM DEPLOYMENT WHERE FILENAME != '' AND DEPLOY_DATE > ?" +
+					"SELECT ID, FILENAME FROM DEPLOYMENT WHERE FILENAME != '' " +
 					"ORDER BY DEPLOY_DATE DESC");
 			ResultSet rs = ps.executeQuery();
-			ps.setTimestamp(1, new Timestamp(new Date().getTime()));
 			
 			long potentialDeploymentId = -1;
 			String potentialDeploymentPath = "";
