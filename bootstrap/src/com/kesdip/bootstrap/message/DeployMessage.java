@@ -14,9 +14,9 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-import com.kesdip.bootstrap.Config;
 import com.kesdip.bootstrap.content.ContentRetriever;
 import com.kesdip.bootstrap.content.DescriptorHandler;
+import com.kesdip.common.util.DBUtils;
 
 /**
  * Encapsulates the handling of a deployment message from the server.
@@ -43,7 +43,7 @@ public class DeployMessage implements Message {
 		
 		Connection c = null;
 		try {
-			c = Config.getSingleton().getConnection();
+			c = DBUtils.getConnection();
 			
 			long id = 1;
 			boolean update = false;

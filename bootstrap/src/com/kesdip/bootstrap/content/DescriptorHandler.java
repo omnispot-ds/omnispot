@@ -23,6 +23,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.kesdip.bootstrap.Config;
+import com.kesdip.common.util.DBUtils;
 import com.kesdip.common.util.StreamUtils;
 import com.kesdip.player.DeploymentContents;
 import com.kesdip.player.DeploymentLayout;
@@ -92,7 +93,7 @@ public class DescriptorHandler implements ContentHandler {
 			
 			Connection c = null;
 			try {
-				c = Config.getSingleton().getConnection();
+				c = DBUtils.getConnection();
 				
 				PreparedStatement ps = c.prepareStatement(
 						"SELECT ID FROM DEPLOYMENT WHERE URL=?");

@@ -19,6 +19,7 @@ import java.util.zip.CRC32;
 import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.Config;
+import com.kesdip.common.util.DBUtils;
 import com.kesdip.common.util.StreamUtils;
 
 /**
@@ -81,7 +82,7 @@ public class ResourceHandler implements ContentHandler {
 
 			Connection c = null;
 			try {
-				c = Config.getSingleton().getConnection();
+				c = DBUtils.getConnection();
 				
 				PreparedStatement ps = c.prepareStatement(
 						"SELECT * FROM PENDING WHERE DEPLOYMENT_ID=? AND RESOURCE_ID=?");

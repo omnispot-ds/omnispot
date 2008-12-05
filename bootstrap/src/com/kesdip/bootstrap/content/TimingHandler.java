@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.Config;
+import com.kesdip.common.util.DBUtils;
 
 /**
  * Just in case something goes wrong while trying to download resources from
@@ -51,7 +52,7 @@ public class TimingHandler implements ContentHandler {
 			
 			Connection c = null;
 			try {
-				c = Config.getSingleton().getConnection();
+				c = DBUtils.getConnection();
 				
 				PreparedStatement ps = c.prepareStatement(
 						"SELECT RESOURCE.URL, RESOURCE.CRC, " +
