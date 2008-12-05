@@ -19,7 +19,7 @@ import com.kesdip.bootstrap.content.ContentRetriever;
 import com.kesdip.bootstrap.content.DescriptorHandler;
 
 /**
- * Represents a deployment message from the server.
+ * Encapsulates the handling of a deployment message from the server.
  * 
  * @author Pafsanias Ftakas
  */
@@ -48,7 +48,8 @@ public class DeployMessage implements Message {
 			long id = 1;
 			boolean update = false;
 			
-			PreparedStatement ps = c.prepareStatement("SELECT ID FROM DEPLOYMENT WHERE URL=?");
+			PreparedStatement ps = c.prepareStatement(
+					"SELECT ID FROM DEPLOYMENT WHERE URL=?");
 			ps.setString(1, descriptorUrl);
 			ResultSet rs = ps.executeQuery();
 			
@@ -62,23 +63,14 @@ public class DeployMessage implements Message {
 			ps.close();
 			
 			if (!update) {
-				ps = c.prepareStatement("SELECT ID FROM DEPLOYMENT ORDER BY ID DESC");
-				rs = ps.executeQuery();
-				
-				if (rs.next()) {
-					id = rs.getInt(1);
-				}
-				
-				rs.close();
-				ps.close();
-				
-				ps = c.prepareStatement("INSERT INTO DEPLOYMENT VALUES (?,?,?,?)");
-				ps.setLong(1, id);
-				ps.setString(2, descriptorUrl);
-				ps.setString(3, "");
-				ps.setTimestamp(4, new Timestamp(new Date().getTime()));
+				ps = c.prepareStatement("INSERT INTO DEPLOYMENT " +
+						"(URL, FILENAME, DEPLOY_DATE) VALUES (?,?,?)");
+				ps.setString(1, descriptorUrl);
+				ps.setString(2, "");
+				ps.setTimestamp(3, new Timestamp(new Date().getTime()));
 			} else {
-				ps = c.prepareStatement("UPDATE DEPLOYMENT SET FILENAME=?, DEPLOY_DATE=? WHERE ID=?");
+				ps = c.prepareStatement(
+						"UPDATE DEPLOYMENT SET FILENAME=?, DEPLOY_DATE=? WHERE ID=?");
 				ps.setString(1, "");
 				ps.setTimestamp(2, new Timestamp(new Date().getTime()));
 				ps.setLong(3, id);

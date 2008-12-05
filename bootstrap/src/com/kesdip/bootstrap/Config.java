@@ -67,6 +67,10 @@ public class Config {
 		return prefs.get("driver_class", "_NOT_SET_");
 	}
 	
+	public String getTimingHandlerSleepPeriod() {
+		return prefs.get("timing_handler_sleep_period", "_NOT_SET_");
+	}
+	
 	/**
 	 * Helper method to get a connection from the connection pool.
 	 * @return A connection from the connection pool.

@@ -13,8 +13,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
@@ -53,20 +55,24 @@ public class DescriptorHandler implements ContentHandler {
 		try {
 			logger.info("Starting download of deployment descriptor: " + descriptorUrl);
 			
+			// Download the deployment descriptor.
 			URL descriptor = new URL(descriptorUrl);
 			File deploymentDir = new File(Config.getSingleton().getDeploymentPath());
 			int counter = 0;
-			File newDeployment = new File(deploymentDir, "appContext" + counter + ".xml");
-			while (!newDeployment.createNewFile()) {
+			File newDeployment;
+			UUID newDeploymentUUID = UUID.randomUUID();
+			do {
+				newDeployment = new File(deploymentDir, "appContext_" +
+						newDeploymentUUID + "_" + counter + ".xml");
 				counter++;
-				newDeployment = new File(deploymentDir, "appContext" + counter + ".xml");
-			}
+			} while (!newDeployment.createNewFile());
 			FileOutputStream os = new FileOutputStream(newDeployment);
 			InputStream is = descriptor.openStream();
 			StreamUtils.copyStream(is, os);
 			os.close();
 			is.close();
 			
+			// Load the application context to gather all the resources.
 			ApplicationContext ctx = new FileSystemXmlApplicationContext(
 					newDeployment.getPath());
 			DeploymentSettings settings =
@@ -112,10 +118,54 @@ public class DescriptorHandler implements ContentHandler {
 				ps.close();
 				
 				for (Resource resource : resourceSet) {
-					// TODO: Handle resource addition to the tables and starting
-					// a resource handler to download it from the server.
-					ContentRetriever.getSingleton().addTask(
-							new ResourceHandler(resource.getIdentifier()));
+					ps = c.prepareStatement(
+							"SELECT ID FROM RESOURCE WHERE URL=? AND CRC=?");
+					ps.setString(1, resource.getIdentifier());
+					ps.setString(2, resource.getChecksum());
+					rs = ps.executeQuery();
+					
+					boolean resourceExists = false;
+					long resourceId = 1;
+					
+					if (rs.next()) {
+						resourceExists = true;
+						resourceId = rs.getLong(1);
+					}
+					
+					rs.close();
+					ps.close();
+					
+					if (resourceExists) {
+						logger.info("Resource " + resource.getIdentifier() +
+								" with CRC " + resource.getChecksum() +
+								" already exists.");
+					} else {
+						ps = c.prepareStatement("INSERT INTO RESOURCE " +
+								"(URL, CRC, FILENAME) VALUES (?,?,?)",
+								Statement.RETURN_GENERATED_KEYS );
+						ps.setString(1, resource.getIdentifier());
+						ps.setString(2, resource.getChecksum());
+						ps.setString(3, "");
+						ps.executeUpdate();
+						rs = ps.getGeneratedKeys();
+						if (!rs.next()) {
+							throw new Exception(
+									"Row insertion did not generate any keys");
+						}
+						resourceId = rs.getLong(1);
+						rs.close();
+						ps.close();
+						
+						ps = c.prepareStatement("INSERT INTO PENDING VALUES (?,?)");
+						ps.setLong(1, id);
+						ps.setLong(2, resourceId);
+						ps.executeUpdate();
+						ps.close();
+						
+						ContentRetriever.getSingleton().addTask(
+								new ResourceHandler(resource.getIdentifier(),
+										resource.getChecksum(), id, resourceId));
+					}
 				}
 				
 				c.commit();
@@ -128,6 +178,8 @@ public class DescriptorHandler implements ContentHandler {
 		} catch (Throwable t) {
 			logger.error("Throwable while retrieving descriptor: " + descriptorUrl, t);
 		}
+		
+		logger.info("Completed task for: " + toMessageString());
 	}
 
 }
