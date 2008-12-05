@@ -7,7 +7,9 @@ package com.kesdip.player;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 
@@ -48,6 +50,24 @@ import com.kesdip.player.helpers.PlayerUtils;
  */
 public class Player implements Runnable {
 	private static final Logger logger = Logger.getLogger(Player.class);
+
+	private static Properties props = new Properties();
+	
+	static {
+		try {
+			FileInputStream fis = new FileInputStream("player.properties");
+			props.load(fis);
+			fis.close();
+			
+			DBUtils.setupDriver(props.getProperty("jdbc_url"));
+		} catch (Exception e) {
+			logger.error("Unable to read player properties file", e);
+		}
+	}
+	
+	public static String getVlcPath() {
+		return props.getProperty("vlc_path");
+	}
 	
 	private TimingMonitor monitor;
 	
@@ -79,7 +99,6 @@ public class Player implements Runnable {
 		this.ctx = ctx;
 		this.settings = settings;
 		this.contents = contents;
-		DBUtils.setupDriver(settings.getJdbcUrl());
 		this.completeDeployment = true;
 		this.completeLayout = true;
 	}

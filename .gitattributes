@@ -105,6 +105,7 @@ player/appContext.xml -text
 player/appContextForFrames.xml -text
 player/appContextFullScreen.xml -text
 player/build.xml -text
+player/player.properties -text
 player/shared.jars -text
 player/src/com/kesdip/player/DeploymentContents.java -text
 player/src/com/kesdip/player/DeploymentLayout.java -text

@@ -14,12 +14,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
-import com.kesdip.player.DeploymentSettings;
+import com.kesdip.player.Player;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
 import com.kesdip.player.helpers.PlayerUtils;
 import com.kesdip.player.registry.ContentRegistry;
@@ -31,7 +28,7 @@ import com.kesdip.player.registry.ContentRegistry;
  * @author Pafsanias Ftakas
  */
 public class Video extends AbstractComponent
-		implements ApplicationContextAware, InitializingBean {
+		implements InitializingBean {
 	private static final Logger logger = Logger.getLogger(Video.class);
 	
 	/* SPRING STATE */
@@ -46,10 +43,6 @@ public class Video extends AbstractComponent
 		this.repeat = repeat;
 	}
 	
-	/* SPRING CONFIGURATION STATE */
-	private ApplicationContext ctx;
-	private DeploymentSettings settings;
-	
 	/* TRANSIENT STATE */
 	private Class<?> libVlcClass;
 	private Class<?> libVlcExceptionClass;
@@ -59,12 +52,6 @@ public class Video extends AbstractComponent
 	private Object libvlc_instance_t;
 	private Canvas canvas;
 	
-	@Override
-	public void setApplicationContext(ApplicationContext ctx)
-			throws BeansException {
-		this.ctx = ctx;
-	}
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (contents == null || contents.size() == 0)
@@ -111,7 +98,7 @@ public class Video extends AbstractComponent
 		String[] ma = new String[] {
          		"-vvv",
          		"--no-video-title-show",
-        		"--plugin-path=" + settings.getVlcPath() };
+        		"--plugin-path=" + Player.getVlcPath() };
 		libvlc_instance_t = libVlcClass.
 			getMethod("libvlc_new", int.class, String[].class, libVlcExceptionClass).
 			invoke(libVlc, ma.length, ma, exception);
@@ -164,8 +151,6 @@ public class Video extends AbstractComponent
 	@Override
 	public void init(Component parent) throws ComponentException {
 		try {
-			settings = (DeploymentSettings) ctx.getBean("deploymentSettings");
-
 			initVLC();
 			
 			canvas = new Canvas();

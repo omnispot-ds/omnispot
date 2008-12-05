@@ -8,8 +8,6 @@
 		<property name="width" value="1280"/>
 		<property name="height" value="800"/>
 		<property name="bitDepth" value="32"/>
-		<property name="vlcPath" value="C:\Program Files\VideoLAN\VLC"/>
-		<property name="jdbcUrl" value="jdbc:derby://localhost:1527/mydb;user=foofootos;password=kataramenos"/>
 		<property name="id" value="{GUID}"/>
 		<property name="startTime">
 			<bean class="java.util.Date">
