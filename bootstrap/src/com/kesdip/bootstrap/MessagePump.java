@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.message.ContinuationMessage;
 import com.kesdip.bootstrap.message.Message;
+import com.kesdip.bootstrap.message.RestartPlayerMessage;
 
 /**
  * This is the thread that handles the messages that are coming through the
@@ -44,6 +45,10 @@ public class MessagePump extends Thread {
 		// tasks need to be performed that are the result of tasks from a
 		// previous incarnation of the bootstrap app that crashed.
 		addMessage(new ContinuationMessage());
+		
+		// Start the player playing. This will launch a subprocess that will
+		// run the JVM and start the main player class.
+		addMessage(new RestartPlayerMessage());
 	}
 	
 	/**

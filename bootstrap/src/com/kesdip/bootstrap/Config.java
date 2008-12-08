@@ -115,6 +115,30 @@ public class Config {
 	}
 	
 	/**
+	 * Get the classpath for the player executable.
+	 * @return The player classpath.
+	 */
+	public String getPlayerClasspath() {
+		return prefs.get("player_classpath", "_NOT_SET_");
+	}
+	
+	/**
+	 * Get the player main class.
+	 * @return The player main class.
+	 */
+	public String getPlayerMainClass() {
+		return prefs.get("player_main_class", "_NOT_SET_");
+	}
+	
+	/**
+	 * Get player working directory.
+	 * @return The player working directory.
+	 */
+	public String getPlayerWorkingDir() {
+		return prefs.get("player_working_dir", "_NOT_SET_");
+	}
+	
+	/**
 	 * Main method used to dump or set the preferences. With no arguments,
 	 * preferences are dumped to the log4j appenders, otherwise the first
 	 * argument is considered to be the path to a properties file whose

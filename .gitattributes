@@ -5,6 +5,7 @@ bootstrap/build.xml -text
 bootstrap/shared.jars -text
 bootstrap/sql/create-database.sql -text
 bootstrap/sql/drop-database.sql -text
+bootstrap/src-test/com/kesdip/bootstrap/DummyPlayer.java -text
 bootstrap/src-test/com/kesdip/bootstrap/MessagePumpTest.java -text
 bootstrap/src/com/kesdip/bootstrap/Config.java -text
 bootstrap/src/com/kesdip/bootstrap/MessagePump.java -text
@@ -16,6 +17,7 @@ bootstrap/src/com/kesdip/bootstrap/content/TimingHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/message/ContinuationMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/DeployMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
+bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text
 bootstrap/src/log4j.xml -text
 bootstrap/test/bootstrap.properties -text
 bootstrap/test/sample.xml -text
