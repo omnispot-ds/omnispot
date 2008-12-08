@@ -6,7 +6,11 @@
 package com.kesdip.bootstrap.message;
 
 /**
- * The interface that message implementations should implement.
+ * The interface that message implementations should implement. A message is
+ * essentially a container of some functionality that we want the message pump
+ * to deal with sequentially. The idea is that the thread that handles
+ * communications with the main server, will create message instances and pass
+ * them on to the message pump, as it accepts commands from the main server.
  * 
  * @author Pafsanias Ftakas
  */

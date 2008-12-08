@@ -64,16 +64,22 @@ public class DeployMessage implements Message {
 			
 			if (!update) {
 				ps = c.prepareStatement("INSERT INTO DEPLOYMENT " +
-						"(URL, FILENAME, DEPLOY_DATE) VALUES (?,?,?)");
+						"(URL, FILENAME, DEPLOY_DATE, FAILED_RESOURCE, RETRIES) " +
+						"VALUES (?,?,?,?,?)");
 				ps.setString(1, descriptorUrl);
 				ps.setString(2, "");
 				ps.setTimestamp(3, new Timestamp(new Date().getTime()));
+				ps.setString(4, "N");
+				ps.setInt(5, 0);
 			} else {
-				ps = c.prepareStatement(
-						"UPDATE DEPLOYMENT SET FILENAME=?, DEPLOY_DATE=? WHERE ID=?");
+				ps = c.prepareStatement("UPDATE DEPLOYMENT " +
+						"SET FILENAME=?, DEPLOY_DATE=?, FAILED_RESOURCE=?, " +
+						"RETRIES=?  WHERE ID=?");
 				ps.setString(1, "");
 				ps.setTimestamp(2, new Timestamp(new Date().getTime()));
-				ps.setLong(3, id);
+				ps.setString(3, "N");
+				ps.setLong(4, id);
+				ps.setInt(5, 0);
 			}
 			
 			ps.executeUpdate();

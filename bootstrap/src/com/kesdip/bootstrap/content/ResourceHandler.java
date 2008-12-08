@@ -43,6 +43,14 @@ public class ResourceHandler implements ContentHandler {
 		this.deployment_id = deployment_id;
 		this.resource_id = resource_id;
 	}
+	
+	public long getDeploymentId() {
+		return deployment_id;
+	}
+	
+	public long getResourceId() {
+		return resource_id;
+	}
 
 	@Override
 	public String toMessageString() {
@@ -102,14 +110,18 @@ public class ResourceHandler implements ContentHandler {
 				ps.close();
 				
 				if (updateResource) {
-					ps = c.prepareStatement("UPDATE RESOURCE SET FILENAME=? WHERE ID=?");
+					ps = c.prepareStatement("UPDATE RESOURCE " +
+							"SET FILENAME=? WHERE ID=?");
 					ps.setString(1, newResource.getPath());
 					ps.setLong(2, resource_id);
-					ps.executeUpdate();
+					int modifiedRows = ps.executeUpdate();
+					if (modifiedRows != 1)
+						throw new Exception("Updating the resource with the " +
+								"filename, touched " + modifiedRows + " rows.");
 					ps.close();
-					
-					ps = c.prepareStatement(
-							"DELETE FROM PENDING WHERE DEPLOYMENT_ID=? AND RESOURCE_ID=?");
+
+					ps = c.prepareStatement("DELETE FROM PENDING " +
+							"WHERE DEPLOYMENT_ID=? AND RESOURCE_ID=?");
 					ps.setLong(1, deployment_id);
 					ps.setLong(2, resource_id);
 					ps.executeUpdate();

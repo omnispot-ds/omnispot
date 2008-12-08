@@ -24,7 +24,7 @@ public class MessagePumpTest extends TestCase {
 		pump.addMessage(new DeployMessage("file:test/sample.xml"));
 		
 		// sleep for a while to let the message get processed.
-		Thread.sleep(60 * 1000);
+		Thread.sleep(10 * 60 * 1000);
 	}
 
 	@Override

@@ -22,14 +22,23 @@ import com.kesdip.bootstrap.message.Message;
 public class MessagePump extends Thread {
 	private final static Logger logger = Logger.getLogger(MessagePump.class);
 	
+	/* MESSAGE PUMP STATE */
 	private BlockingQueue<Message> messageQueue;
 	private boolean running;
 	
+	/**
+	 * Initializing constructor.
+	 */
 	public MessagePump() {
 		super("message_pump");
 		
 		this.messageQueue = new LinkedBlockingQueue<Message>();
 		this.running = true;
+		
+		// Make sure any static code in the Config class has been called, so
+		// that we can be sure that the initialization has been performed prior
+		// to the main thread of the message pump having started.
+		Config.getSingleton();
 		
 		// Schedule a continuation message. This will check up front whatever
 		// tasks need to be performed that are the result of tasks from a
@@ -49,12 +58,21 @@ public class MessagePump extends Thread {
 		messageQueue.add(msg);
 	}
 	
+	/**
+	 * Request the message pump thread to stop running.
+	 */
 	public synchronized void stopRunning() {
 		running = false;
 		interrupt(); // In case the thread is blocked in the take() method.
 	}
 	
-	public synchronized boolean isRunning() {
+	/**
+	 * The message pump thread runs until someone calls the stopRunning()
+	 * method that turns the running flag to false.
+	 * 
+	 * @return True iff the running flag is still true.
+	 */
+	private synchronized boolean isRunning() {
 		return running;
 	}
 

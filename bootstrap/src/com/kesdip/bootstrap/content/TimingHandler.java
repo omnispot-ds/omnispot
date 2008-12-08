@@ -9,6 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -53,25 +57,127 @@ public class TimingHandler implements ContentHandler {
 			Connection c = null;
 			try {
 				c = DBUtils.getConnection();
+				Map<ResourceHandler, Integer> pendingMap =
+					new HashMap<ResourceHandler, Integer>();
 				
 				PreparedStatement ps = c.prepareStatement(
-						"SELECT RESOURCE.URL, RESOURCE.CRC, " +
-						"PENDING.DEPLOYMENT_ID, PENDING.RESOURCE_ID " +
-						"FROM RESOURCE, PENDING " +
-						"WHERE RESOURCE.ID=PENDING.RESOURCE_ID");
+						"SELECT ID, URL, RETRIES FROM DEPLOYMENT " +
+						"WHERE FILENAME='' AND FAILED_RESOURCE='N'");
 				ResultSet rs = ps.executeQuery();
 				
+				Set<Long> failedDeployments = new HashSet<Long>();
+				Map<Long, String> retryDeployments = new HashMap<Long, String>();
+				Map<Long, Integer> retryCounts = new HashMap<Long, Integer>();
+				
 				while (rs.next()) {
-					String url = rs.getString(1);
-					String crc = rs.getString(2);
-					long id = rs.getLong(3);
-					long resourceId = rs.getLong(4);
-					ContentRetriever.getSingleton().addTask(
-							new ResourceHandler(url, crc, id, resourceId));
+					long id = rs.getLong(1);
+					String url = rs.getString(2);
+					int retries = rs.getInt(3);
+					
+					if (retries >= Config.getSingleton().getResourceRetryLimit()) {
+						failedDeployments.add(id);
+					} else {
+						retryDeployments.put(id, url);
+						retryCounts.put(id, retries);
+					}
 				}
 				
 				rs.close();
 				ps.close();
+				
+				for (Long id : failedDeployments) {
+					logger.error("Retry limit has been reached for " +
+							"deployment with ID: " + id +
+							". Giving up.");
+					
+					ps = c.prepareStatement("UPDATE DEPLOYMENT " +
+						"SET FAILED_RESOURCE='Y' WHERE ID=?");
+					ps.setLong(1, id);
+					ps.executeUpdate();
+					ps.close();
+				}
+				
+				for (Long id : retryDeployments.keySet()) {
+					String url = retryDeployments.get(id);
+					int retries = retryCounts.get(id);
+					
+					ps = c.prepareStatement("UPDATE DEPLOYMENT " +
+							"SET RETRIES=? WHERE ID=?");
+					ps.setInt(1, retries + 1);
+					ps.setLong(2, id);
+					int modifiedRows = ps.executeUpdate();
+					if (modifiedRows != 1)
+						throw new Exception("Trying to update the number " +
+								"of retries in the deployment table touched " +
+								modifiedRows + " rows.");
+					ps.close();
+					
+					logger.info("Retry #" + (retries + 1) +
+							" for deployment with ID: " + id + ".");
+					
+					ContentRetriever.getSingleton().addTask(
+							new DescriptorHandler(url));
+				}
+				
+				ps = c.prepareStatement(
+						"SELECT RESOURCE.URL, RESOURCE.CRC, RESOURCE.RETRIES, " +
+						"PENDING.DEPLOYMENT_ID, PENDING.RESOURCE_ID " +
+						"FROM RESOURCE, PENDING " +
+						"WHERE RESOURCE.ID=PENDING.RESOURCE_ID");
+				rs = ps.executeQuery();
+				
+				while (rs.next()) {
+					String url = rs.getString(1);
+					String crc = rs.getString(2);
+					int retries = rs.getInt(3);
+					long id = rs.getLong(4);
+					long resourceId = rs.getLong(5);
+					pendingMap.put(new ResourceHandler(url, crc, id, resourceId),
+							retries);
+				}
+				
+				rs.close();
+				ps.close();
+				
+				for (ResourceHandler handler : pendingMap.keySet()) {
+					int retries = pendingMap.get(handler);
+					
+					if (retries >= Config.getSingleton().getResourceRetryLimit()) {
+						logger.info("Retry limit has been reached for resource " +
+								"with ID: " + handler.getResourceId() +
+								". Giving up.");
+						
+						ps = c.prepareStatement("DELETE FROM PENDING " +
+								"WHERE DEPLOYMENT_ID=? AND RESOURCE_ID=?");
+						ps.setLong(1, handler.getDeploymentId());
+						ps.setLong(2, handler.getResourceId());
+						ps.executeUpdate();
+						ps.close();
+						
+						ps = c.prepareStatement("UPDATE DEPLOYMENT " +
+								"SET FAILED_RESOURCE='Y' WHERE ID=?");
+						ps.setLong(1, handler.getDeploymentId());
+						ps.executeUpdate();
+						ps.close();
+					} else {
+						ps = c.prepareStatement("UPDATE RESOURCE " +
+								"SET RETRIES=? WHERE ID=?");
+						ps.setInt(1, retries + 1);
+						ps.setLong(2, handler.getResourceId());
+						int modifiedRows = ps.executeUpdate();
+						if (modifiedRows != 1)
+							throw new Exception("Trying to update the number " +
+									"of retries in the resource table touched " +
+									modifiedRows + " rows.");
+						ps.close();
+						
+						logger.info("Retry #" + (retries + 1) +
+								" for resource with ID: " +
+								handler.getResourceId() + ".");
+						
+						ContentRetriever.getSingleton().addTask(handler);
+					}					
+				}
 				
 				c.commit();
 			} catch (Exception e) {

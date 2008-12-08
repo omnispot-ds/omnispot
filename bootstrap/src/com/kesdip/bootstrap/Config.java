@@ -21,15 +21,31 @@ import com.kesdip.common.util.DBUtils;
 public class Config {
 	private static final Logger logger = Logger.getLogger(Config.class);
 	
+	/**
+	 * The preferences object. Relying on good old Java preferences for
+	 * making these persistent.
+	 */
 	private static Preferences prefs = 
 		Preferences.systemRoot().node(Config.class.getName());
 
+	/**
+	 * The configuratino singleton object.
+	 */
 	private static Config singleton = new Config();
 	
+	/**
+	 * Accessor to the configuration singleton object.
+	 * @return The singleton Config instance.
+	 */
 	public static Config getSingleton() {
 		return singleton;
 	}
 	
+	/**
+	 * Private initializing constructor. Loads a driver class if it has been
+	 * set, and sets the connection pool up with the driver manager using the
+	 * appropriate JDBC URL.
+	 */
 	private Config() {
 		try {
 			String driverClass = getDriverClass();
@@ -44,24 +60,58 @@ public class Config {
 		}
 	}
 	
+	/**
+	 * The deployment path points to a directory on the local machine, where
+	 * downloaded deployment descriptors will be placed.
+	 * @return The deployment path directory.
+	 */
 	public String getDeploymentPath() {
 		return prefs.get("deployment_path", "_NOT_SET_");
 	}
 	
+	/**
+	 * The resource path points to a directory on the local machine, where
+	 * downloaded resource files will be placed.
+	 * @return The resource path directory.
+	 */
 	public String getResourcePath() {
 		return prefs.get("resource_path", "_NOT_SET_");
 	}
 	
+	/**
+	 * The JDBC URL to use to contact the database.
+	 * @return The JDBC URL.
+	 */
 	public String getJDBCUrl() {
 		return prefs.get("jdbc_url", "_NOT_SET_");
 	}
 	
+	/**
+	 * The driver class for the database that contains the actual schema to
+	 * use in order to provide persistence.
+	 * @return The driver class to use.
+	 */
 	public String getDriverClass() {
 		return prefs.get("driver_class", "_NOT_SET_");
 	}
 	
+	/**
+	 * The timing handler is supposed to sleep for a certain period of time
+	 * (e.g. 5 minutes). This configuration setting allows one to change the
+	 * sleep duration for the timing handler.
+	 * @return The timing handler's sleep duration.
+	 */
 	public String getTimingHandlerSleepPeriod() {
 		return prefs.get("timing_handler_sleep_period", "_NOT_SET_");
+	}
+	
+	/**
+	 * Get the maximum number of attempts to make downloading a resource from
+	 * the server, before we give up.
+	 * @return The maximum number of retries to download a resource.
+	 */
+	public int getResourceRetryLimit() {
+		return prefs.getInt("resource_retry_limit", 3);
 	}
 	
 	/**

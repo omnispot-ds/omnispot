@@ -96,7 +96,7 @@ public class DescriptorHandler implements ContentHandler {
 				c = DBUtils.getConnection();
 				
 				PreparedStatement ps = c.prepareStatement(
-						"SELECT ID FROM DEPLOYMENT WHERE URL=?");
+						"SELECT ID, FILENAME FROM DEPLOYMENT WHERE URL=?");
 				ps.setString(1, descriptorUrl);
 				ResultSet rs = ps.executeQuery();
 				
@@ -105,67 +105,72 @@ public class DescriptorHandler implements ContentHandler {
 							descriptorUrl);
 				}
 				long id = rs.getLong(1);
+				boolean descriptorDownloaded = rs.getString(2).length() != 0;
 				
 				rs.close();
 				ps.close();
 				
-				ps = c.prepareStatement(
-						"UPDATE DEPLOYMENT SET FILENAME=?, DEPLOY_DATE=? WHERE ID=?");
-				ps.setString(1, newDeployment.getPath());
-				ps.setTimestamp(2, new Timestamp(settings.getStartTime().getTime()));
-				ps.setLong(3, id);
-				
-				ps.executeUpdate();
-				ps.close();
-				
-				for (Resource resource : resourceSet) {
+				if (!descriptorDownloaded) {
 					ps = c.prepareStatement(
-							"SELECT ID FROM RESOURCE WHERE URL=? AND CRC=?");
-					ps.setString(1, resource.getIdentifier());
-					ps.setString(2, resource.getChecksum());
-					rs = ps.executeQuery();
+							"UPDATE DEPLOYMENT SET FILENAME=?, DEPLOY_DATE=? WHERE ID=?");
+					ps.setString(1, newDeployment.getPath());
+					ps.setTimestamp(2, new Timestamp(settings.getStartTime().getTime()));
+					ps.setLong(3, id);
 					
-					boolean resourceExists = false;
-					long resourceId = 1;
-					
-					if (rs.next()) {
-						resourceExists = true;
-						resourceId = rs.getLong(1);
-					}
-					
-					rs.close();
+					ps.executeUpdate();
 					ps.close();
 					
-					if (resourceExists) {
-						logger.info("Resource " + resource.getIdentifier() +
-								" with CRC " + resource.getChecksum() +
-								" already exists.");
-					} else {
-						ps = c.prepareStatement("INSERT INTO RESOURCE " +
-								"(URL, CRC, FILENAME) VALUES (?,?,?)",
-								Statement.RETURN_GENERATED_KEYS );
+					for (Resource resource : resourceSet) {
+						ps = c.prepareStatement(
+								"SELECT ID FROM RESOURCE " +
+								"WHERE URL=? AND CRC=? AND FILENAME!=''");
 						ps.setString(1, resource.getIdentifier());
 						ps.setString(2, resource.getChecksum());
-						ps.setString(3, "");
-						ps.executeUpdate();
-						rs = ps.getGeneratedKeys();
-						if (!rs.next()) {
-							throw new Exception(
-									"Row insertion did not generate any keys");
+						rs = ps.executeQuery();
+						
+						boolean resourceExists = false;
+						long resourceId = 1;
+						
+						if (rs.next()) {
+							resourceExists = true;
+							resourceId = rs.getLong(1);
 						}
-						resourceId = rs.getLong(1);
+						
 						rs.close();
 						ps.close();
 						
-						ps = c.prepareStatement("INSERT INTO PENDING VALUES (?,?)");
-						ps.setLong(1, id);
-						ps.setLong(2, resourceId);
-						ps.executeUpdate();
-						ps.close();
-						
-						ContentRetriever.getSingleton().addTask(
-								new ResourceHandler(resource.getIdentifier(),
-										resource.getChecksum(), id, resourceId));
+						if (resourceExists) {
+							logger.info("Resource " + resource.getIdentifier() +
+									" with CRC " + resource.getChecksum() +
+									" already exists.");
+						} else {
+							ps = c.prepareStatement("INSERT INTO RESOURCE " +
+									"(URL, CRC, FILENAME, RETRIES) VALUES (?,?,?,?)",
+									Statement.RETURN_GENERATED_KEYS );
+							ps.setString(1, resource.getIdentifier());
+							ps.setString(2, resource.getChecksum());
+							ps.setString(3, "");
+							ps.setInt(4, 0);
+							ps.executeUpdate();
+							rs = ps.getGeneratedKeys();
+							if (!rs.next()) {
+								throw new Exception(
+										"Row insertion did not generate any keys");
+							}
+							resourceId = rs.getLong(1);
+							rs.close();
+							ps.close();
+							
+							ps = c.prepareStatement("INSERT INTO PENDING VALUES (?,?)");
+							ps.setLong(1, id);
+							ps.setLong(2, resourceId);
+							ps.executeUpdate();
+							ps.close();
+							
+							ContentRetriever.getSingleton().addTask(
+									new ResourceHandler(resource.getIdentifier(),
+											resource.getChecksum(), id, resourceId));
+						}
 					}
 				}
 				

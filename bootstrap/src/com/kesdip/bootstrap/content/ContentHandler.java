@@ -6,7 +6,11 @@
 package com.kesdip.bootstrap.content;
 
 /**
- * The interface that all content handlers must implement.
+ * The interface that all content handlers must implement. A handler is
+ * basically an implementation of Runnable that can be executed by the thread
+ * pool of the ContentRetriever singleton. The idea is that the handler i/f
+ * is to be used by implementors of long running tasks (like downloading
+ * resources off the web) that should be handled asynchronously.
  * 
  * @author Pafsanias Ftakas
  */

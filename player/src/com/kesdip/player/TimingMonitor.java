@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -167,9 +168,13 @@ public class TimingMonitor implements Runnable {
 		try {
 			c = DBUtils.getConnection();
 			
+			// Query to find the latest valid complete deployment. By valid,
+			// we mean that the deployment date is not set in the future.
 			PreparedStatement ps = c.prepareStatement(
-					"SELECT ID, FILENAME FROM DEPLOYMENT WHERE FILENAME != '' " +
-					"ORDER BY DEPLOY_DATE DESC");
+					"SELECT ID, FILENAME FROM DEPLOYMENT " +
+					"WHERE FILENAME != '' AND FAILED_RESOURCE = 'N' " +
+					"AND DEPLOY_DATE <= ? ORDER BY DEPLOY_DATE DESC");
+			ps.setTimestamp(1, new Timestamp(new Date().getTime()));
 			ResultSet rs = ps.executeQuery();
 			
 			long potentialDeploymentId = -1;
@@ -233,7 +238,8 @@ public class TimingMonitor implements Runnable {
 			return;
 		
 		Date now = new Date();
-		Date expiry = new Date(layoutStart.getTime() + currentLayout.getDuration() * 1000L);
+		Date expiry = new Date(layoutStart.getTime() +
+				currentLayout.getDuration() * 1000L);
 		if (now.after(expiry)) {
 			// The layout duration has expired.
 			player.completeLayout();
