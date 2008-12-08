@@ -5,6 +5,8 @@
  */
 package com.kesdip.bootstrap;
 
+import org.apache.log4j.Logger;
+
 /**
  * A dummy class for testing purposes, that has a never ending main method.
  * This is used to start a process that is not the real player process in the
@@ -13,11 +15,14 @@ package com.kesdip.bootstrap;
  * @author Pafsanias Ftakas
  */
 public class DummyPlayer {
+	private static final Logger logger = Logger.getLogger(DummyPlayer.class);
 
 	public static void main(String[] args) {
+		logger.info("Starting dummy player");
 		try {
 			while (true) {
 				try {
+					logger.info("Dummy player sleeping");
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// Intentionally left empty.

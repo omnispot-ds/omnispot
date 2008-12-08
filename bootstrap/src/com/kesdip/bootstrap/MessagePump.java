@@ -89,6 +89,8 @@ public class MessagePump extends Thread {
 				
 				try {
 					msg.process();
+					logger.info("Completed processing of message: " +
+							msg.toMessageString());
 				} catch (Exception e) {
 					logger.error("Error processing message " +
 							msg.toMessageString(), e);
