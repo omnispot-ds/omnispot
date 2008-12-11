@@ -1,0 +1,15 @@
+common/dist/common.jar
+
+etc/lib/log4j/log4j-1.2.14.jar
+
+etc/lib/apache-commons/commons-beanutils-1.7.0.jar
+etc/lib/apache-commons/commons-lang.jar
+
+etc/lib/spring/spring.jar
+
+etc/lib/hibernate/antlr-2.7.6.jar
+etc/lib/hibernate/asm.jar
+etc/lib/hibernate/asm-attrs.jar
+etc/lib/hibernate/cglib-2.1.3.jar
+etc/lib/hibernate/hibernate3.jar
+etc/lib/hibernate/jta.jar

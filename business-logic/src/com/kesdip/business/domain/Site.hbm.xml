@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.kesdip.business.domain.generated.Site"
+		table="SITE" lazy="true">
+		<meta attribute="class-description">
+			Domain object for the 'Site' entity. Auto-generated
+			code. &lt;strong&gt;Do not modify manually.&lt;/strong&gt;
+			@author gerogias
+		</meta>
+		<meta attribute="implement-equals">true</meta>
+
+		<id name="id" column="ID" type="java.lang.Long">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Primary, surrogate key.
+			</meta>
+			<generator class="increment" />
+		</id>
+
+		<property name="name" column="NAME" type="java.lang.String"
+			length="50" not-null="true">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The name of the customer.
+			</meta>
+		</property>
+
+        <property name="comments" column="COMMENTS" type="java.lang.String" 
+        	length="512">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		Comments for this customer.
+        	</meta>
+        </property>
+
+		<property name="active" column="ACTIVE" type="boolean"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				If the customer active or not.
+			</meta>
+		</property>
+
+		<many-to-one name="customer"
+			class="com.kesdip.business.domain.generated.Customer"
+			column="CUSTOMER_ID" not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">The parent customer.</meta>
+		</many-to-one>
+
+		<set name="installations" table="INSTALLATION" cascade="none"
+			lazy="false" inverse="true">
+			<meta attribute="field-description">
+				The installations of the site.
+			</meta>
+			<key column="INSTALLATION_ID" />
+			<one-to-many
+				class="com.kesdip.business.domain.generated.Installation"/>
+		</set>
+
+	</class>
+
+</hibernate-mapping>

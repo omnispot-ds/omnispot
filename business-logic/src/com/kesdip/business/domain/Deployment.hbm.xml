@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.kesdip.business.domain.generated.Deployment"
+		table="DEPLOYMENT" lazy="true">
+		<meta attribute="class-description">
+			Domain object for the 'Deployment' entity. Auto-generated
+			code. &lt;strong&gt;Do not modify manually.&lt;/strong&gt;
+			@author gerogias
+		</meta>
+		<meta attribute="implement-equals">true</meta>
+
+		<id name="id" column="ID" type="java.lang.Long">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Primary, surrogate key.
+			</meta>
+			<generator class="increment" />
+		</id>
+
+		<property name="url" column="URL" type="java.lang.String"
+			length="512" not-null="true">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The URL of the deployment file.
+			</meta>
+		</property>
+
+        <property name="crc" column="CRC" type="java.lang.String" 
+        	length="128">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		CRC for the deployment file.
+        	</meta>
+        </property>
+
+        <property name="localFile" column="LOCAL_FILE" type="java.lang.String" 
+        	length="512">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		Local file for the deployment.
+        	</meta>
+        </property>
+
+		<property name="status" column="STATUS" type="short"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Status of the deployment.
+			</meta>
+		</property>
+
+		<set name="contentFiles" table="DEPL_CONTENT" cascade="none"
+			lazy="false">
+			<meta attribute="field-description">
+				The content files of this deployment.
+			</meta>
+			<key column="DEPLOYMENT_ID" />
+			<many-to-many
+				class="com.kesdip.business.domain.generated.Content"
+				column="CONTENT_ID" />
+		</set>
+
+		<set name="installations" table="INST_DEPLOYMENT" cascade="none"
+			lazy="true">
+			<meta attribute="field-description">
+				The installation of this deployment.
+			</meta>
+			<key column="DEPLOYMENT_ID" />
+			<many-to-many
+				class="com.kesdip.business.domain.generated.Installation"
+				column="INSTALLATION_ID" />
+		</set>
+
+	</class>
+
+</hibernate-mapping>
