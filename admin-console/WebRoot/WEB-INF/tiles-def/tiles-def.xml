@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+	<!-- ============== LAYOUTS ================ -->
+	<definition name="treeLayout" path="/WEB-INF/tiles/common/layouts/layout-tree.jsp">
+		<put name="header" value="/WEB-INF/tiles/common/parts/header.jsp"/>
+		<put name="body" value="/WEB-INF/tiles/common/parts/home-body.jsp"/>
+		<put name="footer" value="/WEB-INF/tiles/common/parts/footer.jsp"/>
+	</definition>
+
+	<definition name="simpleLayout" path="/WEB-INF/tiles/common/layouts/layout-simple.jsp">
+		<put name="header" value="/WEB-INF/tiles/common/parts/header.jsp"/>
+		<put name="body" value="/WEB-INF/tiles/common/parts/empty-body.jsp"/>
+		<put name="footer" value="/WEB-INF/tiles/common/parts/footer.jsp"/>
+	</definition>
+	
+	<definition name="userTreeLayout" extends="treeLayout">
+		<put name="body" value="/WEB-INF/tiles/home/user-body.jsp"/>
+		<put name="tree" value="/WEB-INF/tiles/tree/user-tree.jsp"/>
+	</definition>
+
+	<!-- ================ AUXILIARY PAGES =============== -->
+	<!-- Home pages -->
+	<definition name="/secure/user-home.tiles" extends="userTreeLayout"/>
+
+	<!-- Login page -->
+	<definition name="/login.tiles" extends="simpleLayout">
+		<put name="header" value="/WEB-INF/tiles/common/parts/header-no-user.jsp"/>
+		<put name="body" value="/WEB-INF/tiles/login/login-body.jsp"/>
+	</definition>
+
+	<!-- Error page -->
+	<definition name="/error.tiles" extends="simpleLayout">
+		<put name="header" value="/WEB-INF/tiles/common/parts/header-no-user.jsp"/>
+		<put name="body" value="/WEB-INF/tiles/common/parts/error-body.jsp"/>
+	</definition>
+
+	<!-- ================== USER PAGES ==================== -->
+	<!-- Create user page -->
+	<definition name="/secure/user/create.tiles" extends="userTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/user/create.jsp"/>
+	</definition>
+
+	<!-- View user page -->
+	<definition name="/secure/user/view.tiles" extends="userTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/user/view.jsp"/>
+	</definition>
+
+	<!-- Edit user page -->
+	<definition name="/secure/user/edit.tiles" extends="userTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/user/edit.jsp"/>
+	</definition>
+
+	<!-- ================== CUSTOMER PAGES ==================== -->
+	<!-- Create customer page -->
+	<definition name="/secure/customer/create.tiles" extends="userTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/customer/create.jsp"/>
+	</definition>
+
+	<!-- View customer page -->
+	<definition name="/secure/customer/view.tiles" extends="userTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/customer/view.jsp"/>
+	</definition>
+
+	<!-- Edit customer page -->
+	<definition name="/secure/customer/edit.tiles" extends="userTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/customer/edit.jsp"/>
+	</definition>
+
+	<!-- ================== INSTALLATION PAGES ================= -->
+
+	<!-- ================== GROUP PAGES ================= -->
+
+	<!-- ================== SITE PAGES ================= -->
+	
+</tiles-definitions>
