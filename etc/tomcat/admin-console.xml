@@ -1,0 +1,15 @@
+<Context path="/monitor" docBase="monitor"
+        debug="5" reloadable="true" crossContext="true">
+
+	<Resource name="jdbc/adminConsoleDS" 
+		auth="Container" 
+		type="javax.sql.DataSource"
+		removeAbandoned="true"
+		removeAbandonedTimeout="60"
+		logAbandoned="true"
+		maxActive="5" maxIdle="2" maxWait="10000"
+		username="kesdipepe" password="kesdipepe" 
+		driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+		url="jdbc:derby:c:/dbin/derbydb/data/ds;create=false;"/>
+
+</Context>

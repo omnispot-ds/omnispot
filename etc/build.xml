@@ -12,10 +12,15 @@
 	<property name="common.build.file" location="${common.base.dir}/build.xml"/>
 	<property name="common.dist.file" location="${common.base.dir}/dist/common.jar"/>
 	
+	<property name="logic.base.dir" location="${project.base.dir}/business-logic"/>
+	<property name="logic.src.dir" location="${logic.base.dir}/src"/>
+	<property name="logic.build.file" location="${logic.base.dir}/build.xml"/>
+	<property name="logic.dist.file" location="${logic.base.dir}/dist/logic.jar"/>
+
 	<property name="bootstrap.base.dir" location="${project.base.dir}/bootstrap"/>
 	<property name="bootstrap.src.dir" location="${bootstrap.base.dir}/src"/>
 	<property name="bootstrap.build.file" location="${bootstrap.base.dir}/build.xml"/>
-	<property name="bootstrap.dist.file" location="${bootstrap.base.dir}/dist/player.jar"/>
+	<property name="bootstrap.dist.file" location="${bootstrap.base.dir}/dist/bootstrap.jar"/>
 
 	<property name="player.base.dir" location="${project.base.dir}/player"/>
 	<property name="player.src.dir" location="${player.base.dir}/src"/>
@@ -45,6 +50,12 @@
 		<ant antfile="${common.build.file}" target="common.dist" inheritrefs="true"/>
 	</target>
 
+	<target name="build.logic" depends="build.common">
+		<ant antfile="${logic.build.file}" target="logic.init" inheritrefs="true"/>
+		<ant antfile="${logic.build.file}" target="logic.compile" inheritrefs="true"/>
+		<ant antfile="${logic.build.file}" target="logic.dist" inheritrefs="true"/>
+	</target>
+
 	<target name="build.bootstrap" depends="build.common, build.player">
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.init" inheritrefs="true"/>
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.compile" inheritrefs="true"/>
@@ -57,17 +68,18 @@
 		<ant antfile="${player.build.file}" target="player.dist" inheritrefs="true"/>
 	</target>
 
-	<target name="build.admin-console">
+	<target name="build.admin-console" depends="build.common, build.logic">
 		<ant antfile="${admin-console.build.file}" target="admin-console.init" inheritrefs="true"/>
 		<ant antfile="${admin-console.build.file}" target="admin-console.compile" inheritrefs="true"/>
 		<ant antfile="${admin-console.build.file}" target="admin-console.dist" inheritrefs="true"/>
 	</target>
 	
 	<target name="clean" description="Clean project directories">
-<!--		<ant antfile="${admin-console.build.file}" target="admin-console.clean" inheritrefs="true"/> -->
+		<ant antfile="${admin-console.build.file}" target="admin-console.clean" inheritrefs="true"/>
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.clean" inheritrefs="true"/>
 		<ant antfile="${player.build.file}" target="player.clean" inheritrefs="true"/>
 		<ant antfile="${common.build.file}" target="common.clean" inheritrefs="true"/>
+		<ant antfile="${logic.build.file}" target="logic.clean" inheritrefs="true"/>
 	</target>	
 	
 	<target name="recreate.database" description="Recreates the database">
@@ -77,7 +89,7 @@
 	</target>
 	
 	<target name="generate.domain.objects">
-		<ant antfile="${common.build.file}" target="generate.domain.objects" inheritrefs="true"/>
+		<ant antfile="${logic.build.file}" target="generate.domain.objects" inheritrefs="true"/>
 	</target>
 	
 	<target name="dist.admin-console" depends="build.admin-console">

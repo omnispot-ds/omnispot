@@ -1,0 +1,37 @@
+
+1)     <Resource name="UserDatabase" auth="Container"
+		...
+		/>
+		
+	<Resource name="jdbc/adminConsoleDS" 
+		auth="Container" 
+		type="javax.sql.DataSource"
+		username="kesdipepe"
+		password="kesdipepe"
+		driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+		url="jdbc:derby:c:/dbin/derbydb/data/ds;create=true;"
+		maxActive="5"
+		maxIdle="2"
+		maxWait="10000"
+		removeAbandoned="true"
+		removeAbandonedTimeout="60"
+		logAbandoned="true"
+		derby.drda.startNetworkServer="true"
+		derby.drda.host="0.0.0.0"
+		derby.storage.pageCacheSize="10000"
+		/>
+
+2) 		<Host name="localhost"  appBase="webapps"
+		...
+		/>
+		
+	 	<Realm className="org.apache.catalina.realm.DataSourceRealm" 
+			debug="99"
+			dataSourceName="jdbc/adminConsoleDS"
+			userTable="users" 
+			userNameCol="username" 
+			userCredCol="password"
+			userRoleTable="user_rights" 
+			roleNameCol="role_name"
+			resourceName="AdminConsoleRealm"/>
+		
