@@ -1,5 +1,6 @@
 bootstrap/build
 bootstrap/dist
+common/bin
 common/build
 common/dist
 demos/AdPlayerDemo/ad.mp4
