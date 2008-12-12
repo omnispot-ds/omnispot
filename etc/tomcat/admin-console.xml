@@ -1,4 +1,4 @@
-<Context path="/monitor" docBase="monitor"
+<Context path="/admin-console" docBase="admin-console"
         debug="5" reloadable="true" crossContext="true">
 
 	<Resource name="jdbc/adminConsoleDS" 
