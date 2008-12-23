@@ -1,6 +1,9 @@
 bootstrap/bin
 bootstrap/build
 bootstrap/dist
+business-logic/bin
+business-logic/build
+business-logic/dist
 common/bin
 common/build
 common/dist

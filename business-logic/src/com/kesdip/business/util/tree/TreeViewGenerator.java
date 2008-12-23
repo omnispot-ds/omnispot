@@ -71,4 +71,15 @@ public class TreeViewGenerator extends BaseLogicAction {
 		return factory.getTree(objects);
 	}
 	
+	/**
+	 * Get a tree view starting with {@link Customer}s.
+	 * 
+	 * @return List a list of nodes
+	 */
+	@Transactional(readOnly = true)
+	public List<TreeNode> getCustomers() {
+		logger.trace("Returning customers tree");
+		TreeNodeFactory factory = new TreeNodeFactory(getHibernateTemplate());
+		return factory.getTree(Customer.class);
+	}
 }

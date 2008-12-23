@@ -57,7 +57,7 @@
 			<meta attribute="field-description">
 				The installations of the site.
 			</meta>
-			<key column="INSTALLATION_ID" />
+			<key column="SITE_ID" />
 			<one-to-many
 				class="com.kesdip.business.domain.generated.Installation"/>
 		</set>

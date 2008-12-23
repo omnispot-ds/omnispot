@@ -217,6 +217,7 @@ business-logic/build.xml -text
 business-logic/shared.jars -text
 business-logic/src/com/kesdip/business/beans/ListItemBean.java -text
 business-logic/src/com/kesdip/business/beans/QuickSearchBean.java -text
+business-logic/src/com/kesdip/business/constenum/IInstallationStatus.java -text
 business-logic/src/com/kesdip/business/constenum/IRolesEnum.java -text
 business-logic/src/com/kesdip/business/domain/AccessControl.hbm.xml -text
 business-logic/src/com/kesdip/business/domain/AccessRight.hbm.xml -text

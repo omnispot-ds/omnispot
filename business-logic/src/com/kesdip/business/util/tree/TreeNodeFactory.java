@@ -17,7 +17,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.kesdip.business.constenum.IInstallationStatus;
 import com.kesdip.business.domain.generated.Customer;
+import com.kesdip.business.domain.generated.Installation;
+import com.kesdip.business.domain.generated.InstallationGroup;
+import com.kesdip.business.domain.generated.Site;
 import com.kesdip.business.domain.generated.User;
 import com.kesdip.common.util.BeanUtils;
 
@@ -45,6 +49,7 @@ public class TreeNodeFactory {
 	 * The set of visited types. Each entry has the class name and the depth in
 	 * the tree where it was first encountered.
 	 */
+	@SuppressWarnings("unchecked")
 	private Map<Class, Integer> visitedTypes = null;
 
 	/**
@@ -55,6 +60,7 @@ public class TreeNodeFactory {
 	/**
 	 * Default constructor.
 	 */
+	@SuppressWarnings("unchecked")
 	public TreeNodeFactory(HibernateTemplate template) {
 		visitedTypes = new HashMap<Class, Integer>();
 		this.template = template;
@@ -100,7 +106,6 @@ public class TreeNodeFactory {
 	 *            the instances
 	 * @return List the resulting nodes, never <code>null</code>
 	 */
-	@SuppressWarnings("unchecked")
 	public <T> List<TreeNode> getTree(List<T> objects) {
 		List<TreeNode> results = new ArrayList<TreeNode>();
 		TreeNode node = null;
@@ -126,7 +131,7 @@ public class TreeNodeFactory {
 			return createNode((User) obj, depth);
 		} else if (obj instanceof Customer) {
 			return createNode((Customer) obj, depth);
-		} 
+		}
 		return null;
 	}
 
@@ -160,12 +165,28 @@ public class TreeNodeFactory {
 				.getClassName(customer.getClass()), customer.getName());
 		customerNode.setDisabled(!customer.isActive());
 		TreeNode temp = null;
+		// users
 		for (User user : customer.getUsers()) {
 			temp = createNode(user, depth + 1);
 			if (temp != null) {
 				customerNode.addChild(temp);
 			}
 		}
+		// groups
+		for (InstallationGroup group : customer.getGroups()) {
+			temp = createNode(group, depth + 1);
+			if (temp != null) {
+				customerNode.addChild(temp);
+			}
+		}
+		// sites
+		for (Site site : customer.getSites()) {
+			temp = createNode(site, depth + 1);
+			if (temp != null) {
+				customerNode.addChild(temp);
+			}
+		}
+
 		return customerNode;
 	}
 
@@ -199,7 +220,132 @@ public class TreeNodeFactory {
 		node.setDisabled(false);
 		return node;
 	}
-	
+
+	/**
+	 * Creates a node from an {@link InstallationGroup}.
+	 * 
+	 * @param group
+	 *            the group
+	 * @param depth
+	 *            the current depth
+	 * @return TreeNode the node or <code>null</code>
+	 */
+	final TreeNode createNode(InstallationGroup group, int depth) {
+		if (group == null) {
+			logger.trace("InstallationGroup is null");
+			return null;
+		}
+		if (!classIsAllowed(InstallationGroup.class, depth)) {
+			if (logger.isTraceEnabled()) {
+				logger.trace("Skipping InstallationGroup for depth " + depth);
+			}
+			return null;
+		}
+		visitedTypes.put(InstallationGroup.class, depth);
+		if (logger.isTraceEnabled()) {
+			logger.trace("Processing InstallationGroup " + group.getName());
+		}
+		TreeNode node = new TreeNode(group.getId(), BeanUtils
+				.getClassName(group.getClass()), group.getName());
+		node.setDisabled(false);
+		// installations
+		TreeNode temp = null;
+		for (Installation installation : group.getInstallations()) {
+			temp = createNode(installation, depth + 1);
+			if (temp != null) {
+				node.addChild(temp);
+			}
+		}
+		return node;
+	}
+
+	/**
+	 * Creates a node from a {@link Site}.
+	 * 
+	 * @param site
+	 *            the site
+	 * @param depth
+	 *            the current depth
+	 * @return TreeNode the node or <code>null</code>
+	 */
+	final TreeNode createNode(Site site, int depth) {
+		if (site == null) {
+			logger.trace("Site is null");
+			return null;
+		}
+		if (!classIsAllowed(Site.class, depth)) {
+			if (logger.isTraceEnabled()) {
+				logger.trace("Skipping Site for depth " + depth);
+			}
+			return null;
+		}
+		visitedTypes.put(Site.class, depth);
+		if (logger.isTraceEnabled()) {
+			logger.trace("Processing Site " + site.getName());
+		}
+		TreeNode node = new TreeNode(site.getId(), BeanUtils
+				.getClassName(site.getClass()), site.getName());
+		node.setDisabled(false);
+		// installations
+		TreeNode temp = null;
+		for (Installation installation : site.getInstallations()) {
+			temp = createNode(installation, depth + 1);
+			if (temp != null) {
+				node.addChild(temp);
+			}
+		}
+		return node;
+	}
+
+	/**
+	 * Creates a node from an {@link Installation}.
+	 * 
+	 * @param installation
+	 *            the group
+	 * @param depth
+	 *            the current depth
+	 * @return TreeNode the node or <code>null</code>
+	 */
+	final TreeNode createNode(Installation installation, int depth) {
+		if (installation == null) {
+			logger.trace("Installation is null");
+			return null;
+		}
+		if (!classIsAllowed(Installation.class, depth)) {
+			if (logger.isTraceEnabled()) {
+				logger.trace("Skipping Installation for depth " + depth);
+			}
+			return null;
+		}
+		visitedTypes.put(Installation.class, depth);
+		if (logger.isTraceEnabled()) {
+			logger.trace("Processing Installation " + installation.getName());
+		}
+		TreeNode node = new TreeNode(installation.getId(), BeanUtils
+				.getClassName(installation.getClass()), installation.getName());
+		node.setDisabled(false);
+		node.setStatus(getInstallationStatus(installation));
+		return node;
+	}
+
+	/**
+	 * Returns a status string for the given {@link Installation}.
+	 * 
+	 * @param installation
+	 *            the object
+	 * @return String the status
+	 */
+	private final String getInstallationStatus(Installation installation) {
+		if (installation.getCurrentStatus() == IInstallationStatus.OK) {
+			return "ok";
+		} else if (installation.getCurrentStatus() == IInstallationStatus.PLAYER_DOWN) {
+			return "nok";
+		} else if (installation.getCurrentStatus() == IInstallationStatus.MACHINE_DOWN) {
+			return "down";
+		}
+		return "";
+	}
+
 	/**
 	 * Checks if the class can be included in the tree at this depth or not.
 	 * <p>
@@ -215,6 +361,7 @@ public class TreeNodeFactory {
 	 *            the current depth
 	 * @return boolean <code>true</code> if it can be included
 	 */
+	@SuppressWarnings("unchecked")
 	private final boolean classIsAllowed(Class clazz, int depth) {
 		if (!this.visitedTypes.containsKey(clazz)) {
 			return true;

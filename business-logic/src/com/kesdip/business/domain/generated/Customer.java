@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 10 Äåê 2008 11:11:19 ìì by Hibernate Tools 3.2.0.b9
+// Generated 15 Î”ÎµÎº 2008 10:07:07 Î¼Î¼ by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;
@@ -30,15 +30,20 @@ public class Customer  implements java.io.Serializable {
      */
      private String comments;
      /**
-      * 				If the customer active or not.
+      * 				If the customer is active or not.
  * 			
      */
      private boolean active;
      /**
-      * 				The parameters of the action.
+      * 				The installation sites of this customer.
  * 			
      */
-     private Set<Parameter> sites = new HashSet<Parameter>(0);
+     private Set<Site> sites = new HashSet<Site>(0);
+     /**
+      * 				The groups of this customer.
+ * 			
+     */
+     private Set<InstallationGroup> groups = new HashSet<InstallationGroup>(0);
      /**
       * 				The users affiliated to this customer.
  * 			
@@ -53,11 +58,12 @@ public class Customer  implements java.io.Serializable {
         this.name = name;
         this.active = active;
     }
-    public Customer(String name, String comments, boolean active, Set<Parameter> sites, Set<User> users) {
+    public Customer(String name, String comments, boolean active, Set<Site> sites, Set<InstallationGroup> groups, Set<User> users) {
        this.name = name;
        this.comments = comments;
        this.active = active;
        this.sites = sites;
+       this.groups = groups;
        this.users = users;
     }
    
@@ -95,7 +101,7 @@ public class Customer  implements java.io.Serializable {
         this.comments = comments;
     }
     /**       
-     *      * 				If the customer active or not.
+     *      * 				If the customer is active or not.
      * 			
      */
     public boolean isActive() {
@@ -106,15 +112,26 @@ public class Customer  implements java.io.Serializable {
         this.active = active;
     }
     /**       
-     *      * 				The parameters of the action.
+     *      * 				The installation sites of this customer.
      * 			
      */
-    public Set<Parameter> getSites() {
+    public Set<Site> getSites() {
         return this.sites;
     }
     
-    public void setSites(Set<Parameter> sites) {
+    public void setSites(Set<Site> sites) {
         this.sites = sites;
+    }
+    /**       
+     *      * 				The groups of this customer.
+     * 			
+     */
+    public Set<InstallationGroup> getGroups() {
+        return this.groups;
+    }
+    
+    public void setGroups(Set<InstallationGroup> groups) {
+        this.groups = groups;
     }
     /**       
      *      * 				The users affiliated to this customer.
@@ -158,6 +175,7 @@ public class Customer  implements java.io.Serializable {
          int result = 17;
          
          result = 37 * result + ( getId() == null ? 0 : this.getId().hashCode() );
+         
          
          
          

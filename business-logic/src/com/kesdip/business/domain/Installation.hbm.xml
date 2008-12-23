@@ -56,6 +56,7 @@
 			<meta attribute="use-in-tostring">true</meta>
 			<meta attribute="field-description">
 				The current status of the installation.
+				@see IInstallationStatus
 			</meta>
 		</property>
 

@@ -48,11 +48,21 @@
 		<set name="sites" table="SITE" cascade="none"
 			lazy="false" inverse="true">
 			<meta attribute="field-description">
-				The parameters of the action.
+				The installation sites of this customer.
 			</meta>
-			<key column="ACTION_ID" />
+			<key column="CUSTOMER_ID" />
 			<one-to-many
-				class="com.kesdip.business.domain.generated.Parameter"/>
+				class="com.kesdip.business.domain.generated.Site"/>
+		</set>
+
+		<set name="groups" table="INST_GROUP" cascade="none"
+			lazy="false" inverse="true">
+			<meta attribute="field-description">
+				The groups of this customer.
+			</meta>
+			<key column="CUSTOMER_ID" />
+			<one-to-many
+				class="com.kesdip.business.domain.generated.InstallationGroup"/>
 		</set>
 
 		<set name="users" table="USERS" cascade="none"
