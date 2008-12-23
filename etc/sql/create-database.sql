@@ -6,7 +6,7 @@ create table CUSTOMER (ID bigint not null, NAME varchar(50) not null, COMMENTS v
 create table DEPLOYMENT (ID bigint not null, URL varchar(512) not null, CRC varchar(128), LOCAL_FILE varchar(512), STATUS smallint not null, primary key (ID));
 create table DEPL_CONTENT (CONTENT_ID bigint not null, DEPLOYMENT_ID bigint not null, primary key (DEPLOYMENT_ID, CONTENT_ID));
 create table GRP_INSTALLATION (INSTALLATION_ID bigint not null, GROUP_ID bigint not null, primary key (INSTALLATION_ID, GROUP_ID));
-create table INSTALLATION (ID bigint not null, NAME varchar(50) not null, UUID varchar(50) not null, COMMENTS varchar(512), ACTIVE smallint not null, STATUS smallint not null, SITE_ID bigint not null, INSTALLATION_ID bigint, primary key (ID));
+create table INSTALLATION (ID bigint not null, NAME varchar(50) not null, UUID varchar(50) not null, COMMENTS varchar(512), ACTIVE smallint not null, STATUS smallint not null, SITE_ID bigint not null, primary key (ID));
 create table INST_DEPLOYMENT (DEPLOYMENT_ID bigint not null, INSTALLATION_ID bigint not null, primary key (INSTALLATION_ID, DEPLOYMENT_ID));
 create table INST_GROUP (ID bigint not null, NAME varchar(50) not null, COMMENTS varchar(512), CUSTOMER_ID bigint not null, primary key (ID));
 create table PARAMETER (ID bigint not null, NAME varchar(50) not null, PARAM_VALUE varchar(512) not null, ACTION_ID bigint, primary key (ID));
@@ -21,13 +21,11 @@ alter table DEPL_CONTENT add constraint FK782AD057E7E563D0 foreign key (CONTENT_
 alter table DEPL_CONTENT add constraint FK782AD05765DC0B24 foreign key (DEPLOYMENT_ID) references DEPLOYMENT;
 alter table GRP_INSTALLATION add constraint FK73374374745A084 foreign key (INSTALLATION_ID) references INSTALLATION;
 alter table GRP_INSTALLATION add constraint FK7337437468777876 foreign key (GROUP_ID) references INST_GROUP;
-alter table INSTALLATION add constraint FK38C463A9ACCCB91 foreign key (INSTALLATION_ID) references SITE;
 alter table INSTALLATION add constraint FK38C463A79AE9364 foreign key (SITE_ID) references SITE;
 alter table INST_DEPLOYMENT add constraint FK1D4D165E745A084 foreign key (INSTALLATION_ID) references INSTALLATION;
 alter table INST_DEPLOYMENT add constraint FK1D4D165E65DC0B24 foreign key (DEPLOYMENT_ID) references DEPLOYMENT;
 alter table INST_GROUP add constraint FK85837326846A304 foreign key (CUSTOMER_ID) references CUSTOMER;
 alter table PARAMETER add constraint FK1A96C389D4EBDE84 foreign key (ACTION_ID) references ACTION;
-alter table PARAMETER add constraint FK1A96C3897DB7E5AC foreign key (ACTION_ID) references CUSTOMER;
 alter table SITE add constraint FK26D747846A304 foreign key (CUSTOMER_ID) references CUSTOMER;
 alter table STATUS_ENTRY add constraint FK5133F9C5745A084 foreign key (INSTALLATION_ID) references INSTALLATION;
 alter table USERS add constraint FK4D495E8846A304 foreign key (CUSTOMER_ID) references CUSTOMER;
