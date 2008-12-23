@@ -6,17 +6,16 @@
 
 <div class="panel">
 	<div class="heading">
-		<fmt:message bundle="${msg}" key="tree.by.antenna"/>
+		<fmt:message bundle="${msg}" key="tree.by.site"/>
 	</div>
 	<controls:treeView 
-		id="prefectureTree"
+		id="siteTree"
 		nodeTypes="
-			Prefecture,all:icon-prefecture | 
-			Antenna,all:icon-antenna,ok:icon-antenna-ok,backup:icon-antenna-backup,down:icon-antenna-down |
-			Generator,all:icon-generator,backup:icon-generator-backup |
-			FuelTank,all:icon-tank
+			Customer,all:icon-customer |
+			Site,all:icon-site |
+			Installation,all:icon-installation,ok:icon-installation-ok,nok:icon-installation-nok,down:icon-installation-down 
 			" 
-		beanProperty="prefectures"
+		beanProperty="customers"
 		renderDisabled="false"
 	/>
 </div>

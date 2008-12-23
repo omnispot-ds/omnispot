@@ -30,6 +30,7 @@
 				/login.do*								= loginController
 				/error.do*								= errorController
 				/secure/user-home.do*					= homeController
+				/secure/home.do*						= homeController
 
 				/secure/user/create.do*					= createUserController
 				/secure/user/view.do*					= viewUserController
@@ -63,10 +64,7 @@
 		<property name="views">
 			<value>
 				/secure/home.do							= /secure/home.tiles
-				/secure/prefecture/view.do				= /secure/home.tiles
-				/secure/genType-home.do					= /secure/genType-home.tiles
 				/secure/user-home.do					= /secure/user-home.tiles
-				/secure/mechanic-home.do				= /secure/mechanic-home.tiles
 			</value>
 		</property> 
 	</bean>

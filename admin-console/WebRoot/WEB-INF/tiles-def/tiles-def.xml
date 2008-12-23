@@ -24,9 +24,15 @@
 		<put name="tree" value="/WEB-INF/tiles/tree/user-tree.jsp"/>
 	</definition>
 
+	<definition name="siteTreeLayout" extends="treeLayout">
+		<put name="body" value="/WEB-INF/tiles/home/site-body.jsp"/>
+		<put name="tree" value="/WEB-INF/tiles/tree/site-tree.jsp"/>
+	</definition>
+
 	<!-- ================ AUXILIARY PAGES =============== -->
 	<!-- Home pages -->
 	<definition name="/secure/user-home.tiles" extends="userTreeLayout"/>
+	<definition name="/secure/home.tiles" extends="siteTreeLayout"/>
 
 	<!-- Login page -->
 	<definition name="/login.tiles" extends="simpleLayout">

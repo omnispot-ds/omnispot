@@ -3,4 +3,4 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<c:redirect url="/secure/user-home.do"/>
+<c:redirect url="/secure/home.do"/>

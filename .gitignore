@@ -1,3 +1,5 @@
+admin-console/build
+admin-console/dist
 bootstrap/bin
 bootstrap/build
 bootstrap/dist

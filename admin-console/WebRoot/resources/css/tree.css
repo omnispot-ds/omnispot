@@ -1,12 +1,40 @@
+/* ***** TREE ICONS ***** */
 .icon-user { 
 	padding-left: 22px;
 	background: transparent url(../images/icons/user.png) 0 0px no-repeat; 
+} 
+
+.icon-site { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/site.png) 0 0px no-repeat; 
 } 
 
 .icon-customer { 
 	padding-left: 22px;
 	background: transparent url(../images/icons/customer.gif) 0 0px no-repeat; 
 } 
+
+.icon-installation { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/installation.png) 0 0px no-repeat; 
+} 
+
+.icon-installation-ok { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/installation-ok.png) 0 0px no-repeat; 
+} 
+
+.icon-installation-nok { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/installation-nok.png) 0 0px no-repeat; 
+} 
+
+.icon-installation-down { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/installation-down.png) 0 0px no-repeat; 
+} 
+
+/* ***** EOF TREE ICONS ***** */
 
 div#tree {
 	font-family: Verdana;
