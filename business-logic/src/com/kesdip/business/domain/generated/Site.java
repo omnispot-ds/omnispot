@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 15 Î”ÎµÎº 2008 10:07:07 Î¼Î¼ by Hibernate Tools 3.2.0.b9
+// Generated 2 Éáí 2009 6:25:32 ìì by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;
@@ -43,6 +43,13 @@ public class Site  implements java.io.Serializable {
  * 			
      */
      private Set<Installation> installations = new HashSet<Installation>(0);
+     /**
+      * 				The current status of the site.  
+ * 				It is equal to minimum status of its active installations.
+ * 				It can be null if the site has no installations.
+ * 			
+     */
+     private Short currentStatus;
 
     public Site() {
     }
@@ -126,6 +133,19 @@ public class Site  implements java.io.Serializable {
     public void setInstallations(Set<Installation> installations) {
         this.installations = installations;
     }
+    /**       
+     *      * 				The current status of the site.  
+     * 				It is equal to minimum status of its active installations.
+     * 				It can be null if the site has no installations.
+     * 			
+     */
+    public Short getCurrentStatus() {
+        return this.currentStatus;
+    }
+    
+    public void setCurrentStatus(Short currentStatus) {
+        this.currentStatus = currentStatus;
+    }
 
     /**
      * toString
@@ -140,6 +160,7 @@ public class Site  implements java.io.Serializable {
       buffer.append("comments").append("='").append(getComments()).append("' ");			
       buffer.append("active").append("='").append(isActive()).append("' ");			
       buffer.append("customer").append("='").append(getCustomer()).append("' ");			
+      buffer.append("currentStatus").append("='").append(getCurrentStatus()).append("' ");			
       buffer.append("]");
       
       return buffer.toString();
@@ -158,6 +179,7 @@ public class Site  implements java.io.Serializable {
          int result = 17;
          
          result = 37 * result + ( getId() == null ? 0 : this.getId().hashCode() );
+         
          
          
          

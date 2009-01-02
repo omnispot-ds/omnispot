@@ -285,7 +285,8 @@ public class TreeNodeFactory {
 		}
 		TreeNode node = new TreeNode(site.getId(), BeanUtils
 				.getClassName(site.getClass()), site.getName());
-		node.setDisabled(false);
+		node.setDisabled(!site.isActive());
+		node.setStatus(getSiteStatus(site));
 		// installations
 		TreeNode temp = null;
 		for (Installation installation : site.getInstallations()) {
@@ -341,6 +342,26 @@ public class TreeNodeFactory {
 		} else if (installation.getCurrentStatus() == IInstallationStatus.PLAYER_DOWN) {
 			return "nok";
 		} else if (installation.getCurrentStatus() == IInstallationStatus.MACHINE_DOWN) {
+			return "down";
+		}
+		return "";
+	}
+	
+	/**
+	 * Returns a status string for the given {@link Site}.
+	 * 
+	 * @param site
+	 *            the object
+	 * @return String the status
+	 */
+	private final String getSiteStatus(Site site) {
+		if (site.getCurrentStatus() == null) {
+			return "";
+		} else if (site.getCurrentStatus() == IInstallationStatus.OK) {
+			return "ok";
+		} else if (site.getCurrentStatus() == IInstallationStatus.PLAYER_DOWN) {
+			return "nok";
+		} else if (site.getCurrentStatus() == IInstallationStatus.MACHINE_DOWN) {
 			return "down";
 		}
 		return "";

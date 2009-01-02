@@ -236,6 +236,7 @@ business-logic/src/com/kesdip/business/logic/BaseLogicAction.java -text
 business-logic/src/com/kesdip/business/logic/CustomerLogic.java -text
 business-logic/src/com/kesdip/business/logic/LogicFactory.java -text
 business-logic/src/com/kesdip/business/logic/SearchLogic.java -text
+business-logic/src/com/kesdip/business/logic/SiteLogic.java -text
 business-logic/src/com/kesdip/business/logic/UserLogic.java -text
 business-logic/src/com/kesdip/business/util/Error.java -text
 business-logic/src/com/kesdip/business/util/Errors.java -text
@@ -254,6 +255,8 @@ business-logic/src/com/kesdip/business/validation/ValidationUtils.java -text
 business-logic/src/com/kesdip/business/validation/Validator.java -text
 business-logic/src/com/kesdip/business/validation/customer/CreateValidator.java -text
 business-logic/src/com/kesdip/business/validation/customer/EditValidator.java -text
+business-logic/src/com/kesdip/business/validation/site/CreateValidator.java -text
+business-logic/src/com/kesdip/business/validation/site/EditValidator.java -text
 business-logic/src/com/kesdip/business/validation/user/BaseUserValidator.java -text
 business-logic/src/com/kesdip/business/validation/user/CreateValidator.java -text
 business-logic/src/com/kesdip/business/validation/user/DeleteValidator.java -text

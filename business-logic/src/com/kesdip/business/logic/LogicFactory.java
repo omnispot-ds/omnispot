@@ -85,5 +85,15 @@ public final class LogicFactory {
 		return (SearchLogic) beans.get(BeanUtils
 				.getClassName(SearchLogic.class));
 	}
+	
+	/**
+	 * @return SiteLogic the instance
+	 */
+	public SiteLogic getSiteLogic() {
+		return (SiteLogic) beans.get(BeanUtils
+				.getClassName(SiteLogic.class));
+	}
+	
+	
 
 }

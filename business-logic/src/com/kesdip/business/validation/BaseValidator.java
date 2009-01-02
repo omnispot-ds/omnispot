@@ -302,6 +302,51 @@ public abstract class BaseValidator implements Validator {
 		}
 		return query.list().size() != 0;
 	}
+	
+	/**
+	 * Checks if the given table.column has the given value (case-ignore) having
+	 * the same table.foreignKey (= parent). The method intent is to be used when 
+	 * creating an entity and checks need to be performed against existing entities
+	 * with the same parent.
+	 * 
+	 * @param table
+	 * @param field
+	 * @param value
+	 *            may be <code>null</code>
+	 * @param foreignKeyColumn
+	 *            the foreign key column
+	 * @param foreignKeyValue
+	 * 			  only takes into account entities having the same foreignKeyValue 
+	 * @return boolean <code>false</code> if it does not exist or the value is
+	 *         <code>null</code>
+	 */
+	protected final boolean fieldExistsCaseIgnore(String table, String column,
+			String value, String foreignKeyColumn, Long foreignKeyValue) {
+		if (value == null) {
+			logger.debug("Value is null");
+			return false;
+		}
+		Session session = hibernateTemplate.getSessionFactory()
+				.getCurrentSession();
+		StringBuffer qString = new StringBuffer();
+
+		// search for similar values
+		qString.delete(0, qString.length());
+		qString.append("SELECT * FROM ").append(table).append(" WHERE UPPER(")
+				.append(table).append('.').append(column).append(") = ?")
+				.append(" AND ").append(table).append('.').append(
+						foreignKeyColumn).append(" = ?");
+		SQLQuery query = session.createSQLQuery(qString.toString());
+		query = session.createSQLQuery(qString.toString());
+		query.setString(0, value.toUpperCase().trim());
+		query.setLong(1, foreignKeyValue);
+
+		if (logger.isDebugEnabled() && query.list().size() != 0) {
+			logger.debug(table + "." + column + " has value " + value
+					+ ". Foreign key " + foreignKeyValue);
+		}
+		return query.list().size() != 0;
+	}
 
 	/**
 	 * Checks if the object with the given primary key has children. It checks

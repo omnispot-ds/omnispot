@@ -61,6 +61,17 @@
 			<one-to-many
 				class="com.kesdip.business.domain.generated.Installation"/>
 		</set>
+		
+		<property name="currentStatus" type="java.lang.Short" lazy="false"
+				formula="(select min(i.status) from installation i
+					where i.site_id = id and i.active = 1)">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The current status of the site.  
+				It is equal to minimum status of its active installations.
+				It can be null if the site has no installations.
+			</meta>
+		</property>
 
 	</class>
 
