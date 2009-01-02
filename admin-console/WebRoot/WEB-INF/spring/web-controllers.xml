@@ -41,6 +41,11 @@
 				/secure/customer/view.do*				= viewCustomerController
 				/secure/customer/delete.do*				= deleteCustomerController
 				/secure/customer/edit.do*				= editCustomerController
+				
+				/secure/site/create.do*					= createSiteController
+				/secure/site/view.do*					= viewSiteController
+				/secure/site/delete.do*					= deleteSiteController
+				/secure/site/edit.do*					= editSiteController
 
 				/secure/quickSearch.do*					= quickSearchController
 			</value>
@@ -164,6 +169,43 @@
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
 			value="com.kesdip.business.domain.generated.Customer" />
+	</bean>
+	
+	<!-- =================== SITE CONTROLLERS ==================== -->
+	<!-- Controller for Site creation -->
+	<bean id="createSiteController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.site.CreateController">
+		<property name="formView" value="/secure/site/create.tiles" />
+		<property name="successView" value="/secure/home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.Site" />
+	</bean>
+	
+	<!-- Controller for Site viewing -->
+	<bean id="viewSiteController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.site.ViewController">
+		<property name="formView" value="/secure/site/view.tiles" />
+		<property name="successView" value="/secure/home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.Site" />
+	</bean>
+	
+	<!-- Controller for Site deletion -->
+	<bean id="deleteSiteController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.site.DeleteController">
+		<property name="formView" value="/secure/site/view.tiles" />
+		<property name="successView" value="/secure/home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.Site" />
+	</bean>
+
+	<!-- Controller for Site edition -->
+	<bean id="editSiteController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.site.EditController">
+		<property name="formView" value="/secure/site/edit.tiles" />
+		<property name="successView" value="/secure/home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.Site" />
 	</bean>
 
 </beans>

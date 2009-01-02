@@ -12,7 +12,7 @@
 		id="siteTree"
 		nodeTypes="
 			Customer,all:icon-customer |
-			Site,all:icon-site |
+			Site,all:icon-site,ok:icon-site-ok,nok:icon-site-nok,down:icon-site-down, :icon-site  |
 			Installation,all:icon-installation,ok:icon-installation-ok,nok:icon-installation-nok,down:icon-installation-down 
 			" 
 		beanProperty="customers"

@@ -36,5 +36,15 @@
 		parent="baseValidator"
 		class="com.kesdip.business.validation.customer.EditValidator"
 		scope="singleton" />
+		
+	<bean id="createSiteValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.site.CreateValidator"
+		scope="singleton" />
+
+	<bean id="editSiteValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.site.EditValidator"
+		scope="singleton" />
 
 </beans>

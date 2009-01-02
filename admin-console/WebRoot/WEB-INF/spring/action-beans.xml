@@ -16,6 +16,7 @@
 				<ref bean="userLogic"/>
 				<ref bean="searchLogic"/>
 				<ref bean="customerLogic"/>
+				<ref bean="siteLogic"/>
 			</list>
 		</property>
 	</bean>
@@ -88,6 +89,29 @@
 					<key><value>edit</value></key>
 					<list>
 						<ref bean="editCustomerValidator"/>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Customer logic -->
+	<bean id="siteLogic" 
+		parent="baseLogicBean"
+		class="com.kesdip.business.logic.SiteLogic">
+		
+		<property name="validators">
+			<map>
+				<entry>
+					<key><value>create</value></key>
+					<list>
+						<ref bean="createSiteValidator"/>
+					</list>
+				</entry>
+				<entry>
+					<key><value>edit</value></key>
+					<list>
+						<ref bean="editSiteValidator"/>
 					</list>
 				</entry>
 			</map>

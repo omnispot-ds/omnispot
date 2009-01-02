@@ -7,6 +7,21 @@
 .icon-site { 
 	padding-left: 22px;
 	background: transparent url(../images/icons/site.png) 0 0px no-repeat; 
+}
+
+.icon-site-ok { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/site-ok.png) 0 0px no-repeat; 
+} 
+
+.icon-site-nok { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/site-nok.png) 0 0px no-repeat; 
+} 
+
+.icon-site-down { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/site-down.png) 0 0px no-repeat; 
 } 
 
 .icon-customer { 

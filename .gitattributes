@@ -24,6 +24,9 @@ admin-console/WebRoot/WEB-INF/tiles/customer/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/site-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/user-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/login/login-body.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/site/create.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/site/edit.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/site/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/tree/site-tree.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/tree/user-tree.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/user/create.jsp -text
@@ -51,6 +54,9 @@ admin-console/WebRoot/resources/images/icons/installation-down.png -text
 admin-console/WebRoot/resources/images/icons/installation-nok.png -text
 admin-console/WebRoot/resources/images/icons/installation-ok.png -text
 admin-console/WebRoot/resources/images/icons/installation.png -text
+admin-console/WebRoot/resources/images/icons/site-down.png -text
+admin-console/WebRoot/resources/images/icons/site-nok.png -text
+admin-console/WebRoot/resources/images/icons/site-ok.png -text
 admin-console/WebRoot/resources/images/icons/site.png -text
 admin-console/WebRoot/resources/images/icons/success_ovr.gif -text
 admin-console/WebRoot/resources/images/icons/switched_ov.gif -text
@@ -161,6 +167,10 @@ admin-console/src/com/kesdip/admin/web/controller/customer/ViewController.java -
 admin-console/src/com/kesdip/admin/web/controller/home/HomeController.java -text
 admin-console/src/com/kesdip/admin/web/controller/login/LoginController.java -text
 admin-console/src/com/kesdip/admin/web/controller/search/QuickSearchController.java -text
+admin-console/src/com/kesdip/admin/web/controller/site/CreateController.java -text
+admin-console/src/com/kesdip/admin/web/controller/site/DeleteController.java -text
+admin-console/src/com/kesdip/admin/web/controller/site/EditController.java -text
+admin-console/src/com/kesdip/admin/web/controller/site/ViewController.java -text
 admin-console/src/com/kesdip/admin/web/controller/user/CreateController.java -text
 admin-console/src/com/kesdip/admin/web/controller/user/DeleteController.java -text
 admin-console/src/com/kesdip/admin/web/controller/user/EditController.java -text

@@ -83,5 +83,19 @@
 	<!-- ================== GROUP PAGES ================= -->
 
 	<!-- ================== SITE PAGES ================= -->
+	<!-- Create customer page -->
+	<definition name="/secure/site/create.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/site/create.jsp"/>
+	</definition>
+
+	<!-- View customer page -->
+	<definition name="/secure/site/view.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/site/view.jsp"/>
+	</definition>
+
+	<!-- Edit customer page -->
+	<definition name="/secure/site/edit.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/site/edit.jsp"/>
+	</definition>
 	
 </tiles-definitions>
