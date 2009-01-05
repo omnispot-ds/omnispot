@@ -45,7 +45,7 @@
 		</many-to-one>
 
 		<set name="installations" table="GRP_INSTALLATION" cascade="none"
-			lazy="false" inverse="true">
+			lazy="false">
 			<meta attribute="field-description">
 				The installations of the group.
 			</meta>
@@ -54,6 +54,20 @@
 				class="com.kesdip.business.domain.generated.Installation"
 				column="INSTALLATION_ID"/>
 		</set>
+		
+		<property name="currentStatus" type="java.lang.Short" lazy="false"
+				formula="(select min(i.status) 
+					from grp_installation gi, installation i
+					where gi.group_id = id 
+					and gi.installation_id = i.id 
+					and i.active = 1)">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The current status of the installation group.  
+				It is equal to minimum status of its active installations.
+				It can be null if this group has no installations.
+			</meta>
+		</property>
 
 	</class>
 

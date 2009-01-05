@@ -244,6 +244,7 @@ business-logic/src/com/kesdip/business/exception/InvalidEntityIdentifierExceptio
 business-logic/src/com/kesdip/business/exception/ValidationException.java -text
 business-logic/src/com/kesdip/business/logic/BaseLogicAction.java -text
 business-logic/src/com/kesdip/business/logic/CustomerLogic.java -text
+business-logic/src/com/kesdip/business/logic/GroupLogic.java -text
 business-logic/src/com/kesdip/business/logic/LogicFactory.java -text
 business-logic/src/com/kesdip/business/logic/SearchLogic.java -text
 business-logic/src/com/kesdip/business/logic/SiteLogic.java -text
@@ -257,6 +258,7 @@ business-logic/src/com/kesdip/business/util/propertyeditor/CustomEditorRegistrar
 business-logic/src/com/kesdip/business/util/propertyeditor/CustomerEditor.java -text
 business-logic/src/com/kesdip/business/util/propertyeditor/DateEditor.java -text
 business-logic/src/com/kesdip/business/util/propertyeditor/FileArrayEditor.java -text
+business-logic/src/com/kesdip/business/util/propertyeditor/InstallationEditor.java -text
 business-logic/src/com/kesdip/business/util/tree/TreeNode.java -text
 business-logic/src/com/kesdip/business/util/tree/TreeNodeFactory.java -text
 business-logic/src/com/kesdip/business/util/tree/TreeViewGenerator.java -text
@@ -265,6 +267,8 @@ business-logic/src/com/kesdip/business/validation/ValidationUtils.java -text
 business-logic/src/com/kesdip/business/validation/Validator.java -text
 business-logic/src/com/kesdip/business/validation/customer/CreateValidator.java -text
 business-logic/src/com/kesdip/business/validation/customer/EditValidator.java -text
+business-logic/src/com/kesdip/business/validation/group/CreateValidator.java -text
+business-logic/src/com/kesdip/business/validation/group/EditValidator.java -text
 business-logic/src/com/kesdip/business/validation/site/CreateValidator.java -text
 business-logic/src/com/kesdip/business/validation/site/EditValidator.java -text
 business-logic/src/com/kesdip/business/validation/user/BaseUserValidator.java -text

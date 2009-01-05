@@ -248,6 +248,7 @@ public class TreeNodeFactory {
 		TreeNode node = new TreeNode(group.getId(), BeanUtils
 				.getClassName(group.getClass()), group.getName());
 		node.setDisabled(false);
+		node.setStatus(getGroupStatus(group));
 		// installations
 		TreeNode temp = null;
 		for (Installation installation : group.getInstallations()) {
@@ -365,6 +366,27 @@ public class TreeNodeFactory {
 			return "down";
 		}
 		return "";
+	}
+	
+	/**
+	 * Returns a status string for the given {@link InstallationGroup}.
+	 * 
+	 * @param group
+	 *            the object
+	 * @return String the status
+	 */
+	private final String getGroupStatus(InstallationGroup group) {
+		if (group.getCurrentStatus() == null) {
+			return "";
+		} else if (group.getCurrentStatus() == IInstallationStatus.OK) {
+			return "ok";
+		} else if (group.getCurrentStatus() == IInstallationStatus.PLAYER_DOWN) {
+			return "nok";
+		} else if (group.getCurrentStatus() == IInstallationStatus.MACHINE_DOWN) {
+			return "down";
+		}
+		return "";
+		
 	}
 
 	/**

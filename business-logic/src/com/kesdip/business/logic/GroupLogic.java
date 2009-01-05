@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.kesdip.business.logic;
 
 import java.util.List;
@@ -7,35 +10,34 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.domain.generated.Customer;
-import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.business.domain.generated.Site;
+import com.kesdip.business.domain.generated.InstallationGroup;
 import com.kesdip.business.exception.ValidationException;
 
 /**
- * Customer-related logic.
  * 
- * @author pkattoul
+ * 
+ * @author pavlos
  */
-public class SiteLogic extends BaseLogicAction {
+public class GroupLogic extends BaseLogicAction {
 	
 	/**
 	 * The logger.
 	 */
-	private final static Logger logger = Logger.getLogger(SiteLogic.class);
-
+	private final static Logger logger = Logger.getLogger(GroupLogic.class);
+	
 	/**
-	 * @return List all active sites
+	 * @return List all active InstallationGroups
 	 */
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
-	public List<Site> getAllSites() {
+	public List<InstallationGroup> getAllGroups() {
 		return getHibernateTemplate().find(
-				"select c from " + SiteLogic.class.getName() + " c "
+				"select c from " + GroupLogic.class.getName() + " c "
 						+ "where c.active = true");
 	}
 	
 	/**
-	 * Create a new Site in the database.
+	 * Create a new InstallationGroup in the database.
 	 * 
 	 * @param object
 	 *            the DTO
@@ -44,29 +46,28 @@ public class SiteLogic extends BaseLogicAction {
 	 *             on validation error
 	 */
 	@Transactional(isolation = Isolation.READ_COMMITTED)
-	public Site create(Site object) throws ValidationException {
+	public InstallationGroup create(InstallationGroup object) throws ValidationException {
 
 		validate(object, "create");
-		logger.debug("Creating Site");
-		// set affiliation
+		logger.debug("Creating Group");
+		// set customer
 		Customer dbCustomer = null;
 		if (object.getCustomer() != null) {
 			dbCustomer = getLogicFactory().getCustomerLogic()
 					.getInstance(object.getCustomer());
 			object.setCustomer(dbCustomer);
 		}
-		object.setActive(true);
 		getHibernateTemplate().save(object);
 		// set affiliation
 		if (object.getCustomer() != null) {
-			dbCustomer.getSites().add(object);
+			dbCustomer.getGroups().add(object);
 			getHibernateTemplate().update(dbCustomer);
 		}
 		return object;
 	}
 	
 	/**
-	 * Update a Site in the database.
+	 * Update an InstallationGroup in the database.
 	 * 
 	 * @param object
 	 *            the DTO
@@ -75,22 +76,22 @@ public class SiteLogic extends BaseLogicAction {
 	 *             on validation error
 	 */
 	@Transactional(isolation = Isolation.READ_COMMITTED)
-	public Site update(Site object) throws ValidationException {
+	public InstallationGroup update(InstallationGroup object) throws ValidationException {
 
 		validate(object, "edit");
 		if (logger.isDebugEnabled()) {
-			logger.debug("Updating Site " + object.getId());
+			logger.debug("Updating Group " + object.getId());
 		}
-		Site dbSite = getInstance(object);
-		dbSite.setName(object.getName());
-		dbSite.setComments(object.getComments());
-		getHibernateTemplate().update(dbSite);
+		InstallationGroup dbGroup = getInstance(object);
+		dbGroup.setName(object.getName());
+		dbGroup.setComments(object.getComments());
+		dbGroup.setInstallations(object.getInstallations());
+		getHibernateTemplate().update(dbGroup);
 		return object;
 	}
 	
 	/**
-	 * Marks a Site as deleted.
-	 * Also deletes all its Installations.
+	 * Deletes an InstallationGroup
 	 * 
 	 * @param object
 	 *            the DTO
@@ -98,35 +99,31 @@ public class SiteLogic extends BaseLogicAction {
 	 *             on validation error
 	 */
 	@Transactional(isolation = Isolation.READ_COMMITTED)
-	public void delete(Site object) throws ValidationException {
+	public void delete(InstallationGroup object) throws ValidationException {
 
 		validate(object, "delete");
 		if (logger.isDebugEnabled()) {
-			logger.debug("Deleting Site " + object.getName());
+			logger.debug("Deleting Group " + object.getName());
 		}
-		Site dbInstance = getInstance(object);
-		dbInstance.setActive(false);
-		getHibernateTemplate().update(dbInstance);
-		
-		for (Installation installation : dbInstance.getInstallations()) {
-			//TODO:DELETE Installation
-		}
+		InstallationGroup dbInstance = getInstance(object);
+		getHibernateTemplate().delete(dbInstance);
 	}
+	
 	
 	/**
 	 * Return the DB instance from the DTO.
 	 * 
-	 * @return Site the object or <code>null</code>
+	 * @return InstallationGroup the object or <code>null</code>
 	 */
 	@Transactional(readOnly = true)
-	public Site getInstance(Site dto) {
+	public InstallationGroup getInstance(InstallationGroup dto) {
 		if (dto == null || dto.getId() == null) {
 			logger.info("DTO is null");
 			return null;
 		}
-		Site site = (Site) getHibernateTemplate().get(
-				Site.class, dto.getId());
-		return site;
+		InstallationGroup group = (InstallationGroup) getHibernateTemplate().get(
+				InstallationGroup.class, dto.getId());
+		return group;
 		
 	}
 

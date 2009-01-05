@@ -69,7 +69,7 @@
 			<meta attribute="field-description">
 				The current status of the site.  
 				It is equal to minimum status of its active installations.
-				It can be null if the site has no installations.
+				It can be null if this site has no installations.
 			</meta>
 		</property>
 

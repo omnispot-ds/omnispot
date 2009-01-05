@@ -9,12 +9,18 @@
 
 package com.kesdip.business.util.list;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.domain.generated.AccessRight;
+import com.kesdip.business.domain.generated.Customer;
+import com.kesdip.business.domain.generated.Installation;
+import com.kesdip.business.domain.generated.Site;
 import com.kesdip.business.domain.generated.User;
 import com.kesdip.business.logic.BaseLogicAction;
 
@@ -76,6 +82,37 @@ public class OptionListGenerator extends BaseLogicAction {
 			}
 		}
 		return accessRightList;
+	}
+	
+	/**
+	 * Get a map of installations keyed by customerId.
+	 * Map entries are in the form of {customerId, List<Installation>}
+	 * 
+	 * @return Map a map of installations
+	 */
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
+	public Map<Long, List<Installation>> getCustomerInstallationMap() {
+		Map<Long, List<Installation>> installationMap = new HashMap();
+		
+		List<Installation> installations = getHibernateTemplate().find(
+				"from " + Installation.class.getName() + " i " 
+						+ "where i.active = true");
+		if (logger.isDebugEnabled()) {
+			logger.debug("Retreived " + installations.size() + " installations");
+		}
+		for(Installation i:installations){
+			Long customerId = i.getSite().getCustomer().getId();
+			if (!installationMap.containsKey(customerId)){
+				installationMap.put(customerId, new ArrayList());
+			}	
+			installationMap.get(customerId).add(i);
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("Retreived " + installationMap.size() + " customers");
+		}
+		
+		return installationMap;
 	}
 
 }

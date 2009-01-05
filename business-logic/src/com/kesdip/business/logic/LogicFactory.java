@@ -94,6 +94,14 @@ public final class LogicFactory {
 				.getClassName(SiteLogic.class));
 	}
 	
+	/**
+	 * @return GroupLogic the instance
+	 */
+	public GroupLogic getGroupLogic() {
+		return (GroupLogic) beans.get(BeanUtils
+				.getClassName(GroupLogic.class));
+	}
+	
 	
 
 }
