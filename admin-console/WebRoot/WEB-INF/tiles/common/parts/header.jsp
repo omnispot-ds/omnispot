@@ -41,6 +41,9 @@
 		<a href="${pageContext.request.contextPath}/secure/home.do">
 			<fmt:message key="menu.manage.sites" bundle="${msg}"/>
 		</a>
+		<a href="${pageContext.request.contextPath}/secure/group-home.do">
+			<fmt:message key="menu.manage.groups" bundle="${msg}"/>
+		</a>
 		<a href="${pageContext.request.contextPath}/secure/user-home.do">
 			<fmt:message key="menu.manage.users" bundle="${msg}"/>
 		</a>

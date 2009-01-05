@@ -31,6 +31,7 @@
 				/error.do*								= errorController
 				/secure/user-home.do*					= homeController
 				/secure/home.do*						= homeController
+				/secure/group-home.do*					= homeController
 
 				/secure/user/create.do*					= createUserController
 				/secure/user/view.do*					= viewUserController
@@ -46,6 +47,11 @@
 				/secure/site/view.do*					= viewSiteController
 				/secure/site/delete.do*					= deleteSiteController
 				/secure/site/edit.do*					= editSiteController
+				
+				/secure/installationGroup/create.do*	= createGroupController
+				/secure/installationGroup/view.do*		= viewGroupController
+				/secure/installationGroup/delete.do*	= deleteGroupController
+				/secure/installationGroup/edit.do*		= editGroupController
 
 				/secure/quickSearch.do*					= quickSearchController
 			</value>
@@ -70,6 +76,7 @@
 			<value>
 				/secure/home.do							= /secure/home.tiles
 				/secure/user-home.do					= /secure/user-home.tiles
+				/secure/group-home.do					= /secure/group-home.tiles
 			</value>
 		</property> 
 	</bean>
@@ -207,5 +214,38 @@
 		<property name="commandClass"
 			value="com.kesdip.business.domain.generated.Site" />
 	</bean>
-
+	
+	<!-- =================== GROUP CONTROLLERS ==================== -->
+	<!-- Controller for Group creation -->
+	<bean id="createGroupController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.group.CreateController">
+		<property name="formView" value="/secure/installationGroup/create.tiles" />
+		<property name="successView" value="/secure/group-home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.InstallationGroup" />
+	</bean>
+	<!-- Controller for Group viewing -->
+	<bean id="viewGroupController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.group.ViewController">
+		<property name="formView" value="/secure/installationGroup/view.tiles" />
+		<property name="successView" value="/secure/group-home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.InstallationGroup" />
+	</bean>
+	<!-- Controller for Group deletion -->
+	<bean id="deleteGroupController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.group.DeleteController">
+		<property name="formView" value="/secure/installationGroup/view.tiles" />
+		<property name="successView" value="/secure/group-home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.InstallationGroup" />
+	</bean>
+	<!-- Controller for Group edition -->
+	<bean id="editGroupController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.group.EditController">
+		<property name="formView" value="/secure/installationGroup/edit.tiles" />
+		<property name="successView" value="/secure/group-home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.InstallationGroup" />
+	</bean>
 </beans>

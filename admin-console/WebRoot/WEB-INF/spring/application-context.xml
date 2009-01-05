@@ -55,6 +55,11 @@
 						class="com.kesdip.business.util.propertyeditor.AccessRightEditor"
 						parent="baseTypeEditor" scope="singleton" />
 				</entry>
+				<entry key="com.kesdip.business.domain.generated.Installation">
+					<bean
+						class="com.kesdip.business.util.propertyeditor.InstallationEditor"
+						parent="baseTypeEditor" scope="singleton" />
+				</entry>
 				<entry key="com.kesdip.business.domain.generated.Customer">
 					<bean
 						class="com.kesdip.business.util.propertyeditor.CustomerEditor"

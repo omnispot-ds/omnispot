@@ -28,11 +28,17 @@
 		<put name="body" value="/WEB-INF/tiles/home/site-body.jsp"/>
 		<put name="tree" value="/WEB-INF/tiles/tree/site-tree.jsp"/>
 	</definition>
+	
+	<definition name="groupTreeLayout" extends="treeLayout">
+		<put name="body" value="/WEB-INF/tiles/home/site-body.jsp"/>
+		<put name="tree" value="/WEB-INF/tiles/tree/group-tree.jsp"/>
+	</definition>
 
 	<!-- ================ AUXILIARY PAGES =============== -->
 	<!-- Home pages -->
 	<definition name="/secure/user-home.tiles" extends="userTreeLayout"/>
 	<definition name="/secure/home.tiles" extends="siteTreeLayout"/>
+	<definition name="/secure/group-home.tiles" extends="groupTreeLayout"/>
 
 	<!-- Login page -->
 	<definition name="/login.tiles" extends="simpleLayout">
@@ -81,19 +87,31 @@
 	<!-- ================== INSTALLATION PAGES ================= -->
 
 	<!-- ================== GROUP PAGES ================= -->
+	<!-- Create group page -->
+	<definition name="/secure/installationGroup/create.tiles" extends="groupTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installationGroup/create.jsp"/>
+	</definition>
+	<!-- View group page -->
+	<definition name="/secure/installationGroup/view.tiles" extends="groupTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installationGroup/view.jsp"/>
+	</definition>
 
+	<!-- Edit group page -->
+	<definition name="/secure/installationGroup/edit.tiles" extends="groupTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installationGroup/edit.jsp"/>
+	</definition>
 	<!-- ================== SITE PAGES ================= -->
-	<!-- Create customer page -->
+	<!-- Create site page -->
 	<definition name="/secure/site/create.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/site/create.jsp"/>
 	</definition>
 
-	<!-- View customer page -->
+	<!-- View site page -->
 	<definition name="/secure/site/view.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/site/view.jsp"/>
 	</definition>
 
-	<!-- Edit customer page -->
+	<!-- Edit site page -->
 	<definition name="/secure/site/edit.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/site/edit.jsp"/>
 	</definition>

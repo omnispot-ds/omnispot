@@ -46,5 +46,15 @@
 		parent="baseValidator"
 		class="com.kesdip.business.validation.site.EditValidator"
 		scope="singleton" />
+		
+	<bean id="createGroupValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.group.CreateValidator"
+		scope="singleton" />
+
+	<bean id="editGroupValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.group.EditValidator"
+		scope="singleton" />
 
 </beans>

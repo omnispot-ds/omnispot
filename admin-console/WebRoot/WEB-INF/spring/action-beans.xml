@@ -17,6 +17,7 @@
 				<ref bean="searchLogic"/>
 				<ref bean="customerLogic"/>
 				<ref bean="siteLogic"/>
+				<ref bean="groupLogic"/>
 			</list>
 		</property>
 	</bean>
@@ -95,7 +96,7 @@
 		</property>
 	</bean>
 	
-	<!-- Customer logic -->
+	<!-- Site logic -->
 	<bean id="siteLogic" 
 		parent="baseLogicBean"
 		class="com.kesdip.business.logic.SiteLogic">
@@ -112,6 +113,29 @@
 					<key><value>edit</value></key>
 					<list>
 						<ref bean="editSiteValidator"/>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Group logic -->
+	<bean id="groupLogic" 
+		parent="baseLogicBean"
+		class="com.kesdip.business.logic.GroupLogic">
+		
+		<property name="validators">
+			<map>
+				<entry>
+					<key><value>create</value></key>
+					<list>
+						<ref bean="createGroupValidator"/>
+					</list>
+				</entry>
+				<entry>
+					<key><value>edit</value></key>
+					<list>
+						<ref bean="editGroupValidator"/>
 					</list>
 				</entry>
 			</map>

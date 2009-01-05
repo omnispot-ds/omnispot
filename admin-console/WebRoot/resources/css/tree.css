@@ -47,7 +47,24 @@
 .icon-installation-down { 
 	padding-left: 22px;
 	background: transparent url(../images/icons/installation-down.png) 0 0px no-repeat; 
-} 
+}
+
+.icon-group { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/installationGroup.png) 0 0px no-repeat; 
+}
+.icon-group-ok { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/installationGroup-ok.png) 0 0px no-repeat; 
+}
+.icon-group-nok { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/installationGroup-nok.png) 0 0px no-repeat; 
+}
+.icon-group-down { 
+	padding-left: 22px;
+	background: transparent url(../images/icons/installationGroup-down.png) 0 0px no-repeat; 
+}
 
 /* ***** EOF TREE ICONS ***** */
 
