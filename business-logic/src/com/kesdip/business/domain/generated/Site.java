@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 2 …·Ì 2009 6:25:32 ÏÏ by Hibernate Tools 3.2.0.b9
+// Generated 3 …·Ì 2009 11:42:13 Ï by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;
@@ -46,7 +46,7 @@ public class Site  implements java.io.Serializable {
      /**
       * 				The current status of the site.  
  * 				It is equal to minimum status of its active installations.
- * 				It can be null if the site has no installations.
+ * 				It can be null if this site has no installations.
  * 			
      */
      private Short currentStatus;
@@ -136,7 +136,7 @@ public class Site  implements java.io.Serializable {
     /**       
      *      * 				The current status of the site.  
      * 				It is equal to minimum status of its active installations.
-     * 				It can be null if the site has no installations.
+     * 				It can be null if this site has no installations.
      * 			
      */
     public Short getCurrentStatus() {
