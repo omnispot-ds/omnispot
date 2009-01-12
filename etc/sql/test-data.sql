@@ -46,3 +46,26 @@ insert into INSTALLATION (ID, NAME, UUID, COMMENTS, ACTIVE, STATUS, SITE_ID) val
 insert into INSTALLATION (ID, NAME, UUID, COMMENTS, ACTIVE, STATUS, SITE_ID) values (15, '1ος όροφος', 'ADFG329999F23GHVS', 'Πηγαίνοντας προς το λογιστήριο', 1, -1, 7);
 insert into INSTALLATION (ID, NAME, UUID, COMMENTS, ACTIVE, STATUS, SITE_ID) values (16, 'Ισόγειο', 'ADFG32666TF235656', 'Αίθουσα αναμονής', 1, 0, 8);
 insert into INSTALLATION (ID, NAME, UUID, COMMENTS, ACTIVE, STATUS, SITE_ID) values (17, 'Κατάστημα', 'ADFG32666T2345HVS', 'Δίπλα στα ταμεία', 1, 0, 8);
+
+-- GROUPS
+insert into INST_GROUP (ID, NAME, COMMENTS, CUSTOMER_ID) values (1, 'Ένα γκρουπ', 'Δοκιμαστικό group', 1);
+insert into INST_GROUP (ID, NAME, COMMENTS, CUSTOMER_ID) values (2, 'Τυχαίοι players', 'Κάποιες εγκαταστάσεις στην τύχη', 1);
+insert into INST_GROUP (ID, NAME, COMMENTS, CUSTOMER_ID) values (3, 'Μητέρες', 'Μητέρες κ συγγενείς τους', 2);
+insert into INST_GROUP (ID, NAME, COMMENTS, CUSTOMER_ID) values (4, 'Νέοι', 'Μέσος όρος ηλικίας κάτω των 40', 2);
+insert into INST_GROUP (ID, NAME, COMMENTS, CUSTOMER_ID) values (5, 'Πελάτες', 'Διάφοροι πελάτες της εταιρείας', 3);
+insert into INST_GROUP (ID, NAME, COMMENTS, CUSTOMER_ID) values (6, 'Υπάλληλοι', 'Υπάλληλοι της εταιρείας', 3);
+insert into INST_GROUP (ID, NAME, COMMENTS, CUSTOMER_ID) values (7, 'Επισκέπτες', 'Περαστικοί κ επισκέπτες', 3);
+
+-- DEPLOYMENTS-to-GROUPS
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (1, 1);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (2, 1);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (3, 2);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (4, 2);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (8, 3);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (10, 4);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (11, 4);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (12, 4);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (13, 5);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (15, 6);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (16, 6);
+insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (17, 7);
