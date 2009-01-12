@@ -75,10 +75,11 @@
 					<fmt:message bundle="${msg}" key="group.installations" />
 				</label>
 				<div>
-					<form:select cssClass="element select medium" multiple="true" 
+					<form:select cssClass="element select large" multiple="true" 
 					id="installations" path="installations">
 						
-						<form:options  items="${listGenerator.customerInstallationMap[dataObject.customer.id]}" itemValue="id" itemLabel="name"/>
+						<form:options  items="${listGenerator.customerInstallationMap[dataObject.customer.id]}" 
+							itemValue="id" itemLabel="label"/>
 					
 					</form:select>
 				</div>

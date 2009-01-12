@@ -70,17 +70,17 @@
 
 	<!-- ================== CUSTOMER PAGES ==================== -->
 	<!-- Create customer page -->
-	<definition name="/secure/customer/create.tiles" extends="userTreeLayout">
+	<definition name="/secure/customer/create.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/customer/create.jsp"/>
 	</definition>
 
 	<!-- View customer page -->
-	<definition name="/secure/customer/view.tiles" extends="userTreeLayout">
+	<definition name="/secure/customer/view.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/customer/view.jsp"/>
 	</definition>
 
 	<!-- Edit customer page -->
-	<definition name="/secure/customer/edit.tiles" extends="userTreeLayout">
+	<definition name="/secure/customer/edit.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/customer/edit.jsp"/>
 	</definition>
 
