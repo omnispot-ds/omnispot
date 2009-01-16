@@ -57,4 +57,9 @@
 		class="com.kesdip.business.validation.group.EditValidator"
 		scope="singleton" />
 
+	<bean id="deployContentValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.deploy.DeployContentValidator"
+		scope="singleton" />
+
 </beans>

@@ -20,16 +20,20 @@ admin-console/WebRoot/WEB-INF/tiles/common/parts/header-no-user.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/common/parts/header.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/edit.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/customer/view-details.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/view.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/deploy/content.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/group-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/site-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/user-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/edit.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/installationGroup/view-details.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/login/login-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/edit.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/site/view-details.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/tree/group-tree.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/tree/site-tree.jsp -text
@@ -44,6 +48,7 @@ admin-console/WebRoot/resources/css/chrome-menu.css -text
 admin-console/WebRoot/resources/css/form.css -text
 admin-console/WebRoot/resources/css/layout.css -text
 admin-console/WebRoot/resources/css/tree.css -text
+admin-console/WebRoot/resources/images/`header-gradient.png -text
 admin-console/WebRoot/resources/images/banner.png -text
 admin-console/WebRoot/resources/images/calendar.gif -text
 admin-console/WebRoot/resources/images/form/blank.gif -text
@@ -173,6 +178,7 @@ admin-console/src/com/kesdip/admin/web/controller/customer/CreateController.java
 admin-console/src/com/kesdip/admin/web/controller/customer/DeleteController.java -text
 admin-console/src/com/kesdip/admin/web/controller/customer/EditController.java -text
 admin-console/src/com/kesdip/admin/web/controller/customer/ViewController.java -text
+admin-console/src/com/kesdip/admin/web/controller/deploy/DeployContentController.java -text
 admin-console/src/com/kesdip/admin/web/controller/group/CreateController.java -text
 admin-console/src/com/kesdip/admin/web/controller/group/DeleteController.java -text
 admin-console/src/com/kesdip/admin/web/controller/group/EditController.java -text

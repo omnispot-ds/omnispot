@@ -79,6 +79,11 @@
 		<put name="body" value="/WEB-INF/tiles/customer/view.jsp"/>
 	</definition>
 
+	<!-- View printscreens page -->
+	<definition name="/secure/customer/view-details.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/customer/view-details.jsp"/>
+	</definition>
+
 	<!-- Edit customer page -->
 	<definition name="/secure/customer/edit.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/customer/edit.jsp"/>
@@ -91,15 +96,22 @@
 	<definition name="/secure/installationGroup/create.tiles" extends="groupTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/installationGroup/create.jsp"/>
 	</definition>
+
 	<!-- View group page -->
 	<definition name="/secure/installationGroup/view.tiles" extends="groupTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/installationGroup/view.jsp"/>
+	</definition>
+
+	<!-- View printscreens page -->
+	<definition name="/secure/installationGroup/view-details.tiles" extends="groupTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installationGroup/view-details.jsp"/>
 	</definition>
 
 	<!-- Edit group page -->
 	<definition name="/secure/installationGroup/edit.tiles" extends="groupTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/installationGroup/edit.jsp"/>
 	</definition>
+	
 	<!-- ================== SITE PAGES ================= -->
 	<!-- Create site page -->
 	<definition name="/secure/site/create.tiles" extends="siteTreeLayout">
@@ -111,9 +123,25 @@
 		<put name="body" value="/WEB-INF/tiles/site/view.jsp"/>
 	</definition>
 
+	<!-- View printscreens page -->
+	<definition name="/secure/site/view-details.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/site/view-details.jsp"/>
+	</definition>
+
 	<!-- Edit site page -->
 	<definition name="/secure/site/edit.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/site/edit.jsp"/>
+	</definition>
+	
+	<!-- ================== DEPLOY CONTENT PAGES ================= -->
+	<!-- Deploy on customer/site page -->
+	<definition name="/secure/deploy/contentSite.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/deploy/content.jsp"/>
+	</definition>
+
+	<!-- Deploy on group page -->
+	<definition name="/secure/deploy/contentGroup.tiles" extends="groupTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/deploy/content.jsp"/>
 	</definition>
 	
 </tiles-definitions>

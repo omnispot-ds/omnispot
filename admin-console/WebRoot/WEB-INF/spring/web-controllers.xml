@@ -54,6 +54,8 @@
 				/secure/installationGroup/edit.do*		= editGroupController
 
 				/secure/quickSearch.do*					= quickSearchController
+				
+				/secure/deploy/content.do*				= contentDeploymentController
 			</value>
 		</property>
 	</bean>
@@ -248,4 +250,17 @@
 		<property name="commandClass"
 			value="com.kesdip.business.domain.generated.InstallationGroup" />
 	</bean>
+	
+	<!-- =================== DEPLOYMENT CONTROLLERS ==================== -->
+	<!-- Controller for Content deployment -->
+	<bean id="contentDeploymentController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.deploy.DeployContentController">
+		<property name="groupFormView" value="/secure/deploy/contentGroup.tiles" />
+		<property name="siteFormView" value="/secure/deploy/contentSite.tiles" />
+		<property name="groupSuccessView" value="/secure/group-home.do" />
+		<property name="siteSuccessView" value="/secure/home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.beans.ContentDeploymentBean" />
+	</bean>
+	
 </beans>

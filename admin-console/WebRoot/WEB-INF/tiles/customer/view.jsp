@@ -10,6 +10,19 @@
 
 <div id="form_container">
 
+	<div class="tab-navigation">
+		<ul class="tabs">
+			<li class="selected_tab">
+				<fmt:message bundle="${msg}" key="customer.tab.view"/>
+			 </li>
+			 <li>
+			 	<a href="${pageContext.request.contextPath}/secure/customer/view-details.do?id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="customer.tab.images"/>
+				</a>
+			</li>
+		</ul>
+	</div>
+
 	<form:form id="form"
 		action="${pageContext.request.contextPath}/secure/customer/delete.do"
 		commandName="dataObject" method="post" cssClass="appnitro">
@@ -75,6 +88,10 @@
 					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/installationGroup/create.do?customer.id=${dataObject.id}">
 						<fmt:message bundle="${msg}" key="button.create.group"/>
+					</a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/deploy/content.do?customer.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.deploy.content"/>
 					</a>
 					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/customer/edit.do?id=${dataObject.id}">

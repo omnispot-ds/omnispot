@@ -82,10 +82,12 @@ public abstract class BaseFormController extends SimpleFormController implements
 					be.getObjectName()), getCommandName());
 			for (Object oldError : be.getFieldErrors()) {
 				bindException.rejectValue(((FieldError) oldError).getField(),
+						((FieldError) oldError).getCode(),
 						((FieldError) oldError).getCode());
 			}
 			for (Object oldError : be.getGlobalErrors()) {
-				bindException.reject(((ObjectError) oldError).getCode());
+				bindException.reject(((ObjectError) oldError).getCode(),
+						((ObjectError) oldError).getCode());
 			}
 			ModelAndView mv = new ModelAndView(getFormView());
 			mv.addAllObjects(bindException.getModel());
@@ -125,10 +127,11 @@ public abstract class BaseFormController extends SimpleFormController implements
 				getCommandName());
 
 		for (Error e : validationException.getObjectErrors()) {
-			bindException.reject(e.getMessageKey());
+			bindException.reject(e.getMessageKey(), e.getMessageKey());
 		}
 		for (Error e : validationException.getFieldErrors()) {
-			bindException.rejectValue(e.getField(), e.getMessageKey());
+			bindException.rejectValue(e.getField(), e.getMessageKey(), e
+					.getMessageKey());
 		}
 
 		ModelAndView mv = new ModelAndView(getFormView());

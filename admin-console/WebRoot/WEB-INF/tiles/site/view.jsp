@@ -10,6 +10,19 @@
 
 <div id="form_container">
 
+	<div class="tab-navigation">
+		<ul class="tabs">
+			<li class="selected_tab">
+				<fmt:message bundle="${msg}" key="site.tab.view"/>
+			 </li>
+			 <li>
+			 	<a href="${pageContext.request.contextPath}/secure/site/view-details.do?id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="site.tab.images"/>
+				</a>
+			</li>
+		</ul>
+	</div>
+
 	<form:form id="form"
 		action="${pageContext.request.contextPath}/secure/site/delete.do"
 		commandName="dataObject" method="post" cssClass="appnitro">
@@ -83,6 +96,10 @@
 				<td class="label" colspan="2">
 					<a href="${pageContext.request.contextPath}/secure/installation/create.do?site.id=${dataObject.id}">
 						<fmt:message bundle="${msg}" key="button.create.installation"/>
+					</a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/deploy/content.do?site.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.deploy.content"/>
 					</a>
 					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/site/edit.do?id=${dataObject.id}">

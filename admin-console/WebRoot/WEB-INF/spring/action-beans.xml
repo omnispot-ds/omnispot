@@ -18,6 +18,8 @@
 				<ref bean="customerLogic"/>
 				<ref bean="siteLogic"/>
 				<ref bean="groupLogic"/>
+				<ref bean="installationLogic"/>
+				<ref bean="deploymentLogic"/>
 			</list>
 		</property>
 	</bean>
@@ -146,5 +148,27 @@
 	<bean id="searchLogic" 
 		parent="baseLogicBean"
 		class="com.kesdip.business.logic.SearchLogic"/>
+
+	<!-- Installation logic -->
+	<bean id="installationLogic" 
+		parent="baseLogicBean"
+		class="com.kesdip.business.logic.InstallationLogic"/>
+
+	<!-- Deployment logic -->
+	<bean id="deploymentLogic" 
+		parent="baseLogicBean"
+		class="com.kesdip.business.logic.DeploymentLogic">
+		
+		<property name="validators">
+			<map>
+				<entry>
+					<key><value>deployContent</value></key>
+					<list>
+						<ref bean="deployContentValidator"/>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
 
 </beans>
