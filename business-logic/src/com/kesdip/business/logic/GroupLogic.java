@@ -14,7 +14,7 @@ import com.kesdip.business.domain.generated.InstallationGroup;
 import com.kesdip.business.exception.ValidationException;
 
 /**
- * 
+ * Installation group related settings.
  * 
  * @author pavlos
  */
@@ -116,15 +116,17 @@ public class GroupLogic extends BaseLogicAction {
 	 * @return InstallationGroup the object or <code>null</code>
 	 */
 	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
 	public InstallationGroup getInstance(InstallationGroup dto) {
 		if (dto == null || dto.getId() == null) {
 			logger.info("DTO is null");
 			return null;
 		}
-		InstallationGroup group = (InstallationGroup) getHibernateTemplate().get(
-				InstallationGroup.class, dto.getId());
-		return group;
-		
+		List<InstallationGroup> groups = getHibernateTemplate().find("select g from " 
+				+ InstallationGroup.class.getName() + " g "
+				+ "left join fetch g.customer "
+				+ "where g = ?", dto);
+		return groups.isEmpty() ? null : groups.iterator().next();
 	}
 
 

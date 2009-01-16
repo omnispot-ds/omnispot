@@ -16,7 +16,7 @@ import com.kesdip.business.util.Errors;
 import com.kesdip.business.validation.BaseValidator;
 
 /**
- * Validator for the user deletion.
+ * Validator for the customer deletion.
  * 
  * @author gerogias
  */

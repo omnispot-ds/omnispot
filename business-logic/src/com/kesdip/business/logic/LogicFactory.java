@@ -102,6 +102,19 @@ public final class LogicFactory {
 				.getClassName(GroupLogic.class));
 	}
 	
+	/**
+	 * @return InstallationLogic the instance
+	 */
+	public InstallationLogic getInstallationLogic() {
+		return (InstallationLogic) beans.get(BeanUtils
+				.getClassName(InstallationLogic.class));
+	}
 	
-
+	/**
+	 * @return DeploymentLogic the instance
+	 */
+	public DeploymentLogic getDeploymentLogic() {
+		return (DeploymentLogic) beans.get(BeanUtils
+				.getClassName(DeploymentLogic.class));
+	}
 }

@@ -225,8 +225,15 @@ business-logic/.classpath -text
 business-logic/.project -text
 business-logic/build.xml -text
 business-logic/shared.jars -text
+business-logic/src/com/kesdip/business/beans/ContentDeploymentBean.java -text
 business-logic/src/com/kesdip/business/beans/ListItemBean.java -text
 business-logic/src/com/kesdip/business/beans/QuickSearchBean.java -text
+business-logic/src/com/kesdip/business/config/ApplicationSettings.java -text
+business-logic/src/com/kesdip/business/config/ComponentSettings.java -text
+business-logic/src/com/kesdip/business/config/FileStorageSettings.java -text
+business-logic/src/com/kesdip/business/config/ServerSettings.java -text
+business-logic/src/com/kesdip/business/config/SettingsLoadingException.java -text
+business-logic/src/com/kesdip/business/config/console-settings.xml -text
 business-logic/src/com/kesdip/business/constenum/IInstallationStatus.java -text
 business-logic/src/com/kesdip/business/constenum/IRolesEnum.java -text
 business-logic/src/com/kesdip/business/domain/AccessControl.hbm.xml -text
@@ -257,7 +264,9 @@ business-logic/src/com/kesdip/business/exception/InvalidEntityIdentifierExceptio
 business-logic/src/com/kesdip/business/exception/ValidationException.java -text
 business-logic/src/com/kesdip/business/logic/BaseLogicAction.java -text
 business-logic/src/com/kesdip/business/logic/CustomerLogic.java -text
+business-logic/src/com/kesdip/business/logic/DeploymentLogic.java -text
 business-logic/src/com/kesdip/business/logic/GroupLogic.java -text
+business-logic/src/com/kesdip/business/logic/InstallationLogic.java -text
 business-logic/src/com/kesdip/business/logic/LogicFactory.java -text
 business-logic/src/com/kesdip/business/logic/SearchLogic.java -text
 business-logic/src/com/kesdip/business/logic/SiteLogic.java -text
@@ -280,6 +289,7 @@ business-logic/src/com/kesdip/business/validation/ValidationUtils.java -text
 business-logic/src/com/kesdip/business/validation/Validator.java -text
 business-logic/src/com/kesdip/business/validation/customer/CreateValidator.java -text
 business-logic/src/com/kesdip/business/validation/customer/EditValidator.java -text
+business-logic/src/com/kesdip/business/validation/deploy/DeployContentValidator.java -text
 business-logic/src/com/kesdip/business/validation/group/CreateValidator.java -text
 business-logic/src/com/kesdip/business/validation/group/EditValidator.java -text
 business-logic/src/com/kesdip/business/validation/site/CreateValidator.java -text

@@ -16,7 +16,7 @@ import com.kesdip.business.util.Errors;
 import com.kesdip.business.validation.BaseValidator;
 
 /**
- * Validation for the User creation action.
+ * Validation for the Customer creation action.
  * 
  * @author gerogias
  */

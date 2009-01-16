@@ -12,12 +12,12 @@ import com.kesdip.business.domain.generated.Site;
 import com.kesdip.business.exception.ValidationException;
 
 /**
- * Customer-related logic.
+ * Site-related logic.
  * 
  * @author pkattoul
  */
 public class SiteLogic extends BaseLogicAction {
-	
+
 	/**
 	 * The logger.
 	 */
@@ -33,7 +33,7 @@ public class SiteLogic extends BaseLogicAction {
 				"select c from " + SiteLogic.class.getName() + " c "
 						+ "where c.active = true");
 	}
-	
+
 	/**
 	 * Create a new Site in the database.
 	 * 
@@ -51,8 +51,8 @@ public class SiteLogic extends BaseLogicAction {
 		// set affiliation
 		Customer dbCustomer = null;
 		if (object.getCustomer() != null) {
-			dbCustomer = getLogicFactory().getCustomerLogic()
-					.getInstance(object.getCustomer());
+			dbCustomer = getLogicFactory().getCustomerLogic().getInstance(
+					object.getCustomer());
 			object.setCustomer(dbCustomer);
 		}
 		object.setActive(true);
@@ -64,7 +64,7 @@ public class SiteLogic extends BaseLogicAction {
 		}
 		return object;
 	}
-	
+
 	/**
 	 * Update a Site in the database.
 	 * 
@@ -87,10 +87,9 @@ public class SiteLogic extends BaseLogicAction {
 		getHibernateTemplate().update(dbSite);
 		return object;
 	}
-	
+
 	/**
-	 * Marks a Site as deleted.
-	 * Also deletes all its Installations.
+	 * Marks a Site as deleted. Also deletes all its Installations.
 	 * 
 	 * @param object
 	 *            the DTO
@@ -107,28 +106,28 @@ public class SiteLogic extends BaseLogicAction {
 		Site dbInstance = getInstance(object);
 		dbInstance.setActive(false);
 		getHibernateTemplate().update(dbInstance);
-		
+
 		for (Installation installation : dbInstance.getInstallations()) {
-			//TODO:DELETE Installation
+			// TODO:DELETE Installation
 		}
 	}
-	
+
 	/**
 	 * Return the DB instance from the DTO.
 	 * 
 	 * @return Site the object or <code>null</code>
 	 */
 	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
 	public Site getInstance(Site dto) {
 		if (dto == null || dto.getId() == null) {
 			logger.info("DTO is null");
 			return null;
 		}
-		Site site = (Site) getHibernateTemplate().get(
-				Site.class, dto.getId());
-		return site;
-		
+		List<Site> sites = getHibernateTemplate().find(
+				"select s from " + Site.class.getName() + " s "
+						+ "left join fetch s.customer " + "where s = ?", dto);
+		return sites.isEmpty() ? null : sites.iterator().next();
 	}
-
 
 }

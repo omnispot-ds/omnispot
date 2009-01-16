@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings>
+
+	<file-storage>
+		<ps-root-folder>c:/tmp/console/print-screens</ps-root-folder>
+		<content-root-folder>c:/tmp/console/content</content-root-folder>
+	</file-storage>
+
+	<server>
+		<content-base>http://localhost:8080/content/</content-base>
+	</server>
+	
+</settings>
