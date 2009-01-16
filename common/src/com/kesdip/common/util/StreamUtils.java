@@ -12,6 +12,7 @@ package com.kesdip.common.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +22,8 @@ import java.net.URL;
 import java.util.zip.CRC32;
 
 import org.apache.log4j.Logger;
+
+import com.kesdip.common.exception.GenericSystemException;
 
 /**
  * A class with methods to work with streams.
@@ -126,7 +129,7 @@ public class StreamUtils {
 			logger.error(file + " is not a valid file");
 			throw new IllegalArgumentException(file + " is not a valid file");
 		}
-		
+
 		if (logger.isDebugEnabled()) {
 			logger.debug("Streaming file " + file.getAbsolutePath());
 		}
@@ -158,14 +161,15 @@ public class StreamUtils {
 	 * @param out
 	 *            output
 	 * @param crc
-	 * 			  the CRC checksum to update during the stream copy
+	 *            the CRC checksum to update during the stream copy; ignored if
+	 *            <code>null</code>
 	 * @throws IOException
 	 *             on error
 	 * @throws IllegalArgumentException
 	 *             if the arguments are <code>null</code>
 	 */
-	public static final void copyStream(InputStream in, OutputStream out, CRC32 crc)
-			throws IOException, IllegalArgumentException {
+	public static final void copyStream(InputStream in, OutputStream out,
+			CRC32 crc) throws IOException, IllegalArgumentException {
 		if (in == null || out == null) {
 			logger.error("Arguments cannot be null");
 			throw new IllegalArgumentException("Arguments cannot be null");
@@ -187,7 +191,7 @@ public class StreamUtils {
 			throw new IOException(ex.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Copies the contents of in to out. The streams are not closed.
 	 * 
@@ -203,5 +207,129 @@ public class StreamUtils {
 	public static final void copyStream(InputStream in, OutputStream out)
 			throws IOException, IllegalArgumentException {
 		copyStream(in, out, null);
+	}
+
+	/**
+	 * Copies the contents from the source file to the destination file.
+	 * 
+	 * @param source
+	 *            source file
+	 * @param dest
+	 *            destination file
+	 * @throws IOException
+	 *             on error
+	 * @throws IllegalArgumentException
+	 *             if the arguments are <code>null</code> or the source is not
+	 *             a file
+	 */
+	public static final void copyFile(File source, File dest)
+			throws GenericSystemException, IllegalArgumentException {
+		if (source == null || dest == null) {
+			logger.error("Files cannot be null");
+			throw new IllegalArgumentException("Files cannot be null");
+		}
+		if (!source.isFile()) {
+			logger.error("Source is not a valid file");
+			throw new IllegalArgumentException("Source is not a valid file");
+		}
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(dest);
+			streamFile(source, out);
+		} catch (Exception e) {
+			logger.error("Error copying file", e);
+			throw new GenericSystemException("Error copying file", e);
+		} finally {
+			try {
+				out.close();
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+	}
+
+	/**
+	 * Copies the stream to the destination file. The stream is not closed.
+	 * 
+	 * @param inputStream
+	 *            the stream
+	 * @param dest
+	 *            the file
+	 * @throws IllegalArgumentException
+	 *             if the arguments are null
+	 * @throws GenericSystemException
+	 *             on error
+	 */
+	public final static void copyToFile(InputStream inputStream, File dest)
+			throws IllegalArgumentException, GenericSystemException {
+		copyToFile(inputStream, dest, null);
+	}
+
+	/**
+	 * Copies the stream to the destination file. The stream is not closed.
+	 * During copying it updates the given CRC.
+	 * 
+	 * @param inputStream
+	 *            the stream
+	 * @param dest
+	 *            the file
+	 * @param crc
+	 *            the CRC to update; ignored if <code>null</code>
+	 * @throws IllegalArgumentException
+	 *             if the arguments are null
+	 * @throws GenericSystemException
+	 *             on error
+	 */
+	public final static void copyToFile(InputStream inputStream, File dest,
+			CRC32 crc) throws IllegalArgumentException, GenericSystemException {
+
+		FileOutputStream outputStream = null;
+		try {
+			outputStream = new FileOutputStream(dest);
+			copyStream(inputStream, outputStream, crc);
+		} catch (Exception e) {
+			logger.error("Error copying stream", e);
+			throw new GenericSystemException("Error copying stream", e);
+		} finally {
+			try {
+				outputStream.close();
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+	}
+
+	/**
+	 * Get the CRC from an input stream. The stream's pointer is assumed to be
+	 * at the first byte. The stream is read fully and is not closed.
+	 * 
+	 * @param input
+	 *            the stream
+	 * @return CRC32 the calculated CRC, never <code>null</code>
+	 * @throws IllegalArgumentException
+	 *             if the stream is <code>null</code>
+	 * @throws GenericSystemException
+	 *             on error
+	 */
+	public static final CRC32 getCrc(InputStream in)
+			throws GenericSystemException, IllegalArgumentException {
+
+		if (in == null) {
+			logger.error("Stream cannot be null");
+			throw new IllegalArgumentException("Stream cannot be null");
+		}
+
+		CRC32 crc = new CRC32();
+		try {
+			byte[] buffer = new byte[2048];
+			int readCount = 0;
+			while ((readCount = in.read(buffer)) != -1) {
+				crc.update(buffer, 0, readCount);
+			}
+		} catch (Exception ex) {
+			logger.error("Error calculating CRC", ex);
+			throw new GenericSystemException("Error calculating CRC", ex);
+		}
+		return crc;
 	}
 }
