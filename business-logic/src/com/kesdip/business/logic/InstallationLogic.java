@@ -63,7 +63,7 @@ public class InstallationLogic extends BaseLogicAction {
 		}
 		List<Long> results = getHibernateTemplate().find(
 				"select count(i) from " + Installation.class.getName() + " i "
-						+ "where i.site = ?", site);
+						+ "where i.site = ? " + "and i.active = true", site);
 		return results.get(0).intValue();
 	}
 
@@ -80,7 +80,8 @@ public class InstallationLogic extends BaseLogicAction {
 		}
 		List<Long> results = getHibernateTemplate().find(
 				"select count(i) from " + Installation.class.getName() + " i "
-						+ "inner join i.groups g " + "where g = ?", group);
+						+ "inner join i.groups g " + "where g = ? "
+						+ "and i.active = true", group);
 		return results.get(0).intValue();
 	}
 
@@ -97,7 +98,28 @@ public class InstallationLogic extends BaseLogicAction {
 		}
 		List<Long> results = getHibernateTemplate().find(
 				"select count(i) from " + Installation.class.getName() + " i "
-						+ "where i.site.customer = ?", customer);
+						+ "where i.site.customer = ? " + "and i.active = true",
+				customer);
 		return results.get(0).intValue();
 	}
+
+	/**
+	 * @param customer
+	 *            the customer to look for
+	 * @return Set the child installations or <code>null</code> if the
+	 *         argument was <code>null</code>
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Installation> getInstallations(Customer customer) {
+		if (customer == null) {
+			logger.info("DTO is null");
+			return null;
+		}
+		List<Installation> results = getHibernateTemplate().find(
+				"select i from " + Installation.class.getName() + " i "
+						+ "where i.site.customer = ? " + "and i.active = true",
+				customer);
+		return results;
+	}
+
 }

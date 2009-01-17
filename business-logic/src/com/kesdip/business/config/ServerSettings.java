@@ -22,13 +22,17 @@ public class ServerSettings extends ComponentSettings {
 	/**
 	 * The logger.
 	 */
-	private final static Logger logger = Logger
-			.getLogger(ServerSettings.class);
+	private final static Logger logger = Logger.getLogger(ServerSettings.class);
 
 	/**
-	 * Folder under which all printscreens are located.
+	 * Virtual path under which all content is located.
 	 */
 	private String contentBase = null;
+
+	/**
+	 * Virtual path under which all printscreens are located.
+	 */
+	private String printScreenBase = null;
 
 	/**
 	 * @return String the name of the settings component
@@ -47,8 +51,10 @@ public class ServerSettings extends ComponentSettings {
 	void load(XMLConfiguration configuration) {
 
 		logger.trace("Loading server.content-base");
-		this.contentBase = configuration
-				.getString("server.content-base");
+		this.contentBase = configuration.getString("server.content-base");
+		logger.trace("Loading server.printScreen-base");
+		this.printScreenBase = configuration
+				.getString("server.printScreen-base");
 	}
 
 	/**
@@ -56,6 +62,13 @@ public class ServerSettings extends ComponentSettings {
 	 */
 	public String getContentBase() {
 		return contentBase;
+	}
+
+	/**
+	 * @return the printScreenBase
+	 */
+	public String getPrintScreenBase() {
+		return printScreenBase;
 	}
 
 }

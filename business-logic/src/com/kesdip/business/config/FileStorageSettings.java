@@ -38,6 +38,16 @@ public class FileStorageSettings extends ComponentSettings {
 	private String contentFolder = null;
 
 	/**
+	 * The name of the current printscreen.
+	 */
+	private String printScreenName = null;
+
+	/**
+	 * The default print-screen.
+	 */
+	private String defaultPrintScreen = null;
+	
+	/**
 	 * @return String the name of the settings component
 	 * @see gr.panouepe.monitor.common.settings.ComponentSettings#getName()
 	 */
@@ -59,6 +69,12 @@ public class FileStorageSettings extends ComponentSettings {
 		logger.trace("Loading file-storage.content-root-folder");
 		this.contentFolder = configuration
 				.getString("file-storage.content-root-folder");
+		logger.trace("Loading file-storage.printScreen-name");
+		this.printScreenName = configuration
+				.getString("file-storage.printScreen-name");
+		logger.trace("Loading file-storage.default-printScreen");
+		this.defaultPrintScreen = configuration
+				.getString("file-storage.default-printScreen");
 		createFolders();
 	}
 
@@ -94,5 +110,19 @@ public class FileStorageSettings extends ComponentSettings {
 	 */
 	public String getPrintScreenFolder() {
 		return printScreenFolder;
+	}
+
+	/**
+	 * @return the printScreenName
+	 */
+	public String getPrintScreenName() {
+		return printScreenName;
+	}
+
+	/**
+	 * @return the defaultPrintScreen
+	 */
+	public String getDefaultPrintScreen() {
+		return defaultPrintScreen;
 	}
 }

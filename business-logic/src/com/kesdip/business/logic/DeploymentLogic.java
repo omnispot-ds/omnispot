@@ -80,11 +80,7 @@ public class DeploymentLogic extends BaseLogicAction {
 			logger.error("Error getting InputStream", e);
 			throw new GenericSystemException("Error getting InputStream", e);
 		} finally {
-			try {
-				input.close();
-			} catch (Exception e) {
-				// do nothing
-			}
+			StreamUtils.close(input);
 		}
 		Deployment deployment = null;
 		try {

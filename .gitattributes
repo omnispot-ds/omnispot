@@ -233,7 +233,9 @@ business-logic/build.xml -text
 business-logic/shared.jars -text
 business-logic/src/com/kesdip/business/beans/ContentDeploymentBean.java -text
 business-logic/src/com/kesdip/business/beans/ListItemBean.java -text
+business-logic/src/com/kesdip/business/beans/PrintScreen.java -text
 business-logic/src/com/kesdip/business/beans/QuickSearchBean.java -text
+business-logic/src/com/kesdip/business/beans/ViewPrintScreenBean.java -text
 business-logic/src/com/kesdip/business/config/ApplicationSettings.java -text
 business-logic/src/com/kesdip/business/config/ComponentSettings.java -text
 business-logic/src/com/kesdip/business/config/FileStorageSettings.java -text
@@ -274,6 +276,7 @@ business-logic/src/com/kesdip/business/logic/DeploymentLogic.java -text
 business-logic/src/com/kesdip/business/logic/GroupLogic.java -text
 business-logic/src/com/kesdip/business/logic/InstallationLogic.java -text
 business-logic/src/com/kesdip/business/logic/LogicFactory.java -text
+business-logic/src/com/kesdip/business/logic/PrintScreenLogic.java -text
 business-logic/src/com/kesdip/business/logic/SearchLogic.java -text
 business-logic/src/com/kesdip/business/logic/SiteLogic.java -text
 business-logic/src/com/kesdip/business/logic/UserLogic.java -text

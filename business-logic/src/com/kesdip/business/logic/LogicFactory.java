@@ -66,8 +66,7 @@ public final class LogicFactory {
 	 * @return UserLogic the instance
 	 */
 	public UserLogic getUserLogic() {
-		return (UserLogic) beans.get(BeanUtils
-				.getClassName(UserLogic.class));
+		return (UserLogic) beans.get(BeanUtils.getClassName(UserLogic.class));
 	}
 
 	/**
@@ -85,23 +84,21 @@ public final class LogicFactory {
 		return (SearchLogic) beans.get(BeanUtils
 				.getClassName(SearchLogic.class));
 	}
-	
+
 	/**
 	 * @return SiteLogic the instance
 	 */
 	public SiteLogic getSiteLogic() {
-		return (SiteLogic) beans.get(BeanUtils
-				.getClassName(SiteLogic.class));
+		return (SiteLogic) beans.get(BeanUtils.getClassName(SiteLogic.class));
 	}
-	
+
 	/**
 	 * @return GroupLogic the instance
 	 */
 	public GroupLogic getGroupLogic() {
-		return (GroupLogic) beans.get(BeanUtils
-				.getClassName(GroupLogic.class));
+		return (GroupLogic) beans.get(BeanUtils.getClassName(GroupLogic.class));
 	}
-	
+
 	/**
 	 * @return InstallationLogic the instance
 	 */
@@ -109,7 +106,7 @@ public final class LogicFactory {
 		return (InstallationLogic) beans.get(BeanUtils
 				.getClassName(InstallationLogic.class));
 	}
-	
+
 	/**
 	 * @return DeploymentLogic the instance
 	 */
@@ -117,4 +114,13 @@ public final class LogicFactory {
 		return (DeploymentLogic) beans.get(BeanUtils
 				.getClassName(DeploymentLogic.class));
 	}
+
+	/**
+	 * @return PrintScreenLogic the instance
+	 */
+	public PrintScreenLogic getPrintScreenLogic() {
+		return (PrintScreenLogic) beans.get(BeanUtils
+				.getClassName(PrintScreenLogic.class));
+	}
+
 }

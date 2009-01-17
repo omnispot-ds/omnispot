@@ -23,6 +23,7 @@ import com.kesdip.business.util.Errors;
 import com.kesdip.business.validation.BaseValidator;
 import com.kesdip.common.exception.GenericSystemException;
 import com.kesdip.common.util.FileUtils;
+import com.kesdip.common.util.StreamUtils;
 
 /**
  * Validation for the content deployment action.
@@ -82,11 +83,7 @@ public class DeployContentValidator extends BaseValidator {
 				logger.error("Error opening file stream", e);
 				throw new GenericSystemException(e);
 			} finally {
-				try {
-					input.close();
-				} catch (Exception e) {
-					logger.error("Error closing file stream", e);
-				}
+				StreamUtils.close(input);
 			}
 			// XML parsing
 			try {

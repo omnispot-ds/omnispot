@@ -32,7 +32,7 @@ public class GroupLogic extends BaseLogicAction {
 	@SuppressWarnings("unchecked")
 	public List<InstallationGroup> getAllGroups() {
 		return getHibernateTemplate().find(
-				"select c from " + GroupLogic.class.getName() + " c "
+				"select c from " + InstallationGroup.class.getName() + " c "
 						+ "where c.active = true");
 	}
 	
