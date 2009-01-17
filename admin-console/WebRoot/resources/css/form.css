@@ -909,3 +909,70 @@ background: #dedede;
 font-weight: bold;
 }
 
+/*** Printscreen thumbnails ***/
+
+div.thumbnail-area {
+	overflow: visible; 
+	width: 100%;
+}
+
+.thumbnail-group {
+	display: block;
+	margin-top: 1%;
+	padding: 3px;
+}
+
+.thumbnail-spacer {
+	display: inline;
+	width: 25px;	
+}
+
+.thumbnail {
+	position: relative;
+	display: inline;
+	z-index: 0;
+}
+
+.thumbnail:hover {
+	background-color: transparent;
+	z-index: 50;
+}
+
+.thumbnail img.thumb {
+	width: 15%;
+	height: 15%;
+	border: 0px;
+}
+
+.thumbnail span {
+	position: absolute;
+	background-color: #eee;
+	padding: 2px;
+	left: -1000px;
+	border: 1px solid #ddd;
+	visibility: hidden;
+	text-decoration: none;
+}
+
+.thumbnail label
+{
+	color:#444;
+	display: block;
+	font-size:9px;
+	line-height:9px;
+	margin:0;
+	padding-top:3px;
+	text-decoration: none;
+}
+
+.thumbnail img.full {
+	height: 480px;
+	border-width: 0px;
+	padding: 2px;
+}
+
+.thumbnail:hover span {
+	visibility: visible;
+	top: 20px;
+	left: 0px;	
+}

@@ -42,16 +42,19 @@
 				/secure/customer/view.do*				= viewCustomerController
 				/secure/customer/delete.do*				= deleteCustomerController
 				/secure/customer/edit.do*				= editCustomerController
+				/secure/customer/view-images.do*		= viewPrintScreenController
 				
 				/secure/site/create.do*					= createSiteController
 				/secure/site/view.do*					= viewSiteController
 				/secure/site/delete.do*					= deleteSiteController
 				/secure/site/edit.do*					= editSiteController
+				/secure/site/view-images.do*			= viewPrintScreenController
 				
 				/secure/installationGroup/create.do*	= createGroupController
 				/secure/installationGroup/view.do*		= viewGroupController
 				/secure/installationGroup/delete.do*	= deleteGroupController
 				/secure/installationGroup/edit.do*		= editGroupController
+				/secure/installationGroup/view-images.do* = viewPrintScreenController
 
 				/secure/quickSearch.do*					= quickSearchController
 				
@@ -261,6 +264,28 @@
 		<property name="siteSuccessView" value="/secure/home.do" />
 		<property name="commandClass"
 			value="com.kesdip.business.beans.ContentDeploymentBean" />
+	</bean>
+	
+	<!-- =================== PRINTSCREEN CONTROLLERS ==================== -->
+	<!-- Controller for Printscreen viewing -->
+	<bean id="viewPrintScreenController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.printscreens.ViewPrintScreenController">
+		<property name="allFormViews">
+			<map>
+				<entry key="installationGroup" value="/secure/installationGroup/view-images.tiles"/>
+				<entry key="customer" value="/secure/customer/view-images.tiles"/>
+				<entry key="site" value="/secure/site/view-images.tiles"/>
+			</map>
+		</property>
+		<property name="allSuccessViews">
+			<map>
+				<entry key="installationGroup" value="/secure/installationGroup/view-images.tiles"/>
+				<entry key="customer" value="/secure/customer/view-images.tiles"/>
+				<entry key="site" value="/secure/site/view-images.tiles"/>
+			</map>
+		</property>
+		<property name="commandClass"
+			value="com.kesdip.business.beans.ViewPrintScreenBean" />
 	</bean>
 	
 </beans>

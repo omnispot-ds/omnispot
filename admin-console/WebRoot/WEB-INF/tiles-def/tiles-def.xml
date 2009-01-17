@@ -80,8 +80,8 @@
 	</definition>
 
 	<!-- View printscreens page -->
-	<definition name="/secure/customer/view-details.tiles" extends="siteTreeLayout">
-		<put name="body" value="/WEB-INF/tiles/customer/view-details.jsp"/>
+	<definition name="/secure/customer/view-images.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/customer/view-images.jsp"/>
 	</definition>
 
 	<!-- Edit customer page -->
@@ -103,8 +103,8 @@
 	</definition>
 
 	<!-- View printscreens page -->
-	<definition name="/secure/installationGroup/view-details.tiles" extends="groupTreeLayout">
-		<put name="body" value="/WEB-INF/tiles/installationGroup/view-details.jsp"/>
+	<definition name="/secure/installationGroup/view-images.tiles" extends="groupTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installationGroup/view-images.jsp"/>
 	</definition>
 
 	<!-- Edit group page -->
@@ -124,8 +124,8 @@
 	</definition>
 
 	<!-- View printscreens page -->
-	<definition name="/secure/site/view-details.tiles" extends="siteTreeLayout">
-		<put name="body" value="/WEB-INF/tiles/site/view-details.jsp"/>
+	<definition name="/secure/site/view-images.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/site/view-images.jsp"/>
 	</definition>
 
 	<!-- Edit site page -->

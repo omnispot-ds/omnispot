@@ -16,7 +16,7 @@
 				<fmt:message bundle="${msg}" key="site.tab.view"/>
 			 </li>
 			 <li>
-			 	<a href="${pageContext.request.contextPath}/secure/site/view-details.do?id=${dataObject.id}">
+			 	<a href="${pageContext.request.contextPath}/secure/site/view-images.do?site.id=${dataObject.id}">
 					<fmt:message bundle="${msg}" key="site.tab.images"/>
 				</a>
 			</li>

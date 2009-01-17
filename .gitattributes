@@ -20,7 +20,7 @@ admin-console/WebRoot/WEB-INF/tiles/common/parts/header-no-user.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/common/parts/header.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/edit.jsp -text
-admin-console/WebRoot/WEB-INF/tiles/customer/view-details.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/customer/view-images.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/deploy/content.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/group-body.jsp -text
@@ -28,12 +28,12 @@ admin-console/WebRoot/WEB-INF/tiles/home/site-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/user-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/edit.jsp -text
-admin-console/WebRoot/WEB-INF/tiles/installationGroup/view-details.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/installationGroup/view-images.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/login/login-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/edit.jsp -text
-admin-console/WebRoot/WEB-INF/tiles/site/view-details.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/site/view-images.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/tree/group-tree.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/tree/site-tree.jsp -text
@@ -77,10 +77,10 @@ admin-console/WebRoot/resources/images/icons/switched_ov.gif -text
 admin-console/WebRoot/resources/images/icons/user.png -text
 admin-console/WebRoot/resources/images/icons/~installation.png -text
 admin-console/WebRoot/resources/images/login_loading.gif -text
-admin-console/WebRoot/resources/images/logo.jpg -text
 admin-console/WebRoot/resources/images/menu/chromebg-over.gif -text
 admin-console/WebRoot/resources/images/menu/chromebg.gif -text
 admin-console/WebRoot/resources/images/menu/down.gif -text
+admin-console/WebRoot/resources/images/reload.gif -text
 admin-console/WebRoot/resources/images/yui-tree/lm.gif -text
 admin-console/WebRoot/resources/images/yui-tree/lmh.gif -text
 admin-console/WebRoot/resources/images/yui-tree/ln.gif -text
@@ -185,6 +185,7 @@ admin-console/src/com/kesdip/admin/web/controller/group/EditController.java -tex
 admin-console/src/com/kesdip/admin/web/controller/group/ViewController.java -text
 admin-console/src/com/kesdip/admin/web/controller/home/HomeController.java -text
 admin-console/src/com/kesdip/admin/web/controller/login/LoginController.java -text
+admin-console/src/com/kesdip/admin/web/controller/printscreens/ViewPrintScreenController.java -text
 admin-console/src/com/kesdip/admin/web/controller/search/QuickSearchController.java -text
 admin-console/src/com/kesdip/admin/web/controller/site/CreateController.java -text
 admin-console/src/com/kesdip/admin/web/controller/site/DeleteController.java -text
@@ -195,6 +196,7 @@ admin-console/src/com/kesdip/admin/web/controller/user/DeleteController.java -te
 admin-console/src/com/kesdip/admin/web/controller/user/EditController.java -text
 admin-console/src/com/kesdip/admin/web/controller/user/ViewController.java -text
 admin-console/src/com/kesdip/admin/web/filter/EncodingFilter.java -text
+admin-console/src/com/kesdip/admin/web/servlet/PrintScreenServlet.java -text
 admin-console/src/com/kesdip/admin/web/tag/security/IsUserInRoleTag.java -text
 admin-console/src/com/kesdip/admin/web/tag/treeview/TreeViewTag.java -text
 admin-console/src/com/kesdip/admin/web/tag/treeview/node-template.txt -text

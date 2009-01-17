@@ -69,9 +69,20 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>PrintScreenServlet</servlet-name>
+        <servlet-class>com.kesdip.admin.web.servlet.PrintScreenServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>SpringServlet</servlet-name>
         <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>PrintScreenServlet</servlet-name>
+        <url-pattern>/secure/printScreen/*</url-pattern>
     </servlet-mapping>
 
 	<session-config>

@@ -16,7 +16,7 @@
 				<fmt:message bundle="${msg}" key="group.tab.view"/>
 			 </li>
 			 <li>
-			 	<a href="${pageContext.request.contextPath}/secure/installationGroup/view-details.do?id=${dataObject.id}">
+			 	<a href="${pageContext.request.contextPath}/secure/installationGroup/view-images.do?installationGroup.id=${dataObject.id}">
 					<fmt:message bundle="${msg}" key="group.tab.images"/>
 				</a>
 			</li>

@@ -20,6 +20,7 @@
 				<ref bean="groupLogic"/>
 				<ref bean="installationLogic"/>
 				<ref bean="deploymentLogic"/>
+				<ref bean="printScreenLogic"/>
 			</list>
 		</property>
 	</bean>
@@ -153,6 +154,11 @@
 	<bean id="installationLogic" 
 		parent="baseLogicBean"
 		class="com.kesdip.business.logic.InstallationLogic"/>
+
+	<!-- Prinstscreen logic -->
+	<bean id="printScreenLogic" 
+		parent="baseLogicBean"
+		class="com.kesdip.business.logic.PrintScreenLogic"/>
 
 	<!-- Deployment logic -->
 	<bean id="deploymentLogic" 
