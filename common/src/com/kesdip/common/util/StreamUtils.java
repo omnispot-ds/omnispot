@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.URL;
 import java.util.zip.CRC32;
 
@@ -51,8 +53,8 @@ public class StreamUtils {
 
 		BufferedReader reader = null;
 		StringBuffer buffer = new StringBuffer();
-		if (logger.isDebugEnabled()) {
-			logger.debug("Reading from stream " + in);
+		if (logger.isTraceEnabled()) {
+			logger.trace("Reading from stream " + in);
 		}
 		try {
 			reader = new BufferedReader(new InputStreamReader(in));
@@ -64,11 +66,7 @@ public class StreamUtils {
 		} catch (IOException ioe) {
 			logger.error("Error reading string", ioe);
 		} finally {
-			try {
-				reader.close();
-			} catch (Exception e) {
-				// do nothing
-			}
+			close(reader);
 		}
 		return buffer.toString();
 	}
@@ -85,8 +83,8 @@ public class StreamUtils {
 	public static final String readResource(URL resourceUrl) throws IOException {
 		StringBuilder builder = new StringBuilder();
 		BufferedReader reader = null;
-		if (logger.isDebugEnabled()) {
-			logger.debug("Reading from resource " + resourceUrl);
+		if (logger.isTraceEnabled()) {
+			logger.trace("Reading from resource " + resourceUrl);
 		}
 		try {
 			// replace spaces in path
@@ -97,11 +95,7 @@ public class StreamUtils {
 				builder.append(temp).append("\n");
 			}
 		} finally {
-			try {
-				reader.close();
-			} catch (Exception e) {
-				// do nothing
-			}
+			close(reader);
 		}
 		return builder.toString();
 	}
@@ -130,8 +124,8 @@ public class StreamUtils {
 			throw new IllegalArgumentException(file + " is not a valid file");
 		}
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("Streaming file " + file.getAbsolutePath());
+		if (logger.isTraceEnabled()) {
+			logger.trace("Streaming file " + file.getAbsolutePath());
 		}
 		FileInputStream fis = null;
 		try {
@@ -144,11 +138,7 @@ public class StreamUtils {
 			logger.error("Error streaming file", ex);
 			throw new IOException(ex);
 		} finally {
-			try {
-				fis.close();
-			} catch (Exception e) {
-				// do nothing
-			}
+			close(fis);
 		}
 	}
 
@@ -174,7 +164,7 @@ public class StreamUtils {
 			logger.error("Arguments cannot be null");
 			throw new IllegalArgumentException("Arguments cannot be null");
 		}
-		logger.debug("Copying between streams");
+		logger.trace("Copying between streams");
 		try {
 			byte[] buffer = new byte[2048];
 			int readCount = 0;
@@ -232,6 +222,10 @@ public class StreamUtils {
 			logger.error("Source is not a valid file");
 			throw new IllegalArgumentException("Source is not a valid file");
 		}
+		if (logger.isTraceEnabled()) {
+			logger.trace("Copying file " + source.getAbsolutePath()
+					+ " to file " + dest.getAbsolutePath());
+		}
 		FileOutputStream out = null;
 		try {
 			out = new FileOutputStream(dest);
@@ -240,11 +234,7 @@ public class StreamUtils {
 			logger.error("Error copying file", e);
 			throw new GenericSystemException("Error copying file", e);
 		} finally {
-			try {
-				out.close();
-			} catch (Exception e) {
-				// do nothing
-			}
+			close(out);
 		}
 	}
 
@@ -283,6 +273,15 @@ public class StreamUtils {
 	public final static void copyToFile(InputStream inputStream, File dest,
 			CRC32 crc) throws IllegalArgumentException, GenericSystemException {
 
+		if (inputStream == null || dest == null) {
+			logger.error("Arguments cannot be null");
+			throw new IllegalArgumentException("Arguments cannot be null");
+		}
+
+		if (logger.isTraceEnabled()) {
+			logger.trace("Copying stream to file " + dest.getAbsolutePath());
+		}
+		
 		FileOutputStream outputStream = null;
 		try {
 			outputStream = new FileOutputStream(dest);
@@ -291,11 +290,7 @@ public class StreamUtils {
 			logger.error("Error copying stream", e);
 			throw new GenericSystemException("Error copying stream", e);
 		} finally {
-			try {
-				outputStream.close();
-			} catch (Exception e) {
-				// do nothing
-			}
+			close(outputStream);
 		}
 	}
 
@@ -330,6 +325,66 @@ public class StreamUtils {
 			logger.error("Error calculating CRC", ex);
 			throw new GenericSystemException("Error calculating CRC", ex);
 		}
+		if (logger.isTraceEnabled()) {
+			logger.trace("CRC is " + crc.getValue());
+		}
 		return crc;
 	}
+
+	/**
+	 * Attempts to close the stream, suppressing all exceptions.
+	 * 
+	 * @param in
+	 *            the stream
+	 */
+	public static final void close(InputStream in) {
+		try {
+			in.close();
+		} catch (Exception e) {
+			// do nothing
+		}
+	}
+
+	/**
+	 * Attempts to close the stream, suppressing all exceptions.
+	 * 
+	 * @param out
+	 *            the stream
+	 */
+	public static final void close(OutputStream out) {
+		try {
+			out.close();
+		} catch (Exception e) {
+			// do nothing
+		}
+	}
+
+	/**
+	 * Attempts to close the reader, suppressing all exceptions.
+	 * 
+	 * @param in
+	 *            the reader
+	 */
+	public static final void close(Reader in) {
+		try {
+			in.close();
+		} catch (Exception e) {
+			// do nothing
+		}
+	}
+
+	/**
+	 * Attempts to close the writer, suppressing all exceptions.
+	 * 
+	 * @param out
+	 *            the writer
+	 */
+	public static final void close(Writer out) {
+		try {
+			out.close();
+		} catch (Exception e) {
+			// do nothing
+		}
+	}
+
 }

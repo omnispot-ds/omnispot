@@ -33,6 +33,11 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
 
 	/**
+	 * Format for date-time-to-text formatting.
+	 */
+	public static final String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
+
+	/**
 	 * Calculates the difference in time units between the two dates.
 	 * 
 	 * @param d1

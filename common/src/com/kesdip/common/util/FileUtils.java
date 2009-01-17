@@ -229,11 +229,7 @@ public class FileUtils {
 					"Error calculating CRC32 for file "
 							+ file.getAbsolutePath(), e);
 		} finally {
-			try {
-				in.close();
-			} catch (Exception e) {
-				// do nothing
-			}
+			StreamUtils.close(in);
 		}
 		return crc;
 	}
