@@ -133,15 +133,24 @@
 		<put name="body" value="/WEB-INF/tiles/site/edit.jsp"/>
 	</definition>
 	
-	<!-- ================== DEPLOY CONTENT PAGES ================= -->
-	<!-- Deploy on customer/site page -->
-	<definition name="/secure/deploy/contentSite.tiles" extends="siteTreeLayout">
-		<put name="body" value="/WEB-INF/tiles/deploy/content.jsp"/>
+	<!-- ================== ACTION PAGES ================= -->
+	<!-- Deploy content on customer/site page -->
+	<definition name="/secure/action/deployContentSite.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/action/deploy-content.jsp"/>
 	</definition>
 
-	<!-- Deploy on group page -->
-	<definition name="/secure/deploy/contentGroup.tiles" extends="groupTreeLayout">
-		<put name="body" value="/WEB-INF/tiles/deploy/content.jsp"/>
+	<!-- Deploy content on group page -->
+	<definition name="/secure/action/deployContentGroup.tiles" extends="groupTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/action/deploy-content.jsp"/>
 	</definition>
 	
+	<!-- Schedule action on group page -->
+	<definition name="/secure/action/scheduleActionGroup.tiles" extends="groupTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/action/schedule-action.jsp"/>
+	</definition>
+
+	<!-- Schedule action on customer/site/installation page -->
+	<definition name="/secure/action/scheduleActionSite.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/action/schedule-action.jsp"/>
+	</definition>
 </tiles-definitions>

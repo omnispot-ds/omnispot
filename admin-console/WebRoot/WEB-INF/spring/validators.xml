@@ -59,7 +59,7 @@
 
 	<bean id="deployContentValidator"
 		parent="baseValidator"
-		class="com.kesdip.business.validation.deploy.DeployContentValidator"
+		class="com.kesdip.business.validation.action.DeployContentValidator"
 		scope="singleton" />
 
 </beans>

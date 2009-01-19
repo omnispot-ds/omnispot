@@ -25,7 +25,7 @@
 <div class="heading">
 	
 	<!-- Menu headers -->
-	<div class="chromestyle" id="chromemenu">
+	<div class="chromestyle" id="headermenu">
 		<ul>
 			<li><a href="#" rel="data_menu">
 				<fmt:message key="menu.manage" bundle="${msg}"/>
@@ -59,7 +59,7 @@
 	</div>
 
 	<script type="text/javascript">
-		cssdropdown.startchrome("chromemenu");
+		cssdropdown.startchrome("headermenu");
 	</script>
 </div>
 

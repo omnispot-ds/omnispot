@@ -19,7 +19,7 @@
 				<ref bean="siteLogic"/>
 				<ref bean="groupLogic"/>
 				<ref bean="installationLogic"/>
-				<ref bean="deploymentLogic"/>
+				<ref bean="actionLogic"/>
 				<ref bean="printScreenLogic"/>
 			</list>
 		</property>
@@ -160,10 +160,10 @@
 		parent="baseLogicBean"
 		class="com.kesdip.business.logic.PrintScreenLogic"/>
 
-	<!-- Deployment logic -->
-	<bean id="deploymentLogic" 
+	<!-- Action logic -->
+	<bean id="actionLogic" 
 		parent="baseLogicBean"
-		class="com.kesdip.business.logic.DeploymentLogic">
+		class="com.kesdip.business.logic.ActionLogic">
 		
 		<property name="validators">
 			<map>

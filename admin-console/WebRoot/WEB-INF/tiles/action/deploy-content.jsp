@@ -11,7 +11,7 @@
 <div id="form_container">
 
 	<form:form id="form"
-		action="${pageContext.request.contextPath}/secure/deploy/content.do"
+		action="${pageContext.request.contextPath}/secure/action/deploy-content.do"
 		commandName="dataObject" method="post" cssClass="appnitro" 
 		enctype="multipart/form-data">
 		

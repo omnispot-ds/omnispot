@@ -3,11 +3,11 @@
  * Copyright 2008 - KESDIP E.P.E & Stelios Gerogiannakis - All rights reserved.
  * eof Disclaimer
  * 
- * Date: Jan 13, 2009
+ * Date: Jan 18, 2009
  * @author <a href="mailto:sgerogia@gmail.com">Stelios Gerogiannakis</a>
  */
 
-package com.kesdip.admin.web.controller.deploy;
+package com.kesdip.admin.web.controller.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +24,8 @@ import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.domain.generated.InstallationGroup;
 import com.kesdip.business.domain.generated.Site;
 import com.kesdip.business.exception.ValidationException;
+import com.kesdip.business.logic.ActionLogic;
 import com.kesdip.business.logic.CustomerLogic;
-import com.kesdip.business.logic.DeploymentLogic;
 import com.kesdip.business.logic.GroupLogic;
 import com.kesdip.business.logic.InstallationLogic;
 import com.kesdip.business.logic.SiteLogic;
@@ -42,26 +42,6 @@ public class DeployContentController extends BaseFormController {
 	 * Serialization version.
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * The success page when dealing with groups.
-	 */
-	private String groupSuccessView = null;
-
-	/**
-	 * The success page when dealing with sites/customers/installations.
-	 */
-	private String siteSuccessView = null;
-
-	/**
-	 * The form page when dealing with groups.
-	 */
-	private String groupFormView = null;
-
-	/**
-	 * The form page when dealing with sites/customers/installations.
-	 */
-	private String siteFormView = null;
 
 	/**
 	 * Performs object creation.
@@ -82,7 +62,7 @@ public class DeployContentController extends BaseFormController {
 			throws Exception {
 
 		ContentDeploymentBean bean = (ContentDeploymentBean) command;
-		DeploymentLogic logic = getLogicFactory().getDeploymentLogic();
+		ActionLogic logic = getLogicFactory().getActionLogic();
 		try {
 			Deployment dbDeployment = logic.deployContent(bean);
 		} catch (ValidationException ve) {
@@ -93,9 +73,10 @@ public class DeployContentController extends BaseFormController {
 
 		// return the right success view
 		if (bean.getInstallationGroup() != null) {
-			return new ModelAndView(getGroupSuccessView());
+			return new ModelAndView(getAllSuccessViews().get(
+					"installationGroup"));
 		} else {
-			return new ModelAndView(getSiteSuccessView());
+			return new ModelAndView(getAllSuccessViews().get("site"));
 		}
 	}
 
@@ -183,70 +164,10 @@ public class DeployContentController extends BaseFormController {
 	private final void setFormViewInternal(ContentDeploymentBean bean) {
 
 		if (bean.getInstallationGroup() != null) {
-			setFormView(getGroupFormView());
+			setFormView(getAllFormViews().get("installationGroup"));
 		} else {
-			setFormView(getSiteFormView());
+			setFormView(getAllFormViews().get("site"));
 		}
-	}
-
-	/**
-	 * @return the groupSuccessView
-	 */
-	public String getGroupSuccessView() {
-		return groupSuccessView;
-	}
-
-	/**
-	 * @param groupSuccessView
-	 *            the groupSuccessView to set
-	 */
-	public void setGroupSuccessView(String groupSuccessView) {
-		this.groupSuccessView = groupSuccessView;
-	}
-
-	/**
-	 * @return the siteSuccessView
-	 */
-	public String getSiteSuccessView() {
-		return siteSuccessView;
-	}
-
-	/**
-	 * @param siteSuccessView
-	 *            the siteSuccessView to set
-	 */
-	public void setSiteSuccessView(String siteSuccessView) {
-		this.siteSuccessView = siteSuccessView;
-	}
-
-	/**
-	 * @return the groupFormView
-	 */
-	public String getGroupFormView() {
-		return groupFormView;
-	}
-
-	/**
-	 * @param groupFormView
-	 *            the groupFormView to set
-	 */
-	public void setGroupFormView(String groupFormView) {
-		this.groupFormView = groupFormView;
-	}
-
-	/**
-	 * @return the siteFormView
-	 */
-	public String getSiteFormView() {
-		return siteFormView;
-	}
-
-	/**
-	 * @param siteFormView
-	 *            the siteFormView to set
-	 */
-	public void setSiteFormView(String siteFormView) {
-		this.siteFormView = siteFormView;
 	}
 
 }

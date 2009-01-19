@@ -57,6 +57,46 @@ public abstract class BaseFormController extends SimpleFormController implements
 	private OptionListGenerator listGenerator = null;
 
 	/**
+	 * A map with the form views.
+	 */
+	private Map<String, String> allFormViews = null;
+
+	/**
+	 * A map with the success views.
+	 */
+	private Map<String, String> allSuccessViews = null;
+
+	/**
+	 * @return the allFormViews
+	 */
+	public Map<String, String> getAllFormViews() {
+		return allFormViews;
+	}
+
+	/**
+	 * @param allFormViews
+	 *            the allFormViews to set
+	 */
+	public void setAllFormViews(Map<String, String> allFormViews) {
+		this.allFormViews = allFormViews;
+	}
+
+	/**
+	 * @return the allSuccessViews
+	 */
+	public Map<String, String> getAllSuccessViews() {
+		return allSuccessViews;
+	}
+
+	/**
+	 * @param allSuccessViews
+	 *            the allSuccessViews to set
+	 */
+	public void setAllSuccessViews(Map<String, String> allSuccessViews) {
+		this.allSuccessViews = allSuccessViews;
+	}
+
+	/**
 	 * Handles basic validation errors for a request. Sends the request back to
 	 * the original form with the model populated with the errors and the
 	 * modified command object.

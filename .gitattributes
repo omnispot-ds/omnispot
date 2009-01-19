@@ -11,6 +11,8 @@ admin-console/WebRoot/WEB-INF/spring/validators.xml -text
 admin-console/WebRoot/WEB-INF/spring/web-controllers.xml -text
 admin-console/WebRoot/WEB-INF/taglib/controls.tld -text
 admin-console/WebRoot/WEB-INF/tiles-def/tiles-def.xml -text
+admin-console/WebRoot/WEB-INF/tiles/action/deploy-content.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/action/schedule-action.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/common/layouts/layout-simple.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/common/layouts/layout-tree.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/common/parts/empty-body.jsp -text
@@ -22,7 +24,6 @@ admin-console/WebRoot/WEB-INF/tiles/customer/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/edit.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/view-images.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/view.jsp -text
-admin-console/WebRoot/WEB-INF/tiles/deploy/content.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/group-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/site-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/user-body.jsp -text
@@ -49,8 +50,10 @@ admin-console/WebRoot/resources/css/form.css -text
 admin-console/WebRoot/resources/css/layout.css -text
 admin-console/WebRoot/resources/css/tree.css -text
 admin-console/WebRoot/resources/images/`header-gradient.png -text
+admin-console/WebRoot/resources/images/add.png -text
 admin-console/WebRoot/resources/images/banner.png -text
 admin-console/WebRoot/resources/images/calendar.gif -text
+admin-console/WebRoot/resources/images/delete.gif -text
 admin-console/WebRoot/resources/images/form/blank.gif -text
 admin-console/WebRoot/resources/images/form/bottom.png -text
 admin-console/WebRoot/resources/images/form/calendar.gif -text
@@ -174,11 +177,12 @@ admin-console/included.jars -text
 admin-console/shared.jars -text
 admin-console/src/com/kesdip/admin/web/constenum/IObjectKeysEnum.java -text
 admin-console/src/com/kesdip/admin/web/controller/BaseFormController.java -text
+admin-console/src/com/kesdip/admin/web/controller/action/DeployContentController.java -text
+admin-console/src/com/kesdip/admin/web/controller/action/SimpleActionController.java -text
 admin-console/src/com/kesdip/admin/web/controller/customer/CreateController.java -text
 admin-console/src/com/kesdip/admin/web/controller/customer/DeleteController.java -text
 admin-console/src/com/kesdip/admin/web/controller/customer/EditController.java -text
 admin-console/src/com/kesdip/admin/web/controller/customer/ViewController.java -text
-admin-console/src/com/kesdip/admin/web/controller/deploy/DeployContentController.java -text
 admin-console/src/com/kesdip/admin/web/controller/group/CreateController.java -text
 admin-console/src/com/kesdip/admin/web/controller/group/DeleteController.java -text
 admin-console/src/com/kesdip/admin/web/controller/group/EditController.java -text

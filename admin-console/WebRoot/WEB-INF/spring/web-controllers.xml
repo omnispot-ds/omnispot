@@ -58,7 +58,8 @@
 
 				/secure/quickSearch.do*					= quickSearchController
 				
-				/secure/deploy/content.do*				= contentDeploymentController
+				/secure/action/deploy-content.do*		= contentDeploymentController
+				/secure/action/schedule.do*				= simpleActionsController
 			</value>
 		</property>
 	</bean>
@@ -254,18 +255,47 @@
 			value="com.kesdip.business.domain.generated.InstallationGroup" />
 	</bean>
 	
-	<!-- =================== DEPLOYMENT CONTROLLERS ==================== -->
+	<!-- =================== ACTION CONTROLLERS ==================== -->
 	<!-- Controller for Content deployment -->
 	<bean id="contentDeploymentController" parent="baseFormController"
-		class="com.kesdip.admin.web.controller.deploy.DeployContentController">
-		<property name="groupFormView" value="/secure/deploy/contentGroup.tiles" />
-		<property name="siteFormView" value="/secure/deploy/contentSite.tiles" />
-		<property name="groupSuccessView" value="/secure/group-home.do" />
-		<property name="siteSuccessView" value="/secure/home.do" />
+		class="com.kesdip.admin.web.controller.action.DeployContentController">
+		<property name="allFormViews">
+			<map>
+				<entry key="installationGroup" value="/secure/action/deployContentGroup.tiles"/>
+				<entry key="site" value="/secure/action/deployContentSite.tiles"/>
+			</map>
+		</property>
+		<property name="allSuccessViews">
+			<map>
+				<entry key="installationGroup" value="/secure/group-home.do"/>
+				<entry key="site" value="/secure/home.do"/>
+			</map>
+		</property>
 		<property name="commandClass"
 			value="com.kesdip.business.beans.ContentDeploymentBean" />
 	</bean>
 	
+	<!-- Controller for Simple actions -->
+	<bean id="simpleActionsController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.action.SimpleActionController">
+		<property name="allFormViews">
+			<map>
+				<entry key="installationGroup" value="/secure/action/scheduleActionGroup.tiles"/>
+				<entry key="site" value="/secure/action/scheduleActionSite.tiles"/>
+			</map>
+		</property>
+		<property name="allSuccessViews">
+			<map>
+				<entry key="installationGroup" value="/secure/group-home.do"/>
+				<entry key="site" value="/secure/home.do"/>
+			</map>
+		</property>
+		<property name="commandClass"
+			value="com.kesdip.business.beans.ActionBean" />
+		<property name="sessionForm" value="true" />
+		<property name="validateOnBinding" value="false" />
+	</bean>
+
 	<!-- =================== PRINTSCREEN CONTROLLERS ==================== -->
 	<!-- Controller for Printscreen viewing -->
 	<bean id="viewPrintScreenController" parent="baseFormController"

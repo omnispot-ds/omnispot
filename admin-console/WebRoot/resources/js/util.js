@@ -59,3 +59,15 @@ function autoRefreshPage() {
 	}
 }
 
+/**
+ * Perfrom a form action.
+ * Set actionValue as the value of the hidden with actionId and submit the 
+ * form with id formId.
+ */ 
+function doFormAction(actionId, actionValue, formId) {
+	var hiddenEl = document.getElementById(actionId);
+	var formEl = document.getElementById(formId);
+	hiddenEl.value = actionValue;
+	formEl.submit();
+	return false;
+}

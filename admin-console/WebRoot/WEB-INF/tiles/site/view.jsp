@@ -41,6 +41,66 @@
 			</p>
 		</div>
 
+		<div class="heading">
+			<!-- Menu headers -->
+			<div class="chromestyle" id="viewmenu">
+				<ul>
+					<li><a href="#" rel="entity_menu">
+						<fmt:message key="menu.entity" bundle="${msg}"/>
+					</a></li>
+					<li><a href="#" rel="action_menu">
+						<fmt:message key="menu.actions" bundle="${msg}"/>
+					</a></li>
+				</ul>
+			</div>
+		
+			<!-- Entity menu -->                                                   
+			<div id="entity_menu" class="dropmenudiv">
+				<a href="${pageContext.request.contextPath}/secure/installation/create.do?site.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="button.create.installation"/>
+				</a>
+
+				<a href="${pageContext.request.contextPath}/secure/site/edit.do?id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="button.edit"/>
+				</a>
+
+				<a href="#" onclick="return confirmDelete('<fmt:message bundle="${msg}" key="site.delete.prompt"/>')">
+					<fmt:message bundle="${msg}" key="button.delete"/>
+				</a>
+			</div>
+		
+			<!-- Actions menu -->                                                   
+			<div id="action_menu" class="dropmenudiv">
+				<a href="${pageContext.request.contextPath}/secure/action/deploy-content.do?site.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="button.deploy.content"/>
+				</a>
+
+				<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=1&site.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="button.start.installations"/>
+				</a>
+
+				<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=2&site.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="button.stop.installations"/>
+				</a>
+
+				<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=3&site.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="button.reboot.installations"/>
+				</a>
+
+				<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=4&site.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="button.reconf.installations"/>
+				</a>
+
+				<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=5&site.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="button.fetch.logs"/>
+				</a>
+			</div>
+		
+			<script type="text/javascript">
+				cssdropdown.startchrome("viewmenu");
+			</script>
+		</div>
+
 		<table width="100%">
 			<!-- Customer -->
 			<c:if test="${not empty dataObject.customer}">
@@ -95,20 +155,38 @@
 			<tr>
 				<td class="label" colspan="2">
 					<a href="${pageContext.request.contextPath}/secure/installation/create.do?site.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.create.installation"/>
-					</a>
-					&nbsp;
-					<a href="${pageContext.request.contextPath}/secure/deploy/content.do?site.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.deploy.content"/>
-					</a>
+						<fmt:message bundle="${msg}" key="button.create.installation"/></a>
 					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/site/edit.do?id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.edit"/>
-					</a>
+						<fmt:message bundle="${msg}" key="button.edit"/></a>
 					&nbsp;
 					<a href="#" onclick="return confirmDelete('<fmt:message bundle="${msg}" key="site.delete.prompt"/>')">
-						<fmt:message bundle="${msg}" key="button.delete"/>
+						<fmt:message bundle="${msg}" key="button.delete"/></a>
+					<br/>
+					<!-- Actions -->
+					<a href="${pageContext.request.contextPath}/secure/action/deploy-content.do?site.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.deploy.content"/></a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=1&site.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.start.installations"/>
 					</a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=2&site.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.stop.installations"/>
+					</a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=3&site.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.reboot.installations"/>
+					</a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=4&site.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.reconf.installations"/>
+					</a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=5&site.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.fetch.logs"/>
+					</a>
+					&nbsp;
 				</td>
 			</tr>
 		</table>
