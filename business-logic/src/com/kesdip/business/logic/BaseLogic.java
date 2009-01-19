@@ -23,17 +23,17 @@ import com.kesdip.business.validation.ValidationUtils;
 import com.kesdip.business.validation.Validator;
 
 /**
- * Base class for all actions implementations.
+ * Base class for all logic implementations.
  * 
  * @author gerogias
  */
-public abstract class BaseLogicAction {
+public abstract class BaseLogic {
 
 	/**
 	 * The logger.
 	 */
 	private final static Logger logger = Logger
-			.getLogger(BaseLogicAction.class);
+			.getLogger(BaseLogic.class);
 
 	/**
 	 * Utility Hibernate template.
@@ -53,7 +53,7 @@ public abstract class BaseLogicAction {
 	/**
 	 * Default constructor.
 	 */
-	public BaseLogicAction() {
+	public BaseLogic() {
 		validators = new HashMap<String, Collection<Validator>>();
 	}
 

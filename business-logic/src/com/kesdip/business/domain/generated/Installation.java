@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 15 Î”ÎµÎº 2008 10:07:07 Î¼Î¼ by Hibernate Tools 3.2.0.b9
+// Generated 18 Éáí 2009 11:13:36 ìì by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;
@@ -40,6 +40,7 @@ public class Installation  implements java.io.Serializable {
      private boolean active;
      /**
       * 				The current status of the installation.
+ * 				@see IInstallationStatus
  * 			
      */
      private short currentStatus;
@@ -154,6 +155,7 @@ public class Installation  implements java.io.Serializable {
     }
     /**       
      *      * 				The current status of the installation.
+     * 				@see IInstallationStatus
      * 			
      */
     public short getCurrentStatus() {

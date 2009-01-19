@@ -3,24 +3,32 @@
  * Copyright 2008 - KESDIP E.P.E & Stelios Gerogiannakis - All rights reserved.
  * eof Disclaimer
  * 
- * Date: Dec 8, 2008
+ * Date: Jan 18, 2009
  * @author <a href="mailto:sgerogia@gmail.com">Stelios Gerogiannakis</a>
  */
+
 package com.kesdip.business.logic;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.zip.CRC32;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kesdip.business.beans.ActionBean;
+import com.kesdip.business.beans.BaseMultitargetBean;
 import com.kesdip.business.beans.ContentDeploymentBean;
 import com.kesdip.business.config.ApplicationSettings;
+import com.kesdip.business.constenum.IActionStatusEnum;
+import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.domain.generated.Customer;
 import com.kesdip.business.domain.generated.Deployment;
 import com.kesdip.business.domain.generated.Installation;
@@ -28,28 +36,29 @@ import com.kesdip.business.domain.generated.InstallationGroup;
 import com.kesdip.business.domain.generated.Site;
 import com.kesdip.business.exception.ValidationException;
 import com.kesdip.common.exception.GenericSystemException;
+import com.kesdip.common.util.DateUtils;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StreamUtils;
 
 /**
- * Deployment-related logic.
+ * Action-related logic.
  * 
- * @author sgerogia
+ * @author gerogias
  */
-public class DeploymentLogic extends BaseLogicAction {
+public class ActionLogic extends BaseLogic {
 
 	/**
 	 * The logger.
 	 */
-	private final static Logger logger = Logger
-			.getLogger(DeploymentLogic.class);
+	private static final Logger logger = Logger.getLogger(ActionLogic.class);
 
 	/**
 	 * Deploys a content file.
 	 * <p>
 	 * Depending on the selected object (customer, site, group, installation),
-	 * deploys to as many {@link Installations} as needed. It copies the file to
-	 * the proper folder, ensuring it has a unique file name to avoid clashes.
+	 * deploys to as many {@link Installation}s as needed. It copies the file
+	 * to the proper folder, ensuring it has a unique file name to avoid
+	 * clashes.
 	 * </p>
 	 * 
 	 * @param object
@@ -102,13 +111,43 @@ public class DeploymentLogic extends BaseLogicAction {
 	}
 
 	/**
+	 * Schedules an action for a player or a set of players.
+	 * <p>
+	 * Depending on the selected object (customer, site, group, installation),
+	 * creates an {@link Action} for as many {@link Installation}s as needed.
+	 * </p>
+	 * 
+	 * @param object
+	 *            the DTO
+	 * @throws ValidationException
+	 *             on validation error
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public void scheduleAction(ActionBean object) throws ValidationException {
+
+		validate(object, "scheduleAction");
+		Set<Installation> installations = getInstallations(object);
+		Action action = null;
+		Date currentDate = new Date();
+		for (Installation installation : installations) {
+			action = new Action();
+			action.setDateAdded(currentDate);
+			action.setInstallation(installation);
+			action.setStatus(IActionStatusEnum.IN_PROGRESS);
+			action.setType(object.getAction().getType());
+			action.setActionId(getActionId());
+			action.setId((Long) getHibernateTemplate().save(action));
+		}
+	}
+
+	/**
 	 * Return all installations for the given object.
 	 * 
 	 * @param bean
 	 *            the bean
 	 * @return Set a set of Installations
 	 */
-	private final Set<Installation> getInstallations(ContentDeploymentBean bean) {
+	private final Set<Installation> getInstallations(BaseMultitargetBean bean) {
 
 		Set<Installation> installations = new HashSet<Installation>();
 		if (bean.getInstallation() != null) {
@@ -131,5 +170,13 @@ public class DeploymentLogic extends BaseLogicAction {
 			}
 		}
 		return installations;
+	}
+
+	/**
+	 * @return String the actionId (date_UUID)
+	 */
+	private final String getActionId() {
+		return new SimpleDateFormat(DateUtils.DATE_FORMAT).format(new Date())
+				+ '_' + UUID.randomUUID().toString();
 	}
 }

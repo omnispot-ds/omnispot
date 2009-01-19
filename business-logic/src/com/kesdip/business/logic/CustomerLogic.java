@@ -24,7 +24,7 @@ import com.kesdip.business.exception.ValidationException;
  * 
  * @author gerogias
  */
-public class CustomerLogic extends BaseLogicAction {
+public class CustomerLogic extends BaseLogic {
 
 	/**
 	 * The logger.

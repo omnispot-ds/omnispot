@@ -25,7 +25,7 @@ import com.kesdip.common.util.StringUtils;
  * 
  * @author gerogias
  */
-public class SearchLogic extends BaseLogicAction {
+public class SearchLogic extends BaseLogic {
 
 	/**
 	 * The logger.

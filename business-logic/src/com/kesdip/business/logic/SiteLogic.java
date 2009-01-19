@@ -16,7 +16,7 @@ import com.kesdip.business.exception.ValidationException;
  * 
  * @author pkattoul
  */
-public class SiteLogic extends BaseLogicAction {
+public class SiteLogic extends BaseLogic {
 
 	/**
 	 * The logger.

@@ -34,6 +34,7 @@
         	<meta attribute="use-in-tostring">true</meta>
         	<meta attribute="field-description">
         		The type of the action.
+        		@see com.kesdip.business.constenum.IActionTypesEnum
         	</meta>
         </property>
 
@@ -42,6 +43,7 @@
         	<meta attribute="use-in-tostring">true</meta>
         	<meta attribute="field-description">
         		The status of the action.
+        		@see com.kesdip.business.constenum.IActionStatusEnum
         	</meta>
         </property>
 
@@ -54,7 +56,7 @@
         </property>
 
 		<property name="message" column="MESSAGE" type="java.lang.String"
-			not-null="true" lazy="false" length="3000">
+			not-null="false" lazy="false" length="3000">
 			<meta attribute="use-in-tostring">true</meta>
 			<meta attribute="field-description">
 				The message of the action in case of error.

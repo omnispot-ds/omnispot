@@ -16,7 +16,7 @@ import java.util.Map;
 import com.kesdip.common.util.BeanUtils;
 
 /**
- * Factory class for all {@link BaseLogicAction} descendants. Logic classes are
+ * Factory class for all {@link BaseLogic} descendants. Logic classes are
  * keyed on their class names.
  * 
  * @author gerogias
@@ -26,7 +26,7 @@ public final class LogicFactory {
 	/**
 	 * The bean map.
 	 */
-	private Map<String, BaseLogicAction> beans = null;
+	private Map<String, BaseLogic> beans = null;
 
 	/**
 	 * The singleton instance.
@@ -37,7 +37,7 @@ public final class LogicFactory {
 	 * Default constructor. Private, to avoid instantiation.
 	 */
 	private LogicFactory() {
-		beans = new HashMap<String, BaseLogicAction>();
+		beans = new HashMap<String, BaseLogic>();
 	}
 
 	/**
@@ -56,8 +56,8 @@ public final class LogicFactory {
 	 * @param actionsBeans
 	 *            the beans to process
 	 */
-	public void setActionBeans(Collection<BaseLogicAction> actionsBeans) {
-		for (BaseLogicAction action : actionsBeans) {
+	public void setActionBeans(Collection<BaseLogic> actionsBeans) {
+		for (BaseLogic action : actionsBeans) {
 			beans.put(BeanUtils.getCleanClassName(action.getClass()), action);
 		}
 	}
@@ -108,11 +108,11 @@ public final class LogicFactory {
 	}
 
 	/**
-	 * @return DeploymentLogic the instance
+	 * @return ActionLogic the instance
 	 */
-	public DeploymentLogic getDeploymentLogic() {
-		return (DeploymentLogic) beans.get(BeanUtils
-				.getClassName(DeploymentLogic.class));
+	public ActionLogic getActionLogic() {
+		return (ActionLogic) beans.get(BeanUtils
+				.getClassName(ActionLogic.class));
 	}
 
 	/**

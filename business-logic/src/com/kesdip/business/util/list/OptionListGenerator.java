@@ -21,14 +21,14 @@ import com.kesdip.business.beans.ListItemBean;
 import com.kesdip.business.domain.generated.AccessRight;
 import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.domain.generated.User;
-import com.kesdip.business.logic.BaseLogicAction;
+import com.kesdip.business.logic.BaseLogic;
 
 /**
  * Utility bean offering option list values.
  * 
  * @author gerogias
  */
-public class OptionListGenerator extends BaseLogicAction {
+public class OptionListGenerator extends BaseLogic {
 
 	/**
 	 * The list of access rights.

@@ -27,7 +27,7 @@ import com.kesdip.business.domain.generated.Installation;
  * 
  * @author sgerogia
  */
-public class PrintScreenLogic extends BaseLogicAction {
+public class PrintScreenLogic extends BaseLogic {
 
 	/**
 	 * The logger.

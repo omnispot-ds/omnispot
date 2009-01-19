@@ -18,7 +18,7 @@ import com.kesdip.business.exception.ValidationException;
  * 
  * @author pavlos
  */
-public class GroupLogic extends BaseLogicAction {
+public class GroupLogic extends BaseLogic {
 	
 	/**
 	 * The logger.

@@ -23,7 +23,7 @@ import com.kesdip.business.domain.generated.Site;
  * 
  * @author sgerogia
  */
-public class InstallationLogic extends BaseLogicAction {
+public class InstallationLogic extends BaseLogic {
 
 	/**
 	 * The logger.

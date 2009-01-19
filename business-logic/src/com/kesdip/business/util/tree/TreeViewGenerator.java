@@ -18,14 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.domain.generated.Customer;
 import com.kesdip.business.domain.generated.User;
-import com.kesdip.business.logic.BaseLogicAction;
+import com.kesdip.business.logic.BaseLogic;
 
 /**
  * Utility bean offering all possible tree views.
  * 
  * @author gerogias
  */
-public class TreeViewGenerator extends BaseLogicAction {
+public class TreeViewGenerator extends BaseLogic {
 
 	/**
 	 * The logger.
