@@ -2,6 +2,7 @@ CREATE TABLE DEPLOYMENT (
 	ID bigint not null GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	URL varchar(512) not null,
 	FILENAME varchar(512) not null,
+	CRC varchar(128) not null,
 	DEPLOY_DATE timestamp not null,
 	FAILED_RESOURCE char not null,
 	RETRIES int not null,

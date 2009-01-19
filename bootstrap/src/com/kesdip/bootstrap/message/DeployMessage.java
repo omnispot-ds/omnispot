@@ -27,13 +27,19 @@ public class DeployMessage implements Message {
 	private static final Logger logger = Logger.getLogger(DeployMessage.class);
 	
 	private String descriptorUrl;
+	private long crc;
 	
-	public DeployMessage(String descriptorUrl) {
+	public DeployMessage(String descriptorUrl, long crc) {
 		this.descriptorUrl = descriptorUrl;
+		this.crc = crc;
 	}
 	
 	public String getDescriptorUrl() {
 		return descriptorUrl;
+	}
+	
+	public long getCRC() {
+		return crc;
 	}
 
 	@Override
@@ -64,29 +70,31 @@ public class DeployMessage implements Message {
 			
 			if (!update) {
 				ps = c.prepareStatement("INSERT INTO DEPLOYMENT " +
-						"(URL, FILENAME, DEPLOY_DATE, FAILED_RESOURCE, RETRIES) " +
-						"VALUES (?,?,?,?,?)");
+						"(URL, FILENAME, CRC, DEPLOY_DATE, FAILED_RESOURCE, RETRIES) " +
+						"VALUES (?,?,?,?,?,?)");
 				ps.setString(1, descriptorUrl);
 				ps.setString(2, "");
-				ps.setTimestamp(3, new Timestamp(new Date().getTime()));
-				ps.setString(4, "N");
-				ps.setInt(5, 0);
+				ps.setString(3, Long.toString(crc));
+				ps.setTimestamp(4, new Timestamp(new Date().getTime()));
+				ps.setString(5, "N");
+				ps.setInt(6, 0);
 			} else {
 				ps = c.prepareStatement("UPDATE DEPLOYMENT " +
-						"SET FILENAME=?, DEPLOY_DATE=?, FAILED_RESOURCE=?, " +
+						"SET FILENAME=?, CRC=?, DEPLOY_DATE=?, FAILED_RESOURCE=?, " +
 						"RETRIES=?  WHERE ID=?");
 				ps.setString(1, "");
-				ps.setTimestamp(2, new Timestamp(new Date().getTime()));
-				ps.setString(3, "N");
-				ps.setLong(4, id);
-				ps.setInt(5, 0);
+				ps.setString(2, Long.toString(crc));
+				ps.setTimestamp(3, new Timestamp(new Date().getTime()));
+				ps.setString(4, "N");
+				ps.setLong(5, id);
+				ps.setInt(6, 0);
 			}
 			
 			ps.executeUpdate();
 			ps.close();
 			
 			ContentRetriever.getSingleton().addTask(
-					new DescriptorHandler(descriptorUrl));
+					new DescriptorHandler(descriptorUrl, crc));
 			
 			c.commit();
 		} catch (Exception e) {

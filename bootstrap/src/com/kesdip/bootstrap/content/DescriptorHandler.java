@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.zip.CRC32;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
@@ -41,14 +42,16 @@ public class DescriptorHandler implements ContentHandler {
 		Logger.getLogger(DescriptorHandler.class);
 	
 	private String descriptorUrl;
+	private long crc;
 	
-	public DescriptorHandler(String descriptorUrl) {
+	public DescriptorHandler(String descriptorUrl, long crc) {
 		this.descriptorUrl = descriptorUrl;
+		this.crc = crc;
 	}
 
 	@Override
 	public String toMessageString() {
-		return "[DescriptorHandler:" + descriptorUrl + "]";
+		return "[DescriptorHandler:" + descriptorUrl + ", " + crc + "]";
 	}
 
 	@Override
@@ -69,9 +72,16 @@ public class DescriptorHandler implements ContentHandler {
 			} while (!newDeployment.createNewFile());
 			FileOutputStream os = new FileOutputStream(newDeployment);
 			InputStream is = descriptor.openStream();
-			StreamUtils.copyStream(is, os);
+			CRC32 resourceCRC = new CRC32();
+			StreamUtils.copyStream(is, os, resourceCRC);
 			os.close();
 			is.close();
+			
+			// Check the CRC
+			if (crc != resourceCRC.getValue())
+				throw new Exception("Downloaded resource CRC (" +
+						resourceCRC.getValue() + ") does not match resource " +
+								"specified CRC (" + crc + ").");
 			
 			// Load the application context to gather all the resources.
 			ApplicationContext ctx = new FileSystemXmlApplicationContext(

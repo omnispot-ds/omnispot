@@ -61,23 +61,26 @@ public class TimingHandler implements ContentHandler {
 					new HashMap<ResourceHandler, Integer>();
 				
 				PreparedStatement ps = c.prepareStatement(
-						"SELECT ID, URL, RETRIES FROM DEPLOYMENT " +
+						"SELECT ID, URL, CRC, RETRIES FROM DEPLOYMENT " +
 						"WHERE FILENAME='' AND FAILED_RESOURCE='N'");
 				ResultSet rs = ps.executeQuery();
 				
 				Set<Long> failedDeployments = new HashSet<Long>();
 				Map<Long, String> retryDeployments = new HashMap<Long, String>();
+				Map<Long, String> retryCRC = new HashMap<Long, String>();
 				Map<Long, Integer> retryCounts = new HashMap<Long, Integer>();
 				
 				while (rs.next()) {
 					long id = rs.getLong(1);
 					String url = rs.getString(2);
-					int retries = rs.getInt(3);
+					String crc = rs.getString(3);
+					int retries = rs.getInt(4);
 					
 					if (retries >= Config.getSingleton().getResourceRetryLimit()) {
 						failedDeployments.add(id);
 					} else {
 						retryDeployments.put(id, url);
+						retryCRC.put(id, crc);
 						retryCounts.put(id, retries);
 					}
 				}
@@ -99,6 +102,7 @@ public class TimingHandler implements ContentHandler {
 				
 				for (Long id : retryDeployments.keySet()) {
 					String url = retryDeployments.get(id);
+					String crc = retryCRC.get(id);
 					int retries = retryCounts.get(id);
 					
 					ps = c.prepareStatement("UPDATE DEPLOYMENT " +
@@ -116,7 +120,7 @@ public class TimingHandler implements ContentHandler {
 							" for deployment with ID: " + id + ".");
 					
 					ContentRetriever.getSingleton().addTask(
-							new DescriptorHandler(url));
+							new DescriptorHandler(url, Long.parseLong(crc)));
 				}
 				
 				ps = c.prepareStatement(
