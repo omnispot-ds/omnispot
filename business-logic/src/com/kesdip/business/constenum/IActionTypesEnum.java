@@ -40,4 +40,9 @@ public interface IActionTypesEnum {
 	 * Fetch player logs.
 	 */
 	short FETCH_LOGS = 5;
+	
+	/**
+	 * Deploy new content package
+	 */
+	short DEPLOY = 6;
 }
