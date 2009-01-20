@@ -17,32 +17,32 @@ package com.kesdip.business.constenum;
 public interface IActionTypesEnum {
 
 	/**
+	 * Make a deployment.
+	 */
+	short DEPLOY = 1;
+	
+	/**
 	 * Start the player.
 	 */
-	short START = 1;
+	short START = 2;
 	
 	/**
 	 * Stop the player.
 	 */
-	short STOP = 2;
+	short STOP = 3;
 	
 	/**
 	 * Reboot the machine.
 	 */
-	short REBOOT = 3;
+	short REBOOT = 4;
 	
 	/**
 	 * Reconfigure the player.
 	 */
-	short RECONFIGURE = 4;
+	short RECONFIGURE = 5;
 	
 	/**
 	 * Fetch player logs.
 	 */
-	short FETCH_LOGS = 5;
-	
-	/**
-	 * Deploy new content package
-	 */
-	short DEPLOY = 6;
+	short FETCH_LOGS = 6;
 }

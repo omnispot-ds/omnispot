@@ -250,6 +250,7 @@ business-logic/src/com/kesdip/business/config/FileStorageSettings.java -text
 business-logic/src/com/kesdip/business/config/ServerSettings.java -text
 business-logic/src/com/kesdip/business/config/SettingsLoadingException.java -text
 business-logic/src/com/kesdip/business/config/console-settings.xml -text
+business-logic/src/com/kesdip/business/constenum/IActionParamsEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IActionStatusEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IActionTypesEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IInstallationStatus.java -text
