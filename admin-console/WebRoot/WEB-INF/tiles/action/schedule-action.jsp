@@ -105,26 +105,26 @@
 				</label>
 				<div class="readonly_value">
 					<c:choose>
-						<c:when test="${dataObject.action.type == 1}">
+						<c:when test="${dataObject.action.type == 2}">
 							<fmt:message bundle="${msg}" key="action.start" />
 						</c:when>
-						<c:when test="${dataObject.action.type == 2}">
+						<c:when test="${dataObject.action.type == 3}">
 							<fmt:message bundle="${msg}" key="action.stop" />
 						</c:when>
-						<c:when test="${dataObject.action.type == 3}">
+						<c:when test="${dataObject.action.type == 4}">
 							<fmt:message bundle="${msg}" key="action.reboot" />
 						</c:when>
-						<c:when test="${dataObject.action.type == 4}">
+						<c:when test="${dataObject.action.type == 5}">
 							<fmt:message bundle="${msg}" key="action.reconf" />
 						</c:when>
-						<c:when test="${dataObject.action.type == 5}">
+						<c:when test="${dataObject.action.type == 6}">
 							<fmt:message bundle="${msg}" key="action.logs" />
 						</c:when>
 					</c:choose>
 				</div>
 			</li>
 			
-			<c:if test="${dataObject.action.type == 4}">
+			<c:if test="${dataObject.action.type == 5}">
 				<!-- Reconfiguration parameters -->
 				<c:forEach items="${dataObject.action.parameters}" var="param" varStatus="status">
 	

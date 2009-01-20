@@ -173,6 +173,12 @@
 						<ref bean="deployContentValidator"/>
 					</list>
 				</entry>
+				<entry>
+					<key><value>scheduleAction</value></key>
+					<list>
+						<ref bean="simpleActionValidator"/>
+					</list>
+				</entry>
 			</map>
 		</property>
 	</bean>

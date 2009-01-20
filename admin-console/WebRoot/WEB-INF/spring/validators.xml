@@ -62,4 +62,9 @@
 		class="com.kesdip.business.validation.action.DeployContentValidator"
 		scope="singleton" />
 
+	<bean id="simpleActionValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.action.SimpleActionValidator"
+		scope="singleton" />
+		
 </beans>

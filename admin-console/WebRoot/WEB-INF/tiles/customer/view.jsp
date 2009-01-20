@@ -40,7 +40,7 @@
 				<form:errors />
 			</p>
 		</div>
-
+<%--
 		<div class="heading">
 			<!-- Menu headers -->
 			<div class="chromestyle" id="viewmenu">
@@ -102,7 +102,7 @@
 				cssdropdown.startchrome("viewmenu");
 			</script>
 		</div>
-
+--%>
 		<table width="100%">
 			<!-- Name -->
 			<tr>
@@ -159,25 +159,20 @@
 					<a href="${pageContext.request.contextPath}/secure/action/deploy-content.do?customer.id=${dataObject.id}">
 						<fmt:message bundle="${msg}" key="button.deploy.content"/></a>
 					&nbsp;
-					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=1&customer.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.start.installations"/>
-					</a>
-					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=2&customer.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.stop.installations"/>
-					</a>
+						<fmt:message bundle="${msg}" key="button.start.installations"/></a>
 					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=3&customer.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.reboot.installations"/>
-					</a>
+						<fmt:message bundle="${msg}" key="button.stop.installations"/></a>
 					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=4&customer.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.reconf.installations"/>
-					</a>
+						<fmt:message bundle="${msg}" key="button.reboot.installations"/></a>
 					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=5&customer.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.fetch.logs"/>
-					</a>
+						<fmt:message bundle="${msg}" key="button.reconf.installations"/></a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=6&customer.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.fetch.logs"/></a>
 					&nbsp;
 				</td>
 			</tr>
