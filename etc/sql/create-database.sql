@@ -9,7 +9,7 @@ create table GRP_INSTALLATION (INSTALLATION_ID bigint not null, GROUP_ID bigint 
 create table INSTALLATION (ID bigint not null, NAME varchar(50) not null, UUID varchar(50) not null, COMMENTS varchar(512), ACTIVE smallint not null, STATUS smallint not null, SITE_ID bigint not null, primary key (ID));
 create table INST_DEPLOYMENT (DEPLOYMENT_ID bigint not null, INSTALLATION_ID bigint not null, primary key (INSTALLATION_ID, DEPLOYMENT_ID));
 create table INST_GROUP (ID bigint not null, NAME varchar(50) not null, COMMENTS varchar(512), CUSTOMER_ID bigint not null, primary key (ID));
-create table PARAMETER (ID bigint not null, NAME varchar(50) not null, PARAM_VALUE varchar(512) not null, ACTION_ID bigint, primary key (ID));
+create table PARAMETER (ID bigint not null, NAME varchar(512) not null, PARAM_VALUE varchar(512) not null, ACTION_ID bigint, primary key (ID));
 create table SITE (ID bigint not null, NAME varchar(50) not null, COMMENTS varchar(512), ACTIVE smallint not null, CUSTOMER_ID bigint not null, primary key (ID));
 create table STATUS_ENTRY (ID bigint not null, STATUS_DATE timestamp not null, STATUS smallint not null, INSTALLATION_ID bigint, primary key (ID));
 create table USERS (USERNAME varchar(50) not null, PASSWORD varchar(50) not null, FIRST_NAME varchar(50) not null, LAST_NAME varchar(50) not null, CUSTOMER_ID bigint, primary key (USERNAME));
