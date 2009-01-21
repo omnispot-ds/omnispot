@@ -59,6 +59,8 @@ public class Player implements Runnable {
 			props.load(fis);
 			fis.close();
 			
+			Class.forName(props.getProperty("driver_class"));
+			
 			DBUtils.setupDriver(props.getProperty("jdbc_url"));
 		} catch (Exception e) {
 			logger.error("Unable to read player properties file", e);

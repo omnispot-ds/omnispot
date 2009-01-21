@@ -25,6 +25,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.kesdip.common.util.DBUtils;
 
@@ -119,7 +120,7 @@ public class TimingMonitor implements Runnable {
 	 */
 	private void startDeployment(long id, String contextPath)
 			throws Exception {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext(
+		ApplicationContext ctx = new FileSystemXmlApplicationContext(
 				contextPath);
 		DeploymentSettings settings =
 			(DeploymentSettings) ctx.getBean("deploymentSettings");
@@ -193,6 +194,7 @@ public class TimingMonitor implements Runnable {
 				ps = c.prepareStatement(
 						"SELECT COUNT(*) FROM PENDING " +
 						"WHERE PENDING.DEPLOYMENT_ID=?");
+				ps.setLong(1, potentialDeploymentId);
 				rs = ps.executeQuery();
 				
 				if (!rs.next()) {

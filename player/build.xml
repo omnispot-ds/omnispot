@@ -45,6 +45,7 @@
 	<target name="player.dist" description="create the common JAR file" 
 		depends="player.init" unless="build.notRequired">
 		<echo level="info">Creating distribution</echo>
+		<mkdir dir="${player.build.dir}/classes" />
 		<copy todir="${player.build.dir}">
 			<fileset dir="${player.build.dir}/classes" />
 		</copy>
