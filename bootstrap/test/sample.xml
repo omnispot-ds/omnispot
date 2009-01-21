@@ -38,13 +38,17 @@
 					<property name="height" value="800"/>
 					<property name="content">
 						<list>
-							<bean class="com.kesdip.player.components.Resource">
+							<!--bean class="com.kesdip.player.components.Resource">
 								<property name="identifier" value="http://www.koutra.com/robots.txt"/>
 								<property name="checksum" value="3656307869"/>
 							</bean>
 							<bean class="com.kesdip.player.components.Resource">
 								<property name="identifier" value="http://www.koutra.com/index.html"/>
 								<property name="checksum" value="3656307869"/>
+							</bean-->
+							<bean class="com.kesdip.player.components.Resource">
+								<property name="identifier" value="file:///C:/test/ad.mp4"/>
+								<property name="checksum" value="1818024839"/>
 							</bean>
 						</list>
 					</property>

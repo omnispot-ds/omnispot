@@ -213,6 +213,7 @@ admin-console/src/log4j.properties -text
 admin-console/src/messages.properties -text
 bootstrap/.classpath -text
 bootstrap/.project -text
+bootstrap/bootstrap.properties -text
 bootstrap/build.xml -text
 bootstrap/shared.jars -text
 bootstrap/sql/create-database.sql -text
@@ -231,7 +232,6 @@ bootstrap/src/com/kesdip/bootstrap/message/DeployMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text
 bootstrap/src/log4j.xml -text
-bootstrap/test/bootstrap.properties -text
 bootstrap/test/sample.xml -text
 business-logic/.classpath -text
 business-logic/.project -text

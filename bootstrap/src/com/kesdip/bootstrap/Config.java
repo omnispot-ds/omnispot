@@ -7,7 +7,6 @@ package com.kesdip.bootstrap;
 
 import java.io.FileInputStream;
 import java.util.Properties;
-import java.util.prefs.Preferences;
 
 import org.apache.log4j.Logger;
 
@@ -22,11 +21,22 @@ public class Config {
 	private static final Logger logger = Logger.getLogger(Config.class);
 	
 	/**
-	 * The preferences object. Relying on good old Java preferences for
+	 * The properties object. Relying on good old Java properties for
 	 * making these persistent.
 	 */
-	private static Preferences prefs = 
-		Preferences.systemRoot().node(Config.class.getName());
+	private static Properties props;
+	
+	static {
+		try {
+			props = new Properties();
+			FileInputStream fis = new FileInputStream("bootstrap.properties");
+			props.load(fis);
+			fis.close();
+		} catch (Exception e) {
+			logger.error("Unable to load properties from " +
+					"bootstrap.properties", e);
+		}
+	}
 
 	/**
 	 * The configuratino singleton object.
@@ -66,7 +76,7 @@ public class Config {
 	 * @return The deployment path directory.
 	 */
 	public String getDeploymentPath() {
-		return prefs.get("deployment_path", "_NOT_SET_");
+		return props.getProperty("deployment_path", "_NOT_SET_");
 	}
 	
 	/**
@@ -75,7 +85,7 @@ public class Config {
 	 * @return The resource path directory.
 	 */
 	public String getResourcePath() {
-		return prefs.get("resource_path", "_NOT_SET_");
+		return props.getProperty("resource_path", "_NOT_SET_");
 	}
 	
 	/**
@@ -83,7 +93,7 @@ public class Config {
 	 * @return The JDBC URL.
 	 */
 	public String getJDBCUrl() {
-		return prefs.get("jdbc_url", "_NOT_SET_");
+		return props.getProperty("jdbc_url", "_NOT_SET_");
 	}
 	
 	/**
@@ -92,7 +102,7 @@ public class Config {
 	 * @return The driver class to use.
 	 */
 	public String getDriverClass() {
-		return prefs.get("driver_class", "_NOT_SET_");
+		return props.getProperty("driver_class", "_NOT_SET_");
 	}
 	
 	/**
@@ -102,7 +112,7 @@ public class Config {
 	 * @return The timing handler's sleep duration.
 	 */
 	public String getTimingHandlerSleepPeriod() {
-		return prefs.get("timing_handler_sleep_period", "_NOT_SET_");
+		return props.getProperty("timing_handler_sleep_period", "_NOT_SET_");
 	}
 	
 	/**
@@ -111,7 +121,7 @@ public class Config {
 	 * @return The maximum number of retries to download a resource.
 	 */
 	public int getResourceRetryLimit() {
-		return prefs.getInt("resource_retry_limit", 3);
+		return Integer.parseInt(props.getProperty("resource_retry_limit", "3"));
 	}
 	
 	/**
@@ -119,7 +129,7 @@ public class Config {
 	 * @return The player classpath.
 	 */
 	public String getPlayerClasspath() {
-		return prefs.get("player_classpath", "_NOT_SET_");
+		return props.getProperty("player_classpath", "_NOT_SET_");
 	}
 	
 	/**
@@ -127,7 +137,7 @@ public class Config {
 	 * @return The player main class.
 	 */
 	public String getPlayerMainClass() {
-		return prefs.get("player_main_class", "_NOT_SET_");
+		return props.getProperty("player_main_class", "_NOT_SET_");
 	}
 	
 	/**
@@ -135,48 +145,7 @@ public class Config {
 	 * @return The player working directory.
 	 */
 	public String getPlayerWorkingDir() {
-		return prefs.get("player_working_dir", "_NOT_SET_");
+		return props.getProperty("player_working_dir", "_NOT_SET_");
 	}
 	
-	/**
-	 * Main method used to dump or set the preferences. With no arguments,
-	 * preferences are dumped to the log4j appenders, otherwise the first
-	 * argument is considered to be the path to a properties file whose
-	 * contents are set in the preferences for this node.
-	 * 
-	 * @param args The command line arguments.
-	 */
-	public static void main(String[] args) {
-		if (args.length < 1) {
-			logger.info("You specified no arguments. Dumping preferences.");
-			try {
-				for (String key : prefs.keys()) {
-					logger.info("Mapping: " + key + " -> " + prefs.get(key, "DEFAULT") + ".");
-				}
-			} catch (Exception e) {
-				logger.error("Error dumping preferences", e);
-			}
-			return;
-		}
-		
-		try {
-			prefs.clear();
-			
-			Properties props = new Properties();
-			FileInputStream fis = new FileInputStream(args[0]);
-			props.load(fis);
-			fis.close();
-			
-			for (Object key : props.keySet()) {
-				String keyString = (String) key;
-				prefs.put(keyString, props.getProperty(keyString));
-			}
-			
-			prefs.flush();
-			
-			logger.info("Preferences have been set.");
-		} catch (Exception e) {
-			logger.error("Unable to modify preferences.", e);
-		}
-	}
 }
