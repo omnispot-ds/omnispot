@@ -254,6 +254,8 @@ public class TreeNodeFactory {
 		for (Installation installation : group.getInstallations()) {
 			temp = createNode(installation, depth + 1);
 			if (temp != null) {
+				//add site information on installation
+				temp.setName(installation.getName() + " (" + installation.getSite().getName() + ")");
 				node.addChild(temp);
 			}
 		}

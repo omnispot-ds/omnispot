@@ -271,4 +271,8 @@ public class TreeNode implements Serializable {
 	public void setStatus(String property) {
 		this.status = property;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }
