@@ -19,12 +19,12 @@ public interface IActionStatusEnum {
 	/**
 	 * Action completed successfully.
 	 */
-	short OK = 1;
+	short OK = 2;
 	
 	/**
 	 * Action is in progress, awaiting installation response.
 	 */
-	short IN_PROGRESS = 0;
+	short IN_PROGRESS = 1;
 	
 	/**
 	 * Action failed, the system is retrying.
@@ -35,4 +35,9 @@ public interface IActionStatusEnum {
 	 * Action failed permanently.
 	 */
 	short FAILED = -2;
+	
+	/**
+	 * Action is scheduled.
+	 */
+	short SCHEDULED = 0;
 }

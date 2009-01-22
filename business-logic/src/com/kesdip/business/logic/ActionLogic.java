@@ -27,12 +27,15 @@ import com.kesdip.business.beans.ActionBean;
 import com.kesdip.business.beans.BaseMultitargetBean;
 import com.kesdip.business.beans.ContentDeploymentBean;
 import com.kesdip.business.config.ApplicationSettings;
+import com.kesdip.business.constenum.IActionParamsEnum;
 import com.kesdip.business.constenum.IActionStatusEnum;
+import com.kesdip.business.constenum.IActionTypesEnum;
 import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.domain.generated.Customer;
 import com.kesdip.business.domain.generated.Deployment;
 import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.domain.generated.InstallationGroup;
+import com.kesdip.business.domain.generated.Parameter;
 import com.kesdip.business.domain.generated.Site;
 import com.kesdip.business.exception.ValidationException;
 import com.kesdip.common.exception.GenericSystemException;
@@ -94,14 +97,40 @@ public class ActionLogic extends BaseLogic {
 		Deployment deployment = null;
 		try {
 			logger.debug("Creating deployment in the DB");
+			Set<Installation> installations = getInstallations(object); 
 			String contentBase = ApplicationSettings.getInstance()
 					.getServerSettings().getContentBase();
 			deployment = new Deployment();
 			deployment.setCrc(String.valueOf(crc.getValue()));
 			deployment.setLocalFile(destContent.getAbsolutePath());
 			deployment.setUrl(contentBase + uniqueName);
-			deployment.setInstallations(getInstallations(object));
+			deployment.setInstallations(installations);
 			deployment.setId((Long) getHibernateTemplate().save(deployment));
+			// creating actions for all installations
+			Action action = null;
+			Parameter parameter = null;
+			for (Installation installation : installations) {
+				action = new Action();
+				// CRC
+				parameter = new Parameter();
+				parameter.setName(IActionParamsEnum.DEPLOYMENT_CRC);
+				parameter.setValue(String.valueOf(crc.getValue()));
+				parameter.setId((Long)getHibernateTemplate().save(parameter));
+				action.getParameters().add(parameter);
+				// URL
+				parameter = new Parameter();
+				parameter.setName(IActionParamsEnum.DEPLOYMENT_URL);
+				parameter.setValue(contentBase + uniqueName);
+				parameter.setId((Long)getHibernateTemplate().save(parameter));
+				action.getParameters().add(parameter);
+				// store action
+				action.setActionId(getActionId());
+				action.setDateAdded(new Date());
+				action.setInstallation(installation);
+				action.setType(IActionTypesEnum.DEPLOY);
+				action.setStatus(IActionStatusEnum.IN_PROGRESS);
+				action.setId((Long)getHibernateTemplate().save(action));
+			}
 		} catch (RuntimeException re) {
 			// delete file on error
 			destContent.delete();
@@ -131,12 +160,19 @@ public class ActionLogic extends BaseLogic {
 		Date currentDate = new Date();
 		for (Installation installation : installations) {
 			action = new Action();
+			// the parameters first
+			for (Parameter parameter : object.getAction().getParameters()) {
+				parameter.setId(null);
+				parameter.setId((Long)getHibernateTemplate().save(parameter));
+				action.getParameters().add(parameter);
+			}
 			action.setDateAdded(currentDate);
 			action.setInstallation(installation);
-			action.setStatus(IActionStatusEnum.IN_PROGRESS);
+			action.setStatus(IActionStatusEnum.SCHEDULED);
 			action.setType(object.getAction().getType());
 			action.setActionId(getActionId());
 			action.setId((Long) getHibernateTemplate().save(action));
+			
 		}
 	}
 
