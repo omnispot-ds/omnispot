@@ -45,11 +45,13 @@ public class ServerProtocolHandler {
 		installationId = req.getParameter("installationId" );
 		String serializedActions = req.getParameter("serializedActions");
 		String playerProcAlive = req.getParameter("playerProcAlive");
+		logger.info("Received: InstallationId: "+installationId+" playerProcAlive: " +playerProcAlive + " serializedActions: "+serializedActions);
 		if (req.getAttribute("screenshot") != null) {
 			FileItem fileitem = (FileItem)req.getAttribute("screenshot");
 			fileitem.write(new File(ApplicationSettings
 					.getInstance().getFileStorageSettings().getPrintScreenFolder()+File.pathSeparator+installationId,"screenshot.jpg"));
 		}
+		if (!serializedActions.equals("NO_ACTIONS")) {
 		ObjectInputStream instream = new ObjectInputStream(new ByteArrayInputStream(serializedActions.getBytes()));
 		Action[] actions = (Action[])instream.readObject();
 		
@@ -65,10 +67,11 @@ public class ServerProtocolHandler {
 			getHibernateTemplate().update(action);
 		}
 		Installation installation = new Installation();
-		installation.setId(Long.valueOf(installationId));
+		installation.setUuid(installationId);
 		installation = (Installation)getHibernateTemplate().load(Installation.class, installation);
 		installation.setCurrentStatus(playerProcAlive.equals("TRUE")?IInstallationStatus.OK:IInstallationStatus.PLAYER_DOWN);
 		getHibernateTemplate().update(installation);
+		}
 		sendResponse(resp);
 	
 	}
