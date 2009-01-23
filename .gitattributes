@@ -200,6 +200,7 @@ admin-console/src/com/kesdip/admin/web/controller/user/DeleteController.java -te
 admin-console/src/com/kesdip/admin/web/controller/user/EditController.java -text
 admin-console/src/com/kesdip/admin/web/controller/user/ViewController.java -text
 admin-console/src/com/kesdip/admin/web/filter/EncodingFilter.java -text
+admin-console/src/com/kesdip/admin/web/servlet/CommandServlet.java -text
 admin-console/src/com/kesdip/admin/web/servlet/PrintScreenServlet.java -text
 admin-console/src/com/kesdip/admin/web/tag/security/IsUserInRoleTag.java -text
 admin-console/src/com/kesdip/admin/web/tag/treeview/TreeViewTag.java -text
