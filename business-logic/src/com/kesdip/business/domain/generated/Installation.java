@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 18 …·Ì 2009 11:13:36 ÏÏ by Hibernate Tools 3.2.0.b9
+// Generated 23 …·Ì 2009 2:21:24 Ï by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;
@@ -29,6 +29,11 @@ public class Installation  implements java.io.Serializable {
  * 			
      */
      private String uuid;
+     /**
+      * 				Tha type of the screen.
+ * 			
+     */
+     private String screenType;
      /**
       * Comments for this installation.
      */
@@ -85,9 +90,10 @@ public class Installation  implements java.io.Serializable {
         this.currentStatus = currentStatus;
         this.site = site;
     }
-    public Installation(String name, String uuid, String comments, boolean active, short currentStatus, Set<AccessControl> accessingUsers, Set<StatusEntry> statusHistory, Set<Action> pendingActions, Set<Deployment> deployments, Site site, Set<InstallationGroup> groups) {
+    public Installation(String name, String uuid, String screenType, String comments, boolean active, short currentStatus, Set<AccessControl> accessingUsers, Set<StatusEntry> statusHistory, Set<Action> pendingActions, Set<Deployment> deployments, Site site, Set<InstallationGroup> groups) {
        this.name = name;
        this.uuid = uuid;
+       this.screenType = screenType;
        this.comments = comments;
        this.active = active;
        this.currentStatus = currentStatus;
@@ -131,6 +137,17 @@ public class Installation  implements java.io.Serializable {
     
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+    /**       
+     *      * 				Tha type of the screen.
+     * 			
+     */
+    public String getScreenType() {
+        return this.screenType;
+    }
+    
+    public void setScreenType(String screenType) {
+        this.screenType = screenType;
     }
     /**       
      *      * Comments for this installation.
@@ -242,6 +259,7 @@ public class Installation  implements java.io.Serializable {
       buffer.append("id").append("='").append(getId()).append("' ");			
       buffer.append("name").append("='").append(getName()).append("' ");			
       buffer.append("uuid").append("='").append(getUuid()).append("' ");			
+      buffer.append("screenType").append("='").append(getScreenType()).append("' ");			
       buffer.append("comments").append("='").append(getComments()).append("' ");			
       buffer.append("active").append("='").append(isActive()).append("' ");			
       buffer.append("currentStatus").append("='").append(getCurrentStatus()).append("' ");			
@@ -275,9 +293,28 @@ public class Installation  implements java.io.Serializable {
          
          
          
+         
          return result;
    }   
 
+  // The following is extra code specified in the hbm.xml files
+
+			
+		/**
+		 * Latest printscreen.
+		 */
+		private transient com.kesdip.business.beans.PrintScreen printScreen = null;
+		
+		public void setPrintScreen(com.kesdip.business.beans.PrintScreen printScreen) {
+			this.printScreen = printScreen;
+		}
+
+		public com.kesdip.business.beans.PrintScreen getPrintScreen() {
+			return this.printScreen;
+		}
+		
+		
+  // end of extra code specified in the hbm.xml files
 
 }
 

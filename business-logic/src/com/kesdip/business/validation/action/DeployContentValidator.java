@@ -53,6 +53,8 @@ public class DeployContentValidator extends BaseValidator {
 				&& bean.getInstallation() == null) {
 			errors.addError("error.invalid.parent");
 		}
+		checkNullOrEmpty(bean.getName(), "name", errors);
+		checkLengthNotGreaterThan(bean.getName(), "name", 50, errors);
 		logger.debug("Checking file");
 		// check file extension and size
 		if (bean.getContentFile() == null) {

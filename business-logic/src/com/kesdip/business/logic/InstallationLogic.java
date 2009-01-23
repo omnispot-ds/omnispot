@@ -8,15 +8,23 @@
  */
 package com.kesdip.business.logic;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kesdip.business.beans.ViewPrintScreenBean;
 import com.kesdip.business.domain.generated.Customer;
 import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.domain.generated.InstallationGroup;
 import com.kesdip.business.domain.generated.Site;
+import com.kesdip.business.exception.ValidationException;
+import com.kesdip.common.util.DateUtils;
 
 /**
  * Installation-related logic.
@@ -46,8 +54,92 @@ public class InstallationLogic extends BaseLogic {
 		List<Installation> installations = getHibernateTemplate().find(
 				"select i from " + Installation.class.getName() + " i "
 						+ "left join fetch i.site s "
-						+ "left join fetch s.customer" + "where i = ?", dto);
-		return installations.isEmpty() ? null : installations.iterator().next();
+						+ "left join fetch s.customer " 
+						+ "left join fetch i.deployments d "
+						+ "where i = ? ", dto);
+		Installation installation = null;
+		if (!installations.isEmpty()) {
+			installation = installations.get(0);
+			// prinstscreen
+			ViewPrintScreenBean bean = new ViewPrintScreenBean();
+			bean.setInstallation(installation);
+			PrintScreenLogic psLogic = getLogicFactory().getPrintScreenLogic();
+			installation.setPrintScreen(psLogic.getPrintScreens(bean)
+					.getPrintScreens().iterator().next());
+		}
+		return installation;
+	}
+
+	/**
+	 * Create a new Installation in the database.
+	 * 
+	 * @param object
+	 *            the DTO
+	 * @return the created object
+	 * @throws ValidationException
+	 *             on validation error
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public Installation create(Installation object) throws ValidationException {
+
+		validate(object, "create");
+		logger.debug("Creating Installation");
+		// set Site
+		Site dbSite = getLogicFactory().getSiteLogic().getInstance(
+				object.getSite());
+		object.setSite(dbSite);
+		object.setActive(true);
+		String uuid = generateUuid();
+		object.setUuid(uuid);
+		object.setId((Long) getHibernateTemplate().save(object));
+		// TODO update keystore
+
+		return object;
+	}
+
+	/**
+	 * Update an Installation in the database.
+	 * 
+	 * @param object
+	 *            the DTO
+	 * @return the created object, wrapped
+	 * @throws ValidationException
+	 *             on validation error
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public Installation update(Installation object) throws ValidationException {
+
+		validate(object, "edit");
+		if (logger.isDebugEnabled()) {
+			logger.debug("Updating Site " + object.getId());
+		}
+		Installation dbInstallation = getInstance(object);
+		dbInstallation.setName(object.getName());
+		dbInstallation.setScreenType(object.getScreenType());
+		dbInstallation.setComments(object.getComments());
+		getHibernateTemplate().update(dbInstallation);
+		return object;
+	}
+
+	/**
+	 * Marks an Installation as deleted. Also deletes its key from the keystore.
+	 * 
+	 * @param object
+	 *            the DTO
+	 * @throws ValidationException
+	 *             on validation error
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public void delete(Installation object) throws ValidationException {
+
+		validate(object, "delete");
+		if (logger.isDebugEnabled()) {
+			logger.debug("Deleting Installation " + object.getId());
+		}
+		Installation dbInstance = getInstance(object);
+		dbInstance.setActive(false);
+		getHibernateTemplate().update(dbInstance);
+		// TODO Delete key from keystore
 	}
 
 	/**
@@ -122,4 +214,14 @@ public class InstallationLogic extends BaseLogic {
 		return results;
 	}
 
+	/**
+	 * @return String a unique UUID
+	 */
+	private String generateUuid() {
+		String base = UUID.randomUUID().toString();
+		String date = new SimpleDateFormat(DateUtils.DATE_FORMAT)
+				.format(new Date());
+		int salt = new Random(System.currentTimeMillis()).nextInt(100000);
+		return base + '_' + salt + '_' + date.replace('/', '-');
+	}
 }

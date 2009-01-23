@@ -29,6 +29,11 @@ public class ContentDeploymentBean extends BaseMultitargetBean {
 	private MultipartFile contentFile = null;
 	
 	/**
+	 * Name for the deployment.
+	 */
+	private String name = null;
+	
+	/**
 	 * @return the contentFile
 	 */
 	public MultipartFile getContentFile() {
@@ -40,5 +45,19 @@ public class ContentDeploymentBean extends BaseMultitargetBean {
 	 */
 	public void setContentFile(MultipartFile contentFile) {
 		this.contentFile = contentFile;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 }

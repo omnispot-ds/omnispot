@@ -21,6 +21,7 @@ import com.kesdip.business.beans.ViewPrintScreenBean;
 import com.kesdip.business.config.ApplicationSettings;
 import com.kesdip.business.config.FileStorageSettings;
 import com.kesdip.business.domain.generated.Installation;
+import com.kesdip.common.util.StringUtils;
 
 /**
  * Printscreen-related logic.
@@ -58,7 +59,7 @@ public class PrintScreenLogic extends BaseLogic {
 		}
 		// check for parent object
 		if (bean.getCustomer() == null && bean.getInstallationGroup() == null
-				&& bean.getSite() == null) {
+				&& bean.getSite() == null && bean.getInstallation() == null) {
 			logger.error("No parent object defined");
 			throw new IllegalArgumentException("No parent object defined");
 		}
@@ -89,7 +90,8 @@ public class PrintScreenLogic extends BaseLogic {
 	 *            the bean to check
 	 * @return Set of Installations for the parent object
 	 */
-	private final Set<Installation> getInstallations(ViewPrintScreenBean bean) {
+	private final Set<Installation> getInstallations(
+			final ViewPrintScreenBean bean) {
 		if (bean.getSite() != null) {
 			SiteLogic logic = getLogicFactory().getSiteLogic();
 			return logic.getInstance(bean.getSite()).getInstallations();
@@ -97,10 +99,16 @@ public class PrintScreenLogic extends BaseLogic {
 			GroupLogic logic = getLogicFactory().getGroupLogic();
 			return logic.getInstance(bean.getInstallationGroup())
 					.getInstallations();
-		} else {
+		} else if (bean.getCustomer() != null) {
 			InstallationLogic logic = getLogicFactory().getInstallationLogic();
 			return new HashSet<Installation>(logic.getInstallations(bean
 					.getCustomer()));
+		} else {
+			return new HashSet<Installation>() {
+				{
+					add(bean.getInstallation());
+				}
+			};
 		}
 	}
 
@@ -133,14 +141,34 @@ public class PrintScreenLogic extends BaseLogic {
 	 */
 	private final String getEntityName(ViewPrintScreenBean bean) {
 		if (bean.getSite() != null) {
-			SiteLogic logic = getLogicFactory().getSiteLogic();
-			return logic.getInstance(bean.getSite()).getName();
+			if (StringUtils.isEmpty(bean.getSite().getName())) {
+				SiteLogic logic = getLogicFactory().getSiteLogic();
+				return logic.getInstance(bean.getSite()).getName();
+			} else {
+				return bean.getSite().getName();
+			}
 		} else if (bean.getInstallationGroup() != null) {
-			GroupLogic logic = getLogicFactory().getGroupLogic();
-			return logic.getInstance(bean.getInstallationGroup()).getName();
+			if (StringUtils.isEmpty(bean.getInstallationGroup().getName())) {
+				GroupLogic logic = getLogicFactory().getGroupLogic();
+				return logic.getInstance(bean.getInstallationGroup()).getName();
+			} else {
+				return bean.getInstallationGroup().getName();
+			}
+		} else if (bean.getCustomer() != null) {
+			if (StringUtils.isEmpty(bean.getCustomer().getName())) {
+				CustomerLogic logic = getLogicFactory().getCustomerLogic();
+				return logic.getInstance(bean.getCustomer()).getName();
+			} else {
+				return bean.getCustomer().getName();
+			}
 		} else {
-			CustomerLogic logic = getLogicFactory().getCustomerLogic();
-			return logic.getInstance(bean.getCustomer()).getName();
+			if (StringUtils.isEmpty(bean.getInstallation().getName())) {
+				InstallationLogic logic = getLogicFactory()
+						.getInstallationLogic();
+				return logic.getInstance(bean.getInstallation()).getName();
+			} else {
+				return bean.getInstallation().getName();
+			}
 		}
 	}
 }

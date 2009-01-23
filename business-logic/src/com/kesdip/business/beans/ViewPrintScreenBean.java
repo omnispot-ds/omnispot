@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.kesdip.business.domain.generated.Customer;
+import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.domain.generated.InstallationGroup;
 import com.kesdip.business.domain.generated.Site;
 
@@ -54,6 +55,11 @@ public class ViewPrintScreenBean implements Serializable {
 	 * The Site to examine.
 	 */
 	private Site site = null;
+	
+	/**
+	 * The Installation to examine.
+	 */
+	private Installation installation = null;
 	
 	/**
 	 * Default constructor.
@@ -141,5 +147,19 @@ public class ViewPrintScreenBean implements Serializable {
 	 */
 	public void setEntityName(String entityName) {
 		this.entityName = entityName;
+	}
+
+	/**
+	 * @return the installation
+	 */
+	public Installation getInstallation() {
+		return installation;
+	}
+
+	/**
+	 * @param installation the installation to set
+	 */
+	public void setInstallation(Installation installation) {
+		this.installation = installation;
 	}
 }

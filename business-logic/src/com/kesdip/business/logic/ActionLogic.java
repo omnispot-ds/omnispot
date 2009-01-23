@@ -101,6 +101,7 @@ public class ActionLogic extends BaseLogic {
 			String contentBase = ApplicationSettings.getInstance()
 					.getServerSettings().getContentBase();
 			deployment = new Deployment();
+			deployment.setName(object.getName());
 			deployment.setCrc(String.valueOf(crc.getValue()));
 			deployment.setLocalFile(destContent.getAbsolutePath());
 			deployment.setUrl(contentBase + uniqueName);
@@ -160,11 +161,13 @@ public class ActionLogic extends BaseLogic {
 		Date currentDate = new Date();
 		for (Installation installation : installations) {
 			action = new Action();
-			// the parameters first
-			for (Parameter parameter : object.getAction().getParameters()) {
-				parameter.setId(null);
-				parameter.setId((Long)getHibernateTemplate().save(parameter));
-				action.getParameters().add(parameter);
+			// the parameters first (for CONFIGURE action only)
+			if (object.getAction().getType() == IActionTypesEnum.RECONFIGURE) {
+				for (Parameter parameter : object.getAction().getParameters()) {
+					parameter.setId(null);
+					parameter.setId((Long)getHibernateTemplate().save(parameter));
+					action.getParameters().add(parameter);
+				}
 			}
 			action.setDateAdded(currentDate);
 			action.setInstallation(installation);

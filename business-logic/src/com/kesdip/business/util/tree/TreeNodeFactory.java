@@ -327,7 +327,7 @@ public class TreeNodeFactory {
 		}
 		TreeNode node = new TreeNode(installation.getId(), BeanUtils
 				.getClassName(installation.getClass()), installation.getName());
-		node.setDisabled(false);
+		node.setDisabled(!installation.isActive());
 		node.setStatus(getInstallationStatus(installation));
 		return node;
 	}

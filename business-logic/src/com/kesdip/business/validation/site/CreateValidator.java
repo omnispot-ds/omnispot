@@ -37,6 +37,10 @@ public class CreateValidator extends BaseValidator {
 	public void validate(Object obj, Errors errors) {
 		Site site = (Site) obj;
 
+		if (site.getCustomer() == null) {
+			errors.addError("error.invalid.parent");
+			return;
+		}
 		checkNullOrEmpty(site.getName(), "name", errors);
 		checkLengthNotGreaterThan(site.getName(), "name", 50, errors);
 		checkLengthNotGreaterThan(site.getComments(), "comments", 512,

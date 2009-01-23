@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 18 …·Ì 2009 11:13:36 ÏÏ by Hibernate Tools 3.2.0.b9
+// Generated 23 …·Ì 2009 2:21:24 Ï by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;
@@ -24,6 +24,11 @@ public class Deployment  implements java.io.Serializable {
  * 			
      */
      private String url;
+     /**
+      * 				The name of this deployment.
+ * 			
+     */
+     private String name;
      /**
       *         		CRC for the deployment file.
  *         	
@@ -54,12 +59,14 @@ public class Deployment  implements java.io.Serializable {
     }
 
 	
-    public Deployment(String url, short status) {
+    public Deployment(String url, String name, short status) {
         this.url = url;
+        this.name = name;
         this.status = status;
     }
-    public Deployment(String url, String crc, String localFile, short status, Set<Content> contentFiles, Set<Installation> installations) {
+    public Deployment(String url, String name, String crc, String localFile, short status, Set<Content> contentFiles, Set<Installation> installations) {
        this.url = url;
+       this.name = name;
        this.crc = crc;
        this.localFile = localFile;
        this.status = status;
@@ -88,6 +95,17 @@ public class Deployment  implements java.io.Serializable {
     
     public void setUrl(String url) {
         this.url = url;
+    }
+    /**       
+     *      * 				The name of this deployment.
+     * 			
+     */
+    public String getName() {
+        return this.name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
     /**       
      *      *         		CRC for the deployment file.
@@ -155,6 +173,7 @@ public class Deployment  implements java.io.Serializable {
       buffer.append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append(" [");
       buffer.append("id").append("='").append(getId()).append("' ");			
       buffer.append("url").append("='").append(getUrl()).append("' ");			
+      buffer.append("name").append("='").append(getName()).append("' ");			
       buffer.append("crc").append("='").append(getCrc()).append("' ");			
       buffer.append("localFile").append("='").append(getLocalFile()).append("' ");			
       buffer.append("status").append("='").append(getStatus()).append("' ");			
@@ -176,6 +195,7 @@ public class Deployment  implements java.io.Serializable {
          int result = 17;
          
          result = 37 * result + ( getId() == null ? 0 : this.getId().hashCode() );
+         
          
          
          

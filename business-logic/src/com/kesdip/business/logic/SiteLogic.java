@@ -107,8 +107,9 @@ public class SiteLogic extends BaseLogic {
 		dbInstance.setActive(false);
 		getHibernateTemplate().update(dbInstance);
 
+		InstallationLogic installationLogic = getLogicFactory().getInstallationLogic();
 		for (Installation installation : dbInstance.getInstallations()) {
-			// TODO:DELETE Installation
+			installationLogic.delete(installation);
 		}
 	}
 

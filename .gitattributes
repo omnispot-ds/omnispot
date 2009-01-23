@@ -321,10 +321,13 @@ business-logic/src/com/kesdip/business/validation/BaseValidator.java -text
 business-logic/src/com/kesdip/business/validation/ValidationUtils.java -text
 business-logic/src/com/kesdip/business/validation/Validator.java -text
 business-logic/src/com/kesdip/business/validation/action/DeployContentValidator.java -text
+business-logic/src/com/kesdip/business/validation/action/SimpleActionValidator.java -text
 business-logic/src/com/kesdip/business/validation/customer/CreateValidator.java -text
 business-logic/src/com/kesdip/business/validation/customer/EditValidator.java -text
 business-logic/src/com/kesdip/business/validation/group/CreateValidator.java -text
 business-logic/src/com/kesdip/business/validation/group/EditValidator.java -text
+business-logic/src/com/kesdip/business/validation/installation/CreateValidator.java -text
+business-logic/src/com/kesdip/business/validation/installation/EditValidator.java -text
 business-logic/src/com/kesdip/business/validation/site/CreateValidator.java -text
 business-logic/src/com/kesdip/business/validation/site/EditValidator.java -text
 business-logic/src/com/kesdip/business/validation/user/BaseUserValidator.java -text

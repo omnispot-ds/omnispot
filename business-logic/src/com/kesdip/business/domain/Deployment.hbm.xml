@@ -29,6 +29,14 @@
 			</meta>
 		</property>
 
+		<property name="name" column="NAME" type="java.lang.String"
+			length="50" not-null="true">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The name of this deployment.
+			</meta>
+		</property>
+
         <property name="crc" column="CRC" type="java.lang.String" 
         	length="128">
         	<meta attribute="use-in-tostring">true</meta>

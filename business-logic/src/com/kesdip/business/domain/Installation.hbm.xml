@@ -12,6 +12,23 @@
 		</meta>
 		<meta attribute="implement-equals">true</meta>
 
+		<meta attribute="class-code">
+			<![CDATA[
+		/**
+		 * Latest printscreen.
+		 */
+		private transient com.kesdip.business.beans.PrintScreen printScreen = null;
+		
+		public void setPrintScreen(com.kesdip.business.beans.PrintScreen printScreen) {
+			this.printScreen = printScreen;
+		}
+
+		public com.kesdip.business.beans.PrintScreen getPrintScreen() {
+			return this.printScreen;
+		}
+		]]>
+		</meta>
+
 		<id name="id" column="ID" type="java.lang.Long">
 			<meta attribute="use-in-equals">true</meta>
 			<meta attribute="use-in-tostring">true</meta>
@@ -30,10 +47,18 @@
 		</property>
 
 		<property name="uuid" column="UUID" type="java.lang.String"
-			length="50" not-null="true" lazy="false">
+			length="100" not-null="true" lazy="false">
 			<meta attribute="use-in-tostring">true</meta>
 			<meta attribute="field-description">
 				Tha UUID of the installation.
+			</meta>
+		</property>
+
+		<property name="screenType" column="SCR_TYPE" type="java.lang.String"
+			length="50" not-null="false" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Tha type of the screen.
 			</meta>
 		</property>
 
