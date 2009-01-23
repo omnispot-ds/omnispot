@@ -30,9 +30,6 @@
 			<li><a href="#" rel="data_menu">
 				<fmt:message key="menu.manage" bundle="${msg}"/>
 			</a></li>
-			<li><a href="#" rel="reports_menu">
-				<fmt:message key="menu.reports" bundle="${msg}"/>
-			</a></li>
 		</ul>
 	</div>
 
@@ -47,15 +44,6 @@
 		<a href="${pageContext.request.contextPath}/secure/user-home.do">
 			<fmt:message key="menu.manage.users" bundle="${msg}"/>
 		</a>
-	</div>
-
-	<!-- Reports menu -->                                                   
-	<div id="reports_menu" class="dropmenudiv">
-		<a href="${pageContext.request.contextPath}/secure/graph/measurements.do">
-			<strike><fmt:message key="menu.graph.measurements" bundle="${msg}"/></strike>
-		</a>
-		
-		<a href="#"><strike>Paymemts</strike></a>
 	</div>
 
 	<script type="text/javascript">

@@ -90,7 +90,15 @@ public class SimpleActionController extends BaseFormController {
 		ActionBean bean = (ActionBean) super.formBackingObject(req);
 
 		if (isFormChangeRequest(req)) {
-			// setCurrentObject(req, bean.getMechanic());
+			if (bean.getInstallation() != null) { 
+				setCurrentObject(req, bean.getInstallation());
+			} else if (bean.getSite() != null) {
+				setCurrentObject(req, bean.getSite());
+			} else if (bean.getInstallationGroup() != null) {
+				setCurrentObject(req, bean.getInstallationGroup());
+			} else {
+				setCurrentObject(req, bean.getCustomer());
+			}
 			return bean;
 		}
 
@@ -170,11 +178,23 @@ public class SimpleActionController extends BaseFormController {
 	 *      javax.servlet.http.HttpServletResponse, java.lang.Object)
 	 */
 	@Override
-	protected void onFormChange(HttpServletRequest request,
+	protected void onFormChange(HttpServletRequest req,
 			HttpServletResponse response, Object command) throws Exception {
 
 		ActionBean bean = (ActionBean) command;
-		String action = request.getParameter(PARAM_ACTION);
+		if (isFormChangeRequest(req)) {
+			if (bean.getInstallation() != null) { 
+				setCurrentObject(req, bean.getInstallation());
+			} else if (bean.getSite() != null) {
+				setCurrentObject(req, bean.getSite());
+			} else if (bean.getInstallationGroup() != null) {
+				setCurrentObject(req, bean.getInstallationGroup());
+			} else {
+				setCurrentObject(req, bean.getCustomer());
+			}
+		}
+
+		String action = req.getParameter(PARAM_ACTION);
 		// add a work entry at the end
 		// use the id to force-enter the object in the Set
 		if (ADD_PARAM.equals(action)) {

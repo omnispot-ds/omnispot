@@ -10,30 +10,14 @@
 		<fmt:message bundle="${msg}" key="home.status.title"/>
 	</div>
 	<table width="100%">
-		<!-- total fuel -->
 		<tr>
-			<td class="label">
-				<label class="description">
-					<fmt:message bundle="${msg}" key="home.some.system.status" />
-				</label>
-			</td>
-			<td>
-				<div class="readonly_value">
-					Some system status value
-				</div>
+			<td class="label" colspan="2">
+			&nbsp;
 			</td>
 		</tr>
-		<!-- antennas on backup -->
 		<tr>
-			<td class="label">
-				<label class="description">
-					<fmt:message bundle="${msg}" key="home.another.system.status" />
-				</label>
-			</td>
-			<td>
-				<div class="readonly_value">
-					Another system status value
-				</div>
+			<td class="label" colspan="2">
+				&nbsp;
 			</td>
 		</tr>
 		<!-- Buttons -->
