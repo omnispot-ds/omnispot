@@ -12,5 +12,6 @@ common/dist
 demos/AdPlayerDemo/ad.mp4
 player/ad.mp4
 player/bin
+player/bld.jpg
 player/build
 player/dist
