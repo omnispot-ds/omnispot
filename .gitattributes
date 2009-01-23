@@ -249,6 +249,7 @@ bootstrap/src/com/kesdip/bootstrap/domain/generated/Parameter.java -text
 bootstrap/src/com/kesdip/bootstrap/message/ContinuationMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/DeployMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/IMessage.java -text
+bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text
 bootstrap/src/inactive_hibernate.cfg.xml -text
 bootstrap/src/log4j.xml -text
