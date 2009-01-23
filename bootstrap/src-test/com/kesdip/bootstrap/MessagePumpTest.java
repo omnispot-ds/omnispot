@@ -21,7 +21,7 @@ public class MessagePumpTest extends TestCase {
 	}
 	
 	public void testDeploy() throws Exception {
-		pump.addMessage(new DeployMessage("file:test/sample.xml", 3965232118L));
+		pump.addMessage(new DeployMessage("file:test/sample.xml", 3965232118L, null));
 		
 		// sleep for a while to let the message get processed.
 		Thread.sleep(10 * 60 * 1000);

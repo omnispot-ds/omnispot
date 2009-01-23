@@ -52,13 +52,11 @@ public class ResourceHandler implements ContentHandler {
 		return resource_id;
 	}
 
-	@Override
 	public String toMessageString() {
 		return "[ResourceHandler:" + resourceUrl + "," + crc + "," +
 			deployment_id + "," + resource_id + "]";
 	}
 
-	@Override
 	public void run() {
 		try {
 			logger.info("Starting download of resource: " + resourceUrl);

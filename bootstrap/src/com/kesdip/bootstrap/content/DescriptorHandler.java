@@ -49,12 +49,10 @@ public class DescriptorHandler implements ContentHandler {
 		this.crc = crc;
 	}
 
-	@Override
 	public String toMessageString() {
 		return "[DescriptorHandler:" + descriptorUrl + ", " + crc + "]";
 	}
 
-	@Override
 	public void run() {
 		try {
 			logger.info("Starting download of deployment descriptor: " + descriptorUrl);

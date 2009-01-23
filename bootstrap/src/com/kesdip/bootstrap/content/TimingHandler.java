@@ -9,14 +9,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.Config;
+import com.kesdip.business.constenum.IActionStatusEnum;
+import com.kesdip.business.constenum.IActionTypesEnum;
 import com.kesdip.common.util.DBUtils;
 
 /**
@@ -35,12 +41,10 @@ public class TimingHandler implements ContentHandler {
 	private static final Logger logger =
 		Logger.getLogger(TimingHandler.class);
 
-	@Override
 	public String toMessageString() {
 		return "[TimingHandler]";
 	}
 
-	@Override
 	public void run() {
 		try {
 			try {
@@ -57,6 +61,9 @@ public class TimingHandler implements ContentHandler {
 			Connection c = null;
 			try {
 				c = DBUtils.getConnection();
+				
+				actionsUpdate(c);
+				
 				Map<ResourceHandler, Integer> pendingMap =
 					new HashMap<ResourceHandler, Integer>();
 				
@@ -199,4 +206,57 @@ public class TimingHandler implements ContentHandler {
 		logger.info("Completed task for: " + toMessageString());
 	}
 
+	private void actionsUpdate(Connection c) throws SQLException {
+		//look for any pending updates in the action table...
+		PreparedStatement ps = c.prepareStatement(
+				"SELECT PARAMETER.PARAM_VALUE FROM ACTION,PARAMETER " +
+				"WHERE PARAMETER.ACTION_ID = ACTION.ID AND " +
+				"PARAMETER.NAME=? AND ACTION.TYPE=? AND ACTION.STATUS=?");
+		ps.setString(1, "crc");
+		ps.setShort(2, IActionTypesEnum.DEPLOY);
+		ps.setShort(2, IActionStatusEnum.IN_PROGRESS);
+		
+		ResultSet rs = ps.executeQuery();
+		List<String> crcs = new ArrayList<String>();
+		
+		while (rs.next()) {
+			crcs.add(rs.getString(1));
+		}
+		rs.close();
+		ps.close();
+		
+		if (crcs.size() == 0)
+			return;
+		
+		ps = c.prepareStatement(
+				"SELECT CRC,FAILED_RESOURCE FROM DEPLOYMENT " +
+				"WHERE FILENAME != '' " +
+		"AND DEPLOY_DATE <= ? AND CRC=? ORDER BY DEPLOY_DATE DESC");
+		PreparedStatement ps2 = c.prepareStatement(
+				"UPDATE ACTION,PARAMETER SET ACTION.STATUS=? WHERE " +
+				"PARAMETER.ACTION_ID = ACTION.ID AND PARAMETER.NAME=? AND " +
+				"PARAMETER.PARAM_VALUE=? ");
+		for (String crc:crcs) {
+			
+			ps.setTimestamp(1, new Timestamp(new Date().getTime()));
+			ps.setString(2, crc);
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				String crcKey = rs.getString(1);
+				String failed = rs.getString(2);
+				if (failed.equals("Y"))
+					ps2.setShort(1, IActionStatusEnum.FAILED);
+				else
+					ps2.setShort(1, IActionStatusEnum.OK);
+				ps2.setString(2, "crc");
+				ps2.setString(3, crcKey);
+				ps2.executeUpdate();
+				ps2.close();
+			}
+		}
+		
+		ps.close();
+		rs.close();
+	}
 }

@@ -24,7 +24,7 @@ public class DummyPlayer {
 		try {
 			MessagePump pump = new MessagePump();
 			pump.start();
-			pump.addMessage(new DeployMessage("file:test/sample.xml", 3656990148L));
+			pump.addMessage(new DeployMessage("file:test/sample.xml", 3215048850L, null));
 			
 			while (true) {
 				try {

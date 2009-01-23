@@ -23,15 +23,17 @@ import com.kesdip.common.util.DBUtils;
  * 
  * @author Pafsanias Ftakas
  */
-public class DeployMessage implements Message {
+public class DeployMessage extends Message {
 	private static final Logger logger = Logger.getLogger(DeployMessage.class);
 	
 	private String descriptorUrl;
 	private long crc;
+	private String actionId = null;
 	
-	public DeployMessage(String descriptorUrl, long crc) {
+	public DeployMessage(String descriptorUrl, long crc, String actionId) {
 		this.descriptorUrl = descriptorUrl;
 		this.crc = crc;
+		this.actionId = actionId;
 	}
 	
 	public String getDescriptorUrl() {
@@ -42,7 +44,7 @@ public class DeployMessage implements Message {
 		return crc;
 	}
 
-	@Override
+	
 	public void process() throws Exception {
 		logger.info("Starting processing of deployment message for: " +
 				descriptorUrl);
@@ -105,8 +107,15 @@ public class DeployMessage implements Message {
 		}
 	}
 
-	@Override
+	
 	public String toMessageString() {
 		return "[Deploy:" + descriptorUrl + "]";
 	}
+
+	@Override
+	public String getActionId() {
+		// TODO Auto-generated method stub
+		return actionId;
+	}
+
 }

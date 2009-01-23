@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.kesdip.bootstrap.domain.generated.Action"
+		table="ACTION" lazy="true">
+		<meta attribute="class-description">
+			Domain object for the 'Action' entity. Auto-generated
+			code. &lt;strong&gt;Do not modify manually.&lt;/strong&gt;
+			@author gerogias
+		</meta>
+		<meta attribute="implement-equals">true</meta>
+
+		<id name="id" column="ID" type="java.lang.Long">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Primary, surrogate key.
+			</meta>
+			<generator class="increment" />
+		</id>
+
+		<property name="actionId" column="ACTION_ID" type="java.lang.String"
+			length="50" not-null="true">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The id of the action.
+			</meta>
+		</property>
+
+        <property name="type" column="TYPE" type="short" 
+        	not-null="true">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		The type of the action.
+        		@see com.kesdip.business.constenum.IActionTypesEnum
+        	</meta>
+        </property>
+
+        <property name="status" column="STATUS" type="short" 
+        	not-null="true">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		The status of the action.
+        		@see com.kesdip.business.constenum.IActionStatusEnum
+        	</meta>
+        </property>
+
+        <property name="dateAdded" column="DATE_ADDED" type="java.util.Date" 
+        	not-null="true">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		When was the action added.
+        	</meta>
+        </property>
+
+		<property name="message" column="MESSAGE" type="java.lang.String"
+			not-null="false" lazy="false" length="3000">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The message of the action in case of error.
+			</meta>
+		</property>
+
+		<set name="parameters" table="PARAMETERS" cascade="none"
+			lazy="false">
+			<meta attribute="field-description">
+				The parameters of the action.
+			</meta>
+			<key column="ACTION_ID" />
+			<one-to-many
+				class="com.kesdip.bootstrap.domain.generated.Parameter"/>
+		</set>
+
+	</class>
+
+</hibernate-mapping>

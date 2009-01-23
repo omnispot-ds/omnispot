@@ -18,9 +18,20 @@ import com.kesdip.bootstrap.Config;
  * 
  * @author Pafsanias Ftakas
  */
-public class RestartPlayerMessage implements Message {
+public class RestartPlayerMessage extends Message {
 	private static final Logger logger =
 		Logger.getLogger(RestartPlayerMessage.class);
+	
+	private String actionId;
+
+	@Override
+	public String getActionId() {
+		return actionId;
+	}
+	
+	public RestartPlayerMessage(String actionId) {
+		this.actionId = actionId;
+	}
 
 	/**
 	 * Helper class to log the process output to the loggers of this class.
@@ -73,6 +84,8 @@ public class RestartPlayerMessage implements Message {
 	 */
 	public static boolean isPlayerProcessAlive() {
 		try {
+			if (playerProcess == null)
+				throw new IllegalStateException("Player process is null!?!?");
 			int exitValue = playerProcess.exitValue();
 			logger.info("The player process has exited with status: " +
 					exitValue);
@@ -82,7 +95,7 @@ public class RestartPlayerMessage implements Message {
 		}
 	}
 
-	@Override
+	
 	public void process() throws Exception {
 		logger.info("Restarting player");
 		
@@ -114,9 +127,7 @@ public class RestartPlayerMessage implements Message {
 		playerErrorLoggingThread.start();
 	}
 
-	@Override
 	public String toMessageString() {
 		return "[RestartPlayer]";
 	}
-
 }

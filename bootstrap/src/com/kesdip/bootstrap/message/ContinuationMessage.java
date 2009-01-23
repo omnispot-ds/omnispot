@@ -16,11 +16,10 @@ import com.kesdip.bootstrap.content.TimingHandler;
  * 
  * @author Pafsanias Ftakas
  */
-public class ContinuationMessage implements Message {
+public class ContinuationMessage extends Message {
 	private static final Logger logger =
 		Logger.getLogger(ContinuationMessage.class);
 
-	@Override
 	public void process() throws Exception {
 		logger.info("Starting processing of continuation message.");
 		
@@ -30,9 +29,13 @@ public class ContinuationMessage implements Message {
 		ContentRetriever.getSingleton().addTask(new TimingHandler());
 	}
 
-	@Override
 	public String toMessageString() {
 		return "[ContinuationMessage]";
+	}
+
+	@Override
+	public String getActionId() {
+		return null;
 	}
 
 }
