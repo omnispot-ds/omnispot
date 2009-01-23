@@ -253,6 +253,7 @@ bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text
 bootstrap/src/inactive_hibernate.cfg.xml -text
 bootstrap/src/log4j.xml -text
+bootstrap/test/bootstrap.properties -text
 bootstrap/test/sample.xml -text
 business-logic/.classpath -text
 business-logic/.project -text
