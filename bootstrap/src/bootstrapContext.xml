@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+	<bean id="ProtocolHandler" class="com.kesdip.bootstrap.communication.ProtocolHandler">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	
+	<!-- persistence  -->
+	<bean id="bootstrapDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
+	 <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"/>
+	 <property name="url" value="jdbc:derby://localhost:1527/c:/software/DerbyDb/data/bootstrap;create=true"/>
+	 <property name="username" value="kesdipepe"/> 
+	 <property name="password" value="kesdipepe"/>
+	</bean>
+	
+	<bean id="bootstrapSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"> 
+	 <property name="dataSource" ref="bootstrapDataSource"/>
+	 <property name="mappingResources">  
+	  <list> 
+	   <value>com/kesdip/bootstrap/domain/Action.hbm.xml</value>
+	   <value>com/kesdip/bootstrap/domain/Parameter.hbm.xml</value>
+	  </list> 
+	 </property>
+	 <property name="hibernateProperties">
+	  <value>
+		hibernate.dialect=org.hibernate.dialect.DerbyDialect
+		hibernate.show_sql=false 
+		hibernate.hbm2ddl.auto=none
+	  </value>
+	 </property>
+	</bean>
+	
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="bootstrapDataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="txManager" />
+	
+	<bean
+		id="hibernateTemplate"
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<constructor-arg>
+			<ref bean="bootstrapSessionFactory" />
+		</constructor-arg>
+	</bean>
+	
+ </beans>
