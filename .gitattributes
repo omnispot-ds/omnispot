@@ -244,6 +244,7 @@ business-logic/src/com/kesdip/business/beans/ListItemBean.java -text
 business-logic/src/com/kesdip/business/beans/PrintScreen.java -text
 business-logic/src/com/kesdip/business/beans/QuickSearchBean.java -text
 business-logic/src/com/kesdip/business/beans/ViewPrintScreenBean.java -text
+business-logic/src/com/kesdip/business/communication/ServerProtocolHandler.java -text
 business-logic/src/com/kesdip/business/config/ApplicationSettings.java -text
 business-logic/src/com/kesdip/business/config/ComponentSettings.java -text
 business-logic/src/com/kesdip/business/config/FileStorageSettings.java -text
