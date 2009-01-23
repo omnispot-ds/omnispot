@@ -236,6 +236,7 @@ bootstrap/src/bootstrapContext.xml -text
 bootstrap/src/com/kesdip/bootstrap/Config.java -text
 bootstrap/src/com/kesdip/bootstrap/Manager.java -text
 bootstrap/src/com/kesdip/bootstrap/MessagePump.java -text
+bootstrap/src/com/kesdip/bootstrap/communication/ProtocolHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/content/ContentHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/content/ContentRetriever.java -text
 bootstrap/src/com/kesdip/bootstrap/content/DescriptorHandler.java -text
