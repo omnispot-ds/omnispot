@@ -23,70 +23,82 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.config.ApplicationSettings;
+import com.kesdip.business.config.FileStorageSettings;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IInstallationStatus;
 import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.domain.generated.Installation;
 
 public class ServerProtocolHandler {
-	
-	private final static Logger logger = Logger.getLogger(ServerProtocolHandler.class);
-	
+
+	private final static Logger logger = Logger
+			.getLogger(ServerProtocolHandler.class);
+
 	String installationId;
-	
+
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
-	public void handleRequest(HttpServletRequest req, HttpServletResponse resp) 
-	throws Exception {
+	public void handleRequest(HttpServletRequest req, HttpServletResponse resp)
+			throws Exception {
 
-		if (isMultipart(req))
-			parseMultipart(req);
+		Map<String, List<String>> parameters = isMultipart(req) ? parseMultipart(req)
+				: req.getParameterMap();
 
-		installationId = req.getParameter("installationId" );
-		String serializedActions = req.getParameter("serializedActions");
-		String playerProcAlive = req.getParameter("playerProcAlive");
-		logger.info("Received: InstallationId: "+installationId+" playerProcAlive: " +playerProcAlive + " serializedActions: "+serializedActions);
+		installationId = getParameter("installationId", parameters);
+		String serializedActions = getParameter("serializedActions", parameters);
+		String playerProcAlive = getParameter("playerProcAlive", parameters);
+		logger.info("Received: InstallationId: " + installationId
+				+ " playerProcAlive: " + playerProcAlive
+				+ " serializedActions: " + serializedActions);
 		if (req.getAttribute("screenshot") != null) {
-			FileItem fileitem = (FileItem)req.getAttribute("screenshot");
-			fileitem.write(new File(ApplicationSettings
-					.getInstance().getFileStorageSettings().getPrintScreenFolder()+File.pathSeparator+installationId,"screenshot.jpg"));
+			FileStorageSettings settings = ApplicationSettings.getInstance()
+					.getFileStorageSettings();
+			FileItem fileitem = (FileItem) req.getAttribute("screenshot");
+			fileitem.write(new File(settings.getPrintScreenFolder()
+					+ File.pathSeparator + installationId, settings
+					.getPrintScreenName()));
 		}
 		if (!serializedActions.equals("NO_ACTIONS")) {
-		ObjectInputStream instream = new ObjectInputStream(new ByteArrayInputStream(serializedActions.getBytes()));
-		Action[] actions = (Action[])instream.readObject();
-		
-		//now update the admin-console db
-		for (Action action:actions) {
-			List<Action> l = getHibernateTemplate().find(
-					"from " + Action.class.getName() + " a where a.actionId = ? ",
-					new Object[] { action.getActionId()});
-			if (l.size() > 1)
-				throw new AssertionError("Duplicate actionIds found!?!?");
-			action.setId(l.get(0).getId());
-			//TODO Maybe delete actions with status OK??
-			getHibernateTemplate().update(action);
-		}
-		Installation installation = new Installation();
-		installation.setUuid(installationId);
-		installation = (Installation)getHibernateTemplate().load(Installation.class, installation);
-		installation.setCurrentStatus(playerProcAlive.equals("TRUE")?IInstallationStatus.OK:IInstallationStatus.PLAYER_DOWN);
-		getHibernateTemplate().update(installation);
+			ObjectInputStream instream = new ObjectInputStream(
+					new ByteArrayInputStream(serializedActions.getBytes()));
+			Action[] actions = (Action[]) instream.readObject();
+
+			// now update the admin-console db
+			for (Action action : actions) {
+				List<Action> l = getHibernateTemplate().find(
+						"from " + Action.class.getName()
+								+ " a where a.actionId = ? ",
+						new Object[] { action.getActionId() });
+				if (l.size() > 1)
+					throw new AssertionError("Duplicate actionIds found!?!?");
+				action.setId(l.get(0).getId());
+				// TODO Maybe delete actions with status OK??
+				getHibernateTemplate().update(action);
+			}
+			Installation installation = new Installation();
+			installation.setUuid(installationId);
+			installation = (Installation) getHibernateTemplate().load(
+					Installation.class, installation);
+			installation
+					.setCurrentStatus(playerProcAlive.equals("TRUE") ? IInstallationStatus.OK
+							: IInstallationStatus.PLAYER_DOWN);
+			getHibernateTemplate().update(installation);
 		}
 		sendResponse(resp);
-	
+
 	}
-	
+
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
 	private void sendResponse(HttpServletResponse resp) throws Exception {
 
-		//send any pending actions
+		// send any pending actions
 		Installation installation = new Installation();
 		installation.setId(Long.valueOf(installationId));
 		List<Action> actions = getHibernateTemplate().find(
-				"from " + Action.class.getName() + " a where a.status= ? and a.installation = ?",
-				new Object[] { IActionStatusEnum.SCHEDULED , installation } );
-
+				"from " + Action.class.getName()
+						+ " a where a.status= ? and a.installation = ?",
+				new Object[] { IActionStatusEnum.SCHEDULED, installation });
 
 		String serializedActions = "NO_ACTIONS";
 		if (actions.size() > 0) {
@@ -97,28 +109,30 @@ public class ServerProtocolHandler {
 		}
 		resp.getOutputStream().print(serializedActions);
 		resp.getOutputStream().close();
-	
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private void parseMultipart(HttpServletRequest req) throws FileUploadException, UnsupportedEncodingException{
+	private Map<String, List<String>> parseMultipart(HttpServletRequest req)
+			throws FileUploadException, UnsupportedEncodingException {
 		ServletFileUpload upload = new ServletFileUpload();
-		DiskFileItemFactory factory = new DiskFileItemFactory(Integer.MAX_VALUE , new File(ApplicationSettings
-				.getInstance().getFileStorageSettings().getPrintScreenFolder()));
+		DiskFileItemFactory factory = new DiskFileItemFactory(
+				Integer.MAX_VALUE, new File(ApplicationSettings.getInstance()
+						.getFileStorageSettings().getPrintScreenFolder()));
 		upload.setFileItemFactory(factory);
 		upload.setHeaderEncoding("UTF-8");
 
 		logger.debug("Parsing request with Commons FileUpload.");
 		List fileItems = upload.parseRequest(req);
-		Map<String, ArrayList<String>> formParameters = new HashMap<String, ArrayList<String>>();
-		Map<String, FileItem> fileParameters = new HashMap<String, FileItem>();	
+		Map<String, List<String>> formParameters = new HashMap<String, List<String>>();
+		Map<String, FileItem> fileParameters = new HashMap<String, FileItem>();
 
 		logger.debug("Populating Maps.");
 		for (int i = 0; i < fileItems.size(); i++) {
-			FileItem item = (FileItem)fileItems.get(i);				
+			FileItem item = (FileItem) fileItems.get(i);
 
-			if (item.isFormField() == true) {																		
-				ArrayList<String> values = formParameters.get(item.getFieldName());
+			if (item.isFormField() == true) {
+				List<String> values = formParameters.get(item.getFieldName());
 				if (values != null) {
 					values.add(item.getString("UTF-8"));
 				} else {
@@ -131,14 +145,28 @@ public class ServerProtocolHandler {
 				req.setAttribute(item.getFieldName(), item);
 			}
 		}
-		req.getParameterMap().putAll(formParameters);
+		return formParameters;
 	}
 
 	private boolean isMultipart(HttpServletRequest req) {
-		return (req.getHeader("content-type") != null && 
-				req.getHeader("content-type").indexOf("multipart/form-data") != -1);
+		return (req.getHeader("content-type") != null && req.getHeader(
+				"content-type").indexOf("multipart/form-data") != -1);
 	}
-	
+
+	/**
+	 * @param parameterName
+	 *            the param name
+	 * @param parameters
+	 *            the parameter map
+	 * @return String the value of the first parameter in the list or
+	 *         <code>null</code>
+	 */
+	private final String getParameter(String parameterName,
+			Map<String, List<String>> parameters) {
+		return parameters.containsKey(parameterName) ? parameters.get(
+				parameterName).get(0) : null;
+	}
+
 	/**
 	 * Utility Hibernate template.
 	 */
