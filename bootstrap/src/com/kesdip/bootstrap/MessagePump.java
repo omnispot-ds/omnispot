@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.message.ContinuationMessage;
-import com.kesdip.bootstrap.message.Message;
+import com.kesdip.bootstrap.message.IMessage;
 import com.kesdip.bootstrap.message.RestartPlayerMessage;
 
 /**
@@ -24,7 +24,7 @@ public class MessagePump extends Thread {
 	private final static Logger logger = Logger.getLogger(MessagePump.class);
 	
 	/* MESSAGE PUMP STATE */
-	private BlockingQueue<Message> messageQueue;
+	private BlockingQueue<IMessage> messageQueue;
 	private boolean running;
 	
 	/**
@@ -33,7 +33,7 @@ public class MessagePump extends Thread {
 	public MessagePump() {
 		super("message_pump");
 		
-		this.messageQueue = new LinkedBlockingQueue<Message>();
+		this.messageQueue = new LinkedBlockingQueue<IMessage>();
 		this.running = true;
 		
 		// Make sure any static code in the Config class has been called, so
@@ -48,7 +48,7 @@ public class MessagePump extends Thread {
 		
 		// Start the player playing. This will launch a subprocess that will
 		// run the JVM and start the main player class.
-		addMessage(new RestartPlayerMessage());
+		addMessage(new RestartPlayerMessage(null));
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class MessagePump extends Thread {
 	 * 
 	 * @param msg The message to add to the queue of tasks to perform.
 	 */
-	public void addMessage(Message msg) {
+	public void addMessage(IMessage msg) {
 		// Do not use the put() i/f, because we want the queue to throw an
 		// exception if the capacity (currently Integer.MAX_VALUE) is reached.
 		messageQueue.add(msg);
@@ -85,10 +85,10 @@ public class MessagePump extends Thread {
 	public void run() {
 		while (isRunning()) {
 			try {
-				Message msg = messageQueue.take(); // potentially blocks
+				IMessage msg = messageQueue.take(); // potentially blocks
 				
 				try {
-					msg.process();
+					msg.handle();
 					logger.info("Completed processing of message: " +
 							msg.toMessageString());
 				} catch (Exception e) {

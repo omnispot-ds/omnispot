@@ -70,6 +70,10 @@ public class Config {
 		}
 	}
 	
+	public String getinstallationId() {
+		return props.getProperty("installation_id", "_NOT_SET_");
+	}
+	
 	/**
 	 * The deployment path points to a directory on the local machine, where
 	 * downloaded deployment descriptors will be placed.
@@ -148,4 +152,44 @@ public class Config {
 		return props.getProperty("player_working_dir", "_NOT_SET_");
 	}
 	
+	/**
+	 * Get the interval that the manager thread sleeps
+	 * before communicating with the server
+	 * @return The interval in seconds
+	 */
+	public String getCommunicationInterval() {
+		return props.getProperty("communication_interval", "_NOT_SET_");
+	}
+	
+	/**
+	 * Get the server http URL
+	 * @return The server url
+	 */
+	public String getServerURL() {
+		return props.getProperty("server_url", "_NOT_SET_");
+	}
+	
+	/**
+	 * Get the interval in seconds between screendumps
+	 * @return The screendump interval
+	 */
+	public String getScreenDumpInterval() {
+		return props.getProperty("screendump_interval", "_NOT_SET_");
+	}
+	
+	/**
+	 * Get the size of the screen shot
+	 * @return The screenshot size in pixels
+	 */
+	public String getScreenShotSize() {
+		return props.getProperty("screendump_size", "_NOT_SET_");
+	}
+	
+	/**
+	 * Get the size of the screen shot
+	 * @return The screenshot size in pixels
+	 */
+	public String getScreenShotStorageLocation() {
+		return props.getProperty("screendump_storage_path", "_NOT_SET_");
+	}
 }
