@@ -372,6 +372,7 @@ etc/build.properties -text
 etc/build.xml -text
 etc/lib/ant-contrib/ant-contrib-1.0b3.jar -text
 etc/lib/apache-commons/commons-beanutils-1.7.0.jar -text
+etc/lib/apache-commons/commons-codec-1.3.jar -text
 etc/lib/apache-commons/commons-collections-3.1.jar -text
 etc/lib/apache-commons/commons-configuration-1.3.jar -text
 etc/lib/apache-commons/commons-dbcp-1.2.2.jar -text
