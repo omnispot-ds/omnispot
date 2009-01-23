@@ -97,7 +97,26 @@
 		<copy tofile="${tomcat.home}/webapps/admin-console.war" file="${admin-console.dist.file}" overwrite="true"/>
 	</target>
 	
-	<target name="dist.bootstrap" depends="build.common, build.bootstrap"/>
+	<target name="dist.bootstrap" depends="build.common, build.bootstrap">
+		<mkdir dir="${bootstrap.home}"/>
+		<mkdir dir="${bootstrap.home}/lib"/>
+		<copy todir="${bootstrap.home}/lib" flatten="true">
+			<fileset file="${bootstrap.dist.file}"/>
+			<fileset file="${common.dist.file}"/>
+			<fileset file="${player.dist.file}"/>
+			<fileset dir="${etc.lib.dir}">
+				<include name="log4j/log4j-1.2.14.jar"/>
+				<include name="apache-commons/commons-httpclient-3.1.jar"/>
+				<include name="apache-commons/commons-codec-1.3.jar"/>
+				<include name="apache-commons/commons-io.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="${bootstrap.home}/service-wrapper" >
+			<fileset dir="${etc.base.dir}/service-wrapper">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
+	</target>	
 	
 	<target name="dist.player" depends="build.common, build.player"/>
 	
