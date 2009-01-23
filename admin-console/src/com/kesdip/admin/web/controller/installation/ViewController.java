@@ -3,20 +3,20 @@
  * Copyright 2008 - KESDIP E.P.E & Stelios Gerogiannakis - All rights reserved.
  * eof Disclaimer
  * 
- * Date: Dec 8, 2008
+ * Date: Jan 23, 2009
  * @author <a href="mailto:sgerogia@gmail.com">Stelios Gerogiannakis</a>
  */
 
-package com.kesdip.admin.web.controller.site;
+package com.kesdip.admin.web.controller.installation;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.kesdip.admin.web.controller.BaseFormController;
-import com.kesdip.business.domain.generated.Site;
-import com.kesdip.business.logic.SiteLogic;
+import com.kesdip.business.domain.generated.Installation;
+import com.kesdip.business.logic.InstallationLogic;
 
 /**
- * Controller for the Site viewing form.
+ * Controller for the Installation viewing form.
  * 
  * @author gerogias
  */
@@ -36,12 +36,12 @@ public class ViewController extends BaseFormController {
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
 
-		Site site = new Site();
-		site.setId(Long.valueOf(request.getParameter("id")));
+		Installation installation = new Installation();
+		installation.setId(Long.valueOf(request.getParameter("id")));
 
-		SiteLogic logic = getLogicFactory().getSiteLogic();
-		Site dbSite = logic.getInstance(site);
-		setCurrentObject(request, dbSite);
-		return dbSite;
+		InstallationLogic logic = getLogicFactory().getInstallationLogic();
+		Installation dbInstallation = logic.getInstance(installation);
+		setCurrentObject(request, dbInstallation);
+		return dbInstallation;
 	}
 }

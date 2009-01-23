@@ -20,6 +20,7 @@
 		<property name="bindOnNewForm" value="true"/>
 		<property name="logicFactory" ref="logicFactory"/>		
 		<property name="listGenerator" ref="optionListGenerator"/>
+		<property name="sessionForm" value="false"/>
 	</bean>
 
 	<!-- URL-to-controller mappings -->
@@ -50,6 +51,11 @@
 				/secure/site/edit.do*					= editSiteController
 				/secure/site/view-images.do*			= viewPrintScreenController
 				
+				/secure/installation/create.do*			= createInstallationController
+				/secure/installation/view.do*			= viewInstallationController
+				/secure/installation/delete.do*			= deleteInstallationController
+				/secure/installation/edit.do*			= editInstallationController
+
 				/secure/installationGroup/create.do*	= createGroupController
 				/secure/installationGroup/view.do*		= viewGroupController
 				/secure/installationGroup/delete.do*	= deleteGroupController
@@ -221,6 +227,43 @@
 			value="com.kesdip.business.domain.generated.Site" />
 	</bean>
 	
+	<!-- =================== INSTALLATION CONTROLLERS ==================== -->
+	<!-- Controller for Installation creation -->
+	<bean id="createInstallationController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.installation.CreateController">
+		<property name="formView" value="/secure/installation/create.tiles" />
+		<property name="successView" value="/secure/home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.Installation" />
+	</bean>
+	
+	<!-- Controller for Installation viewing -->
+	<bean id="viewInstallationController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.installation.ViewController">
+		<property name="formView" value="/secure/installation/view.tiles" />
+		<property name="successView" value="/secure/home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.Installation" />
+	</bean>
+	
+	<!-- Controller for Installation deletion -->
+	<bean id="deleteInstallationController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.installation.DeleteController">
+		<property name="formView" value="/secure/installation/view.tiles" />
+		<property name="successView" value="/secure/home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.Installation" />
+	</bean>
+
+	<!-- Controller for Installation edition -->
+	<bean id="editInstallationController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.installation.EditController">
+		<property name="formView" value="/secure/installation/edit.tiles" />
+		<property name="successView" value="/secure/home.do" />
+		<property name="commandClass"
+			value="com.kesdip.business.domain.generated.Installation" />
+	</bean>
+
 	<!-- =================== GROUP CONTROLLERS ==================== -->
 	<!-- Controller for Group creation -->
 	<bean id="createGroupController" parent="baseFormController"

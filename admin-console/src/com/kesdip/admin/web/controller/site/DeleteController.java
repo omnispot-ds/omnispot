@@ -21,7 +21,7 @@ import com.kesdip.business.exception.ValidationException;
 import com.kesdip.business.logic.SiteLogic;
 
 /**
- * Controller for Customer deletion.
+ * Controller for Site deletion.
  * 
  * @author gerogias
  */

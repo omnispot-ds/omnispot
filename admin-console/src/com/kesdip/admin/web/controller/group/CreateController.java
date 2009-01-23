@@ -12,6 +12,7 @@ package com.kesdip.admin.web.controller.group;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +36,11 @@ public class CreateController extends BaseFormController {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * The logger.
+	 */
+	private static final Logger logger = Logger.getLogger(CreateController.class);
+	
+	/**
 	 * Performs object creation.
 	 * 
 	 * @param request
@@ -53,11 +59,13 @@ public class CreateController extends BaseFormController {
 			throws Exception {
 
 		InstallationGroup group = (InstallationGroup) command;
-		System.out.println("group has: " +  group.getInstallations().size()+ " instll");
+		if (logger.isDebugEnabled()) {
+			logger.debug("group has: " +  group.getInstallations().size()+ " instll");
+		}
 		GroupLogic logic = getLogicFactory().getGroupLogic();
 		try {
 			InstallationGroup dbGroup = logic.create(group);
-			System.out.println("after wsssave group has: " +  group.getInstallations().size()+ " instll");
+			setCurrentObject(request, dbGroup);
 		} catch (ValidationException ve) {
 			return handleErrors(request, response, ve, group);
 		} catch (Exception e) {

@@ -56,6 +56,7 @@ public class CreateController extends BaseFormController {
 		UserLogic logic = getLogicFactory().getUserLogic();
 		try {
 			User dbUser = logic.create(user);
+			setCurrentObject(request, dbUser);
 		} catch (ValidationException ve) {
 			return handleErrors(request, response, ve, user);
 		} catch (Exception e) {

@@ -90,6 +90,20 @@
 	</definition>
 
 	<!-- ================== INSTALLATION PAGES ================= -->
+	<!-- Create installation page -->
+	<definition name="/secure/installation/create.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installation/create.jsp"/>
+	</definition>
+
+	<!-- View installation page -->
+	<definition name="/secure/installation/view.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installation/view.jsp"/>
+	</definition>
+
+	<!-- Edit installation page -->
+	<definition name="/secure/installation/edit.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installation/edit.jsp"/>
+	</definition>
 
 	<!-- ================== GROUP PAGES ================= -->
 	<!-- Create group page -->

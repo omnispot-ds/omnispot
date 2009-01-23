@@ -27,6 +27,9 @@ admin-console/WebRoot/WEB-INF/tiles/customer/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/group-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/site-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/user-body.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/installation/create.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/installation/edit.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/installation/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/edit.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/view-images.jsp -text
@@ -78,7 +81,11 @@ admin-console/WebRoot/resources/images/icons/site.png -text
 admin-console/WebRoot/resources/images/icons/success_ovr.gif -text
 admin-console/WebRoot/resources/images/icons/switched_ov.gif -text
 admin-console/WebRoot/resources/images/icons/user.png -text
+admin-console/WebRoot/resources/images/icons/video-display.png -text
 admin-console/WebRoot/resources/images/icons/~installation.png -text
+admin-console/WebRoot/resources/images/im_banner.jpg -text
+admin-console/WebRoot/resources/images/im_banner.jpg.original -text
+admin-console/WebRoot/resources/images/im_banner.png -text
 admin-console/WebRoot/resources/images/login_loading.gif -text
 admin-console/WebRoot/resources/images/menu/chromebg-over.gif -text
 admin-console/WebRoot/resources/images/menu/chromebg.gif -text
@@ -188,6 +195,10 @@ admin-console/src/com/kesdip/admin/web/controller/group/DeleteController.java -t
 admin-console/src/com/kesdip/admin/web/controller/group/EditController.java -text
 admin-console/src/com/kesdip/admin/web/controller/group/ViewController.java -text
 admin-console/src/com/kesdip/admin/web/controller/home/HomeController.java -text
+admin-console/src/com/kesdip/admin/web/controller/installation/CreateController.java -text
+admin-console/src/com/kesdip/admin/web/controller/installation/DeleteController.java -text
+admin-console/src/com/kesdip/admin/web/controller/installation/EditController.java -text
+admin-console/src/com/kesdip/admin/web/controller/installation/ViewController.java -text
 admin-console/src/com/kesdip/admin/web/controller/login/LoginController.java -text
 admin-console/src/com/kesdip/admin/web/controller/printscreens/ViewPrintScreenController.java -text
 admin-console/src/com/kesdip/admin/web/controller/search/QuickSearchController.java -text

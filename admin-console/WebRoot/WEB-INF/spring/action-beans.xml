@@ -122,6 +122,29 @@
 		</property>
 	</bean>
 	
+	<!-- Site logic -->
+	<bean id="installationLogic" 
+		parent="baseLogicBean"
+		class="com.kesdip.business.logic.InstallationLogic">
+		
+		<property name="validators">
+			<map>
+				<entry>
+					<key><value>create</value></key>
+					<list>
+						<ref bean="createInstallationValidator"/>
+					</list>
+				</entry>
+				<entry>
+					<key><value>edit</value></key>
+					<list>
+						<ref bean="editInstallationValidator"/>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	<!-- Group logic -->
 	<bean id="groupLogic" 
 		parent="baseLogicBean"
@@ -149,11 +172,6 @@
 	<bean id="searchLogic" 
 		parent="baseLogicBean"
 		class="com.kesdip.business.logic.SearchLogic"/>
-
-	<!-- Installation logic -->
-	<bean id="installationLogic" 
-		parent="baseLogicBean"
-		class="com.kesdip.business.logic.InstallationLogic"/>
 
 	<!-- Prinstscreen logic -->
 	<bean id="printScreenLogic" 

@@ -22,19 +22,19 @@
 	<br/><br/>
 	<fmt:message key="errorPage.message" bundle="${msg}"/> <br/>
 
-	<pre>
+	<code>
 	<c:choose>
 		<c:when test="${!empty requestScope['javax.servlet.error.exception']}">
 			<c:set var="e" value="${requestScope['javax.servlet.error.exception']}"/>
 			<c:out value="${e.class.name} ${e.message}"/>
 			<c:forEach var="st1" items="${e.stackTrace}">
-				<c:out value="${st1}"/>
+				&nbsp;&nbsp;&nbsp;<c:out value="${st1}"/>
 			</c:forEach>
 			<c:if test="${!empty e.cause}">
 				<c:set var="c" value="${e.cause}"/>
-				<c:out value="${c.class.name} ${c.message}"/>
+				&nbsp;&nbsp;&nbsp;<c:out value="${c.class.name} ${c.message}"/>
 				<c:forEach var="st2" items="${c.stackTrace}">
-					<c:out value="${st2}"/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${st2}"/>
 				</c:forEach>
 				<%-- 
 				<c:if test="${!empty c.cause}">
@@ -51,5 +51,5 @@
 			Unknown Error
 		</c:otherwise>
 	</c:choose>
-	</pre>
+	</code>
 </div>

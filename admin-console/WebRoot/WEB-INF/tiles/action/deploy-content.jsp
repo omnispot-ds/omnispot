@@ -95,6 +95,20 @@
 				</div>
 			</li>
 			</c:if>
+			<li id="li_name">
+				<label class="description" for="name">
+					<fmt:message bundle="${msg}" key="deploy.name" />
+				</label>
+				<div>
+					<input type="text" id="name" name="name"
+						cssClass="element text" maxlength="50" size="25" />
+				</div>
+				<p class="guidelines" id="guide_name">
+					<small> <fmt:message bundle="${msg}"
+							key="deploy.name.help" /> </small>
+				</p>
+				<form:errors path="name" cssClass="error_message_title" />
+			</li>
 			<li id="li_contentFile">
 				<label class="description" for="contentFile">
 					<fmt:message bundle="${msg}" key="deploy.content.file" />

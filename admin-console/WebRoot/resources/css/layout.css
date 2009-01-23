@@ -15,8 +15,9 @@
 	border: #AAA solid 1px; 
 	float: none; 
 	margin:0px auto 2px auto; 
-	background: url(../images/banner.png); 
-	height: 100px;
+	background: url(../images/im_banner.jpg); 
+	background-repeat: no-repeat;
+	height: 76px;
 	font-size: xx-large;
 	font-weight: bolder;
 	text-align: left;

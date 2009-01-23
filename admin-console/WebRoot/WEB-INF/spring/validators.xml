@@ -47,6 +47,16 @@
 		class="com.kesdip.business.validation.site.EditValidator"
 		scope="singleton" />
 		
+	<bean id="createInstallationValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.installation.CreateValidator"
+		scope="singleton" />
+
+	<bean id="editInstallationValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.installation.EditValidator"
+		scope="singleton" />
+
 	<bean id="createGroupValidator"
 		parent="baseValidator"
 		class="com.kesdip.business.validation.group.CreateValidator"
