@@ -418,11 +418,13 @@ player/src/com/kesdip/player/components/AbstractComponent.java -text
 player/src/com/kesdip/player/components/Component.java -text
 player/src/com/kesdip/player/components/ComponentException.java -text
 player/src/com/kesdip/player/components/FullScreenComponent.java -text
+player/src/com/kesdip/player/components/Image.java -text
 player/src/com/kesdip/player/components/Resource.java -text
 player/src/com/kesdip/player/components/RootContainer.java -text
 player/src/com/kesdip/player/components/SimpleContainer.java -text
 player/src/com/kesdip/player/components/Ticker.java -text
 player/src/com/kesdip/player/components/Video.java -text
+player/src/com/kesdip/player/components/image/ImagePanel.java -text
 player/src/com/kesdip/player/components/ticker/RssTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/StringTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/TickerPanel.java -text
