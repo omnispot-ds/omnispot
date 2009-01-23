@@ -318,4 +318,10 @@
 			value="com.kesdip.business.beans.ViewPrintScreenBean" />
 	</bean>
 	
+	<!-- =================== Protocol handler ==================== -->
+	
+	<bean id="ServerProtocolHandler" 
+		class="com.kesdip.business.communication.ServerProtocolHandler">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
 </beans>
