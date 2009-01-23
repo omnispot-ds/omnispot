@@ -90,6 +90,7 @@
 	
 	<target name="generate.domain.objects">
 		<ant antfile="${logic.build.file}" target="generate.domain.objects" inheritrefs="true"/>
+		<ant antfile="${bootstrap.build.file}" target="generate.domain.objects" inheritrefs="true"/>
 	</target>
 	
 	<target name="dist.admin-console" depends="build.admin-console">
