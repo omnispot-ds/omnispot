@@ -61,6 +61,8 @@ public class ServerProtocolHandler {
 			destFile.mkdirs();
 			fileitem.write(destFile);
 		}
+		byte[] bytes = Base64.decodeBase64(serializedActions.getBytes());
+		serializedActions = new String(bytes);
 		if (!serializedActions.equals("NO_ACTIONS")) {
 			ObjectInputStream instream = new ObjectInputStream(
 					new ByteArrayInputStream(serializedActions.getBytes()));
