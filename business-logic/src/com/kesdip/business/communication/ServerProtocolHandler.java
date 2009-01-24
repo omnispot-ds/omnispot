@@ -80,15 +80,16 @@ public class ServerProtocolHandler {
 				// TODO Maybe delete actions with status OK??
 				getHibernateTemplate().update(action);
 			}
-			
-			List<Installation> installations=  getHibernateTemplate().find(
-					"from " +Installation.class.getName()+" i where i.uuid = ?",
-					new Object[] {installationId});
+
+			List<Installation> installations = getHibernateTemplate().find(
+					"from " + Installation.class.getName()
+							+ " i where i.uuid = ?",
+					new Object[] { installationId });
 			if (installations.size() != 0) {
 				Installation installation = installations.get(0);
 				installation
-				.setCurrentStatus(playerProcAlive.equals("TRUE") ? IInstallationStatus.OK
-						: IInstallationStatus.PLAYER_DOWN);
+						.setCurrentStatus(playerProcAlive.equals("TRUE") ? IInstallationStatus.OK
+								: IInstallationStatus.PLAYER_DOWN);
 				getHibernateTemplate().update(installation);
 			}
 		}
@@ -101,11 +102,15 @@ public class ServerProtocolHandler {
 	private void sendResponse(HttpServletResponse resp) throws Exception {
 
 		// send any pending actions
-				
-		List<Action> actions = getHibernateTemplate().find(
-				"select a from " + Action.class.getName()+" a "
-						+ "inner join a.installation i where a.status= ? and i.uuid = ?",
-				new Object[] { IActionStatusEnum.SCHEDULED, installationId });
+
+		List<Action> actions = getHibernateTemplate()
+				.find(
+						"select a from "
+								+ Action.class.getName()
+								+ " a "
+								+ "inner join a.installation i where a.status= ? and i.uuid = ?",
+						new Object[] { IActionStatusEnum.SCHEDULED,
+								installationId });
 
 		String serializedActions = "NO_ACTIONS";
 		if (actions.size() > 0) {
@@ -117,8 +122,8 @@ public class ServerProtocolHandler {
 		}
 		resp.getOutputStream().print(serializedActions);
 		resp.getOutputStream().close();
-		
-		for (Action action:actions) {
+
+		for (Action action : actions) {
 			action.setStatus(IActionStatusEnum.SEND);
 			getHibernateTemplate().update(action);
 		}
@@ -126,7 +131,7 @@ public class ServerProtocolHandler {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Map<String, List<String>> parseMultipart(HttpServletRequest req)
+	private Map<String, String[]> parseMultipart(HttpServletRequest req)
 			throws FileUploadException, UnsupportedEncodingException {
 		ServletFileUpload upload = new ServletFileUpload();
 		// TODO Decide on maximum file size
@@ -159,7 +164,13 @@ public class ServerProtocolHandler {
 				req.setAttribute(item.getFieldName(), item);
 			}
 		}
-		return formParameters;
+		// fix List<String> to String[]
+		Map<String, String[]> fixedFormParameters = new HashMap<String, String[]>();
+		for (String key : formParameters.keySet()) {
+			fixedFormParameters.put(key, formParameters.get(key).toArray(
+					new String[] {}));
+		}
+		return fixedFormParameters;
 	}
 
 	/**
