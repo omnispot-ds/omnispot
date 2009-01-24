@@ -68,6 +68,7 @@
 			<meta attribute="field-description">
 				The parameters of the action.
 			</meta>
+			<meta attribute="use-in-tostring">true</meta>
 			<key column="ACTION_ID" />
 			<one-to-many
 				class="com.kesdip.business.domain.generated.Parameter"/>

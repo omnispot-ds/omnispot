@@ -129,7 +129,7 @@ public class ActionLogic extends BaseLogic {
 				action.setDateAdded(new Date());
 				action.setInstallation(installation);
 				action.setType(IActionTypesEnum.DEPLOY);
-				action.setStatus(IActionStatusEnum.IN_PROGRESS);
+				action.setStatus(IActionStatusEnum.SCHEDULED);
 				action.setId((Long)getHibernateTemplate().save(action));
 			}
 		} catch (RuntimeException re) {

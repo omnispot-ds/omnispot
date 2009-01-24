@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 23 Éáí 2009 2:21:24 ğì by Hibernate Tools 3.2.0.b9
+// Generated 24 Éáí 2009 12:00:18 ìì by Hibernate Tools 3.2.0.b9
 
 
 import java.util.Date;
@@ -181,6 +181,7 @@ public class Action  implements java.io.Serializable {
       buffer.append("status").append("='").append(getStatus()).append("' ");			
       buffer.append("dateAdded").append("='").append(getDateAdded()).append("' ");			
       buffer.append("message").append("='").append(getMessage()).append("' ");			
+      buffer.append("parameters").append("='").append(getParameters()).append("' ");			
       buffer.append("installation").append("='").append(getInstallation()).append("' ");			
       buffer.append("]");
       

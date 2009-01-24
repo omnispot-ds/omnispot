@@ -109,7 +109,7 @@ public class ServerProtocolHandler {
 				.find(
 						"select a from "
 								+ Action.class.getName()
-								+ " a "
+								+ " a left join fetch a.parameters p "
 								+ "inner join a.installation i where a.status= ? and i.uuid = ?",
 						new Object[] { IActionStatusEnum.SCHEDULED,
 								installationId });
