@@ -56,45 +56,45 @@ public class BeanUtils extends org.apache.commons.beanutils.BeanUtils {
 					"Objects must be of the same type");
 		}
 
-		Method[] sourceMethods = source.getClass().getDeclaredMethods();
-		Method targetMethod = null;
+		Method[] targetMethods = target.getClass().getDeclaredMethods();
+		Method sourceMethod = null;
 		String methodName = null;
-		for (int i = 0; i < sourceMethods.length; i++) {
-			if (!sourceMethods[i].getName().startsWith("get")) {
+		for (int i = 0; i < targetMethods.length; i++) {
+			if (!targetMethods[i].getName().startsWith("set")) {
 				continue;
 			}
-			if (sourceMethods[i].getParameterTypes().length != 0) {
+			if (targetMethods[i].getParameterTypes().length != 0) {
 				continue;
 			}
-			if (Collection.class.isAssignableFrom(sourceMethods[i]
+			if (Collection.class.isAssignableFrom(targetMethods[i]
 					.getReturnType())) {
 				continue;
 			}
-			if (Map.class.isAssignableFrom(sourceMethods[i].getReturnType())) {
+			if (Map.class.isAssignableFrom(targetMethods[i].getReturnType())) {
 				continue;
 			}
-			if (!Modifier.isPublic(sourceMethods[i].getModifiers())) {
+			if (!Modifier.isPublic(targetMethods[i].getModifiers())) {
 				continue;
 			}
 			try {
-				methodName = "set" + sourceMethods[i].getName().substring(3);
-				targetMethod = target.getClass().getDeclaredMethod(methodName,
-						new Class[] { sourceMethods[i].getReturnType() });
-				if (!Modifier.isPublic(targetMethod.getModifiers())) {
+				methodName = "get" + targetMethods[i].getName().substring(3);
+				sourceMethod = target.getClass().getDeclaredMethod(methodName,
+						new Class[] { targetMethods[i].getReturnType() });
+				if (!Modifier.isPublic(sourceMethod.getModifiers())) {
 					continue;
 				}
 				if (logger.isTraceEnabled()) {
 					logger.trace("Copying "
-							+ sourceMethods[i].getName().substring(3));
+							+ targetMethods[i].getName().substring(3));
 				}
-				targetMethod.invoke(target, new Object[] { sourceMethods[i]
+				sourceMethod.invoke(target, new Object[] { targetMethods[i]
 						.invoke(source) });
 			} catch (Exception e) {
 				logger.error("Field '"
-						+ sourceMethods[i].getName().substring(3)
+						+ targetMethods[i].getName().substring(3)
 						+ "'. Message: " + e.getMessage());
 				throw new FieldCopyException("Field '"
-						+ sourceMethods[i].getName().substring(3)
+						+ targetMethods[i].getName().substring(3)
 						+ "'. Message: " + e.getMessage());
 			}
 		}
