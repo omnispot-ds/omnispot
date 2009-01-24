@@ -21,6 +21,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.config.ApplicationSettings;
@@ -37,7 +38,7 @@ public class ServerProtocolHandler {
 
 	String installationId;
 
-	@Transactional(readOnly = true)
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@SuppressWarnings("unchecked")
 	public void handleRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
@@ -77,9 +78,9 @@ public class ServerProtocolHandler {
 						new Object[] { action.getActionId() });
 				if (l.size() > 1)
 					throw new AssertionError("Duplicate actionIds found!?!?");
-				action.setId(l.get(0).getId());
-				// TODO Maybe delete actions with status OK??
-				getHibernateTemplate().update(action);
+				Action dbAction = l.get(0);
+				dbAction.setStatus(action.getStatus());
+				getHibernateTemplate().update(dbAction);
 			}
 
 			List<Installation> installations = getHibernateTemplate().find(
@@ -98,7 +99,6 @@ public class ServerProtocolHandler {
 
 	}
 
-	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
 	private void sendResponse(HttpServletResponse resp) throws Exception {
 
