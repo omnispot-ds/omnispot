@@ -43,7 +43,7 @@ public class ProtocolHandler {
 	private static final Logger logger =
 		Logger.getLogger(ProtocolHandler.class);
 	private Manager manager;
-	
+
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
 	public void performRequest() throws Exception {
@@ -64,7 +64,7 @@ public class ProtocolHandler {
 			serializedActions = new String(bytes);
 			logger.info("Actions found");
 		}
-		
+
 		String installationId = Config.getSingleton().getinstallationId();
 		logger.info("installationId: "+installationId);
 		if (manager.includeScreendump()) {
@@ -102,47 +102,51 @@ public class ProtocolHandler {
 			if (action.getStatus() == IActionStatusEnum.OK);
 			getHibernateTemplate().delete(action);
 		}
-		
+
 
 	}
 
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void handleResponse(String serializedActions) throws Exception {
-    	
-    	logger.info("Response received from server...actions received: "+serializedActions);
-    	if (serializedActions.length() == 0)
-    		return;
-    	
-    	byte[] bytes = Base64.decodeBase64(serializedActions.getBytes()); 
-		ObjectInputStream instream = new ObjectInputStream(new ByteArrayInputStream(bytes));
-		Action[] actions = (Action[])instream.readObject();
-		//must store them and add the necessary messages if required
-		for (Action action:actions) {
-			if (action.getType() == IActionTypesEnum.DEPLOY) {
-				Set<Parameter> params = action.getParameters();
-				String descriptorUrl = "";
-				String crc = "";
-				for (Iterator<Parameter> i = params.iterator();i.hasNext();) {
-					Parameter p = i.next();
-					if (p.getName().equals("descriptorUrl")) {
-						descriptorUrl = p.getValue();
-					}
-					if (p.getName().equals("crc")) {
-						crc = p.getValue();
-					}
-				}
-				logger.info("Adding new deploy message");
-				manager.getPump().addMessage(new DeployMessage(descriptorUrl,Long.parseLong(crc), action.getActionId()));
-			} else if (action.getType() == IActionTypesEnum.REBOOT) {
-				logger.info("Adding new restartplayer message");
-				manager.getPump().addMessage(new RestartPlayerMessage(action.getActionId()));
-			}
 
-			getHibernateTemplate().save(action);
+		logger.info("Response received from server...");
+		if (serializedActions.length() == 0)
+			return;
+
+		byte[] bytes = Base64.decodeBase64(serializedActions.getBytes()); 
+		String response = new String(bytes);
+		if (!response.equals("NO_ACTIONS")){
+			logger.info("actions received");
+			ObjectInputStream instream = new ObjectInputStream(new ByteArrayInputStream(bytes));
+			List<Action> actions = (List<Action>)instream.readObject();
+			//must store them and add the necessary messages if required
+			for (Action action:actions) {
+				if (action.getType() == IActionTypesEnum.DEPLOY) {
+					Set<Parameter> params = action.getParameters();
+					String descriptorUrl = "";
+					String crc = "";
+					for (Iterator<Parameter> i = params.iterator();i.hasNext();) {
+						Parameter p = i.next();
+						if (p.getName().equals("descriptorUrl")) {
+							descriptorUrl = p.getValue();
+						}
+						if (p.getName().equals("crc")) {
+							crc = p.getValue();
+						}
+					}
+					logger.info("Adding new deploy message");
+					manager.getPump().addMessage(new DeployMessage(descriptorUrl,Long.parseLong(crc), action.getActionId()));
+				} else if (action.getType() == IActionTypesEnum.REBOOT) {
+					logger.info("Adding new restartplayer message");
+					manager.getPump().addMessage(new RestartPlayerMessage(action.getActionId()));
+				}
+
+				getHibernateTemplate().save(action);
+			}
 		}
 	}
-    
-    public String serverURL = Config.getSingleton().getServerURL();
+
+	public String serverURL = Config.getSingleton().getServerURL();
 	/**
 	 * Utility Hibernate template.
 	 */
