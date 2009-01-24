@@ -214,7 +214,7 @@ public class TimingHandler implements ContentHandler {
 				"PARAMETER.NAME=? AND ACTION.TYPE=? AND ACTION.STATUS=?");
 		ps.setString(1, "crc");
 		ps.setShort(2, IActionTypesEnum.DEPLOY);
-		ps.setShort(2, IActionStatusEnum.IN_PROGRESS);
+		ps.setShort(3, IActionStatusEnum.IN_PROGRESS);
 		
 		ResultSet rs = ps.executeQuery();
 		List<String> crcs = new ArrayList<String>();
