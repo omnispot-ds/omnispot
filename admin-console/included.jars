@@ -32,5 +32,6 @@ etc/lib/apache-commons/commons-fileupload.jar
 etc/lib/apache-commons/commons-digester-1.6.jar
 etc/lib/apache-commons/commons-configuration-1.3.jar
 etc/lib/apache-commons/commons-io.jar
+etc/lib/apache-commons/commons-codec-1.3.jar
 
 etc/lib/dom4j/dom4j-1.6.1.jar
