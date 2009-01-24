@@ -23,7 +23,7 @@ CREATE TABLE ACTION (
 	TYPE smallint not null,
 	STATUS smallint not null,
 	DATE_ADDED timestamp not null,
-	MESSAGE varchar(3000) not null,
+	MESSAGE varchar(3000),
 	primary key (ID));
 CREATE TABLE PARAMETER (
 	ID bigint not null,
