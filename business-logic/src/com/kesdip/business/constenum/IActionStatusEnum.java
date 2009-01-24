@@ -40,4 +40,6 @@ public interface IActionStatusEnum {
 	 * Action is scheduled.
 	 */
 	short SCHEDULED = 0;
+	
+	short SEND = 3;
 }
