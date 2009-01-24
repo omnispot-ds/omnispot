@@ -15,6 +15,7 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -59,7 +60,8 @@ public class ProtocolHandler {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			ObjectOutputStream outStream = new ObjectOutputStream(out);
 			outStream.writeObject(actions);
-			serializedActions = out.toString();
+			byte[] bytes = Base64.encodeBase64(out.toByteArray());
+			serializedActions = new String(bytes);
 		}
 		logger.info("Actions found: "+serializedActions);
 		String installationId = Config.getSingleton().getinstallationId();
