@@ -55,15 +55,16 @@ public class ProtocolHandler {
 		boolean playerAlive = RestartPlayerMessage.isPlayerProcessAlive();
 
 		List<Action> actions = getHibernateTemplate().loadAll(Action.class);
-		String serializedActions = "NO_ACTIONS";
+		String serializedActions = new String(Base64.encodeBase64("NO_ACTIONS".getBytes()));
 		if (actions.size() > 0) {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			ObjectOutputStream outStream = new ObjectOutputStream(out);
 			outStream.writeObject(actions);
 			byte[] bytes = Base64.encodeBase64(out.toByteArray());
 			serializedActions = new String(bytes);
+			logger.info("Actions found");
 		}
-		logger.info("Actions found: "+serializedActions);
+		
 		String installationId = Config.getSingleton().getinstallationId();
 		logger.info("installationId: "+installationId);
 		if (manager.includeScreendump()) {
@@ -111,7 +112,9 @@ public class ProtocolHandler {
     	logger.info("Response received from server...actions received: "+serializedActions);
     	if (serializedActions.length() == 0)
     		return;
-		ObjectInputStream instream = new ObjectInputStream(new ByteArrayInputStream(serializedActions.getBytes()));
+    	
+    	byte[] bytes = Base64.decodeBase64(serializedActions.getBytes()); 
+		ObjectInputStream instream = new ObjectInputStream(new ByteArrayInputStream(bytes));
 		Action[] actions = (Action[])instream.readObject();
 		//must store them and add the necessary messages if required
 		for (Action action:actions) {
