@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -41,7 +42,7 @@ public class ServerProtocolHandler {
 	public void handleRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 
-		Map<String, List<String>> parameters = isMultipart(req) ? parseMultipart(req)
+		Map<String, String[]> parameters = isMultipart(req) ? parseMultipart(req)
 				: req.getParameterMap();
 
 		installationId = getParameter("installationId", parameters);
@@ -55,7 +56,7 @@ public class ServerProtocolHandler {
 					.getFileStorageSettings();
 			FileItem fileitem = (FileItem) req.getAttribute("screenshot");
 			fileitem.write(new File(settings.getPrintScreenFolder()
-					+ File.pathSeparator + installationId, settings
+					+ File.separator + installationId, settings
 					.getPrintScreenName()));
 		}
 		if (!serializedActions.equals("NO_ACTIONS")) {
@@ -75,14 +76,17 @@ public class ServerProtocolHandler {
 				// TODO Maybe delete actions with status OK??
 				getHibernateTemplate().update(action);
 			}
-			Installation installation = new Installation();
-			installation.setUuid(installationId);
-			installation = (Installation) getHibernateTemplate().load(
-					Installation.class, installation);
-			installation
-					.setCurrentStatus(playerProcAlive.equals("TRUE") ? IInstallationStatus.OK
-							: IInstallationStatus.PLAYER_DOWN);
-			getHibernateTemplate().update(installation);
+			
+			List<Installation> installations=  getHibernateTemplate().find(
+					"from " +Installation.class.getName()+" i where i.uuid = ?",
+					new Object[] {installationId});
+			if (installations.size() != 0) {
+				Installation installation = installations.get(0);
+				installation
+				.setCurrentStatus(playerProcAlive.equals("TRUE") ? IInstallationStatus.OK
+						: IInstallationStatus.PLAYER_DOWN);
+				getHibernateTemplate().update(installation);
+			}
 		}
 		sendResponse(resp);
 
@@ -93,22 +97,27 @@ public class ServerProtocolHandler {
 	private void sendResponse(HttpServletResponse resp) throws Exception {
 
 		// send any pending actions
-		Installation installation = new Installation();
-		installation.setId(Long.valueOf(installationId));
+				
 		List<Action> actions = getHibernateTemplate().find(
-				"from " + Action.class.getName()
-						+ " a where a.status= ? and a.installation = ?",
-				new Object[] { IActionStatusEnum.SCHEDULED, installation });
+				"select a from " + Action.class.getName()+" a "
+						+ "inner join a.installation i where a.status= ? and i.uuid = ?",
+				new Object[] { IActionStatusEnum.SCHEDULED, installationId });
 
 		String serializedActions = "NO_ACTIONS";
 		if (actions.size() > 0) {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			ObjectOutputStream outStream = new ObjectOutputStream(out);
 			outStream.writeObject(actions);
-			serializedActions = out.toString();
+			byte[] bytes = Base64.encodeBase64(out.toByteArray());
+			serializedActions = new String(bytes);
 		}
 		resp.getOutputStream().print(serializedActions);
 		resp.getOutputStream().close();
+		
+		for (Action action:actions) {
+			action.setStatus(IActionStatusEnum.SEND);
+			getHibernateTemplate().update(action);
+		}
 
 	}
 
@@ -162,9 +171,9 @@ public class ServerProtocolHandler {
 	 *         <code>null</code>
 	 */
 	private final String getParameter(String parameterName,
-			Map<String, List<String>> parameters) {
+			Map<String, String[]> parameters) {
 		return parameters.containsKey(parameterName) ? parameters.get(
-				parameterName).get(0) : null;
+				parameterName)[0] : null;
 	}
 
 	/**
