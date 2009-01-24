@@ -81,7 +81,7 @@ public class FileStorageSettings extends ComponentSettings {
 		this.defaultPrintScreen = configuration
 				.getString("file-storage.default-printScreen");
 		logger.trace("Loading file-storage.temp-folder");
-		this.defaultPrintScreen = configuration
+		this.tempFolder = configuration
 				.getString("file-storage.temp-folder");
 		createFolders();
 	}
