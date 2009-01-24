@@ -43,6 +43,7 @@ public class ServerProtocolHandler {
 	public void handleRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 
+
 		Map<String, String[]> parameters = isMultipart(req) ? parseMultipart(req)
 				: req.getParameterMap();
 
@@ -57,7 +58,7 @@ public class ServerProtocolHandler {
 			File destFile = new File(settings.getPrintScreenFolder()
 					+ File.separator + installationId, settings
 					.getPrintScreenName());
-			destFile.mkdirs();
+			destFile.getParentFile().mkdirs();
 			fileitem.write(destFile);
 		}
 		byte[] bytes = Base64.decodeBase64(serializedActions.getBytes());
