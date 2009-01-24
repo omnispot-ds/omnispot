@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.log4j.Logger;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,7 @@ import com.kesdip.bootstrap.message.DeployMessage;
 import com.kesdip.bootstrap.message.RestartPlayerMessage;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IActionTypesEnum;
+import com.kesdip.common.util.BeanUtils;
 
 
 public class ProtocolHandler {
@@ -44,7 +47,7 @@ public class ProtocolHandler {
 		Logger.getLogger(ProtocolHandler.class);
 	private Manager manager;
 
-	@Transactional(readOnly = true)
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@SuppressWarnings("unchecked")
 	public void performRequest() throws Exception {
 
@@ -57,9 +60,14 @@ public class ProtocolHandler {
 		List<Action> actions = getHibernateTemplate().loadAll(Action.class);
 		String serializedActions = new String(Base64.encodeBase64("NO_ACTIONS".getBytes()));
 		if (actions.size() > 0) {
+			List<com.kesdip.business.domain.generated.Action> serverActions = 
+				new ArrayList<com.kesdip.business.domain.generated.Action>();
+			for (Action action:actions) {
+				serverActions.add(populateFrom(action));
+			}
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			ObjectOutputStream outStream = new ObjectOutputStream(out);
-			outStream.writeObject(actions);
+			outStream.writeObject(serverActions);
 			byte[] bytes = Base64.encodeBase64(out.toByteArray());
 			serializedActions = new String(bytes);
 			logger.info("Actions found");
@@ -96,17 +104,19 @@ public class ProtocolHandler {
 		http.getHttpConnectionManager().getParams().setConnectionTimeout(5000);
 		http.executeMethod(post);
 
-		handleResponse(post.getResponseBodyAsString());
-		//delete all actions with status done...
+//		delete all actions with status done...
 		for (Action action:actions) {
 			if (action.getStatus() == IActionStatusEnum.OK);
 			getHibernateTemplate().delete(action);
+			logger.info("deleted action "+action.toString());
 		}
+		
+		handleResponse(post.getResponseBodyAsString());
+		
 
 
 	}
 
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void handleResponse(String serializedActions) throws Exception {
 
 		logger.info("Response received from server...");
@@ -118,11 +128,13 @@ public class ProtocolHandler {
 		if (!response.equals("NO_ACTIONS")){
 			logger.info("actions received");
 			ObjectInputStream instream = new ObjectInputStream(new ByteArrayInputStream(bytes));
-			List<Action> actions = (List<Action>)instream.readObject();
+			List<com.kesdip.business.domain.generated.Action> actions =
+				(List<com.kesdip.business.domain.generated.Action>)instream.readObject();
 			//must store them and add the necessary messages if required
-			for (Action action:actions) {
+			for (com.kesdip.business.domain.generated.Action action:actions) {
+				Action bootstrapAction = populateFrom(action);
 				if (action.getType() == IActionTypesEnum.DEPLOY) {
-					Set<Parameter> params = action.getParameters();
+					Set<Parameter> params = bootstrapAction.getParameters();
 					String descriptorUrl = "";
 					String crc = "";
 					for (Iterator<Parameter> i = params.iterator();i.hasNext();) {
@@ -141,10 +153,47 @@ public class ProtocolHandler {
 					manager.getPump().addMessage(new RestartPlayerMessage(action.getActionId()));
 				}
 
-				getHibernateTemplate().save(action);
+				getHibernateTemplate().save(bootstrapAction);
 			}
 		}
 	}
+
+	private Action populateFrom(com.kesdip.business.domain.generated.Action action) {
+		Action bootstrapAction = new Action();
+		logger.info("action:"+action.toString());
+		bootstrapAction.setActionId(action.getActionId());
+		bootstrapAction.setDateAdded(action.getDateAdded());
+		bootstrapAction.setMessage(action.getMessage());
+		bootstrapAction.setStatus(action.getStatus());
+		bootstrapAction.setType(action.getType());
+		logger.info("bootstrapaction:"+bootstrapAction.toString());
+		for (com.kesdip.business.domain.generated.Parameter parameter:action.getParameters()) {
+			Parameter bootstrapParameter = new Parameter();
+			bootstrapParameter.setName(parameter.getName());
+			bootstrapParameter.setValue(parameter.getValue());
+			bootstrapAction.getParameters().add(bootstrapParameter);
+		}
+		return bootstrapAction;
+	}
+	
+	private com.kesdip.business.domain.generated.Action populateFrom(Action action) {
+	com.kesdip.business.domain.generated.Action serverAction = new com.kesdip.business.domain.generated.Action();
+	logger.info("action:"+action.toString());
+	serverAction.setActionId(action.getActionId());
+	serverAction.setDateAdded(action.getDateAdded());
+	serverAction.setMessage(action.getMessage());
+	serverAction.setStatus(action.getStatus());
+	serverAction.setType(action.getType());
+	logger.info("serveraction:"+serverAction.toString());
+	for (Parameter parameter:action.getParameters()) {
+		com.kesdip.business.domain.generated.Parameter serverParameter = 
+			new com.kesdip.business.domain.generated.Parameter();
+		serverParameter.setName(parameter.getName());
+		serverParameter.setValue(parameter.getValue());
+		serverAction.getParameters().add(serverParameter);
+	}
+	return serverAction;
+}
 
 	public String serverURL = Config.getSingleton().getServerURL();
 	/**
