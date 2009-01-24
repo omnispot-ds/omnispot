@@ -48,9 +48,7 @@ public class ServerProtocolHandler {
 		installationId = getParameter("installationId", parameters);
 		String serializedActions = getParameter("serializedActions", parameters);
 		String playerProcAlive = getParameter("playerProcAlive", parameters);
-		logger.info("Received: InstallationId: " + installationId
-				+ " playerProcAlive: " + playerProcAlive
-				+ " serializedActions: " + serializedActions);
+		
 		if (req.getAttribute("screenshot") != null) {
 			FileStorageSettings settings = ApplicationSettings.getInstance()
 					.getFileStorageSettings();
@@ -62,6 +60,9 @@ public class ServerProtocolHandler {
 			fileitem.write(destFile);
 		}
 		byte[] bytes = Base64.decodeBase64(serializedActions.getBytes());
+		logger.info("Received: InstallationId: " + installationId
+				+ " playerProcAlive: " + playerProcAlive
+				+ " serializedActions: " + serializedActions);
 		serializedActions = new String(bytes);
 		if (!serializedActions.equals("NO_ACTIONS")) {
 			ObjectInputStream instream = new ObjectInputStream(
@@ -112,13 +113,14 @@ public class ServerProtocolHandler {
 						new Object[] { IActionStatusEnum.SCHEDULED,
 								installationId });
 
-		String serializedActions = "NO_ACTIONS";
+		String serializedActions = new String(Base64.encodeBase64("NO_ACTIONS".getBytes()));
 		if (actions.size() > 0) {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			ObjectOutputStream outStream = new ObjectOutputStream(out);
 			outStream.writeObject(actions);
 			byte[] bytes = Base64.encodeBase64(out.toByteArray());
 			serializedActions = new String(bytes);
+			logger.info("actions found");
 		}
 		resp.getOutputStream().print(serializedActions);
 		resp.getOutputStream().close();
