@@ -48,6 +48,11 @@ public class FileStorageSettings extends ComponentSettings {
 	private String defaultPrintScreen = null;
 	
 	/**
+	 * Folder for all temporary files.
+	 */
+	private String tempFolder = null;
+	
+	/**
 	 * @return String the name of the settings component
 	 * @see gr.panouepe.monitor.common.settings.ComponentSettings#getName()
 	 */
@@ -75,6 +80,9 @@ public class FileStorageSettings extends ComponentSettings {
 		logger.trace("Loading file-storage.default-printScreen");
 		this.defaultPrintScreen = configuration
 				.getString("file-storage.default-printScreen");
+		logger.trace("Loading file-storage.temp-folder");
+		this.defaultPrintScreen = configuration
+				.getString("file-storage.temp-folder");
 		createFolders();
 	}
 
@@ -94,6 +102,14 @@ public class FileStorageSettings extends ComponentSettings {
 					.error(cntFolder
 							+ " does not exist and could not be created");
 			throw new IllegalStateException(cntFolder
+					+ " does not exist and could not be created");
+		}
+		File tmpFolder = new File(tempFolder);
+		if (!tmpFolder.isDirectory() && !tmpFolder.mkdirs()) {
+			logger
+					.error(tmpFolder
+							+ " does not exist and could not be created");
+			throw new IllegalStateException(tmpFolder
 					+ " does not exist and could not be created");
 		}
 	}
@@ -124,5 +140,12 @@ public class FileStorageSettings extends ComponentSettings {
 	 */
 	public String getDefaultPrintScreen() {
 		return defaultPrintScreen;
+	}
+
+	/**
+	 * @return the tempFolder
+	 */
+	public String getTempFolder() {
+		return tempFolder;
 	}
 }

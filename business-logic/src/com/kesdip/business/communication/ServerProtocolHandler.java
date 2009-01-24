@@ -55,9 +55,11 @@ public class ServerProtocolHandler {
 			FileStorageSettings settings = ApplicationSettings.getInstance()
 					.getFileStorageSettings();
 			FileItem fileitem = (FileItem) req.getAttribute("screenshot");
-			fileitem.write(new File(settings.getPrintScreenFolder()
+			File destFile = new File(settings.getPrintScreenFolder()
 					+ File.separator + installationId, settings
-					.getPrintScreenName()));
+					.getPrintScreenName());
+			destFile.mkdirs();
+			fileitem.write(destFile);
 		}
 		if (!serializedActions.equals("NO_ACTIONS")) {
 			ObjectInputStream instream = new ObjectInputStream(
@@ -125,9 +127,10 @@ public class ServerProtocolHandler {
 	private Map<String, List<String>> parseMultipart(HttpServletRequest req)
 			throws FileUploadException, UnsupportedEncodingException {
 		ServletFileUpload upload = new ServletFileUpload();
+		// TODO Decide on maximum file size
 		DiskFileItemFactory factory = new DiskFileItemFactory(
 				Integer.MAX_VALUE, new File(ApplicationSettings.getInstance()
-						.getFileStorageSettings().getPrintScreenFolder()));
+						.getFileStorageSettings().getTempFolder()));
 		upload.setFileItemFactory(factory);
 		upload.setHeaderEncoding("UTF-8");
 
@@ -157,6 +160,11 @@ public class ServerProtocolHandler {
 		return formParameters;
 	}
 
+	/**
+	 * @param req
+	 *            the request
+	 * @return boolean <code>true</code> if the request is a multipart
+	 */
 	private boolean isMultipart(HttpServletRequest req) {
 		return (req.getHeader("content-type") != null && req.getHeader(
 				"content-type").indexOf("multipart/form-data") != -1);
@@ -172,8 +180,8 @@ public class ServerProtocolHandler {
 	 */
 	private final String getParameter(String parameterName,
 			Map<String, String[]> parameters) {
-		return parameters.containsKey(parameterName) ? parameters.get(
-				parameterName)[0] : null;
+		return parameters.containsKey(parameterName) ? parameters
+				.get(parameterName)[0] : null;
 	}
 
 	/**
