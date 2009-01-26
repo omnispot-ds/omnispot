@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.Config;
+import com.kesdip.common.util.ProcessUtils;
 
 /**
  * Encapsulates the handling of a restart player message from the server.
@@ -113,6 +114,9 @@ public class RestartPlayerMessage extends Message {
 		cmdArray[2] = Config.getSingleton().getPlayerClasspath();
 		cmdArray[3] = Config.getSingleton().getPlayerMainClass();
 		String workingDir = Config.getSingleton().getPlayerWorkingDir();
+		
+		// See Bugzilla#9 for the following line
+		ProcessUtils.killAll("explorer.exe");
 		
 		playerProcess = Runtime.getRuntime().exec(
 				cmdArray, null, new File(workingDir));
