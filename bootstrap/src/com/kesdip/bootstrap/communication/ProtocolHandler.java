@@ -36,6 +36,7 @@ import com.kesdip.bootstrap.domain.generated.Action;
 import com.kesdip.bootstrap.domain.generated.Parameter;
 import com.kesdip.bootstrap.message.DeployMessage;
 import com.kesdip.bootstrap.message.RestartPlayerMessage;
+import com.kesdip.business.constenum.IActionParamsEnum;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IActionTypesEnum;
 import com.kesdip.common.util.BeanUtils;
@@ -139,10 +140,10 @@ public class ProtocolHandler {
 					String crc = "";
 					for (Iterator<Parameter> i = params.iterator();i.hasNext();) {
 						Parameter p = i.next();
-						if (p.getName().equals("descriptorUrl")) {
+						if (p.getName().equals(IActionParamsEnum.DEPLOYMENT_URL)) {
 							descriptorUrl = p.getValue();
 						}
-						if (p.getName().equals("crc")) {
+						if (p.getName().equals(IActionParamsEnum.DEPLOYMENT_CRC)) {
 							crc = p.getValue();
 						}
 					}
