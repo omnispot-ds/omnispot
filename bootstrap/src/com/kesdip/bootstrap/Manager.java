@@ -62,6 +62,7 @@ public class Manager extends Thread {
 					comm.performRequest();
 				} catch (Exception e) {
 					logger.error(e);
+					e.printStackTrace();
 					exceptioncount++;
 					if (firstExceptionTimeStamp == 0)
 						firstExceptionTimeStamp = new Date().getTime();
