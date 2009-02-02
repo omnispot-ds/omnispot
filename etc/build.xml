@@ -104,11 +104,24 @@
 			<fileset file="${bootstrap.dist.file}"/>
 			<fileset file="${common.dist.file}"/>
 			<fileset file="${player.dist.file}"/>
+			<fileset file="${logic.dist.file}"/>
 			<fileset dir="${etc.lib.dir}">
 				<include name="log4j/log4j-1.2.14.jar"/>
 				<include name="apache-commons/commons-httpclient-3.1.jar"/>
 				<include name="apache-commons/commons-codec-1.3.jar"/>
 				<include name="apache-commons/commons-io.jar"/>
+				<include name="spring/spring.jar"/>
+				<include name="apache-commons/commons-logging-1.0.4.jar"/>
+				<include name="apache-commons/commons-dbcp-1.2.2.jar"/>
+				<include name="apache-commons/commons-pool-1.4.jar"/>
+				<include name="apache-commons/commons-collections-3.1.jar"/>
+				<include name="hibernate/hibernate3.jar"/>
+				<include name="hibernate/jta.jar"/>
+				<include name="hibernate/cglib-2.1.3.jar"/>
+				<include name="hibernate/asm-attrs.jar"/>
+				<include name="hibernate/asm.jar"/>
+				<include name="dom4j/dom4j-1.6.1.jar"/>
+				<include name="derby/derbyclient.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="${bootstrap.home}/service-wrapper" >
