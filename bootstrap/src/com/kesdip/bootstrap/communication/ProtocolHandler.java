@@ -149,7 +149,7 @@ public class ProtocolHandler {
 					}
 					logger.info("Adding new deploy message");
 					manager.getPump().addMessage(new DeployMessage(descriptorUrl,Long.parseLong(crc), action.getActionId()));
-				} else if (action.getType() == IActionTypesEnum.REBOOT) {
+				} else if (action.getType() == IActionTypesEnum.RESTART) {
 					logger.info("Adding new restartplayer message");
 					manager.getPump().addMessage(new RestartPlayerMessage(action.getActionId()));
 				}
