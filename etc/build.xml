@@ -4,6 +4,7 @@
 	<description>Diacool main buildfile</description>
 	
 	<property file="build.properties"/>
+	<property file="./profiles/${target.env}.properties"/>
 	
 	<property name="project.base.dir" location=".."/>
 	
@@ -74,7 +75,8 @@
 		<ant antfile="${admin-console.build.file}" target="admin-console.dist" inheritrefs="true"/>
 	</target>
 	
-	<target name="clean" description="Clean project directories">
+	<target name="clean" 
+		description="Cleans project directories">
 		<ant antfile="${admin-console.build.file}" target="admin-console.clean" inheritrefs="true"/>
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.clean" inheritrefs="true"/>
 		<ant antfile="${player.build.file}" target="player.clean" inheritrefs="true"/>
@@ -82,22 +84,26 @@
 		<ant antfile="${logic.build.file}" target="logic.clean" inheritrefs="true"/>
 	</target>	
 	
-	<target name="recreate.database" description="Recreates the database">
+	<target name="recreate.database" 
+		description="Recreates the database schema from the HBMs">
 		<ant antfile="${etc.db.create.file}" target="drop.database" inheritrefs="true"/>
 		<ant antfile="${etc.db.create.file}" target="create.database" inheritrefs="true"/>
 		<ant antfile="${etc.db.create.file}" target="populate.database" inheritrefs="true"/>
 	</target>
 	
-	<target name="generate.domain.objects">
+	<target name="generate.domain.objects"
+		description="Generates Java classes from the HBMs">
 		<ant antfile="${logic.build.file}" target="generate.domain.objects" inheritrefs="true"/>
 		<ant antfile="${bootstrap.build.file}" target="generate.domain.objects" inheritrefs="true"/>
 	</target>
 	
-	<target name="dist.admin-console" depends="build.admin-console">
+	<target name="dist.admin-console" depends="build.admin-console"
+		description="Creates admin-console.war and copies to Tomcat">
 		<copy tofile="${tomcat.home}/webapps/admin-console.war" file="${admin-console.dist.file}" overwrite="true"/>
 	</target>
 	
-	<target name="dist.bootstrap" depends="build.common, build.bootstrap">
+	<target name="dist.bootstrap" depends="build.common, build.bootstrap"
+		description="Creates the bootstrap.jar and dependencies, copies them along with the service wrapper components">
 		<mkdir dir="${bootstrap.home}"/>
 		<mkdir dir="${bootstrap.home}/lib"/>
 		<copy todir="${bootstrap.home}/lib" flatten="true">
@@ -131,6 +137,7 @@
 		</copy>
 	</target>	
 	
-	<target name="dist.player" depends="build.common, build.player"/>
+	<target name="dist.player" depends="build.common, build.player"
+		description="Creates player.jar"/>
 	
 </project>

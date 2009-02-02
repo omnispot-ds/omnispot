@@ -69,3 +69,9 @@ insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (13, 5);
 insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (15, 6);
 insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (16, 6);
 insert into GRP_INSTALLATION (INSTALLATION_ID, GROUP_ID) values (17, 7);
+
+-- CONTENT
+insert into CONTENT (ID, URL, CRC, LOCAL_FILE) values (1, 'abcd', '123', 'test.wmv');
+insert into CONTENT (ID, URL, CRC, LOCAL_FILE) values (2, 'efgh', '123', 'test.jpg');
+insert into CONTENT (ID, URL, CRC, LOCAL_FILE) values (3, 'ijkl', '123', 'test.mpg');
+
