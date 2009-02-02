@@ -90,6 +90,7 @@ public class PrintScreenLogic extends BaseLogic {
 	 *            the bean to check
 	 * @return Set of Installations for the parent object
 	 */
+	@SuppressWarnings("serial")
 	private final Set<Installation> getInstallations(
 			final ViewPrintScreenBean bean) {
 		if (bean.getSite() != null) {

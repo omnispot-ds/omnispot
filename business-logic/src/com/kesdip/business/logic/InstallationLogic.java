@@ -54,9 +54,9 @@ public class InstallationLogic extends BaseLogic {
 		List<Installation> installations = getHibernateTemplate().find(
 				"select i from " + Installation.class.getName() + " i "
 						+ "left join fetch i.site s "
-						+ "left join fetch s.customer " 
-						+ "left join fetch i.deployments d "
-						+ "where i = ? ", dto);
+						+ "left join fetch s.customer "
+						+ "left join fetch i.deployments d " + "where i = ? ",
+				dto);
 		Installation installation = null;
 		if (!installations.isEmpty()) {
 			installation = installations.get(0);
@@ -148,6 +148,7 @@ public class InstallationLogic extends BaseLogic {
 	 * @return int the child installations
 	 */
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public int getInstallationCount(Site site) {
 		if (site == null) {
 			logger.info("DTO is null");
@@ -165,6 +166,7 @@ public class InstallationLogic extends BaseLogic {
 	 * @return int the child installations
 	 */
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public int getInstallationCount(InstallationGroup group) {
 		if (group == null) {
 			logger.info("DTO is null");
@@ -183,6 +185,7 @@ public class InstallationLogic extends BaseLogic {
 	 * @return int the child installations
 	 */
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public int getInstallationCount(Customer customer) {
 		if (customer == null) {
 			logger.info("DTO is null");
@@ -202,6 +205,7 @@ public class InstallationLogic extends BaseLogic {
 	 *         argument was <code>null</code>
 	 */
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<Installation> getInstallations(Customer customer) {
 		if (customer == null) {
 			logger.info("DTO is null");
@@ -212,6 +216,22 @@ public class InstallationLogic extends BaseLogic {
 						+ "where i.site.customer = ? " + "and i.active = true",
 				customer);
 		return results;
+	}
+
+	/**
+	 * Returns the installation with this UUId.
+	 * 
+	 * @param uuid
+	 *            the uuid
+	 * @return Installation the instance or <code>null</code>
+	 */
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
+	public Installation getInstallationByUuid(String uuid) {
+		List<Installation> results = getHibernateTemplate().find(
+				"select i from " + Installation.class.getName() + " i "
+						+ "where i.uuid = ? ", uuid);
+		return !results.isEmpty() ? results.get(0) : null;
 	}
 
 	/**

@@ -11,8 +11,8 @@
 	</file-storage>
 
 	<server>
-		<content-base>http://localhost:8080/admin-console/content/</content-base>
-		<printScreen-base>http://localhost:8080/admin-console/secure/printScreen/</printScreen-base>
+		<content-base>http://192.168.1.4:8080/admin-console/content/</content-base>
+		<printScreen-base>http://192.168.1.4:8080/admin-console/secure/printScreen/</printScreen-base>
 	</server>
 	
 </settings>

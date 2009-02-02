@@ -309,6 +309,7 @@ business-logic/src/com/kesdip/business/exception/InvalidEntityIdentifierExceptio
 business-logic/src/com/kesdip/business/exception/ValidationException.java -text
 business-logic/src/com/kesdip/business/logic/ActionLogic.java -text
 business-logic/src/com/kesdip/business/logic/BaseLogic.java -text
+business-logic/src/com/kesdip/business/logic/ContentLogic.java -text
 business-logic/src/com/kesdip/business/logic/CustomerLogic.java -text
 business-logic/src/com/kesdip/business/logic/GroupLogic.java -text
 business-logic/src/com/kesdip/business/logic/InstallationLogic.java -text
