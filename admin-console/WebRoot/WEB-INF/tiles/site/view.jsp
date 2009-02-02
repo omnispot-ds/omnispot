@@ -168,13 +168,10 @@
 					<a href="${pageContext.request.contextPath}/secure/action/deploy-content.do?site.id=${dataObject.id}">
 						<fmt:message bundle="${msg}" key="button.deploy.content"/></a>
 					&nbsp;
-					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=2&site.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.start.installations"/></a>
-					&nbsp;
-					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=3&site.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.stop.installations"/></a>
-					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=4&site.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.restart.installations"/></a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=2&site.id=${dataObject.id}">
 						<fmt:message bundle="${msg}" key="button.reboot.installations"/></a>
 					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=5&site.id=${dataObject.id}">

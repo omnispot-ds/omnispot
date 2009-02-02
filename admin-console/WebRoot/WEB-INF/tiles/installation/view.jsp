@@ -188,13 +188,10 @@
 					<a href="${pageContext.request.contextPath}/secure/action/deploy-content.do?installation.id=${dataObject.id}">
 						<fmt:message bundle="${msg}" key="button.deploy.content"/></a>
 					&nbsp;
-					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=2&installation.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.start.installation"/></a>
-					&nbsp;
-					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=3&installation.id=${dataObject.id}">
-						<fmt:message bundle="${msg}" key="button.stop.installation"/></a>
-					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=4&installation.id=${dataObject.id}">
+						<fmt:message bundle="${msg}" key="button.restart.installation"/></a>
+					&nbsp;
+					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=2&installation.id=${dataObject.id}">
 						<fmt:message bundle="${msg}" key="button.reboot.installation"/></a>
 					&nbsp;
 					<a href="${pageContext.request.contextPath}/secure/action/schedule.do?action.type=5&installation.id=${dataObject.id}">

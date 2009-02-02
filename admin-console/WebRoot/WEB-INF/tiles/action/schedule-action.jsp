@@ -106,13 +106,10 @@
 				<div class="readonly_value">
 					<c:choose>
 						<c:when test="${dataObject.action.type == 2}">
-							<fmt:message bundle="${msg}" key="action.start" />
-						</c:when>
-						<c:when test="${dataObject.action.type == 3}">
-							<fmt:message bundle="${msg}" key="action.stop" />
+							<fmt:message bundle="${msg}" key="action.reboot" />
 						</c:when>
 						<c:when test="${dataObject.action.type == 4}">
-							<fmt:message bundle="${msg}" key="action.reboot" />
+							<fmt:message bundle="${msg}" key="action.restart" />
 						</c:when>
 						<c:when test="${dataObject.action.type == 5}">
 							<fmt:message bundle="${msg}" key="action.reconf" />
