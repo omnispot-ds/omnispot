@@ -75,6 +75,11 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
+   <servlet>
+        <servlet-name>ContentServlet</servlet-name>
+        <servlet-class>com.kesdip.admin.web.servlet.ContentServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
     
     <servlet>
         <servlet-name>CommandServlet</servlet-name>
@@ -92,6 +97,11 @@
         <url-pattern>/secure/printScreen/*</url-pattern>
     </servlet-mapping>
     
+    <servlet-mapping>
+        <servlet-name>ContentServlet</servlet-name>
+        <url-pattern>/content/*</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>CommandServlet</servlet-name>
         <url-pattern>/servlet/commandServlet</url-pattern>

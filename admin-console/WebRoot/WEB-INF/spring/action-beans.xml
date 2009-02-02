@@ -21,6 +21,7 @@
 				<ref bean="installationLogic"/>
 				<ref bean="actionLogic"/>
 				<ref bean="printScreenLogic"/>
+				<ref bean="contentLogic"/>
 			</list>
 		</property>
 	</bean>
@@ -177,6 +178,11 @@
 	<bean id="printScreenLogic" 
 		parent="baseLogicBean"
 		class="com.kesdip.business.logic.PrintScreenLogic"/>
+
+	<!-- Content logic -->
+	<bean id="contentLogic" 
+		parent="baseLogicBean"
+		class="com.kesdip.business.logic.ContentLogic"/>
 
 	<!-- Action logic -->
 	<bean id="actionLogic" 
