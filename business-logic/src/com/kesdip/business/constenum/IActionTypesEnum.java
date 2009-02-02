@@ -22,19 +22,14 @@ public interface IActionTypesEnum {
 	short DEPLOY = 1;
 	
 	/**
-	 * Start the player.
-	 */
-	short START = 2;
-	
-	/**
-	 * Stop the player.
-	 */
-	short STOP = 3;
-	
-	/**
 	 * Reboot the machine.
 	 */
-	short REBOOT = 4;
+	short REBOOT = 2;
+	
+	/**
+	 * Restart the player.
+	 */
+	short RESTART = 4;
 	
 	/**
 	 * Reconfigure the player.
