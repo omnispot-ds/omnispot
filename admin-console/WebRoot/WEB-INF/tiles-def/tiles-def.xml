@@ -84,6 +84,11 @@
 		<put name="body" value="/WEB-INF/tiles/customer/view-images.jsp"/>
 	</definition>
 
+	<!-- View actions page -->
+	<definition name="/secure/customer/view-actions.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/customer/view-actions.jsp"/>
+	</definition>
+
 	<!-- Edit customer page -->
 	<definition name="/secure/customer/edit.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/customer/edit.jsp"/>
@@ -98,6 +103,11 @@
 	<!-- View installation page -->
 	<definition name="/secure/installation/view.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/installation/view.jsp"/>
+	</definition>
+
+	<!-- View actions page -->
+	<definition name="/secure/installation/view-actions.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installation/view-actions.jsp"/>
 	</definition>
 
 	<!-- Edit installation page -->
@@ -121,6 +131,11 @@
 		<put name="body" value="/WEB-INF/tiles/installationGroup/view-images.jsp"/>
 	</definition>
 
+	<!-- View actions page -->
+	<definition name="/secure/installationGroup/view-actions.tiles" extends="groupTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/installationGroup/view-actions.jsp"/>
+	</definition>
+
 	<!-- Edit group page -->
 	<definition name="/secure/installationGroup/edit.tiles" extends="groupTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/installationGroup/edit.jsp"/>
@@ -140,6 +155,11 @@
 	<!-- View printscreens page -->
 	<definition name="/secure/site/view-images.tiles" extends="siteTreeLayout">
 		<put name="body" value="/WEB-INF/tiles/site/view-images.jsp"/>
+	</definition>
+
+	<!-- View actions page -->
+	<definition name="/secure/site/view-actions.tiles" extends="siteTreeLayout">
+		<put name="body" value="/WEB-INF/tiles/site/view-actions.jsp"/>
 	</definition>
 
 	<!-- Edit site page -->

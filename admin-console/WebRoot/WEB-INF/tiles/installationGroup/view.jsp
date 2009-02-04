@@ -20,6 +20,11 @@
 					<fmt:message bundle="${msg}" key="group.tab.images"/>
 				</a>
 			</li>
+			<li>
+			 	<a href="${pageContext.request.contextPath}/secure/installationGroup/view-actions.do?installationGroup.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="group.tab.actions"/>
+				</a>
+			</li>
 		</ul>
 	</div>
 

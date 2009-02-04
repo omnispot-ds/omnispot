@@ -22,6 +22,7 @@ admin-console/WebRoot/WEB-INF/tiles/common/parts/header-no-user.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/common/parts/header.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/edit.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/customer/view-actions.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/view-images.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/customer/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/group-body.jsp -text
@@ -29,14 +30,17 @@ admin-console/WebRoot/WEB-INF/tiles/home/site-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/home/user-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installation/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installation/edit.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/installation/view-actions.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installation/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/edit.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/installationGroup/view-actions.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/view-images.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/login/login-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/edit.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/site/view-actions.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/view-images.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/site/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/tree/group-tree.jsp -text
@@ -186,6 +190,7 @@ admin-console/src/com/kesdip/admin/web/constenum/IObjectKeysEnum.java -text
 admin-console/src/com/kesdip/admin/web/controller/BaseFormController.java -text
 admin-console/src/com/kesdip/admin/web/controller/action/DeployContentController.java -text
 admin-console/src/com/kesdip/admin/web/controller/action/SimpleActionController.java -text
+admin-console/src/com/kesdip/admin/web/controller/action/ViewActionsController.java -text
 admin-console/src/com/kesdip/admin/web/controller/customer/CreateController.java -text
 admin-console/src/com/kesdip/admin/web/controller/customer/DeleteController.java -text
 admin-console/src/com/kesdip/admin/web/controller/customer/EditController.java -text

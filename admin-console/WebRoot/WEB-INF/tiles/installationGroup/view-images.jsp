@@ -20,6 +20,11 @@
 			 <li class="selected_tab">
 				<fmt:message bundle="${msg}" key="group.tab.images"/>
 			</li>
+			<li>
+			 	<a href="${pageContext.request.contextPath}/secure/installationGroup/view-actions.do?installationGroup.id=${param['installationGroup.id']}">
+					<fmt:message bundle="${msg}" key="group.tab.actions"/>
+				</a>
+			</li>
 		</ul>
 	</div>
 
@@ -27,14 +32,14 @@
 		action="${pageContext.request.contextPath}/secure/instalaltionGroup/view-images.do"
 		commandName="dataObject" method="post" cssClass="appnitro">
 
-		<input type="hidden" value="${param['installationGroup.id']}" />
+		<input type="hidden" name="installationGroup.id" value="${param['installationGroup.id']}" />
 
 		<div class="form_description">
 			<h2>
 				${dataObject.entityName}
 			</h2>
 			<p>
-				<fmt:message bundle="${msg}" key="printscreen.page.refresh"/>
+				<fmt:message bundle="${msg}" key="page.refresh"/>
 				<span id="pageRefreshTimer">&nbsp;</span>
 				<a href="#" 
 					title='<fmt:message bundle="${msg}" key="button.refresh.now"/>'

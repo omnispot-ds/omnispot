@@ -10,6 +10,19 @@
 
 <div id="form_container">
 
+	<div class="tab-navigation">
+		<ul class="tabs">
+			<li class="selected_tab">
+				<fmt:message bundle="${msg}" key="installation.tab.view"/>
+			 </li>
+			 <li>
+			 	<a href="${pageContext.request.contextPath}/secure/installation/view-actions.do?installation.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="installation.tab.actions"/>
+				</a>
+			</li>
+		</ul>
+	</div>
+
 	<form:form id="form"
 		action="${pageContext.request.contextPath}/secure/installation/delete.do"
 		commandName="dataObject" method="post" cssClass="appnitro">

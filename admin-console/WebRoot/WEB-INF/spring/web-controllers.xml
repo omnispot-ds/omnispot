@@ -44,23 +44,27 @@
 				/secure/customer/delete.do*				= deleteCustomerController
 				/secure/customer/edit.do*				= editCustomerController
 				/secure/customer/view-images.do*		= viewPrintScreenController
+				/secure/customer/view-actions.do*		= viewActionsController
 				
 				/secure/site/create.do*					= createSiteController
 				/secure/site/view.do*					= viewSiteController
 				/secure/site/delete.do*					= deleteSiteController
 				/secure/site/edit.do*					= editSiteController
 				/secure/site/view-images.do*			= viewPrintScreenController
+				/secure/site/view-actions.do*			= viewActionsController
 				
 				/secure/installation/create.do*			= createInstallationController
 				/secure/installation/view.do*			= viewInstallationController
 				/secure/installation/delete.do*			= deleteInstallationController
 				/secure/installation/edit.do*			= editInstallationController
+				/secure/installation/view-actions.do*	= viewActionsController
 
 				/secure/installationGroup/create.do*	= createGroupController
 				/secure/installationGroup/view.do*		= viewGroupController
 				/secure/installationGroup/delete.do*	= deleteGroupController
 				/secure/installationGroup/edit.do*		= editGroupController
 				/secure/installationGroup/view-images.do* = viewPrintScreenController
+				/secure/installationGroup/view-actions.do* = viewActionsController
 
 				/secure/quickSearch.do*					= quickSearchController
 				
@@ -337,6 +341,29 @@
 			value="com.kesdip.business.beans.ActionBean" />
 		<property name="sessionForm" value="true" />
 		<property name="validateOnBinding" value="false" />
+	</bean>
+
+	<!-- Controller for Action viewing -->
+	<bean id="viewActionsController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.action.ViewActionsController">
+		<property name="allFormViews">
+			<map>
+				<entry key="installationGroup" value="/secure/installationGroup/view-actions.tiles"/>
+				<entry key="customer" value="/secure/customer/view-actions.tiles"/>
+				<entry key="site" value="/secure/site/view-actions.tiles"/>
+				<entry key="installation" value="/secure/installation/view-actions.tiles"/>
+			</map>
+		</property>
+		<property name="allSuccessViews">
+			<map>
+				<entry key="installationGroup" value="/secure/installationGroup/view-actions.tiles"/>
+				<entry key="customer" value="/secure/customer/view-actions.tiles"/>
+				<entry key="site" value="/secure/site/view-actions.tiles"/>
+				<entry key="installation" value="/secure/installation/view-actions.tiles"/>
+			</map>
+		</property>
+		<property name="commandClass"
+			value="com.kesdip.business.beans.ActionQueryBean" />
 	</bean>
 
 	<!-- =================== PRINTSCREEN CONTROLLERS ==================== -->

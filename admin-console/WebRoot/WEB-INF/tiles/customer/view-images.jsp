@@ -20,6 +20,11 @@
 			 <li class="selected_tab">
 				<fmt:message bundle="${msg}" key="customer.tab.images"/>
 			</li>
+			<li>
+			 	<a href="${pageContext.request.contextPath}/secure/customer/view-actions.do?customer.id=${param['customer.id']}">
+					<fmt:message bundle="${msg}" key="customer.tab.actions"/>
+				</a>
+			</li>
 		</ul>
 	</div>
 
@@ -27,14 +32,14 @@
 		action="${pageContext.request.contextPath}/secure/customer/view-images.do"
 		commandName="dataObject" method="post" cssClass="appnitro">
 
-		<input type="hidden" value="${param['customer.id']}" />
+		<input type="hidden" name="customer.id" value="${param['customer.id']}" />
 
 		<div class="form_description">
 			<h2>
 				${dataObject.entityName}
 			</h2>
 			<p>
-				<fmt:message bundle="${msg}" key="printscreen.page.refresh"/>
+				<fmt:message bundle="${msg}" key="page.refresh"/>
 				<span id="pageRefreshTimer">&nbsp;</span>
 				<a href="#" 
 					title='<fmt:message bundle="${msg}" key="button.refresh.now"/>'
