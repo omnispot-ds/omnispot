@@ -27,7 +27,6 @@ import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.log4j.Logger;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.bootstrap.Config;
@@ -35,11 +34,11 @@ import com.kesdip.bootstrap.Manager;
 import com.kesdip.bootstrap.domain.generated.Action;
 import com.kesdip.bootstrap.domain.generated.Parameter;
 import com.kesdip.bootstrap.message.DeployMessage;
+import com.kesdip.bootstrap.message.RebootPlayerMessage;
 import com.kesdip.bootstrap.message.RestartPlayerMessage;
 import com.kesdip.business.constenum.IActionParamsEnum;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IActionTypesEnum;
-import com.kesdip.common.util.BeanUtils;
 
 
 public class ProtocolHandler {
@@ -118,6 +117,7 @@ public class ProtocolHandler {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void handleResponse(String serializedActions) throws Exception {
 
 		logger.info("Response received from server...");
@@ -152,6 +152,9 @@ public class ProtocolHandler {
 				} else if (action.getType() == IActionTypesEnum.RESTART) {
 					logger.info("Adding new restartplayer message");
 					manager.getPump().addMessage(new RestartPlayerMessage(action.getActionId()));
+				} else if (action.getType() == IActionTypesEnum.REBOOT) {
+					logger.info("Adding new rebootplayer message");
+					manager.getPump().addMessage(new RebootPlayerMessage(action.getActionId()));
 				}
 
 				getHibernateTemplate().save(bootstrapAction);

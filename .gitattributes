@@ -239,6 +239,7 @@ bootstrap/sql/create-database.sql -text
 bootstrap/sql/drop-database.sql -text
 bootstrap/src-test/com/kesdip/bootstrap/DummyPlayer.java -text
 bootstrap/src-test/com/kesdip/bootstrap/MessagePumpTest.java -text
+bootstrap/src-test/com/kesdip/bootstrap/RebootMessageTest.java -text
 bootstrap/src/bootstrap.properties -text
 bootstrap/src/bootstrapContext.xml -text
 bootstrap/src/com/kesdip/bootstrap/Config.java -text
@@ -258,6 +259,7 @@ bootstrap/src/com/kesdip/bootstrap/message/ContinuationMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/DeployMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/IMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
+bootstrap/src/com/kesdip/bootstrap/message/RebootPlayerMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text
 bootstrap/src/inactive_hibernate.cfg.xml -text
 bootstrap/src/log4j.xml -text
