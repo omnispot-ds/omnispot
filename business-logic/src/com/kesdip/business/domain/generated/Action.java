@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 24 …·Ì 2009 12:00:18 ÏÏ by Hibernate Tools 3.2.0.b9
+// Generated 4 ÷Â‚ 2009 10:47:09 Ï by Hibernate Tools 3.2.0.b9
 
 
 import java.util.Date;
@@ -211,6 +211,24 @@ public class Action  implements java.io.Serializable {
          return result;
    }   
 
+  // The following is extra code specified in the hbm.xml files
+
+			
+			
+		/**
+		 * @return String the date, formatted as a string or null
+		 * @see gr.panouepe.monitor.common.util.DateUtils#DATE_FORMAT
+		 */
+		public String getDateString() {
+			if (dateAdded == null) {
+				return null;
+			}
+			return new java.text.SimpleDateFormat(
+			com.kesdip.common.util.DateUtils.DATE_TIME_FORMAT).format(dateAdded);
+		}
+		
+		
+  // end of extra code specified in the hbm.xml files
 
 }
 

@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.beans.ActionBean;
+import com.kesdip.business.beans.ActionQueryBean;
 import com.kesdip.business.beans.BaseMultitargetBean;
 import com.kesdip.business.beans.ContentDeploymentBean;
 import com.kesdip.business.config.ApplicationSettings;
@@ -97,7 +98,7 @@ public class ActionLogic extends BaseLogic {
 		Deployment deployment = null;
 		try {
 			logger.debug("Creating deployment in the DB");
-			Set<Installation> installations = getInstallations(object); 
+			Set<Installation> installations = getInstallations(object);
 			String contentBase = ApplicationSettings.getInstance()
 					.getServerSettings().getContentBase();
 			deployment = new Deployment();
@@ -116,13 +117,13 @@ public class ActionLogic extends BaseLogic {
 				parameter = new Parameter();
 				parameter.setName(IActionParamsEnum.DEPLOYMENT_CRC);
 				parameter.setValue(String.valueOf(crc.getValue()));
-				parameter.setId((Long)getHibernateTemplate().save(parameter));
+				parameter.setId((Long) getHibernateTemplate().save(parameter));
 				action.getParameters().add(parameter);
 				// URL
 				parameter = new Parameter();
 				parameter.setName(IActionParamsEnum.DEPLOYMENT_URL);
 				parameter.setValue(contentBase + uniqueName);
-				parameter.setId((Long)getHibernateTemplate().save(parameter));
+				parameter.setId((Long) getHibernateTemplate().save(parameter));
 				action.getParameters().add(parameter);
 				// store action
 				action.setActionId(getActionId());
@@ -130,7 +131,7 @@ public class ActionLogic extends BaseLogic {
 				action.setInstallation(installation);
 				action.setType(IActionTypesEnum.DEPLOY);
 				action.setStatus(IActionStatusEnum.SCHEDULED);
-				action.setId((Long)getHibernateTemplate().save(action));
+				action.setId((Long) getHibernateTemplate().save(action));
 			}
 		} catch (RuntimeException re) {
 			// delete file on error
@@ -165,7 +166,8 @@ public class ActionLogic extends BaseLogic {
 			if (object.getAction().getType() == IActionTypesEnum.RECONFIGURE) {
 				for (Parameter parameter : object.getAction().getParameters()) {
 					parameter.setId(null);
-					parameter.setId((Long)getHibernateTemplate().save(parameter));
+					parameter.setId((Long) getHibernateTemplate().save(
+							parameter));
 					action.getParameters().add(parameter);
 				}
 			}
@@ -175,8 +177,32 @@ public class ActionLogic extends BaseLogic {
 			action.setType(object.getAction().getType());
 			action.setActionId(getActionId());
 			action.setId((Long) getHibernateTemplate().save(action));
-			
+
 		}
+	}
+
+	/**
+	 * Returns all actions for the given target object, organized per action
+	 * type, action status and installation.
+	 * 
+	 * @param bean
+	 *            the query bean
+	 * @return ActionQueryBean the populated bean
+	 * @throws ValidationException
+	 *             on validation error
+	 */
+	@Transactional(readOnly = true)
+	public ActionQueryBean getActionSet(ActionQueryBean bean)
+			throws ValidationException {
+		validate(bean, "actionSet");
+		bean.setEntityName(getEntityName(bean));
+		// get installations to iterate
+		Set<Installation> installations = getInstallations(bean);
+		for (Installation installation : installations) {
+			// add to maps as appropriate
+			bean.addInstallation(installation);
+		}
+		return bean;
 	}
 
 	/**

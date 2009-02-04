@@ -134,42 +134,4 @@ public class PrintScreenLogic extends BaseLogic {
 		return psFile.isFile() ? psFile : new File(storageSettings
 				.getDefaultPrintScreen());
 	}
-
-	/**
-	 * @param bean
-	 *            the bean to examine
-	 * @return String the name of the parent entity
-	 */
-	private final String getEntityName(ViewPrintScreenBean bean) {
-		if (bean.getSite() != null) {
-			if (StringUtils.isEmpty(bean.getSite().getName())) {
-				SiteLogic logic = getLogicFactory().getSiteLogic();
-				return logic.getInstance(bean.getSite()).getName();
-			} else {
-				return bean.getSite().getName();
-			}
-		} else if (bean.getInstallationGroup() != null) {
-			if (StringUtils.isEmpty(bean.getInstallationGroup().getName())) {
-				GroupLogic logic = getLogicFactory().getGroupLogic();
-				return logic.getInstance(bean.getInstallationGroup()).getName();
-			} else {
-				return bean.getInstallationGroup().getName();
-			}
-		} else if (bean.getCustomer() != null) {
-			if (StringUtils.isEmpty(bean.getCustomer().getName())) {
-				CustomerLogic logic = getLogicFactory().getCustomerLogic();
-				return logic.getInstance(bean.getCustomer()).getName();
-			} else {
-				return bean.getCustomer().getName();
-			}
-		} else {
-			if (StringUtils.isEmpty(bean.getInstallation().getName())) {
-				InstallationLogic logic = getLogicFactory()
-						.getInstallationLogic();
-				return logic.getInstance(bean.getInstallation()).getName();
-			} else {
-				return bean.getInstallation().getName();
-			}
-		}
-	}
 }

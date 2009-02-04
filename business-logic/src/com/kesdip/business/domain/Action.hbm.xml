@@ -12,6 +12,23 @@
 		</meta>
 		<meta attribute="implement-equals">true</meta>
 
+		<meta attribute="class-code">
+			<![CDATA[
+			
+		/**
+		 * @return String the date, formatted as a string or null
+		 * @see gr.panouepe.monitor.common.util.DateUtils#DATE_FORMAT
+		 */
+		public String getDateString() {
+			if (dateAdded == null) {
+				return null;
+			}
+			return new java.text.SimpleDateFormat(
+			com.kesdip.common.util.DateUtils.DATE_TIME_FORMAT).format(dateAdded);
+		}
+		]]>
+		</meta>
+
 		<id name="id" column="ID" type="java.lang.Long">
 			<meta attribute="use-in-equals">true</meta>
 			<meta attribute="use-in-tostring">true</meta>

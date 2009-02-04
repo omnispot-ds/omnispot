@@ -50,6 +50,11 @@ public abstract class BaseMultitargetBean implements Serializable {
 	private Installation installation = null;
 
 	/**
+	 * The name of the parent entity.
+	 */
+	private String entityName = null; 
+	
+	/**
 	 * How many installations will be affected.
 	 */
 	private int installationCount = 0;
@@ -123,4 +128,30 @@ public abstract class BaseMultitargetBean implements Serializable {
 	public void setSite(Site site) {
 		this.site = site;
 	}
+	
+	/**
+	 * @return the name of the parent entity
+	 */
+	public String getEntityName() {
+		if (entityName == null) {
+			if (installation != null) {
+				entityName = installation.getName();
+			} else if (installationGroup != null) {
+				entityName = installationGroup.getName();
+			} else if (site != null) {
+				entityName = site.getName();
+			} else if (customer != null) {
+				entityName = customer.getName();
+			} 
+		}
+		return entityName;
+	}
+
+	/**
+	 * @param entityName the entityName to set
+	 */
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
+	}
+
 }

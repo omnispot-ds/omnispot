@@ -268,6 +268,7 @@ business-logic/.project -text
 business-logic/build.xml -text
 business-logic/shared.jars -text
 business-logic/src/com/kesdip/business/beans/ActionBean.java -text
+business-logic/src/com/kesdip/business/beans/ActionQueryBean.java -text
 business-logic/src/com/kesdip/business/beans/BaseMultitargetBean.java -text
 business-logic/src/com/kesdip/business/beans/ContentDeploymentBean.java -text
 business-logic/src/com/kesdip/business/beans/ListItemBean.java -text
