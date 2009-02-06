@@ -1,10 +1,6 @@
 package com.kesdip.business.communication;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +10,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -37,6 +32,8 @@ public class ServerProtocolHandler {
 			.getLogger(ServerProtocolHandler.class);
 
 	String installationId;
+	
+	private ActionSerializationHandler actionHandler = new ActionSerializationHandler();
 
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@SuppressWarnings("unchecked")
@@ -51,6 +48,22 @@ public class ServerProtocolHandler {
 		String serializedActions = getParameter("serializedActions", parameters);
 		String playerProcAlive = getParameter("playerProcAlive", parameters);
 		
+		//update installation status
+		List<Installation> installations = getHibernateTemplate().find(
+				"from " + Installation.class.getName()
+						+ " i where i.uuid = ?",
+				new Object[] { installationId });
+		if (installations.size() != 0) {
+			Installation installation = installations.get(0);
+			installation
+					.setCurrentStatus(playerProcAlive.equalsIgnoreCase("TRUE") ? IInstallationStatus.OK
+							: IInstallationStatus.PLAYER_DOWN);
+			getHibernateTemplate().update(installation);
+		} else {
+			logger.error("Player with installation id: "+installationId+" doesnot exist!!??");
+			return;
+		}
+		
 		if (req.getAttribute("screenshot") != null) {
 			FileStorageSettings settings = ApplicationSettings.getInstance()
 					.getFileStorageSettings();
@@ -61,16 +74,11 @@ public class ServerProtocolHandler {
 			destFile.getParentFile().mkdirs();
 			fileitem.write(destFile);
 		}
-		byte[] bytes = Base64.decodeBase64(serializedActions.getBytes());
 		logger.info("Received: InstallationId: " + installationId
 				+ " playerProcAlive: " + playerProcAlive
 				+ " serializedActions: " + serializedActions);
-		serializedActions = new String(bytes);
 		if (!serializedActions.equals("NO_ACTIONS")) {
-			ObjectInputStream instream = new ObjectInputStream(
-					new ByteArrayInputStream(serializedActions.getBytes()));
-			Action[] actions = (Action[]) instream.readObject();
-
+			Action[] actions = actionHandler.deserialize(serializedActions);
 			// now update the admin-console db
 			for (Action action : actions) {
 				List<Action> l = getHibernateTemplate().find(
@@ -84,17 +92,7 @@ public class ServerProtocolHandler {
 				getHibernateTemplate().update(dbAction);
 			}
 
-			List<Installation> installations = getHibernateTemplate().find(
-					"from " + Installation.class.getName()
-							+ " i where i.uuid = ?",
-					new Object[] { installationId });
-			if (installations.size() != 0) {
-				Installation installation = installations.get(0);
-				installation
-						.setCurrentStatus(playerProcAlive.equals("TRUE") ? IInstallationStatus.OK
-								: IInstallationStatus.PLAYER_DOWN);
-				getHibernateTemplate().update(installation);
-			}
+			logger.info("Received actions updated! ");
 		}
 		sendResponse(resp);
 
@@ -114,20 +112,18 @@ public class ServerProtocolHandler {
 						new Object[] { IActionStatusEnum.SCHEDULED,
 								installationId });
 
-		String serializedActions = new String(Base64.encodeBase64("NO_ACTIONS".getBytes()));
+		String serializedActions = "NO_ACTIONS";
 		if (actions.size() > 0) {
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			ObjectOutputStream outStream = new ObjectOutputStream(out);
-			outStream.writeObject(actions);
-			byte[] bytes = Base64.encodeBase64(out.toByteArray());
-			serializedActions = new String(bytes);
-			logger.info("actions found");
+			serializedActions = actionHandler.serialize(actions.toArray(new Action[0]));
+			logger.info("Actions found and will be sent to installation with id "
+					+actions.get(0).getInstallation().getName()+". Actions: "+serializedActions);
 		}
 		resp.getOutputStream().print(serializedActions);
 		resp.getOutputStream().close();
 
 		for (Action action : actions) {
-			action.setStatus(IActionStatusEnum.SEND);
+			logger.info("Actions sent and updated in server db");
+			action.setStatus(IActionStatusEnum.SENT);
 			getHibernateTemplate().update(action);
 		}
 
