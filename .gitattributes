@@ -251,8 +251,6 @@ bootstrap/src/com/kesdip/bootstrap/content/ContentRetriever.java -text
 bootstrap/src/com/kesdip/bootstrap/content/DescriptorHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/content/ResourceHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/content/TimingHandler.java -text
-bootstrap/src/com/kesdip/bootstrap/domain/generated/Action.java -text
-bootstrap/src/com/kesdip/bootstrap/domain/generated/Parameter.java -text
 bootstrap/src/com/kesdip/bootstrap/message/ContinuationMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/DeployMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/IMessage.java -text
