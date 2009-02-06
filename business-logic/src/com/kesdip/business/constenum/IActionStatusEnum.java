@@ -41,5 +41,5 @@ public interface IActionStatusEnum {
 	 */
 	short SCHEDULED = 0;
 	
-	short SEND = 3;
+	short SENT = 3;
 }
