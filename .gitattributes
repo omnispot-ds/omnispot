@@ -56,6 +56,7 @@ admin-console/WebRoot/resources/css/chrome-menu.css -text
 admin-console/WebRoot/resources/css/form.css -text
 admin-console/WebRoot/resources/css/layout.css -text
 admin-console/WebRoot/resources/css/tree.css -text
+admin-console/WebRoot/resources/images/`banner.png -text
 admin-console/WebRoot/resources/images/`header-gradient.png -text
 admin-console/WebRoot/resources/images/add.png -text
 admin-console/WebRoot/resources/images/banner.png -text
