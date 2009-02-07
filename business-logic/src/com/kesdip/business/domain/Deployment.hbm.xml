@@ -61,6 +61,14 @@
 			</meta>
 		</property>
 
+		<property name="retries" column="RETRIES" type="int"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The number of retries to download this deployment.
+			</meta>
+		</property>
+
 		<set name="contentFiles" table="DEPL_CONTENT" cascade="none"
 			lazy="false">
 			<meta attribute="field-description">
