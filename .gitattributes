@@ -390,6 +390,10 @@ etc/ant/common-targets.xml -text
 etc/ant/create-db.xml -text
 etc/build.properties -text
 etc/build.xml -text
+etc/derby-service/bin/Derby.bat -text
+etc/derby-service/bin/InstallDerby-NT.bat -text
+etc/derby-service/bin/UninstallDerby-NT.bat -text
+etc/derby-service/bin/wrapper.exe -text
 etc/lib/ant-contrib/ant-contrib-1.0b3.jar -text
 etc/lib/apache-commons/commons-beanutils-1.7.0.jar -text
 etc/lib/apache-commons/commons-codec-1.3.jar -text
