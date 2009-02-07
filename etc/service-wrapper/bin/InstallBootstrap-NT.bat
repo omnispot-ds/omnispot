@@ -41,12 +41,12 @@ pause
 goto :eof
 
 rem
-rem Find the wrapper.conf
+rem Find the bootstrap.conf
 rem
 :conf
 set _WRAPPER_CONF="%~f1"
 if not %_WRAPPER_CONF%=="" goto startup
-set _WRAPPER_CONF="%_REALPATH%..\conf\wrapper.conf"
+set _WRAPPER_CONF="%_REALPATH%..\conf\bootstrap.conf"
 
 rem
 rem Install the Wrapper as an NT service.

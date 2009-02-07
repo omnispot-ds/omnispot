@@ -10,7 +10,7 @@ rem You shall use it only in accordance with the terms of the
 rem license agreement you entered into with Tanuki Software.
 rem http://wrapper.tanukisoftware.org/doc/english/licenseOverview.html
 rem
-rem Java Service Wrapper general NT service uninstall script.
+rem Java Service Wrapper general NT service install script.
 rem Optimized for use with version 3.3.2 of the Wrapper.
 rem
 
@@ -41,18 +41,18 @@ pause
 goto :eof
 
 rem
-rem Find the bootstrap.conf
+rem Find the derby.conf
 rem
 :conf
 set _WRAPPER_CONF="%~f1"
 if not %_WRAPPER_CONF%=="" goto startup
-set _WRAPPER_CONF="%_REALPATH%..\conf\bootstrap.conf"
+set _WRAPPER_CONF="%_REALPATH%..\conf\derby.conf"
 
 rem
-rem Uninstall the Wrapper as an NT service.
+rem Install the Wrapper as an NT service.
 rem
 :startup
-"%_WRAPPER_EXE%" -r %_WRAPPER_CONF%
+"%_WRAPPER_EXE%" -i %_WRAPPER_CONF%
 if not errorlevel 1 goto :eof
 pause
 

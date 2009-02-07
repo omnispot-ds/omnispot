@@ -10,10 +10,15 @@ rem You shall use it only in accordance with the terms of the
 rem license agreement you entered into with Tanuki Software.
 rem http://wrapper.tanukisoftware.org/doc/english/licenseOverview.html
 rem
-rem Java Service Wrapper general NT service uninstall script.
+rem Java Service Wrapper general startup script.
 rem Optimized for use with version 3.3.2 of the Wrapper.
 rem
 
+rem
+rem Resolve the real path of the wrapper.exe
+rem  For non NT systems, the _REALPATH and _WRAPPER_CONF values
+rem  can be hard-coded below and the following test removed.
+rem
 if "%OS%"=="Windows_NT" goto nt
 echo This script only works with NT-based versions of Windows.
 goto :eof
@@ -41,18 +46,18 @@ pause
 goto :eof
 
 rem
-rem Find the bootstrap.conf
+rem Find the derby.conf
 rem
 :conf
 set _WRAPPER_CONF="%~f1"
 if not %_WRAPPER_CONF%=="" goto startup
-set _WRAPPER_CONF="%_REALPATH%..\conf\bootstrap.conf"
+set _WRAPPER_CONF="%_REALPATH%..\conf\derby.conf"
 
 rem
-rem Uninstall the Wrapper as an NT service.
+rem Start the Wrapper
 rem
 :startup
-"%_WRAPPER_EXE%" -r %_WRAPPER_CONF%
+"%_WRAPPER_EXE%" -c %_WRAPPER_CONF%
 if not errorlevel 1 goto :eof
 pause
 

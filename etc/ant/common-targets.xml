@@ -21,7 +21,7 @@
 
 	<!-- 
 		Replace all properties in a file.
-		The properties are defined like this #{property.name}
+		The properties are defined like this: #{property.name}
 		@param file path to the file
 		@param properties comma-separated list of properties 
 			to replace in the file

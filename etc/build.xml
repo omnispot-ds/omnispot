@@ -38,6 +38,8 @@
 	<property name="etc.sql.scripts.dir" location="${etc.base.dir}/sql"/>
 	<property name="etc.lib.dir" location="${etc.base.dir}/lib"/>
 	
+	<import file="${etc.ant.scripts.dir}/common-targets.xml"/>
+
 	<!-- All of ant-contrib tasks -->
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
@@ -94,7 +96,6 @@
 	<target name="generate.domain.objects"
 		description="Generates Java classes from the HBMs">
 		<ant antfile="${logic.build.file}" target="generate.domain.objects" inheritrefs="true"/>
-		<ant antfile="${bootstrap.build.file}" target="generate.domain.objects" inheritrefs="true"/>
 	</target>
 	
 	<target name="dist.admin-console" depends="build.admin-console"
@@ -104,47 +105,60 @@
 	
 	<target name="dist.bootstrap" depends="build.common, build.bootstrap"
 		description="Creates the bootstrap.jar and dependencies, copies them along with the service wrapper components">
+		<delete dir="${bootstrap.home}" failonerror="false"/>
 		<mkdir dir="${bootstrap.home}"/>
 		<mkdir dir="${bootstrap.home}/lib"/>
 		<copy todir="${bootstrap.home}/lib" flatten="true">
 			<fileset file="${bootstrap.dist.file}"/>
-			<fileset file="${common.dist.file}"/>
 			<fileset file="${player.dist.file}"/>
-			<fileset file="${logic.dist.file}"/>
-			<fileset dir="${etc.lib.dir}">
-				<include name="log4j/log4j-1.2.14.jar"/>
-				<include name="apache-commons/commons-httpclient-3.1.jar"/>
-				<include name="apache-commons/commons-codec-1.3.jar"/>
-				<include name="apache-commons/commons-io.jar"/>
-				<include name="spring/spring.jar"/>
-				<include name="apache-commons/commons-logging-1.0.4.jar"/>
-				<include name="apache-commons/commons-dbcp-1.2.2.jar"/>
-				<include name="apache-commons/commons-pool-1.4.jar"/>
-				<include name="apache-commons/commons-collections-3.1.jar"/>
-				<include name="hibernate/hibernate3.jar"/>
-				<include name="hibernate/jta.jar"/>
-				<include name="hibernate/cglib-2.1.3.jar"/>
-				<include name="hibernate/asm-attrs.jar"/>
-				<include name="hibernate/asm.jar"/>
-				<include name="dom4j/dom4j-1.6.1.jar"/>
-				<include name="derby/derbyclient.jar"/>
-			</fileset>
+			<fileset dir="${etc.base.dir}/.." 
+				includesfile="${bootstrap.base.dir}/shared.jars"/>
+			<fileset dir="${etc.base.dir}/.." 
+				includesfile="${player.base.dir}/shared.jars"/>
 		</copy>
 		<copy todir="${bootstrap.home}/service-wrapper" >
 			<fileset dir="${etc.base.dir}/service-wrapper">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
-	</target>	
-	
-	<target name="dist.derby" 
-			description="Copies the derby service components">
-			<mkdir dir="${derby.home}"/>
-			<copy todir="${derby.home}" >
-				<fileset dir="${etc.base.dir}/derby-service">
-					<include name="**/*.*"/>
-				</fileset>
-			</copy>
+		<mkdir dir="${bootstrap.home}/service-wrapper/logs"/>
+		<mkdir dir="${bootstrap.home}/sql"/>
+		<copy todir="${bootstrap.home}/sql"> 
+			<fileset dir="${etc.sql.scripts.dir}">
+				<include name="create-database.sql"/>
+			</fileset>
+		</copy>
+		<mkdir dir="${bootstrap.home}/conf"/>
+		<copy todir="${bootstrap.home}/conf">
+			<fileset dir="${etc.base.dir}/client-config">
+				<include name="bootstrap.properties"/>
+				<include name="player.properties"/>
+			</fileset>
+		</copy>
+		<antcall target="zz.replace.properties">
+			<param name="file" value="${bootstrap.home}/conf/bootstrap.properties" />
+			<param 
+				name="properties" 
+				value="bootstrap.home,
+				jdbc.driver.class,
+				admin.server.host,
+				admin.server.port" />
+		</antcall>
+		<antcall target="zz.replace.properties">
+			<param name="file" value="${bootstrap.home}/conf/player.properties" />
+			<param 
+				name="properties" 
+				value="bootstrap.home,
+				jdbc.driver.class,
+				admin.server.host,
+				admin.server.port" />
+		</antcall>
+		
+		<mkdir dir="${bootstrap.home}/files/data"/>
+		<mkdir dir="${bootstrap.home}/files/deployment"/>
+		<mkdir dir="${bootstrap.home}/files/resource"/>
+		<mkdir dir="${bootstrap.home}/files/print-screens"/>
+		<mkdir dir="${bootstrap.home}/player"/>
 	</target>	
 	
 	<target name="dist.player" depends="build.common, build.player"

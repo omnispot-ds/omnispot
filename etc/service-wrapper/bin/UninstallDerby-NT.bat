@@ -41,12 +41,12 @@ pause
 goto :eof
 
 rem
-rem Find the bootstrap.conf
+rem Find the derby.conf
 rem
 :conf
 set _WRAPPER_CONF="%~f1"
 if not %_WRAPPER_CONF%=="" goto startup
-set _WRAPPER_CONF="%_REALPATH%..\conf\bootstrap.conf"
+set _WRAPPER_CONF="%_REALPATH%..\conf\derby.conf"
 
 rem
 rem Uninstall the Wrapper as an NT service.
