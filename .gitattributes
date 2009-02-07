@@ -394,6 +394,8 @@ etc/derby-service/bin/Derby.bat -text
 etc/derby-service/bin/InstallDerby-NT.bat -text
 etc/derby-service/bin/UninstallDerby-NT.bat -text
 etc/derby-service/bin/wrapper.exe -text
+etc/derby-service/conf/java.policy -text
+etc/derby-service/conf/wrapper.conf -text
 etc/lib/ant-contrib/ant-contrib-1.0b3.jar -text
 etc/lib/apache-commons/commons-beanutils-1.7.0.jar -text
 etc/lib/apache-commons/commons-codec-1.3.jar -text
