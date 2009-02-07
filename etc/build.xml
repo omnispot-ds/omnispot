@@ -137,6 +137,16 @@
 		</copy>
 	</target>	
 	
+	<target name="dist.derby" 
+			description="Copies the derby service components">
+			<mkdir dir="${derby.home}"/>
+			<copy todir="${derby.home}" >
+				<fileset dir="${etc.base.dir}/derby-service">
+					<include name="**/*.*"/>
+				</fileset>
+			</copy>
+	</target>	
+	
 	<target name="dist.player" depends="build.common, build.player"
 		description="Creates player.jar"/>
 	
