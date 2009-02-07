@@ -459,7 +459,6 @@ player/appContext.xml -text
 player/appContextForFrames.xml -text
 player/appContextFullScreen.xml -text
 player/build.xml -text
-player/player.properties -text
 player/shared.jars -text
 player/src/com/kesdip/player/DeploymentContents.java -text
 player/src/com/kesdip/player/DeploymentLayout.java -text
@@ -485,4 +484,5 @@ player/src/com/kesdip/player/helpers/ExitKeyListener.java -text
 player/src/com/kesdip/player/helpers/PlayerUtils.java -text
 player/src/com/kesdip/player/registry/ContentRegistry.java -text
 player/src/com/kesdip/player/registry/ContentRegistryImpl.java -text
-player/src/log4j.xml -text
+player/src/log4j.properties -text
+player/src/player.properties -text
