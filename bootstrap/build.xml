@@ -8,7 +8,7 @@
 	<property name="bootstrap.base.dir" location="." />
 
 	<property name="bootstrap.build.dir" location="${bootstrap.base.dir}/build" />
-	<property name="bootstrap.dist.dir" location="D:/IT PROJECTS/KESDIP/test" />
+	<property name="bootstrap.dist.dir" location="${bootstrap.base.dir}/dist" />
 	<property name="bootstrap.classes.dir" location="${bootstrap.build.dir}/classes" />
 
 	<property name="shared.jars.file" location="${bootstrap.base.dir}/shared.jars" />
@@ -71,13 +71,5 @@
  		<mkdir dir="${bootstrap.dist.dir}"/>
 	</target>
 	
-	<target name="generate.domain.objects">
-		<antcall target="zz.generate.domain.objects">
-			<param name="hbm.base.dir" value="${bootstrap.src.dir}" />
-			<param name="cfg.xml" value="${bootstrap.src.dir}/inactive_hibernate.cfg.xml" />
-			<param name="dest.dir" value="${bootstrap.src.dir}" />
-		</antcall>
-	</target>
-
 	<target name="bootstrap.all" depends="bootstrap.init,bootstrap.compile,bootstrap.dist,bootstrap.clean" />
 </project>

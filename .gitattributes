@@ -251,14 +251,14 @@ bootstrap/src/com/kesdip/bootstrap/content/ContentRetriever.java -text
 bootstrap/src/com/kesdip/bootstrap/content/DescriptorHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/content/ResourceHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/content/TimingHandler.java -text
+bootstrap/src/com/kesdip/bootstrap/derby/LaunchDerby.java -text
 bootstrap/src/com/kesdip/bootstrap/message/ContinuationMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/DeployMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/IMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RebootPlayerMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text
-bootstrap/src/inactive_hibernate.cfg.xml -text
-bootstrap/src/log4j.xml -text
+bootstrap/src/log4j.properties -text
 bootstrap/test/bootstrap.properties -text
 bootstrap/test/sample.xml -text
 business-logic/.classpath -text

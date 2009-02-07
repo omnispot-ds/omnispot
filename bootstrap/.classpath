@@ -8,5 +8,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/business-logic"/>
+	<classpathentry kind="lib" path="/etc/sql"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

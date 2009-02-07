@@ -201,11 +201,38 @@ public class Config {
 	}
 
 	/**
-	 * Get the size of the screen shot
+	 * Get the location to store the screenshot.
 	 * 
-	 * @return The screenshot size in pixels
+	 * @return String the path
 	 */
 	public String getScreenShotStorageLocation() {
 		return props.getProperty("screendump_storage_path", "_NOT_SET_");
+	}
+
+	/**
+	 * The DB host name.
+	 * 
+	 * @return String the DB host
+	 */
+	public String getDbHost() {
+		return props.getProperty("db_host", "_NOT_SET_");
+	}
+
+	/**
+	 * The DB port number.
+	 * 
+	 * @return String the DB port
+	 */
+	public String getDbPort() {
+		return props.getProperty("db_port", "_NOT_SET_");
+	}
+
+	/**
+	 * The DB location.
+	 * 
+	 * @return String the DB location
+	 */
+	public String getDbLocation() {
+		return props.getProperty("db_location", "_NOT_SET_");
 	}
 }
