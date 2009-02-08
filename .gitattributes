@@ -394,6 +394,9 @@ etc/build.properties -text
 etc/build.xml -text
 etc/client-config/bootstrap.properties -text
 etc/client-config/player.properties -text
+etc/content/sample1/ad.mp4 -text
+etc/content/sample1/bld.jpg -text
+etc/content/sample1/sample.xml -text
 etc/lib/ant-contrib/ant-contrib-1.0b3.jar -text
 etc/lib/apache-commons/commons-beanutils-1.7.0.jar -text
 etc/lib/apache-commons/commons-codec-1.3.jar -text
