@@ -59,7 +59,7 @@
 		<ant antfile="${logic.build.file}" target="logic.dist" inheritrefs="true"/>
 	</target>
 
-	<target name="build.bootstrap" depends="build.common, build.player">
+	<target name="build.bootstrap" depends="build.common, build.logic, build.player">
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.init" inheritrefs="true"/>
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.compile" inheritrefs="true"/>
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.dist" inheritrefs="true"/>
@@ -125,7 +125,7 @@
 		<mkdir dir="${bootstrap.home}/sql"/>
 		<copy todir="${bootstrap.home}/sql"> 
 			<fileset dir="${etc.sql.scripts.dir}">
-				<include name="create-database.sql"/>
+				<include name="*.sql"/>
 			</fileset>
 		</copy>
 		<mkdir dir="${bootstrap.home}/conf"/>

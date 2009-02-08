@@ -450,13 +450,16 @@ etc/service-wrapper/bin/InstallBootstrap-NT.bat -text
 etc/service-wrapper/bin/InstallDerby-NT.bat -text
 etc/service-wrapper/bin/UninstallBootstrap-NT.bat -text
 etc/service-wrapper/bin/UninstallDerby-NT.bat -text
+etc/service-wrapper/bin/player.bat -text
 etc/service-wrapper/bin/wrapper.exe -text
 etc/service-wrapper/conf/bootstrap.conf -text
 etc/service-wrapper/conf/derby.conf -text
 etc/service-wrapper/conf/derby.policy -text
 etc/service-wrapper/lib/wrapper.dll -text
 etc/service-wrapper/lib/wrapper.jar -text
+etc/sql/create-bootstrap-database.sql -text
 etc/sql/create-database.sql -text
+etc/sql/drop-bootstrap-database.sql -text
 etc/sql/drop-database.sql -text
 etc/sql/static-data.sql -text
 etc/sql/test-data.sql -text
