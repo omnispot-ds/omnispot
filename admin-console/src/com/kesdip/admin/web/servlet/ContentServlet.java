@@ -78,10 +78,10 @@ public class ContentServlet extends BaseSpringContextServlet {
 					+ playerUuid + "'");
 		}
 		// unauthenticated player
-		if (!isPlayerAuthenticated(playerUuid)) {
-			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-			return;
-		}
+//		if (!isPlayerAuthenticated(playerUuid)) {
+//			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+//			return;
+//		}
 		// 1. treat as file
 		File file = getFileByName(pathInfo);
 		if (file != null) {
