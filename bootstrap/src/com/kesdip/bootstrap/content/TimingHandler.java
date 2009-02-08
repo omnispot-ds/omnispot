@@ -252,10 +252,9 @@ public class TimingHandler implements ContentHandler {
 				ps2.setString(2, "crc");
 				ps2.setString(3, crcKey);
 				ps2.executeUpdate();
-				ps2.close();
 			}
 		}
-		
+		ps2.close();
 		ps.close();
 		rs.close();
 	}
