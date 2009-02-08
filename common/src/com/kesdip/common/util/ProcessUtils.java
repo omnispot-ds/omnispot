@@ -143,23 +143,42 @@ public class ProcessUtils {
 	 * killed successfully.
 	 * @throws IOException Iff something goes wrong.
 	 */
-	public static boolean killAll(String executableName) throws IOException {
-		Set<ProcessInfo> processes = getAllProcesses();
-
-		Set<Integer> toKillPids = new HashSet<Integer>();
-		for (ProcessInfo pi : processes) {
-			if (pi.getExecutable().equals(executableName))
-				toKillPids.add((int) pi.getPid());
-		}
+	public static boolean killAll(String executableName) {
+		/*
+		 * Alternative way to kill processes. Unfortunately windows restarts
+		 * the explorer process, so this is not 100% what we wanted. Opt out
+		 * for usage of the taskkill.exe utility to do the same thing.
+		 */
+//		Set<ProcessInfo> processes = getAllProcesses();
+//
+//		Set<Integer> toKillPids = new HashSet<Integer>();
+//		for (ProcessInfo pi : processes) {
+//			if (pi.getExecutable().equals(executableName))
+//				toKillPids.add((int) pi.getPid());
+//		}
+//		
+//		boolean retVal = true;
+//		for (Integer pid : toKillPids) {
+//			if (!kill(pid, 0)) {
+//				logger.info("Unable to kill notepad process");
+//				retVal = false;
+//			}
+//		}
+//	
+//		return retVal;
+		String[] cmdArray = new String[4];
+		cmdArray[0] = "taskkill.exe";
+		cmdArray[1] = "/F";
+		cmdArray[2] = "/IM";
+		cmdArray[3] = executableName;
 		
-		boolean retVal = true;
-		for (Integer pid : toKillPids) {
-			if (!kill(pid, 0)) {
-				logger.info("Unable to kill notepad process");
-				retVal = false;
-			}
+		try {
+			Runtime.getRuntime().exec(cmdArray);
+			
+			return true;
+		} catch (Exception e) {
+			logger.error("Unable to stop executable: " + executableName, e);
+			return false;
 		}
-	
-		return retVal;
 	}
 }
