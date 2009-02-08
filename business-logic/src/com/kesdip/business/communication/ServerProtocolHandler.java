@@ -105,7 +105,7 @@ public class ServerProtocolHandler {
 
 		List<Action> actions = getHibernateTemplate()
 				.find(
-						"select a from "
+						"select distinct a from "
 								+ Action.class.getName()
 								+ " a left join fetch a.parameters p "
 								+ "inner join a.installation i where a.status= ? and i.uuid = ?",
