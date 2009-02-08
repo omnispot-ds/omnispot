@@ -8,6 +8,7 @@ package com.kesdip.player.components;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -95,10 +96,11 @@ public class Video extends AbstractComponent
         libVlcClass.getMethod("libvlc_exception_init", libVlcExceptionClass).
 			invoke(libVlc, exception);
 
+        File pluginsPath = new File(Player.getVlcPath() + File.separator + "plugins");
 		String[] ma = new String[] {
          		"-vvv",
          		"--no-video-title-show",
-        		"--plugin-path=" + Player.getVlcPath() };
+        		"--plugin-path=" + pluginsPath.getAbsolutePath() };
 		libvlc_instance_t = libVlcClass.
 			getMethod("libvlc_new", int.class, String[].class, libVlcExceptionClass).
 			invoke(libVlc, ma.length, ma, exception);
