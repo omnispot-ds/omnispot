@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 8 Î¦ÎµÎ² 2009 10:47:07 Ï€Î¼ by Hibernate Tools 3.2.0.b9
+// Generated 8 Öåâ 2009 1:15:19 ìì by Hibernate Tools 3.2.0.b9
 
 
 
@@ -92,14 +92,15 @@ public class Parameter  implements java.io.Serializable {
 		 if ( !(other instanceof Parameter) ) return false;
 		 Parameter castOther = ( Parameter ) other; 
          
-		 return ( (this.getId()==castOther.getId()) || ( this.getId()!=null && castOther.getId()!=null && this.getId().equals(castOther.getId()) ) );
+		 return ( (this.getId()==castOther.getId()) || ( this.getId()!=null && castOther.getId()!=null && this.getId().equals(castOther.getId()) ) )
+ && ( (this.getName()==castOther.getName()) || ( this.getName()!=null && castOther.getName()!=null && this.getName().equals(castOther.getName()) ) );
    }
    
    public int hashCode() {
          int result = 17;
          
          result = 37 * result + ( getId() == null ? 0 : this.getId().hashCode() );
-         
+         result = 37 * result + ( getName() == null ? 0 : this.getName().hashCode() );
          
          return result;
    }   

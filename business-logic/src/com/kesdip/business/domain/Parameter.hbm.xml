@@ -23,6 +23,7 @@
 
 		<property name="name" column="NAME" type="java.lang.String"
 			length="512" not-null="true">
+			<meta attribute="use-in-equals">true</meta>
 			<meta attribute="use-in-tostring">true</meta>
 			<meta attribute="field-description">
 				The name of the parameter.
