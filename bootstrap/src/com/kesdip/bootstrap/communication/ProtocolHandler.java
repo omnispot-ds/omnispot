@@ -5,6 +5,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -93,8 +94,8 @@ public class ProtocolHandler {
 
 		//delete all actions with status done...
 		for (Action action:actions) {
-			if (action.getStatus() == IActionStatusEnum.OK);
-			getHibernateTemplate().delete(action);
+			if (action.getStatus() == IActionStatusEnum.OK)
+				getHibernateTemplate().delete(action);
 			logger.info("deleted action with status OK: "+action.toString());
 		}
 		
