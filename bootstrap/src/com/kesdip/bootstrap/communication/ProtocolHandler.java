@@ -5,7 +5,6 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -118,14 +117,14 @@ public class ProtocolHandler {
 					Set<Parameter> params = action.getParameters();
 					String descriptorUrl = "";
 					String crc = "";
-					for (Iterator<Parameter> i = params.iterator();i.hasNext();) {
-						Parameter p = i.next();
+					for (Parameter p : params) {
 						if (p.getName().equals(IActionParamsEnum.DEPLOYMENT_URL)) {
 							descriptorUrl = p.getValue();
 						}
 						if (p.getName().equals(IActionParamsEnum.DEPLOYMENT_CRC)) {
 							crc = p.getValue();
 						}
+						p.setId((Long)getHibernateTemplate().save(p));
 					}
 					logger.info("Adding new deploy message");
 					manager.getPump().addMessage(new DeployMessage(descriptorUrl,Long.parseLong(crc), action.getActionId()));
@@ -137,6 +136,7 @@ public class ProtocolHandler {
 					manager.getPump().addMessage(new RebootPlayerMessage(action.getActionId()));
 				}
 				action.setInstallation(null);
+				action.setStatus(IActionStatusEnum.SENT);
 				getHibernateTemplate().save(action);
 			}
 		}
