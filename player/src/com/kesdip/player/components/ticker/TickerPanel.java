@@ -64,8 +64,8 @@ public class TickerPanel extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		if (logger.isDebugEnabled())
-			logger.debug("TickerPanel.paintComponent() called");
+		if (logger.isTraceEnabled())
+			logger.trace("TickerPanel.paintComponent() called");
 		
 		super.paintComponent(g);
 		
@@ -81,15 +81,15 @@ public class TickerPanel extends JPanel {
 		g.setColor(foregroundColor);
 		g.setFont(font);
 		String content = getTickerContent(g);
-		if (logger.isDebugEnabled())
-			logger.debug("(" + ((int) currentXPos) + ", " + currentYPos +
+		if (logger.isTraceEnabled())
+			logger.trace("(" + ((int) currentXPos) + ", " + currentYPos +
 					"): '" + content + "'");
 		g.drawString(content, ((int) currentXPos), currentYPos);
 		
 		// Now move the ticker along
 		currentXPos += (-1.0 * speed);
-		if (logger.isDebugEnabled())
-			logger.debug("New currentXPos: " + currentXPos);
+		if (logger.isTraceEnabled())
+			logger.trace("New currentXPos: " + currentXPos);
 		int trail = 0 - (int) currentXPos;
 		if (trail >= g.getFontMetrics().charWidth(content.charAt(0))) {
 			source.dropLeadingChar();
