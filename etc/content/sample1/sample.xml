@@ -5,8 +5,8 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
            
 	<bean id="deploymentSettings" class="com.kesdip.player.DeploymentSettings">
-		<property name="width" value="1280"/>
-		<property name="height" value="800"/>
+		<property name="width" value="800"/>
+		<property name="height" value="600"/>
 		<property name="bitDepth" value="32"/>
 		<property name="id" value="{GUID}"/>
 		<property name="startTime">
@@ -19,8 +19,8 @@
 	<bean id="frameA" class="com.kesdip.player.components.RootContainer">
 		<property name="x" value="0"/>
 		<property name="y" value="0"/>
-		<property name="width" value="1280"/>
-		<property name="height" value="800"/>
+		<property name="width" value="800"/>
+		<property name="height" value="600"/>
 		<property name="backgroundColor">
 			<bean class="java.awt.Color">
 				<constructor-arg type="int" value="0"/>
@@ -34,8 +34,8 @@
 				<bean class="com.kesdip.player.components.Video">
 					<property name="x" value="0"/>
 					<property name="y" value="0"/>
-					<property name="width" value="1280"/>
-					<property name="height" value="800"/>
+					<property name="width" value="800"/>
+					<property name="height" value="600"/>
 					<property name="content">
 						<list>
 							<bean class="com.kesdip.player.components.Resource">
@@ -51,8 +51,8 @@
 	
 	<bean id="frameB" class="com.kesdip.player.components.RootContainer">
 		<property name="x" value="0"/>
-		<property name="y" value="720"/>
-		<property name="width" value="1280"/>
+		<property name="y" value="500"/>
+		<property name="width" value="800"/>
 		<property name="height" value="80"/>
 		<property name="isTransparent" value="true"/>
 		<property name="contents">
