@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 7 Öåâ 2009 11:11:46 ìì by Hibernate Tools 3.2.0.b9
+// Generated 8 Î¦ÎµÎ² 2009 10:47:07 Ï€Î¼ by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;
@@ -45,6 +45,11 @@ public class Deployment  implements java.io.Serializable {
      */
      private short status;
      /**
+      * 				The number of retries to download this deployment.
+ * 			
+     */
+     private int retries;
+     /**
       * 				The content files of this deployment.
  * 			
      */
@@ -59,17 +64,19 @@ public class Deployment  implements java.io.Serializable {
     }
 
 	
-    public Deployment(String url, String name, short status) {
+    public Deployment(String url, String name, short status, int retries) {
         this.url = url;
         this.name = name;
         this.status = status;
+        this.retries = retries;
     }
-    public Deployment(String url, String name, String crc, String localFile, short status, Set<Content> contentFiles, Set<Installation> installations) {
+    public Deployment(String url, String name, String crc, String localFile, short status, int retries, Set<Content> contentFiles, Set<Installation> installations) {
        this.url = url;
        this.name = name;
        this.crc = crc;
        this.localFile = localFile;
        this.status = status;
+       this.retries = retries;
        this.contentFiles = contentFiles;
        this.installations = installations;
     }
@@ -141,6 +148,17 @@ public class Deployment  implements java.io.Serializable {
         this.status = status;
     }
     /**       
+     *      * 				The number of retries to download this deployment.
+     * 			
+     */
+    public int getRetries() {
+        return this.retries;
+    }
+    
+    public void setRetries(int retries) {
+        this.retries = retries;
+    }
+    /**       
      *      * 				The content files of this deployment.
      * 			
      */
@@ -177,6 +195,7 @@ public class Deployment  implements java.io.Serializable {
       buffer.append("crc").append("='").append(getCrc()).append("' ");			
       buffer.append("localFile").append("='").append(getLocalFile()).append("' ");			
       buffer.append("status").append("='").append(getStatus()).append("' ");			
+      buffer.append("retries").append("='").append(getRetries()).append("' ");			
       buffer.append("]");
       
       return buffer.toString();
@@ -195,6 +214,7 @@ public class Deployment  implements java.io.Serializable {
          int result = 17;
          
          result = 37 * result + ( getId() == null ? 0 : this.getId().hashCode() );
+         
          
          
          
