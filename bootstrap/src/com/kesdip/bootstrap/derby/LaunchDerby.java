@@ -127,7 +127,7 @@ public class LaunchDerby {
 	private static void createSchema(Connection c) throws Exception {
 		logger.info("Loading schema DDL...");
 		String createSchema = StreamUtils.readResource(LaunchDerby.class
-				.getClassLoader().getResource("create-database.sql"));
+				.getClassLoader().getResource("create-bootstrap-database.sql"));
 		logger.info("Creating tables...");
 		DBUtils.executeBatchUpdate(c, createSchema);
 	}

@@ -235,8 +235,6 @@ bootstrap/.classpath -text
 bootstrap/.project -text
 bootstrap/build.xml -text
 bootstrap/shared.jars -text
-bootstrap/sql/create-database.sql -text
-bootstrap/sql/drop-database.sql -text
 bootstrap/src-test/com/kesdip/bootstrap/DummyPlayer.java -text
 bootstrap/src-test/com/kesdip/bootstrap/KillExplorerTest.java -text
 bootstrap/src-test/com/kesdip/bootstrap/MessagePumpTest.java -text

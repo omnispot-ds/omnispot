@@ -15,7 +15,7 @@
 	<!-- persistence  -->
 	<bean id="bootstrapDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
 	 <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"/>
-	 <property name="url" value="jdbc:derby://localhost:1527/c:/software/DerbyDb/data/bootstrap;create=true"/>
+	 <property name="url" value="jdbc:derby://localhost:1527/c:/dbin/derbydb/data/client;create=false"/>
 	 <property name="username" value="kesdipepe"/> 
 	 <property name="password" value="kesdipepe"/>
 	</bean>
