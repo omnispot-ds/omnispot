@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="Digital Signage application" basedir="." default="generate.domain.objects">
-	<description>Diacool main buildfile</description>
+	<description>Ke.S.Di.P. E.P.E. main buildfile</description>
 	
 	<property file="build.properties"/>
 	<property file="./profiles/${target.env}.properties"/>

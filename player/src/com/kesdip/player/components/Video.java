@@ -100,6 +100,7 @@ public class Video extends AbstractComponent
 		String[] ma = new String[] {
          		"-vvv",
          		"--no-video-title-show",
+         		"--no-overlay",
         		"--plugin-path=" + pluginsPath.getAbsolutePath() };
 		libvlc_instance_t = libVlcClass.
 			getMethod("libvlc_new", int.class, String[].class, libVlcExceptionClass).
