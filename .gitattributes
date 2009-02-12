@@ -428,6 +428,10 @@ etc/lib/junit/junit-4.3.1.jar -text
 etc/lib/jvlc/jvlc-core-0.9.0-SNAPSHOT-20080727.jar -text
 etc/lib/log4j/log4j-1.2.14.jar -text
 etc/lib/quartz/quartz-1.6.3.jar -text
+etc/lib/scripting/groovy-1.5.7.jar -text
+etc/lib/scripting/groovy-engine.jar -text
+etc/lib/scripting/java-engine.jar -text
+etc/lib/scripting/xslt-engine.jar -text
 etc/lib/spring/spring-context.jar -text
 etc/lib/spring/spring-web.jar -text
 etc/lib/spring/spring-webmvc-struts.jar -text
