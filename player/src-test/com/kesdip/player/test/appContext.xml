@@ -96,6 +96,44 @@
 		</property>
 	</bean>
 	
+	<bean id="frameC" class="com.kesdip.player.components.RootContainer">
+		<property name="x" value="0"/>
+		<property name="y" value="720"/>
+		<property name="width" value="1280"/>
+		<property name="height" value="80"/>
+		<property name="isTransparent" value="true"/>
+		<property name="contents">
+			<list>
+				<bean class="com.kesdip.player.components.weather.FlashWeatherComponent">
+					<property name="x" value="100"/>
+					<property name="y" value="100"/>
+					<property name="width" value="200"/>
+					<property name="height" value="250"/>
+					<property name="source"
+						value="C:/FLEX_WORKSPACES/puremvc/weather.widget/bin-debug/WeatherWidget.swf"/>
+					<property name="weatherDataSource">
+						<bean class="com.kesdip.player.components.weather.URLXmlSource">
+							<property name="weatherDataProcessor">
+								<bean class="com.kesdip.player.components.weather.ScriptingDataProcessor">
+									<property name="scriptFile" value="C:/kesdip/trunk/player/etc/yahoo.js"/>
+								</bean>
+							</property>
+						</bean>
+						<!--
+						<bean class="com.kesdip.player.components.weather.RssWeatherSource">
+							<property name="rssUrl" value="http://weather.yahooapis.com/forecastrss?p=GRXX0004&amp;u=c"/>
+						</bean>
+						-->
+					</property>
+					<!--
+					C:/GETME_HOME/client/core/getme/bin-release2/shellV2.swf
+					C:\FLEX_WORKSPACES\puremvc\weather.widget\bin-debug\main.swf
+					-->
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="deploymentContents" class="com.kesdip.player.DeploymentContents">
 		<property name="layouts">
 			<list>
@@ -107,8 +145,9 @@
 						<list>
 							<!-- 
 							<ref bean="frameA" />
-							 -->
 							<ref bean="frameB" />
+							 -->
+							<ref bean="frameC" />
 						</list>
 					</property>
 				</bean>

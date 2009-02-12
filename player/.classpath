@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src-test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Player-lib"/>
+	<classpathentry kind="lib" path="lib/jniwrap-3.7.jar"/>
+	<classpathentry kind="lib" path="lib/winpack-3.6.jar"/>
+	<classpathentry kind="lib" path="lib/comfyj-2.5.jar"/>
+	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

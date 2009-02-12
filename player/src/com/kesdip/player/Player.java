@@ -89,6 +89,10 @@ public class Player implements Runnable {
 	 */
 	public Player() throws SchedulerException {
 		this.monitor = new TimingMonitor(this);
+		initialize();
+	}
+	
+	public void initialize() {
 		new Thread(this.monitor, "monitor").start();
 		this.completeDeployment = false;
 		this.completeLayout = false;
