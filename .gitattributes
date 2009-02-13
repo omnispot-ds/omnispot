@@ -538,6 +538,7 @@ player/src/com/kesdip/player/components/weather/URLXmlSource.java -text
 player/src/com/kesdip/player/components/weather/WeatherData.java -text
 player/src/com/kesdip/player/components/weather/WeatherDataProcessor.java -text
 player/src/com/kesdip/player/components/weather/WeatherDataSource.java -text
+player/src/com/kesdip/player/helpers/ComponentJob.java -text
 player/src/com/kesdip/player/helpers/ExitKeyListener.java -text
 player/src/com/kesdip/player/helpers/PlayerUtils.java -text
 player/src/com/kesdip/player/registry/ContentRegistry.java -text

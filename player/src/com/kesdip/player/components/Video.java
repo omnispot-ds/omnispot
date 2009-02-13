@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.kesdip.player.Player;
+import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
 import com.kesdip.player.helpers.PlayerUtils;
 import com.kesdip.player.registry.ContentRegistry;
@@ -52,6 +53,7 @@ public class Video extends AbstractComponent
 	private Object exception;
 	private Object libvlc_instance_t;
 	private Canvas canvas;
+	private boolean currentRepeat;
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -60,7 +62,7 @@ public class Video extends AbstractComponent
 					"contents property.");
 	}
 
-	private void initVLC() throws Exception {
+	private void initVLC(Resource resource, boolean actualRepeat) throws Exception {
 		libVlcClass = Class.forName("org.videolan.jvlc.internal.LibVlc");
         libVlc = libVlcClass.getField("SYNC_INSTANCE").get(null);
         libVlcExceptionClass = Class.forName(
@@ -76,7 +78,7 @@ public class Video extends AbstractComponent
         logger.info("compiler: " +
         		libVlcClass.getMethod("libvlc_get_compiler").invoke(libVlc));
         
-        loadMedia();
+        loadMedia(resource, actualRepeat);
 	}
 	
 	private void assertOnException() throws Exception {
@@ -91,7 +93,7 @@ public class Video extends AbstractComponent
 		}
 	}
 	
-	private void loadMedia() throws Exception {
+	private void loadMedia(Resource resource, boolean actualRepeat) throws Exception {
         exception = libVlcExceptionClass.newInstance();
         libVlcClass.getMethod("libvlc_exception_init", libVlcExceptionClass).
 			invoke(libVlc, exception);
@@ -110,18 +112,26 @@ public class Video extends AbstractComponent
         logger.info("Initialized LibVLC instance");
         
         ContentRegistry registry = ContentRegistry.getContentRegistry();
-        for (Resource resource : contents) {
+        if (resource != null) {
 	        String videoFilename = registry.getResourcePath(resource);
 	        
 	        libVlcClass.
 				getMethod("libvlc_playlist_add", libVlcInstanceClass, String.class, String.class, libVlcExceptionClass).
 				invoke(libVlc, libvlc_instance_t, videoFilename, null, exception);
 	        assertOnException();
-	        
-	        logger.info("Loaded video");
+        } else {
+	    	for (Resource res : contents) {
+		        String videoFilename = registry.getResourcePath(res);
+		        
+		        libVlcClass.
+					getMethod("libvlc_playlist_add", libVlcInstanceClass, String.class, String.class, libVlcExceptionClass).
+					invoke(libVlc, libvlc_instance_t, videoFilename, null, exception);
+		        assertOnException();
+	        }
         }
+        logger.info("Loaded video");
 
-        if (repeat) {
+        if (actualRepeat) {
         	libVlcClass.
 				getMethod("libvlc_playlist_loop", libVlcInstanceClass, int.class, libVlcExceptionClass).
 				invoke(libVlc, libvlc_instance_t, 1, exception);
@@ -152,9 +162,10 @@ public class Video extends AbstractComponent
 	}
 
 	@Override
-	public void init(Component parent) throws ComponentException {
+	public void init(Component parent, TimingMonitor timingMonitor)
+			throws ComponentException {
 		try {
-			initVLC();
+			initVLC(null, repeat);
 			
 			canvas = new Canvas();
 			canvas.setCursor(PlayerUtils.getNoCursor());
@@ -168,7 +179,10 @@ public class Video extends AbstractComponent
 			
 			firstTime = true;
 			stillStarting = true;
+			currentRepeat = repeat;
 			completed = new AtomicBoolean(false);
+			
+			scheduleResources(timingMonitor, contents);
 		} catch (Exception e) {
 			throw new ComponentException("Unable to initialize component", e);
 		}
@@ -199,7 +213,7 @@ public class Video extends AbstractComponent
 			firstTime = false;
 		}
 		
-		if (!repeat) {
+		if (!currentRepeat) {
 			try {
 		    	int v = ((Integer) libVlcClass.
 					getMethod("libvlc_playlist_isplaying", libVlcInstanceClass, libVlcExceptionClass).
@@ -210,11 +224,24 @@ public class Video extends AbstractComponent
 		        		stillStarting = false;
 		        	}
 		        } else {
-		        	completed.set(v == 0);
+		        	if (!repeat) {
+		        		completed.set(v == 0);
+		        	} else {
+		        		logger.info("Scheduled video completed, restarting " +
+		        				"normal video sequence.");
+		        		
+		        		initVLC(null, repeat);
+		        		
+		    			firstTime = true;
+		    			stillStarting = true;
+		    			currentRepeat = repeat;
+		    			completed = new AtomicBoolean(false);
+		        	}
 		        }
 				
-				if (completed.get())
+				if (completed.get()) {
 					logger.info("The video component has completed.");
+				}
 			} catch (Exception e) {
 				throw new ComponentException("Unable to query playlist status", e);
 			}
@@ -254,5 +281,27 @@ public class Video extends AbstractComponent
 		return retVal;
 	}
 
+	@Override
+	public synchronized void runResource(Resource resource) {
+		if (!contents.contains(resource))
+			throw new RuntimeException("Resource: " + resource.getIdentifier() +
+					" not in the contents of the video component.");
+		
+		try {
+			releaseResources();
+			
+			logger.info("Starting scheduled video from resource: " +
+					resource.getIdentifier());
+			
+			initVLC(resource, false);
+			
+			firstTime = true;
+			stillStarting = true;
+			currentRepeat = false;
+			completed = new AtomicBoolean(false);
+		} catch (Exception e) {
+			logger.error("Unable to reschedule video", e);
+		}
+	}
 
 }

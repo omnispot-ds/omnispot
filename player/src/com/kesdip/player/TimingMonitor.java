@@ -99,6 +99,18 @@ public class TimingMonitor implements Runnable {
 	}
 	
 	/**
+	 * Schedule a job with the timing monitor scheduler.
+	 * 
+	 * @param jobDetail The job details.
+	 * @param trigger The trigger details.
+	 * @throws SchedulerException
+	 */
+	public synchronized void scheduleJob(JobDetail jobDetail,
+			Trigger trigger) throws SchedulerException {
+		scheduler.scheduleJob(jobDetail, trigger);
+	}
+	
+	/**
 	 * Helper method to remove all scheduled jobs from the quartz scheduler.
 	 * @throws SchedulerException iff something goes wrong.
 	 */

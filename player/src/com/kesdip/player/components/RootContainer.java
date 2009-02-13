@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
 
+import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
 import com.kesdip.player.helpers.PlayerUtils;
 import com.sun.jna.examples.WindowUtils;
@@ -78,11 +79,12 @@ public class RootContainer extends AbstractComponent {
 	}
 
 	@Override
-	public void init(Component parent) throws ComponentException {
+	public void init(Component parent,
+			TimingMonitor timingMonitor) throws ComponentException {
 		if (parent != null) {
 			fullScreenFrame = (Frame) parent.getWindowComponent();
 			for (Component component : contents) {
-				component.init(this);
+				component.init(this, timingMonitor);
 			}
 			return;
 		}
@@ -94,7 +96,7 @@ public class RootContainer extends AbstractComponent {
 					"non-full-screen mode, but initialized incorrectly.");
 		
 		for (Component component : contents) {
-			component.init(this);
+			component.init(this, timingMonitor);
 		}
 
 		frame.pack();

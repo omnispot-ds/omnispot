@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
+import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.image.ImagePanel;
 import com.kesdip.player.registry.ContentRegistry;
 
@@ -35,7 +36,8 @@ public class Image extends AbstractComponent implements InitializingBean {
 	private BufferedImage img;
 
 	@Override
-	public void init(Component parent) throws ComponentException {
+	public void init(Component parent, TimingMonitor timingMonitor)
+			throws ComponentException {
 		ContentRegistry registry = ContentRegistry.getContentRegistry();
 		String imageFilename = registry.getResourcePath(image);
 		logger.info("Loading image from file: " + imageFilename);

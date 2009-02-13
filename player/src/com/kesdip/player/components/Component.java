@@ -8,6 +8,7 @@ package com.kesdip.player.components;
 import java.util.Set;
 
 import com.kesdip.player.DeploymentLayout;
+import com.kesdip.player.TimingMonitor;
 
 /**
  * The interface that all components in the KESDIP player should implement.
@@ -35,9 +36,10 @@ public interface Component {
 	 * the swing resources necessary for display (JPanels, etc), and register
 	 * themselves with the parent component through the add interface.
 	 * @param parent The parent component that this component is to be added to.
+	 * @param timingMonitor The timing monitor to schedule jobs with.
 	 * @throws ComponentException Iff something goes wrong.
 	 */
-	void init(Component parent) throws ComponentException;
+	void init(Component parent, TimingMonitor timingMonitor) throws ComponentException;
 	
 	/**
 	 * A interface to build the component hierarchy. Some components are not
@@ -88,4 +90,15 @@ public interface Component {
 	 * in this component.
 	 */
 	Set<Resource> gatherResources();
+	
+	/**
+	 * When resource have cron expression associated with them, the components should
+	 * honor this interface by stopping running whatever it is they are showing right
+	 * now in order to show the resource specified by this interface.
+	 * 
+	 * This only makes sense for the non-container components. The abstract component
+	 * has a void implementation of this interface.
+	 * @param resource The resource to run.
+	 */
+	void runResource(Resource resource);
 }

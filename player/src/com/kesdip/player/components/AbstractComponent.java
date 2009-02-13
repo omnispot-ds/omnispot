@@ -6,10 +6,19 @@
 package com.kesdip.player.components;
 
 import java.awt.Color;
+import java.text.ParseException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+
+import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
+import com.kesdip.player.helpers.ComponentJob;
 
 /**
  * Abstract class that encapsulates the common functionality and state that
@@ -60,4 +69,35 @@ public abstract class AbstractComponent implements Component {
 	public Set<Resource> gatherResources() {
 		return new HashSet<Resource>();
 	}
+	
+	/**
+	 * Helper method to schedule all its resources that have cron expressions with
+	 * the timing monitor.
+	 * @param timingMonitor The timing monitor to schedule jobs with.
+	 * @param resources The resources that potentially need to be scheduled.
+	 * @throws ParseException 
+	 * @throws SchedulerException 
+	 */
+	protected void scheduleResources(TimingMonitor timingMonitor,
+			List<Resource> resources) throws ParseException, SchedulerException {
+		for (Resource resource : resources) {
+			if (resource.getCronExpression() == null)
+				continue;
+			
+			Trigger trigger = new CronTrigger(resource.getIdentifier() + "_trigger",
+					"component", resource.getCronExpression());
+			JobDetail jobDetail = new JobDetail(resource.getIdentifier() + "_job",
+					"component", ComponentJob.class);
+			jobDetail.getJobDataMap().put("component", this);
+			jobDetail.getJobDataMap().put("resource", resource);
+			timingMonitor.scheduleJob(jobDetail, trigger);
+		}
+	}
+
+	@Override
+	public synchronized void runResource(Resource resource) {
+		// Do nothing. Subclasses should override if they need to do something
+		// here. Check the documentation of the Component interface.
+	}
+	
 }

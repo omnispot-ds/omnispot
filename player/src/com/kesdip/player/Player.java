@@ -222,7 +222,7 @@ public class Player implements Runnable {
 		if (isFullScreen) {
 			fullScreen = new FullScreenComponent();
 			fullScreen.setApplicationContext(ctx);
-			fullScreen.init(null);
+			fullScreen.init(null, monitor);
 		}
 
 		try {
@@ -233,7 +233,7 @@ public class Player implements Runnable {
 				else
 					container.createWindowedResources();
 
-				container.init(fullScreen);
+				container.init(fullScreen, monitor);
 			}
 
 			// The main loop of the layout

@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
 
 /**
@@ -31,7 +32,8 @@ public class SimpleContainer extends AbstractComponent {
 	private JPanel panel;
 	
 	@Override
-	public void init(Component parent) throws ComponentException {
+	public void init(Component parent, TimingMonitor timingMonitor)
+			throws ComponentException {
 		panel = new JPanel();
 		panel.setLocation(x, y);
 		if (backgroundColor != null)
@@ -42,7 +44,7 @@ public class SimpleContainer extends AbstractComponent {
 		panel.setPreferredSize(new Dimension(width, height));
 		
 		for (Component component : contents) {
-			component.init(this);
+			component.init(this, timingMonitor);
 		}
 
 		parent.add(this);

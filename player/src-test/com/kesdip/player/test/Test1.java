@@ -27,7 +27,7 @@ public class Test1 extends JFrame {
     	setFrameProperties();
 
     	flashComp.setSource("C:/GETME_HOME/client/core/getme/bin-release2/shellV2.swf");
-    	flashComp.init(null);
+    	flashComp.init(null, null);
     	
     	final OleContainer _container = (OleContainer) flashComp.getWindowComponent();
         getContentPane().add(_container, BorderLayout.CENTER);

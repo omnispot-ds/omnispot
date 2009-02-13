@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import com.kesdip.player.DeploymentSettings;
+import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.helpers.PlayerUtils;
 
 /**
@@ -104,7 +105,8 @@ public class FullScreenComponent extends AbstractComponent
 	}
 
 	@Override
-	public void init(Component parent) throws ComponentException {
+	public void init(Component parent, TimingMonitor timingMonitor)
+			throws ComponentException {
 		settings = (DeploymentSettings) ctx.getBean("deploymentSettings");
 		setFullScreenMode();
 	}

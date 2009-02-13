@@ -68,7 +68,6 @@ public class RssTickerSource implements TickerSource {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
 	private void readFeed() {
 		if (feed == null){
 			createFeed();
