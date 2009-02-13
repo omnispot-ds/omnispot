@@ -165,8 +165,6 @@ public class Video extends AbstractComponent
 	public void init(Component parent, TimingMonitor timingMonitor)
 			throws ComponentException {
 		try {
-			initVLC(null, repeat);
-			
 			canvas = new Canvas();
 			canvas.setCursor(PlayerUtils.getNoCursor());
 			canvas.setLocation(x, y);
@@ -177,15 +175,21 @@ public class Video extends AbstractComponent
 			
 			parent.add(this);
 			
-			firstTime = true;
-			stillStarting = true;
-			currentRepeat = repeat;
-			completed = new AtomicBoolean(false);
+			startVideo(null, repeat);
 			
 			scheduleResources(timingMonitor, contents);
 		} catch (Exception e) {
 			throw new ComponentException("Unable to initialize component", e);
 		}
+	}
+	
+	private void startVideo(Resource resource, boolean actualRepeat) throws Exception {
+		initVLC(resource, actualRepeat);
+		
+		firstTime = true;
+		stillStarting = true;
+		currentRepeat = actualRepeat;
+		completed = new AtomicBoolean(false);
 	}
 
 	@Override
@@ -230,12 +234,7 @@ public class Video extends AbstractComponent
 		        		logger.info("Scheduled video completed, restarting " +
 		        				"normal video sequence.");
 		        		
-		        		initVLC(null, repeat);
-		        		
-		    			firstTime = true;
-		    			stillStarting = true;
-		    			currentRepeat = repeat;
-		    			completed = new AtomicBoolean(false);
+		        		startVideo(null, repeat);
 		        	}
 		        }
 				
@@ -293,12 +292,7 @@ public class Video extends AbstractComponent
 			logger.info("Starting scheduled video from resource: " +
 					resource.getIdentifier());
 			
-			initVLC(resource, false);
-			
-			firstTime = true;
-			stillStarting = true;
-			currentRepeat = false;
-			completed = new AtomicBoolean(false);
+			startVideo(resource, false);
 		} catch (Exception e) {
 			logger.error("Unable to reschedule video", e);
 		}
