@@ -233,9 +233,11 @@ public class TimingHandler implements ContentHandler {
 				"WHERE FILENAME != '' " +
 		"AND DEPLOY_DATE <= ? AND CRC=? ORDER BY DEPLOY_DATE DESC");
 		PreparedStatement ps2 = c.prepareStatement(
-				"UPDATE ACTION,PARAMETER SET ACTION.STATUS=? WHERE " +
-				"PARAMETER.ACTION_ID = ACTION.ID AND PARAMETER.NAME=? AND " +
-				"PARAMETER.PARAM_VALUE=? ");
+				"update ACTION SET ACTION.STATUS=? " +
+				"where action.id in " + 
+				"(select parameter.ACTION_ID from PARAMETER where "+ 
+						"PARAMETER.NAME=? and PARAMETER.PARAM_VALUE=?" );
+
 		for (String crc:crcs) {
 			
 			ps.setTimestamp(1, new Timestamp(new Date().getTime()));
