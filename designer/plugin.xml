@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="com.kesdip.designer.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Designer Perspective"
+            class="com.kesdip.designer.Perspective"
+            id="com.kesdip.designer.perspective">
+      </perspective>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.kesdip.designer.application"
+            name="Ke.S.Di.P. E.P.E. Designer">
+         <property
+               name="windowImages"
+               value="icons/alt_window_16.gif,icons/alt_window_32.gif">
+         </property>
+         <property
+               name="appName"
+               value="Ke.S.Di.P. E.P.E. Designer">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="com.kesdip.designer.kesdip"
+            name="Ke.S.Di.P. E.P.E. Views">
+      </category>
+      <view
+            category="com.kesdip.designer.kesdip"
+            class="com.kesdip.designer.view.DeploymentView"
+            id="com.kesdip.designer.DeploymentView"
+            name="Layouts"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.kesdip.designer.editor.DesignerEditor"
+            contributorClass="com.kesdip.designer.editor.DesignerEditorActionBarContributor"
+            default="false"
+            extensions=".dep.xml"
+            id="com.kesdip.designer.DesignerEditor"
+            name="Designer Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="com.kesdip.designer.handler.NewFileHandler"
+            id="com.kesdip.designer.NewCommand"
+            name="New">
+      </command>
+      <command
+            defaultHandler="com.kesdip.designer.handler.OpenFileHandler"
+            id="com.kesdip.designer.OpenCommand"
+            name="Open">
+      </command>
+      <command
+            defaultHandler="com.kesdip.designer.handler.ExitCommand"
+            id="com.kesdip.designer.ExitCommand"
+            name="Exit">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               id="com.kesdip.designer.FileMenu"
+               label="File">
+            <command
+                  commandId="com.kesdip.designer.NewCommand"
+                  label="New"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.kesdip.designer.OpenCommand"
+                  label="Open"
+                  style="push">
+            </command>
+            <separator
+                  name="com.kesdip.designer.FileSeparator"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="com.kesdip.designer.ExitCommand"
+                  label="Exit"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>
