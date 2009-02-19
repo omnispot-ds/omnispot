@@ -8,7 +8,8 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
-import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+
+import com.kesdip.designer.properties.ResourceListPropertyDescriptor;
 
 public class VideoComponent extends ComponentModelElement {
 	/** A 16x16 pictogram of an elliptical shape. */
@@ -25,13 +26,13 @@ public class VideoComponent extends ComponentModelElement {
 	 */
 	private static IPropertyDescriptor[] descriptors;
 	/** Property ID to use for the name property value. */
-	public static final String VIDEO_PROP = "Video.VideoProp";
+	public static final String VIDEO_PROP = "Video.VideosProp";
 
 	/* STATE */
-	private String video;
+	private List<Resource> videos;
 	
 	public VideoComponent() {
-		video = "";
+		videos = new ArrayList<Resource>();
 	}
 
 	/*
@@ -42,13 +43,13 @@ public class VideoComponent extends ComponentModelElement {
 	 */
 	static {
 		descriptors = new IPropertyDescriptor[] { 
-				new TextPropertyDescriptor(VIDEO_PROP, "Video")
+				new ResourceListPropertyDescriptor(VIDEO_PROP, "Videos")
 		};
-		// use a custom cell editor validator for all three array entries
+		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
 			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 				public String isValid(Object value) {
-					// No validation for the image.
+					// No validation for the videos.
 					return null;
 				}
 			});
@@ -71,17 +72,18 @@ public class VideoComponent extends ComponentModelElement {
 	@Override
 	public Object getPropertyValue(Object propertyId) {
 		if (VIDEO_PROP.equals(propertyId))
-			return video;
+			return videos;
 		else
 			return super.getPropertyValue(propertyId);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setPropertyValue(Object propertyId, Object value) {
 		if (VIDEO_PROP.equals(propertyId)) {
-			String oldValue = video;
-			video = (String) value;
-			firePropertyChange(VIDEO_PROP, oldValue, video);
+			List<Resource> oldValue = videos;
+			videos = (List<Resource>) value;
+			firePropertyChange(VIDEO_PROP, oldValue, videos);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}

@@ -8,7 +8,8 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
-import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+
+import com.kesdip.designer.properties.ResourceListPropertyDescriptor;
 
 public class ImageComponent extends ComponentModelElement {
 	/** A 16x16 pictogram of an elliptical shape. */
@@ -25,13 +26,13 @@ public class ImageComponent extends ComponentModelElement {
 	 */
 	private static IPropertyDescriptor[] descriptors;
 	/** Property ID to use for the name property value. */
-	public static final String IMAGE_PROP = "Image.ImageProp";
+	public static final String IMAGE_PROP = "Image.ImagesProp";
 
 	/* STATE */
-	private String image;
+	private List<Resource> images;
 	
 	public ImageComponent() {
-		image = "";
+		images = new ArrayList<Resource>();
 	}
 
 	/*
@@ -42,13 +43,13 @@ public class ImageComponent extends ComponentModelElement {
 	 */
 	static {
 		descriptors = new IPropertyDescriptor[] { 
-				new TextPropertyDescriptor(IMAGE_PROP, "Image")
+				new ResourceListPropertyDescriptor(IMAGE_PROP, "Images")
 		};
-		// use a custom cell editor validator for all three array entries
+		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
 			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 				public String isValid(Object value) {
-					// No validation for the image.
+					// No validation for the images.
 					return null;
 				}
 			});
@@ -71,17 +72,18 @@ public class ImageComponent extends ComponentModelElement {
 	@Override
 	public Object getPropertyValue(Object propertyId) {
 		if (IMAGE_PROP.equals(propertyId))
-			return image;
+			return images;
 		else
 			return super.getPropertyValue(propertyId);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setPropertyValue(Object propertyId, Object value) {
 		if (IMAGE_PROP.equals(propertyId)) {
-			String oldValue = image;
-			image = (String) value;
-			firePropertyChange(IMAGE_PROP, oldValue, image);
+			List<Resource> oldValue = images;
+			images = (List<Resource>) value;
+			firePropertyChange(IMAGE_PROP, oldValue, images);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}

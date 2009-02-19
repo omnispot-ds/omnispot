@@ -397,6 +397,7 @@ designer/icons/alt_launcher.ico -text
 designer/icons/alt_launcher.xpm -text
 designer/icons/alt_window_16.gif -text
 designer/icons/alt_window_32.gif -text
+designer/lib/quartz-1.6.3.jar -text
 designer/plugin.xml -text
 designer/splash.bmp -text
 designer/src/com/kesdip/designer/Activator.java -text
@@ -426,6 +427,7 @@ designer/src/com/kesdip/designer/model/ImageComponent.java -text
 designer/src/com/kesdip/designer/model/Layout.java -text
 designer/src/com/kesdip/designer/model/ModelElement.java -text
 designer/src/com/kesdip/designer/model/Region.java -text
+designer/src/com/kesdip/designer/model/Resource.java -text
 designer/src/com/kesdip/designer/model/TickerComponent.java -text
 designer/src/com/kesdip/designer/model/VideoComponent.java -text
 designer/src/com/kesdip/designer/model/icons/alt_window_16.gif -text
@@ -437,6 +439,14 @@ designer/src/com/kesdip/designer/parts/OutlineLayoutPart.java -text
 designer/src/com/kesdip/designer/parts/OutlinePartFactory.java -text
 designer/src/com/kesdip/designer/parts/OutlineRegionPart.java -text
 designer/src/com/kesdip/designer/parts/RegionEditPart.java -text
+designer/src/com/kesdip/designer/properties/ResourceCellModifier.java -text
+designer/src/com/kesdip/designer/properties/ResourceFileCellEditor.java -text
+designer/src/com/kesdip/designer/properties/ResourceListCellEditor.java -text
+designer/src/com/kesdip/designer/properties/ResourceListContentProvider.java -text
+designer/src/com/kesdip/designer/properties/ResourceListDialog.java -text
+designer/src/com/kesdip/designer/properties/ResourceListLabelProvider.java -text
+designer/src/com/kesdip/designer/properties/ResourceListPropertyDescriptor.java -text
+designer/src/com/kesdip/designer/properties/ValidatingTextCellEditor.java -text
 designer/src/com/kesdip/designer/utils/DesignerLog.java -text
 designer/src/com/kesdip/designer/utils/FileUtils.java -text
 designer/src/com/kesdip/designer/view/DeploymentContentProvider.java -text
