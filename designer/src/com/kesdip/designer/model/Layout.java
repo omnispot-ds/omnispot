@@ -9,6 +9,11 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import com.kesdip.designer.utils.DOMHelpers;
 
 public class Layout extends ModelElement {
 
@@ -47,6 +52,58 @@ public class Layout extends ModelElement {
 		cronExpression = "";
 		duration = 0;
 		regionList = new ArrayList<Region>();
+	}
+	
+	protected Element serialize(Document doc, int layoutCount) {
+		Element layoutElement = doc.createElement("bean");
+		layoutElement.setAttribute("class", "com.kesdip.player.DeploymentLayout");
+		DOMHelpers.addProperty(doc, layoutElement, "name", name);
+		if (cronExpression != null && cronExpression.length() != 0)
+			DOMHelpers.addProperty(doc, layoutElement, "cronExpression", cronExpression);
+		if (duration != 0)
+			DOMHelpers.addProperty(doc, layoutElement, "duration", String.valueOf(duration));
+		Element regionsElement = DOMHelpers.addProperty(doc, layoutElement, "contentRoots");
+		Element listElement = doc.createElement("list");
+		regionsElement.appendChild(listElement);
+		int counter = 1;
+		for (Region r : regionList) {
+			Element regionElement = r.serialize(doc, layoutCount, counter++);
+			listElement.appendChild(regionElement);
+		}
+		
+		return layoutElement;
+	}
+	
+	protected void deserialize(Document doc, Node layoutNode) {
+		setPropertyValue(NAME_PROP, DOMHelpers.getSimpleProperty(layoutNode, "name"));
+		String cronExpression = DOMHelpers.getSimpleProperty(layoutNode, "cronExpression");
+		if (cronExpression != null)
+			setPropertyValue(CRON_EXPRESSION_PROP, cronExpression);
+		String duration = DOMHelpers.getSimpleProperty(layoutNode, "duration");
+		if (duration != null)
+			setPropertyValue(DURATION_PROP, duration);
+		final List<Region> newRegionList = new ArrayList<Region>();
+		DOMHelpers.applyToListProperty(doc, layoutNode, "contentRoots", "ref",
+				new DOMHelpers.INodeListVisitor() {
+			@Override
+			public void visitListItem(Document doc, Node listItem) {
+				Region newRegion = new Region();
+				newRegion.deserialize(doc, listItem);
+				newRegionList.add(newRegion);
+			}
+		});
+		regionList = newRegionList;
+	}
+	
+	public void checkEquivalence(Layout other) {
+		assert(name.equals(other.name));
+		assert(cronExpression.equals(other.cronExpression));
+		assert(duration == other.duration);
+		for (int i = 0; i < regionList.size(); i++) {
+			Region thisRegion = regionList.get(i);
+			Region otherRegion = other.regionList.get(i);
+			thisRegion.checkEquivalence(otherRegion);
+		}
 	}
 	
 	/*

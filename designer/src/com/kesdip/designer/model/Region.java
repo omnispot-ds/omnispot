@@ -9,6 +9,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import com.kesdip.designer.utils.DOMHelpers;
 
 public class Region extends ComponentModelElement {
 
@@ -26,7 +32,9 @@ public class Region extends ComponentModelElement {
 	 */
 	private static IPropertyDescriptor[] descriptors;
 	/** Property ID to use for the name property value. */
-	public static final String NAME_PROP = "Layout.NameProp";
+	public static final String NAME_PROP = "Region.NameProp";
+	/** Property ID to use for the transparent property value. */
+	public static final String TRANSPARENT_PROP = "Region.TransparentProp";
 	/** Property ID to use when a component is added to this region. */
 	public static final String COMPONENT_ADDED_PROP = "Region.ComponentAdded";
 	/** Property ID to use when a component is removed from this region. */
@@ -34,11 +42,99 @@ public class Region extends ComponentModelElement {
 
 	/* STATE */
 	private String name;
+	private boolean isTransparent;
 	private List<ComponentModelElement> contents;
 	
 	public Region() {
 		name = "New Region";
+		isTransparent = false;
 		contents = new ArrayList<ComponentModelElement>();
+	}
+	
+	@Override
+	protected Element serialize(Document doc) {
+		throw new RuntimeException("Normal component serialization called for a region.");
+	}
+	
+	protected Element serialize(Document doc, int layoutNumber, int regionNumber) {
+		Element regionElement = doc.createElement("bean");
+		regionElement.setAttribute("id", "frame" + layoutNumber + "_" + regionNumber);
+		regionElement.setAttribute("class", "com.kesdip.player.components.RootContainer");
+		super.serialize(doc, regionElement);
+		DOMHelpers.addProperty(doc, regionElement, "name", name);
+		DOMHelpers.addProperty(doc, regionElement, "isTransparent",
+				isTransparent ? "true" : "false");
+		Element contentsElement = DOMHelpers.addProperty(doc, regionElement, "contents");
+		Element listElement = doc.createElement("list");
+		contentsElement.appendChild(listElement);
+		for (ComponentModelElement component : contents) {
+			Element componentElement = component.serialize(doc);
+			listElement.appendChild(componentElement);
+		}
+		
+		doc.getDocumentElement().appendChild(regionElement);
+		
+		Element refElement = doc.createElement("ref");
+		refElement.setAttribute("bean", "frame" + layoutNumber + "_" + regionNumber);
+
+		return refElement;
+	}
+	
+	protected void deserialize(Document doc, Node refNode) {
+		String beanID = refNode.getAttributes().getNamedItem("bean").getNodeValue();
+		
+		final List<ComponentModelElement> newContents =
+			new ArrayList<ComponentModelElement>();
+		NodeList nl = doc.getDocumentElement().getChildNodes();
+		for (int i = 0; i < nl.getLength(); i++) {
+			Node beanNode = nl.item(i);
+			if (beanNode.getNodeType() == Node.ELEMENT_NODE &&
+					beanNode.getNodeName().equals("bean") &&
+					DOMHelpers.checkAttribute(beanNode, "id", beanID)) {
+				setPropertyValue(NAME_PROP,
+						DOMHelpers.getSimpleProperty(beanNode, "name"));
+				setPropertyValue(TRANSPARENT_PROP,
+						DOMHelpers.getSimpleProperty(beanNode, "isTransparent"));
+				super.deserialize(doc, beanNode);
+				DOMHelpers.applyToListProperty(doc, beanNode, "contents", "bean",
+						new DOMHelpers.INodeListVisitor() {
+					@Override
+					public void visitListItem(Document doc, Node listItem) {
+						String className = listItem.getAttributes().
+							getNamedItem("class").getNodeValue();
+						ComponentModelElement component;
+						if ("com.kesdip.player.components.Ticker".equals(className)) {
+							component = new TickerComponent();
+						} else if ("com.kesdip.player.components.Video".equals(className)) {
+							component = new VideoComponent();
+						} else if ("com.kesdip.player.components.Image".equals(className)) {
+							component = new ImageComponent();
+						} else {
+							throw new RuntimeException("Unexpected class name: " + className);
+						}
+						component.deserialize(doc, listItem);
+						newContents.add(component);
+					}
+				});
+				break;
+			}
+		}
+		contents = newContents;
+	}
+	
+	@Override
+	void checkEquivalence(ComponentModelElement other) {
+		if (!(other instanceof Region))
+			throw new RuntimeException("A region can only be equivalent to a region.");
+		assert(name.equals(((Region) other).name));
+		assert(isTransparent == ((Region) other).isTransparent);
+		assert(getLocation().equals(other.getLocation()));
+		assert(getSize().equals(other.getSize()));
+		for (int i = 0; i < contents.size(); i++) {
+			ComponentModelElement component = contents.get(i);
+			ComponentModelElement otherComponent = ((Region) other).contents.get(i);
+			component.checkEquivalence(otherComponent);
+		}
 	}
 	
 	/*
@@ -49,16 +145,31 @@ public class Region extends ComponentModelElement {
 	 */
 	static {
 		descriptors = new IPropertyDescriptor[] { 
-				new TextPropertyDescriptor(NAME_PROP, "Name")
+				new TextPropertyDescriptor(NAME_PROP, "Name"),
+				new TextPropertyDescriptor(TRANSPARENT_PROP, "Transparent")
 		};
 		// use a custom cell editor validator for all three array entries
 		for (int i = 0; i < descriptors.length; i++) {
-			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-				public String isValid(Object value) {
-					// No validation for the name.
-					return null;
-				}
-			});
+			if (descriptors[i].getId().equals(TRANSPARENT_PROP)) {
+				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						String v = (String) value;
+						if (v == null)
+							return null;
+						if (!v.equals("true") && !v.equals("false"))
+							return "Only true or false values are allowed. " +
+									"Invalid value: " + v;
+						return null;
+					}
+				});
+			} else {
+				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						// No validation for the name.
+						return null;
+					}
+				});
+			}
 		}
 	} // static
 
@@ -110,6 +221,8 @@ public class Region extends ComponentModelElement {
 	public Object getPropertyValue(Object propertyId) {
 		if (NAME_PROP.equals(propertyId))
 			return name;
+		else if (TRANSPARENT_PROP.equals(propertyId))
+			return isTransparent ? "true" : "false";
 		else
 			return super.getPropertyValue(propertyId);
 	}
@@ -120,6 +233,10 @@ public class Region extends ComponentModelElement {
 			String oldValue = name;
 			name = (String) value;
 			firePropertyChange(NAME_PROP, oldValue, name);
+		} else if (TRANSPARENT_PROP.equals(propertyId)) {
+			String oldValue = isTransparent ? "true" : "false";
+			isTransparent = "true".equals(value);
+			firePropertyChange(TRANSPARENT_PROP, oldValue, isTransparent ? "true" : "false");
 		} else
 			super.setPropertyValue(propertyId, value);
 	}
@@ -132,4 +249,5 @@ public class Region extends ComponentModelElement {
 	public String toString() {
 		return "Region";
 	}
+
 }

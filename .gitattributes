@@ -433,6 +433,8 @@ designer/src/com/kesdip/designer/handler/ExitCommand.java -text
 designer/src/com/kesdip/designer/handler/LayoutEditorInput.java -text
 designer/src/com/kesdip/designer/handler/NewFileHandler.java -text
 designer/src/com/kesdip/designer/handler/OpenFileHandler.java -text
+designer/src/com/kesdip/designer/handler/SaveAsFileHandler.java -text
+designer/src/com/kesdip/designer/handler/SaveFileHandler.java -text
 designer/src/com/kesdip/designer/model/ComponentModelElement.java -text
 designer/src/com/kesdip/designer/model/Deployment.java -text
 designer/src/com/kesdip/designer/model/ImageComponent.java -text
@@ -459,6 +461,7 @@ designer/src/com/kesdip/designer/properties/ResourceListDialog.java -text
 designer/src/com/kesdip/designer/properties/ResourceListLabelProvider.java -text
 designer/src/com/kesdip/designer/properties/ResourceListPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/ValidatingTextCellEditor.java -text
+designer/src/com/kesdip/designer/utils/DOMHelpers.java -text
 designer/src/com/kesdip/designer/utils/DesignerLog.java -text
 designer/src/com/kesdip/designer/utils/FileUtils.java -text
 designer/src/com/kesdip/designer/view/DeploymentContentProvider.java -text

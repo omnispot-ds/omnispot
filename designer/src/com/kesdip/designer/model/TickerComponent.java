@@ -9,6 +9,11 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import com.kesdip.designer.utils.DOMHelpers;
 
 public class TickerComponent extends ComponentModelElement {
 	/** A 16x16 pictogram of an elliptical shape. */
@@ -34,6 +39,25 @@ public class TickerComponent extends ComponentModelElement {
 		url = "";
 	}
 
+	protected Element serialize(Document doc) {
+		Element tickerElement = doc.createElement("bean");
+		tickerElement.setAttribute("class", "com.kesdip.player.components.Ticker");
+		super.serialize(doc, tickerElement);
+		DOMHelpers.addProperty(doc, tickerElement, "url", url);
+		return tickerElement;
+	}
+	
+	protected void deserialize(Document doc, Node componentNode) {
+		setPropertyValue(URL_PROP, DOMHelpers.getSimpleProperty(componentNode, "url"));
+		super.deserialize(doc, componentNode);
+	}
+	
+	@Override
+	void checkEquivalence(ComponentModelElement other) {
+		assert(other instanceof TickerComponent);
+		assert(url.equals(((TickerComponent) other).url));
+	}
+	
 	/*
 	 * Initializes the property descriptors array.
 	 * @see #getPropertyDescriptors()

@@ -57,6 +57,10 @@ public class DeploymentView extends ViewPart implements PropertyChangeListener {
 		viewer.setInput(deployment);
 	}
 	
+	public Deployment getDeployment() {
+		return deployment;
+	}
+	
 	public String getDeploymentPath() {
 		return deploymentPath;
 	}

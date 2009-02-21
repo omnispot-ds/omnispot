@@ -16,3 +16,13 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/quartz-1.6.3.jar,
  .
+Export-Package: com.kesdip.designer,
+ com.kesdip.designer.action,
+ com.kesdip.designer.command,
+ com.kesdip.designer.editor,
+ com.kesdip.designer.handler,
+ com.kesdip.designer.model,
+ com.kesdip.designer.parts,
+ com.kesdip.designer.properties,
+ com.kesdip.designer.utils,
+ com.kesdip.designer.view

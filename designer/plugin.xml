@@ -73,6 +73,16 @@
             name="Open">
       </command>
       <command
+            defaultHandler="com.kesdip.designer.handler.SaveFileHandler"
+            id="com.kesdip.designer.SaveCommand"
+            name="Save">
+      </command>
+      <command
+            defaultHandler="com.kesdip.designer.handler.SaveAsFileHandler"
+            id="com.kesdip.designer.SaveAsCommand"
+            name="SaveAs">
+      </command>
+      <command
             defaultHandler="com.kesdip.designer.handler.ExitCommand"
             id="com.kesdip.designer.ExitCommand"
             name="Exit">
@@ -96,7 +106,21 @@
                   style="push">
             </command>
             <separator
-                  name="com.kesdip.designer.FileSeparator"
+                  name="com.kesdip.designer.FileSeparator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="com.kesdip.designer.SaveCommand"
+                  label="Save"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.kesdip.designer.SaveAsCommand"
+                  label="Save As"
+                  style="push">
+            </command>
+            <separator
+                  name="com.kesdip.designer.FileSeparator2"
                   visible="true">
             </separator>
             <command

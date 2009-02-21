@@ -6,6 +6,11 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import com.kesdip.designer.utils.DOMHelpers;
 
 /**
  * Abstract prototype of an Component Element.
@@ -26,13 +31,13 @@ public abstract class ComponentModelElement extends ModelElement {
 	 */
 	private static IPropertyDescriptor[] descriptors;
 	/** Property ID for the Height property value. */
-	private static final String HEIGHT_PROP = "AdElement.Height";
+	public static final String HEIGHT_PROP = "AdElement.Height";
 	/** Property ID for the Width property value. */
-	private static final String WIDTH_PROP = "AdElement.Width";
+	public static final String WIDTH_PROP = "AdElement.Width";
 	/** Property ID for the X property value.  */
-	private static final String XPOS_PROP = "AdElement.xPos";
+	public static final String XPOS_PROP = "AdElement.xPos";
 	/** Property ID for the Y property value.  */
-	private static final String YPOS_PROP = "AdElement.yPos";
+	public static final String YPOS_PROP = "AdElement.yPos";
 	/** Property ID for the Z property value. */
 	public static final String ZPOS_PROP = "AdElement.zPos";
 	/** Property ID to use when the location of this shape is modified. */
@@ -75,6 +80,32 @@ public abstract class ComponentModelElement extends ModelElement {
 	/** Size of this shape. */
 	private Dimension size = new Dimension(50, 50);
 	private int zorder = 0;
+	
+	abstract Element serialize(Document doc);
+	
+	protected void serialize(Document doc, Element componentElement) {
+		DOMHelpers.addProperty(doc, componentElement, "x",
+				String.valueOf(location.x));
+		DOMHelpers.addProperty(doc, componentElement, "y",
+				String.valueOf(location.y));
+		DOMHelpers.addProperty(doc, componentElement, "width",
+				String.valueOf(size.width));
+		DOMHelpers.addProperty(doc, componentElement, "height",
+				String.valueOf(size.height));
+		// TODO Do we need zorder? make sure all component model elements support it.
+		// DOMHelpers.addProperty(doc, componentElement, "zOrder", String.valueOf(zorder));
+	}
+	
+	protected void deserialize(Document doc, Node componentNode) {
+		setPropertyValue(XPOS_PROP, DOMHelpers.getSimpleProperty(componentNode, "x"));
+		setPropertyValue(YPOS_PROP, DOMHelpers.getSimpleProperty(componentNode, "y"));
+		setPropertyValue(WIDTH_PROP, DOMHelpers.getSimpleProperty(componentNode, "width"));
+		setPropertyValue(HEIGHT_PROP, DOMHelpers.getSimpleProperty(componentNode, "height"));
+		// TODO Do we need zorder? make sure all component model elements support it.
+		// setPropertyValue(ZPOS_PROP, DOMHelpers.getSimpleProperty(componentNode, "zOrder"));
+	}
+	
+	abstract void checkEquivalence(ComponentModelElement other);
 
 	/**
 	 * Return the Location of this shape.
