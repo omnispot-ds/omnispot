@@ -1,6 +1,7 @@
 package com.kesdip.designer.utils;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.Date;
 
 import org.w3c.dom.Document;
@@ -122,6 +123,65 @@ public class DOMHelpers {
 							blue = intValue;
 							blueFound = true;
 							return new Color(red, green, blue);
+						}
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public static Font getFontProperty(Node parent, String name) {
+		return getFontChild(getPropertyNode(parent, name));
+	}
+	
+	public static Font getFontChild(Node propertyNode) {
+		NodeList children = propertyNode.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child.getNodeType() == Node.ELEMENT_NODE &&
+					child.getNodeName().equals("bean") &&
+					child.getAttributes().getNamedItem("class").
+						getNodeValue().equals("java.awt.Font")) {
+				NodeList beanChildren = child.getChildNodes();
+				boolean familyFound = false;
+				String family = "";
+				boolean styleFound = false;
+				int style = 0;
+				boolean sizeFound = false;
+				int size = 0;
+				for (int j = 0; j < beanChildren.getLength(); j++) {
+					Node beanChild = beanChildren.item(j);
+					if (beanChild.getNodeType() == Node.ELEMENT_NODE &&
+							beanChild.getNodeName().equals("constructor-arg") &&
+							beanChild.getAttributes().getNamedItem("type").
+								getNodeValue().equals("java.lang.String")) {
+						String value = beanChild.getAttributes().
+							getNamedItem("value").getNodeValue();
+						if (!familyFound) {
+							family = value;
+							familyFound = true;
+						} else {
+							throw new RuntimeException("Unexpected second string found " +
+									"in font constructor.");
+						}
+					} else if (beanChild.getNodeType() == Node.ELEMENT_NODE &&
+							beanChild.getNodeName().equals("constructor-arg") &&
+							beanChild.getAttributes().getNamedItem("type").
+								getNodeValue().equals("int")) {
+						String value = beanChild.getAttributes().
+							getNamedItem("value").getNodeValue();
+						int intValue = Integer.parseInt(value);
+						if (!styleFound) {
+							style = intValue;
+							styleFound = true;
+						} else if (!sizeFound) {
+							size = intValue;
+							sizeFound = true;
+							if (!familyFound)
+								throw new RuntimeException("Malformed font constuctor.");
+							return new Font(family, style, size);
 						}
 					}
 				}

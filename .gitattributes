@@ -456,6 +456,8 @@ designer/src/com/kesdip/designer/parts/OutlinePartFactory.java -text
 designer/src/com/kesdip/designer/parts/OutlineRegionPart.java -text
 designer/src/com/kesdip/designer/parts/RegionEditPart.java -text
 designer/src/com/kesdip/designer/properties/FileChooserPropertyDescriptor.java -text
+designer/src/com/kesdip/designer/properties/FontCellEditor.java -text
+designer/src/com/kesdip/designer/properties/FontPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/ResourceCellModifier.java -text
 designer/src/com/kesdip/designer/properties/ResourceFileCellEditor.java -text
 designer/src/com/kesdip/designer/properties/ResourceListCellEditor.java -text

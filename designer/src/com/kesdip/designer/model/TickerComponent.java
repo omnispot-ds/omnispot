@@ -1,11 +1,15 @@
 package com.kesdip.designer.model;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
@@ -15,6 +19,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.kesdip.designer.properties.FontPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
 
 public class TickerComponent extends ComponentModelElement {
@@ -39,22 +44,68 @@ public class TickerComponent extends ComponentModelElement {
 	public static final String STRING_PROP = "Ticker.TickerStringProp";
 	/** Property ID to use for the url property value. */
 	public static final String URL_PROP = "Ticker.TickerURLProp";
+	/** Property ID to use for the font property value. */
+	public static final String FONT_PROP = "Ticker.FontProp";
+	/** Property ID to use for the foreground color property value. */
+	public static final String FOREGROUND_COLOR_PROP = "Ticker.ForegroundColorProp";
+	/** Property ID to use for the speed property value. */
+	public static final String SPEED_PROP = "Ticker.SpeedProp";
 
 	/* STATE */
 	private String type;
 	private String url;
 	private String string;
+	private double speed;
+	private Font font;
+	private Color foregroundColor;
 	
 	public TickerComponent() {
 		type = STRING_TICKER_TYPE;
 		url = "";
 		string = "";
+		speed = 2.0;
+		font = new Font("Arial", Font.PLAIN, 24);
+		foregroundColor = Color.BLACK;
 	}
 
 	protected Element serialize(Document doc) {
 		Element tickerElement = doc.createElement("bean");
 		tickerElement.setAttribute("class", "com.kesdip.player.components.Ticker");
 		super.serialize(doc, tickerElement);
+		DOMHelpers.addProperty(doc, tickerElement, "speed", String.valueOf(speed));
+		Element foreColorPropelement = DOMHelpers.addProperty(
+				doc, tickerElement, "foregroundColor");
+		Element foreColorElement = doc.createElement("bean");
+		foreColorElement.setAttribute("class", "java.awt.Color");
+		foreColorPropelement.appendChild(foreColorElement);
+		Element constructorArg = doc.createElement("constructor-arg");
+		constructorArg.setAttribute("type", "int");
+		constructorArg.setAttribute("value", String.valueOf(foregroundColor.getRed()));
+		foreColorElement.appendChild(constructorArg);
+		constructorArg = doc.createElement("constructor-arg");
+		constructorArg.setAttribute("type", "int");
+		constructorArg.setAttribute("value", String.valueOf(foregroundColor.getGreen()));
+		foreColorElement.appendChild(constructorArg);
+		constructorArg = doc.createElement("constructor-arg");
+		constructorArg.setAttribute("type", "int");
+		constructorArg.setAttribute("value", String.valueOf(foregroundColor.getBlue()));
+		foreColorElement.appendChild(constructorArg);
+		Element fontPropElement = DOMHelpers.addProperty(doc, tickerElement, "font");
+		Element fontElement = doc.createElement("bean");
+		fontElement.setAttribute("class", "java.awt.Font");
+		fontPropElement.appendChild(fontElement);
+		constructorArg = doc.createElement("constructor-arg");
+		constructorArg.setAttribute("type", "java.lang.String");
+		constructorArg.setAttribute("value", font.getFamily());
+		fontElement.appendChild(constructorArg);
+		constructorArg = doc.createElement("constructor-arg");
+		constructorArg.setAttribute("type", "int");
+		constructorArg.setAttribute("value", String.valueOf(font.getStyle()));
+		fontElement.appendChild(constructorArg);
+		constructorArg = doc.createElement("constructor-arg");
+		constructorArg.setAttribute("type", "int");
+		constructorArg.setAttribute("value", String.valueOf(font.getSize()));
+		fontElement.appendChild(constructorArg);
 		Element tickerSourcePropElement = DOMHelpers.addProperty(
 				doc, tickerElement, "tickerSource");
 		Element tickerSourceElement = doc.createElement("bean");
@@ -73,6 +124,11 @@ public class TickerComponent extends ComponentModelElement {
 	
 	protected void deserialize(Document doc, Node componentNode) {
 		super.deserialize(doc, componentNode);
+		setPropertyValue(SPEED_PROP, DOMHelpers.getSimpleProperty(componentNode, "speed"));
+		Color bc = DOMHelpers.getColorProperty(componentNode, "foregroundColor");
+		setPropertyValue(FOREGROUND_COLOR_PROP,
+				new RGB(bc.getRed(), bc.getGreen(), bc.getBlue()));
+		setPropertyValue(FONT_PROP, DOMHelpers.getFontProperty(componentNode, "font"));
 		Node tickerSourcePropNode = DOMHelpers.getPropertyNode(componentNode, "tickerSource");
 		NodeList children = tickerSourcePropNode.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
@@ -102,6 +158,9 @@ public class TickerComponent extends ComponentModelElement {
 		assert(type.equals(((TickerComponent) other).type));
 		assert(url.equals(((TickerComponent) other).url));
 		assert(string.equals(((TickerComponent) other).string));
+		assert(speed == ((TickerComponent) other).speed);
+		assert(font.equals(((TickerComponent) other).font));
+		assert(foregroundColor.equals(((TickerComponent) other).foregroundColor));
 	}
 	
 	/*
@@ -115,15 +174,31 @@ public class TickerComponent extends ComponentModelElement {
 				new ComboBoxPropertyDescriptor(TYPE_PROP, "Ticker Type",
 						new String[] { STRING_TICKER_TYPE, RSS_TICKER_TYPE }),
 				new TextPropertyDescriptor(URL_PROP, "RSS URL"),
-				new TextPropertyDescriptor(STRING_PROP, "String Source")
+				new TextPropertyDescriptor(STRING_PROP, "String Source"),
+				new TextPropertyDescriptor(SPEED_PROP, "Speed"),
+				new ColorPropertyDescriptor(FOREGROUND_COLOR_PROP, "Foreground Color"),
+				new FontPropertyDescriptor(FONT_PROP, "Font")
 		};
 		// use a custom cell editor validator for all three array entries
 		for (int i = 0; i < descriptors.length; i++) {
-			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-				public String isValid(Object value) {
-					return null;
-				}
-			});
+			if (descriptors[i].getId().equals(SPEED_PROP)) {
+				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						try {
+							Double.parseDouble((String) value);
+						} catch (Exception e) {
+							return "Invalid double value: " + value;
+						}
+						return null;
+					}
+				});
+			} else {
+				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						return null;
+					}
+				});
+			}
 		}
 	} // static
 
@@ -151,12 +226,22 @@ public class TickerComponent extends ComponentModelElement {
 
 	@Override
 	public Object getPropertyValue(Object propertyId) {
-		if (URL_PROP.equals(propertyId))
+		if (URL_PROP.equals(propertyId)) {
 			return url;
-		else if (STRING_PROP.equals(propertyId))
+		} else if (STRING_PROP.equals(propertyId)) {
 			return string;
-		else if (TYPE_PROP.equals(propertyId)) {
+		} else if (TYPE_PROP.equals(propertyId)) {
 			return getTickerType(type);
+		} else if (SPEED_PROP.equals(propertyId)) {
+			return String.valueOf(speed);
+		} else if (FONT_PROP.equals(propertyId)) {
+			return font;
+		} else if (FOREGROUND_COLOR_PROP.equals(propertyId)) {
+			RGB v = new RGB(
+					foregroundColor.getRed(),
+					foregroundColor.getGreen(),
+					foregroundColor.getBlue());
+			return v;
 		} else
 			return super.getPropertyValue(propertyId);
 	}
@@ -181,6 +266,22 @@ public class TickerComponent extends ComponentModelElement {
 			else
 				throw new RuntimeException("Unexpected ticker type.");
 			firePropertyChange(TYPE_PROP, oldValue, value);
+		} else if (SPEED_PROP.equals(propertyId)) {
+			String oldValue = String.valueOf(speed);
+			speed = Double.parseDouble((String) value);
+			firePropertyChange(SPEED_PROP, oldValue, value);
+		} else if (FONT_PROP.equals(propertyId)) {
+			Font oldValue = font;
+			font = (Font) value;
+			firePropertyChange(FONT_PROP, oldValue, font);
+		} else if (FOREGROUND_COLOR_PROP.equals(propertyId)) {
+			RGB oldValue = new RGB(
+					foregroundColor.getRed(),
+					foregroundColor.getGreen(),
+					foregroundColor.getBlue());
+			RGB rgbValue = (RGB) value;
+			foregroundColor = new Color(rgbValue.red, rgbValue.green, rgbValue.blue);
+			firePropertyChange(BACK_COLOR_PROP, oldValue, value);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}
