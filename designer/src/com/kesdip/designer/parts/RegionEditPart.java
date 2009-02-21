@@ -26,6 +26,8 @@ import org.eclipse.gef.requests.CreateRequest;
 import com.kesdip.designer.command.ComponentConstraintChange;
 import com.kesdip.designer.command.ComponentCreation;
 import com.kesdip.designer.model.ComponentModelElement;
+import com.kesdip.designer.model.FlashComponent;
+import com.kesdip.designer.model.FlashWeatherComponent;
 import com.kesdip.designer.model.ImageComponent;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.Region;
@@ -135,7 +137,8 @@ public class RegionEditPart extends AbstractGraphicalEditPart implements
 		protected Command getCreateCommand(CreateRequest request) {
 			Object childClass = request.getNewObjectType();
 			if (childClass == ImageComponent.class || childClass == TickerComponent.class ||
-					childClass == VideoComponent.class) {
+					childClass == VideoComponent.class || childClass == FlashComponent.class ||
+					childClass == FlashWeatherComponent.class) {
 				ComponentModelElement element = null;
 				try {
 					element = (ComponentModelElement) request.getNewObject();

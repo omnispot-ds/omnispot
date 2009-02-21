@@ -12,6 +12,8 @@ import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 import com.kesdip.designer.model.Deployment;
+import com.kesdip.designer.model.FlashComponent;
+import com.kesdip.designer.model.FlashWeatherComponent;
 import com.kesdip.designer.model.ImageComponent;
 import com.kesdip.designer.model.Region;
 import com.kesdip.designer.model.TickerComponent;
@@ -63,6 +65,24 @@ final class DesignerEditorPaletteFactory {
 				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
 		componentsDrawer.add(component);
 
+		component = new CombinedTemplateCreationEntry(
+				"FlashComponent",
+				"Create a flash component", 
+				FlashComponent.class,
+				new SimpleFactory(FlashComponent.class), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle16.gif"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
+		componentsDrawer.add(component);
+	
+		component = new CombinedTemplateCreationEntry(
+				"FlashWeatherComponent",
+				"Create a flash weather component", 
+				FlashWeatherComponent.class,
+				new SimpleFactory(FlashWeatherComponent.class), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle16.gif"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
+		componentsDrawer.add(component);
+	
 		return componentsDrawer;
 	}
 		

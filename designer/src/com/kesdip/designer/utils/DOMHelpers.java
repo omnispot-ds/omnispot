@@ -1,5 +1,6 @@
 package com.kesdip.designer.utils;
 
+import java.awt.Color;
 import java.util.Date;
 
 import org.w3c.dom.Document;
@@ -75,6 +76,53 @@ public class DOMHelpers {
 						String dateValue = beanChild.getAttributes().
 							getNamedItem("value").getNodeValue();
 						return new Date(Long.parseLong(dateValue));
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public static Color getColorProperty(Node parent, String name) {
+		return getColorChild(getPropertyNode(parent, name));
+	}
+	
+	public static Color getColorChild(Node propertyNode) {
+		NodeList children = propertyNode.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child.getNodeType() == Node.ELEMENT_NODE &&
+					child.getNodeName().equals("bean") &&
+					child.getAttributes().getNamedItem("class").
+						getNodeValue().equals("java.awt.Color")) {
+				NodeList beanChildren = child.getChildNodes();
+				boolean redFound = false;
+				int red = 0;
+				boolean greenFound = false;
+				int green = 0;
+				boolean blueFound = false;
+				int blue = 0;
+				for (int j = 0; j < beanChildren.getLength(); j++) {
+					Node beanChild = beanChildren.item(j);
+					if (beanChild.getNodeType() == Node.ELEMENT_NODE &&
+							beanChild.getNodeName().equals("constructor-arg") &&
+							beanChild.getAttributes().getNamedItem("type").
+								getNodeValue().equals("int")) {
+						String value = beanChild.getAttributes().
+							getNamedItem("value").getNodeValue();
+						int intValue = Integer.parseInt(value);
+						if (!redFound) {
+							red = intValue;
+							redFound = true;
+						} else if (!greenFound) {
+							green = intValue;
+							greenFound = true;
+						} else if (!blueFound) {
+							blue = intValue;
+							blueFound = true;
+							return new Color(red, green, blue);
+						}
 					}
 				}
 			}

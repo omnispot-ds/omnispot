@@ -1,8 +1,12 @@
 package com.kesdip.designer.model;
 
+import java.awt.Color;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -31,19 +35,21 @@ public abstract class ComponentModelElement extends ModelElement {
 	 */
 	private static IPropertyDescriptor[] descriptors;
 	/** Property ID for the Height property value. */
-	public static final String HEIGHT_PROP = "AdElement.Height";
+	public static final String HEIGHT_PROP = "Component.Height";
 	/** Property ID for the Width property value. */
-	public static final String WIDTH_PROP = "AdElement.Width";
+	public static final String WIDTH_PROP = "Component.Width";
 	/** Property ID for the X property value.  */
-	public static final String XPOS_PROP = "AdElement.xPos";
+	public static final String XPOS_PROP = "Component.xPos";
 	/** Property ID for the Y property value.  */
-	public static final String YPOS_PROP = "AdElement.yPos";
+	public static final String YPOS_PROP = "Component.yPos";
+	/** Property ID for the background color property value. */
+	public static final String BACK_COLOR_PROP = "Component.backgroundColor";
 	/** Property ID for the Z property value. */
-	public static final String ZPOS_PROP = "AdElement.zPos";
+	public static final String ZPOS_PROP = "Component.zPos";
 	/** Property ID to use when the location of this shape is modified. */
-	public static final String LOCATION_PROP = "AdElement.Location";
+	public static final String LOCATION_PROP = "Component.Location";
 	/** Property ID to use then the size of this shape is modified. */
-	public static final String SIZE_PROP = "AdElement.Size";
+	public static final String SIZE_PROP = "Component.Size";
 
 	/*
 	 * Initializes the property descriptors array.
@@ -57,21 +63,31 @@ public abstract class ComponentModelElement extends ModelElement {
 				new TextPropertyDescriptor(YPOS_PROP, "Y"),
 				new TextPropertyDescriptor(WIDTH_PROP, "Width"),
 				new TextPropertyDescriptor(HEIGHT_PROP, "Height"),
-				new TextPropertyDescriptor(ZPOS_PROP, "ZOrder"),
+				new ColorPropertyDescriptor(BACK_COLOR_PROP, "Background Color"),
+				new TextPropertyDescriptor(ZPOS_PROP, "ZOrder")
 		};
 		// use a custom cell editor validator for all five array entries
 		for (int i = 0; i < descriptors.length; i++) {
-			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-				public String isValid(Object value) {
-					int intValue = -1;
-					try {
-						intValue = Integer.parseInt((String) value);
-					} catch (NumberFormatException exc) {
-						return "Not a number";
+			if (descriptors[i].getId().equals(BACK_COLOR_PROP)) {
+				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						// All colors are valid as background colors.
+						return null;
 					}
-					return (intValue >= 0) ? null : "Value must be >=  0";
-				}
-			});
+				});
+			} else {
+				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						int intValue = -1;
+						try {
+							intValue = Integer.parseInt((String) value);
+						} catch (NumberFormatException exc) {
+							return "Not a number";
+						}
+						return (intValue >= 0) ? null : "Value must be >=  0";
+					}
+				});
+			}
 		}
 	} // static
 
@@ -80,6 +96,7 @@ public abstract class ComponentModelElement extends ModelElement {
 	/** Size of this shape. */
 	private Dimension size = new Dimension(50, 50);
 	private int zorder = 0;
+	private Color backgroundColor = Color.BLACK;
 	
 	abstract Element serialize(Document doc);
 	
@@ -92,6 +109,23 @@ public abstract class ComponentModelElement extends ModelElement {
 				String.valueOf(size.width));
 		DOMHelpers.addProperty(doc, componentElement, "height",
 				String.valueOf(size.height));
+		Element backColorPropElement = DOMHelpers.addProperty(
+				doc, componentElement, "backgroundColor");
+		Element backColorElement = doc.createElement("bean");
+		backColorElement.setAttribute("class", "java.awt.Color");
+		backColorPropElement.appendChild(backColorElement);
+		Element constructorArg = doc.createElement("constructor-arg");
+		constructorArg.setAttribute("type", "int");
+		constructorArg.setAttribute("value", String.valueOf(backgroundColor.getRed()));
+		backColorElement.appendChild(constructorArg);
+		constructorArg = doc.createElement("constructor-arg");
+		constructorArg.setAttribute("type", "int");
+		constructorArg.setAttribute("value", String.valueOf(backgroundColor.getGreen()));
+		backColorElement.appendChild(constructorArg);
+		constructorArg = doc.createElement("constructor-arg");
+		constructorArg.setAttribute("type", "int");
+		constructorArg.setAttribute("value", String.valueOf(backgroundColor.getBlue()));
+		backColorElement.appendChild(constructorArg);
 		// TODO Do we need zorder? make sure all component model elements support it.
 		// DOMHelpers.addProperty(doc, componentElement, "zOrder", String.valueOf(zorder));
 	}
@@ -101,11 +135,19 @@ public abstract class ComponentModelElement extends ModelElement {
 		setPropertyValue(YPOS_PROP, DOMHelpers.getSimpleProperty(componentNode, "y"));
 		setPropertyValue(WIDTH_PROP, DOMHelpers.getSimpleProperty(componentNode, "width"));
 		setPropertyValue(HEIGHT_PROP, DOMHelpers.getSimpleProperty(componentNode, "height"));
+		Color bc = DOMHelpers.getColorProperty(componentNode, "backgroundColor");
+		setPropertyValue(BACK_COLOR_PROP,
+				new RGB(bc.getRed(), bc.getGreen(), bc.getBlue()));
 		// TODO Do we need zorder? make sure all component model elements support it.
 		// setPropertyValue(ZPOS_PROP, DOMHelpers.getSimpleProperty(componentNode, "zOrder"));
 	}
 	
-	abstract void checkEquivalence(ComponentModelElement other);
+	void checkEquivalence(ComponentModelElement other) {
+		assert(location.equals(other.location));
+		assert(size.equals(other.size));
+		assert(zorder == other.zorder);
+		assert(backgroundColor.equals(other.backgroundColor));
+	}
 
 	/**
 	 * Return the Location of this shape.
@@ -146,6 +188,13 @@ public abstract class ComponentModelElement extends ModelElement {
 		}
 		if (WIDTH_PROP.equals(propertyId)) {
 			return Integer.toString(size.width);
+		}
+		if (BACK_COLOR_PROP.equals(propertyId)) {
+			RGB v = new RGB(
+					backgroundColor.getRed(),
+					backgroundColor.getGreen(),
+					backgroundColor.getBlue());
+			return v;
 		}
 		if (ZPOS_PROP.equals(propertyId)) {
 			return Integer.toString(zorder);
@@ -195,6 +244,14 @@ public abstract class ComponentModelElement extends ModelElement {
 		} else if (WIDTH_PROP.equals(propertyId)) {
 			int width = Integer.parseInt((String) value);
 			setSize(new Dimension(width, size.height));
+		} else if (BACK_COLOR_PROP.equals(propertyId)) {
+			RGB oldValue = new RGB(
+					backgroundColor.getRed(),
+					backgroundColor.getGreen(),
+					backgroundColor.getBlue());
+			RGB rgbValue = (RGB) value;
+			backgroundColor = new Color(rgbValue.red, rgbValue.green, rgbValue.blue);
+			firePropertyChange(BACK_COLOR_PROP, oldValue, value);
 		} else if (ZPOS_PROP.equals(propertyId)) {
 			int zorder = Integer.parseInt((String) value);
 			setZorder(zorder);

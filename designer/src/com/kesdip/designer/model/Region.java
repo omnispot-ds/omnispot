@@ -109,6 +109,10 @@ public class Region extends ComponentModelElement {
 							component = new VideoComponent();
 						} else if ("com.kesdip.player.components.Image".equals(className)) {
 							component = new ImageComponent();
+						} else if ("com.kesdip.player.components.FlashComponent".equals(className)) {
+							component = new FlashComponent();
+						} else if ("com.kesdip.player.components.weather.FlashWeatherComponent".equals(className)) {
+							component = new FlashWeatherComponent();
 						} else {
 							throw new RuntimeException("Unexpected class name: " + className);
 						}
@@ -124,6 +128,7 @@ public class Region extends ComponentModelElement {
 	
 	@Override
 	void checkEquivalence(ComponentModelElement other) {
+		super.checkEquivalence(other);
 		if (!(other instanceof Region))
 			throw new RuntimeException("A region can only be equivalent to a region.");
 		assert(name.equals(((Region) other).name));

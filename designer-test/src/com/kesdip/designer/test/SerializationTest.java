@@ -9,6 +9,8 @@ import junit.framework.TestCase;
 
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.Deployment;
+import com.kesdip.designer.model.FlashComponent;
+import com.kesdip.designer.model.FlashWeatherComponent;
 import com.kesdip.designer.model.ImageComponent;
 import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.model.Region;
@@ -90,6 +92,48 @@ public class SerializationTest extends TestCase {
 		i.addImage(new Resource("resources/Bakunin_Nadar.jpg", ""));
 		r.addComponent(i);
 		
+		l = new Layout();
+		l.setPropertyValue(Layout.NAME_PROP, "Layout3");
+		retVal.addLayout(l);
+		
+		r = new Region();
+		r.setPropertyValue(Region.NAME_PROP, "Region4");
+		r.setPropertyValue(Region.TRANSPARENT_PROP, "false");
+		r.setPropertyValue(ComponentModelElement.XPOS_PROP, "0");
+		r.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
+		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
+		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
+		l.addRegion(r);
+		
+		FlashComponent f = new FlashComponent();
+		f.setPropertyValue(FlashComponent.SOURCE_PROP, "resources/rasputin22.jpg");
+		f.setPropertyValue(ComponentModelElement.XPOS_PROP, "0");
+		f.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
+		f.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
+		f.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
+		r.addComponent(f);
+		
+		l = new Layout();
+		l.setPropertyValue(Layout.NAME_PROP, "Layout4");
+		retVal.addLayout(l);
+		
+		r = new Region();
+		r.setPropertyValue(Region.NAME_PROP, "Region5");
+		r.setPropertyValue(Region.TRANSPARENT_PROP, "false");
+		r.setPropertyValue(ComponentModelElement.XPOS_PROP, "0");
+		r.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
+		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
+		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
+		l.addRegion(r);
+		
+		FlashWeatherComponent w = new FlashWeatherComponent();
+		r.setPropertyValue(FlashWeatherComponent.URL_PROP, "resources/rasputin22.jpg");
+		r.setPropertyValue(ComponentModelElement.XPOS_PROP, "0");
+		r.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
+		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
+		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
+		r.addComponent(w);
+
 		return retVal;
 	}
 	

@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Triangle;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -19,6 +20,8 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
 import com.kesdip.designer.model.ComponentModelElement;
+import com.kesdip.designer.model.FlashComponent;
+import com.kesdip.designer.model.FlashWeatherComponent;
 import com.kesdip.designer.model.ImageComponent;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.TickerComponent;
@@ -53,7 +56,15 @@ public class ComponentEditPart extends AbstractGraphicalEditPart implements
 			f = new Triangle();
 		else if (getModel() instanceof TickerComponent)
 			f = new Ellipse();
-		else
+		else if (getModel() instanceof FlashComponent) {
+			RoundedRectangle rr = new RoundedRectangle();
+			rr.setCornerDimensions(new Dimension(20, 20));
+			f = rr;
+		} else if (getModel() instanceof FlashWeatherComponent) {
+			RoundedRectangle rr = new RoundedRectangle();
+			rr.setCornerDimensions(new Dimension(30, 30));
+			f = rr;
+		} else
 			throw new RuntimeException("Unexpected model class: " +
 					getModel().getClass().getName());
 		

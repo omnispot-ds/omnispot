@@ -53,7 +53,7 @@ public class VideoComponent extends ComponentModelElement {
 		videoElement.setAttribute("class", "com.kesdip.player.components.Video");
 		super.serialize(doc, videoElement);
 		DOMHelpers.addProperty(doc, videoElement, "repeat", repeat ? "true" : "false");
-		Element contentPropElement = DOMHelpers.addProperty(doc, videoElement, "content");
+		Element contentPropElement = DOMHelpers.addProperty(doc, videoElement, "contents");
 		Element listElement = doc.createElement("list");
 		contentPropElement.appendChild(listElement);
 		for (Resource r : videos) {
@@ -67,7 +67,7 @@ public class VideoComponent extends ComponentModelElement {
 		setPropertyValue(REPEAT_PROP, DOMHelpers.getSimpleProperty(componentNode, "repeat"));
 		super.deserialize(doc, componentNode);
 		final List<Resource> newVideos = new ArrayList<Resource>();
-		DOMHelpers.applyToListProperty(doc, componentNode, "content", "bean",
+		DOMHelpers.applyToListProperty(doc, componentNode, "contents", "bean",
 				new DOMHelpers.INodeListVisitor() {
 			@Override
 			public void visitListItem(Document doc, Node listItem) {
@@ -85,7 +85,8 @@ public class VideoComponent extends ComponentModelElement {
 	}
 	
 	@Override
-	public void checkEquivalence(ComponentModelElement other) {
+	void checkEquivalence(ComponentModelElement other) {
+		super.checkEquivalence(other);
 		assert(other instanceof VideoComponent);
 		assert(repeat == ((VideoComponent) other).repeat);
 		for (int i = 0; i < videos.size(); i++) {

@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
+import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -31,6 +32,8 @@ public class ImageComponent extends ComponentModelElement {
 	private static IPropertyDescriptor[] descriptors;
 	/** Property ID to use for the images property value. */
 	public static final String IMAGE_PROP = "Image.ImagesProp";
+	/** Property ID to use for the duration property value. */
+	public static final String DURATION_PROP = "Layout.DurationProp";
 	/** Property ID to use when an image is added to this image component. */
 	public static final String IMAGE_ADDED_PROP = "Image.ImageAdded";
 	/** Property ID to use when an image is removed from this image component. */
@@ -38,17 +41,20 @@ public class ImageComponent extends ComponentModelElement {
 
 	/* STATE */
 	private List<Resource> images;
+	private int duration;
 	
 	public ImageComponent() {
 		images = new ArrayList<Resource>();
+		duration = 0;
 	}
 
 	@Override
 	protected Element serialize(Document doc) {
 		Element imageElement = doc.createElement("bean");
 		imageElement.setAttribute("class", "com.kesdip.player.components.Image");
+		DOMHelpers.addProperty(doc, imageElement, "duration", String.valueOf(duration));
 		super.serialize(doc, imageElement);
-		Element contentPropElement = DOMHelpers.addProperty(doc, imageElement, "content");
+		Element contentPropElement = DOMHelpers.addProperty(doc, imageElement, "contents");
 		Element listElement = doc.createElement("list");
 		contentPropElement.appendChild(listElement);
 		for (Resource r : images) {
@@ -60,9 +66,10 @@ public class ImageComponent extends ComponentModelElement {
 	
 	@Override
 	protected void deserialize(Document doc, Node componentNode) {
+		setPropertyValue(DURATION_PROP, DOMHelpers.getSimpleProperty(componentNode, "duration"));
 		super.deserialize(doc, componentNode);
 		final List<Resource> newImages = new ArrayList<Resource>();
-		DOMHelpers.applyToListProperty(doc, componentNode, "content", "bean",
+		DOMHelpers.applyToListProperty(doc, componentNode, "contents", "bean",
 				new DOMHelpers.INodeListVisitor() {
 			@Override
 			public void visitListItem(Document doc, Node listItem) {
@@ -81,7 +88,9 @@ public class ImageComponent extends ComponentModelElement {
 	
 	@Override
 	void checkEquivalence(ComponentModelElement other) {
+		super.checkEquivalence(other);
 		assert(other instanceof ImageComponent);
+		assert(duration == ((ImageComponent) other).duration);
 		for (int i = 0; i < images.size(); i++) {
 			Resource resource = images.get(i);
 			Resource otherResource = ((ImageComponent) other).images.get(i);
@@ -97,13 +106,14 @@ public class ImageComponent extends ComponentModelElement {
 	 */
 	static {
 		descriptors = new IPropertyDescriptor[] { 
-				new ResourceListPropertyDescriptor(IMAGE_PROP, "Images")
+				new ResourceListPropertyDescriptor(IMAGE_PROP, "Images"),
+				new TextPropertyDescriptor(DURATION_PROP, "Duration")
 		};
 		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
 			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 				public String isValid(Object value) {
-					// No validation for the images.
+					// No validation for the images or duration.
 					return null;
 				}
 			});
@@ -127,6 +137,8 @@ public class ImageComponent extends ComponentModelElement {
 	public Object getPropertyValue(Object propertyId) {
 		if (IMAGE_PROP.equals(propertyId))
 			return images;
+		else if (DURATION_PROP.equals(propertyId))
+			return String.valueOf(duration);
 		else
 			return super.getPropertyValue(propertyId);
 	}
@@ -138,6 +150,10 @@ public class ImageComponent extends ComponentModelElement {
 			List<Resource> oldValue = images;
 			images = (List<Resource>) value;
 			firePropertyChange(IMAGE_PROP, oldValue, images);
+		} else if (DURATION_PROP.equals(propertyId)) {
+			String oldValue = String.valueOf(duration);
+			duration = Integer.parseInt((String) value);
+			firePropertyChange(DURATION_PROP, oldValue, value);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}
