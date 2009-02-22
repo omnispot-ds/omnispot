@@ -1,7 +1,6 @@
 package com.kesdip.player.test;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -26,7 +25,7 @@ public class Test1 extends JFrame {
     	
     	setFrameProperties();
 
-    	flashComp.setSource("C:/GETME_HOME/client/core/getme/bin-release2/shellV2.swf");
+    	flashComp.setFilename("C:/GETME_HOME/client/core/getme/bin-release2/shellV2.swf");
     	flashComp.init(null, null);
     	
     	final OleContainer _container = (OleContainer) flashComp.getWindowComponent();

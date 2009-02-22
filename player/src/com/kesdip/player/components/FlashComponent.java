@@ -2,6 +2,8 @@ package com.kesdip.player.components;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -16,6 +18,7 @@ import com.jniwrapper.win32.ole.types.OleVerbs;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.flash.shockwaveflashobjects.IShockwaveFlash;
 import com.kesdip.player.components.flash.shockwaveflashobjects.ShockwaveFlash;
+import com.kesdip.player.registry.ContentRegistry;
 
 public class FlashComponent extends AbstractComponent {
 	
@@ -25,10 +28,21 @@ public class FlashComponent extends AbstractComponent {
 
 	protected IShockwaveFlash flash;
 	
-	protected String source;
+	protected Resource source;
 	
-	public void setSource(String source) {
+	public void setSource(Resource source) {
 		this.source = source;
+	}
+	
+	/**
+	 * This is only to be used for testing purposes. Not intended to be part of the
+	 * spring configuration, as we are supposed to use a resource flash object, so that
+	 * we can control its deployment.
+	 */
+	protected String filename = null;
+	
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	@Override
@@ -50,7 +64,11 @@ public class FlashComponent extends AbstractComponent {
 		createOleObject();
 		showOleObject();
 		parent.add(this);
-		doOpen(source);
+		if (filename == null) {
+			ContentRegistry registry = ContentRegistry.getContentRegistry();
+			filename = registry.getResourcePath(source);
+		}
+		doOpen(filename);
 	}
 	
 	private boolean showing;
@@ -125,4 +143,10 @@ public class FlashComponent extends AbstractComponent {
     }
 
 	
+	@Override
+	public Set<Resource> gatherResources() {
+		HashSet<Resource> retVal = new HashSet<Resource>();
+		retVal.add(source);
+		return retVal;
+	}
 }

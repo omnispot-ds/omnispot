@@ -4,7 +4,9 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
@@ -19,27 +21,33 @@ import com.kesdip.player.registry.ContentRegistry;
 public class Image extends AbstractComponent implements InitializingBean {
 	private static final Logger logger = Logger.getLogger(Image.class);
 	
-	private Resource image;
+	/* SPRING STATE */
+	private List<Resource> contents;
+	private int duration;
 	
-	public void setImage(Resource image) {
-		this.image = image;
+	public void setContents(List<Resource> contents) {
+		this.contents = contents;
+	}
+	
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (image == null)
-			throw new Exception("Image property has not been set.");
+		if (contents == null || contents.size() == 0)
+			throw new Exception("Contents property has not been set.");
 	}
 	
 	/* TRANSIENT STATE */
 	private ImagePanel panel;
 	private BufferedImage img;
+	private int currentImageIndex;
+	private long startTime;
 
-	@Override
-	public void init(Component parent, TimingMonitor timingMonitor)
-			throws ComponentException {
+	private void loadImage() throws ComponentException {
 		ContentRegistry registry = ContentRegistry.getContentRegistry();
-		String imageFilename = registry.getResourcePath(image);
+		String imageFilename = registry.getResourcePath(contents.get(currentImageIndex));
 		logger.info("Loading image from file: " + imageFilename);
 		try {
 		    img = ImageIO.read(new File(imageFilename));
@@ -47,6 +55,14 @@ public class Image extends AbstractComponent implements InitializingBean {
 			throw new ComponentException(
 					"Unable to load image: " + imageFilename, e);
 		}
+	}
+	
+	@Override
+	public void init(Component parent, TimingMonitor timingMonitor)
+			throws ComponentException {
+		startTime = new Date().getTime();
+		currentImageIndex = 0;
+		loadImage();
 		
 		panel = new ImagePanel(img);
 		panel.setLocation(x, y);
@@ -68,13 +84,24 @@ public class Image extends AbstractComponent implements InitializingBean {
 
 	@Override
 	public void repaint() throws ComponentException {
-		// Intentionally do nothing.
+		if (duration == 0)
+			return;
+		
+		long currentTime = new Date().getTime();
+		if (currentTime - startTime < duration)
+			return; // Nothing to see here. Move along now.
+		
+		// If we reach this line, then we must move on to the next image.
+		currentImageIndex = (currentImageIndex + 1) % contents.size();
+		loadImage();
+		panel.setImage(img);
+		startTime = new Date().getTime();
 	}
 
 	@Override
 	public Set<Resource> gatherResources() {
 		HashSet<Resource> retVal = new HashSet<Resource>();
-		retVal.add(image);
+		retVal.addAll(contents);
 		return retVal;
 	}
 

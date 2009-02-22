@@ -15,6 +15,11 @@ public class ImagePanel extends JPanel {
 		this.img = img;
 		setLayout(null);
 	}
+	
+	public void setImage(Image img) {
+		this.img = img;
+		repaint();
+	}
 
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, null);
