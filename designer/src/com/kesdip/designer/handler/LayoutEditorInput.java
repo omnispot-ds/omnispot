@@ -21,7 +21,7 @@ public class LayoutEditorInput extends PlatformObject implements IEditorInput {
 
 	@Override
 	public ImageDescriptor getImageDescriptor() {
-		return null;
+		return ImageDescriptor.getMissingImageDescriptor();
 	}
 
 	@Override

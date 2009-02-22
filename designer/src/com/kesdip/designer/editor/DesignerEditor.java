@@ -159,7 +159,7 @@ public class DesignerEditor extends GraphicalEditorWithFlyoutPalette {
 	
 		// configure the context menu provider
 		ContextMenuProvider cmProvider =
-				new DesignerEditorContentMenuProvider(viewer);
+				new DesignerEditorContentMenuProvider(viewer, getActionRegistry());
 		viewer.setContextMenu(cmProvider);
 		getSite().registerContextMenu(cmProvider, viewer);
 	}
@@ -302,7 +302,7 @@ public class DesignerEditor extends GraphicalEditorWithFlyoutPalette {
 			getViewer().setEditPartFactory(new OutlinePartFactory());
 			// configure & add context menu to viewer
 			ContextMenuProvider cmProvider = new DesignerEditorContentMenuProvider(
-					getViewer()); 
+					getViewer(), getActionRegistry()); 
 			getViewer().setContextMenu(cmProvider);
 			getSite().registerContextMenu(
 					"com.koutra.designer.editor.contextmenu",

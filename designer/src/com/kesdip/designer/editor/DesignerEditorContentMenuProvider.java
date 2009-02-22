@@ -2,16 +2,23 @@ package com.kesdip.designer.editor;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 
-	public DesignerEditorContentMenuProvider(EditPartViewer viewer) {
+	/** The editor's action registry. */
+	private ActionRegistry actionRegistry;
+		
+	public DesignerEditorContentMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
 		super(viewer);
-		// TODO Auto-generated constructor stub
+		if (registry == null) {
+			throw new IllegalArgumentException();
+		}
+		actionRegistry = registry;
 	}
 
 	@Override
@@ -22,13 +29,17 @@ public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 		// Add actions to the menu
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_UNDO, // target group id
-				ActionFactory.UNDO.create(PlatformUI.getWorkbench().getActiveWorkbenchWindow()));
+				getAction(ActionFactory.UNDO.getId())); // action to add
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_UNDO, 
-				ActionFactory.REDO.create(PlatformUI.getWorkbench().getActiveWorkbenchWindow()));
+				getAction(ActionFactory.REDO.getId()));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
-				ActionFactory.DELETE.create(PlatformUI.getWorkbench().getActiveWorkbenchWindow()));
+				getAction(ActionFactory.DELETE.getId()));
+	}
+
+	private IAction getAction(String actionId) {
+		return actionRegistry.getAction(actionId);
 	}
 
 }

@@ -18,13 +18,13 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 
 import com.kesdip.designer.command.ComponentConstraintChange;
 import com.kesdip.designer.command.ComponentCreation;
+import com.kesdip.designer.editor.ComponentDeletionEditPolicy;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.FlashComponent;
 import com.kesdip.designer.model.FlashWeatherComponent;
@@ -69,7 +69,7 @@ public class RegionEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	protected void createEditPolicies() {
 		// disallows the removal of this edit part from its parent
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentDeletionEditPolicy());
 		// handles constraint changes (e.g. moving and/or resizing) of model elements
 		// and creation of new model elements
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ComponentXYLayoutEditPolicy());

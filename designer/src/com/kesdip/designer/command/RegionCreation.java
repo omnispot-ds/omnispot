@@ -17,9 +17,9 @@ public class RegionCreation extends Command {
 	private Rectangle bounds;
 
 	/**
-	 * Create a command that will add a new Shape to a ShapesDiagram.
-	 * @param element the new AdElement that is to be added
-	 * @param parent the AdDeployment that will hold the new element
+	 * Create a command that will add a new Region to a Layout.
+	 * @param element the new Region that is to be added
+	 * @param parent the Layout that will hold the new element
 	 * @param bounds the bounds of the new elemeny; the size can be (-1, -1) if not known
 	 * @throws IllegalArgumentException if any parameter is null, or the request
 	 * 						  does not provide a new Shape instance

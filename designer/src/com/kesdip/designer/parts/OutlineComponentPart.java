@@ -2,9 +2,12 @@ package com.kesdip.designer.parts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 
+import com.kesdip.designer.editor.ComponentDeletionEditPolicy;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.ModelElement;
 
@@ -33,7 +36,7 @@ public class OutlineComponentPart extends AbstractTreeEditPart implements
 
 	@Override
 	protected void createEditPolicies() {
-		// TODO: allow removal of the associated model element
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentDeletionEditPolicy());
 	}
 
 	/* (non-Javadoc)

@@ -17,8 +17,8 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
+import com.kesdip.designer.editor.ComponentDeletionEditPolicy;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.FlashComponent;
 import com.kesdip.designer.model.FlashWeatherComponent;
@@ -91,7 +91,7 @@ public class ComponentEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	protected void createEditPolicies() {
 		// disallows the removal of this edit part from its parent
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentDeletionEditPolicy());
 	}
 	
 	@Override

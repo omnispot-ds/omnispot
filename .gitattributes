@@ -423,8 +423,10 @@ designer/src/com/kesdip/designer/action/DeleteLayoutAction.java -text
 designer/src/com/kesdip/designer/action/EditLayoutAction.java -text
 designer/src/com/kesdip/designer/command/ComponentConstraintChange.java -text
 designer/src/com/kesdip/designer/command/ComponentCreation.java -text
+designer/src/com/kesdip/designer/command/ComponentDeletion.java -text
 designer/src/com/kesdip/designer/command/RegionConstraintChange.java -text
 designer/src/com/kesdip/designer/command/RegionCreation.java -text
+designer/src/com/kesdip/designer/editor/ComponentDeletionEditPolicy.java -text
 designer/src/com/kesdip/designer/editor/DesignerEditor.java -text
 designer/src/com/kesdip/designer/editor/DesignerEditorActionBarContributor.java -text
 designer/src/com/kesdip/designer/editor/DesignerEditorContentMenuProvider.java -text
@@ -447,6 +449,8 @@ designer/src/com/kesdip/designer/model/Resource.java -text
 designer/src/com/kesdip/designer/model/TickerComponent.java -text
 designer/src/com/kesdip/designer/model/VideoComponent.java -text
 designer/src/com/kesdip/designer/model/icons/alt_window_16.gif -text
+designer/src/com/kesdip/designer/model/icons/rectangle16.gif -text
+designer/src/com/kesdip/designer/model/icons/rectangle24.gif -text
 designer/src/com/kesdip/designer/parts/ComponentEditPart.java -text
 designer/src/com/kesdip/designer/parts/DesignerEditorEditPartFactory.java -text
 designer/src/com/kesdip/designer/parts/LayoutEditPart.java -text

@@ -6,11 +6,10 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
-import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.swt.graphics.Image;
 
+import com.kesdip.designer.editor.ComponentDeletionEditPolicy;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.Region;
@@ -40,10 +39,7 @@ public class OutlineRegionPart extends AbstractTreeEditPart implements
 
 	@Override
 	protected void createEditPolicies() {
-		// If this editpart is the root content of the viewer, then disallow removal
-		if (getParent() instanceof RootEditPart) {
-			installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
-		}
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentDeletionEditPolicy());
 	}
 
 	@SuppressWarnings("unchecked")
