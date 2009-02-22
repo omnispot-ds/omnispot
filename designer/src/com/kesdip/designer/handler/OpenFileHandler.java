@@ -1,7 +1,6 @@
 package com.kesdip.designer.handler;
 
 import java.io.File;
-import java.io.ObjectInputStream;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -47,10 +46,8 @@ public class OpenFileHandler extends AbstractHandler implements IHandler {
 	private Deployment loadInputFromFile(IFile f) {
 		Deployment retVal;
 		try {
-			// TODO: This should de-serialize XML (i.e. the deployment descriptor).
-			ObjectInputStream in = new ObjectInputStream(f.getContents());
-			retVal = (Deployment) in.readObject();
-			in.close();
+			retVal = new Deployment();
+			retVal.deserialize(f.getContents());
 		} catch (Exception e) { 
 			DesignerLog.logError("Unable to load model.", e);
 			retVal = new Deployment();

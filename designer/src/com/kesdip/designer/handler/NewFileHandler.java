@@ -20,6 +20,8 @@ public class NewFileHandler extends AbstractHandler implements IHandler {
 				getActiveWorkbenchWindow().getActivePage().
 				showView("com.kesdip.designer.DeploymentView");
 			dv.setDeployment(input, null);
+			
+			dv.setDirty();
 		} catch (Exception e) {
 			DesignerLog.logError("Unable to create new deployment", e);
 		}

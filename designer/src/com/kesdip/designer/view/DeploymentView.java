@@ -25,6 +25,7 @@ import com.kesdip.designer.model.Layout;
 public class DeploymentView extends ViewPart implements PropertyChangeListener {
 	
 	private TableViewer viewer;
+	private boolean isDirty;
 	private Deployment deployment;
 	private String deploymentPath;
 	private List<Layout> layouts;
@@ -55,6 +56,15 @@ public class DeploymentView extends ViewPart implements PropertyChangeListener {
 		this.deployment.addPropertyChangeListener(this);
 		registerToLayouts();
 		viewer.setInput(deployment);
+		isDirty = false;
+	}
+	
+	public void setDirty() {
+		isDirty = true;
+	}
+	
+	public boolean isDirty() {
+		return isDirty;
 	}
 	
 	public Deployment getDeployment() {
@@ -85,6 +95,7 @@ public class DeploymentView extends ViewPart implements PropertyChangeListener {
 	public void propertyChange(java.beans.PropertyChangeEvent evt) {
 		unregisterFromLayouts();
 		viewer.refresh();
+		isDirty = true;
 		registerToLayouts();
 	}
 	

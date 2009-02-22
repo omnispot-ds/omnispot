@@ -10,15 +10,18 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import com.kesdip.designer.editor.DesignerEditor;
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.utils.DesignerLog;
 import com.kesdip.designer.view.DeploymentView;
 
 public class SaveAsFileHandler extends AbstractHandler implements IHandler {
-
+	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
@@ -37,6 +40,14 @@ public class SaveAsFileHandler extends AbstractHandler implements IHandler {
 			OutputStream os = new BufferedOutputStream(new FileOutputStream(path));
 			deployment.serialize(os);
 			os.close();
+			IEditorReference[] editors = PlatformUI.getWorkbench().
+					getActiveWorkbenchWindow().getActivePage().getEditorReferences();
+			for (IEditorReference ref : editors) {
+				IEditorPart ed = ref.getEditor(true);
+				if (ed instanceof DesignerEditor && ed.isDirty()) {
+					((DesignerEditor) ed).markSaveLocation();
+				}
+			}
 		} catch (Exception e) {
 			DesignerLog.logError("Unable to save file", e);
 		}

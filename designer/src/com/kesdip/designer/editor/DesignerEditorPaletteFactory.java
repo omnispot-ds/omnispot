@@ -25,10 +25,10 @@ import com.kesdip.designer.model.VideoComponent;
  * @author Pafsanias Ftakas
  */
 final class DesignerEditorPaletteFactory {
-	/** Create the "Components" drawer. */
-	private static PaletteContainer createComponentsDrawer() {
-		PaletteDrawer componentsDrawer = new PaletteDrawer("Components");
-	
+	/** Create the "Containers" drawer. */
+	private static PaletteContainer createContainersDrawer() {
+		PaletteDrawer containersDrawer = new PaletteDrawer("Containers");
+		
 		CombinedTemplateCreationEntry component = new CombinedTemplateCreationEntry(
 				"Region", 
 				"Create a region", 
@@ -36,9 +36,16 @@ final class DesignerEditorPaletteFactory {
 				new SimpleFactory(Region.class), 
 				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle16.gif"), 
 				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
-		componentsDrawer.add(component);
+		containersDrawer.add(component);
+		
+		return containersDrawer;
+	}
 	
-		component = new CombinedTemplateCreationEntry(
+	/** Create the "Components" drawer. */
+	private static PaletteContainer createComponentsDrawer() {
+		PaletteDrawer componentsDrawer = new PaletteDrawer("Components");
+	
+		CombinedTemplateCreationEntry component = new CombinedTemplateCreationEntry(
 				"Image", 
 				"Create an image", 
 				ImageComponent.class,
@@ -94,6 +101,7 @@ final class DesignerEditorPaletteFactory {
 	static PaletteRoot createPalette() {
 		PaletteRoot palette = new PaletteRoot();
 		palette.add(createToolsGroup(palette));
+		palette.add(createContainersDrawer());
 		palette.add(createComponentsDrawer());
 		return palette;
 	}

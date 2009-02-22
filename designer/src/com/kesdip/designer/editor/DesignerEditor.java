@@ -94,6 +94,10 @@ public class DesignerEditor extends GraphicalEditorWithFlyoutPalette {
 		}
 	}
 	
+	public void markSaveLocation() {
+		getCommandStack().markSaveLocation();
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.ISaveablePart#doSaveAs()
 	 */
