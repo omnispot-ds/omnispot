@@ -99,11 +99,18 @@ public class Video extends AbstractComponent
 			invoke(libVlc, exception);
 
         File pluginsPath = new File(Player.getVlcPath() + File.separator + "plugins");
-		String[] ma = new String[] {
-         		"-vvv",
-         		"--no-video-title-show",
-         		"--no-overlay",
-        		"--plugin-path=" + pluginsPath.getAbsolutePath() };
+		String[] ma;
+		if (logger.isTraceEnabled())
+			ma = new String[] {
+					"-vvv",
+	         		"--no-video-title-show",
+	         		"--no-overlay",
+	        		"--plugin-path=" + pluginsPath.getAbsolutePath() };
+		else
+			ma = new String[] {
+	         		"--no-video-title-show",
+	         		"--no-overlay",
+	        		"--plugin-path=" + pluginsPath.getAbsolutePath() };
 		libvlc_instance_t = libVlcClass.
 			getMethod("libvlc_new", int.class, String[].class, libVlcExceptionClass).
 			invoke(libVlc, ma.length, ma, exception);
@@ -122,6 +129,12 @@ public class Video extends AbstractComponent
         } else {
 	    	for (Resource res : contents) {
 		        String videoFilename = registry.getResourcePath(res);
+		        if (videoFilename == null) {
+		        	logger.info("Registry returned NULL for resource: " +
+		        			res.getIdentifier() + ". Falling back to trying to open " +
+		        					"the resource identifier.");
+		        	videoFilename = res.getIdentifier();
+		        }
 		        
 		        libVlcClass.
 					getMethod("libvlc_playlist_add", libVlcInstanceClass, String.class, String.class, libVlcExceptionClass).
