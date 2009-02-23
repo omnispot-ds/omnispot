@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
@@ -183,6 +184,18 @@ public class FlashWeatherComponent extends ComponentModelElement {
 			firePropertyChange(TYPE_PROP, oldValue, value);
 		} else
 			super.setPropertyValue(propertyId, value);
+	}
+	
+	public void relocateChildren(Point moveBy) {
+		// Intentionally empty. Component not a container.
+	}
+	
+	public ModelElement deepCopy() {
+		FlashWeatherComponent retVal = new FlashWeatherComponent();
+		retVal.type = this.type;
+		retVal.rss = this.rss;
+		retVal.url = this.url;
+		return retVal;
 	}
 
 	@Override

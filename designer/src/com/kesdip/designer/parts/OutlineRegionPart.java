@@ -9,7 +9,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 
-import com.kesdip.designer.editor.ComponentDeletionEditPolicy;
+import com.kesdip.designer.editor.DesignerComponentEditPolicy;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.Region;
@@ -39,7 +39,7 @@ public class OutlineRegionPart extends AbstractTreeEditPart implements
 
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentDeletionEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DesignerComponentEditPolicy());
 	}
 
 	@SuppressWarnings("unchecked")

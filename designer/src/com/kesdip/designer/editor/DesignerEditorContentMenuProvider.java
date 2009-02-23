@@ -8,6 +8,10 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.kesdip.designer.action.DesignerCopyAction;
+import com.kesdip.designer.action.DesignerCutAction;
+import com.kesdip.designer.action.DesignerPasteAction;
+
 public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 
 	/** The editor's action registry. */
@@ -33,6 +37,15 @@ public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_UNDO, 
 				getAction(ActionFactory.REDO.getId()));
+		menu.appendToGroup(
+				GEFActionConstants.GROUP_COPY, 
+				getAction(DesignerCutAction.ID));
+		menu.appendToGroup(
+				GEFActionConstants.GROUP_COPY, 
+				getAction(DesignerCopyAction.ID));
+		menu.appendToGroup(
+				GEFActionConstants.GROUP_COPY, 
+				getAction(DesignerPasteAction.ID));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
 				getAction(ActionFactory.DELETE.getId()));

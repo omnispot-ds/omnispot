@@ -10,9 +10,9 @@ public class DesignerEditorActionBarContributor extends
 
 	@Override
 	protected void buildActions() {
-		addRetargetAction(new DeleteRetargetAction());
 		addRetargetAction(new UndoRetargetAction());
 		addRetargetAction(new RedoRetargetAction());
+		addRetargetAction(new DeleteRetargetAction());
 	}
 
 	@Override

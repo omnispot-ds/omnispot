@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
@@ -284,6 +285,22 @@ public class TickerComponent extends ComponentModelElement {
 			firePropertyChange(BACK_COLOR_PROP, oldValue, value);
 		} else
 			super.setPropertyValue(propertyId, value);
+	}
+
+	public void relocateChildren(Point moveBy) {
+		// Intentionally empty. Component not a container.
+	}
+	
+	public ModelElement deepCopy() {
+		TickerComponent retVal = new TickerComponent();
+		deepCopy(retVal);
+		retVal.foregroundColor = new Color(this.foregroundColor.getRGB());
+		retVal.font = new Font(this.font.getFamily(), this.font.getStyle(), this.font.getSize());
+		retVal.speed = this.speed;
+		retVal.type = this.type;
+		retVal.string = this.string;
+		retVal.url = this.url;
+		return retVal;
 	}
 
 	@Override

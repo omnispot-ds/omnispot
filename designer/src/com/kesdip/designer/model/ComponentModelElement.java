@@ -92,11 +92,11 @@ public abstract class ComponentModelElement extends ModelElement {
 	} // static
 
 	/** Location of this shape. */
-	private Point location = new Point(0, 0);
+	protected Point location = new Point(0, 0);
 	/** Size of this shape. */
-	private Dimension size = new Dimension(50, 50);
-	private int zorder = 0;
-	private Color backgroundColor = Color.BLACK;
+	protected Dimension size = new Dimension(50, 50);
+	protected int zorder = 0;
+	protected Color backgroundColor = Color.BLACK;
 	
 	abstract Element serialize(Document doc);
 	
@@ -199,6 +199,12 @@ public abstract class ComponentModelElement extends ModelElement {
 		if (ZPOS_PROP.equals(propertyId)) {
 			return Integer.toString(zorder);
 		}
+		if (LOCATION_PROP.equals(propertyId)) {
+			return location;
+		}
+		if (SIZE_PROP.equals(propertyId)) {
+			return size;
+		}
 		return super.getPropertyValue(propertyId);
 	}
 
@@ -209,6 +215,13 @@ public abstract class ComponentModelElement extends ModelElement {
 	public Dimension getSize() {
 		return size.getCopy();
 	}
+	
+	/**
+	 * Container subclasses should move their children recursively by the specified
+	 * amount.
+	 * @param moveBy The amount to move by in the x and y axis.s
+	 */
+	public abstract void relocateChildren(Point moveBy);
 
 	/**
 	 * Set the Location of this shape.
@@ -219,6 +232,10 @@ public abstract class ComponentModelElement extends ModelElement {
 		if (newLocation == null) {
 			throw new IllegalArgumentException();
 		}
+		
+		Point moveBy = newLocation.getCopy().translate(location.getNegated());
+		relocateChildren(moveBy);
+		
 		location.setLocation(newLocation);
 		firePropertyChange(LOCATION_PROP, null, location);
 	}
@@ -255,6 +272,10 @@ public abstract class ComponentModelElement extends ModelElement {
 		} else if (ZPOS_PROP.equals(propertyId)) {
 			int zorder = Integer.parseInt((String) value);
 			setZorder(zorder);
+		} else if (LOCATION_PROP.equals(propertyId)) {
+			setLocation((Point) value);
+		} else if (SIZE_PROP.equals(propertyId)) {
+			setSize((Dimension) value);
 		} else {
 			super.setPropertyValue(propertyId, value);
 		}
@@ -277,5 +298,27 @@ public abstract class ComponentModelElement extends ModelElement {
 		firePropertyChange(ZPOS_PROP, null, zorder);
 	}
 
+	public void deepCopy(ComponentModelElement cme) {
+		cme.backgroundColor = new Color(this.backgroundColor.getRGB());
+		cme.location = new Point(this.location);
+		cme.size = new Dimension(this.size);
+		cme.zorder = this.zorder;
+		cme.deployment = null;
+	}
+	
+	private Deployment deployment;
+	
+	public void setDeployment(Deployment deployment) {
+		this.deployment = deployment;
+	}
+
+	public Deployment getDeployment() {
+		return deployment;
+	}
+	
+	public ModelElement removeChild(ModelElement child) {
+		return null;
+	}
+	
 
 }

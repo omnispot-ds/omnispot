@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -187,6 +188,20 @@ public class ImageComponent extends ComponentModelElement {
 			return true;
 		}
 		return false;
+	}
+
+	public void relocateChildren(Point moveBy) {
+		// Intentionally empty. Component not a container.
+	}
+	
+	public ModelElement deepCopy() {
+		ImageComponent retVal = new ImageComponent();
+		deepCopy(retVal);
+		retVal.duration = this.duration;
+		for (Resource r : images) {
+			retVal.images.add(Resource.deepCopy(r));
+		}
+		return retVal;
 	}
 
 	@Override

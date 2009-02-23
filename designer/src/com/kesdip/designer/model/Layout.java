@@ -150,6 +150,7 @@ public class Layout extends ModelElement {
 	 */
 	public boolean addRegion(Region s) {
 		if (s != null && regionList.add(s)) {
+			s.setDeployment(deployment);
 			firePropertyChange(REGION_ADDED_PROP, null, s);
 			return true;
 		}
@@ -168,12 +169,54 @@ public class Layout extends ModelElement {
 	 */
 	public boolean removeRegion(Region s) {
 		if (s != null && regionList.remove(s)) {
+			s.setDeployment(null);
 			firePropertyChange(REGION_REMOVED_PROP, null, s);
 			return true;
 		}
 		return false;
 	}
+	
+	public ModelElement deepCopy() {
+		Layout retVal = new Layout();
+		retVal.name = this.name;
+		retVal.duration = this.duration;
+		retVal.cronExpression = this.cronExpression;
+		retVal.deployment = null;
+		for (Region srcr : this.regionList) {
+			Region r = (Region) srcr.deepCopy();
+			retVal.regionList.add(r);
+		}
+		return retVal;
+	}
+	
+	private Deployment deployment;
+	
+	public void setDeployment(Deployment deployment) {
+		this.deployment = deployment;
+		for (Region r : regionList)
+			r.setDeployment(deployment);
+	}
 
+	public Deployment getDeployment() {
+		return deployment;
+	}
+	
+	public ModelElement removeChild(ModelElement child) {
+		if (child instanceof Region) {
+			if (removeRegion((Region) child))
+				return this;
+			return null;
+		}
+		
+		for (Region r : regionList) {
+			ModelElement e = r.removeChild(child);
+			if (e != null)
+				return e;
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		List<IPropertyDescriptor> superList = new ArrayList<IPropertyDescriptor>(

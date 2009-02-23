@@ -14,16 +14,7 @@ import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.Region;
 
-/**
- * The way the eclipse framework is written, this component deletion command is part of
- * a compound command. If the user happens to select delete when say 3 editparts are
- * selected, then the result would be one compound command with three component deletion
- * command underneath with the same list of objects in all of them marked for deletion.
- * 
- * This is the reason that that we are generous when deleting if we do not find the
- * elements there.
- */
-public class ComponentDeletion extends Command {
+public class RemoveSelectionCommand extends Command {
 	/** parent elements */
 	private Map<ModelElement, ModelElement> parents;
 	/** Elements to delete */
@@ -33,7 +24,8 @@ public class ComponentDeletion extends Command {
 	private boolean wasRemoved;
 	
 	@SuppressWarnings("unchecked")
-	public ComponentDeletion(List elements) {
+	public RemoveSelectionCommand(List elements) {
+		setLabel("group removal");
 		if (elements == null || elements.size() == 0) {
 			throw new IllegalArgumentException();
 		}
@@ -47,7 +39,7 @@ public class ComponentDeletion extends Command {
 		this.wasRemoved = false;
 		this.parents = new HashMap<ModelElement, ModelElement>();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#canUndo()
 	 */
@@ -67,14 +59,17 @@ public class ComponentDeletion extends Command {
 	 */
 	public void redo() {
 		// remove the elements
+		boolean allOK = true;
 		parents.clear();
 		for (Object o : elements)  {
 			ModelElement child = (ModelElement) o;
 			ModelElement parent = child.getDeployment().removeChild(child);
-			if (parent != null) 
+			if (parent == null) 
+				allOK = false;
+			else
 				parents.put(child, parent);
 		}
-		wasRemoved = true;
+		wasRemoved = allOK;
 	}
 
 	/* (non-Javadoc)
@@ -85,9 +80,6 @@ public class ComponentDeletion extends Command {
 		for (Object o : elements) {
 			ModelElement child = (ModelElement) o;
 			ModelElement parent = parents.get(child);
-			if (parent == null)
-				continue;
-			
 			if (parent instanceof Deployment)
 				((Deployment) parent).addLayout((Layout) child);
 			else if (parent instanceof Layout)

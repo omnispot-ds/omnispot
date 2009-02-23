@@ -25,7 +25,15 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 
 	/** Delegate used to implement property-change-support. */
 	private transient PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
-
+	
+	public abstract ModelElement deepCopy();
+	
+	public abstract void setDeployment(Deployment deployment);
+	
+	public abstract Deployment getDeployment();
+	
+	public abstract ModelElement removeChild(ModelElement child);
+	
 	/**
 	 * Returns a value for this property source that can be edited in a property sheet.
 	 * <p>Rule of thumb of Mr. Volanakis:</p>

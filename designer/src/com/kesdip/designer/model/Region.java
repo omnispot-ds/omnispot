@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -185,6 +186,7 @@ public class Region extends ComponentModelElement {
 	 */
 	public boolean addComponent(ComponentModelElement s) {
 		if (s != null && contents.add(s)) {
+			s.setDeployment(deployment);
 			firePropertyChange(COMPONENT_ADDED_PROP, null, s);
 			return true;
 		}
@@ -203,12 +205,61 @@ public class Region extends ComponentModelElement {
 	 */
 	public boolean removeComponent(ComponentModelElement s) {
 		if (s != null && contents.remove(s)) {
+			s.setDeployment(null);
 			firePropertyChange(COMPONENT_REMOVED_PROP, null, s);
 			return true;
 		}
 		return false;
 	}
+	
+	public void relocateChildren(Point moveBy) {
+		for (ComponentModelElement e : contents) {
+			e.setPropertyValue(ComponentModelElement.LOCATION_PROP,
+					e.location.getCopy().translate(moveBy));
+		}
+	}
+	
+	public ModelElement deepCopy() {
+		Region retVal = new Region();
+		deepCopy(retVal);
+		retVal.name = this.name;
+		retVal.isTransparent = this.isTransparent;
+		retVal.deployment = null;
+		for (ComponentModelElement srce : this.contents) {
+			ComponentModelElement e = (ComponentModelElement) srce.deepCopy();
+			retVal.contents.add(e);
+		}
+		return retVal;
+	}
 
+	private Deployment deployment;
+	
+	public void setDeployment(Deployment deployment) {
+		this.deployment = deployment;
+		for (ComponentModelElement r : contents)
+			r.setDeployment(deployment);
+	}
+
+	public Deployment getDeployment() {
+		return deployment;
+	}
+	
+	public ModelElement removeChild(ModelElement child) {
+		if (child instanceof ComponentModelElement) {
+			if (removeComponent((ComponentModelElement) child))
+				return this;
+			return null;
+		}
+		
+		for (ComponentModelElement r : contents) {
+			ModelElement e = r.removeChild(child);
+			if (e != null)
+				return e;
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		List<IPropertyDescriptor> superList = new ArrayList<IPropertyDescriptor>(

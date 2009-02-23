@@ -308,6 +308,7 @@ public class Deployment extends ModelElement {
 	 */
 	public boolean addLayout(Layout s) {
 		if (s != null && layoutList.add(s)) {
+			s.setDeployment(this);
 			firePropertyChange(LAYOUT_ADDED_PROP, null, s);
 			return true;
 		}
@@ -326,12 +327,51 @@ public class Deployment extends ModelElement {
 	 */
 	public boolean removeLayout(Layout s) {
 		if (s != null && layoutList.remove(s)) {
+			s.setDeployment(null);
 			firePropertyChange(LAYOUT_REMOVED_PROP, null, s);
 			return true;
 		}
 		return false;
 	}
+	
+	public ModelElement deepCopy() {
+		Deployment retVal = new Deployment();
+		retVal.height = this.height;
+		retVal.width = this.width;
+		retVal.bit_depth = this.bit_depth;
+		retVal.id = this.id;
+		retVal.startTime = new Date(this.startTime.getTime());
+		for (Layout srcl : this.layoutList) {
+			Layout l = (Layout) srcl.deepCopy();
+			retVal.layoutList.add(l);
+		}
+		return retVal;
+	}
+	
+	public void setDeployment(Deployment deployment) {
+		// Intentionally empty.
+	}
 
+	public Deployment getDeployment() {
+		return this;
+	}
+	
+	public ModelElement removeChild(ModelElement child) {
+		if (child instanceof Layout) {
+			if (removeLayout((Layout) child))
+				return this;
+			return null;
+		}
+		
+		for (Layout l : layoutList) {
+			ModelElement e = l.removeChild(child);
+			if (e != null)
+				return e;
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public Image getIcon() {
 		return IMAGE_ICON;

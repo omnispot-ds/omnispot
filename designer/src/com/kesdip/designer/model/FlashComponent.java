@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -115,6 +116,16 @@ public class FlashComponent extends ComponentModelElement {
 			firePropertyChange(SOURCE_PROP, oldValue, source);
 		} else
 			super.setPropertyValue(propertyId, value);
+	}
+	
+	public void relocateChildren(Point moveBy) {
+		// Intentionally empty. Component not a container.
+	}
+	
+	public ModelElement deepCopy() {
+		FlashComponent retVal = new FlashComponent();
+		retVal.source = this.source;
+		return retVal;
 	}
 
 	@Override

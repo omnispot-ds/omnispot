@@ -31,6 +31,7 @@ import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.widgets.Composite;
@@ -47,6 +48,9 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
+import com.kesdip.designer.action.DesignerCopyAction;
+import com.kesdip.designer.action.DesignerCutAction;
+import com.kesdip.designer.action.DesignerPasteAction;
 import com.kesdip.designer.handler.LayoutEditorInput;
 import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.parts.DesignerEditorEditPartFactory;
@@ -98,6 +102,28 @@ public class DesignerEditor extends GraphicalEditorWithFlyoutPalette {
 		getCommandStack().markSaveLocation();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void createActions() {
+		super.createActions();
+		
+		ActionRegistry registry = getActionRegistry();
+		IAction action;
+		
+		action = new DesignerCutAction(this, "Cut");
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+		
+		action = new DesignerCopyAction(this, "Copy");
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+		
+		action = new DesignerPasteAction(this, "Paste");
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+	}
+
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.ISaveablePart#doSaveAs()
 	 */

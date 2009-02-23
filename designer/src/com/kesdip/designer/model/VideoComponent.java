@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -199,6 +200,20 @@ public class VideoComponent extends ComponentModelElement {
 			return true;
 		}
 		return false;
+	}
+	
+	public void relocateChildren(Point moveBy) {
+		// Intentionally empty. Component not a container.
+	}
+	
+	public ModelElement deepCopy() {
+		VideoComponent retVal = new VideoComponent();
+		deepCopy(retVal);
+		retVal.repeat = this.repeat;
+		for (Resource r : videos) {
+			retVal.videos.add(Resource.deepCopy(r));
+		}
+		return retVal;
 	}
 
 	@Override
