@@ -11,11 +11,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.ide.IDE;
 
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.utils.DesignerLog;
 import com.kesdip.designer.utils.FileUtils;
-import com.kesdip.designer.view.DeploymentView;
 
 public class OpenFileHandler extends AbstractHandler implements IHandler {
 
@@ -32,11 +32,11 @@ public class OpenFileHandler extends AbstractHandler implements IHandler {
 			IFile deploymentFile = FileUtils.getFile(f);
 			
 			Deployment input = loadInputFromFile(deploymentFile);
+			DeploymentEditorInput dei = new DeploymentEditorInput(input, path);
 			
-			DeploymentView dv = (DeploymentView) PlatformUI.getWorkbench().
-				getActiveWorkbenchWindow().getActivePage().
-				showView("com.kesdip.designer.DeploymentView");
-			dv.setDeployment(input, path);
+			IDE.openEditor(PlatformUI.getWorkbench().
+					getActiveWorkbenchWindow().getActivePage(), dei,
+					"com.kesdip.designer.DeploymentEditor");
 		} catch (Exception e) {
 			DesignerLog.logError("Unable to open editor for: " + path, e);
 		}

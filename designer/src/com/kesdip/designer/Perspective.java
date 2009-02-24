@@ -7,9 +7,7 @@ public class Perspective implements IPerspectiveFactory {
 
 	public void createInitialLayout(IPageLayout layout) {
 		layout.addView(IPageLayout.ID_PROP_SHEET, IPageLayout.BOTTOM,
-				0.7f, layout.getEditorArea());
-		layout.addView("com.kesdip.designer.DeploymentView", IPageLayout.LEFT,
-				0.5f, layout.getEditorArea());
+				0.6f, layout.getEditorArea());
 		layout.addView(IPageLayout.ID_OUTLINE, IPageLayout.LEFT,
 				0.4f, layout.getEditorArea());
 		

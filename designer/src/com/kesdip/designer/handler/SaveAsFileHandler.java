@@ -15,20 +15,21 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.kesdip.designer.editor.DesignerEditor;
+import com.kesdip.designer.editor.DeploymentEditor;
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.utils.DesignerLog;
-import com.kesdip.designer.view.DeploymentView;
 
 public class SaveAsFileHandler extends AbstractHandler implements IHandler {
 	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
-			DeploymentView dv = (DeploymentView) PlatformUI.getWorkbench().
-				getActiveWorkbenchWindow().getActivePage().
-				showView("com.kesdip.designer.DeploymentView");
-			Deployment deployment = dv.getDeployment();
+			IEditorPart editor = PlatformUI.getWorkbench().
+				getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+			if (!(editor instanceof DeploymentEditor))
+				return null;
+			DeploymentEditor de = (DeploymentEditor) editor;
+			final Deployment deployment = de.getDeployment();;
 			
 			FileDialog dialog = new FileDialog(
 					HandlerUtil.getActiveShell(event), SWT.SAVE | SWT.APPLICATION_MODAL);
@@ -44,8 +45,8 @@ public class SaveAsFileHandler extends AbstractHandler implements IHandler {
 					getActiveWorkbenchWindow().getActivePage().getEditorReferences();
 			for (IEditorReference ref : editors) {
 				IEditorPart ed = ref.getEditor(true);
-				if (ed instanceof DesignerEditor && ed.isDirty()) {
-					((DesignerEditor) ed).markSaveLocation();
+				if (ed instanceof DeploymentEditor && ed.isDirty()) {
+					((DeploymentEditor) ed).markSaveLocation();
 				}
 			}
 		} catch (Exception e) {

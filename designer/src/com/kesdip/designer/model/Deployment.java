@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -237,6 +238,19 @@ public class Deployment extends ModelElement {
 		}
 	}
 	
+	@Override
+	public IPropertyDescriptor[] getPropertyDescriptors() {
+		List<IPropertyDescriptor> superList = new ArrayList<IPropertyDescriptor>(
+				Arrays.asList(super.getPropertyDescriptors()));
+		superList.addAll(Arrays.asList(descriptors));
+		IPropertyDescriptor[] retVal = new IPropertyDescriptor[superList.size()];
+		int counter = 0;
+		for (IPropertyDescriptor pd : superList) {
+			retVal[counter++] = pd;
+		}
+		return retVal;
+	}
+
 	/**
 	 * Return the property value for the given propertyId, or null.
 	 * <p>The property view uses the IDs from the IPropertyDescriptors array 
@@ -375,6 +389,10 @@ public class Deployment extends ModelElement {
 	@Override
 	public Image getIcon() {
 		return IMAGE_ICON;
+	}
+	
+	public String toString() {
+		return "Deployment: " + id;
 	}
 	
 }

@@ -19,9 +19,6 @@ public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 		
 	public DesignerEditorContentMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
 		super(viewer);
-		if (registry == null) {
-			throw new IllegalArgumentException();
-		}
 		actionRegistry = registry;
 	}
 
@@ -29,6 +26,9 @@ public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 	public void buildContextMenu(IMenuManager menu) {
 		// Add standard action groups to the menu
 		GEFActionConstants.addStandardActionGroups(menu);
+		
+		if (actionRegistry == null)
+			return;
 		
 		// Add actions to the menu
 		menu.appendToGroup(

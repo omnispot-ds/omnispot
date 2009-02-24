@@ -24,5 +24,4 @@ Export-Package: com.kesdip.designer,
  com.kesdip.designer.model,
  com.kesdip.designer.parts,
  com.kesdip.designer.properties,
- com.kesdip.designer.utils,
- com.kesdip.designer.view
+ com.kesdip.designer.utils

@@ -10,13 +10,13 @@ import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 
 import com.kesdip.designer.editor.DesignerComponentEditPolicy;
-import com.kesdip.designer.model.Layout;
+import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.model.ModelElement;
 
-public class OutlineLayoutPart extends AbstractTreeEditPart implements
+public class PageOneDeploymentPart extends AbstractTreeEditPart implements
 		PropertyChangeListener {
 
-	public OutlineLayoutPart(Layout model) {
+	public PageOneDeploymentPart(Deployment model) {
 		super(model);
 	}
 
@@ -44,7 +44,7 @@ public class OutlineLayoutPart extends AbstractTreeEditPart implements
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
-		return ((Layout) getModel()).getRegions();
+		return ((Deployment) getModel()).getLayouts();
 	}
 
 	/**
@@ -60,24 +60,24 @@ public class OutlineLayoutPart extends AbstractTreeEditPart implements
 	 * @see org.eclipse.gef.editparts.AbstractTreeEditPart#getImage()
 	 */
 	protected Image getImage() {
-		return ((Layout) getModel()).getIcon();
+		return ((Deployment) getModel()).getIcon();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractTreeEditPart#getText()
 	 */
 	protected String getText() {
-		return ((Layout) getModel()).toString();
+		return ((Deployment) getModel()).toString();
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
-		if (Layout.REGION_ADDED_PROP.equals(prop)) {
+		if (Deployment.LAYOUT_ADDED_PROP.equals(prop)) {
 			// add a child to this edit part
 			// causes an additional entry to appear in the tree of the outline view
 			addChild(createChild(evt.getNewValue()), -1);
-		} else if (Layout.REGION_REMOVED_PROP.equals(prop)) {
+		} else if (Deployment.LAYOUT_REMOVED_PROP.equals(prop)) {
 			// remove a child from this edit part
 			// causes the corresponding edit part to disappear from the tree in the outline view
 			removeChild(getEditPartForChild(evt.getNewValue()));

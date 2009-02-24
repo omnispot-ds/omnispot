@@ -36,28 +36,20 @@
       </product>
    </extension>
    <extension
-         point="org.eclipse.ui.views">
-      <category
-            id="com.kesdip.designer.kesdip"
-            name="Ke.S.Di.P. E.P.E. Views">
-      </category>
-      <view
-            category="com.kesdip.designer.kesdip"
-            class="com.kesdip.designer.view.DeploymentView"
-            id="com.kesdip.designer.DeploymentView"
-            name="Layouts"
-            restorable="true">
-      </view>
-   </extension>
-   <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="com.kesdip.designer.editor.DesignerEditor"
-            contributorClass="com.kesdip.designer.editor.DesignerEditorActionBarContributor"
+            class="com.kesdip.designer.editor.LayoutEditor"
+            default="false"
+            id="com.kesdip.designer.LayoutEditor"
+            name="Layout Editor">
+      </editor>
+      <editor
+            class="com.kesdip.designer.editor.DeploymentEditor"
+            contributorClass="com.kesdip.designer.editor.DeploymentActionBarContributor"
             default="false"
             extensions=".dep.xml"
-            id="com.kesdip.designer.DesignerEditor"
-            name="Designer Editor">
+            id="com.kesdip.designer.DeploymentEditor"
+            name="Deployment Editor">
       </editor>
    </extension>
    <extension

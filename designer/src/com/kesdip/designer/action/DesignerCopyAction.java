@@ -10,6 +10,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.kesdip.designer.parts.LayoutEditPart;
 import com.kesdip.designer.parts.OutlineLayoutPart;
+import com.kesdip.designer.parts.PageOneLayoutPart;
 
 @SuppressWarnings("restriction")
 public class DesignerCopyAction extends SelectionAction {
@@ -41,7 +42,8 @@ public class DesignerCopyAction extends SelectionAction {
 		
 		boolean nonLayoutObjectsPresent = false;
 		for (Object o : getSelectedObjects()) {
-			if (!(o instanceof LayoutEditPart) && !(o instanceof OutlineLayoutPart)) {
+			if (!(o instanceof LayoutEditPart) && !(o instanceof OutlineLayoutPart) &&
+					!(o instanceof PageOneLayoutPart)) {
 				nonLayoutObjectsPresent = true;
 				break;
 			}
