@@ -526,6 +526,9 @@ etc/lib/hibernate/hibernate3.jar -text
 etc/lib/hibernate/jta.jar -text
 etc/lib/j2ee/api.jar -text
 etc/lib/jdom/jdom.jar -text
+etc/lib/jniwrap/comfyj-2.5.jar -text
+etc/lib/jniwrap/jniwrap-3.7.jar -text
+etc/lib/jniwrap/winpack-3.6.jar -text
 etc/lib/jstl/jstl-1.1.0.jar -text
 etc/lib/jstl/standard.jar -text
 etc/lib/junit/junit-4.3.1.jar -text
@@ -589,9 +592,6 @@ player/etc/jniwrap.lic -text
 player/etc/yahoo.groovy -text
 player/etc/yahoo.java -text
 player/etc/yahoo.js -text
-player/lib/comfyj-2.5.jar -text
-player/lib/jniwrap-3.7.jar -text
-player/lib/winpack-3.6.jar -text
 player/shared.jars -text
 player/src-test/com/kesdip/player/component/test/FlashComponent.java -text
 player/src-test/com/kesdip/player/component/test/FlashTest.java -text
