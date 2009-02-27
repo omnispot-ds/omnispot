@@ -121,6 +121,12 @@ public class Video extends AbstractComponent
         ContentRegistry registry = ContentRegistry.getContentRegistry();
         if (resource != null) {
 	        String videoFilename = registry.getResourcePath(resource);
+	        if (videoFilename == null) {
+	        	logger.info("Registry returned NULL for resource: " +
+	        			resource.getIdentifier() + ". Falling back to trying to open " +
+	        					"the resource identifier.");
+	        	videoFilename = resource.getIdentifier();
+	        }
 	        
 	        libVlcClass.
 				getMethod("libvlc_playlist_add", libVlcInstanceClass, String.class, String.class, libVlcExceptionClass).
