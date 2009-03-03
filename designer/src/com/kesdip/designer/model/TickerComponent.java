@@ -71,6 +71,7 @@ public class TickerComponent extends ComponentModelElement {
 		speed = 2.0;
 		font = new Font("Arial", Font.PLAIN, 24);
 		foregroundColor = Color.BLACK;
+		isTransparent = false;
 	}
 
 	protected Element serialize(Document doc) {
@@ -312,7 +313,7 @@ public class TickerComponent extends ComponentModelElement {
 	
 	public ModelElement deepCopy() {
 		TickerComponent retVal = new TickerComponent();
-		deepCopy(retVal);
+		retVal.deepCopy(this);
 		retVal.foregroundColor = new Color(this.foregroundColor.getRGB());
 		retVal.font = new Font(this.font.getFamily(), this.font.getStyle(), this.font.getSize());
 		retVal.speed = this.speed;

@@ -178,7 +178,7 @@ public class Region extends ComponentModelElement {
 	
 	public ModelElement deepCopy() {
 		Region retVal = new Region();
-		deepCopy(retVal);
+		retVal.deepCopy(this);
 		retVal.name = this.name;
 		retVal.isTransparent = this.isTransparent;
 		for (ModelElement srce : this.contents) {

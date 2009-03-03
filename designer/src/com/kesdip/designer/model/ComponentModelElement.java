@@ -313,10 +313,10 @@ public abstract class ComponentModelElement extends ModelElement {
 	}
 
 	public void deepCopy(ComponentModelElement cme) {
-		cme.backgroundColor = new Color(this.backgroundColor.getRGB());
-		cme.location = new Point(this.location);
-		cme.size = new Dimension(this.size);
-		cme.zorder = this.zorder;
+		backgroundColor = new Color(cme.backgroundColor.getRGB());
+		location = new Point(cme.location);
+		size = new Dimension(cme.size);
+		zorder = cme.zorder;
 	}
 	
 	@Override

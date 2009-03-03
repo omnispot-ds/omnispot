@@ -196,7 +196,7 @@ public class ImageComponent extends ComponentModelElement {
 	
 	public ModelElement deepCopy() {
 		ImageComponent retVal = new ImageComponent();
-		deepCopy(retVal);
+		retVal.deepCopy(this);
 		retVal.duration = this.duration;
 		for (Resource r : images) {
 			retVal.images.add(Resource.deepCopy(r));

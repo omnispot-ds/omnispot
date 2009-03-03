@@ -215,6 +215,8 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	
 	public ModelElement deepCopy() {
 		FlashWeatherComponent retVal = new FlashWeatherComponent();
+		retVal.deepCopy(this);
+		retVal.source = this.source;
 		retVal.type = this.type;
 		retVal.rss = this.rss;
 		retVal.url = this.url;

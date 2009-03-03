@@ -201,7 +201,7 @@ public class VideoComponent extends ComponentModelElement {
 	
 	public ModelElement deepCopy() {
 		VideoComponent retVal = new VideoComponent();
-		deepCopy(retVal);
+		retVal.deepCopy(this);
 		retVal.repeat = this.repeat;
 		for (Resource r : videos) {
 			retVal.videos.add(Resource.deepCopy(r));

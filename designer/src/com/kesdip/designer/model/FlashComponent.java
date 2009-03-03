@@ -124,6 +124,7 @@ public class FlashComponent extends ComponentModelElement {
 	
 	public ModelElement deepCopy() {
 		FlashComponent retVal = new FlashComponent();
+		retVal.deepCopy(this);
 		retVal.source = this.source;
 		return retVal;
 	}
