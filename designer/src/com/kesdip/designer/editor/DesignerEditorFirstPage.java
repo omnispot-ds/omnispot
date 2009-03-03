@@ -61,6 +61,7 @@ public class DesignerEditorFirstPage extends EditorPart {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == ActionRegistry.class) {

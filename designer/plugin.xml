@@ -33,6 +33,14 @@
                name="appName"
                value="Ke.S.Di.P. E.P.E. Designer">
          </property>
+         <property
+               name="aboutImage"
+               value="splash.bmp">
+         </property>
+         <property
+               name="aboutText"
+               value="This is the Designer Product. Brought to you by Ke.S.Di.P. E.P.E. Enterprises Corp.">
+         </property>
       </product>
    </extension>
    <extension
@@ -118,6 +126,80 @@
             <command
                   commandId="com.kesdip.designer.ExitCommand"
                   label="Exit"
+                  style="push">
+            </command>
+         </menu>
+         <menu
+               id="com.kesdip.designer.EditMenu"
+               label="Edit">
+            <command
+                  commandId="org.eclipse.ui.edit.undo"
+                  label="Undo"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.edit.redo"
+                  label="Redo"
+                  style="push">
+            </command>
+            <separator
+                  name="com.kesdip.designer.EditSeparator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.eclipse.ui.edit.cut"
+                  label="Cut"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.edit.copy"
+                  label="Copy"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.edit.paste"
+                  label="Paste"
+                  style="push">
+            </command>
+            <separator
+                  name="com.kesdip.designer.EditSeparator2"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.eclipse.ui.edit.delete"
+                  label="Delete"
+                  style="push">
+            </command>
+         </menu>
+         <menu
+               id="com.kesdip.designer.ToolsMenu"
+               label="Tools">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Show View"
+                  style="push">
+            </command>
+            <separator
+                  name="com.kesdip.designer.ToolsSeparator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.eclipse.ui.window.preferences"
+                  label="Preferences"
+                  style="push">
+            </command>
+         </menu>
+         <menu
+               id="com.kesdip.designer.HelpMenu"
+               label="Help">
+            <command
+                  commandId="org.eclipse.ui.help.aboutAction"
+                  label="About Designer"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.help.helpContents"
+                  label="Contents"
                   style="push">
             </command>
          </menu>

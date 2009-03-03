@@ -67,6 +67,10 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 		return getCommandStack();
 	}
 	
+	public DeploymentEditor getParentEditor() {
+		return parentEditor;
+	}
+	
 	@Override
 	protected SelectionSynchronizer getSelectionSynchronizer() {
 		return selectionSynchronizer;

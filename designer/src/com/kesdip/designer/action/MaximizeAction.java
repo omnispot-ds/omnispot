@@ -40,6 +40,7 @@ public class MaximizeAction extends SelectionAction {
 		return cmd.canExecute();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Command createComponentConstraintChangeCommand(List selection) {
 		if (selection == null || selection.isEmpty() || selection.size() != 1)
 			return null;

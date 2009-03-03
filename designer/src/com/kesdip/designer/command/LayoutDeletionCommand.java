@@ -8,9 +8,11 @@ import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.model.Layout;
 
 public class LayoutDeletionCommand extends Command {
+	@SuppressWarnings("unchecked")
 	private final List layoutList;
 	private final Deployment deployment;
 	
+	@SuppressWarnings("unchecked")
 	public LayoutDeletionCommand(List layoutList, Deployment deployment) {
 		this.layoutList = layoutList;
 		this.deployment = deployment;

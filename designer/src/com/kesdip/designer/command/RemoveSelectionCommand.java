@@ -8,11 +8,7 @@ import java.util.Map;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 
-import com.kesdip.designer.model.ComponentModelElement;
-import com.kesdip.designer.model.Deployment;
-import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.model.ModelElement;
-import com.kesdip.designer.model.Region;
 
 public class RemoveSelectionCommand extends Command {
 	/** parent elements */

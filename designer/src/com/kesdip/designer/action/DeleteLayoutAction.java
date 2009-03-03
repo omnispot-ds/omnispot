@@ -32,6 +32,7 @@ public class DeleteLayoutAction extends SelectionAction {
 		return cmd.canExecute();
 	}
 
+	@SuppressWarnings("unchecked")
 	private Command createLayoutDeletionCommand(List objects) {
 		Deployment deployment = null;
 		for (Object o : objects) {
