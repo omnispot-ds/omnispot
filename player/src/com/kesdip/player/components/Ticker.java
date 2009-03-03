@@ -19,13 +19,13 @@ import com.kesdip.player.components.ticker.TickerSource;
  * @author Pafsanias Ftakas
  */
 public class Ticker extends AbstractComponent {
-	protected TickerSource source;
+	protected TickerSource tickerSource;
 	protected Font font;
 	protected Color foregroundColor;
 	protected double speed;
 	
-	public void setSource(TickerSource source) {
-		this.source = source;
+	public void setTickerSource(TickerSource tickerSource) {
+		this.tickerSource = tickerSource;
 	}
 	
 	public void setFont(Font font) {
@@ -46,7 +46,7 @@ public class Ticker extends AbstractComponent {
 	@Override
 	public void init(Component parent, TimingMonitor timingMonitor)
 			throws ComponentException {
-		panel = new TickerPanel(font, foregroundColor, speed, source, width, height);
+		panel = new TickerPanel(font, foregroundColor, speed, tickerSource, width, height);
 		panel.setLocation(x, y);
 		if (backgroundColor != null)
 			panel.setBackground(backgroundColor);

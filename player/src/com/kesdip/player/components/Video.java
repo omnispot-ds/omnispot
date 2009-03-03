@@ -37,7 +37,7 @@ public class Video extends AbstractComponent
 	private List<Resource> contents;
 	private boolean repeat = false;
 	
-	public void setContent(List<Resource> content) {
+	public void setContents(List<Resource> content) {
 		this.contents = content;
 	}
 	

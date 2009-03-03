@@ -54,14 +54,14 @@ public class RegionCreation extends Command {
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
-		parent.addRegion(element);
+		parent.add(element);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
-		parent.removeRegion(element);
+		parent.removeChild(element);
 	}
 
 }

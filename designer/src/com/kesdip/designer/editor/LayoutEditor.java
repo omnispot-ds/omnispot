@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
@@ -26,9 +27,14 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 
+import com.kesdip.designer.action.CreateLayoutAction;
+import com.kesdip.designer.action.DeleteLayoutAction;
 import com.kesdip.designer.action.DesignerCopyAction;
 import com.kesdip.designer.action.DesignerCutAction;
 import com.kesdip.designer.action.DesignerPasteAction;
+import com.kesdip.designer.action.LayoutMoveDownAction;
+import com.kesdip.designer.action.LayoutMoveUpAction;
+import com.kesdip.designer.action.MaximizeAction;
 import com.kesdip.designer.handler.LayoutEditorInput;
 import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.parts.DesignerEditorEditPartFactory;
@@ -55,6 +61,10 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 	
 	public ContextMenuProvider getOutlineContextMenuProvider() {
 		return outlineContextMenuProvider;
+	}
+	
+	public CommandStack getEditorCommandStack() {
+		return getCommandStack();
 	}
 	
 	@Override
@@ -99,6 +109,26 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 		action = new DesignerPasteAction(this, "Paste");
 		getSelectionActions().add(action.getId());
 		registry.registerAction(action);
+		
+		action = new CreateLayoutAction(this);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
+		action = new DeleteLayoutAction(this);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
+		action = new LayoutMoveUpAction(this);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
+		action = new LayoutMoveDownAction(this);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
+		action = new MaximizeAction(this);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
 	}
 
 	/* (non-Javadoc)
@@ -139,7 +169,6 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 	@Override
 	public void commandStackChanged(EventObject event) {
 		firePropertyChange(IEditorPart.PROP_DIRTY);
-		parentEditor.markDirty();
 		super.commandStackChanged(event);
 	}
 

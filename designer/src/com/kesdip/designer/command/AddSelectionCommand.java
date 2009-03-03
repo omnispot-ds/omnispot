@@ -7,11 +7,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 
 import com.kesdip.designer.model.ComponentModelElement;
-import com.kesdip.designer.model.Deployment;
-import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.Region;
-import com.kesdip.designer.parts.RegionEditPart;
 
 public class AddSelectionCommand extends Command {
 	/** parent element */
@@ -30,7 +27,7 @@ public class AddSelectionCommand extends Command {
 		for (Object o : elements) {
 			EditPart editPart = (EditPart) o;
 			ModelElement elem = ((ModelElement) editPart.getModel()).deepCopy();
-			if (editPart.getParent() instanceof RegionEditPart) {
+			if (editPart.getParent().getModel() instanceof Region) {
 				Region p = (Region) editPart.getParent().getModel();
 				ComponentModelElement c = (ComponentModelElement) elem;
 				c.setLocation(c.getLocation().translate(p.getLocation().getNegated()));
@@ -60,24 +57,12 @@ public class AddSelectionCommand extends Command {
 	public void redo() {
 		for (Object o : elements) {
 			ModelElement child = (ModelElement) o;
-			if (parent instanceof Deployment) {
-				// TODO Implement properly
-				Deployment deployment = (Deployment) parent;
-				Layout layout = (Layout) child;
-				deployment.addLayout(layout);
-			} else if (parent instanceof Layout) {
-				// TODO Implement properly
-				Layout layout = (Layout) parent;
-				Region region = (Region) child;
-				layout.addRegion(region);
-			} else if (parent instanceof Region) {
+			if (parent instanceof Region) {
 				Region region = (Region) parent;
 				ComponentModelElement elem = (ComponentModelElement) child;
 				elem.setLocation(elem.getLocation().translate(region.getLocation()));
-				region.addComponent(elem);
-			} else
-				throw new RuntimeException("Unexpected parent: " +
-						parent.getClass().getName());
+			}
+			parent.add(child);
 		}
 		wasAdded = true;
 	}
@@ -88,15 +73,14 @@ public class AddSelectionCommand extends Command {
 	public void undo() {
 		for (Object o : elements)  {
 			ModelElement child = (ModelElement) o;
-			ModelElement parent = child.getDeployment().removeChild(child);
-			if (parent instanceof Deployment) {
-				// TODO Implement properly
-			} else if (parent instanceof Layout) {
-				// TODO Implement properly
-			} else if (parent instanceof Region) {
-				Region region = (Region) parent;
-				ComponentModelElement elem = (ComponentModelElement) child;
-				elem.setLocation(elem.getLocation().translate(region.getLocation().getNegated()));
+			ModelElement parent = child.getParent();
+			if (parent != null) {
+				if (parent instanceof Region) {
+					Region p = (Region) parent;
+					ComponentModelElement c = (ComponentModelElement) child;
+					c.setLocation(c.getLocation().translate(p.getLocation().getNegated()));
+				}
+				parent.removeChild(child);
 			}
 		}
 	}

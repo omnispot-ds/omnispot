@@ -7,6 +7,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 
 import com.kesdip.designer.parts.LayoutEditPart;
 import com.kesdip.designer.parts.OutlineLayoutPart;
@@ -14,7 +15,6 @@ import com.kesdip.designer.parts.PageOneLayoutPart;
 
 @SuppressWarnings("restriction")
 public class DesignerCopyAction extends SelectionAction {
-	public static final String ID = "com.kesdip.designer.action.DesignerCopyAction";
 	
 	public DesignerCopyAction(IEditorPart editor) {
 		this((IWorkbenchPart)editor);
@@ -57,9 +57,10 @@ public class DesignerCopyAction extends SelectionAction {
 	 */
 	protected void init() {
 		super.init();
+		setId(ActionFactory.COPY.getId());
 		setText(GEFMessages.CopyAction_Label);
 		setToolTipText(GEFMessages.CopyAction_Tooltip);
-		setId(ID);
+		setActionDefinitionId("org.eclipse.ui.edit.copy");
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
 		setDisabledImageDescriptor(sharedImages.getImageDescriptor(

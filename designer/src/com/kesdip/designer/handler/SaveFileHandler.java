@@ -22,6 +22,18 @@ import com.kesdip.designer.utils.DesignerLog;
 public class SaveFileHandler extends AbstractHandler implements IHandler {
 	
 	@Override
+	public boolean isEnabled() {
+		IEditorPart editor = PlatformUI.getWorkbench().
+			getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		if (editor == null)
+			return false;
+		if (!(editor instanceof DeploymentEditor))
+			return false;
+		DeploymentEditor de = (DeploymentEditor) editor;
+		return de.isDirty();
+	}
+
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
 			IEditorPart editor = PlatformUI.getWorkbench().
@@ -29,7 +41,7 @@ public class SaveFileHandler extends AbstractHandler implements IHandler {
 			if (!(editor instanceof DeploymentEditor))
 				return null;
 			DeploymentEditor de = (DeploymentEditor) editor;
-			final Deployment deployment = de.getDeployment();;
+			final Deployment deployment = de.getModel();
 			String path = ((DeploymentEditorInput) de.getEditorInput()).getPath();
 			if (path == null) {
 				FileDialog dialog = new FileDialog(

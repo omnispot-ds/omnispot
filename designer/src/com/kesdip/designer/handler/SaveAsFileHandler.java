@@ -22,6 +22,17 @@ import com.kesdip.designer.utils.DesignerLog;
 public class SaveAsFileHandler extends AbstractHandler implements IHandler {
 	
 	@Override
+	public boolean isEnabled() {
+		IEditorPart editor = PlatformUI.getWorkbench().
+			getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		if (editor == null)
+			return false;
+		if (!(editor instanceof DeploymentEditor))
+			return false;
+		return true;
+	}
+
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
 			IEditorPart editor = PlatformUI.getWorkbench().
@@ -29,7 +40,7 @@ public class SaveAsFileHandler extends AbstractHandler implements IHandler {
 			if (!(editor instanceof DeploymentEditor))
 				return null;
 			DeploymentEditor de = (DeploymentEditor) editor;
-			final Deployment deployment = de.getDeployment();;
+			final Deployment deployment = de.getModel();
 			
 			FileDialog dialog = new FileDialog(
 					HandlerUtil.getActiveShell(event), SWT.SAVE | SWT.APPLICATION_MODAL);

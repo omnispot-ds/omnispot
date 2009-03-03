@@ -81,7 +81,7 @@ public class RegionEditPart extends AbstractGraphicalEditPart implements
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
-		return ((Region) getModel()).getComponents(); // return a list of shapes
+		return ((Region) getModel()).getChildren(); // return a list of shapes
 	}
 
 	/* (non-Javadoc)

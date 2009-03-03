@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.List;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -19,6 +20,10 @@ import com.kesdip.designer.utils.DesignerLog;
  */
 public abstract class ModelElement implements IPropertySource, Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String PARENT_PROP = "ModelElement.Parent";
+	public static final String CHILD_MOVE_UP = "ModelElement.ChildMoveUp";
+	public static final String CHILD_MOVE_DOWN = "ModelElement.ChildMoveDown";
 
 	/** An empty property descriptor. */
 	private static final IPropertyDescriptor[] EMPTY_ARRAY = new IPropertyDescriptor[0];
@@ -26,13 +31,29 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	/** Delegate used to implement property-change-support. */
 	private transient PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 	
+	private ModelElement parent;
+	
+	public ModelElement() {
+		setParent(null);
+	}
+	
+	public void setParent(ModelElement parent) {
+		setPropertyValue(PARENT_PROP, parent);
+	}
+	
+	public ModelElement getParent() {
+		return parent;
+	}
+	
 	public abstract ModelElement deepCopy();
-	
-	public abstract void setDeployment(Deployment deployment);
-	
-	public abstract Deployment getDeployment();
-	
-	public abstract ModelElement removeChild(ModelElement child);
+	public abstract void add(ModelElement child);
+	public abstract void insertChildAt(int index, ModelElement child);
+	public abstract List<ModelElement> getChildren();
+	public abstract boolean removeChild(ModelElement child);
+	public abstract boolean isFirstChild(ModelElement child);
+	public abstract boolean isLastChild(ModelElement child);
+	public abstract boolean moveChildUp(ModelElement child);
+	public abstract boolean moveChildDown(ModelElement child);
 	
 	/**
 	 * Returns a value for this property source that can be edited in a property sheet.
@@ -59,35 +80,44 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	}
 
 	/**
-	 * Children should override this. The default implementation returns null.
+	 * Children should override this. Always call super.getPropertyValue() in subclasses.
 	 */
 	@Override
 	public Object getPropertyValue(Object id) {
+		if (PARENT_PROP.equals(id))
+			return getParent();
 		return null;
 	}
 
 	/**
-	 * Children should override this. The default implementation returns false.
+	 * Children should override this. Always call super.isPropertySet() in subclasses.
 	 */
 	@Override
 	public boolean isPropertySet(Object id) {
+		if (PARENT_PROP.equals(id))
+			return true;
 		return false;
 	}
 
 	/**
-	 * Children should override this. The default implementation does nothing.
+	 * Children should override this. Always call super.resetPropertyValue() in subclasses.
 	 */
 	@Override
 	public void resetPropertyValue(Object id) {
-		// Intentionally empty.
+		if (PARENT_PROP.equals(id))
+			setParent(null);
 	}
 
 	/**
-	 * Children should override this. The default implementation does nothing.
+	 * Children should override this. Always call super.setPropertyValue() in subclasses.
 	 */
 	@Override
 	public void setPropertyValue(Object id, Object value) {
-		// Intentionally empty.
+		if (PARENT_PROP.equals(id)) {
+			ModelElement oldValue = parent;
+			parent = (ModelElement) value;
+			firePropertyChange(PARENT_PROP, oldValue, value);
+		}
 	}
 
 	/**

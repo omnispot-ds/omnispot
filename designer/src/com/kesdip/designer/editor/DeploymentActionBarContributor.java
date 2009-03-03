@@ -8,15 +8,17 @@ import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 
-import com.kesdip.designer.action.DesignerCopyAction;
-import com.kesdip.designer.action.DesignerCutAction;
-import com.kesdip.designer.action.DesignerPasteAction;
+import com.kesdip.designer.action.MaximizeAction;
 
 public class DeploymentActionBarContributor extends
 		MultiPageEditorActionBarContributor {
@@ -28,14 +30,13 @@ public class DeploymentActionBarContributor extends
 	private List<String> globalActionKeys = new ArrayList<String>();
 	private List<IAction> retargetActions = new ArrayList<IAction>();
 	private ActionRegistry registry = new ActionRegistry();
+	private boolean maxActionInitialized;
 
-	/**
-	 * Initialization
-	 */
-	public void init(IActionBars bars) {
+	public void init(IActionBars bars, IWorkbenchPage page) {
+		super.init(bars, page);
 		buildActions();
 		declareGlobalActionKeys();
-		super.init(bars);
+		this.maxActionInitialized = false;
 	}
 
 	/**
@@ -47,6 +48,12 @@ public class DeploymentActionBarContributor extends
 		addRetargetAction(new UndoRetargetAction());
 		addRetargetAction(new RedoRetargetAction());
 		addRetargetAction(new DeleteRetargetAction());
+		
+		if (!maxActionInitialized &&
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() != null) {
+			addAction(new MaximizeAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()));
+			maxActionInitialized = true;
+		}
 	}
 
 	/**
@@ -99,9 +106,9 @@ public class DeploymentActionBarContributor extends
 	protected void declareGlobalActionKeys() {
 		addGlobalActionKey(ActionFactory.UNDO.getId());
 		addGlobalActionKey(ActionFactory.REDO.getId());
-		addGlobalActionKey(DesignerCutAction.ID);
-		addGlobalActionKey(DesignerCopyAction.ID);
-		addGlobalActionKey(DesignerPasteAction.ID);
+		addGlobalActionKey(ActionFactory.CUT.getId());
+		addGlobalActionKey(ActionFactory.COPY.getId());
+		addGlobalActionKey(ActionFactory.PASTE.getId());
 		addGlobalActionKey(ActionFactory.DELETE.getId());
 	}
 
@@ -122,7 +129,6 @@ public class DeploymentActionBarContributor extends
 			bars.setGlobalActionHandler(id, registry.getAction(id));
 		}
 		getActionBars().updateActionBars();
-
 	}
 
 }

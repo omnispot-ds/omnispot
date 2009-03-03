@@ -1,6 +1,8 @@
 package com.kesdip.designer.model;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -101,6 +103,11 @@ public abstract class ComponentModelElement extends ModelElement {
 	abstract Element serialize(Document doc);
 	
 	protected void serialize(Document doc, Element componentElement) {
+		serialize(doc, componentElement, true);
+	}
+	
+	protected void serialize(Document doc, Element componentElement,
+			boolean includeBackgroundColor) {
 		DOMHelpers.addProperty(doc, componentElement, "x",
 				String.valueOf(location.x));
 		DOMHelpers.addProperty(doc, componentElement, "y",
@@ -109,23 +116,25 @@ public abstract class ComponentModelElement extends ModelElement {
 				String.valueOf(size.width));
 		DOMHelpers.addProperty(doc, componentElement, "height",
 				String.valueOf(size.height));
-		Element backColorPropElement = DOMHelpers.addProperty(
-				doc, componentElement, "backgroundColor");
-		Element backColorElement = doc.createElement("bean");
-		backColorElement.setAttribute("class", "java.awt.Color");
-		backColorPropElement.appendChild(backColorElement);
-		Element constructorArg = doc.createElement("constructor-arg");
-		constructorArg.setAttribute("type", "int");
-		constructorArg.setAttribute("value", String.valueOf(backgroundColor.getRed()));
-		backColorElement.appendChild(constructorArg);
-		constructorArg = doc.createElement("constructor-arg");
-		constructorArg.setAttribute("type", "int");
-		constructorArg.setAttribute("value", String.valueOf(backgroundColor.getGreen()));
-		backColorElement.appendChild(constructorArg);
-		constructorArg = doc.createElement("constructor-arg");
-		constructorArg.setAttribute("type", "int");
-		constructorArg.setAttribute("value", String.valueOf(backgroundColor.getBlue()));
-		backColorElement.appendChild(constructorArg);
+		if (includeBackgroundColor) {
+			Element backColorPropElement = DOMHelpers.addProperty(
+					doc, componentElement, "backgroundColor");
+			Element backColorElement = doc.createElement("bean");
+			backColorElement.setAttribute("class", "java.awt.Color");
+			backColorPropElement.appendChild(backColorElement);
+			Element constructorArg = doc.createElement("constructor-arg");
+			constructorArg.setAttribute("type", "int");
+			constructorArg.setAttribute("value", String.valueOf(backgroundColor.getRed()));
+			backColorElement.appendChild(constructorArg);
+			constructorArg = doc.createElement("constructor-arg");
+			constructorArg.setAttribute("type", "int");
+			constructorArg.setAttribute("value", String.valueOf(backgroundColor.getGreen()));
+			backColorElement.appendChild(constructorArg);
+			constructorArg = doc.createElement("constructor-arg");
+			constructorArg.setAttribute("type", "int");
+			constructorArg.setAttribute("value", String.valueOf(backgroundColor.getBlue()));
+			backColorElement.appendChild(constructorArg);
+		}
 		// TODO Do we need zorder? make sure all component model elements support it.
 		// DOMHelpers.addProperty(doc, componentElement, "zOrder", String.valueOf(zorder));
 	}
@@ -135,9 +144,11 @@ public abstract class ComponentModelElement extends ModelElement {
 		setPropertyValue(YPOS_PROP, DOMHelpers.getSimpleProperty(componentNode, "y"));
 		setPropertyValue(WIDTH_PROP, DOMHelpers.getSimpleProperty(componentNode, "width"));
 		setPropertyValue(HEIGHT_PROP, DOMHelpers.getSimpleProperty(componentNode, "height"));
-		Color bc = DOMHelpers.getColorProperty(componentNode, "backgroundColor");
-		setPropertyValue(BACK_COLOR_PROP,
-				new RGB(bc.getRed(), bc.getGreen(), bc.getBlue()));
+		if (DOMHelpers.getPropertyNode(componentNode, "backgroundColor") != null) {
+			Color bc = DOMHelpers.getColorProperty(componentNode, "backgroundColor");
+			setPropertyValue(BACK_COLOR_PROP,
+					new RGB(bc.getRed(), bc.getGreen(), bc.getBlue()));
+		}
 		// TODO Do we need zorder? make sure all component model elements support it.
 		// setPropertyValue(ZPOS_PROP, DOMHelpers.getSimpleProperty(componentNode, "zOrder"));
 	}
@@ -146,7 +157,10 @@ public abstract class ComponentModelElement extends ModelElement {
 		assert(location.equals(other.location));
 		assert(size.equals(other.size));
 		assert(zorder == other.zorder);
-		assert(backgroundColor.equals(other.backgroundColor));
+		if (backgroundColor == null)
+			assert(other.backgroundColor == null);
+		else
+			assert(backgroundColor.equals(other.backgroundColor));
 	}
 
 	/**
@@ -303,22 +317,52 @@ public abstract class ComponentModelElement extends ModelElement {
 		cme.location = new Point(this.location);
 		cme.size = new Dimension(this.size);
 		cme.zorder = this.zorder;
-		cme.deployment = null;
 	}
 	
-	private Deployment deployment;
-	
-	public void setDeployment(Deployment deployment) {
-		this.deployment = deployment;
+	@Override
+	public void add(ModelElement child) {
+		// Container subclasses should override
 	}
 
-	public Deployment getDeployment() {
-		return deployment;
+	@Override
+	public boolean removeChild(ModelElement child) {
+		// Container subclasses should override
+		return false;
 	}
-	
-	public ModelElement removeChild(ModelElement child) {
-		return null;
+
+	@Override
+	public List<ModelElement> getChildren() {
+		// Container subclasses should override
+		return new ArrayList<ModelElement>();
 	}
-	
+
+	@Override
+	public void insertChildAt(int index, ModelElement child) {
+		// Container subclasses should override
+	}
+
+	@Override
+	public boolean isFirstChild(ModelElement child) {
+		// Container subclasses should override
+		return false;
+	}
+
+	@Override
+	public boolean isLastChild(ModelElement child) {
+		// Container subclasses should override
+		return false;
+	}
+
+	@Override
+	public boolean moveChildDown(ModelElement child) {
+		// Container subclasses should override
+		return false;
+	}
+
+	@Override
+	public boolean moveChildUp(ModelElement child) {
+		// Container subclasses should override
+		return false;
+	}
 
 }

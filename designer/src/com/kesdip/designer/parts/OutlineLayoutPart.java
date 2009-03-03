@@ -44,7 +44,7 @@ public class OutlineLayoutPart extends AbstractTreeEditPart implements
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
-		return ((Layout) getModel()).getRegions();
+		return ((Layout) getModel()).getChildren();
 	}
 
 	/**

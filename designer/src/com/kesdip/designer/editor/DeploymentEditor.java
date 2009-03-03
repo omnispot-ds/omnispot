@@ -4,120 +4,205 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.ui.parts.ContentOutlinePage;
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CommandStackListener;
+import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.DeleteAction;
+import org.eclipse.gef.ui.actions.RedoAction;
+import org.eclipse.gef.ui.actions.UndoAction;
+import org.eclipse.gef.ui.actions.UpdateAction;
+import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.part.IPageSite;
+import org.eclipse.ui.internal.WorkbenchPage;
+import org.eclipse.ui.internal.part.NullEditorInput;
+import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import com.kesdip.designer.action.CreateLayoutAction;
 import com.kesdip.designer.action.DeleteLayoutAction;
+import com.kesdip.designer.action.DesignerCopyAction;
+import com.kesdip.designer.action.DesignerCutAction;
+import com.kesdip.designer.action.DesignerPasteAction;
+import com.kesdip.designer.action.LayoutMoveDownAction;
+import com.kesdip.designer.action.LayoutMoveUpAction;
+import com.kesdip.designer.action.MaximizeAction;
 import com.kesdip.designer.handler.DeploymentEditorInput;
 import com.kesdip.designer.handler.LayoutEditorInput;
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.model.Layout;
-import com.kesdip.designer.model.Root;
+import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.parts.OutlinePartFactory;
-import com.kesdip.designer.parts.PageOneEditPartFactory;
 
+@SuppressWarnings("restriction")
 public class DeploymentEditor extends MultiPageEditorPart implements
-		PropertyChangeListener {
+		PropertyChangeListener, ISelectionChangedListener, CommandStackListener {
 	
-	private Deployment d;
-	private TreeViewer viewer;
-	private Map<Layout, Integer> pagesMap;
-	private SelectionSynchronizer synchronizer;
+	private Deployment model;
 	private TreeViewer outlineViewer;
-	private ContextMenuProvider pageOneContextMenuProvider;
+	private SelectionSynchronizer synchronizer;
+	private ActionRegistry actionRegistry;
+	private MultiPageCommandStackListener multiPageCommandStackListener;
+	private DelegatingCommandStack delegatingCommandStack;
+    private CommandStackListener delegatingCommandStackListener;
+    private ISelectionListener selectionListener;
+	private boolean isDirty;
+	private Map<Layout, Integer> pagesMap;
+
 
 	public DeploymentEditor() {
-		// Intentionally empty
+		actionRegistry = new ActionRegistry();
+		delegatingCommandStackListener = new CommandStackListener() {
+	        public void commandStackChanged(EventObject event)
+	        {
+	            updateActions();
+	        }
+	    };
+	    selectionListener = new ISelectionListener()
+	    {
+	        public void selectionChanged(IWorkbenchPart part, ISelection selection)
+	        {
+	            updateActions();
+	        }
+	    };
+	    multiPageCommandStackListener = new MultiPageCommandStackListener();
+	    pagesMap = new HashMap<Layout, Integer>();
 	}
 	
-	public Deployment getDeployment() {
-		return d;
+	public Deployment getModel() {
+		return model;
 	}
 	
-	public void markSaveLocation() {
-		// TODO Implement
-	}
-	
-	public void markDirty() {
-		firePropertyChange(IEditorPart.PROP_DIRTY);
+	/**
+	 * Returns the selection synchronizer object. The synchronizer can be used to sync the
+	 * selection of 2 or more EditPartViewers.
+	 * @return the synchronizer
+	 */
+	public SelectionSynchronizer getSelectionSynchronizer() {
+		if (synchronizer == null)
+			synchronizer = new SelectionSynchronizer();
+		return synchronizer;
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
-	public Object getAdapter(Class adapter) {
-		if (adapter == IContentOutlinePage.class) {
-			outlineViewer = new org.eclipse.gef.ui.parts.TreeViewer();
-			getSite().setSelectionProvider(outlineViewer);
-			return new ShapesOutlinePage(outlineViewer);
+	protected void updateActions() {
+		Iterator iter = actionRegistry.getActions();
+		while (iter.hasNext()) {
+			IAction action = (IAction) iter.next();
+			if (action instanceof UpdateAction)
+				((UpdateAction)action).update();
 		}
-		return super.getAdapter(adapter);
 	}
 
-	@Override
-	protected void pageChange(int newPageIndex) {
-		super.pageChange(newPageIndex);
-		if (outlineViewer == null)
-			return;
-		
-		if (newPageIndex == 0) {
-			outlineViewer.setContextMenu(pageOneContextMenuProvider);
-			return;
-		}
-		LayoutEditor layoutEditor = (LayoutEditor) getEditor(newPageIndex);
-		outlineViewer.setContextMenu(layoutEditor.getOutlineContextMenuProvider());
+	
+	public void commandStackChanged(EventObject event) {
+		updateActions();
+		updateMenus();
 	}
+	
+    private EditorPart getCurrentPage()
+    {
+        if (getActivePage() == -1)
+            return null;
 
+        return (EditorPart) getEditor(getActivePage());
+    }
+    
+    protected DelegatingCommandStack getDelegatingCommandStack()
+    {
+        if (null == delegatingCommandStack)
+        {
+            delegatingCommandStack = new DelegatingCommandStack();
+            if (null != getCurrentPage())
+            	if (getCurrentPage() instanceof DesignerEditorFirstPage) {
+            		DesignerEditorFirstPage page =
+            			(DesignerEditorFirstPage) getCurrentPage();
+            		delegatingCommandStack.setCurrentCommandStack(page.getCommandStack());
+            	} else if (getCurrentPage() instanceof GraphicalEditor) {
+            		delegatingCommandStack.setCurrentCommandStack(
+            				(CommandStack) getCurrentPage().getAdapter(CommandStack.class));
+            	} else {
+            		throw new RuntimeException("Unexpected current page class: " +
+            				getCurrentPage().getClass().getName());
+            	}
+        }
+
+        return delegatingCommandStack;
+    }
+    
+    private void updateMenus() {
+		IWorkbenchPage page = getSite().getWorkbenchWindow().getActivePage();
+		WorkbenchPage ip = (WorkbenchPage) page;
+        IActionBars actionBars = ip.getActionBars();
+        MenuManager menuManager = (MenuManager) actionBars.getMenuManager();
+        menuManager.update(IAction.TEXT);
+    }
+    
+	public void setDirty(boolean isDirty) {
+        if (this.isDirty != isDirty)
+        {
+            this.isDirty = isDirty;
+            firePropertyChange(IEditorPart.PROP_DIRTY);
+            
+            updateMenus();
+        }
+	}
+	
+	@Override
+	public boolean isDirty() {
+		return isDirty;
+	}
+	
+	public void markSaveLocation() {
+		multiPageCommandStackListener.markSaveLocations();
+	}
+	
 	@Override
 	protected void createPages() {
-		viewer = new TreeViewer();
-		viewer.createControl(getContainer());
-		viewer.setEditDomain(new DefaultEditDomain(DeploymentEditor.this));
-		viewer.setEditPartFactory(new PageOneEditPartFactory());
-		addPage(viewer.getControl());
-		setPageText(0, "Deployment");
-		pagesMap = new HashMap<Layout, Integer>();
-		getSelectionSynchronizer().addViewer(viewer);
-		viewer.setContents(new Root(d));
-		
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			@Override
-			public void menuAboutToShow(IMenuManager menuMgr) {
-				DeploymentEditor.this.fillContextMenu(menuMgr);
+		try {
+			DesignerEditorFirstPage firstPage =
+				new DesignerEditorFirstPage(this, actionRegistry);
+			addPage(firstPage, new NullEditorInput());
+            multiPageCommandStackListener.addCommandStack(firstPage.getCommandStack());
+            getDelegatingCommandStack().setCurrentCommandStack(
+            		firstPage.getCommandStack());
+			setPageText(0, "Deployment");
+			
+			int count = 1;
+			for (ModelElement elem : model.getChildren()) {
+				Layout l = (Layout) elem;
+				addPageForLayout(count++, l);
 			}
-		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
-		
-		for (Layout l : d.getLayouts()) {
-			addPageForLayout(l);
+			
+			setActivePage(0);
+   		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -128,8 +213,12 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 	protected void setInput(IEditorInput input) {
 		super.setInput(input);
 		if (input instanceof DeploymentEditorInput) {
-			d = ((DeploymentEditorInput) input).getDeployment();
-			d.addPropertyChangeListener(this);
+			model = ((DeploymentEditorInput) input).getDeployment();
+			model.addPropertyChangeListener(this);
+			for (ModelElement elem : model.getChildren()) {
+				Layout l = (Layout) elem;
+				l.addPropertyChangeListener(this);
+			}
 			String path = ((DeploymentEditorInput) input).getPath();
 			if (path != null) {
 				File f = new File(path);
@@ -138,23 +227,136 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 				setPartName("New Deployment");
 			}
 		}
+		
+		actionRegistry.registerAction(new DeleteAction((IWorkbenchPart) this));
+		actionRegistry.registerAction(new UndoAction(this));
+		actionRegistry.registerAction(new RedoAction(this));
+		actionRegistry.registerAction(new DesignerCutAction(this));
+		actionRegistry.registerAction(new DesignerCopyAction(this));
+		actionRegistry.registerAction(new DesignerPasteAction(this));
+		actionRegistry.registerAction(new CreateLayoutAction(this));
+		actionRegistry.registerAction(new DeleteLayoutAction(this));
+		actionRegistry.registerAction(new LayoutMoveUpAction(this));
+		actionRegistry.registerAction(new LayoutMoveDownAction(this));
+		actionRegistry.registerAction(new MaximizeAction(this));
 	}
 
-	private void fillContextMenu(IMenuManager menuMgr) {
-		menuMgr.add(new CreateLayoutAction(d));
-		if (viewer.getSelection() != null && !viewer.getSelection().isEmpty()) {
-			IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-			boolean selectionHasContainer = false;
-			for (Object sel : selection.toList()) {
-				if (sel instanceof Layout) {
-					selectionHasContainer = true;
-					break;
-				}
-			}
-			if (selectionHasContainer)
-				menuMgr.add(new DeleteLayoutAction(d, selection));
+	@Override
+	public void init(IEditorSite site, IEditorInput input)
+			throws PartInitException {
+		super.init(site, input);
+		
+        getDelegatingCommandStack().addCommandStackListener(
+                delegatingCommandStackListener);
+        
+        getSite()
+	        .getWorkbenchWindow()
+	        .getSelectionService()
+	        .addSelectionListener(
+	        selectionListener);
+	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.part.MultiPageEditorPart#pageChange(int)
+     */
+    protected void pageChange(int newPageIndex)
+    {
+        super.pageChange(newPageIndex);
+
+        // refresh content depending on current page
+        currentPageChanged();
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.part.MultiPageEditorPart#setActivePage(int)
+     */
+    protected void setActivePage(int pageIndex)
+    {
+        super.setActivePage(pageIndex);
+
+        // refresh content depending on current page
+        currentPageChanged();
+    }
+
+    /**
+     * Indicates that the current page has changed.
+     * <p>
+     * We update the DelegatingCommandStack, OutlineViewer
+     * and other things here.
+     */
+    protected void currentPageChanged()
+    {
+        // update delegating command stack
+    	if (getCurrentPage() instanceof DesignerEditorFirstPage) {
+    		DesignerEditorFirstPage page =
+    			(DesignerEditorFirstPage) getCurrentPage();
+    		delegatingCommandStack.setCurrentCommandStack(page.getCommandStack());
+    	} else if (getCurrentPage() instanceof GraphicalEditor) {
+    		delegatingCommandStack.setCurrentCommandStack(
+    				(CommandStack) getCurrentPage().getAdapter(CommandStack.class));
+    	} else {
+    		throw new RuntimeException("Unexpected current page class: " +
+    				getCurrentPage().getClass().getName());
+    	}
+    }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (adapter == ActionRegistry.class) {
+			return actionRegistry;
+		} else if (adapter == CommandStack.class) {
+			return getDelegatingCommandStack();
+		} else if (adapter == IPropertySheetPage.class) {
+			PropertySheetPage page = new PropertySheetPage();
+			page.setRootEntry(new UndoablePropertySheetEntry(getDelegatingCommandStack()));
+			return page;
+		} else if (adapter == IContentOutlinePage.class) {
+			outlineViewer = new TreeViewer();
+			outlineViewer.setEditDomain(new DefaultEditDomain(this));
+			outlineViewer.setEditPartFactory(new OutlinePartFactory());
+			getSite().setSelectionProvider(outlineViewer);
+			outlineViewer.addSelectionChangedListener(this);
+			
+			ContextMenuProvider menuManager =
+				new DesignerEditorContentMenuProvider(outlineViewer, actionRegistry);
+			menuManager.setRemoveAllWhenShown(true);
+			outlineViewer.setContextMenu(menuManager);
+			getSite().registerContextMenu(menuManager, outlineViewer);
+			return new OutlinePage(outlineViewer, getSelectionSynchronizer(), model);
 		}
-		menuMgr.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		return super.getAdapter(adapter);
+	}
+
+	@Override
+	public void dispose() {
+        // dispose multi page command stack listener
+        multiPageCommandStackListener.dispose();
+
+        // remove delegating CommandStackListener
+        getDelegatingCommandStack().removeCommandStackListener(
+            delegatingCommandStackListener);
+
+        // remove selection listener
+        getSite()
+            .getWorkbenchWindow()
+            .getSelectionService()
+            .removeSelectionListener(
+            selectionListener);
+
+        // disposy the ActionRegistry (will dispose all actions)
+        actionRegistry.dispose();
+        
+		super.dispose();
+	}
+
+	@Override
+	public void selectionChanged(SelectionChangedEvent event) {
+		IEditorPart activeEditor = getSite().getPage().getActiveEditor();
+		if (this.equals(activeEditor)) {
+			updateActions();
+			updateMenus();
+		}
 	}
 
 	@Override
@@ -174,13 +376,14 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 		return true;
 	}
 	
-	private void addPageForLayout(Layout l) {
-		int count = pagesMap.size() + 1;
+	private void addPageForLayout(int index, Layout l) {
 		try {
-			addPage(new LayoutEditor(this, getSelectionSynchronizer(), outlineViewer),
-					new LayoutEditorInput(l));
-			pagesMap.put(l, count);
-			setPageText(count, l.getName());
+			LayoutEditor editor = new LayoutEditor(this, getSelectionSynchronizer(), outlineViewer);
+			addPage(index, editor, new LayoutEditorInput(l));
+			pagesMap.put(l, index);
+			multiPageCommandStackListener.addCommandStack(editor.getEditorCommandStack());
+			l.addPropertyChangeListener(this);
+			setPageText(index, l.getName());
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
@@ -189,12 +392,15 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Deployment.LAYOUT_ADDED_PROP)) {
-			addPageForLayout((Layout) evt.getNewValue());
+			Layout l = (Layout) evt.getNewValue();
+			addPageForLayout(pagesMap.size() + 1, l);
 		}
 		if (evt.getPropertyName().equals(Deployment.LAYOUT_REMOVED_PROP)) {
-			int pageIndex = pagesMap.get((Layout) evt.getNewValue());
+			Layout l = (Layout) evt.getNewValue();
+			int pageIndex = pagesMap.get(l);
 			removePage(pageIndex);
-			pagesMap.remove((Layout) evt.getNewValue());
+			pagesMap.remove(l);
+			l.removePropertyChangeListener(this);
 			List<Layout> updatePages = new ArrayList<Layout>();
 			for (Layout c : pagesMap.keySet()) {
 				if (pagesMap.get(c) > pageIndex)
@@ -204,78 +410,126 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 				pagesMap.put(c, pagesMap.get(c) - 1);
 			}
 		}
+		if (evt.getPropertyName().equals(Layout.NAME_PROP) &&
+				evt.getSource() instanceof Layout) {
+			Layout l = (Layout) evt.getSource();
+			if (!pagesMap.containsKey(l))
+				return;
+			int pageIndex = pagesMap.get(l);
+			setPageText(pageIndex, (String) evt.getNewValue());
+		}
+		if (evt.getPropertyName().equals(ModelElement.CHILD_MOVE_DOWN)) {
+			Layout l = (Layout) evt.getNewValue();
+			int pageIndex = pagesMap.get(l);
+			removePage(pageIndex);
+			pagesMap.remove(l);
+			l.removePropertyChangeListener(this);
+			for (Layout c : pagesMap.keySet()) {
+				if (pagesMap.get(c) == pageIndex + 1) {
+					pagesMap.put(c, pageIndex);
+					break;
+				}
+			}
+			addPageForLayout(pageIndex + 1, l);
+		}
+		if (evt.getPropertyName().equals(ModelElement.CHILD_MOVE_UP)) {
+			Layout l = (Layout) evt.getNewValue();
+			int pageIndex = pagesMap.get(l);
+			removePage(pageIndex);
+			pagesMap.remove(l);
+			l.removePropertyChangeListener(this);
+			for (Layout c : pagesMap.keySet()) {
+				if (pagesMap.get(c) == pageIndex - 1) {
+					pagesMap.put(c, pageIndex);
+					break;
+				}
+			}
+			addPageForLayout(pageIndex - 1, l);
+		}
 	}
 
-	/**
-	 * Returns the selection syncronizer object. The synchronizer can be used to sync the
-	 * selection of 2 or more EditPartViewers.
-	 * @return the syncrhonizer
-	 */
-	protected SelectionSynchronizer getSelectionSynchronizer() {
-		if (synchronizer == null)
-			synchronizer = new SelectionSynchronizer();
-		return synchronizer;
-	}
+    /**
+     * This class listens for command stack changes of the pages
+     * contained in this editor and decides if the editor is dirty or not.
+     *  
+     * @author Gunnar Wagenknecht
+     */
+    private class MultiPageCommandStackListener implements CommandStackListener
+    {
 
-	/**
-	 * Creates an outline pagebook for this editor.
-	 */
-	public class ShapesOutlinePage extends ContentOutlinePage {	
-		/**
-		 * Create a new outline page for the shapes editor.
-		 * @param viewer a viewer (TreeViewer instance) used for this outline page
-		 * @throws IllegalArgumentException if editor is null
-		 */
-		public ShapesOutlinePage(EditPartViewer viewer) {
-			super(viewer);
-		}
-	
-		/* (non-Javadoc)
-		 * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite)
-		 */
-		public void createControl(Composite parent) {
-			// create outline viewer page
-			getViewer().createControl(parent);
-			// configure outline viewer
-			getViewer().setEditDomain(new DefaultEditDomain(DeploymentEditor.this));
-			getViewer().setEditPartFactory(new OutlinePartFactory());
-			// configure & add context menu to viewer
-			pageOneContextMenuProvider = new DesignerEditorContentMenuProvider(
-					getViewer(), null); 
-			getViewer().setContextMenu(pageOneContextMenuProvider);
-			getSite().registerContextMenu(
-					"com.koutra.designer.editor.contextmenu",
-					pageOneContextMenuProvider, getSite().getSelectionProvider());		
-			// hook outline viewer
-			getSelectionSynchronizer().addViewer(getViewer());
-			// initialize outline viewer with model
-			getViewer().setContents(new Root(d));
-			// show outline viewer
-		}
-		
-		/* (non-Javadoc)
-		 * @see org.eclipse.ui.part.IPage#dispose()
-		 */
-		public void dispose() {
-			// unhook outline viewer
-			getSelectionSynchronizer().removeViewer(getViewer());
-			// dispose
-			super.dispose();
-		}
-	
-		/* (non-Javadoc)
-		 * @see org.eclipse.ui.part.IPage#getControl()
-		 */
-		public Control getControl() {
-			return getViewer().getControl();
-		}
-		
-		/**
-		 * @see org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
-		 */
-		public void init(IPageSite pageSite) {
-			super.init(pageSite);
-		}
-	}
+        /** the observed command stacks */
+        @SuppressWarnings("unchecked")
+		private List commandStacks = new ArrayList(2);
+
+        /**
+         * Adds a <code>CommandStack</code> to observe.
+         * @param commandStack
+         */
+        @SuppressWarnings("unchecked")
+		public void addCommandStack(CommandStack commandStack)
+        {
+            commandStacks.add(commandStack);
+            commandStack.addCommandStackListener(this);
+        }
+
+        /* (non-Javadoc)
+         * @see org.eclipse.gef.commands.CommandStackListener#commandStackChanged(java.util.EventObject)
+         */
+        @SuppressWarnings("unchecked")
+		public void commandStackChanged(EventObject event)
+        {
+            if (((CommandStack) event.getSource()).isDirty())
+            {
+                // at least one command stack is dirty, 
+                // so the multi page editor is dirty too
+                setDirty(true);
+            }
+            else
+            {
+                // probably a save, we have to check all command stacks
+                boolean oneIsDirty = false;
+                for (Iterator stacks = commandStacks.iterator();
+                    stacks.hasNext();
+                    )
+                {
+                    CommandStack stack = (CommandStack) stacks.next();
+                    if (stack.isDirty())
+                    {
+                        oneIsDirty = true;
+                        break;
+                    }
+                }
+                setDirty(oneIsDirty);
+            }
+        }
+
+        /**
+         * Disposed the listener
+         */
+        @SuppressWarnings("unchecked")
+		public void dispose()
+        {
+            for (Iterator stacks = commandStacks.iterator(); stacks.hasNext();)
+            {
+                ((CommandStack) stacks.next()).removeCommandStackListener(this);
+            }
+            commandStacks.clear();
+        }
+
+        /**
+         * Marks every observed command stack beeing saved.
+         * This method should be called whenever the editor/model
+         * was saved.
+         */
+        @SuppressWarnings("unchecked")
+		public void markSaveLocations()
+        {
+            for (Iterator stacks = commandStacks.iterator(); stacks.hasNext();)
+            {
+                CommandStack stack = (CommandStack) stacks.next();
+                stack.markSaveLocation();
+            }
+        }
+    }
 
 }

@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.kesdip.designer.properties.CheckboxPropertyDescriptor;
 import com.kesdip.designer.properties.FontPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
 
@@ -51,6 +52,8 @@ public class TickerComponent extends ComponentModelElement {
 	public static final String FOREGROUND_COLOR_PROP = "Ticker.ForegroundColorProp";
 	/** Property ID to use for the speed property value. */
 	public static final String SPEED_PROP = "Ticker.SpeedProp";
+	/** Property ID to use for the transparent property value. */
+	public static final String TRANSPARENT_PROP = "Ticker.TransparentProp";
 
 	/* STATE */
 	private String type;
@@ -59,6 +62,7 @@ public class TickerComponent extends ComponentModelElement {
 	private double speed;
 	private Font font;
 	private Color foregroundColor;
+	private boolean isTransparent;
 	
 	public TickerComponent() {
 		type = STRING_TICKER_TYPE;
@@ -72,7 +76,7 @@ public class TickerComponent extends ComponentModelElement {
 	protected Element serialize(Document doc) {
 		Element tickerElement = doc.createElement("bean");
 		tickerElement.setAttribute("class", "com.kesdip.player.components.Ticker");
-		super.serialize(doc, tickerElement);
+		super.serialize(doc, tickerElement, !isTransparent);
 		DOMHelpers.addProperty(doc, tickerElement, "speed", String.valueOf(speed));
 		Element foreColorPropelement = DOMHelpers.addProperty(
 				doc, tickerElement, "foregroundColor");
@@ -125,6 +129,7 @@ public class TickerComponent extends ComponentModelElement {
 	
 	protected void deserialize(Document doc, Node componentNode) {
 		super.deserialize(doc, componentNode);
+		isTransparent = backgroundColor == null; // This is not stored in the XML
 		setPropertyValue(SPEED_PROP, DOMHelpers.getSimpleProperty(componentNode, "speed"));
 		Color bc = DOMHelpers.getColorProperty(componentNode, "foregroundColor");
 		setPropertyValue(FOREGROUND_COLOR_PROP,
@@ -178,7 +183,8 @@ public class TickerComponent extends ComponentModelElement {
 				new TextPropertyDescriptor(STRING_PROP, "String Source"),
 				new TextPropertyDescriptor(SPEED_PROP, "Speed"),
 				new ColorPropertyDescriptor(FOREGROUND_COLOR_PROP, "Foreground Color"),
-				new FontPropertyDescriptor(FONT_PROP, "Font")
+				new FontPropertyDescriptor(FONT_PROP, "Font"),
+				new CheckboxPropertyDescriptor(TRANSPARENT_PROP, "Transparent")
 		};
 		// use a custom cell editor validator for all three array entries
 		for (int i = 0; i < descriptors.length; i++) {
@@ -243,6 +249,8 @@ public class TickerComponent extends ComponentModelElement {
 					foregroundColor.getGreen(),
 					foregroundColor.getBlue());
 			return v;
+		} else if (TRANSPARENT_PROP.equals(propertyId)){
+			return isTransparent;
 		} else
 			return super.getPropertyValue(propertyId);
 	}
@@ -283,6 +291,17 @@ public class TickerComponent extends ComponentModelElement {
 			RGB rgbValue = (RGB) value;
 			foregroundColor = new Color(rgbValue.red, rgbValue.green, rgbValue.blue);
 			firePropertyChange(BACK_COLOR_PROP, oldValue, value);
+		} else if (TRANSPARENT_PROP.equals(propertyId)) {
+			if (value instanceof String) {
+				// We are being deserialized
+				String oldValue = isTransparent ? "true" : "false";
+				isTransparent = value.equals("true");
+				firePropertyChange(TRANSPARENT_PROP, oldValue, value);
+				return;
+			}
+			Boolean oldValue = isTransparent;
+			isTransparent = ((Boolean) value).booleanValue();
+			firePropertyChange(TRANSPARENT_PROP, oldValue, isTransparent);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}
@@ -300,6 +319,7 @@ public class TickerComponent extends ComponentModelElement {
 		retVal.type = this.type;
 		retVal.string = this.string;
 		retVal.url = this.url;
+		retVal.isTransparent = this.isTransparent;
 		return retVal;
 	}
 

@@ -12,11 +12,13 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.internal.WorkbenchMessages;
 
 import com.kesdip.designer.editor.DesignerComponentEditPolicy;
 
+@SuppressWarnings("restriction")
 public class DesignerCutAction extends SelectionAction {
-	public static final String ID = "com.kesdip.designer.action.DesignerCutAction";
 	
 	public DesignerCutAction(IEditorPart editor) {
 		this((IWorkbenchPart)editor);
@@ -29,7 +31,6 @@ public class DesignerCutAction extends SelectionAction {
 	
 	public DesignerCutAction(IWorkbenchPart part) {
 		super(part);
-		setId(ID);
 		setLazyEnablementCalculation(false);
 	}
 
@@ -75,7 +76,10 @@ public class DesignerCutAction extends SelectionAction {
 	 */
 	protected void init() {
 		super.init();
-		setId(ID);
+		setId(ActionFactory.CUT.getId());
+		setText(WorkbenchMessages.Workbench_cut);
+		setToolTipText(WorkbenchMessages.Workbench_cutToolTip);
+		setActionDefinitionId("org.eclipse.ui.edit.cut");
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
 		setDisabledImageDescriptor(sharedImages.getImageDescriptor(

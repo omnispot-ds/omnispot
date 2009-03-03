@@ -70,9 +70,10 @@ public class ComponentDeletion extends Command {
 		parents.clear();
 		for (Object o : elements)  {
 			ModelElement child = (ModelElement) o;
-			ModelElement parent = child.getDeployment().removeChild(child);
+			ModelElement parent = child.getParent();
 			if (parent != null) 
 				parents.put(child, parent);
+			parent.removeChild(child);
 		}
 		wasRemoved = true;
 	}
@@ -89,11 +90,11 @@ public class ComponentDeletion extends Command {
 				continue;
 			
 			if (parent instanceof Deployment)
-				((Deployment) parent).addLayout((Layout) child);
+				((Deployment) parent).add((Layout) child);
 			else if (parent instanceof Layout)
-				((Layout) parent).addRegion((Region) child);
+				((Layout) parent).add((Region) child);
 			else if (parent instanceof Region)
-				((Region) parent).addComponent((ComponentModelElement) child);
+				((Region) parent).add((ComponentModelElement) child);
 			else
 				throw new RuntimeException("Unexpected parent: " +
 						parent.getClass().getName());

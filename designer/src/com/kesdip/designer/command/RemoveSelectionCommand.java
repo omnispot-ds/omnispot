@@ -63,11 +63,13 @@ public class RemoveSelectionCommand extends Command {
 		parents.clear();
 		for (Object o : elements)  {
 			ModelElement child = (ModelElement) o;
-			ModelElement parent = child.getDeployment().removeChild(child);
-			if (parent == null) 
+			ModelElement parent = child.getParent();
+			if (parent == null) { 
 				allOK = false;
-			else
+			} else {
+				parent.removeChild(child);
 				parents.put(child, parent);
+			}
 		}
 		wasRemoved = allOK;
 	}
@@ -80,15 +82,7 @@ public class RemoveSelectionCommand extends Command {
 		for (Object o : elements) {
 			ModelElement child = (ModelElement) o;
 			ModelElement parent = parents.get(child);
-			if (parent instanceof Deployment)
-				((Deployment) parent).addLayout((Layout) child);
-			else if (parent instanceof Layout)
-				((Layout) parent).addRegion((Region) child);
-			else if (parent instanceof Region)
-				((Region) parent).addComponent((ComponentModelElement) child);
-			else
-				throw new RuntimeException("Unexpected parent: " +
-						parent.getClass().getName());
+			parent.add(child);
 		}
 	}
 

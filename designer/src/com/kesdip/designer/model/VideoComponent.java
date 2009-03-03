@@ -9,11 +9,11 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
-import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.kesdip.designer.properties.CheckboxPropertyDescriptor;
 import com.kesdip.designer.properties.ResourceListPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
 
@@ -106,30 +106,16 @@ public class VideoComponent extends ComponentModelElement {
 	static {
 		descriptors = new IPropertyDescriptor[] { 
 				new ResourceListPropertyDescriptor(VIDEO_PROP, "Videos"),
-				new TextPropertyDescriptor(REPEAT_PROP, "Repeat")
+				new CheckboxPropertyDescriptor(REPEAT_PROP, "Repeat")
 		};
 		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
-			if (descriptors[i].getId().equals(REPEAT_PROP)) {
-				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-					public String isValid(Object value) {
-						String v = (String) value;
-						if (v == null)
-							return null;
-						if (!v.equals("true") && !v.equals("false"))
-							return "Only true or false values are allowed. " +
-									"Invalid value: " + v;
-						return null;
-					}
-				});
-			} else {
-				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-					public String isValid(Object value) {
-						// No validation for the videos.
-						return null;
-					}
-				});
-			}
+			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+				public String isValid(Object value) {
+					// No validation for the videos.
+					return null;
+				}
+			});
 		}
 	} // static
 
@@ -151,7 +137,7 @@ public class VideoComponent extends ComponentModelElement {
 		if (VIDEO_PROP.equals(propertyId))
 			return videos;
 		else if (REPEAT_PROP.equals(propertyId))
-			return repeat ? "true" : "false";
+			return repeat;
 		else
 			return super.getPropertyValue(propertyId);
 	}
@@ -164,9 +150,16 @@ public class VideoComponent extends ComponentModelElement {
 			videos = (List<Resource>) value;
 			firePropertyChange(VIDEO_PROP, oldValue, videos);
 		} else if (REPEAT_PROP.equals(propertyId)) {
-			String oldValue = repeat ? "true" : "false";
-			repeat = "true".equals(value);
-			firePropertyChange(REPEAT_PROP, oldValue, repeat ? "true" : "false");
+			if (value instanceof String) {
+				// We are being deserialized
+				String oldValue = repeat ? "true" : "false";
+				repeat = value.equals("true");
+				firePropertyChange(REPEAT_PROP, oldValue, value);
+				return;
+			}
+			Boolean oldValue = repeat;
+			repeat = ((Boolean) value).booleanValue();
+			firePropertyChange(REPEAT_PROP, oldValue, repeat);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}

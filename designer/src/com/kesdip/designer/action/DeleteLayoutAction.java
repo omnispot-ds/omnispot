@@ -1,29 +1,67 @@
 package com.kesdip.designer.action;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.IStructuredSelection;
+import java.util.List;
 
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.ui.IWorkbenchPart;
+
+import com.kesdip.designer.command.LayoutDeletionCommand;
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.model.Layout;
+import com.kesdip.designer.model.ModelElement;
 
-public class DeleteLayoutAction extends Action {
+public class DeleteLayoutAction extends SelectionAction {
+	public static final String ID = "com.kesdip.designer.action.DeleteLayoutAction";
 	
-	private Deployment deployment;
-	private IStructuredSelection selection;
-
-	public DeleteLayoutAction(Deployment deployment, IStructuredSelection selection) {
-		super("Delete Layout");
-		this.deployment = deployment;
-		this.selection = selection;
+	public DeleteLayoutAction(IWorkbenchPart part) {
+		super(part);
 	}
 
 	@Override
 	public void run() {
-		for (Object sel : selection.toList()) {
-			if (!(sel instanceof Layout))
+		execute(createLayoutDeletionCommand(getSelectedObjects()));
+	}
+	
+	@Override
+	protected boolean calculateEnabled() {
+		Command cmd = createLayoutDeletionCommand(getSelectedObjects());
+		if (cmd == null)
+			return false;
+		return cmd.canExecute();
+	}
+
+	private Command createLayoutDeletionCommand(List objects) {
+		Deployment deployment = null;
+		for (Object o : objects) {
+			if (!(((EditPart) o).getModel() instanceof ModelElement))
 				continue;
-			Layout l = (Layout) sel;
-			deployment.removeLayout(l);
+			
+			ModelElement e = (ModelElement) ((EditPart) o).getModel();
+			if (!(e instanceof Layout)) {
+				return null;
+			}
+			Layout l = (Layout) e;
+			Deployment d = (Deployment) l.getParent();
+			if (d == null) {
+				return null;
+			} else {
+				deployment = d;
+			}
 		}
+		if (deployment == null)
+			return null;
+		return new LayoutDeletionCommand(objects, deployment);
+	}
+
+	/**
+	 * Initializes this action's text and images.
+	 */
+	protected void init() {
+		super.init();
+		setId(ID);
+		setText("Delete Layout");
+		setEnabled(false);
 	}
 }

@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.model.Layout;
+import com.kesdip.designer.model.ModelElement;
 
 public class DeploymentContentProvider implements ITreeContentProvider {
 	private Object ROOT;
@@ -45,10 +46,10 @@ public class DeploymentContentProvider implements ITreeContentProvider {
 		}
 		
 		Deployment i = (Deployment) parentElement;
-		List<Layout> li = i.getLayouts();
+		List<ModelElement> li = i.getChildren();
 		Object[] retVal = new Object[li.size()];
 		int count = 0;
-		for (Layout c : li) {
+		for (ModelElement c : li) {
 			retVal[count++] = c;
 		}
 		return retVal;
@@ -70,7 +71,7 @@ public class DeploymentContentProvider implements ITreeContentProvider {
 		if (element instanceof Layout)
 			return false;
 		Deployment i = (Deployment) element;
-		return !i.getLayouts().isEmpty();
+		return !i.getChildren().isEmpty();
 	}
 
 	@Override

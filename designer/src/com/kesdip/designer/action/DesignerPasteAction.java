@@ -15,12 +15,12 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 
 import com.kesdip.designer.editor.DesignerComponentEditPolicy;
 
 @SuppressWarnings("restriction")
 public class DesignerPasteAction extends SelectionAction {
-	public static final String ID = "com.kesdip.designer.action.DesignerPasteAction";
 	
 	public DesignerPasteAction(IEditorPart editor) {
 		this((IWorkbenchPart)editor);
@@ -33,7 +33,6 @@ public class DesignerPasteAction extends SelectionAction {
 	
 	public DesignerPasteAction(IWorkbenchPart part) {
 		super(part);
-		setId(ID);
 		setLazyEnablementCalculation(false);
 	}
 
@@ -87,9 +86,10 @@ public class DesignerPasteAction extends SelectionAction {
 	 */
 	protected void init() {
 		super.init();
+		setId(ActionFactory.PASTE.getId());
 		setText(GEFMessages.PasteAction_Label);
 		setToolTipText(GEFMessages.PasteAction_Tooltip);
-		setId(ID);
+		setActionDefinitionId("org.eclipse.ui.edit.paste");
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
 		setDisabledImageDescriptor(sharedImages.getImageDescriptor(

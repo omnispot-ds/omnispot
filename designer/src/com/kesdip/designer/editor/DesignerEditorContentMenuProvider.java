@@ -8,9 +8,10 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
-import com.kesdip.designer.action.DesignerCopyAction;
-import com.kesdip.designer.action.DesignerCutAction;
-import com.kesdip.designer.action.DesignerPasteAction;
+import com.kesdip.designer.action.CreateLayoutAction;
+import com.kesdip.designer.action.LayoutMoveDownAction;
+import com.kesdip.designer.action.LayoutMoveUpAction;
+import com.kesdip.designer.action.MaximizeAction;
 
 public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 
@@ -39,16 +40,28 @@ public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 				getAction(ActionFactory.REDO.getId()));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_COPY, 
-				getAction(DesignerCutAction.ID));
+				getAction(ActionFactory.CUT.getId()));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_COPY, 
-				getAction(DesignerCopyAction.ID));
+				getAction(ActionFactory.COPY.getId()));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_COPY, 
-				getAction(DesignerPasteAction.ID));
+				getAction(ActionFactory.PASTE.getId()));
+		menu.appendToGroup(
+				GEFActionConstants.GROUP_EDIT,
+				getAction(CreateLayoutAction.ID));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
 				getAction(ActionFactory.DELETE.getId()));
+		menu.appendToGroup(
+				GEFActionConstants.GROUP_EDIT,
+				getAction(LayoutMoveUpAction.ID));
+		menu.appendToGroup(
+				GEFActionConstants.GROUP_EDIT,
+				getAction(LayoutMoveDownAction.ID));
+		menu.appendToGroup(
+				GEFActionConstants.GROUP_EDIT,
+				getAction(MaximizeAction.ID));
 	}
 
 	private IAction getAction(String actionId) {

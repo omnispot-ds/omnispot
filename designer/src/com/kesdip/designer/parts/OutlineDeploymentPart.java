@@ -44,16 +44,7 @@ public class OutlineDeploymentPart extends AbstractTreeEditPart implements
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
-		return ((Deployment) getModel()).getLayouts();
-	}
-
-	/**
-	 * Convenience method that returns the EditPart corresponding to a given child.
-	 * @param child a model element instance
-	 * @return the corresponding EditPart or null
-	 */
-	private EditPart getEditPartForChild(Object child) {
-		return (EditPart) getViewer().getEditPartRegistry().get(child);
+		return ((Deployment) getModel()).getChildren();
 	}
 
 	/* (non-Javadoc)
@@ -73,14 +64,11 @@ public class OutlineDeploymentPart extends AbstractTreeEditPart implements
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
-		if (Deployment.LAYOUT_ADDED_PROP.equals(prop)) {
-			// add a child to this edit part
-			// causes an additional entry to appear in the tree of the outline view
-			addChild(createChild(evt.getNewValue()), -1);
-		} else if (Deployment.LAYOUT_REMOVED_PROP.equals(prop)) {
-			// remove a child from this edit part
-			// causes the corresponding edit part to disappear from the tree in the outline view
-			removeChild(getEditPartForChild(evt.getNewValue()));
+		if (Deployment.LAYOUT_ADDED_PROP.equals(prop) ||
+				Deployment.LAYOUT_REMOVED_PROP.equals(prop) ||
+				Deployment.CHILD_MOVE_UP.equals(prop) ||
+				Deployment.CHILD_MOVE_DOWN.equals(prop)) {
+			refreshChildren();
 		} else {
 			refreshVisuals();
 		}

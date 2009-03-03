@@ -68,7 +68,7 @@ public class Deployment extends ModelElement {
 	public static final String START_TIME_PROP = "Deployment.StartTime";
 
 	/* STATE */
-	private List<Layout> layoutList;
+	private List<ModelElement> layoutList;
 	private int width;
 	private int height;
 	private int bit_depth;
@@ -126,7 +126,7 @@ public class Deployment extends ModelElement {
 	} // static
 	
 	public Deployment() {
-		layoutList = new ArrayList<Layout>();
+		layoutList = new ArrayList<ModelElement>();
 		id = "";
 		startTime = new Date();
 	}
@@ -179,7 +179,8 @@ public class Deployment extends ModelElement {
 		Element listNode = doc.createElement("list");
 		propertyNode.appendChild(listNode);
 		int count = 1;
-		for (Layout l : layoutList) {
+		for (ModelElement e : layoutList) {
+			Layout l = (Layout) e;
 			Element layoutNode = l.serialize(doc, count++);
 			listNode.appendChild(layoutNode);
 		}
@@ -200,7 +201,7 @@ public class Deployment extends ModelElement {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(is);
-		final List<Layout> newLayoutList = new ArrayList<Layout>();
+		final List<ModelElement> newLayoutList = new ArrayList<ModelElement>();
 		NodeList nl = doc.getDocumentElement().getElementsByTagName("bean");
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node n = nl.item(i);
@@ -232,8 +233,8 @@ public class Deployment extends ModelElement {
 		assert(id == other.id);
 		assert(startTime == other.startTime);
 		for (int i = 0; i < layoutList.size(); i++) {
-			Layout thisLayout = layoutList.get(i);
-			Layout otherLayout = other.layoutList.get(i);
+			Layout thisLayout = (Layout) layoutList.get(i);
+			Layout otherLayout = (Layout) other.layoutList.get(i);
 			thisLayout.checkEquivalence(otherLayout);
 		}
 	}
@@ -261,20 +262,17 @@ public class Deployment extends ModelElement {
 	public Object getPropertyValue(Object propertyId) {
 		if (HEIGHT_PROP.equals(propertyId)) {
 			return Integer.toString(height);
-		}
-		if (WIDTH_PROP.equals(propertyId)) {
+		} else if (WIDTH_PROP.equals(propertyId)) {
 			return Integer.toString(width);
-		}
-		if (BIT_DEPTH_PROP.equals(propertyId)) {
+		} else if (BIT_DEPTH_PROP.equals(propertyId)) {
 			return Integer.toString(bit_depth);
-		}
-		if (ID_PROP.equals(propertyId)) {
+		} else if (ID_PROP.equals(propertyId)) {
 			return id;
-		}
-		if (START_TIME_PROP.equals(propertyId)) {
+		} else if (START_TIME_PROP.equals(propertyId)) {
 			return sdf.format(startTime);
+		} else {
+			return super.getPropertyValue(propertyId);
 		}
-		return super.getPropertyValue(propertyId);
 	}
 
 	/**
@@ -315,39 +313,7 @@ public class Deployment extends ModelElement {
 		}
 	}
 
-	/** 
-	 * Add a layout to this deployment.
-	 * @param s a non-null layout instance
-	 * @return true, iff the layout was added, false otherwise
-	 */
-	public boolean addLayout(Layout s) {
-		if (s != null && layoutList.add(s)) {
-			s.setDeployment(this);
-			firePropertyChange(LAYOUT_ADDED_PROP, null, s);
-			return true;
-		}
-		return false;
-	}
-
-	/** Return a List of layouts in this deployment.  The returned List should not be modified. */
-	public List<Layout> getLayouts() {
-		return layoutList;
-	}
-
-	/**
-	 * Remove a layout from this deployment.
-	 * @param s a non-null layout instance;
-	 * @return true, iff the layout was removed, false otherwise
-	 */
-	public boolean removeLayout(Layout s) {
-		if (s != null && layoutList.remove(s)) {
-			s.setDeployment(null);
-			firePropertyChange(LAYOUT_REMOVED_PROP, null, s);
-			return true;
-		}
-		return false;
-	}
-	
+	@Override
 	public ModelElement deepCopy() {
 		Deployment retVal = new Deployment();
 		retVal.height = this.height;
@@ -355,37 +321,80 @@ public class Deployment extends ModelElement {
 		retVal.bit_depth = this.bit_depth;
 		retVal.id = this.id;
 		retVal.startTime = new Date(this.startTime.getTime());
-		for (Layout srcl : this.layoutList) {
+		for (ModelElement srcl : this.layoutList) {
 			Layout l = (Layout) srcl.deepCopy();
 			retVal.layoutList.add(l);
 		}
 		return retVal;
 	}
 	
-	public void setDeployment(Deployment deployment) {
-		// Intentionally empty.
+	@Override
+	public void add(ModelElement child) {
+		if (child != null && child instanceof Layout && layoutList.add(child)) {
+			child.setParent(this);
+			firePropertyChange(LAYOUT_ADDED_PROP, null, child);
+		}
 	}
 
-	public Deployment getDeployment() {
-		return this;
-	}
-	
-	public ModelElement removeChild(ModelElement child) {
-		if (child instanceof Layout) {
-			if (removeLayout((Layout) child))
-				return this;
-			return null;
+	@Override
+	public boolean removeChild(ModelElement child) {
+		if (child != null && child instanceof Layout && layoutList.remove(child)) {
+			child.setParent(null);
+			firePropertyChange(LAYOUT_REMOVED_PROP, null, child);
+			return true;
 		}
-		
-		for (Layout l : layoutList) {
-			ModelElement e = l.removeChild(child);
-			if (e != null)
-				return e;
-		}
-		
-		return null;
+		return false;
 	}
-	
+
+	@Override
+	public List<ModelElement> getChildren() {
+		return layoutList;
+	}
+
+	@Override
+	public void insertChildAt(int index, ModelElement child) {
+		if (child != null && child instanceof Layout) {
+			child.setParent(this);
+			layoutList.add(index, child);
+			firePropertyChange(LAYOUT_ADDED_PROP, null, child);
+		}
+	}
+
+	@Override
+	public boolean isFirstChild(ModelElement child) {
+		return layoutList.indexOf(child) == 0;
+	}
+
+	@Override
+	public boolean isLastChild(ModelElement child) {
+		return layoutList.indexOf(child) == layoutList.size() - 1 &&
+				layoutList.size() != 0;
+	}
+
+	@Override
+	public boolean moveChildDown(ModelElement child) {
+		int index = layoutList.indexOf(child);
+		if (index == -1 || index == layoutList.size() - 1)
+			return false;
+		if (!layoutList.remove(child))
+			return false;
+		layoutList.add(index + 1, child);
+		firePropertyChange(CHILD_MOVE_DOWN, null, child);
+		return true;
+	}
+
+	@Override
+	public boolean moveChildUp(ModelElement child) {
+		int index = layoutList.indexOf(child);
+		if (index < 1)
+			return false;
+		if (!layoutList.remove(child))
+			return false;
+		layoutList.add(index - 1, child);
+		firePropertyChange(CHILD_MOVE_UP, null, child);
+		return true;
+	}
+
 	@Override
 	public Image getIcon() {
 		return IMAGE_ICON;

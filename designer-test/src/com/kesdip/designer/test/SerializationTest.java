@@ -31,7 +31,7 @@ public class SerializationTest extends TestCase {
 		l.setPropertyValue(Layout.NAME_PROP, "Layout1");
 		l.setPropertyValue(Layout.CRON_EXPRESSION_PROP, "1 2 3 4 5");
 		l.setPropertyValue(Layout.DURATION_PROP, "2000");
-		retVal.addLayout(l);
+		retVal.add(l);
 		
 		Region r = new Region();
 		r.setPropertyValue(Region.NAME_PROP, "Region1");
@@ -40,7 +40,7 @@ public class SerializationTest extends TestCase {
 		r.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
 		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
 		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
-		l.addRegion(r);
+		l.add(r);
 		
 		VideoComponent v = new VideoComponent();
 		v.setPropertyValue(VideoComponent.REPEAT_PROP, "true");
@@ -51,7 +51,7 @@ public class SerializationTest extends TestCase {
 		v.addVideo(new Resource("resources/kallisti.jpg", ""));
 		v.addVideo(new Resource("resources/leverage.jpg", ""));
 		v.addVideo(new Resource("resources/rasputin22.jpg", ""));
-		r.addComponent(v);
+		r.add(v);
 		
 		r = new Region();
 		r.setPropertyValue(Region.NAME_PROP, "Region2");
@@ -60,7 +60,7 @@ public class SerializationTest extends TestCase {
 		r.setPropertyValue(ComponentModelElement.YPOS_PROP, "500");
 		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
 		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "100");
-		l.addRegion(r);
+		l.add(r);
 		
 		TickerComponent t = new TickerComponent();
 		t.setPropertyValue(TickerComponent.URL_PROP, "This is a test.");
@@ -68,11 +68,11 @@ public class SerializationTest extends TestCase {
 		t.setPropertyValue(ComponentModelElement.YPOS_PROP, "500");
 		t.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
 		t.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "100");
-		r.addComponent(t);
+		r.add(t);
 		
 		l = new Layout();
 		l.setPropertyValue(Layout.NAME_PROP, "Layout2");
-		retVal.addLayout(l);
+		retVal.add(l);
 		
 		r = new Region();
 		r.setPropertyValue(Region.NAME_PROP, "Region3");
@@ -81,7 +81,7 @@ public class SerializationTest extends TestCase {
 		r.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
 		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
 		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
-		l.addRegion(r);
+		l.add(r);
 		
 		ImageComponent i = new ImageComponent();
 		i.setPropertyValue(ComponentModelElement.XPOS_PROP, "0");
@@ -90,11 +90,11 @@ public class SerializationTest extends TestCase {
 		i.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
 		i.addImage(new Resource("resources/hot_potato.jpg", ""));
 		i.addImage(new Resource("resources/Bakunin_Nadar.jpg", ""));
-		r.addComponent(i);
+		r.add(i);
 		
 		l = new Layout();
 		l.setPropertyValue(Layout.NAME_PROP, "Layout3");
-		retVal.addLayout(l);
+		retVal.add(l);
 		
 		r = new Region();
 		r.setPropertyValue(Region.NAME_PROP, "Region4");
@@ -103,7 +103,7 @@ public class SerializationTest extends TestCase {
 		r.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
 		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
 		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
-		l.addRegion(r);
+		l.add(r);
 		
 		FlashComponent f = new FlashComponent();
 		f.setPropertyValue(FlashComponent.SOURCE_PROP, "resources/rasputin22.jpg");
@@ -111,11 +111,11 @@ public class SerializationTest extends TestCase {
 		f.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
 		f.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
 		f.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
-		r.addComponent(f);
+		r.add(f);
 		
 		l = new Layout();
 		l.setPropertyValue(Layout.NAME_PROP, "Layout4");
-		retVal.addLayout(l);
+		retVal.add(l);
 		
 		r = new Region();
 		r.setPropertyValue(Region.NAME_PROP, "Region5");
@@ -124,7 +124,7 @@ public class SerializationTest extends TestCase {
 		r.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
 		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
 		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
-		l.addRegion(r);
+		l.add(r);
 		
 		FlashWeatherComponent w = new FlashWeatherComponent();
 		r.setPropertyValue(FlashWeatherComponent.URL_PROP, "resources/rasputin22.jpg");
@@ -132,7 +132,7 @@ public class SerializationTest extends TestCase {
 		r.setPropertyValue(ComponentModelElement.YPOS_PROP, "0");
 		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
 		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
-		r.addComponent(w);
+		r.add(w);
 
 		return retVal;
 	}

@@ -45,13 +45,13 @@ public class Layout extends ModelElement {
 	private String name;
 	private String cronExpression;
 	private int duration;
-	private List<Region> regionList;
+	private List<ModelElement> regionList;
 	
 	public Layout() {
 		name = "New Layout";
 		cronExpression = "";
 		duration = 0;
-		regionList = new ArrayList<Region>();
+		regionList = new ArrayList<ModelElement>();
 	}
 	
 	protected Element serialize(Document doc, int layoutCount) {
@@ -66,7 +66,8 @@ public class Layout extends ModelElement {
 		Element listElement = doc.createElement("list");
 		regionsElement.appendChild(listElement);
 		int counter = 1;
-		for (Region r : regionList) {
+		for (ModelElement e : regionList) {
+			Region r = (Region) e;
 			Element regionElement = r.serialize(doc, layoutCount, counter++);
 			listElement.appendChild(regionElement);
 		}
@@ -82,7 +83,7 @@ public class Layout extends ModelElement {
 		String duration = DOMHelpers.getSimpleProperty(layoutNode, "duration");
 		if (duration != null)
 			setPropertyValue(DURATION_PROP, duration);
-		final List<Region> newRegionList = new ArrayList<Region>();
+		final List<ModelElement> newRegionList = new ArrayList<ModelElement>();
 		DOMHelpers.applyToListProperty(doc, layoutNode, "contentRoots", "ref",
 				new DOMHelpers.INodeListVisitor() {
 			@Override
@@ -100,8 +101,8 @@ public class Layout extends ModelElement {
 		assert(cronExpression.equals(other.cronExpression));
 		assert(duration == other.duration);
 		for (int i = 0; i < regionList.size(); i++) {
-			Region thisRegion = regionList.get(i);
-			Region otherRegion = other.regionList.get(i);
+			Region thisRegion = (Region) regionList.get(i);
+			Region otherRegion = (Region) other.regionList.get(i);
 			thisRegion.checkEquivalence(otherRegion);
 		}
 	}
@@ -143,78 +144,16 @@ public class Layout extends ModelElement {
 		}
 	} // static
 
-	/** 
-	 * Add a region to this layout.
-	 * @param s a non-null region instance
-	 * @return true, iff the region was added, false otherwise
-	 */
-	public boolean addRegion(Region s) {
-		if (s != null && regionList.add(s)) {
-			s.setDeployment(deployment);
-			firePropertyChange(REGION_ADDED_PROP, null, s);
-			return true;
-		}
-		return false;
-	}
-
-	/** Return a List of regions in this layout.  The returned List should not be modified. */
-	public List<Region> getRegions() {
-		return regionList;
-	}
-
-	/**
-	 * Remove a region from this layout.
-	 * @param s a non-null region instance;
-	 * @return true, iff the region was removed, false otherwise
-	 */
-	public boolean removeRegion(Region s) {
-		if (s != null && regionList.remove(s)) {
-			s.setDeployment(null);
-			firePropertyChange(REGION_REMOVED_PROP, null, s);
-			return true;
-		}
-		return false;
-	}
-	
 	public ModelElement deepCopy() {
 		Layout retVal = new Layout();
 		retVal.name = this.name;
 		retVal.duration = this.duration;
 		retVal.cronExpression = this.cronExpression;
-		retVal.deployment = null;
-		for (Region srcr : this.regionList) {
+		for (ModelElement srcr : this.regionList) {
 			Region r = (Region) srcr.deepCopy();
 			retVal.regionList.add(r);
 		}
 		return retVal;
-	}
-	
-	private Deployment deployment;
-	
-	public void setDeployment(Deployment deployment) {
-		this.deployment = deployment;
-		for (Region r : regionList)
-			r.setDeployment(deployment);
-	}
-
-	public Deployment getDeployment() {
-		return deployment;
-	}
-	
-	public ModelElement removeChild(ModelElement child) {
-		if (child instanceof Region) {
-			if (removeRegion((Region) child))
-				return this;
-			return null;
-		}
-		
-		for (Region r : regionList) {
-			ModelElement e = r.removeChild(child);
-			if (e != null)
-				return e;
-		}
-		
-		return null;
 	}
 	
 	@Override
@@ -258,6 +197,73 @@ public class Layout extends ModelElement {
 			firePropertyChange(DURATION_PROP, oldValue, duration);
 		} else
 			super.setPropertyValue(propertyId, value);
+	}
+
+	@Override
+	public void add(ModelElement child) {
+		if (child != null && child instanceof Region && regionList.add(child)) {
+			child.setParent(this);
+			firePropertyChange(REGION_ADDED_PROP, null, child);
+		}
+	}
+
+	@Override
+	public boolean removeChild(ModelElement child) {
+		if (child != null && child instanceof Region && regionList.remove(child)) {
+			child.setParent(null);
+			firePropertyChange(REGION_REMOVED_PROP, null, child);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<ModelElement> getChildren() {
+		return regionList;
+	}
+
+	@Override
+	public void insertChildAt(int index, ModelElement child) {
+		if (child != null && child instanceof Region) {
+			child.setParent(this);
+			regionList.add(index, child);
+			firePropertyChange(REGION_ADDED_PROP, null, child);
+		}
+	}
+
+	@Override
+	public boolean isFirstChild(ModelElement child) {
+		return regionList.indexOf(child) == 0;
+	}
+
+	@Override
+	public boolean isLastChild(ModelElement child) {
+		return regionList.indexOf(child) == regionList.size() - 1 &&
+				regionList.size() != 0;
+	}
+
+	@Override
+	public boolean moveChildDown(ModelElement child) {
+		int index = regionList.indexOf(child);
+		if (index == -1 || index == regionList.size() - 1)
+			return false;
+		if (!regionList.remove(child))
+			return false;
+		regionList.add(index + 1, child);
+		firePropertyChange(CHILD_MOVE_DOWN, null, child);
+		return true;
+	}
+
+	@Override
+	public boolean moveChildUp(ModelElement child) {
+		int index = regionList.indexOf(child);
+		if (index < 1)
+			return false;
+		if (!regionList.remove(child))
+			return false;
+		regionList.add(index - 1, child);
+		firePropertyChange(CHILD_MOVE_UP, null, child);
+		return true;
 	}
 
 	@Override

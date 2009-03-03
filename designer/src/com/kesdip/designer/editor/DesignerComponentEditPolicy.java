@@ -12,6 +12,7 @@ import org.eclipse.gef.requests.GroupRequest;
 
 import com.kesdip.designer.command.AddSelectionCommand;
 import com.kesdip.designer.command.ComponentDeletion;
+import com.kesdip.designer.command.ModelElementMove;
 import com.kesdip.designer.command.RemoveSelectionCommand;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.Deployment;
@@ -20,6 +21,8 @@ import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.Region;
 
 public class DesignerComponentEditPolicy extends ComponentEditPolicy {
+	public static final String REQ_MOVE_UP = "move element up";
+	public static final String REQ_MOVE_DOWN = "move element down";
 	public static final String REQ_CUT = "cut to clipboard";
 	public static final String REQ_PASTE = "paste from clipboard";
 
@@ -69,11 +72,38 @@ public class DesignerComponentEditPolicy extends ComponentEditPolicy {
 		return null;
 	}
 	
+	protected Command createMoveUpCommand(GroupRequest request) {
+		EditPart editPart = (EditPart) request.getEditParts().get(0);
+		if (!(editPart.getModel() instanceof ModelElement))
+			return null;
+		ModelElement element = (ModelElement) editPart.getModel();
+		if (element.getParent() == null  || element.getParent().isFirstChild(element))
+			return null;
+
+		return new ModelElementMove(editPart, true);
+	}
+	
+	protected Command createMoveDownCommand(GroupRequest request) {
+		EditPart editPart = (EditPart) request.getEditParts().get(0);
+		if (!(editPart.getModel() instanceof ModelElement))
+			return null;
+		ModelElement element = (ModelElement) editPart.getModel();
+		if (element.getParent() == null  || element.getParent().isLastChild(element))
+			return null;
+		
+		return new ModelElementMove(editPart, false);
+	}
+
 	public Command getCommand(Request request) {
-		if (REQ_CUT.equals(request.getType()))
+		if (REQ_CUT.equals(request.getType())) {
 			return getCutCommand((GroupRequest)request);
-		if (REQ_PASTE.equals(request.getType()))
+		} else if (REQ_PASTE.equals(request.getType())) {
 			return getPasteCommand((GroupRequest)request);
+		} else if (REQ_MOVE_UP.equals(request.getType())) {
+			return createMoveUpCommand((GroupRequest) request);
+		} else if (REQ_MOVE_DOWN.equals(request.getType())) {
+			return createMoveDownCommand((GroupRequest) request);
+		}
 		return super.getCommand(request);
 	}
 

@@ -66,9 +66,9 @@ public class FontCellEditor extends DialogCellEditor {
 		String name = fontData.getName();
 		int style = Font.PLAIN;
 		if ((fontData.getStyle() & SWT.BOLD) != 0)
-			style &= Font.BOLD;
+			style |= Font.BOLD;
 		if ((fontData.getStyle() & SWT.ITALIC) != 0)
-			style &= Font.ITALIC;
+			style |= Font.ITALIC;
 		int size = fontData.getHeight();
 		return new Font(name, style, size);
 	}

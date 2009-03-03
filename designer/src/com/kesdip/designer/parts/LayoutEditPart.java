@@ -79,7 +79,7 @@ public class LayoutEditPart extends AbstractGraphicalEditPart implements
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List getModelChildren() {
-		return ((Layout) getModel()).getRegions(); // return a list of shapes
+		return ((Layout) getModel()).getChildren(); // return a list of shapes
 	}
 
 	@Override

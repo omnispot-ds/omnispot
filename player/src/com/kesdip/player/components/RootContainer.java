@@ -30,9 +30,13 @@ import com.sun.jna.examples.WindowUtils;
 public class RootContainer extends AbstractComponent {
 	private static final Logger logger = Logger.getLogger(RootContainer.class);
 	
+	protected String name;
 	protected List<Component> contents;
 	protected boolean isTransparent;
 	
+	public void setName(String name) {
+		this.name = name;
+	}
 	public void setContents(List<Component> contents) {
 		this.contents = contents;
 	}

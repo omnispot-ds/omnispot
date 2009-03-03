@@ -15,6 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.kesdip.designer.properties.CheckboxPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
 
 public class Region extends ComponentModelElement {
@@ -44,12 +45,12 @@ public class Region extends ComponentModelElement {
 	/* STATE */
 	private String name;
 	private boolean isTransparent;
-	private List<ComponentModelElement> contents;
+	private List<ModelElement> contents;
 	
 	public Region() {
 		name = "New Region";
 		isTransparent = false;
-		contents = new ArrayList<ComponentModelElement>();
+		contents = new ArrayList<ModelElement>();
 	}
 	
 	@Override
@@ -61,14 +62,15 @@ public class Region extends ComponentModelElement {
 		Element regionElement = doc.createElement("bean");
 		regionElement.setAttribute("id", "frame" + layoutNumber + "_" + regionNumber);
 		regionElement.setAttribute("class", "com.kesdip.player.components.RootContainer");
-		super.serialize(doc, regionElement);
+		super.serialize(doc, regionElement, !isTransparent);
 		DOMHelpers.addProperty(doc, regionElement, "name", name);
 		DOMHelpers.addProperty(doc, regionElement, "isTransparent",
 				isTransparent ? "true" : "false");
 		Element contentsElement = DOMHelpers.addProperty(doc, regionElement, "contents");
 		Element listElement = doc.createElement("list");
 		contentsElement.appendChild(listElement);
-		for (ComponentModelElement component : contents) {
+		for (ModelElement element : contents) {
+			ComponentModelElement component = (ComponentModelElement) element;
 			Element componentElement = component.serialize(doc);
 			listElement.appendChild(componentElement);
 		}
@@ -84,8 +86,7 @@ public class Region extends ComponentModelElement {
 	protected void deserialize(Document doc, Node refNode) {
 		String beanID = refNode.getAttributes().getNamedItem("bean").getNodeValue();
 		
-		final List<ComponentModelElement> newContents =
-			new ArrayList<ComponentModelElement>();
+		final List<ModelElement> newContents = new ArrayList<ModelElement>();
 		NodeList nl = doc.getDocumentElement().getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node beanNode = nl.item(i);
@@ -137,8 +138,9 @@ public class Region extends ComponentModelElement {
 		assert(getLocation().equals(other.getLocation()));
 		assert(getSize().equals(other.getSize()));
 		for (int i = 0; i < contents.size(); i++) {
-			ComponentModelElement component = contents.get(i);
-			ComponentModelElement otherComponent = ((Region) other).contents.get(i);
+			ComponentModelElement component = (ComponentModelElement) contents.get(i);
+			ComponentModelElement otherComponent =
+				(ComponentModelElement) ((Region) other).contents.get(i);
 			component.checkEquivalence(otherComponent);
 		}
 	}
@@ -152,68 +154,22 @@ public class Region extends ComponentModelElement {
 	static {
 		descriptors = new IPropertyDescriptor[] { 
 				new TextPropertyDescriptor(NAME_PROP, "Name"),
-				new TextPropertyDescriptor(TRANSPARENT_PROP, "Transparent")
+				new CheckboxPropertyDescriptor(TRANSPARENT_PROP, "Transparent")
 		};
 		// use a custom cell editor validator for all three array entries
 		for (int i = 0; i < descriptors.length; i++) {
-			if (descriptors[i].getId().equals(TRANSPARENT_PROP)) {
-				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-					public String isValid(Object value) {
-						String v = (String) value;
-						if (v == null)
-							return null;
-						if (!v.equals("true") && !v.equals("false"))
-							return "Only true or false values are allowed. " +
-									"Invalid value: " + v;
-						return null;
-					}
-				});
-			} else {
-				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-					public String isValid(Object value) {
-						// No validation for the name.
-						return null;
-					}
-				});
-			}
+			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+				public String isValid(Object value) {
+					// No validation needed.
+					return null;
+				}
+			});
 		}
 	} // static
 
-	/** 
-	 * Add a component to this region.
-	 * @param s a non-null component instance
-	 * @return true, iff the component was added, false otherwise
-	 */
-	public boolean addComponent(ComponentModelElement s) {
-		if (s != null && contents.add(s)) {
-			s.setDeployment(deployment);
-			firePropertyChange(COMPONENT_ADDED_PROP, null, s);
-			return true;
-		}
-		return false;
-	}
-
-	/** Return a List of components in this layout.  The returned List should not be modified. */
-	public List<ComponentModelElement> getComponents() {
-		return contents;
-	}
-
-	/**
-	 * Remove a components from this region.
-	 * @param s a non-null component instance;
-	 * @return true, iff the component was removed, false otherwise
-	 */
-	public boolean removeComponent(ComponentModelElement s) {
-		if (s != null && contents.remove(s)) {
-			s.setDeployment(null);
-			firePropertyChange(COMPONENT_REMOVED_PROP, null, s);
-			return true;
-		}
-		return false;
-	}
-	
 	public void relocateChildren(Point moveBy) {
-		for (ComponentModelElement e : contents) {
+		for (ModelElement elem : contents) {
+			ComponentModelElement e = (ComponentModelElement) elem;
 			e.setPropertyValue(ComponentModelElement.LOCATION_PROP,
 					e.location.getCopy().translate(moveBy));
 		}
@@ -224,42 +180,13 @@ public class Region extends ComponentModelElement {
 		deepCopy(retVal);
 		retVal.name = this.name;
 		retVal.isTransparent = this.isTransparent;
-		retVal.deployment = null;
-		for (ComponentModelElement srce : this.contents) {
+		for (ModelElement srce : this.contents) {
 			ComponentModelElement e = (ComponentModelElement) srce.deepCopy();
 			retVal.contents.add(e);
 		}
 		return retVal;
 	}
 
-	private Deployment deployment;
-	
-	public void setDeployment(Deployment deployment) {
-		this.deployment = deployment;
-		for (ComponentModelElement r : contents)
-			r.setDeployment(deployment);
-	}
-
-	public Deployment getDeployment() {
-		return deployment;
-	}
-	
-	public ModelElement removeChild(ModelElement child) {
-		if (child instanceof ComponentModelElement) {
-			if (removeComponent((ComponentModelElement) child))
-				return this;
-			return null;
-		}
-		
-		for (ComponentModelElement r : contents) {
-			ModelElement e = r.removeChild(child);
-			if (e != null)
-				return e;
-		}
-		
-		return null;
-	}
-	
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		List<IPropertyDescriptor> superList = new ArrayList<IPropertyDescriptor>(
@@ -278,7 +205,7 @@ public class Region extends ComponentModelElement {
 		if (NAME_PROP.equals(propertyId))
 			return name;
 		else if (TRANSPARENT_PROP.equals(propertyId))
-			return isTransparent ? "true" : "false";
+			return isTransparent;
 		else
 			return super.getPropertyValue(propertyId);
 	}
@@ -290,11 +217,87 @@ public class Region extends ComponentModelElement {
 			name = (String) value;
 			firePropertyChange(NAME_PROP, oldValue, name);
 		} else if (TRANSPARENT_PROP.equals(propertyId)) {
-			String oldValue = isTransparent ? "true" : "false";
-			isTransparent = "true".equals(value);
-			firePropertyChange(TRANSPARENT_PROP, oldValue, isTransparent ? "true" : "false");
+			if (value instanceof String) {
+				// We are being deserialized
+				String oldValue = isTransparent ? "true" : "false";
+				isTransparent = value.equals("true");
+				firePropertyChange(TRANSPARENT_PROP, oldValue, value);
+				return;
+			}
+			Boolean oldValue = isTransparent;
+			isTransparent = ((Boolean) value).booleanValue();
+			firePropertyChange(TRANSPARENT_PROP, oldValue, isTransparent);
 		} else
 			super.setPropertyValue(propertyId, value);
+	}
+
+	@Override
+	public void add(ModelElement child) {
+		if (child != null && child instanceof ComponentModelElement &&
+				contents.add(child)) {
+			child.setParent(this);
+			firePropertyChange(COMPONENT_ADDED_PROP, null, child);
+		}
+	}
+
+	@Override
+	public boolean removeChild(ModelElement child) {
+		if (child != null && child instanceof ComponentModelElement &&
+				contents.remove(child)) {
+			child.setParent(null);
+			firePropertyChange(COMPONENT_REMOVED_PROP, null, child);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<ModelElement> getChildren() {
+		return contents;
+	}
+
+	@Override
+	public void insertChildAt(int index, ModelElement child) {
+		if (child != null && child instanceof ComponentModelElement) {
+			child.setParent(this);
+			contents.add(index, child);
+			firePropertyChange(COMPONENT_ADDED_PROP, null, child);
+		}
+	}
+
+	@Override
+	public boolean isFirstChild(ModelElement child) {
+		return contents.indexOf(child) == 0;
+	}
+
+	@Override
+	public boolean isLastChild(ModelElement child) {
+		return contents.indexOf(child) == contents.size() - 1 &&
+				contents.size() != 0;
+	}
+
+	@Override
+	public boolean moveChildDown(ModelElement child) {
+		int index = contents.indexOf(child);
+		if (index == -1 || index == contents.size() - 1)
+			return false;
+		if (!contents.remove(child))
+			return false;
+		contents.add(index + 1, child);
+		firePropertyChange(CHILD_MOVE_DOWN, null, child);
+		return true;
+	}
+
+	@Override
+	public boolean moveChildUp(ModelElement child) {
+		int index = contents.indexOf(child);
+		if (index < 1)
+			return false;
+		if (!contents.remove(child))
+			return false;
+		contents.add(index - 1, child);
+		firePropertyChange(CHILD_MOVE_UP, null, child);
+		return true;
 	}
 
 	@Override

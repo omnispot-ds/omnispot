@@ -54,13 +54,13 @@ public class ComponentCreation extends Command {
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
-		parent.addComponent(element);
+		parent.add(element);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
-		parent.removeComponent(element);
+		parent.removeChild(element);
 	}
 }
