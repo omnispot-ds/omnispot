@@ -67,6 +67,9 @@ public class FlashComponent extends AbstractComponent {
 		if (filename == null) {
 			ContentRegistry registry = ContentRegistry.getContentRegistry();
 			filename = registry.getResourcePath(source);
+			
+			if (filename == null)
+				filename = source.getIdentifier();
 		}
 		doOpen(filename);
 	}
@@ -120,6 +123,7 @@ public class FlashComponent extends AbstractComponent {
     	try {
         	OleMessageLoop.invokeMethod(context, methodName, args);
         } catch (Exception ex) {
+        	logger.error("Error", ex);
         	throw new RuntimeException(ex);
         }
     }
