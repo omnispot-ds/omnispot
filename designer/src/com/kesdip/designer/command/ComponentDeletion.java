@@ -68,14 +68,18 @@ public class ComponentDeletion extends Command {
 	public void redo() {
 		// remove the elements
 		parents.clear();
+		boolean allOK = true;
 		for (Object o : elements)  {
 			ModelElement child = (ModelElement) o;
 			ModelElement parent = child.getParent();
-			if (parent != null) 
+			if (parent != null) {
 				parents.put(child, parent);
-			parent.removeChild(child);
+				parent.removeChild(child);
+			} else {
+				allOK = false;
+			}
 		}
-		wasRemoved = true;
+		wasRemoved = allOK;
 	}
 
 	/* (non-Javadoc)

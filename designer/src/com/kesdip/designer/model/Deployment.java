@@ -218,6 +218,7 @@ public class Deployment extends ModelElement {
 					public void visitListItem(Document doc, Node listItem) {
 						Layout childLayout = new Layout();
 						childLayout.deserialize(doc, listItem);
+						childLayout.setParent(Deployment.this);
 						newLayoutList.add(childLayout);
 					}
 				});

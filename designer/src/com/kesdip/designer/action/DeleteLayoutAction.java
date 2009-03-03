@@ -36,6 +36,8 @@ public class DeleteLayoutAction extends SelectionAction {
 	private Command createLayoutDeletionCommand(List objects) {
 		Deployment deployment = null;
 		for (Object o : objects) {
+			if (!(o instanceof EditPart))
+				continue;
 			if (!(((EditPart) o).getModel() instanceof ModelElement))
 				continue;
 			

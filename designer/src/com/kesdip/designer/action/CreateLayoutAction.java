@@ -36,6 +36,8 @@ public class CreateLayoutAction extends SelectionAction {
 	private Command createLayoutCreationCommand(List objects) {
 		if (objects == null || objects.size() != 1)
 			return null;
+		if (!(objects.get(0) instanceof EditPart))
+			return null;
 		if (!(((EditPart) objects.get(0)).getModel() instanceof Deployment))
 			return null;
 		Deployment d = (Deployment) ((EditPart) objects.get(0)).getModel();

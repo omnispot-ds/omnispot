@@ -16,6 +16,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.kesdip.designer.properties.FileChooserPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
 
 public class FlashWeatherComponent extends ComponentModelElement {
@@ -32,7 +33,8 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	 * @see #setPropertyValue(Object, Object)
 	 */
 	private static IPropertyDescriptor[] descriptors;
-	/** Property ID to use for the waether source type property value. */
+	public static final String SOURCE_PROP = "Weather.SourceProp";
+	/** Property ID to use for the weather source type property value. */
 	public static final String TYPE_PROP = "Weather.WeatherSourceTypeProp";
 	public static final String URL_XML_WEATHER_TYPE = "URL XML Weather Source Type";
 	public static final String RSS_WEATHER_TYPE = "RSS Weather Source Type";
@@ -42,11 +44,13 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	public static final String URL_PROP = "Weather.WeatherURLProp";
 
 	/* STATE */
+	private String source;
 	private String type;
 	private String url;
 	private String rss;
 	
 	public FlashWeatherComponent() {
+		source = "";
 		type = URL_XML_WEATHER_TYPE;
 		url = "";
 		rss = "";
@@ -56,8 +60,11 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		Element tickerElement = doc.createElement("bean");
 		tickerElement.setAttribute("class", "com.kesdip.player.components.weather.FlashWeatherComponent");
 		super.serialize(doc, tickerElement);
+		Element sourcePropElement = DOMHelpers.addProperty(doc, tickerElement, "source");
+		Resource r = new Resource(source, "");
+		sourcePropElement.appendChild(r.serialize(doc));
 		Element weatherSourcePropElement = DOMHelpers.addProperty(
-				doc, tickerElement, "tickerSource");
+				doc, tickerElement, "weatherDataSource");
 		Element weatherSourceElement = doc.createElement("bean");
 		if (type.equals(URL_XML_WEATHER_TYPE)) {
 			weatherSourceElement.setAttribute(
@@ -69,12 +76,21 @@ public class FlashWeatherComponent extends ComponentModelElement {
 			DOMHelpers.addProperty(doc, weatherSourceElement, "rssUrl", rss);
 		}
 		weatherSourcePropElement.appendChild(weatherSourceElement);
+		Element processorPropElement = DOMHelpers.addProperty(doc, weatherSourceElement, "weatherDataProcessor");
+		Element processorElement = doc.createElement("bean");
+		processorElement.setAttribute("class", "com.kesdip.player.components.weather.ScriptingDataProcessor");
+		processorPropElement.appendChild(processorElement);
+		DOMHelpers.addProperty(doc, processorElement, "scriptFile", "etc/yahoo.js");
 		return tickerElement;
 	}
 	
 	protected void deserialize(Document doc, Node componentNode) {
 		super.deserialize(doc, componentNode);
-		Node tickerSourcePropNode = DOMHelpers.getPropertyNode(componentNode, "tickerSource");
+		Node sourcePropNode = DOMHelpers.getPropertyNode(componentNode, "source");
+		Resource r = new Resource("", "");
+		r.deserialize(doc, sourcePropNode.getChildNodes().item(0));
+		setPropertyValue(SOURCE_PROP, r.getResource());
+		Node tickerSourcePropNode = DOMHelpers.getPropertyNode(componentNode, "weatherDataSource");
 		NodeList children = tickerSourcePropNode.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
@@ -112,7 +128,8 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	 * @see #setPropertyValue(Object, Object)
 	 */
 	static {
-		descriptors = new IPropertyDescriptor[] { 
+		descriptors = new IPropertyDescriptor[] {
+				new FileChooserPropertyDescriptor(SOURCE_PROP, "Source"),
 				new ComboBoxPropertyDescriptor(TYPE_PROP, "Weather Source Type",
 						new String[] { URL_XML_WEATHER_TYPE, RSS_WEATHER_TYPE }),
 				new TextPropertyDescriptor(URL_PROP, "XML URL"),
@@ -152,7 +169,9 @@ public class FlashWeatherComponent extends ComponentModelElement {
 
 	@Override
 	public Object getPropertyValue(Object propertyId) {
-		if (URL_PROP.equals(propertyId))
+		if (SOURCE_PROP.equals(propertyId))
+			return source;
+		else if (URL_PROP.equals(propertyId))
 			return url;
 		else if (RSS_PROP.equals(propertyId))
 			return rss;
@@ -164,7 +183,11 @@ public class FlashWeatherComponent extends ComponentModelElement {
 
 	@Override
 	public void setPropertyValue(Object propertyId, Object value) {
-		if (URL_PROP.equals(propertyId)) {
+		if (SOURCE_PROP.equals(propertyId)) {
+			String oldValue = source;
+			source = (String) value;
+			firePropertyChange(SOURCE_PROP, oldValue, source);
+		} else if (URL_PROP.equals(propertyId)) {
 			String oldValue = url;
 			url = (String) value;
 			firePropertyChange(URL_PROP, oldValue, url);

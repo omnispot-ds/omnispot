@@ -90,6 +90,7 @@ public class Layout extends ModelElement {
 			public void visitListItem(Document doc, Node listItem) {
 				Region newRegion = new Region();
 				newRegion.deserialize(doc, listItem);
+				newRegion.setParent(Layout.this);
 				newRegionList.add(newRegion);
 			}
 		});

@@ -119,6 +119,7 @@ public class Region extends ComponentModelElement {
 							throw new RuntimeException("Unexpected class name: " + className);
 						}
 						component.deserialize(doc, listItem);
+						component.setParent(Region.this);
 						newContents.add(component);
 					}
 				});
