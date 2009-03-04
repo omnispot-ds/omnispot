@@ -9,8 +9,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.kesdip.designer.action.CreateLayoutAction;
-import com.kesdip.designer.action.LayoutMoveDownAction;
-import com.kesdip.designer.action.LayoutMoveUpAction;
+import com.kesdip.designer.action.MoveDownAction;
+import com.kesdip.designer.action.MoveUpAction;
 import com.kesdip.designer.action.MaximizeAction;
 
 public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
@@ -55,10 +55,10 @@ public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 				getAction(ActionFactory.DELETE.getId()));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
-				getAction(LayoutMoveUpAction.ID));
+				getAction(MoveUpAction.ID));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
-				getAction(LayoutMoveDownAction.ID));
+				getAction(MoveDownAction.ID));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
 				getAction(MaximizeAction.ID));

@@ -94,10 +94,11 @@ public class RegionEditPart extends AbstractGraphicalEditPart implements
 		// the ShapeDiagram instance and must cause a call of refreshChildren()
 		// to update the diagram's contents.
 		if (Region.COMPONENT_ADDED_PROP.equals(prop)
-				|| Region.COMPONENT_REMOVED_PROP.equals(prop)) {
+				|| Region.COMPONENT_REMOVED_PROP.equals(prop)
+				|| Region.CHILD_MOVE_UP.equals(prop)
+				|| Region.CHILD_MOVE_DOWN.equals(prop)) {
 			refreshChildren();
-		} else if (Region.SIZE_PROP.equals(prop) || Region.LOCATION_PROP.equals(prop) ||
-				Region.ZPOS_PROP.equals(prop)) {
+		} else if (Region.SIZE_PROP.equals(prop) || Region.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
 		}
 	}

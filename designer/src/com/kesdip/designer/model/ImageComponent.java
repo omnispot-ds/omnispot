@@ -210,7 +210,18 @@ public class ImageComponent extends ComponentModelElement {
 	}
 	
 	public String toString() {
-		return "Image";
+		boolean first = true;
+		StringBuilder sb= new StringBuilder("[");
+		for (Resource r : images) {
+			if (first) {
+				first = false;
+			} else {
+				sb.append(",");
+			}
+			sb.append(r.toString());
+		}
+		sb.append("]");
+		return "Image: " + sb.toString();
 	}
 
 }

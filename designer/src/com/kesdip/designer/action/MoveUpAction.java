@@ -12,39 +12,39 @@ import org.eclipse.ui.PlatformUI;
 
 import com.kesdip.designer.editor.DesignerComponentEditPolicy;
 
-public class LayoutMoveDownAction extends SelectionAction {
-	public static final String ID = "com.koutra.mge.action.MoveDown";
+public class MoveUpAction extends SelectionAction {
+	public static final String ID = "com.koutra.mge.action.MoveUp";
 
 	/**
-	 * Constructs a <code>MPEditorMoveDownAction</code> using the specified part.
+	 * Constructs a <code>MPEditorMoveUpAction</code> using the specified part.
 	 * @param part The part for this action
 	 */
-	public LayoutMoveDownAction(IWorkbenchPart part) {
+	public MoveUpAction(IWorkbenchPart part) {
 		super(part);
 		setLazyEnablementCalculation(false);
 	}
 
 	/**
 	 * Returns <code>true</code> if the selected objects can
-	 * be moved down.  Returns <code>false</code> if there are
+	 * be moved up.  Returns <code>false</code> if there are
 	 * no objects selected or the selected objects are not
 	 * {@link EditPart}s.
 	 * @return <code>true</code> if the command should be enabled
 	 */
 	protected boolean calculateEnabled() {
-		Command cmd = createMoveDownCommand(getSelectedObjects());
+		Command cmd = createMoveUpCommand(getSelectedObjects());
 		if (cmd == null)
 			return false;
 		return cmd.canExecute();
 	}
 
 	/**
-	 * Create a command to move the selected objects down.
-	 * @param objects The objects to be moved down.
-	 * @return The command to move the selected objects down.
+	 * Create a command to move the selected objects up.
+	 * @param objects The objects to be moved up.
+	 * @return The command to move the selected objects up.
 	 */
 	@SuppressWarnings("unchecked")
-	public Command createMoveDownCommand(List objects) {
+	public Command createMoveUpCommand(List objects) {
 		if (objects.isEmpty() || objects.size() != 1)
 			return null;
 		if (!(objects.get(0) instanceof EditPart))
@@ -52,7 +52,7 @@ public class LayoutMoveDownAction extends SelectionAction {
 		EditPart editPart = (EditPart) objects.get(0);
 
 		GroupRequest moveUpReq =
-			new GroupRequest(DesignerComponentEditPolicy.REQ_MOVE_DOWN);
+			new GroupRequest(DesignerComponentEditPolicy.REQ_MOVE_UP);
 		moveUpReq.setEditParts(objects);
 
 		return editPart.getCommand(moveUpReq);
@@ -63,8 +63,8 @@ public class LayoutMoveDownAction extends SelectionAction {
 	 */
 	protected void init() {
 		super.init();
-		setText("Move Down");
-		setToolTipText("Move element down in the child sequence of the parent");
+		setText("Move Up");
+		setToolTipText("Move element up in the child sequence of the parent");
 		setId(ID);
 		ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
 		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_UP));
@@ -74,10 +74,10 @@ public class LayoutMoveDownAction extends SelectionAction {
 	}
 
 	/**
-	 * Performs the delete action on the selected objects.
+	 * Performs the move up action on the selected objects.
 	 */
 	public void run() {
-		execute(createMoveDownCommand(getSelectedObjects()));
+		execute(createMoveUpCommand(getSelectedObjects()));
 	}
 
 }

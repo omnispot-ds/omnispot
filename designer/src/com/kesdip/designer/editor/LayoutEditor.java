@@ -32,8 +32,8 @@ import com.kesdip.designer.action.DeleteLayoutAction;
 import com.kesdip.designer.action.DesignerCopyAction;
 import com.kesdip.designer.action.DesignerCutAction;
 import com.kesdip.designer.action.DesignerPasteAction;
-import com.kesdip.designer.action.LayoutMoveDownAction;
-import com.kesdip.designer.action.LayoutMoveUpAction;
+import com.kesdip.designer.action.MoveDownAction;
+import com.kesdip.designer.action.MoveUpAction;
 import com.kesdip.designer.action.MaximizeAction;
 import com.kesdip.designer.handler.LayoutEditorInput;
 import com.kesdip.designer.model.Layout;
@@ -122,11 +122,11 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 		getSelectionActions().add(action.getId());
 		registry.registerAction(action);
 
-		action = new LayoutMoveUpAction(this);
+		action = new MoveUpAction(this);
 		getSelectionActions().add(action.getId());
 		registry.registerAction(action);
 
-		action = new LayoutMoveDownAction(this);
+		action = new MoveDownAction(this);
 		getSelectionActions().add(action.getId());
 		registry.registerAction(action);
 

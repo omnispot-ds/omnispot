@@ -229,7 +229,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	}
 	
 	public String toString() {
-		return "FlashWeather(" + type + "," + url + "," + rss + ")";
+		return "FlashWeather(" + source + "," + type + "," + url + "," + rss + ")";
 	}
 
 }

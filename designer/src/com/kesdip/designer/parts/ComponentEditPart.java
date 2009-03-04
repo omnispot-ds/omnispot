@@ -78,8 +78,8 @@ public class ComponentEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
-		if (ComponentModelElement.SIZE_PROP.equals(prop) || ComponentModelElement.LOCATION_PROP.equals(prop) ||
-				ComponentModelElement.ZPOS_PROP.equals(prop)) {
+		if (ComponentModelElement.SIZE_PROP.equals(prop) ||
+				ComponentModelElement.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
 		}
 	}

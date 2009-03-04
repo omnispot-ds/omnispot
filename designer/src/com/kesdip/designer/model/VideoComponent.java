@@ -215,7 +215,18 @@ public class VideoComponent extends ComponentModelElement {
 	}
 	
 	public String toString() {
-		return "Video";
+		boolean first = true;
+		StringBuilder sb= new StringBuilder("[");
+		for (Resource r : videos) {
+			if (first) {
+				first = false;
+			} else {
+				sb.append(",");
+			}
+			sb.append(r.toString());
+		}
+		sb.append("]");
+		return "Video: " + sb.toString();
 	}
 
 }

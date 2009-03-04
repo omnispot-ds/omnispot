@@ -35,11 +35,11 @@
          </property>
          <property
                name="aboutImage"
-               value="splash.bmp">
+               value="splash.png">
          </property>
          <property
                name="aboutText"
-               value="This is the Designer Product. Brought to you by Ke.S.Di.P. E.P.E. Enterprises Corp.">
+               value="Ke.S.Di.P. E.P.E. Designer Copyright 2009 Ke.S.Di.P. E.P.E.">
          </property>
       </product>
    </extension>

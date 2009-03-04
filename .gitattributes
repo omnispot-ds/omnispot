@@ -412,6 +412,7 @@ designer/icons/alt_window_32.gif -text
 designer/lib/quartz-1.6.3.jar -text
 designer/plugin.xml -text
 designer/splash.bmp -text
+designer/splash.png -text
 designer/src/com/kesdip/designer/Activator.java -text
 designer/src/com/kesdip/designer/Application.java -text
 designer/src/com/kesdip/designer/ApplicationActionBarAdvisor.java -text
@@ -423,9 +424,9 @@ designer/src/com/kesdip/designer/action/DeleteLayoutAction.java -text
 designer/src/com/kesdip/designer/action/DesignerCopyAction.java -text
 designer/src/com/kesdip/designer/action/DesignerCutAction.java -text
 designer/src/com/kesdip/designer/action/DesignerPasteAction.java -text
-designer/src/com/kesdip/designer/action/LayoutMoveDownAction.java -text
-designer/src/com/kesdip/designer/action/LayoutMoveUpAction.java -text
 designer/src/com/kesdip/designer/action/MaximizeAction.java -text
+designer/src/com/kesdip/designer/action/MoveDownAction.java -text
+designer/src/com/kesdip/designer/action/MoveUpAction.java -text
 designer/src/com/kesdip/designer/command/AddSelectionCommand.java -text
 designer/src/com/kesdip/designer/command/ComponentConstraintChange.java -text
 designer/src/com/kesdip/designer/command/ComponentCreation.java -text

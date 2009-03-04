@@ -50,8 +50,8 @@ import com.kesdip.designer.action.DeleteLayoutAction;
 import com.kesdip.designer.action.DesignerCopyAction;
 import com.kesdip.designer.action.DesignerCutAction;
 import com.kesdip.designer.action.DesignerPasteAction;
-import com.kesdip.designer.action.LayoutMoveDownAction;
-import com.kesdip.designer.action.LayoutMoveUpAction;
+import com.kesdip.designer.action.MoveDownAction;
+import com.kesdip.designer.action.MoveUpAction;
 import com.kesdip.designer.action.MaximizeAction;
 import com.kesdip.designer.handler.DeploymentEditorInput;
 import com.kesdip.designer.handler.LayoutEditorInput;
@@ -236,8 +236,8 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 		actionRegistry.registerAction(new DesignerPasteAction(this));
 		actionRegistry.registerAction(new CreateLayoutAction(this));
 		actionRegistry.registerAction(new DeleteLayoutAction(this));
-		actionRegistry.registerAction(new LayoutMoveUpAction(this));
-		actionRegistry.registerAction(new LayoutMoveDownAction(this));
+		actionRegistry.registerAction(new MoveUpAction(this));
+		actionRegistry.registerAction(new MoveDownAction(this));
 		actionRegistry.registerAction(new MaximizeAction(this));
 	}
 
@@ -419,32 +419,36 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 			setPageText(pageIndex, (String) evt.getNewValue());
 		}
 		if (evt.getPropertyName().equals(ModelElement.CHILD_MOVE_DOWN)) {
-			Layout l = (Layout) evt.getNewValue();
-			int pageIndex = pagesMap.get(l);
-			removePage(pageIndex);
-			pagesMap.remove(l);
-			l.removePropertyChangeListener(this);
-			for (Layout c : pagesMap.keySet()) {
-				if (pagesMap.get(c) == pageIndex + 1) {
-					pagesMap.put(c, pageIndex);
-					break;
+			if (evt.getNewValue() instanceof Layout) {
+				Layout l = (Layout) evt.getNewValue();
+				int pageIndex = pagesMap.get(l);
+				removePage(pageIndex);
+				pagesMap.remove(l);
+				l.removePropertyChangeListener(this);
+				for (Layout c : pagesMap.keySet()) {
+					if (pagesMap.get(c) == pageIndex + 1) {
+						pagesMap.put(c, pageIndex);
+						break;
+					}
 				}
+				addPageForLayout(pageIndex + 1, l);
 			}
-			addPageForLayout(pageIndex + 1, l);
 		}
 		if (evt.getPropertyName().equals(ModelElement.CHILD_MOVE_UP)) {
-			Layout l = (Layout) evt.getNewValue();
-			int pageIndex = pagesMap.get(l);
-			removePage(pageIndex);
-			pagesMap.remove(l);
-			l.removePropertyChangeListener(this);
-			for (Layout c : pagesMap.keySet()) {
-				if (pagesMap.get(c) == pageIndex - 1) {
-					pagesMap.put(c, pageIndex);
-					break;
+			if (evt.getNewValue() instanceof Layout) {
+				Layout l = (Layout) evt.getNewValue();
+				int pageIndex = pagesMap.get(l);
+				removePage(pageIndex);
+				pagesMap.remove(l);
+				l.removePropertyChangeListener(this);
+				for (Layout c : pagesMap.keySet()) {
+					if (pagesMap.get(c) == pageIndex - 1) {
+						pagesMap.put(c, pageIndex);
+						break;
+					}
 				}
+				addPageForLayout(pageIndex - 1, l);
 			}
-			addPageForLayout(pageIndex - 1, l);
 		}
 	}
 

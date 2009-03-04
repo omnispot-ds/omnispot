@@ -9,8 +9,8 @@ import org.eclipse.ui.actions.ActionFactory;
 
 import com.kesdip.designer.action.CreateLayoutAction;
 import com.kesdip.designer.action.DeleteLayoutAction;
-import com.kesdip.designer.action.LayoutMoveDownAction;
-import com.kesdip.designer.action.LayoutMoveUpAction;
+import com.kesdip.designer.action.MoveDownAction;
+import com.kesdip.designer.action.MoveUpAction;
 
 public class FirstPageContextMenuProvider extends ContextMenuProvider {
 	private ActionRegistry actionRegistry;
@@ -43,9 +43,9 @@ public class FirstPageContextMenuProvider extends ContextMenuProvider {
 		menu.appendToGroup(GEFActionConstants.GROUP_EDIT,
 				actionRegistry.getAction(DeleteLayoutAction.ID));
 		menu.appendToGroup(GEFActionConstants.GROUP_EDIT,
-				actionRegistry.getAction(LayoutMoveUpAction.ID));
+				actionRegistry.getAction(MoveUpAction.ID));
 		menu.appendToGroup(GEFActionConstants.GROUP_EDIT,
-				actionRegistry.getAction(LayoutMoveDownAction.ID));
+				actionRegistry.getAction(MoveDownAction.ID));
 	}
 
 }

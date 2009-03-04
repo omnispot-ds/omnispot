@@ -46,8 +46,6 @@ public abstract class ComponentModelElement extends ModelElement {
 	public static final String YPOS_PROP = "Component.yPos";
 	/** Property ID for the background color property value. */
 	public static final String BACK_COLOR_PROP = "Component.backgroundColor";
-	/** Property ID for the Z property value. */
-	public static final String ZPOS_PROP = "Component.zPos";
 	/** Property ID to use when the location of this shape is modified. */
 	public static final String LOCATION_PROP = "Component.Location";
 	/** Property ID to use then the size of this shape is modified. */
@@ -66,7 +64,6 @@ public abstract class ComponentModelElement extends ModelElement {
 				new TextPropertyDescriptor(WIDTH_PROP, "Width"),
 				new TextPropertyDescriptor(HEIGHT_PROP, "Height"),
 				new ColorPropertyDescriptor(BACK_COLOR_PROP, "Background Color"),
-				new TextPropertyDescriptor(ZPOS_PROP, "ZOrder")
 		};
 		// use a custom cell editor validator for all five array entries
 		for (int i = 0; i < descriptors.length; i++) {
@@ -97,7 +94,6 @@ public abstract class ComponentModelElement extends ModelElement {
 	protected Point location = new Point(0, 0);
 	/** Size of this shape. */
 	protected Dimension size = new Dimension(50, 50);
-	protected int zorder = 0;
 	protected Color backgroundColor = Color.BLACK;
 	
 	abstract Element serialize(Document doc);
@@ -135,8 +131,6 @@ public abstract class ComponentModelElement extends ModelElement {
 			constructorArg.setAttribute("value", String.valueOf(backgroundColor.getBlue()));
 			backColorElement.appendChild(constructorArg);
 		}
-		// TODO Do we need zorder? make sure all component model elements support it.
-		// DOMHelpers.addProperty(doc, componentElement, "zOrder", String.valueOf(zorder));
 	}
 	
 	protected void deserialize(Document doc, Node componentNode) {
@@ -149,14 +143,11 @@ public abstract class ComponentModelElement extends ModelElement {
 			setPropertyValue(BACK_COLOR_PROP,
 					new RGB(bc.getRed(), bc.getGreen(), bc.getBlue()));
 		}
-		// TODO Do we need zorder? make sure all component model elements support it.
-		// setPropertyValue(ZPOS_PROP, DOMHelpers.getSimpleProperty(componentNode, "zOrder"));
 	}
 	
 	void checkEquivalence(ComponentModelElement other) {
 		assert(location.equals(other.location));
 		assert(size.equals(other.size));
-		assert(zorder == other.zorder);
 		if (backgroundColor == null)
 			assert(other.backgroundColor == null);
 		else
@@ -209,9 +200,6 @@ public abstract class ComponentModelElement extends ModelElement {
 					backgroundColor.getGreen(),
 					backgroundColor.getBlue());
 			return v;
-		}
-		if (ZPOS_PROP.equals(propertyId)) {
-			return Integer.toString(zorder);
 		}
 		if (LOCATION_PROP.equals(propertyId)) {
 			return location;
@@ -283,9 +271,6 @@ public abstract class ComponentModelElement extends ModelElement {
 			RGB rgbValue = (RGB) value;
 			backgroundColor = new Color(rgbValue.red, rgbValue.green, rgbValue.blue);
 			firePropertyChange(BACK_COLOR_PROP, oldValue, value);
-		} else if (ZPOS_PROP.equals(propertyId)) {
-			int zorder = Integer.parseInt((String) value);
-			setZorder(zorder);
 		} else if (LOCATION_PROP.equals(propertyId)) {
 			setLocation((Point) value);
 		} else if (SIZE_PROP.equals(propertyId)) {
@@ -307,16 +292,10 @@ public abstract class ComponentModelElement extends ModelElement {
 		}
 	}
 	
-	public void setZorder(int zorder) {
-		this.zorder = zorder;
-		firePropertyChange(ZPOS_PROP, null, zorder);
-	}
-
 	public void deepCopy(ComponentModelElement cme) {
 		backgroundColor = new Color(cme.backgroundColor.getRGB());
 		location = new Point(cme.location);
 		size = new Dimension(cme.size);
-		zorder = cme.zorder;
 	}
 	
 	@Override

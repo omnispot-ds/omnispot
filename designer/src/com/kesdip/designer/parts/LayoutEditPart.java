@@ -89,7 +89,9 @@ public class LayoutEditPart extends AbstractGraphicalEditPart implements
 		// the ShapeDiagram instance and must cause a call of refreshChildren()
 		// to update the diagram's contents.
 		if (Layout.REGION_ADDED_PROP.equals(prop)
-				|| Layout.REGION_REMOVED_PROP.equals(prop)) {
+				|| Layout.REGION_REMOVED_PROP.equals(prop)
+				|| Layout.CHILD_MOVE_UP.equals(prop)
+				|| Layout.CHILD_MOVE_DOWN.equals(prop)) {
 			refreshChildren();
 		}
 	}

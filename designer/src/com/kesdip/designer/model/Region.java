@@ -307,7 +307,7 @@ public class Region extends ComponentModelElement {
 	}
 	
 	public String toString() {
-		return "Region";
+		return "Region: " + name;
 	}
 
 }
