@@ -112,6 +112,7 @@ public class ImageComponent extends ComponentModelElement {
 		};
 		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
+			((PropertyDescriptor) descriptors[i]).setCategory("Behaviour");
 			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 				public String isValid(Object value) {
 					// No validation for the images or duration.

@@ -137,6 +137,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		};
 		// use a custom cell editor validator for all three array entries
 		for (int i = 0; i < descriptors.length; i++) {
+			((PropertyDescriptor) descriptors[i]).setCategory("Behaviour");
 			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 				public String isValid(Object value) {
 					return null;

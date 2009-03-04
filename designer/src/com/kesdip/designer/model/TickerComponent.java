@@ -205,6 +205,7 @@ public class TickerComponent extends ComponentModelElement {
 		};
 		// use a custom cell editor validator for all three array entries
 		for (int i = 0; i < descriptors.length; i++) {
+			((PropertyDescriptor) descriptors[i]).setCategory("Behaviour");
 			if (descriptors[i].getId().equals(SPEED_PROP)) {
 				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 					public String isValid(Object value) {

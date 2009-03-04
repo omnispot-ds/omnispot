@@ -493,9 +493,11 @@ designer/src/com/kesdip/designer/parts/PageOneRootPart.java -text
 designer/src/com/kesdip/designer/parts/RegionEditPart.java -text
 designer/src/com/kesdip/designer/properties/CheckboxPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/ComboBoxPropertyDescriptor.java -text
+designer/src/com/kesdip/designer/properties/DimensionPropertySource.java -text
 designer/src/com/kesdip/designer/properties/FileChooserPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/FontCellEditor.java -text
 designer/src/com/kesdip/designer/properties/FontPropertyDescriptor.java -text
+designer/src/com/kesdip/designer/properties/LocationPropertySource.java -text
 designer/src/com/kesdip/designer/properties/ResourceCellModifier.java -text
 designer/src/com/kesdip/designer/properties/ResourceFileCellEditor.java -text
 designer/src/com/kesdip/designer/properties/ResourceListCellEditor.java -text

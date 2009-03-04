@@ -16,6 +16,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.kesdip.designer.properties.DimensionPropertySource;
+import com.kesdip.designer.properties.LocationPropertySource;
 import com.kesdip.designer.utils.DOMHelpers;
 
 /**
@@ -58,15 +60,14 @@ public abstract class ComponentModelElement extends ModelElement {
 	 * @see #setPropertyValue(Object, Object)
 	 */
 	static {
-		descriptors = new IPropertyDescriptor[] { 
-				new TextPropertyDescriptor(XPOS_PROP, "X"), // id and description pair
-				new TextPropertyDescriptor(YPOS_PROP, "Y"),
-				new TextPropertyDescriptor(WIDTH_PROP, "Width"),
-				new TextPropertyDescriptor(HEIGHT_PROP, "Height"),
-				new ColorPropertyDescriptor(BACK_COLOR_PROP, "Background Color"),
+		descriptors = new IPropertyDescriptor[] {
+				new TextPropertyDescriptor(LOCATION_PROP, "Location"),
+				new TextPropertyDescriptor(SIZE_PROP, "Size"),
+				new ColorPropertyDescriptor(BACK_COLOR_PROP, "Background Color")
 		};
 		// use a custom cell editor validator for all five array entries
 		for (int i = 0; i < descriptors.length; i++) {
+			((PropertyDescriptor) descriptors[i]).setCategory("Real Estate");
 			if (descriptors[i].getId().equals(BACK_COLOR_PROP)) {
 				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 					public String isValid(Object value) {
@@ -77,13 +78,9 @@ public abstract class ComponentModelElement extends ModelElement {
 			} else {
 				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 					public String isValid(Object value) {
-						int intValue = -1;
-						try {
-							intValue = Integer.parseInt((String) value);
-						} catch (NumberFormatException exc) {
-							return "Not a number";
-						}
-						return (intValue >= 0) ? null : "Value must be >=  0";
+						// Validation is performed at the children property 
+						// source implementations.
+						return null;
 					}
 				});
 			}
@@ -92,8 +89,12 @@ public abstract class ComponentModelElement extends ModelElement {
 
 	/** Location of this shape. */
 	protected Point location = new Point(0, 0);
+	protected LocationPropertySource locationPropertySource =
+		new LocationPropertySource(location);
 	/** Size of this shape. */
 	protected Dimension size = new Dimension(50, 50);
+	protected DimensionPropertySource dimensionPropertySource =
+		new DimensionPropertySource(size);
 	protected Color backgroundColor = Color.BLACK;
 	
 	abstract Element serialize(Document doc);
@@ -202,10 +203,10 @@ public abstract class ComponentModelElement extends ModelElement {
 			return v;
 		}
 		if (LOCATION_PROP.equals(propertyId)) {
-			return location;
+			return locationPropertySource;
 		}
 		if (SIZE_PROP.equals(propertyId)) {
-			return size;
+			return dimensionPropertySource;
 		}
 		return super.getPropertyValue(propertyId);
 	}
