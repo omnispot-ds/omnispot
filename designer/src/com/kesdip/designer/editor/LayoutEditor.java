@@ -72,6 +72,12 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 	}
 	
 	@Override
+	public void dispose() {
+		getSelectionSynchronizer().removeViewer(getGraphicalViewer());
+		super.dispose();
+	}
+
+	@Override
 	protected SelectionSynchronizer getSelectionSynchronizer() {
 		return selectionSynchronizer;
 	}
@@ -79,12 +85,6 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		updateActions(getSelectionActions());
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Object getAdapter(Class type) {
-		return super.getAdapter(type);
 	}
 
 	/* (non-Javadoc)
@@ -240,7 +240,8 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 	protected void setInput(IEditorInput input) {
 		super.setInput(input);
 		if (input instanceof LayoutEditorInput) {
-			model = ((LayoutEditorInput) input).getLayout();
+			if (model != ((LayoutEditorInput) input).getLayout())
+				model = ((LayoutEditorInput) input).getLayout();
 		}
 	}
 

@@ -74,6 +74,7 @@ public class DeploymentEditor extends MultiPageEditorPart implements
     private ISelectionListener selectionListener;
 	private boolean isDirty;
 	private Map<Layout, Integer> pagesMap;
+	private Map<Layout, LayoutEditor> pageEditorsMap;
 
 
 	public DeploymentEditor() {
@@ -93,6 +94,7 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 	    };
 	    multiPageCommandStackListener = new MultiPageCommandStackListener();
 	    pagesMap = new HashMap<Layout, Integer>();
+	    pageEditorsMap = new HashMap<Layout, LayoutEditor>();
 	}
 	
 	public Deployment getModel() {
@@ -381,12 +383,17 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 			LayoutEditor editor = new LayoutEditor(this, getSelectionSynchronizer(), outlineViewer);
 			addPage(index, editor, new LayoutEditorInput(l));
 			pagesMap.put(l, index);
+			pageEditorsMap.put(l, editor);
 			multiPageCommandStackListener.addCommandStack(editor.getEditorCommandStack());
 			l.addPropertyChangeListener(this);
 			setPageText(index, l.getName());
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private LayoutEditor getEditorForLayout(Layout l) {
+		return pageEditorsMap.get(l);
 	}
 
 	@Override
@@ -401,6 +408,8 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 			removePage(pageIndex);
 			pagesMap.remove(l);
 			l.removePropertyChangeListener(this);
+			multiPageCommandStackListener.removeCommandStack(
+					getEditorForLayout(l).getEditorCommandStack());
 			List<Layout> updatePages = new ArrayList<Layout>();
 			for (Layout c : pagesMap.keySet()) {
 				if (pagesMap.get(c) > pageIndex)
@@ -422,15 +431,17 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 			if (evt.getNewValue() instanceof Layout) {
 				Layout l = (Layout) evt.getNewValue();
 				int pageIndex = pagesMap.get(l);
-				removePage(pageIndex);
 				pagesMap.remove(l);
 				l.removePropertyChangeListener(this);
+				multiPageCommandStackListener.removeCommandStack(
+						getEditorForLayout(l).getEditorCommandStack());
 				for (Layout c : pagesMap.keySet()) {
 					if (pagesMap.get(c) == pageIndex + 1) {
 						pagesMap.put(c, pageIndex);
 						break;
 					}
 				}
+				removePage(pageIndex);
 				addPageForLayout(pageIndex + 1, l);
 			}
 		}
@@ -438,15 +449,17 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 			if (evt.getNewValue() instanceof Layout) {
 				Layout l = (Layout) evt.getNewValue();
 				int pageIndex = pagesMap.get(l);
-				removePage(pageIndex);
 				pagesMap.remove(l);
 				l.removePropertyChangeListener(this);
+				multiPageCommandStackListener.removeCommandStack(
+						getEditorForLayout(l).getEditorCommandStack());
 				for (Layout c : pagesMap.keySet()) {
 					if (pagesMap.get(c) == pageIndex - 1) {
 						pagesMap.put(c, pageIndex);
 						break;
 					}
 				}
+				removePage(pageIndex);
 				addPageForLayout(pageIndex - 1, l);
 			}
 		}
@@ -458,8 +471,7 @@ public class DeploymentEditor extends MultiPageEditorPart implements
      *  
      * @author Gunnar Wagenknecht
      */
-    private class MultiPageCommandStackListener implements CommandStackListener
-    {
+    private class MultiPageCommandStackListener implements CommandStackListener {
 
         /** the observed command stacks */
         @SuppressWarnings("unchecked")
@@ -470,35 +482,31 @@ public class DeploymentEditor extends MultiPageEditorPart implements
          * @param commandStack
          */
         @SuppressWarnings("unchecked")
-		public void addCommandStack(CommandStack commandStack)
-        {
+		public void addCommandStack(CommandStack commandStack) {
             commandStacks.add(commandStack);
             commandStack.addCommandStackListener(this);
+        }
+        
+        public void removeCommandStack(CommandStack commandStack) {
+        	commandStack.removeCommandStackListener(this);
+        	commandStacks.remove(commandStack);
         }
 
         /* (non-Javadoc)
          * @see org.eclipse.gef.commands.CommandStackListener#commandStackChanged(java.util.EventObject)
          */
         @SuppressWarnings("unchecked")
-		public void commandStackChanged(EventObject event)
-        {
-            if (((CommandStack) event.getSource()).isDirty())
-            {
+		public void commandStackChanged(EventObject event) {
+            if (((CommandStack) event.getSource()).isDirty()) {
                 // at least one command stack is dirty, 
                 // so the multi page editor is dirty too
                 setDirty(true);
-            }
-            else
-            {
+            } else {
                 // probably a save, we have to check all command stacks
                 boolean oneIsDirty = false;
-                for (Iterator stacks = commandStacks.iterator();
-                    stacks.hasNext();
-                    )
-                {
+                for (Iterator stacks = commandStacks.iterator(); stacks.hasNext(); ) {
                     CommandStack stack = (CommandStack) stacks.next();
-                    if (stack.isDirty())
-                    {
+                    if (stack.isDirty()) {
                         oneIsDirty = true;
                         break;
                     }
@@ -511,10 +519,8 @@ public class DeploymentEditor extends MultiPageEditorPart implements
          * Disposed the listener
          */
         @SuppressWarnings("unchecked")
-		public void dispose()
-        {
-            for (Iterator stacks = commandStacks.iterator(); stacks.hasNext();)
-            {
+		public void dispose() {
+            for (Iterator stacks = commandStacks.iterator(); stacks.hasNext(); ) {
                 ((CommandStack) stacks.next()).removeCommandStackListener(this);
             }
             commandStacks.clear();
@@ -526,10 +532,8 @@ public class DeploymentEditor extends MultiPageEditorPart implements
          * was saved.
          */
         @SuppressWarnings("unchecked")
-		public void markSaveLocations()
-        {
-            for (Iterator stacks = commandStacks.iterator(); stacks.hasNext();)
-            {
+		public void markSaveLocations() {
+            for (Iterator stacks = commandStacks.iterator(); stacks.hasNext(); ) {
                 CommandStack stack = (CommandStack) stacks.next();
                 stack.markSaveLocation();
             }

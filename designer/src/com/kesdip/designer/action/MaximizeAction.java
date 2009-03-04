@@ -17,6 +17,8 @@ import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.model.ModelElement;
+import com.kesdip.designer.properties.DimensionPropertySource;
+import com.kesdip.designer.properties.LocationPropertySource;
 
 public class MaximizeAction extends SelectionAction {
 	public static final String ID = "com.kesdip.designer.action.maximize";
@@ -57,8 +59,10 @@ public class MaximizeAction extends SelectionAction {
 		
 		ChangeBoundsRequest req = new ChangeBoundsRequest(RequestConstants.REQ_RESIZE);
 		Rectangle newBounds = new Rectangle(
-				(Point) parent.getPropertyValue(ComponentModelElement.LOCATION_PROP),
-				(Dimension) parent.getPropertyValue(ComponentModelElement.SIZE_PROP));
+				(Point) ((LocationPropertySource) parent.getPropertyValue(
+						ComponentModelElement.LOCATION_PROP)).getEditableValue(),
+				(Dimension) ((DimensionPropertySource) parent.getPropertyValue(
+						ComponentModelElement.SIZE_PROP)).getEditableValue());
 		Command retVal = new ComponentConstraintChange(element, req, newBounds);
 		return retVal;
 	}
