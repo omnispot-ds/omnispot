@@ -33,14 +33,6 @@
                name="appName"
                value="Ke.S.Di.P. E.P.E. Designer">
          </property>
-         <property
-               name="aboutImage"
-               value="splash.bmp">
-         </property>
-         <property
-               name="aboutText"
-               value="This is the Designer Product. Brought to you by Ke.S.Di.P. E.P.E. Enterprises Corp.">
-         </property>
       </product>
    </extension>
    <extension
