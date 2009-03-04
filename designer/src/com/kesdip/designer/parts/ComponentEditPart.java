@@ -3,13 +3,8 @@ package com.kesdip.designer.parts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.RoundedRectangle;
-import org.eclipse.draw2d.Triangle;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -19,6 +14,11 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 import com.kesdip.designer.editor.DesignerComponentEditPolicy;
+import com.kesdip.designer.figure.FlashFigure;
+import com.kesdip.designer.figure.FlashWeatherFigure;
+import com.kesdip.designer.figure.ImageFigure;
+import com.kesdip.designer.figure.TickerFigure;
+import com.kesdip.designer.figure.VideoFigure;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.FlashComponent;
 import com.kesdip.designer.model.FlashWeatherComponent;
@@ -50,26 +50,25 @@ public class ComponentEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	protected IFigure createFigure() {
 		IFigure f;
-		if (getModel() instanceof ImageComponent)
-			f = new RoundedRectangle();
-		else if (getModel() instanceof VideoComponent)
-			f = new Triangle();
-		else if (getModel() instanceof TickerComponent)
-			f = new Ellipse();
-		else if (getModel() instanceof FlashComponent) {
-			RoundedRectangle rr = new RoundedRectangle();
-			rr.setCornerDimensions(new Dimension(20, 20));
-			f = rr;
+		if (getModel() instanceof ImageComponent) {
+			ImageComponent imageComponent = (ImageComponent) getModel();
+			f = new ImageFigure(imageComponent);
+		} else if (getModel() instanceof VideoComponent) {
+			VideoComponent videoComponent = (VideoComponent) getModel();
+			f = new VideoFigure(videoComponent);
+		} else if (getModel() instanceof TickerComponent) {
+			TickerComponent tickerComponent = (TickerComponent) getModel();
+			f = new TickerFigure(tickerComponent);
+		} else if (getModel() instanceof FlashComponent) {
+			FlashComponent flashComponent = (FlashComponent) getModel();
+			f = new FlashFigure(flashComponent);
 		} else if (getModel() instanceof FlashWeatherComponent) {
-			RoundedRectangle rr = new RoundedRectangle();
-			rr.setCornerDimensions(new Dimension(30, 30));
-			f = rr;
+			FlashWeatherComponent flashWeatherComponent = (FlashWeatherComponent) getModel();
+			f = new FlashWeatherFigure(flashWeatherComponent);
 		} else
 			throw new RuntimeException("Unexpected model class: " +
 					getModel().getClass().getName());
 		
-		f.setOpaque(true); // non-transparent figure
-		f.setBackgroundColor(ColorConstants.green);
 		return f;
 	}
 

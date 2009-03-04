@@ -58,7 +58,7 @@ public class RegionEditPart extends AbstractGraphicalEditPart implements
 	protected IFigure createFigure() {
 		IFigure f = new RectangleFigure();
 		f.setOpaque(true); // non-transparent figure
-		f.setBackgroundColor(ColorConstants.green);
+		f.setBackgroundColor(ColorConstants.blue);
 		f.setLayoutManager(new FreeformLayout());
 		return f;
 	}

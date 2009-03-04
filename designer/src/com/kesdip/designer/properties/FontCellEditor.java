@@ -13,6 +13,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FontDialog;
 
+import com.kesdip.designer.utils.FontKludge;
+
 public class FontCellEditor extends DialogCellEditor {
 	
 	private Composite parent;
@@ -70,7 +72,9 @@ public class FontCellEditor extends DialogCellEditor {
 		if ((fontData.getStyle() & SWT.ITALIC) != 0)
 			style |= Font.ITALIC;
 		int size = fontData.getHeight();
-		return new Font(name, style, size);
+		FontKludge f = new FontKludge(name, style, size);
+		f.setFontData(fontData);
+		return f;
 	}
 
 }

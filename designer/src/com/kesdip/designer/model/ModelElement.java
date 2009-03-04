@@ -1,5 +1,6 @@
 package com.kesdip.designer.model;
 
+import java.awt.Font;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
@@ -7,7 +8,10 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -172,4 +176,20 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 		}
 	}
 
+	protected org.eclipse.swt.graphics.Font assureFontExists(Font sourceFont) {
+		FontData[] fontDataArray = Display.getDefault().getFontList(
+				sourceFont.getFamily(), true);
+		if (fontDataArray.length == 0)
+			return null;
+		FontData retVal = fontDataArray[0];
+		retVal.setName(sourceFont.getFamily());
+		int style = Font.PLAIN;
+		if ((sourceFont.getStyle() & SWT.BOLD) != 0)
+			style |= Font.BOLD;
+		if ((sourceFont.getStyle() & SWT.ITALIC) != 0)
+			style |= Font.ITALIC;
+		retVal.setStyle(style);
+		retVal.setHeight(sourceFont.getSize());
+		return new org.eclipse.swt.graphics.Font(Display.getCurrent(), retVal);
+	}
 }

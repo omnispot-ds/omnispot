@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
@@ -23,6 +25,7 @@ import org.w3c.dom.NodeList;
 import com.kesdip.designer.properties.CheckboxPropertyDescriptor;
 import com.kesdip.designer.properties.FontPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
+import com.kesdip.designer.utils.FontKludge;
 
 public class TickerComponent extends ComponentModelElement {
 	/** A 16x16 pictogram of an elliptical shape. */
@@ -64,14 +67,23 @@ public class TickerComponent extends ComponentModelElement {
 	private Color foregroundColor;
 	private boolean isTransparent;
 	
+	/* Transient state */
+	private FontData fontData;
+	
 	public TickerComponent() {
 		type = STRING_TICKER_TYPE;
 		url = "";
-		string = "";
+		string = "Repeat this text forever!";
 		speed = 2.0;
 		font = new Font("Arial", Font.PLAIN, 24);
-		foregroundColor = Color.BLACK;
+		foregroundColor = Color.WHITE;
 		isTransparent = false;
+		
+		fontData = null;
+	}
+	
+	public FontData getFontData() {
+		return fontData;
 	}
 
 	protected Element serialize(Document doc) {
@@ -129,13 +141,17 @@ public class TickerComponent extends ComponentModelElement {
 	}
 	
 	protected void deserialize(Document doc, Node componentNode) {
+		Color oldBackgroundColor = backgroundColor;
+		backgroundColor = null;
 		super.deserialize(doc, componentNode);
 		isTransparent = backgroundColor == null; // This is not stored in the XML
+		backgroundColor = oldBackgroundColor;
 		setPropertyValue(SPEED_PROP, DOMHelpers.getSimpleProperty(componentNode, "speed"));
 		Color bc = DOMHelpers.getColorProperty(componentNode, "foregroundColor");
 		setPropertyValue(FOREGROUND_COLOR_PROP,
 				new RGB(bc.getRed(), bc.getGreen(), bc.getBlue()));
-		setPropertyValue(FONT_PROP, DOMHelpers.getFontProperty(componentNode, "font"));
+		setPropertyValue(FONT_PROP, assureFontExists(
+				DOMHelpers.getFontProperty(componentNode, "font")));
 		Node tickerSourcePropNode = DOMHelpers.getPropertyNode(componentNode, "tickerSource");
 		NodeList children = tickerSourcePropNode.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
@@ -281,8 +297,27 @@ public class TickerComponent extends ComponentModelElement {
 			speed = Double.parseDouble((String) value);
 			firePropertyChange(SPEED_PROP, oldValue, value);
 		} else if (FONT_PROP.equals(propertyId)) {
+			Font newValue;
+			if (value instanceof FontKludge) {
+				newValue = (FontKludge) value;
+				fontData = ((FontKludge) newValue).getFontData();
+			} else if (value instanceof org.eclipse.swt.graphics.Font) {
+				org.eclipse.swt.graphics.Font f = (org.eclipse.swt.graphics.Font) value;
+				fontData = f.getFontData()[0];
+				int style = Font.PLAIN;
+				if ((fontData.getStyle() & SWT.BOLD) != 0)
+					style |= Font.BOLD;
+				if ((fontData.getStyle() & SWT.ITALIC) != 0)
+					style |= Font.ITALIC;
+				newValue = new FontKludge(fontData.getName(), style, fontData.getHeight());
+				assureFontExists(newValue);
+			} else {
+				newValue = (Font) value;
+				fontData = null;
+				assureFontExists(newValue);
+			}
 			Font oldValue = font;
-			font = (Font) value;
+			font = newValue;
 			firePropertyChange(FONT_PROP, oldValue, font);
 		} else if (FOREGROUND_COLOR_PROP.equals(propertyId)) {
 			RGB oldValue = new RGB(

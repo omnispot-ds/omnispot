@@ -449,6 +449,11 @@ designer/src/com/kesdip/designer/editor/DesignerEditorPaletteFactory.java -text
 designer/src/com/kesdip/designer/editor/FirstPageContextMenuProvider.java -text
 designer/src/com/kesdip/designer/editor/LayoutEditor.java -text
 designer/src/com/kesdip/designer/editor/OutlinePage.java -text
+designer/src/com/kesdip/designer/figure/FlashFigure.java -text
+designer/src/com/kesdip/designer/figure/FlashWeatherFigure.java -text
+designer/src/com/kesdip/designer/figure/ImageFigure.java -text
+designer/src/com/kesdip/designer/figure/TickerFigure.java -text
+designer/src/com/kesdip/designer/figure/VideoFigure.java -text
 designer/src/com/kesdip/designer/handler/DeploymentEditorInput.java -text
 designer/src/com/kesdip/designer/handler/ExitCommand.java -text
 designer/src/com/kesdip/designer/handler/LayoutEditorInput.java -text
@@ -501,6 +506,7 @@ designer/src/com/kesdip/designer/properties/ValidatingTextCellEditor.java -text
 designer/src/com/kesdip/designer/utils/DOMHelpers.java -text
 designer/src/com/kesdip/designer/utils/DesignerLog.java -text
 designer/src/com/kesdip/designer/utils/FileUtils.java -text
+designer/src/com/kesdip/designer/utils/FontKludge.java -text
 etc/.project -text
 etc/ant/common-targets.xml -text
 etc/ant/create-db.xml -text
