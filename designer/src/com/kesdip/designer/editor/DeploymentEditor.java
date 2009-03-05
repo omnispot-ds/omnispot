@@ -13,13 +13,20 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.editparts.ScalableRootEditPart;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.gef.ui.actions.UpdateAction;
+import org.eclipse.gef.ui.actions.ZoomInAction;
+import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
@@ -70,12 +77,13 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 	private ActionRegistry actionRegistry;
 	private MultiPageCommandStackListener multiPageCommandStackListener;
 	private DelegatingCommandStack delegatingCommandStack;
+	private DelegatingZoomManager delegatingZoomManager;
     private CommandStackListener delegatingCommandStackListener;
     private ISelectionListener selectionListener;
 	private boolean isDirty;
 	private Map<Layout, Integer> pagesMap;
 	private Map<Layout, LayoutEditor> pageEditorsMap;
-
+	private IContentOutlinePage outlinePage;
 
 	public DeploymentEditor() {
 		actionRegistry = new ActionRegistry();
@@ -134,6 +142,41 @@ public class DeploymentEditor extends MultiPageEditorPart implements
             return null;
 
         return (EditorPart) getEditor(getActivePage());
+    }
+    
+    protected DelegatingZoomManager getDelegatingZoomManager()
+    {
+        if (null == delegatingZoomManager)
+        {
+            delegatingZoomManager = new DelegatingZoomManager();
+            if (null != getCurrentPage()) {
+            	if (getCurrentPage() instanceof LayoutEditor) {
+            		LayoutEditor le = (LayoutEditor) getCurrentPage();
+	                delegatingZoomManager.setCurrentZoomManager(
+	                    getZoomManager(le.getViewer()));
+            	}
+            }
+        }
+
+        return delegatingZoomManager;
+    }
+
+    private ZoomManager getZoomManager(GraphicalViewer viewer)
+    {
+        // get zoom manager from root edit part
+        RootEditPart rootEditPart = viewer.getRootEditPart();
+        ZoomManager zoomManager = null;
+        if (rootEditPart instanceof ScalableFreeformRootEditPart)
+        {
+            zoomManager =
+                ((ScalableFreeformRootEditPart) rootEditPart).getZoomManager();
+        }
+        else if (rootEditPart instanceof ScalableRootEditPart)
+        {
+            zoomManager =
+                ((ScalableRootEditPart) rootEditPart).getZoomManager();
+        }
+        return zoomManager;
     }
     
     protected DelegatingCommandStack getDelegatingCommandStack()
@@ -241,6 +284,8 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 		actionRegistry.registerAction(new MoveUpAction(this));
 		actionRegistry.registerAction(new MoveDownAction(this));
 		actionRegistry.registerAction(new MaximizeAction(this));
+		actionRegistry.registerAction(new ZoomInAction(getDelegatingZoomManager()));
+		actionRegistry.registerAction(new ZoomOutAction(getDelegatingZoomManager()));
 	}
 
 	@Override
@@ -293,9 +338,15 @@ public class DeploymentEditor extends MultiPageEditorPart implements
     		DesignerEditorFirstPage page =
     			(DesignerEditorFirstPage) getCurrentPage();
     		delegatingCommandStack.setCurrentCommandStack(page.getCommandStack());
+    		delegatingZoomManager.setCurrentZoomManager(null);
     	} else if (getCurrentPage() instanceof GraphicalEditor) {
     		delegatingCommandStack.setCurrentCommandStack(
     				(CommandStack) getCurrentPage().getAdapter(CommandStack.class));
+    		delegatingZoomManager.setCurrentZoomManager(
+    				getZoomManager(((LayoutEditor) getCurrentPage()).getViewer()));
+    		if (outlinePage instanceof DeploymentOutlinePage) {
+    			((DeploymentOutlinePage) outlinePage).initialize(getCurrentPage());
+    		}
     	} else {
     		throw new RuntimeException("Unexpected current page class: " +
     				getCurrentPage().getClass().getName());
@@ -309,6 +360,8 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 			return actionRegistry;
 		} else if (adapter == CommandStack.class) {
 			return getDelegatingCommandStack();
+		} else if (adapter == ZoomManager.class) {
+			return getDelegatingZoomManager();
 		} else if (adapter == IPropertySheetPage.class) {
 			PropertySheetPage page = new PropertySheetPage();
 			page.setRootEntry(new UndoablePropertySheetEntry(getDelegatingCommandStack()));
@@ -325,7 +378,9 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 			menuManager.setRemoveAllWhenShown(true);
 			outlineViewer.setContextMenu(menuManager);
 			getSite().registerContextMenu(menuManager, outlineViewer);
-			return new OutlinePage(outlineViewer, getSelectionSynchronizer(), model);
+			outlinePage = new DeploymentOutlinePage(
+					outlineViewer, getSelectionSynchronizer(), model);
+			return outlinePage;
 		}
 		return super.getAdapter(adapter);
 	}

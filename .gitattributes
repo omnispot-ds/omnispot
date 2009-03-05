@@ -438,10 +438,12 @@ designer/src/com/kesdip/designer/command/RegionConstraintChange.java -text
 designer/src/com/kesdip/designer/command/RegionCreation.java -text
 designer/src/com/kesdip/designer/command/RemoveSelectionCommand.java -text
 designer/src/com/kesdip/designer/editor/DelegatingCommandStack.java -text
+designer/src/com/kesdip/designer/editor/DelegatingZoomManager.java -text
 designer/src/com/kesdip/designer/editor/DeploymentActionBarContributor.java -text
 designer/src/com/kesdip/designer/editor/DeploymentContentProvider.java -text
 designer/src/com/kesdip/designer/editor/DeploymentEditor.java -text
 designer/src/com/kesdip/designer/editor/DeploymentLabelProvider.java -text
+designer/src/com/kesdip/designer/editor/DeploymentOutlinePage.java -text
 designer/src/com/kesdip/designer/editor/DesignerComponentEditPolicy.java -text
 designer/src/com/kesdip/designer/editor/DesignerEditorActionBarContributor.java -text
 designer/src/com/kesdip/designer/editor/DesignerEditorContentMenuProvider.java -text
@@ -450,6 +452,8 @@ designer/src/com/kesdip/designer/editor/DesignerEditorPaletteFactory.java -text
 designer/src/com/kesdip/designer/editor/FirstPageContextMenuProvider.java -text
 designer/src/com/kesdip/designer/editor/LayoutEditor.java -text
 designer/src/com/kesdip/designer/editor/OutlinePage.java -text
+designer/src/com/kesdip/designer/editor/icons/outline.gif -text
+designer/src/com/kesdip/designer/editor/icons/overview.gif -text
 designer/src/com/kesdip/designer/figure/FlashFigure.java -text
 designer/src/com/kesdip/designer/figure/FlashWeatherFigure.java -text
 designer/src/com/kesdip/designer/figure/ImageFigure.java -text

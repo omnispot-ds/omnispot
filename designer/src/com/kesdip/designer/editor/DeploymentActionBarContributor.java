@@ -5,9 +5,14 @@ import java.util.List;
 
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
+import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
+import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -32,7 +37,6 @@ public class DeploymentActionBarContributor extends
 
 	public void init(IActionBars bars, IWorkbenchPage page) {
 		super.init(bars, page);
-		buildActions();
 		declareGlobalActionKeys();
 		this.maxActionInitialized = false;
 	}
@@ -47,11 +51,28 @@ public class DeploymentActionBarContributor extends
 		addRetargetAction(new RedoRetargetAction());
 		addRetargetAction(new DeleteRetargetAction());
 		
+		addRetargetAction(new ZoomInRetargetAction());
+		addRetargetAction(new ZoomOutRetargetAction());
+		
 		if (!maxActionInitialized &&
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() != null) {
 			addAction(new MaximizeAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()));
 			maxActionInitialized = true;
 		}
+	}
+
+	@Override
+	public void contributeToMenu(IMenuManager menuManager) {
+		super.contributeToMenu(menuManager);
+		
+		buildActions();
+
+		// add a "View" menu after "Edit"
+        MenuManager viewMenu = new MenuManager("View");
+        viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
+        viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
+        
+        menuManager.insertAfter("com.kesdip.designer.EditMenu", viewMenu);
 	}
 
 	/**

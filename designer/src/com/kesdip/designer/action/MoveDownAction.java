@@ -13,7 +13,7 @@ import org.eclipse.ui.PlatformUI;
 import com.kesdip.designer.editor.DesignerComponentEditPolicy;
 
 public class MoveDownAction extends SelectionAction {
-	public static final String ID = "com.koutra.mge.action.MoveDown";
+	public static final String ID = "com.kesdip.designer.action.MoveDown";
 
 	/**
 	 * Constructs a <code>MPEditorMoveDownAction</code> using the specified part.

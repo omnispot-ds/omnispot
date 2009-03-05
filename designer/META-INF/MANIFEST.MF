@@ -5,14 +5,14 @@ Bundle-SymbolicName: com.kesdip.designer; singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: com.kesdip.designer.Activator
 Bundle-Vendor: Ke.S.Di.P. E.P.E.
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.ui.views,
- org.eclipse.draw2d,
- org.eclipse.gef,
+Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.views,
  org.eclipse.ui.ide,
- org.eclipse.ui.views.log
+ org.eclipse.ui.views.log,
+ org.eclipse.draw2d,
+ org.eclipse.gef
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/quartz-1.6.3.jar,

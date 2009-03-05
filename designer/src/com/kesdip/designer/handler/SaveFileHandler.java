@@ -46,7 +46,7 @@ public class SaveFileHandler extends AbstractHandler implements IHandler {
 			if (path == null) {
 				FileDialog dialog = new FileDialog(
 						HandlerUtil.getActiveShell(event), SWT.SAVE | SWT.APPLICATION_MODAL);
-				dialog.setFilterNames(new String[] { "Koutra Designer Files", "All files (*.*)" });
+				dialog.setFilterNames(new String[] { "Ke.S.Di.P. E.P.E. Designer Files", "All files (*.*)" });
 				dialog.setFilterExtensions(new String[] { "*.des.xml", "*.*" });
 				path = dialog.open();
 

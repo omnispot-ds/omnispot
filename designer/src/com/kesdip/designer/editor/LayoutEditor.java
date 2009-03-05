@@ -14,6 +14,7 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
@@ -69,6 +70,10 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 	
 	public DeploymentEditor getParentEditor() {
 		return parentEditor;
+	}
+	
+	public GraphicalViewer getViewer() {
+		return getGraphicalViewer();
 	}
 	
 	@Override
@@ -133,6 +138,12 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 		action = new MaximizeAction(this);
 		getSelectionActions().add(action.getId());
 		registry.registerAction(action);
+		
+		ActionRegistry parentRegistry = (ActionRegistry)
+			getParentEditor().getAdapter(ActionRegistry.class);
+		
+		registry.registerAction(parentRegistry.getAction(GEFActionConstants.ZOOM_OUT));
+		registry.registerAction(parentRegistry.getAction(GEFActionConstants.ZOOM_IN));
 	}
 
 	/* (non-Javadoc)

@@ -23,7 +23,7 @@ public class OpenFileHandler extends AbstractHandler implements IHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		FileDialog dialog = new FileDialog(
 				HandlerUtil.getActiveShell(event), SWT.OPEN | SWT.APPLICATION_MODAL);
-		dialog.setFilterNames(new String[] { "Koutra Designer Files", "All files (*.*)" });
+		dialog.setFilterNames(new String[] { "Ke.S.Di.P. E.P.E. Designer Files", "All files (*.*)" });
 		dialog.setFilterExtensions(new String[] { "*.des.xml", "*.*" });
 		String path = dialog.open();
 		DesignerLog.logInfo("User entered path: " + path);
