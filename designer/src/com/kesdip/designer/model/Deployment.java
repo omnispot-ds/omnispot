@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -89,7 +90,7 @@ public class Deployment extends ModelElement {
 		descriptors = new IPropertyDescriptor[] {
 				new TextPropertyDescriptor(SIZE_PROP, "Size"),
 				new TextPropertyDescriptor(BIT_DEPTH_PROP, "Bit Depth"),
-				new TextPropertyDescriptor(ID_PROP, "ID"),
+				new PropertyDescriptor(ID_PROP, "ID"),
 				new DatePropertyDescriptor(START_TIME_PROP, "Start Time")
 		};
 		// use a custom cell editor validator for all array entries
@@ -133,7 +134,7 @@ public class Deployment extends ModelElement {
 	
 	public Deployment() {
 		layoutList = new ArrayList<ModelElement>();
-		id = "";
+		id = UUID.randomUUID().toString();
 		startTime = new Date();
 	}
 	
@@ -415,7 +416,7 @@ public class Deployment extends ModelElement {
 	}
 	
 	public String toString() {
-		return "Deployment: " + id;
+		return id;
 	}
 	
 }

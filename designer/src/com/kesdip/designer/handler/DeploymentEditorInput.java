@@ -48,6 +48,10 @@ public class DeploymentEditorInput extends PlatformObject implements IEditorInpu
 	public String getPath() {
 		return path;
 	}
+	
+	public void setPath(String path) {
+		this.path = path;
+	}
 
 	@Override
 	public boolean equals(Object other) {

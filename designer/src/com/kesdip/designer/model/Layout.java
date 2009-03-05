@@ -274,7 +274,7 @@ public class Layout extends ModelElement {
 
 	@Override
 	public String toString() {
-		return "Layout: " + name;
+		return name;
 	}
 	
 	public String getName() {

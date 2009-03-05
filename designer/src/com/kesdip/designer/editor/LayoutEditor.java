@@ -60,6 +60,10 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 		this.outlineViewer = outlineViewer;
 	}
 	
+	public Layout getModel() {
+		return model;
+	}
+	
 	public ContextMenuProvider getOutlineContextMenuProvider() {
 		return outlineContextMenuProvider;
 	}

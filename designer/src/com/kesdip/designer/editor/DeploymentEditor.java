@@ -36,6 +36,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -65,6 +66,7 @@ import com.kesdip.designer.handler.LayoutEditorInput;
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.model.ModelElement;
+import com.kesdip.designer.parts.OutlineLayoutPart;
 import com.kesdip.designer.parts.OutlinePartFactory;
 
 @SuppressWarnings("restriction")
@@ -340,10 +342,13 @@ public class DeploymentEditor extends MultiPageEditorPart implements
     		delegatingCommandStack.setCurrentCommandStack(page.getCommandStack());
     		delegatingZoomManager.setCurrentZoomManager(null);
     	} else if (getCurrentPage() instanceof GraphicalEditor) {
+    		LayoutEditor le = (LayoutEditor) getCurrentPage();
     		delegatingCommandStack.setCurrentCommandStack(
     				(CommandStack) getCurrentPage().getAdapter(CommandStack.class));
     		delegatingZoomManager.setCurrentZoomManager(
-    				getZoomManager(((LayoutEditor) getCurrentPage()).getViewer()));
+    				getZoomManager(le.getViewer()));
+    		getSite().getSelectionProvider().setSelection(
+    				new StructuredSelection(new OutlineLayoutPart(le.getModel())));
     		if (outlinePage instanceof DeploymentOutlinePage) {
     			((DeploymentOutlinePage) outlinePage).initialize(getCurrentPage());
     		}

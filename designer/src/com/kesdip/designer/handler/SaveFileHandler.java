@@ -51,7 +51,7 @@ public class SaveFileHandler extends AbstractHandler implements IHandler {
 				path = dialog.open();
 
 			}
-			DesignerLog.logInfo("File being edited path: " + path);
+			DesignerLog.logInfo("Trying to save file path: " + path);
 
 			OutputStream os = new BufferedOutputStream(
 					new FileOutputStream(path));
@@ -66,6 +66,8 @@ public class SaveFileHandler extends AbstractHandler implements IHandler {
 					((DeploymentEditor) ed).markSaveLocation();
 				}
 			}
+			
+			((DeploymentEditorInput) de.getEditorInput()).setPath(path);
 		} catch (Exception e) {
 			DesignerLog.logError("Unable to save file", e);
 		}
