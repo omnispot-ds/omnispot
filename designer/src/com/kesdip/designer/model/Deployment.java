@@ -3,7 +3,6 @@ package com.kesdip.designer.model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +19,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -31,8 +31,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.kesdip.designer.properties.DatePropertyDescriptor;
+import com.kesdip.designer.properties.DimensionPropertySource;
 import com.kesdip.designer.utils.DOMHelpers;
-import com.kesdip.designer.utils.DesignerLog;
 
 public class Deployment extends ModelElement {
 
@@ -60,6 +61,8 @@ public class Deployment extends ModelElement {
 	public static final String WIDTH_PROP = "Deployment.Width";
 	/** Property ID to use for the height. */
 	public static final String HEIGHT_PROP = "Deployment.Height";
+	/** Property ID to use for the size. */
+	public static final String SIZE_PROP = "Deployment.Size";
 	/** Property ID to use for the bit depth. */
 	public static final String BIT_DEPTH_PROP = "Deployment.BitDepth";
 	/** Property ID to use for the deployment ID. */
@@ -69,8 +72,9 @@ public class Deployment extends ModelElement {
 
 	/* STATE */
 	private List<ModelElement> layoutList;
-	private int width;
-	private int height;
+	private Dimension size = new Dimension(0, 0);
+	private DimensionPropertySource dimensionPropertySource =
+		new DimensionPropertySource(size);
 	private int bit_depth;
 	private String id;
 	private Date startTime;
@@ -83,11 +87,10 @@ public class Deployment extends ModelElement {
 	 */
 	static {
 		descriptors = new IPropertyDescriptor[] {
-				new TextPropertyDescriptor(WIDTH_PROP, "Width"),
-				new TextPropertyDescriptor(HEIGHT_PROP, "Height"),
+				new TextPropertyDescriptor(SIZE_PROP, "Size"),
 				new TextPropertyDescriptor(BIT_DEPTH_PROP, "Bit Depth"),
 				new TextPropertyDescriptor(ID_PROP, "ID"),
-				new TextPropertyDescriptor(START_TIME_PROP, "Start Time")
+				new DatePropertyDescriptor(START_TIME_PROP, "Start Time")
 		};
 		// use a custom cell editor validator for all array entries
 		for (int i = 0; i < descriptors.length; i++) {
@@ -101,15 +104,11 @@ public class Deployment extends ModelElement {
 			} else if (descriptors[i].getId().equals(START_TIME_PROP)) {
 				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 					public String isValid(Object value) {
-						try {
-							sdf.parse((String) value);
-						} catch (ParseException exc) {
-							return "Not a valid date";
-						}
+						// No validation for the time.
 						return null;
 					}
 				});
-			} else {
+			} else if (descriptors[i].getId().equals(BIT_DEPTH_PROP)) {
 				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 					public String isValid(Object value) {
 						int intValue = -1;
@@ -119,6 +118,13 @@ public class Deployment extends ModelElement {
 							return "Not a number";
 						}
 						return (intValue >= 0) ? null : "Value must be >=  0";
+					}
+				});
+			} else {
+				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						// No validation for the size.
+						return null;
 					}
 				});
 			}
@@ -152,9 +158,9 @@ public class Deployment extends ModelElement {
 		deploymentSettingsElement.setAttribute("class",
 				"com.kesdip.player.DeploymentSettings");
 		DOMHelpers.addProperty(doc, deploymentSettingsElement,
-				"width", String.valueOf(width));
+				"width", String.valueOf(size.width));
 		DOMHelpers.addProperty(doc, deploymentSettingsElement,
-				"height", String.valueOf(height));
+				"height", String.valueOf(size.height));
 		DOMHelpers.addProperty(doc, deploymentSettingsElement,
 				"bitDepth", String.valueOf(bit_depth));
 		DOMHelpers.addProperty(doc, deploymentSettingsElement, "id", id);
@@ -228,8 +234,8 @@ public class Deployment extends ModelElement {
 	}
 	
 	public void checkEquivalence(Deployment other) {
-		assert(width == other.width);
-		assert(height == other.height);
+		assert(size.width == other.size.width);
+		assert(size.height == other.size.height);
 		assert(bit_depth == other.bit_depth);
 		assert(id == other.id);
 		assert(startTime == other.startTime);
@@ -262,15 +268,17 @@ public class Deployment extends ModelElement {
 	 */
 	public Object getPropertyValue(Object propertyId) {
 		if (HEIGHT_PROP.equals(propertyId)) {
-			return Integer.toString(height);
+			return Integer.toString(size.height);
 		} else if (WIDTH_PROP.equals(propertyId)) {
-			return Integer.toString(width);
+			return Integer.toString(size.width);
+		} else if (SIZE_PROP.equals(propertyId)) {
+			return dimensionPropertySource;
 		} else if (BIT_DEPTH_PROP.equals(propertyId)) {
 			return Integer.toString(bit_depth);
 		} else if (ID_PROP.equals(propertyId)) {
 			return id;
 		} else if (START_TIME_PROP.equals(propertyId)) {
-			return sdf.format(startTime);
+			return startTime;
 		} else {
 			return super.getPropertyValue(propertyId);
 		}
@@ -286,13 +294,15 @@ public class Deployment extends ModelElement {
 	 */
 	public void setPropertyValue(Object propertyId, Object value) {
 		if (HEIGHT_PROP.equals(propertyId)) {
-			String oldValue = String.valueOf(height);
-			height = Integer.parseInt((String) value);
+			String oldValue = String.valueOf(size.height);
+			size.height = Integer.parseInt((String) value);
 			firePropertyChange(HEIGHT_PROP, oldValue, value);
 		} else if (WIDTH_PROP.equals(propertyId)) {
-			String oldValue = String.valueOf(width);
-			width = Integer.parseInt((String) value);
+			String oldValue = String.valueOf(size.width);
+			size.width = Integer.parseInt((String) value);
 			firePropertyChange(WIDTH_PROP, oldValue, value);
+		} else if (SIZE_PROP.equals(propertyId)) {
+			setSize((Dimension) value);
 		} else if (BIT_DEPTH_PROP.equals(propertyId)) {
 			String oldValue = String.valueOf(bit_depth);
 			bit_depth = Integer.parseInt((String) value);
@@ -302,23 +312,26 @@ public class Deployment extends ModelElement {
 			id = (String) value;
 			firePropertyChange(ID_PROP, oldValue, value);
 		} else if (START_TIME_PROP.equals(propertyId)) {
-			try {
-				String oldValue = sdf.format(startTime);
-				startTime = sdf.parse((String) value);
-				firePropertyChange(START_TIME_PROP, oldValue, value);
-			} catch (ParseException e) {
-				DesignerLog.logError("Unable to convert: " + value + " to a date.", e);
-			}
+			Date oldValue = startTime;
+			startTime = (Date) value;
+			firePropertyChange(START_TIME_PROP, oldValue, value);
 		} else {
 			super.setPropertyValue(propertyId, value);
+		}
+	}
+	
+	private void setSize(Dimension d) {
+		if (d != null) {
+			Dimension oldSize = size.getCopy();
+			size.setSize(d);
+			firePropertyChange(SIZE_PROP, oldSize, d);
 		}
 	}
 
 	@Override
 	public ModelElement deepCopy() {
 		Deployment retVal = new Deployment();
-		retVal.height = this.height;
-		retVal.width = this.width;
+		retVal.size = this.size.getCopy();
 		retVal.bit_depth = this.bit_depth;
 		retVal.id = this.id;
 		retVal.startTime = new Date(this.startTime.getTime());

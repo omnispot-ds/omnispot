@@ -493,6 +493,9 @@ designer/src/com/kesdip/designer/parts/PageOneRootPart.java -text
 designer/src/com/kesdip/designer/parts/RegionEditPart.java -text
 designer/src/com/kesdip/designer/properties/CheckboxPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/ComboBoxPropertyDescriptor.java -text
+designer/src/com/kesdip/designer/properties/DateCellEditor.java -text
+designer/src/com/kesdip/designer/properties/DateDialog.java -text
+designer/src/com/kesdip/designer/properties/DatePropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/DimensionPropertySource.java -text
 designer/src/com/kesdip/designer/properties/FileChooserPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/FontCellEditor.java -text
