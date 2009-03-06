@@ -54,15 +54,24 @@ public class MaximizeAction extends SelectionAction {
 		ComponentModelElement element = (ComponentModelElement) editPart.getModel();
 		ModelElement parent = element.getParent();
 		if (parent == null
-				 || parent instanceof Deployment || parent instanceof Layout)
+				 || parent instanceof Deployment)
 			return null;
 		
 		ChangeBoundsRequest req = new ChangeBoundsRequest(RequestConstants.REQ_RESIZE);
-		Rectangle newBounds = new Rectangle(
-				(Point) ((LocationPropertySource) parent.getPropertyValue(
-						ComponentModelElement.LOCATION_PROP)).getEditableValue(),
-				(Dimension) ((DimensionPropertySource) parent.getPropertyValue(
-						ComponentModelElement.SIZE_PROP)).getEditableValue());
+		Rectangle newBounds;
+		if (parent instanceof Layout) {
+			Deployment deployment = (Deployment) parent.getParent();
+			newBounds = new Rectangle(
+					new Point(0, 0),
+					(Dimension) ((DimensionPropertySource) deployment.getPropertyValue(
+							Deployment.SIZE_PROP)).getEditableValue());
+		} else {
+			newBounds = new Rectangle(
+					(Point) ((LocationPropertySource) parent.getPropertyValue(
+							ComponentModelElement.LOCATION_PROP)).getEditableValue(),
+					(Dimension) ((DimensionPropertySource) parent.getPropertyValue(
+							ComponentModelElement.SIZE_PROP)).getEditableValue());
+		}
 		Command retVal = new ComponentConstraintChange(element, req, newBounds);
 		return retVal;
 	}
