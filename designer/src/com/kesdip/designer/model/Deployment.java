@@ -3,7 +3,6 @@ package com.kesdip.designer.model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -39,8 +38,6 @@ import com.kesdip.designer.utils.DOMHelpers;
 public class Deployment extends ModelElement {
 
 	private static final long serialVersionUID = -2386076166432510134L;
-	
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
 	/** A 16x16 pictogram of an elliptical shape. */
 	private static final Image IMAGE_ICON = createImage("icons/alt_window_16.gif");
@@ -217,7 +214,7 @@ public class Deployment extends ModelElement {
 				setPropertyValue(HEIGHT_PROP, DOMHelpers.getSimpleProperty(n, "height"));
 				setPropertyValue(BIT_DEPTH_PROP, DOMHelpers.getSimpleProperty(n, "bitDepth"));
 				setPropertyValue(ID_PROP, DOMHelpers.getSimpleProperty(n, "id"));
-				setPropertyValue(START_TIME_PROP, sdf.format(DOMHelpers.getDateProperty(n, "startTime")));
+				setPropertyValue(START_TIME_PROP, DOMHelpers.getDateProperty(n, "startTime"));
 			} else if (DOMHelpers.checkAttribute(n, "id", "deploymentContents")) {
 				DOMHelpers.applyToListProperty(doc, n, "layouts", "bean",
 						new DOMHelpers.INodeListVisitor() {
