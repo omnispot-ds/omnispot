@@ -428,6 +428,7 @@ designer/src/com/kesdip/designer/action/DesignerPasteAction.java -text
 designer/src/com/kesdip/designer/action/MaximizeAction.java -text
 designer/src/com/kesdip/designer/action/MoveDownAction.java -text
 designer/src/com/kesdip/designer/action/MoveUpAction.java -text
+designer/src/com/kesdip/designer/action/SaveTemplateAction.java -text
 designer/src/com/kesdip/designer/command/AddSelectionCommand.java -text
 designer/src/com/kesdip/designer/command/ComponentConstraintChange.java -text
 designer/src/com/kesdip/designer/command/ComponentCreation.java -text
@@ -515,6 +516,7 @@ designer/src/com/kesdip/designer/properties/ResourceListDialog.java -text
 designer/src/com/kesdip/designer/properties/ResourceListLabelProvider.java -text
 designer/src/com/kesdip/designer/properties/ResourceListPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/ValidatingTextCellEditor.java -text
+designer/src/com/kesdip/designer/template/TemplateManager.java -text
 designer/src/com/kesdip/designer/utils/DOMHelpers.java -text
 designer/src/com/kesdip/designer/utils/DesignerLog.java -text
 designer/src/com/kesdip/designer/utils/FileUtils.java -text
