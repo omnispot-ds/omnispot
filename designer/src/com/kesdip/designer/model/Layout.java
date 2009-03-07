@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -21,7 +22,7 @@ public class Layout extends ModelElement {
 
 	/** A 16x16 pictogram of an elliptical shape. */
 	private static final Image IMAGE_ICON = createImage("icons/alt_window_16.gif");
-
+	
 	/** 
 	 * A static array of property descriptors.
 	 * There is one IPropertyDescriptor entry per editable property.
@@ -95,6 +96,29 @@ public class Layout extends ModelElement {
 			}
 		});
 		regionList = newRegionList;
+	}
+	
+	public void save(IMemento memento) {
+		memento.putString(TAG_NAME, name);
+		memento.putString(TAG_CRON_EXPRESSION, cronExpression);
+		memento.putInteger(TAG_DURATION, duration);
+		for (ModelElement e : regionList) {
+			Region region = (Region) e;
+			IMemento child = memento.createChild(TAG_REGION);
+			region.save(child);
+		}
+	}
+	
+	public void load(IMemento memento) {
+		name = memento.getString(TAG_NAME);
+		cronExpression = memento.getString(TAG_CRON_EXPRESSION);
+		duration = memento.getInteger(TAG_DURATION);
+		regionList.clear();
+		IMemento[] children = memento.getChildren(TAG_REGION);
+		for (IMemento child : children) {
+			Region r = new Region();
+			r.load(child);
+		}
 	}
 	
 	public void checkEquivalence(Layout other) {

@@ -12,6 +12,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -172,6 +173,33 @@ public class TickerComponent extends ComponentModelElement {
 				break;
 			}
 		}
+	}
+	
+	public void save(IMemento memento) {
+		super.save(memento);
+		memento.putString(TAG_TICKER_TYPE, type);
+		memento.putString(TAG_TICKER_URL, url);
+		memento.putString(TAG_TICKER_STRING, string);
+		memento.putFloat(TAG_TICKER_SPEED, (float) speed);
+		memento.putString(TAG_FONT_NAME, font.getFamily());
+		memento.putInteger(TAG_FONT_STYLE, font.getStyle());
+		memento.putInteger(TAG_FONT_SIZE, font.getSize());
+		memento.putInteger(TAG_FRONT_RED, foregroundColor.getRed());
+		memento.putInteger(TAG_FRONT_GREEN, foregroundColor.getGreen());
+		memento.putInteger(TAG_FRONT_BLUE, foregroundColor.getBlue());
+	}
+	
+	public void load(IMemento memento) {
+		super.load(memento);
+		type = memento.getString(TAG_TICKER_TYPE);
+		url = memento.getString(TAG_TICKER_URL);
+		string = memento.getString(TAG_TICKER_STRING);
+		speed = memento.getFloat(TAG_TICKER_SPEED);
+		font = new Font(memento.getString(TAG_FONT_NAME),
+				memento.getInteger(TAG_FONT_STYLE), memento.getInteger(TAG_FONT_SIZE));
+		foregroundColor = new Color(memento.getInteger(TAG_FRONT_RED),
+				memento.getInteger(TAG_FRONT_GREEN),
+				memento.getInteger(TAG_FRONT_BLUE));
 	}
 	
 	@Override

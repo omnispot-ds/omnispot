@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -24,7 +25,7 @@ public class Region extends ComponentModelElement {
 
 	/** A 16x16 pictogram of an elliptical shape. */
 	private static final Image IMAGE_ICON = createImage("icons/alt_window_16.gif");
-
+	
 	/** 
 	 * A static array of property descriptors.
 	 * There is one IPropertyDescriptor entry per editable property.
@@ -127,6 +128,58 @@ public class Region extends ComponentModelElement {
 			}
 		}
 		contents = newContents;
+	}
+	
+	public void save(IMemento memento) {
+		super.save(memento);
+		memento.putString(TAG_NAME, name);
+		memento.putBoolean(TAG_IS_TRANSPARENT, isTransparent);
+		for (ModelElement e : contents) {
+			ComponentModelElement element = (ComponentModelElement) e;
+			IMemento child = memento.createChild(TAG_COMPONENT);
+			if (element instanceof VideoComponent)
+				child.putString(TAG_COMPONENT_TYPE, TYPE_VIDEO);
+			else if (element instanceof TickerComponent)
+				child.putString(TAG_COMPONENT_TYPE, TYPE_TICKER);
+			else if (element instanceof ImageComponent)
+				child.putString(TAG_COMPONENT_TYPE, TYPE_IMAGE);
+			else if (element instanceof FlashComponent)
+				child.putString(TAG_COMPONENT_TYPE, TYPE_FLASH);
+			else if (element instanceof FlashWeatherComponent)
+				child.putString(TAG_COMPONENT_TYPE, TYPE_WEATHER);
+			else
+				throw new RuntimeException("Unexpected component type: " +
+						element.getClass().getName());
+			element.save(child);
+		}
+	}
+	
+	public void load(IMemento memento) {
+		super.load(memento);
+		name = memento.getString(TAG_NAME);
+		isTransparent = memento.getBoolean(TAG_IS_TRANSPARENT);
+		IMemento[] children = memento.getChildren(TAG_COMPONENT);
+		for (IMemento child : children) {
+			String type = child.getString(TAG_COMPONENT_TYPE);
+			if (TYPE_VIDEO.equals(type)) {
+				VideoComponent v = new VideoComponent();
+				v.load(child);
+			} else if (TYPE_TICKER.equals(type)) {
+				TickerComponent t = new TickerComponent();
+				t.load(child);
+			} else if (TYPE_IMAGE.equals(type)) {
+				ImageComponent i = new ImageComponent();
+				i.load(child);
+			} else if (TYPE_FLASH.equals(type)) {
+				FlashComponent f = new FlashComponent();
+				f.load(child);
+			} else if (TYPE_WEATHER.equals(type)) {
+				FlashWeatherComponent w = new FlashWeatherComponent();
+				w.load(child);
+			} else {
+				throw new RuntimeException("Unexpected component type: " + type);
+			}
+		}
 	}
 	
 	@Override

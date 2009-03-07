@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
@@ -112,10 +113,27 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		}
 	}
 	
+	public void save(IMemento memento) {
+		super.save(memento);
+		memento.putString(TAG_SOURCE, source);
+		memento.putString(TAG_WEATHER_TYPE, type);
+		memento.putString(TAG_WEATHER_URL, url);
+		memento.putString(TAG_WEATHER_RSS, rss);
+	}
+	
+	public void load(IMemento memento) {
+		super.load(memento);
+		source = memento.getString(TAG_SOURCE);
+		type = memento.getString(TAG_WEATHER_TYPE);
+		url = memento.getString(TAG_WEATHER_URL);
+		rss = memento.getString(TAG_WEATHER_RSS);
+	}
+	
 	@Override
 	void checkEquivalence(ComponentModelElement other) {
 		super.checkEquivalence(other);
 		assert(other instanceof FlashWeatherComponent);
+		assert(source.equals(((FlashWeatherComponent) other).source));
 		assert(type.equals(((FlashWeatherComponent) other).type));
 		assert(url.equals(((FlashWeatherComponent) other).url));
 		assert(rss.equals(((FlashWeatherComponent) other).rss));

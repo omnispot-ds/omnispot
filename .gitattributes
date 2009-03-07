@@ -409,6 +409,7 @@ designer/icons/alt_launcher.ico -text
 designer/icons/alt_launcher.xpm -text
 designer/icons/alt_window_16.gif -text
 designer/icons/alt_window_32.gif -text
+designer/icons/sample.gif -text
 designer/lib/quartz-1.6.3.jar -text
 designer/plugin.xml -text
 designer/splash.bmp -text
@@ -476,6 +477,7 @@ designer/src/com/kesdip/designer/model/ModelElement.java -text
 designer/src/com/kesdip/designer/model/Region.java -text
 designer/src/com/kesdip/designer/model/Resource.java -text
 designer/src/com/kesdip/designer/model/Root.java -text
+designer/src/com/kesdip/designer/model/Template.java -text
 designer/src/com/kesdip/designer/model/TickerComponent.java -text
 designer/src/com/kesdip/designer/model/VideoComponent.java -text
 designer/src/com/kesdip/designer/model/icons/alt_window_16.gif -text
@@ -517,6 +519,8 @@ designer/src/com/kesdip/designer/utils/DOMHelpers.java -text
 designer/src/com/kesdip/designer/utils/DesignerLog.java -text
 designer/src/com/kesdip/designer/utils/FileUtils.java -text
 designer/src/com/kesdip/designer/utils/FontKludge.java -text
+designer/src/com/kesdip/designer/wizards/DesignerNewWizard.java -text
+designer/src/com/kesdip/designer/wizards/DesignerNewWizardPage.java -text
 etc/.project -text
 etc/ant/common-targets.xml -text
 etc/ant/create-db.xml -text

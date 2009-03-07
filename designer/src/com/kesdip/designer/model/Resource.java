@@ -1,5 +1,6 @@
 package com.kesdip.designer.model;
 
+import org.eclipse.ui.IMemento;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -52,6 +53,16 @@ public class Resource {
 		String cronString = DOMHelpers.getSimpleProperty(componentNode, "cronExpression");
 		if (cronString != null)
 			cronExpression = cronString;
+	}
+	
+	public void save(IMemento memento) {
+		memento.putString(ModelElement.TAG_RESOURCE, resource);
+		memento.putString(ModelElement.TAG_CRON_EXPRESSION, cronExpression);
+	}
+	
+	public void load(IMemento memento) {
+		resource = memento.getString(ModelElement.TAG_RESOURCE);
+		cronExpression = memento.getString(ModelElement.TAG_CRON_EXPRESSION);
 	}
 	
 	public void checkEquivalence(Resource other) {

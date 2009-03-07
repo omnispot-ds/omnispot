@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -87,6 +88,29 @@ public class ImageComponent extends ComponentModelElement {
 		images = newImages;
 	}
 	
+	public void save(IMemento memento) {
+		super.save(memento);
+		memento.putInteger(TAG_DURATION, duration);
+		/*
+		 * Do not save resources.
+		for (Resource r : images) {
+			IMemento child = memento.createChild(TAG_RESOURCE);
+			r.save(child);
+		}
+		 */
+	}
+	
+	public void load(IMemento memento) {
+		super.load(memento);
+		duration = memento.getInteger(TAG_DURATION);
+		IMemento[] children = memento.getChildren(TAG_RESOURCE);
+		for (IMemento child : children) {
+			Resource r = new Resource("", "");
+			r.load(child);
+			images.add(r);
+		}
+	}
+		
 	@Override
 	void checkEquivalence(ComponentModelElement other) {
 		super.checkEquivalence(other);

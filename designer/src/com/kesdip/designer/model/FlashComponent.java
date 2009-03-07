@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.w3c.dom.Document;
@@ -57,6 +58,16 @@ public class FlashComponent extends ComponentModelElement {
 		resource.deserialize(doc, propNode);
 		setPropertyValue(SOURCE_PROP, resource.getResource());
 		super.deserialize(doc, componentNode);
+	}
+	
+	public void save(IMemento memento) {
+		super.save(memento);
+		memento.putString(TAG_SOURCE, source);
+	}
+	
+	public void load(IMemento memento) {
+		super.load(memento);
+		source = memento.getString(TAG_SOURCE);
 	}
 	
 	@Override

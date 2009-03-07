@@ -8,6 +8,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
@@ -144,6 +145,24 @@ public abstract class ComponentModelElement extends ModelElement {
 			setPropertyValue(BACK_COLOR_PROP,
 					new RGB(bc.getRed(), bc.getGreen(), bc.getBlue()));
 		}
+	}
+	
+	public void save(IMemento memento) {
+		memento.putInteger(TAG_X, location.x);
+		memento.putInteger(TAG_Y, location.y);
+		memento.putInteger(TAG_WIDTH, size.width);
+		memento.putInteger(TAG_HEIGHT, size.height);
+		memento.putInteger(TAG_BACK_RED, backgroundColor.getRed());
+		memento.putInteger(TAG_BACK_GREEN, backgroundColor.getGreen());
+		memento.putInteger(TAG_BACK_BLUE, backgroundColor.getBlue());
+	}
+	
+	public void load(IMemento memento) {
+		location = new Point(memento.getInteger(TAG_X), memento.getInteger(TAG_Y));
+		size = new Dimension(memento.getInteger(TAG_WIDTH), memento.getInteger(TAG_HEIGHT));
+		backgroundColor = new Color(memento.getInteger(TAG_BACK_RED),
+				memento.getInteger(TAG_BACK_GREEN),
+				memento.getInteger(TAG_BACK_BLUE));
 	}
 	
 	void checkEquivalence(ComponentModelElement other) {

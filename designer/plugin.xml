@@ -205,5 +205,19 @@
          </menu>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="com.kesdip.designer"
+            name="Designer">
+      </category>
+      <wizard
+            category="com.kesdip.designer"
+            class="com.kesdip.designer.wizards.DesignerNewWizard"
+            icon="icons/sample.gif"
+            id="com.kesdip.designer.wizards.DesignerNewWizard"
+            name="Designer Editor file">
+      </wizard>
+   </extension>
 
 </plugin>

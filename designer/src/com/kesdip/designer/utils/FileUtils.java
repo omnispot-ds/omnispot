@@ -37,6 +37,14 @@ public class FileUtils {
 		return deploymentFile;
 	}
 	
+	public static Project getTempProject() throws CoreException {
+		IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("temp/test"));
+		Project p = (Project) f.getParent();
+		if (!p.exists())
+			p.create(null);
+		return p;
+	}
+	
 	public static long getChecksum(String path) {
 		try {
 			CRC32 crc = new CRC32();

@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.w3c.dom.Document;
@@ -22,7 +23,7 @@ public class VideoComponent extends ComponentModelElement {
 	private static final Image IMAGE_ICON = createImage("icons/alt_window_16.gif");
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	/** 
 	 * A static array of property descriptors.
 	 * There is one IPropertyDescriptor entry per editable property.
@@ -83,6 +84,29 @@ public class VideoComponent extends ComponentModelElement {
 			}
 		});
 		videos = newVideos;
+	}
+	
+	public void save(IMemento memento) {
+		super.save(memento);
+		memento.putBoolean(TAG_REPEAT, repeat);
+		/*
+		 * Do not save resources.
+		for (Resource r : videos) {
+			IMemento child = memento.createChild(TAG_RESOURCE);
+			r.save(child);
+		}
+		 */
+	}
+	
+	public void load(IMemento memento) {
+		super.load(memento);
+		repeat = memento.getBoolean(TAG_REPEAT);
+		IMemento[] children = memento.getChildren(TAG_RESOURCE);
+		for (IMemento child : children) {
+			Resource r = new Resource("", "");
+			r.load(child);
+			videos.add(r);
+		}
 	}
 	
 	@Override
