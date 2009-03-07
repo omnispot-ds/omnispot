@@ -91,11 +91,11 @@ public abstract class ComponentModelElement extends ModelElement {
 	/** Location of this shape. */
 	protected Point location = new Point(0, 0);
 	protected LocationPropertySource locationPropertySource =
-		new LocationPropertySource(location);
+		new LocationPropertySource(location, this);
 	/** Size of this shape. */
 	protected Dimension size = new Dimension(50, 50);
 	protected DimensionPropertySource dimensionPropertySource =
-		new DimensionPropertySource(size);
+		new DimensionPropertySource(size, this);
 	protected Color backgroundColor = Color.BLACK;
 	
 	abstract Element serialize(Document doc);

@@ -11,6 +11,7 @@ import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -24,9 +25,11 @@ import org.eclipse.gef.requests.CreateRequest;
 
 import com.kesdip.designer.command.RegionConstraintChange;
 import com.kesdip.designer.command.RegionCreation;
+import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.Region;
+import com.kesdip.designer.utils.DesignerLog;
 
 public class LayoutEditPart extends AbstractGraphicalEditPart implements
 		PropertyChangeListener {
@@ -110,8 +113,14 @@ public class LayoutEditPart extends AbstractGraphicalEditPart implements
 				EditPart child, Object constraint) {
 			if (child instanceof RegionEditPart && constraint instanceof Rectangle) {
 				// return a command that can move and/or resize a Shape
-				return new RegionConstraintChange(
-						(Region) child.getModel(), request, (Rectangle) constraint);
+				Layout layout = (Layout) getHost().getModel();
+				Deployment deployment = (Deployment) layout.getParent();
+				Rectangle bounds = (Rectangle) constraint;
+				bounds = bounds.intersect(new Rectangle(
+						new Point(0, 0), deployment.getSize()));
+				if (!bounds.isEmpty())
+					return new RegionConstraintChange(
+							(Region) child.getModel(), request, bounds);
 			}
 			return super.createChangeConstraintCommand(request, child, constraint);
 		}
@@ -135,15 +144,19 @@ public class LayoutEditPart extends AbstractGraphicalEditPart implements
 				try {
 					element = (Region) request.getNewObject();
 				} catch (Error e) {
-					e.printStackTrace();
-					if (e.getCause() != null)
-						e.getCause().printStackTrace();
+					DesignerLog.logError("New Object could not be cast to a Region", e);
 					throw e;
 				}
 				Rectangle bounds = (Rectangle) getConstraintFor(request);
-				// return a command that can add a Shape to a ShapesDiagram 
-				return new RegionCreation(element, 
-						(Layout) getHost().getModel(), bounds);
+				if (bounds.getSize().isEmpty())
+					bounds.setSize(element.getSize());
+				Layout layout = (Layout) getHost().getModel();
+				Deployment deployment = (Deployment) layout.getParent();
+				bounds = bounds.intersect(new Rectangle(
+						new Point(0, 0), deployment.getSize()));
+				if (bounds.isEmpty())
+					return null;
+				return new RegionCreation(element, layout, bounds);
 			}
 			return null;
 		}

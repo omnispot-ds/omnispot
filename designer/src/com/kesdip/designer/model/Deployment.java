@@ -72,11 +72,19 @@ public class Deployment extends ModelElement {
 	private List<ModelElement> layoutList;
 	private Dimension size = new Dimension(0, 0);
 	private DimensionPropertySource dimensionPropertySource =
-		new DimensionPropertySource(size);
+		new DimensionPropertySource(size, this);
 	private int bit_depth;
 	private String id;
 	private Date startTime;
 	
+	/**
+	 * Return the Size of this shape.
+	 * @return a non-null Dimension instance
+	 */
+	public Dimension getSize() {
+		return size.getCopy();
+	}
+
 	/*
 	 * Initializes the property descriptors array.
 	 * @see #getPropertyDescriptors()

@@ -33,6 +33,7 @@ import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.Region;
 import com.kesdip.designer.model.TickerComponent;
 import com.kesdip.designer.model.VideoComponent;
+import com.kesdip.designer.utils.DesignerLog;
 
 public class RegionEditPart extends AbstractGraphicalEditPart implements
 		PropertyChangeListener, NodeEditPart {
@@ -117,8 +118,13 @@ public class RegionEditPart extends AbstractGraphicalEditPart implements
 				EditPart child, Object constraint) {
 			if (child instanceof ComponentEditPart && constraint instanceof Rectangle) {
 				// return a command that can move and/or resize a Shape
-				return new ComponentConstraintChange(
-						(ComponentModelElement) child.getModel(), request, (Rectangle) constraint);
+				Region region = (Region) getHost().getModel();
+				Rectangle bounds = (Rectangle) constraint;
+				bounds = bounds.intersect(new Rectangle(
+						region.getLocation(), region.getSize()));
+				if (!bounds.isEmpty())
+					return new ComponentConstraintChange(
+							(ComponentModelElement) child.getModel(), request, bounds);
 			}
 			return super.createChangeConstraintCommand(request, child, constraint);
 		}
@@ -144,15 +150,19 @@ public class RegionEditPart extends AbstractGraphicalEditPart implements
 				try {
 					element = (ComponentModelElement) request.getNewObject();
 				} catch (Error e) {
-					e.printStackTrace();
-					if (e.getCause() != null)
-						e.getCause().printStackTrace();
+					DesignerLog.logError("New Object could not be cast to a " +
+							"ComponentModelElement", e);
 					throw e;
 				}
 				Rectangle bounds = (Rectangle) getConstraintFor(request);
-				// TODO: Check that the rectangle is within the region.
-				return new ComponentCreation(element, 
-						(Region) getHost().getModel(), bounds);
+				if (bounds.getSize().isEmpty())
+					bounds.setSize(element.getSize());
+				Region region = (Region) getHost().getModel();
+				bounds = bounds.intersect(new Rectangle(
+						region.getLocation(), region.getSize()));
+				if (bounds.isEmpty())
+					return null;
+				return new ComponentCreation(element, region, bounds);
 			}
 			return null;
 		}
