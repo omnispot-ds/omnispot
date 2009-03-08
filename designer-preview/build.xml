@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Digital Signage player preview project" basedir=".">
+	<description>Build file for the player preview plugin</description>
+</project>

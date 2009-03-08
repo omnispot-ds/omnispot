@@ -385,6 +385,14 @@ demos/AdPlayerDemo/src/com/kesdip/player/StringTickerSource.java -text
 demos/AdPlayerDemo/src/com/kesdip/player/TickerPanel.java -text
 demos/AdPlayerDemo/src/com/kesdip/player/TickerSource.java -text
 demos/AdPlayerDemo/src/log4j.xml -text
+designer-preview/.classpath -text
+designer-preview/.project -text
+designer-preview/.settings/org.eclipse.jdt.core.prefs -text
+designer-preview/META-INF/MANIFEST.MF -text
+designer-preview/build.properties -text
+designer-preview/build.xml -text
+designer-preview/src/com/kesdip/player/preview/Activator.java -text
+designer-preview/src/com/kesdip/player/preview/PlayerPreview.java -text
 designer-test/.classpath -text
 designer-test/.project -text
 designer-test/.settings/org.eclipse.jdt.core.prefs -text

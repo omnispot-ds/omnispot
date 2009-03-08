@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="lib/ant-contrib-1.0b3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/antlr-2.7.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/api.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/asm-attrs.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/asm.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/bootstrap.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cglib-2.1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/comfyj-2.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/common.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-configuration-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-dbcp-1.2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-digester-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-fileupload.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-httpclient-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-io.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-pool-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/derby.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/derbyclient.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/derbynet.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/examples.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/freemarker.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/groovy-1.5.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/groovy-engine.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-tools.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/java-engine.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jdom.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jna.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jniwrap-3.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jstl-1.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jta.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/junit-4.3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jvlc-core-0.9.0-SNAPSHOT-20080727.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.14.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/player.jar" sourcepath="/player"/>
+	<classpathentry exported="true" kind="lib" path="lib/quartz-1.6.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/rome-1.0RC1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-context.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-web.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-webmvc-struts.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-webmvc.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/standard.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/struts-core-1.3.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/struts-tiles-1.3.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/winpack-3.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xslt-engine.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
