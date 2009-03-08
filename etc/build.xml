@@ -38,6 +38,8 @@
 	<property name="etc.sql.scripts.dir" location="${etc.base.dir}/sql"/>
 	<property name="etc.lib.dir" location="${etc.base.dir}/lib"/>
 	
+	<property name="preview.lib.dir" location="${project.base.dir}/com.kesdip.designer.preview/lib"/>
+	
 	<import file="${etc.ant.scripts.dir}/common-targets.xml"/>
 
 	<!-- All of ant-contrib tasks -->
@@ -65,7 +67,7 @@
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.dist" inheritrefs="true"/>
 	</target>
 
-	<target name="build.player">
+	<target name="build.player" depends="build.common">
 		<ant antfile="${player.build.file}" target="player.init" inheritrefs="true"/>
 		<ant antfile="${player.build.file}" target="player.compile" inheritrefs="true"/>
 		<ant antfile="${player.build.file}" target="player.dist" inheritrefs="true"/>
@@ -84,7 +86,18 @@
 		<ant antfile="${player.build.file}" target="player.clean" inheritrefs="true"/>
 		<ant antfile="${common.build.file}" target="common.clean" inheritrefs="true"/>
 		<ant antfile="${logic.build.file}" target="logic.clean" inheritrefs="true"/>
-	</target>	
+	</target>
+		
+	<target name="copy.player.lib.to.preview" depends="build.player,build.common"
+		description="Copy the jars from etc/lib to com.kesdip.designer.preview/lib">
+		<copy todir="${preview.lib.dir}" flatten="true">
+			<fileset dir="${etc.lib.dir}">
+				<type type="file"/>
+			</fileset>
+		</copy>
+		<copy todir="${preview.lib.dir}" file="${common.dist.file}"/>
+		<copy todir="${preview.lib.dir}" file="${player.dist.file}"/>
+	</target>
 	
 	<target name="recreate.database" 
 		description="Recreates the database schema from the HBMs">
