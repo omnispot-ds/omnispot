@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
+import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.image.ImagePanel;
 import com.kesdip.player.registry.ContentRegistry;
@@ -64,8 +65,10 @@ public class Image extends AbstractComponent implements InitializingBean {
 	}
 	
 	@Override
-	public void init(Component parent, TimingMonitor timingMonitor)
+	public void init(Component parent, TimingMonitor timingMonitor, Player player)
 			throws ComponentException {
+		setPlayer(player);
+		
 		startTime = new Date().getTime();
 		currentImageIndex = 0;
 		loadImage();

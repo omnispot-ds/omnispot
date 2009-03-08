@@ -7,6 +7,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.PlatformUI;
@@ -30,8 +31,9 @@ public class OpenFileHandler extends AbstractHandler implements IHandler {
 		File f = new File(path);
 		try {
 			IFile deploymentFile = FileUtils.getFile(f);
-			
-			Deployment input = loadInputFromFile(deploymentFile);
+
+			Deployment input = new Deployment();
+			input.deserialize(deploymentFile.getContents());
 			DeploymentEditorInput dei = new DeploymentEditorInput(input, path);
 			
 			IDE.openEditor(PlatformUI.getWorkbench().
@@ -39,20 +41,12 @@ public class OpenFileHandler extends AbstractHandler implements IHandler {
 					"com.kesdip.designer.DeploymentEditor");
 		} catch (Exception e) {
 			DesignerLog.logError("Unable to open editor for: " + path, e);
+			MessageDialog.openError(HandlerUtil.getActiveShell(event),
+					"Designer file format error", "Unable to load file: " + path +
+					". This is probably not a Ke.S.Di.P. E.P.E. Designer file. Please " +
+					"check the error log for more details.");
 		}
 		return null;
 	}
 
-	private Deployment loadInputFromFile(IFile f) {
-		Deployment retVal;
-		try {
-			retVal = new Deployment();
-			retVal.deserialize(f.getContents());
-		} catch (Exception e) { 
-			DesignerLog.logError("Unable to load model.", e);
-			retVal = new Deployment();
-		}
-		
-		return retVal;
-	}
 }

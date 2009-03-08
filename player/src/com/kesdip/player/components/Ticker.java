@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.ticker.TickerPanel;
 import com.kesdip.player.components.ticker.TickerSource;
@@ -44,8 +45,10 @@ public class Ticker extends AbstractComponent {
 	private TickerPanel panel;
 
 	@Override
-	public void init(Component parent, TimingMonitor timingMonitor)
+	public void init(Component parent, TimingMonitor timingMonitor, Player player)
 			throws ComponentException {
+		setPlayer(player);
+		
 		panel = new TickerPanel(font, foregroundColor, speed, tickerSource, width, height);
 		panel.setLocation(x, y);
 		if (backgroundColor != null)

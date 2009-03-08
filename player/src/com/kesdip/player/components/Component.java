@@ -8,6 +8,7 @@ package com.kesdip.player.components;
 import java.util.Set;
 
 import com.kesdip.player.DeploymentLayout;
+import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 
 /**
@@ -37,9 +38,11 @@ public interface Component {
 	 * themselves with the parent component through the add interface.
 	 * @param parent The parent component that this component is to be added to.
 	 * @param timingMonitor The timing monitor to schedule jobs with.
+	 * @param player The player that this component is a part of.
 	 * @throws ComponentException Iff something goes wrong.
 	 */
-	void init(Component parent, TimingMonitor timingMonitor) throws ComponentException;
+	void init(Component parent, TimingMonitor timingMonitor, Player player)
+			throws ComponentException;
 	
 	/**
 	 * A interface to build the component hierarchy. Some components are not

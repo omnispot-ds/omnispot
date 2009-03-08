@@ -474,8 +474,10 @@ designer/src/com/kesdip/designer/handler/ExitCommand.java -text
 designer/src/com/kesdip/designer/handler/LayoutEditorInput.java -text
 designer/src/com/kesdip/designer/handler/NewFileHandler.java -text
 designer/src/com/kesdip/designer/handler/OpenFileHandler.java -text
+designer/src/com/kesdip/designer/handler/PreviewHandler.java -text
 designer/src/com/kesdip/designer/handler/SaveAsFileHandler.java -text
 designer/src/com/kesdip/designer/handler/SaveFileHandler.java -text
+designer/src/com/kesdip/designer/handler/ShowViewHandler.java -text
 designer/src/com/kesdip/designer/model/ComponentModelElement.java -text
 designer/src/com/kesdip/designer/model/Deployment.java -text
 designer/src/com/kesdip/designer/model/FlashComponent.java -text

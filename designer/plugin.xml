@@ -87,6 +87,16 @@
             id="com.kesdip.designer.ExitCommand"
             name="Exit">
       </command>
+      <command
+            defaultHandler="com.kesdip.designer.handler.PreviewHandler"
+            id="com.kesdip.designer.PreviewCommand"
+            name="Preview">
+      </command>
+      <command
+            defaultHandler="com.kesdip.designer.handler.ShowViewHandler"
+            id="com.kesdip.designer.ShowViewCommand"
+            name="Show View">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -175,12 +185,21 @@
                id="com.kesdip.designer.ToolsMenu"
                label="Tools">
             <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Show View"
+                  commandId="com.kesdip.designer.PreviewCommand"
+                  label="Preview Player"
                   style="push">
             </command>
             <separator
                   name="com.kesdip.designer.ToolsSeparator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="com.kesdip.designer.ShowViewCommand"
+                  label="Show View"
+                  style="push">
+            </command>
+            <separator
+                  name="com.kesdip.designer.ToolsSeparator2"
                   visible="true">
             </separator>
             <command

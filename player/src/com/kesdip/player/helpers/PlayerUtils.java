@@ -9,6 +9,10 @@ import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.kesdip.player.Player;
 
 /**
  * Various utility methods.
@@ -29,11 +33,18 @@ public class PlayerUtils {
 		return noCursor;
 	}
 	
-	private static ExitKeyListener exitKeyListener;
+	private static Map<Player, ExitKeyListener> exitKeyListenerMap;
 	
-	public static synchronized ExitKeyListener getExitKeyListener() {
+	public static synchronized ExitKeyListener getExitKeyListener(Player player) {
+		if (exitKeyListenerMap == null) {
+			exitKeyListenerMap = new HashMap<Player, ExitKeyListener>();
+		}
+		
+		ExitKeyListener exitKeyListener = exitKeyListenerMap.get(player);
+		
 		if (exitKeyListener == null) {
-			exitKeyListener = new ExitKeyListener();
+			exitKeyListener = new ExitKeyListener(player);
+			exitKeyListenerMap.put(player, exitKeyListener);
 		}
 		
 		return exitKeyListener;

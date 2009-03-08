@@ -17,6 +17,8 @@ import javax.imageio.ImageIO;
 
 import org.apache.log4j.Logger;
 
+import com.kesdip.player.Player;
+
 /**
  * A KeyListener implementation that exits the JVM when the escape key is
  * pressed.
@@ -25,6 +27,16 @@ import org.apache.log4j.Logger;
  */
 public class ExitKeyListener implements KeyListener {
 	private static final Logger logger = Logger.getLogger(ExitKeyListener.class);
+	
+	private Player player;
+	
+	public ExitKeyListener(Player player) {
+		this.player = player;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
 
 	@Override
 	public void keyPressed(KeyEvent event) {
@@ -34,7 +46,9 @@ public class ExitKeyListener implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			System.exit(0);
+			player.stopPlaying();
+			if (player.getClass().getName().equals("com.kesdip.player.Player"))
+				System.exit(0);
 		} else if (event.getKeyCode() == KeyEvent.VK_F10) {
 			try {
 				Robot robot = new Robot();

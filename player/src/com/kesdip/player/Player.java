@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JFrame;
 
@@ -73,7 +74,8 @@ public class Player implements Runnable {
 		return props.getProperty("vlc_path");
 	}
 
-	private TimingMonitor monitor;
+	protected TimingMonitor monitor;
+	protected AtomicBoolean stopRunning;
 
 	/* SPRING CONFIGURATION STATE */
 	private ApplicationContext ctx;
@@ -92,10 +94,11 @@ public class Player implements Runnable {
 		initialize();
 	}
 	
-	public void initialize() {
+	public void initialize() throws SchedulerException {
 		new Thread(this.monitor, "monitor").start();
 		this.completeDeployment = false;
 		this.completeLayout = false;
+		this.stopRunning = new AtomicBoolean(false);
 	}
 
 	/**
@@ -140,13 +143,13 @@ public class Player implements Runnable {
 	}
 
 	/* TRANSIENT STATE */
-	private FullScreenComponent fullScreen;
+	protected FullScreenComponent fullScreen;
 
-	private boolean completeDeployment;
+	protected boolean completeDeployment;
 
-	private boolean completeLayout;
+	protected boolean completeLayout;
 
-	private DeploymentLayout nextLayout;
+	protected DeploymentLayout nextLayout;
 
 	/**
 	 * Helper to query the flags to see whether the current deployment should
@@ -205,7 +208,8 @@ public class Player implements Runnable {
 	 * @return True iff the configuration asks for full screen mode.
 	 */
 	private boolean isFullScreenMode(DeploymentLayout layout) {
-		return layout.getContentRoots().size() == 1;
+		return false; // TODO revisit this later...
+		// return layout.getContentRoots().size() == 1;
 	}
 
 	/**
@@ -222,18 +226,20 @@ public class Player implements Runnable {
 		if (isFullScreen) {
 			fullScreen = new FullScreenComponent();
 			fullScreen.setApplicationContext(ctx);
-			fullScreen.init(null, monitor);
+			fullScreen.init(null, monitor, this);
 		}
 
 		try {
 			// Create the resources for each root container.
 			for (RootContainer container : layout.getContentRoots()) {
+				container.setPlayer(this);
+				
 				if (isFullScreenMode(layout))
 					container.createFullScreenResources();
 				else
 					container.createWindowedResources();
 
-				container.init(fullScreen, monitor);
+				container.init(fullScreen, monitor, this);
 			}
 
 			// The main loop of the layout
@@ -276,6 +282,10 @@ public class Player implements Runnable {
 							+ ") has completed. Moving on to the next one.");
 					break;
 				}
+				if (stopRunning.get()) {
+					logger.info("The stop running flag has been raised. Player is exiting.");
+					break;
+				}
 			}
 		} finally {
 			logger.info("Completed layout: " + layout.getName() + ".");
@@ -292,27 +302,39 @@ public class Player implements Runnable {
 			}
 		}
 	}
+	
+	protected JFrame backgroundFrame;
 
 	/**
 	 * Helper to create a background frame to hide the screen contents in
 	 * multi-frame mode.
 	 */
 	private void createBackgroundFrame() {
-		JFrame frame = new JFrame();
-		frame.setUndecorated(true);
-		frame.setResizable(false);
-		frame.addKeyListener(PlayerUtils.getExitKeyListener());
-		frame.setCursor(PlayerUtils.getNoCursor());
+		backgroundFrame = new JFrame();
+		backgroundFrame.setUndecorated(true);
+		backgroundFrame.setResizable(false);
+		backgroundFrame.addKeyListener(PlayerUtils.getExitKeyListener(this));
+		backgroundFrame.setCursor(PlayerUtils.getNoCursor());
 
-		frame.setLocation(0, 0);
-		frame.setPreferredSize(new Dimension(settings.getWidth(), settings
+		backgroundFrame.setLocation(0, 0);
+		backgroundFrame.setPreferredSize(new Dimension(settings.getWidth(), settings
 				.getHeight()));
-		frame.setBackground(Color.BLACK);
-		frame.getContentPane().setBackground(Color.BLACK);
+		backgroundFrame.setBackground(Color.BLACK);
+		backgroundFrame.getContentPane().setBackground(Color.BLACK);
 
-		frame.pack();
-		frame.setVisible(true);
-		frame.requestFocus();
+		backgroundFrame.pack();
+		backgroundFrame.setVisible(true);
+		backgroundFrame.requestFocus();
+	}
+	
+	private void destroyBackgroundFrame() {
+		backgroundFrame.setVisible(false);
+		backgroundFrame.dispose();
+		backgroundFrame = null;
+	}
+	
+	public void stopPlaying() {
+		stopRunning.set(true);
 	}
 
 	@Override
@@ -360,9 +382,21 @@ public class Player implements Runnable {
 								+ nextLayout.getName()
 								+ ". Will continue with next " + "layout.", e);
 					}
+					
+					if (stopRunning.get()) {
+						logger.info("The stop running flag has been raised. Player is exiting.");
+						break;
+					}
 				}
-				logger.info("Completing deployment flag has been raised.");
+				if (stopRunning.get()) {
+					logger.info("The stop running flag has been raised. Player is exiting.");
+					break;
+				} else {
+					logger.info("Completing deployment flag has been raised.");
+				}
 			}
+			
+			destroyBackgroundFrame();
 		} catch (Throwable t) {
 			logger.error("Error during the player run method.", t);
 		}

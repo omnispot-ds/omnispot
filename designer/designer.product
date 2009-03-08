@@ -19,10 +19,10 @@
 
    <windowImages i16="icons/alt_window_16.gif" i32="icons/alt_window_32.gif"/>
 
-
    <plugins>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.kesdip.designer"/>
+      <plugin id="com.kesdip.designer.preview"/>
       <plugin id="javax.servlet"/>
       <plugin id="org.eclipse.ant.core"/>
       <plugin id="org.eclipse.core.commands"/>

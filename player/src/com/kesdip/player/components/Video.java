@@ -181,15 +181,17 @@ public class Video extends AbstractComponent
 	}
 
 	@Override
-	public void init(Component parent, TimingMonitor timingMonitor)
+	public void init(Component parent, TimingMonitor timingMonitor, Player player)
 			throws ComponentException {
+		setPlayer(player);
+		
 		try {
 			canvas = new Canvas();
 			canvas.setCursor(PlayerUtils.getNoCursor());
 			canvas.setLocation(x, y);
 			canvas.setSize(new Dimension(width, height));
 			canvas.setPreferredSize(new Dimension(width, height));
-			canvas.addKeyListener(PlayerUtils.getExitKeyListener());
+			canvas.addKeyListener(PlayerUtils.getExitKeyListener(player));
 			canvas.setBackground(Color.BLACK);
 			
 			parent.add(this);

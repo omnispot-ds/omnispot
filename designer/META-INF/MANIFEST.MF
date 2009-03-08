@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide,
  org.eclipse.ui.views.log,
  org.eclipse.draw2d,
- org.eclipse.gef
+ org.eclipse.gef,
+ com.kesdip.designer.preview
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/quartz-1.6.3.jar,

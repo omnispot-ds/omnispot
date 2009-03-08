@@ -215,6 +215,9 @@ public abstract class ComponentModelElement extends ModelElement {
 			return Integer.toString(size.width);
 		}
 		if (BACK_COLOR_PROP.equals(propertyId)) {
+			if (backgroundColor == null)
+				return new RGB(0, 0, 0);
+			
 			RGB v = new RGB(
 					backgroundColor.getRed(),
 					backgroundColor.getGreen(),
@@ -284,7 +287,9 @@ public abstract class ComponentModelElement extends ModelElement {
 			int width = Integer.parseInt((String) value);
 			setSize(new Dimension(width, size.height));
 		} else if (BACK_COLOR_PROP.equals(propertyId)) {
-			RGB oldValue = new RGB(
+			RGB oldValue = backgroundColor == null ?
+					new RGB(0, 0, 0) :
+					new RGB(
 					backgroundColor.getRed(),
 					backgroundColor.getGreen(),
 					backgroundColor.getBlue());

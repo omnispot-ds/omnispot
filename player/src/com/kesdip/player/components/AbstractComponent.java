@@ -16,6 +16,7 @@ import org.quartz.JobDetail;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 
+import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
 import com.kesdip.player.helpers.ComponentJob;
@@ -33,6 +34,7 @@ public abstract class AbstractComponent implements Component {
 	protected int width;
 	protected int height;
 	protected Color backgroundColor;
+	protected Player player;
 	
 	public void setX(int x) {
 		this.x = x;
@@ -52,6 +54,10 @@ public abstract class AbstractComponent implements Component {
 	
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 	@Override

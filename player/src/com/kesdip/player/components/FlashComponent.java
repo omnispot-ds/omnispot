@@ -15,6 +15,7 @@ import com.jniwrapper.win32.ole.IOleObject;
 import com.jniwrapper.win32.ole.OleFunctions;
 import com.jniwrapper.win32.ole.impl.IOleObjectImpl;
 import com.jniwrapper.win32.ole.types.OleVerbs;
+import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.flash.shockwaveflashobjects.IShockwaveFlash;
 import com.kesdip.player.components.flash.shockwaveflashobjects.ShockwaveFlash;
@@ -58,7 +59,10 @@ public class FlashComponent extends AbstractComponent {
 	}
 
 	@Override
-	public void init(Component parent, TimingMonitor timingMonitor) throws ComponentException {
+	public void init(Component parent, TimingMonitor timingMonitor,
+			Player player) throws ComponentException {
+		setPlayer(player);
+		
 		OleFunctions.oleInitialize();
 		oleContainer.setBackground(Color.blue);
 		createOleObject();

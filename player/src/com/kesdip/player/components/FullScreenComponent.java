@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import com.kesdip.player.DeploymentSettings;
+import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.helpers.PlayerUtils;
 
@@ -57,7 +58,7 @@ public class FullScreenComponent extends AbstractComponent
 		frame.setUndecorated(true);
 		frame.setIgnoreRepaint(true);
 		frame.setResizable(false);
-		frame.addKeyListener(PlayerUtils.getExitKeyListener());
+		frame.addKeyListener(PlayerUtils.getExitKeyListener(player));
 		frame.setCursor(PlayerUtils.getNoCursor());
 		frame.setBackground(Color.BLACK);
 		
@@ -105,9 +106,10 @@ public class FullScreenComponent extends AbstractComponent
 	}
 
 	@Override
-	public void init(Component parent, TimingMonitor timingMonitor)
+	public void init(Component parent, TimingMonitor timingMonitor, Player player)
 			throws ComponentException {
 		settings = (DeploymentSettings) ctx.getBean("deploymentSettings");
+		setPlayer(player);
 		setFullScreenMode();
 	}
 
