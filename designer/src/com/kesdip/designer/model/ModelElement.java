@@ -63,6 +63,7 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_WEATHER_TYPE = "WeatherType";
 	public static final String TAG_WEATHER_URL = "WeatherUrl";
 	public static final String TAG_WEATHER_RSS = "WeatherRss";
+	public static final String TAG_WEATHER_SCRIPT = "WeatherScript";
 	
 	public static final String PARENT_PROP = "ModelElement.Parent";
 	public static final String CHILD_MOVE_UP = "ModelElement.ChildMoveUp";

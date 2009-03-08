@@ -43,18 +43,22 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	public static final String RSS_PROP = "Weather.WeatherRSSProp";
 	/** Property ID to use for the url property value. */
 	public static final String URL_PROP = "Weather.WeatherURLProp";
+	/** Property ID to use for the script file property value. */
+	public static final String SCRIPT_FILE_PROP = "Weather.ScriptFileProp";
 
 	/* STATE */
 	private String source;
 	private String type;
 	private String url;
 	private String rss;
+	private String scriptFile;
 	
 	public FlashWeatherComponent() {
 		source = "";
 		type = URL_XML_WEATHER_TYPE;
 		url = "";
 		rss = "";
+		scriptFile = "";
 	}
 
 	protected Element serialize(Document doc) {
@@ -81,18 +85,28 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		Element processorElement = doc.createElement("bean");
 		processorElement.setAttribute("class", "com.kesdip.player.components.weather.ScriptingDataProcessor");
 		processorPropElement.appendChild(processorElement);
-		DOMHelpers.addProperty(doc, processorElement, "scriptFile", "etc/yahoo.js");
+		Element scriptFilePropElement = DOMHelpers.addProperty(doc, processorElement, "scriptFile");
+		Resource resource = new Resource(scriptFile, "");
+		Element resourceElement = resource.serialize(doc);
+		scriptFilePropElement.appendChild(resourceElement);
 		return tickerElement;
 	}
 	
 	protected void deserialize(Document doc, Node componentNode) {
 		super.deserialize(doc, componentNode);
 		Node sourcePropNode = DOMHelpers.getPropertyNode(componentNode, "source");
-		Resource r = new Resource("", "");
-		r.deserialize(doc, sourcePropNode.getChildNodes().item(0));
-		setPropertyValue(SOURCE_PROP, r.getResource());
+		NodeList children = sourcePropNode.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child.getNodeType() == Node.ELEMENT_NODE &&
+					child.getNodeName().equals("bean")) {
+				Resource r = new Resource("", "");
+				r.deserialize(doc, child);
+				setPropertyValue(SOURCE_PROP, r.getResource());
+			}
+		}
 		Node tickerSourcePropNode = DOMHelpers.getPropertyNode(componentNode, "weatherDataSource");
-		NodeList children = tickerSourcePropNode.getChildNodes();
+		children = tickerSourcePropNode.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
 			if (child.getNodeType() == Node.ELEMENT_NODE &&
@@ -102,6 +116,25 @@ public class FlashWeatherComponent extends ComponentModelElement {
 				if ("com.kesdip.player.components.weather.URLXmlSource".equals(className)) {
 					setPropertyValue(TYPE_PROP, getWeatherSourceType(URL_XML_WEATHER_TYPE));
 					setPropertyValue(URL_PROP, DOMHelpers.getSimpleProperty(child, "url"));
+					Node processorPropNode = DOMHelpers.getPropertyNode(child, "weatherDataProcessor");
+					NodeList processorChildren = processorPropNode.getChildNodes();
+					for (int j = 0; j < processorChildren.getLength(); j++) {
+						Node processorChild = processorChildren.item(j);
+						if (processorChild.getNodeType() == Node.ELEMENT_NODE &&
+								processorChild.getNodeName().equals("bean")) {
+							Node scriptFilePropNode = DOMHelpers.getPropertyNode(processorChild, "scriptFile");
+							NodeList nl = scriptFilePropNode.getChildNodes();
+							for (int k = 0; k < nl.getLength(); k++) {
+								Node nc = nl.item(k);
+								if (nc.getNodeType() == Node.ELEMENT_NODE &&
+										nc.getNodeName().equals("bean")) {
+									Resource r = new Resource("", "");
+									r.deserialize(doc, nc);
+									setPropertyValue(SCRIPT_FILE_PROP, r.getResource());
+								}
+							}
+						}
+					}
 				} else if ("com.kesdip.player.components.weather.RssWeatherSource".equals(className)) {
 					setPropertyValue(TYPE_PROP, getWeatherSourceType(RSS_WEATHER_TYPE));
 					setPropertyValue(RSS_PROP, DOMHelpers.getSimpleProperty(child, "rssUrl"));
@@ -119,6 +152,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		memento.putString(TAG_WEATHER_TYPE, type);
 		memento.putString(TAG_WEATHER_URL, url);
 		memento.putString(TAG_WEATHER_RSS, rss);
+		memento.putString(TAG_WEATHER_SCRIPT, scriptFile);
 	}
 	
 	public void load(IMemento memento) {
@@ -127,6 +161,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		type = memento.getString(TAG_WEATHER_TYPE);
 		url = memento.getString(TAG_WEATHER_URL);
 		rss = memento.getString(TAG_WEATHER_RSS);
+		scriptFile = memento.getString(TAG_WEATHER_SCRIPT);
 	}
 	
 	@Override
@@ -137,6 +172,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		assert(type.equals(((FlashWeatherComponent) other).type));
 		assert(url.equals(((FlashWeatherComponent) other).url));
 		assert(rss.equals(((FlashWeatherComponent) other).rss));
+		assert(scriptFile.equals(((FlashWeatherComponent) other).scriptFile));
 	}
 	
 	/*
@@ -151,7 +187,8 @@ public class FlashWeatherComponent extends ComponentModelElement {
 				new ComboBoxPropertyDescriptor(TYPE_PROP, "Weather Source Type",
 						new String[] { URL_XML_WEATHER_TYPE, RSS_WEATHER_TYPE }),
 				new TextPropertyDescriptor(URL_PROP, "XML URL"),
-				new TextPropertyDescriptor(RSS_PROP, "RSS URL")
+				new TextPropertyDescriptor(RSS_PROP, "RSS URL"),
+				new FileChooserPropertyDescriptor(SCRIPT_FILE_PROP, "Script File")
 		};
 		// use a custom cell editor validator for all three array entries
 		for (int i = 0; i < descriptors.length; i++) {
@@ -194,6 +231,8 @@ public class FlashWeatherComponent extends ComponentModelElement {
 			return url;
 		else if (RSS_PROP.equals(propertyId))
 			return rss;
+		else if (SCRIPT_FILE_PROP.equals(propertyId))
+			return scriptFile;
 		else if (TYPE_PROP.equals(propertyId))
 			return getWeatherSourceType(type);
 		else
@@ -214,6 +253,10 @@ public class FlashWeatherComponent extends ComponentModelElement {
 			String oldValue = rss;
 			rss = (String) value;
 			firePropertyChange(RSS_PROP, oldValue, rss);
+		} else if (SCRIPT_FILE_PROP.equals(propertyId)) {
+			String oldValue = scriptFile;
+			scriptFile = (String) value;
+			firePropertyChange(SCRIPT_FILE_PROP, oldValue, scriptFile);
 		} else if (TYPE_PROP.equals(propertyId)) {
 			int oldValue = getWeatherSourceType(type);
 			int v = ((Integer) value).intValue();
@@ -239,6 +282,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		retVal.type = this.type;
 		retVal.rss = this.rss;
 		retVal.url = this.url;
+		retVal.scriptFile = this.scriptFile;
 		return retVal;
 	}
 
@@ -248,7 +292,8 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	}
 	
 	public String toString() {
-		return "FlashWeather(" + source + "," + type + "," + url + "," + rss + ")";
+		return "FlashWeather(" + source + "," + type + "," + url + "," + rss +
+			"," + scriptFile + ")";
 	}
 
 }

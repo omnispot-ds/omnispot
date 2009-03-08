@@ -13,6 +13,7 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.kesdip.designer.properties.FileChooserPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
@@ -53,11 +54,18 @@ public class FlashComponent extends ComponentModelElement {
 	}
 	
 	protected void deserialize(Document doc, Node componentNode) {
-		Node propNode = DOMHelpers.getPropertyNode(componentNode, "source");
-		Resource resource = new Resource("", "");
-		resource.deserialize(doc, propNode);
-		setPropertyValue(SOURCE_PROP, resource.getResource());
 		super.deserialize(doc, componentNode);
+		Node propNode = DOMHelpers.getPropertyNode(componentNode, "source");
+		NodeList children = propNode.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child.getNodeType() == Node.ELEMENT_NODE &&
+					child.getNodeName().equals("bean")) {
+				Resource r = new Resource("", "");
+				r.deserialize(doc, child);
+				setPropertyValue(SOURCE_PROP, r.getResource());
+			}
+		}
 	}
 	
 	public void save(IMemento memento) {

@@ -2,6 +2,8 @@ package com.kesdip.player.components.weather;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -10,6 +12,9 @@ import javax.script.ScriptException;
 
 import org.apache.log4j.Logger;
 
+import com.kesdip.player.components.Resource;
+import com.kesdip.player.registry.ContentRegistry;
+
 public class ScriptingDataProcessor extends WeatherDataProcessor {
 	
 	private final static Logger logger = Logger.getLogger(ScriptingDataProcessor.class);
@@ -17,7 +22,7 @@ public class ScriptingDataProcessor extends WeatherDataProcessor {
 	private ScriptEngineManager sem = new ScriptEngineManager();
 	private ScriptEngine engine;
 	
-	private String scriptFile;
+	private Resource scriptFile;
 	protected File file;
 	
 	private String scriptTxt;
@@ -27,16 +32,23 @@ public class ScriptingDataProcessor extends WeatherDataProcessor {
 		super();
 	}
 	
-	public String getScriptFile() {
+	public Resource getScriptFile() {
 		return scriptFile;
 	}
 
-	public void setScriptFile(String scriptFile) {
+	public void setScriptFile(Resource scriptFile) {
 		this.scriptFile = scriptFile;
-		file = new File(scriptFile);
 	}
 	
 	private void reloadIfNecessary() {
+		if (file == null) {
+			ContentRegistry registry = ContentRegistry.getContentRegistry();
+			String filename = registry.getResourcePath(scriptFile);
+			
+			if (filename == null)
+				filename = scriptFile.getIdentifier();
+			file = new File(filename);
+		}
 		if (lastModified == 0 || lastModified != file.lastModified()) {
 			try {
 				char[] buf = new char[(int)file.length()];
@@ -63,8 +75,15 @@ public class ScriptingDataProcessor extends WeatherDataProcessor {
 			WeatherData result = (WeatherData) bindings.get("weatherData");
 			return result;
 		} catch (ScriptException ex) {
-			logger.error("Error evaluating " + scriptFile, ex);
+			logger.error("Error evaluating " + scriptFile.getIdentifier(), ex);
 		}
 		return null;
+	}
+	
+	@Override
+	public Set<Resource> gatherResources() {
+		HashSet<Resource> retVal = new HashSet<Resource>();
+		retVal.add(scriptFile);
+		return retVal;
 	}
 }
