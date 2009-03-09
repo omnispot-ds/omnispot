@@ -59,6 +59,7 @@ public class DeleteController extends BaseFormController {
 		} catch (Exception e) {
 			return handleErrors(request, response, e);
 		}
+		setCurrentObject(request, logic.getInstance(installation).getSite());
 		return new ModelAndView(getSuccessView());
 	}
 

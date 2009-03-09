@@ -16,6 +16,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kesdip.admin.web.controller.BaseFormController;
+import com.kesdip.business.domain.generated.Customer;
 import com.kesdip.business.domain.generated.User;
 import com.kesdip.business.exception.ValidationException;
 import com.kesdip.business.logic.UserLogic;
@@ -52,6 +53,7 @@ public class DeleteController extends BaseFormController {
 
 		User user = (User) command;
 		UserLogic logic = getLogicFactory().getUserLogic();
+		Customer affiliation = logic.getInstance(user).getAffiliation();
 		try {
 			logic.delete(user);
 		} catch (ValidationException ve) {
@@ -59,6 +61,7 @@ public class DeleteController extends BaseFormController {
 		} catch (Exception e) {
 			return handleErrors(request, response, e);
 		}
+		setCurrentObject(request, affiliation);
 		return new ModelAndView(getSuccessView());
 	}
 
