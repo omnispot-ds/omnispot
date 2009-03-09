@@ -9,9 +9,13 @@
 
 package com.kesdip.admin.web.controller.installation;
 
+import java.util.Comparator;
+import java.util.TreeSet;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.kesdip.admin.web.controller.BaseFormController;
+import com.kesdip.business.domain.generated.Deployment;
 import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.logic.InstallationLogic;
 
@@ -41,6 +45,18 @@ public class ViewController extends BaseFormController {
 
 		InstallationLogic logic = getLogicFactory().getInstallationLogic();
 		Installation dbInstallation = logic.getInstance(installation);
+		
+		//order deployments by id descending
+		TreeSet<Deployment> orderedDeployments = new TreeSet<Deployment>(new Comparator<Deployment>() {
+			@Override
+			public int compare(Deployment o1, Deployment o2) {
+				return o1.getId().compareTo(o2.getId());
+			}
+		});
+		orderedDeployments.addAll(dbInstallation.getDeployments());
+		dbInstallation.setDeployments(orderedDeployments.descendingSet());	
+		
+		
 		setCurrentObject(request, dbInstallation);
 		return dbInstallation;
 	}
