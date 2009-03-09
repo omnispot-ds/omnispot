@@ -140,7 +140,7 @@ public class SerializationTest extends TestCase {
 	public void testSerialization() throws Exception {
 		Deployment d = createTestDeployment();
 		OutputStream os = new FileOutputStream("test.xml");
-		d.serialize(os);
+		d.serialize(os, false);
 		os.close();
 		
 		Deployment other = new Deployment();

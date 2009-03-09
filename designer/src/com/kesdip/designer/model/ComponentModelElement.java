@@ -98,7 +98,7 @@ public abstract class ComponentModelElement extends ModelElement {
 		new DimensionPropertySource(size, this);
 	protected Color backgroundColor = Color.BLACK;
 	
-	abstract Element serialize(Document doc);
+	abstract Element serialize(Document doc, boolean isPublish);
 	
 	protected void serialize(Document doc, Element componentElement) {
 		serialize(doc, componentElement, true);

@@ -87,7 +87,7 @@ public class TickerComponent extends ComponentModelElement {
 		return fontData;
 	}
 
-	protected Element serialize(Document doc) {
+	protected Element serialize(Document doc, boolean isPublish) {
 		Element tickerElement = doc.createElement("bean");
 		tickerElement.setAttribute("class", "com.kesdip.player.components.Ticker");
 		super.serialize(doc, tickerElement, !isTransparent);

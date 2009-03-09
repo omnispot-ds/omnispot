@@ -71,6 +71,9 @@ public class Player implements Runnable {
 	}
 
 	public static String getVlcPath() {
+		String sysProp = System.getProperty("KESDIP_EPE_DESIGNER_VLC_PATH");
+		if (sysProp != null)
+			return sysProp;
 		return props.getProperty("vlc_path");
 	}
 

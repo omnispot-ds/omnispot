@@ -61,13 +61,13 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		scriptFile = "";
 	}
 
-	protected Element serialize(Document doc) {
+	protected Element serialize(Document doc, boolean isPublish) {
 		Element tickerElement = doc.createElement("bean");
 		tickerElement.setAttribute("class", "com.kesdip.player.components.weather.FlashWeatherComponent");
 		super.serialize(doc, tickerElement);
 		Element sourcePropElement = DOMHelpers.addProperty(doc, tickerElement, "source");
 		Resource r = new Resource(source, "");
-		sourcePropElement.appendChild(r.serialize(doc));
+		sourcePropElement.appendChild(r.serialize(doc, isPublish));
 		Element weatherSourcePropElement = DOMHelpers.addProperty(
 				doc, tickerElement, "weatherDataSource");
 		Element weatherSourceElement = doc.createElement("bean");
@@ -87,7 +87,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		processorPropElement.appendChild(processorElement);
 		Element scriptFilePropElement = DOMHelpers.addProperty(doc, processorElement, "scriptFile");
 		Resource resource = new Resource(scriptFile, "");
-		Element resourceElement = resource.serialize(doc);
+		Element resourceElement = resource.serialize(doc, isPublish);
 		scriptFilePropElement.appendChild(resourceElement);
 		return tickerElement;
 	}

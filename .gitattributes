@@ -475,6 +475,8 @@ designer/src/com/kesdip/designer/handler/LayoutEditorInput.java -text
 designer/src/com/kesdip/designer/handler/NewFileHandler.java -text
 designer/src/com/kesdip/designer/handler/OpenFileHandler.java -text
 designer/src/com/kesdip/designer/handler/PreviewHandler.java -text
+designer/src/com/kesdip/designer/handler/PreviewLayoutHandler.java -text
+designer/src/com/kesdip/designer/handler/PublishHandler.java -text
 designer/src/com/kesdip/designer/handler/SaveAsFileHandler.java -text
 designer/src/com/kesdip/designer/handler/SaveFileHandler.java -text
 designer/src/com/kesdip/designer/handler/ShowViewHandler.java -text
@@ -508,6 +510,9 @@ designer/src/com/kesdip/designer/parts/PageOneEditPartFactory.java -text
 designer/src/com/kesdip/designer/parts/PageOneLayoutPart.java -text
 designer/src/com/kesdip/designer/parts/PageOneRootPart.java -text
 designer/src/com/kesdip/designer/parts/RegionEditPart.java -text
+designer/src/com/kesdip/designer/preferences/DesignerPreferencePage.java -text
+designer/src/com/kesdip/designer/preferences/PreferenceConstants.java -text
+designer/src/com/kesdip/designer/preferences/PreferenceInitializer.java -text
 designer/src/com/kesdip/designer/properties/CheckboxPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/ComboBoxPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/DateCellEditor.java -text

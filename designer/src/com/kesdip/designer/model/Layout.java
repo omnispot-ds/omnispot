@@ -55,7 +55,7 @@ public class Layout extends ModelElement {
 		regionList = new ArrayList<ModelElement>();
 	}
 	
-	protected Element serialize(Document doc, int layoutCount) {
+	protected Element serialize(Document doc, int layoutCount, boolean isPublish) {
 		Element layoutElement = doc.createElement("bean");
 		layoutElement.setAttribute("class", "com.kesdip.player.DeploymentLayout");
 		DOMHelpers.addProperty(doc, layoutElement, "name", name);
@@ -69,7 +69,7 @@ public class Layout extends ModelElement {
 		int counter = 1;
 		for (ModelElement e : regionList) {
 			Region r = (Region) e;
-			Element regionElement = r.serialize(doc, layoutCount, counter++);
+			Element regionElement = r.serialize(doc, layoutCount, counter++, isPublish);
 			listElement.appendChild(regionElement);
 		}
 		

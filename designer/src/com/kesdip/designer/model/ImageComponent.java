@@ -51,7 +51,7 @@ public class ImageComponent extends ComponentModelElement {
 	}
 
 	@Override
-	protected Element serialize(Document doc) {
+	protected Element serialize(Document doc, boolean isPublish) {
 		Element imageElement = doc.createElement("bean");
 		imageElement.setAttribute("class", "com.kesdip.player.components.Image");
 		DOMHelpers.addProperty(doc, imageElement, "duration", String.valueOf(duration));
@@ -60,7 +60,7 @@ public class ImageComponent extends ComponentModelElement {
 		Element listElement = doc.createElement("list");
 		contentPropElement.appendChild(listElement);
 		for (Resource r : images) {
-			Element resourceElement = r.serialize(doc);
+			Element resourceElement = r.serialize(doc, isPublish);
 			listElement.appendChild(resourceElement);
 		}
 		return imageElement;

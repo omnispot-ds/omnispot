@@ -1,5 +1,7 @@
 package com.kesdip.designer.model;
 
+import java.io.File;
+
 import org.eclipse.ui.IMemento;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,10 +39,15 @@ public class Resource {
 		return new Resource(other.resource, other.cronExpression);
 	}
 	
-	protected Element serialize(Document doc) {
+	protected Element serialize(Document doc, boolean isPublish) {
 		Element resourceElement = doc.createElement("bean");
 		resourceElement.setAttribute("class", "com.kesdip.player.components.Resource");
-		DOMHelpers.addProperty(doc, resourceElement, "identifier", resource);
+		if (isPublish) {
+			File f = new File(resource);
+			DOMHelpers.addProperty(doc, resourceElement, "identifier", f.getName());
+		} else { 
+			DOMHelpers.addProperty(doc, resourceElement, "identifier", resource);
+		}
 		if (cronExpression != null && cronExpression.length() != 0)
 			DOMHelpers.addProperty(doc, resourceElement, "cronExpression", cronExpression);
 		DOMHelpers.addProperty(doc, resourceElement, "checksum",

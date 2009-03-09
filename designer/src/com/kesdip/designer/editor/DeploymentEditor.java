@@ -326,6 +326,15 @@ public class DeploymentEditor extends MultiPageEditorPart implements
         // refresh content depending on current page
         currentPageChanged();
     }
+    
+    public Layout getCurrentLayout() {
+    	if (getCurrentPage() instanceof GraphicalEditor) {
+    		LayoutEditor le = (LayoutEditor) getCurrentPage();
+    		return le.getModel();
+    	}
+    	
+    	return null;
+    }
 
     /**
      * Indicates that the current page has changed.
@@ -335,6 +344,8 @@ public class DeploymentEditor extends MultiPageEditorPart implements
      */
     protected void currentPageChanged()
     {
+    	updateMenus();
+    	
         // update delegating command stack
     	if (getCurrentPage() instanceof DesignerEditorFirstPage) {
     		DesignerEditorFirstPage page =

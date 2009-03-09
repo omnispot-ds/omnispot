@@ -55,7 +55,7 @@ public class SaveFileHandler extends AbstractHandler implements IHandler {
 
 			OutputStream os = new BufferedOutputStream(
 					new FileOutputStream(path));
-			deployment.serialize(os);
+			deployment.serialize(os, false);
 			os.close();
 
 			IEditorReference[] editors = PlatformUI.getWorkbench().

@@ -55,11 +55,12 @@ public class Region extends ComponentModelElement {
 	}
 	
 	@Override
-	protected Element serialize(Document doc) {
+	protected Element serialize(Document doc, boolean isPublish) {
 		throw new RuntimeException("Normal component serialization called for a region.");
 	}
 	
-	protected Element serialize(Document doc, int layoutNumber, int regionNumber) {
+	protected Element serialize(Document doc, int layoutNumber, int regionNumber,
+			boolean isPublish) {
 		Element regionElement = doc.createElement("bean");
 		regionElement.setAttribute("id", "frame" + layoutNumber + "_" + regionNumber);
 		regionElement.setAttribute("class", "com.kesdip.player.components.RootContainer");
@@ -72,7 +73,7 @@ public class Region extends ComponentModelElement {
 		contentsElement.appendChild(listElement);
 		for (ModelElement element : contents) {
 			ComponentModelElement component = (ComponentModelElement) element;
-			Element componentElement = component.serialize(doc);
+			Element componentElement = component.serialize(doc, isPublish);
 			listElement.appendChild(componentElement);
 		}
 		

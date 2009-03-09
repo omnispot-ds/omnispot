@@ -50,7 +50,7 @@ public class SaveAsFileHandler extends AbstractHandler implements IHandler {
 			DesignerLog.logInfo("User entered path: " + path);
 
 			OutputStream os = new BufferedOutputStream(new FileOutputStream(path));
-			deployment.serialize(os);
+			deployment.serialize(os, false);
 			os.close();
 			IEditorReference[] editors = PlatformUI.getWorkbench().
 					getActiveWorkbenchWindow().getActivePage().getEditorReferences();

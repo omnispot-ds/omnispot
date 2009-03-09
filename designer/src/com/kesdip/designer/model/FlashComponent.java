@@ -42,13 +42,13 @@ public class FlashComponent extends ComponentModelElement {
 		source = "";
 	}
 
-	protected Element serialize(Document doc) {
+	protected Element serialize(Document doc, boolean isPublish) {
 		Element flashElement = doc.createElement("bean");
 		flashElement.setAttribute("class", "com.kesdip.player.components.FlashComponent");
 		super.serialize(doc, flashElement);
 		Element sourcePropElement = DOMHelpers.addProperty(doc, flashElement, "source");
 		Resource resource = new Resource(source, "");
-		Element resourceElement = resource.serialize(doc);
+		Element resourceElement = resource.serialize(doc, isPublish);
 		sourcePropElement.appendChild(resourceElement);
 		return flashElement;
 	}

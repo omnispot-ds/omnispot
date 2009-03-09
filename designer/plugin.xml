@@ -93,9 +93,19 @@
             name="Preview">
       </command>
       <command
+            defaultHandler="com.kesdip.designer.handler.PreviewLayoutHandler"
+            id="com.kesdip.designer.PreviewLayoutCommand"
+            name="Preview Layout">
+      </command>
+      <command
             defaultHandler="com.kesdip.designer.handler.ShowViewHandler"
             id="com.kesdip.designer.ShowViewCommand"
             name="Show View">
+      </command>
+      <command
+            defaultHandler="com.kesdip.designer.handler.PublishHandler"
+            id="com.kesdip.designer.PublishCommand"
+            name="Publish">
       </command>
    </extension>
    <extension
@@ -186,7 +196,17 @@
                label="Tools">
             <command
                   commandId="com.kesdip.designer.PreviewCommand"
-                  label="Preview Player"
+                  label="Preview Deployment"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.kesdip.designer.PreviewLayoutCommand"
+                  label="Preview Layout"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.kesdip.designer.PublishCommand"
+                  label="Export for Publishing"
                   style="push">
             </command>
             <separator
@@ -237,6 +257,20 @@
             id="com.kesdip.designer.wizards.DesignerNewWizard"
             name="Designer Editor file">
       </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.kesdip.designer.preferences.DesignerPreferencePage"
+            id="com.kesdip.designer.preferences.DesignerPreferencePage"
+            name="Designer Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.kesdip.designer.preferences.PreferenceInitializer">
+      </initializer>
    </extension>
 
 </plugin>

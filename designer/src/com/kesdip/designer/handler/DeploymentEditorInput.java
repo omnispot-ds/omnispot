@@ -1,5 +1,7 @@
 package com.kesdip.designer.handler;
 
+import java.io.File;
+
 import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
@@ -28,6 +30,10 @@ public class DeploymentEditorInput extends PlatformObject implements IEditorInpu
 
 	@Override
 	public String getName() {
+		if (path != null) {
+			File f = new File(path);
+			return f.getName();
+		}
 		return deployment.toString();
 	}
 

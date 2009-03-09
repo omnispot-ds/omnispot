@@ -50,7 +50,7 @@ public class VideoComponent extends ComponentModelElement {
 		repeat = false;
 	}
 
-	protected Element serialize(Document doc) {
+	protected Element serialize(Document doc, boolean isPublish) {
 		Element videoElement = doc.createElement("bean");
 		videoElement.setAttribute("class", "com.kesdip.player.components.Video");
 		super.serialize(doc, videoElement);
@@ -59,7 +59,7 @@ public class VideoComponent extends ComponentModelElement {
 		Element listElement = doc.createElement("list");
 		contentPropElement.appendChild(listElement);
 		for (Resource r : videos) {
-			Element resourceElement = r.serialize(doc);
+			Element resourceElement = r.serialize(doc, isPublish);
 			listElement.appendChild(resourceElement);
 		}
 		return videoElement;

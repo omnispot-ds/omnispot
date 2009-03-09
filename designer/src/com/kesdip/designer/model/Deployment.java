@@ -143,7 +143,7 @@ public class Deployment extends ModelElement {
 		startTime = new Date();
 	}
 	
-	public void serialize(OutputStream os) throws ParserConfigurationException,
+	public void serialize(OutputStream os, boolean isPublish) throws ParserConfigurationException,
 			TransformerException, IOException {
 		DocumentBuilderFactory bFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = bFactory.newDocumentBuilder();
@@ -193,7 +193,7 @@ public class Deployment extends ModelElement {
 		int count = 1;
 		for (ModelElement e : layoutList) {
 			Layout l = (Layout) e;
-			Element layoutNode = l.serialize(doc, count++);
+			Element layoutNode = l.serialize(doc, count++, isPublish);
 			listNode.appendChild(layoutNode);
 		}
 		beansElement.appendChild(deploymentContentsElement);
