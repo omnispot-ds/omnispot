@@ -125,7 +125,7 @@
 				</td>
 				<td>
 					<div class="readonly_value">
-						<c:forEach items="${dataObject.deployments}" var="deployment" varStatus="status">
+						<c:forEach items="${dataObject.deployments}" var="deployment" varStatus="status" begin="0" end="2">
 							${deployment.name}
 							<c:if test="${not status.last}">
 								<br/>							
