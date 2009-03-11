@@ -20,7 +20,7 @@ import com.kesdip.designer.utils.DOMHelpers;
 
 public class VideoComponent extends ComponentModelElement {
 	/** A 16x16 pictogram of an elliptical shape. */
-	private static final Image IMAGE_ICON = createImage("icons/alt_window_16.gif");
+	private static final Image IMAGE_ICON = createImage("icons/clapperboard.png");
 	
 	private static final long serialVersionUID = 1L;
 	

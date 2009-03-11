@@ -26,10 +26,6 @@ import com.kesdip.designer.action.MaximizeAction;
 public class DeploymentActionBarContributor extends
 		MultiPageEditorActionBarContributor {
 
-	public DeploymentActionBarContributor() {
-		// TODO Auto-generated constructor stub
-	}
-
 	private List<String> globalActionKeys = new ArrayList<String>();
 	private List<IAction> retargetActions = new ArrayList<IAction>();
 	private ActionRegistry registry = new ActionRegistry();

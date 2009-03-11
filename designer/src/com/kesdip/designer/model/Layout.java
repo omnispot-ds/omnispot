@@ -21,7 +21,7 @@ public class Layout extends ModelElement {
 	private static final long serialVersionUID = -8369517837436215055L;
 
 	/** A 16x16 pictogram of an elliptical shape. */
-	private static final Image IMAGE_ICON = createImage("icons/alt_window_16.gif");
+	private static final Image IMAGE_ICON = createImage("icons/display.png");
 	
 	/** 
 	 * A static array of property descriptors.

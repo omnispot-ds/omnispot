@@ -2,7 +2,10 @@ package com.kesdip.designer.editor;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
@@ -33,10 +37,14 @@ import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -45,6 +53,7 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.internal.part.NullEditorInput;
 import org.eclipse.ui.part.EditorPart;
@@ -68,6 +77,7 @@ import com.kesdip.designer.model.Layout;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.parts.OutlineLayoutPart;
 import com.kesdip.designer.parts.OutlinePartFactory;
+import com.kesdip.designer.utils.DesignerLog;
 
 @SuppressWarnings("restriction")
 public class DeploymentEditor extends MultiPageEditorPart implements
@@ -246,7 +256,6 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 				Layout l = (Layout) elem;
 				addPageForLayout(count++, l);
 			}
-			
 			setActivePage(0);
    		} catch (Exception e) {
 			e.printStackTrace();
@@ -434,14 +443,72 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Implement
+		final Deployment deployment = getModel();
+		String path = ((DeploymentEditorInput) getEditorInput()).getPath();
+		
+		if (path == null) {
+			Shell shell = getSite().getWorkbenchWindow().getShell();
+			FileDialog dialog = new FileDialog(shell, SWT.SAVE | SWT.APPLICATION_MODAL);
+			dialog.setFilterNames(new String[] { "Ke.S.Di.P. E.P.E. Designer Files", "All files (*.*)" });
+			dialog.setFilterExtensions(new String[] { "*.des.xml", "*.*" });
+			path = dialog.open();
+			
+			if (path == null)
+				return;
+		}
+		
+		if (null == monitor)
+			monitor = new NullProgressMonitor();
 
+		monitor.beginTask("Saving " + path, 1);
+        try {
+			monitor.worked(1);
+			OutputStream os = new BufferedOutputStream(
+					new FileOutputStream(path));
+			deployment.serialize(os, false);
+			os.close();
+			getDelegatingCommandStack().markSaveLocation();
+			monitor.done();
+		} catch (Exception e) {
+			DesignerLog.logError("Unable to save file", e);
+		}
 	}
 
 	@Override
 	public void doSaveAs() {
-		// TODO Implement
-
+		// Show a SaveAs dialog
+		Shell shell = getSite().getWorkbenchWindow().getShell();
+		FileDialog dialog = new FileDialog(shell, SWT.SAVE | SWT.APPLICATION_MODAL);
+		dialog.setFilterNames(new String[] { "Ke.S.Di.P. E.P.E. Designer Files", "All files (*.*)" });
+		dialog.setFilterExtensions(new String[] { "*.des.xml", "*.*" });
+		String path = dialog.open();
+		
+		if (path != null) {
+			// try to save the editor's contents under a different file name
+			final File newFile = new File(path);
+			try {
+				new ProgressMonitorDialog(shell).run(
+						false, // don't fork
+						false, // not cancelable
+						new WorkspaceModifyOperation() { // run this operation
+							public void execute(final IProgressMonitor monitor) {
+								try {
+									OutputStream os = new BufferedOutputStream(
+											new FileOutputStream(newFile));
+									getModel().serialize(os, false);
+									os.close();
+								} catch (Exception e) {
+									DesignerLog.logError("Unable to save file", e);
+								} 
+							}
+						});
+				// set input to the new file
+				setInput(new DeploymentEditorInput(getModel(), path));
+				getDelegatingCommandStack().markSaveLocation();
+			} catch (Exception e) {
+				DesignerLog.logError("Unable to save file", e);
+			}
+		}
 	}
 
 	@Override

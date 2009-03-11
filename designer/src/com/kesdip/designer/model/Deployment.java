@@ -40,7 +40,7 @@ public class Deployment extends ModelElement {
 	private static final long serialVersionUID = -2386076166432510134L;
 	
 	/** A 16x16 pictogram of an elliptical shape. */
-	private static final Image IMAGE_ICON = createImage("icons/alt_window_16.gif");
+	private static final Image IMAGE_ICON = createImage("icons/palette.png");
 
 	/** Property ID to use when a layout is added to this deployment. */
 	public static final String LAYOUT_ADDED_PROP = "Deployment.LayoutAdded";

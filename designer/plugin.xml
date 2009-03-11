@@ -73,21 +73,6 @@
             name="Open">
       </command>
       <command
-            defaultHandler="com.kesdip.designer.handler.SaveFileHandler"
-            id="com.kesdip.designer.SaveCommand"
-            name="Save">
-      </command>
-      <command
-            defaultHandler="com.kesdip.designer.handler.SaveAsFileHandler"
-            id="com.kesdip.designer.SaveAsCommand"
-            name="SaveAs">
-      </command>
-      <command
-            defaultHandler="com.kesdip.designer.handler.ExitCommand"
-            id="com.kesdip.designer.ExitCommand"
-            name="Exit">
-      </command>
-      <command
             defaultHandler="com.kesdip.designer.handler.PreviewHandler"
             id="com.kesdip.designer.PreviewCommand"
             name="Preview">
@@ -130,13 +115,18 @@
                   visible="true">
             </separator>
             <command
-                  commandId="com.kesdip.designer.SaveCommand"
+                  commandId="org.eclipse.ui.file.save"
                   label="Save"
                   style="push">
             </command>
             <command
-                  commandId="com.kesdip.designer.SaveAsCommand"
+                  commandId="org.eclipse.ui.file.saveAs"
                   label="Save As"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.file.saveAll"
+                  label="Save All"
                   style="push">
             </command>
             <separator
@@ -144,7 +134,7 @@
                   visible="true">
             </separator>
             <command
-                  commandId="com.kesdip.designer.ExitCommand"
+                  commandId="org.eclipse.ui.file.exit"
                   label="Exit"
                   style="push">
             </command>
@@ -196,16 +186,19 @@
                label="Tools">
             <command
                   commandId="com.kesdip.designer.PreviewCommand"
+                  icon="src/com/kesdip/designer/model/icons/palette.png"
                   label="Preview Deployment"
                   style="push">
             </command>
             <command
                   commandId="com.kesdip.designer.PreviewLayoutCommand"
+                  icon="src/com/kesdip/designer/model/icons/display.png"
                   label="Preview Layout"
                   style="push">
             </command>
             <command
                   commandId="com.kesdip.designer.PublishCommand"
+                  icon="src/com/kesdip/designer/model/icons/palette.png"
                   label="Export for Publishing"
                   style="push">
             </command>

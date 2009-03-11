@@ -34,8 +34,8 @@ final class DesignerEditorPaletteFactory {
 				"Create a region", 
 				Region.class,
 				new SimpleFactory(Region.class), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle16.gif"), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
+				ImageDescriptor.createFromFile(Deployment.class, "icons/film_folder.png"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/film_folder_large.png"));
 		containersDrawer.add(component);
 		
 		return containersDrawer;
@@ -50,8 +50,8 @@ final class DesignerEditorPaletteFactory {
 				"Create an image", 
 				ImageComponent.class,
 				new SimpleFactory(ImageComponent.class), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle16.gif"), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
+				ImageDescriptor.createFromFile(Deployment.class, "icons/camera.png"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/camera_large.png"));
 		componentsDrawer.add(component);
 	
 		component = new CombinedTemplateCreationEntry(
@@ -59,8 +59,8 @@ final class DesignerEditorPaletteFactory {
 				"Create a ticker", 
 				TickerComponent.class,
 				new SimpleFactory(TickerComponent.class), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle16.gif"), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
+				ImageDescriptor.createFromFile(Deployment.class, "icons/ticker.png"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/ticker_large.png"));
 		componentsDrawer.add(component);
 	
 		component = new CombinedTemplateCreationEntry(
@@ -68,8 +68,8 @@ final class DesignerEditorPaletteFactory {
 				"Create a VLC video", 
 				VideoComponent.class,
 				new SimpleFactory(VideoComponent.class), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle16.gif"), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
+				ImageDescriptor.createFromFile(Deployment.class, "icons/clapperboard.png"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/clapperboard_large.png"));
 		componentsDrawer.add(component);
 
 		component = new CombinedTemplateCreationEntry(
@@ -77,8 +77,8 @@ final class DesignerEditorPaletteFactory {
 				"Create a flash component", 
 				FlashComponent.class,
 				new SimpleFactory(FlashComponent.class), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle16.gif"), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
+				ImageDescriptor.createFromFile(Deployment.class, "icons/flash_cs3.png"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/flash_cs3_large.png"));
 		componentsDrawer.add(component);
 	
 		component = new CombinedTemplateCreationEntry(
@@ -86,8 +86,8 @@ final class DesignerEditorPaletteFactory {
 				"Create a flash weather component", 
 				FlashWeatherComponent.class,
 				new SimpleFactory(FlashWeatherComponent.class), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle16.gif"), 
-				ImageDescriptor.createFromFile(Deployment.class, "icons/rectangle24.gif"));
+				ImageDescriptor.createFromFile(Deployment.class, "icons/cloud_sun.png"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/cloud_sun_large.png"));
 		componentsDrawer.add(component);
 	
 		return componentsDrawer;

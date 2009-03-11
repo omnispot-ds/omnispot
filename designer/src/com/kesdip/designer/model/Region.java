@@ -24,7 +24,7 @@ public class Region extends ComponentModelElement {
 	private static final long serialVersionUID = 8142189250205205732L;
 
 	/** A 16x16 pictogram of an elliptical shape. */
-	private static final Image IMAGE_ICON = createImage("icons/alt_window_16.gif");
+	private static final Image IMAGE_ICON = createImage("icons/film_folder.png");
 	
 	/** 
 	 * A static array of property descriptors.
