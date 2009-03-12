@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>Deployment</title>
+</head>
+
+<body>
+<h1>Deployment</h1>
+<p>A <em>deployment</em> or <em>deployment descriptor</em> is an XML file that defines
+which resources, will be played by what components and with what properties by the
+Ke.S.Di.P. Player. It refers to the resources that will be used (videos, images, flash
+objects, etc.) but does not contain them.</p>
+<p>When a deployment descriptor is ready to be published to the players, it must be
+saved, and the "export for publishing" process must be followed. This generates a zip
+file on a user supplied location that contains the deployment descriptor and all the
+resources it uses. This file can then be uploaded to the Ke.S.Di.P. Administration
+Console, so that it can be distributed to the Players selected by the user.</p>
+<p>A deployment has a set of properties that can be modified in the property sheet
+view. These are:</p>
+<ul>
+	<li><b>Bit Depth:</b> Specifies the number of bits that will be used for colors.</li>
+	<li><b>Size:</b> The size of the deployment in pixels.</li>
+	<li><b>ID:</b> A unique identifier for the deployment. This is automatically generated
+	by the designer and is not editable. It is used by the Ke.S.Di.P. system to
+	track individual deployments.</li>
+	<li><b>Start Time:</b> The time after which the deployment should start playing. The
+	usage for this property is when one wants to deploy something to the players, but not
+	start playing it until some later point in time.</li>
+</ul>
+<p>A deployment also contains a list of <a href="layout.html">layouts</a>. When deployed
+(and assuming no cron expressions have been specified) the player will start showing these
+layouts in order.</p>
+</body>
+</html>

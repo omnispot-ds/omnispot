@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Ke.S.Di.P. Designer Table of Contents">
+	<topic label="Concepts"  href="html/concepts.html"> 
+		<topic href="html/deployment.html" label="Deployment">
+  </topic>
+  <topic href="html/layout.html" label="Layout">
+  </topic>
+  <topic href="html/region.html" label="Region">
+  </topic> 
+	</topic>
+</toc>
