@@ -16,7 +16,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(ActionFactory.SAVE.create(window));
 		register(ActionFactory.SAVE_AS.create(window));
 		register(ActionFactory.SAVE_ALL.create(window));
-
+		register(ActionFactory.HELP_CONTENTS.create(window));
     }
 
     protected void fillMenuBar(IMenuManager menuBar) {
