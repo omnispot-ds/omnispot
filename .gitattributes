@@ -395,6 +395,9 @@ designer-help/html/deployment.html -text
 designer-help/html/layout.html -text
 designer-help/html/region.html -text
 designer-help/html/toc.html -text
+designer-help/icons/display.png -text
+designer-help/icons/folder.png -text
+designer-help/icons/package.png -text
 designer-help/plugin.xml -text
 designer-help/src/com/kesdip/designer/help/Activator.java -text
 designer-help/testToc.xml -text
