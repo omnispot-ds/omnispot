@@ -36,6 +36,7 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_COMPONENT = "Component";
 	public static final String TAG_COMPONENT_TYPE = "Type";
 	public static final String TYPE_VIDEO = "video";
+	public static final String TYPE_TUNER_VIDEO = "tunerVideo";
 	public static final String TYPE_TICKER = "ticker";
 	public static final String TYPE_IMAGE = "image";
 	public static final String TYPE_FLASH = "flash";
@@ -64,6 +65,9 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_WEATHER_URL = "WeatherUrl";
 	public static final String TAG_WEATHER_RSS = "WeatherRss";
 	public static final String TAG_WEATHER_SCRIPT = "WeatherScript";
+	public static final String TAG_DEVICE = "Device";
+	public static final String TAG_CHANNEL = "Channel";
+	public static final String TAG_INPUT = "Input";
 	
 	public static final String PARENT_PROP = "ModelElement.Parent";
 	public static final String CHILD_MOVE_UP = "ModelElement.ChildMoveUp";

@@ -2,12 +2,16 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Ke.S.Di.P. Designer Table of Contents">
-	<topic label="Concepts"  href="html/concepts.html"> 
-		<topic href="html/deployment.html" label="Deployment">
+   <topic href="html/prereqs.html" label="Prerequisites">
+   </topic>
+	<topic label="Concepts"  href="html/concepts/concepts.html"> 
+		<topic href="html/concepts/deployment.html" label="Deployment">
   </topic>
-  <topic href="html/layout.html" label="Layout">
+  <topic href="html/concepts/layout.html" label="Layout">
   </topic>
-  <topic href="html/region.html" label="Region">
+  <topic href="html/concepts/region.html" label="Region">
   </topic> 
 	</topic>
+ <topic href="html/scheduling/scheduling.html" label="Scheduling">
+ </topic>
 </toc>

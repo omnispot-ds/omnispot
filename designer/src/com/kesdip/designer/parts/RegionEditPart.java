@@ -32,6 +32,7 @@ import com.kesdip.designer.model.ImageComponent;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.Region;
 import com.kesdip.designer.model.TickerComponent;
+import com.kesdip.designer.model.TunerVideoComponent;
 import com.kesdip.designer.model.VideoComponent;
 import com.kesdip.designer.utils.DesignerLog;
 
@@ -143,9 +144,12 @@ public class RegionEditPart extends AbstractGraphicalEditPart implements
 		 */
 		protected Command getCreateCommand(CreateRequest request) {
 			Object childClass = request.getNewObjectType();
-			if (childClass == ImageComponent.class || childClass == TickerComponent.class ||
-					childClass == VideoComponent.class || childClass == FlashComponent.class ||
-					childClass == FlashWeatherComponent.class) {
+			if (childClass == ImageComponent.class ||
+					childClass == TickerComponent.class ||
+					childClass == VideoComponent.class ||
+					childClass == FlashComponent.class ||
+					childClass == FlashWeatherComponent.class ||
+					childClass == TunerVideoComponent.class) {
 				ComponentModelElement element = null;
 				try {
 					element = (ComponentModelElement) request.getNewObject();

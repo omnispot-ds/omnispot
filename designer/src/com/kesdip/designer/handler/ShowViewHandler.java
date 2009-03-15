@@ -1,5 +1,8 @@
 package com.kesdip.designer.handler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -87,18 +90,17 @@ public class ShowViewHandler extends AbstractHandler {
 		@Override
 		public IViewDescriptor[] getViews() {
 			IViewDescriptor[] views = super.getViews();
-			IViewDescriptor[] retVal = new IViewDescriptor[5];
-			int counter = 0;
+			List<IViewDescriptor> retVal = new ArrayList<IViewDescriptor>();
 			for (IViewDescriptor view : views) {
 				if ("org.eclipse.ui.views.ContentOutline".equals(view.getId()) ||
 						"org.eclipse.ui.views.TaskList".equals(view.getId()) ||
 						"org.eclipse.ui.views.PropertySheet".equals(view.getId()) ||
 						"org.eclipse.gef.ui.palette_view".equals(view.getId()) ||
 						"org.eclipse.pde.runtime.LogView".equals(view.getId())) {
-					retVal[counter++] = view;
+					retVal.add(view);
 				}
 			}
-			return retVal;
+			return retVal.toArray(new IViewDescriptor[0]);
 		}
 		
 	}
@@ -128,18 +130,17 @@ public class ShowViewHandler extends AbstractHandler {
 		@Override
 		public IViewDescriptor[] getViews() {
 			IViewDescriptor[] views = delegate.getViews();
-			IViewDescriptor[] retVal = new IViewDescriptor[5];
-			int counter = 0;
+			List<IViewDescriptor> retVal = new ArrayList<IViewDescriptor>();
 			for (IViewDescriptor view : views) {
 				if ("org.eclipse.ui.views.ContentOutline".equals(view.getId()) ||
 						"org.eclipse.ui.views.TaskList".equals(view.getId()) ||
 						"org.eclipse.ui.views.PropertySheet".equals(view.getId()) ||
 						"org.eclipse.gef.ui.palette_view".equals(view.getId()) ||
 						"org.eclipse.pde.runtime.LogView".equals(view.getId())) {
-					retVal[counter++] = view;
+					retVal.add(view);
 				}
 			}
-			return retVal;
+			return retVal.toArray(new IViewDescriptor[0]);
 		}
 		
 	}

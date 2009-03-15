@@ -111,6 +111,8 @@ public class Region extends ComponentModelElement {
 							component = new TickerComponent();
 						} else if ("com.kesdip.player.components.Video".equals(className)) {
 							component = new VideoComponent();
+						} else if ("com.kesdip.player.components.TunerVideo".equals(className)) {
+							component = new TunerVideoComponent();
 						} else if ("com.kesdip.player.components.Image".equals(className)) {
 							component = new ImageComponent();
 						} else if ("com.kesdip.player.components.FlashComponent".equals(className)) {
@@ -140,6 +142,8 @@ public class Region extends ComponentModelElement {
 			IMemento child = memento.createChild(TAG_COMPONENT);
 			if (element instanceof VideoComponent)
 				child.putString(TAG_COMPONENT_TYPE, TYPE_VIDEO);
+			else if (element instanceof TunerVideoComponent)
+				child.putString(TAG_COMPONENT_TYPE, TYPE_TUNER_VIDEO);
 			else if (element instanceof TickerComponent)
 				child.putString(TAG_COMPONENT_TYPE, TYPE_TICKER);
 			else if (element instanceof ImageComponent)
@@ -164,6 +168,9 @@ public class Region extends ComponentModelElement {
 			String type = child.getString(TAG_COMPONENT_TYPE);
 			if (TYPE_VIDEO.equals(type)) {
 				VideoComponent v = new VideoComponent();
+				v.load(child);
+			} else if (TYPE_VIDEO.equals(type)) {
+				TunerVideoComponent v = new TunerVideoComponent();
 				v.load(child);
 			} else if (TYPE_TICKER.equals(type)) {
 				TickerComponent t = new TickerComponent();

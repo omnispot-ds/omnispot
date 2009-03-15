@@ -17,7 +17,8 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="icons/alt_window_16.gif" i32="icons/alt_window_32.gif"/>
+   <windowImages i16="icons/display.png" i32="icons/display_large.png"/>
+
 
    <plugins>
       <plugin id="com.ibm.icu"/>

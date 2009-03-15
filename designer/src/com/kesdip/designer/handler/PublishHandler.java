@@ -29,6 +29,10 @@ public class PublishHandler extends AbstractHandler implements IHandler {
 
 	@Override
 	public boolean isEnabled() {
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() == null)
+			return false;
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() == null)
+			return false;
 		IEditorPart editor = PlatformUI.getWorkbench().
 			getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (editor == null)

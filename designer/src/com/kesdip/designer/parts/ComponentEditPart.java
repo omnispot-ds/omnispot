@@ -18,6 +18,7 @@ import com.kesdip.designer.figure.FlashFigure;
 import com.kesdip.designer.figure.FlashWeatherFigure;
 import com.kesdip.designer.figure.ImageFigure;
 import com.kesdip.designer.figure.TickerFigure;
+import com.kesdip.designer.figure.TunerVideoFigure;
 import com.kesdip.designer.figure.VideoFigure;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.FlashComponent;
@@ -25,6 +26,7 @@ import com.kesdip.designer.model.FlashWeatherComponent;
 import com.kesdip.designer.model.ImageComponent;
 import com.kesdip.designer.model.ModelElement;
 import com.kesdip.designer.model.TickerComponent;
+import com.kesdip.designer.model.TunerVideoComponent;
 import com.kesdip.designer.model.VideoComponent;
 
 public class ComponentEditPart extends AbstractGraphicalEditPart implements
@@ -56,6 +58,9 @@ public class ComponentEditPart extends AbstractGraphicalEditPart implements
 		} else if (getModel() instanceof VideoComponent) {
 			VideoComponent videoComponent = (VideoComponent) getModel();
 			f = new VideoFigure(videoComponent);
+		} else if (getModel() instanceof TunerVideoComponent) {
+			TunerVideoComponent tunerVideoComponent = (TunerVideoComponent) getModel();
+			f = new TunerVideoFigure(tunerVideoComponent);
 		} else if (getModel() instanceof TickerComponent) {
 			TickerComponent tickerComponent = (TickerComponent) getModel();
 			f = new TickerFigure(tickerComponent);

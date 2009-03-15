@@ -27,7 +27,7 @@
             name="Ke.S.Di.P. E.P.E. Designer">
          <property
                name="windowImages"
-               value="icons/alt_window_16.gif,icons/alt_window_32.gif">
+               value="icons/display.png,icons/display_large.png">
          </property>
          <property
                name="appName"
@@ -246,7 +246,7 @@
       <wizard
             category="com.kesdip.designer"
             class="com.kesdip.designer.wizards.DesignerNewWizard"
-            icon="icons/sample.gif"
+            icon="icons/new_wiz.png"
             id="com.kesdip.designer.wizards.DesignerNewWizard"
             name="Designer Editor file">
       </wizard>

@@ -17,6 +17,7 @@ import com.kesdip.designer.model.FlashWeatherComponent;
 import com.kesdip.designer.model.ImageComponent;
 import com.kesdip.designer.model.Region;
 import com.kesdip.designer.model.TickerComponent;
+import com.kesdip.designer.model.TunerVideoComponent;
 import com.kesdip.designer.model.VideoComponent;
 
 /**
@@ -70,6 +71,15 @@ final class DesignerEditorPaletteFactory {
 				new SimpleFactory(VideoComponent.class), 
 				ImageDescriptor.createFromFile(Deployment.class, "icons/clapperboard.png"), 
 				ImageDescriptor.createFromFile(Deployment.class, "icons/clapperboard_large.png"));
+		componentsDrawer.add(component);
+
+		component = new CombinedTemplateCreationEntry(
+				"TunerVideo", 
+				"Create a tuner video", 
+				TunerVideoComponent.class,
+				new SimpleFactory(TunerVideoComponent.class), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/wireless.png"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/wireless_large.png"));
 		componentsDrawer.add(component);
 
 		component = new CombinedTemplateCreationEntry(
