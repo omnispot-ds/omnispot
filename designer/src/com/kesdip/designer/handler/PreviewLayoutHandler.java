@@ -11,6 +11,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -62,23 +63,38 @@ public class PreviewLayoutHandler extends AbstractHandler implements IHandler {
 			tempDeployment.setPropertyValue(Deployment.ID_PROP,
 					UUID.randomUUID().toString());
 			tempDeployment.add(l.deepCopy());
+			int displayWidth = Display.getDefault().getBounds().width -
+				Display.getDefault().getBounds().x;
+			int displayHeight = Display.getDefault().getBounds().height -
+				Display.getDefault().getBounds().y;
+			if (de.getModel().getSize().width != displayWidth ||
+					de.getModel().getSize().height != displayHeight) {
+				// We must scale in order to cover the whole screen
+				double xFactor = ((double) displayWidth) /
+						((double) tempDeployment.getSize().width);
+				double yFactor = ((double) displayHeight) /
+						((double) tempDeployment.getSize().height);
+				tempDeployment.resizeBy(xFactor, yFactor);
+			}
 			File tempFile = File.createTempFile("layout", ".des.xml");
-			OutputStream os = new BufferedOutputStream(new FileOutputStream(tempFile));
-			tempDeployment.serialize(os, false);
-			os.close();
-			
-			String reason = PlayerPreview.canPreview(tempFile.getAbsolutePath());
-			
-			String vlcPath = Activator.getDefault().getPreferenceStore().getString(
-					PreferenceConstants.P_VLC_PATH);
-			
-			if (reason == null)
-				PlayerPreview.previewPlayer(tempFile.getAbsolutePath(), vlcPath);
-			else
-				MessageDialog.openError(HandlerUtil.getActiveShell(event),
-						"Unable to preview", reason);
-			
-			tempFile.delete();
+			try {
+				OutputStream os = new BufferedOutputStream(new FileOutputStream(tempFile));
+				tempDeployment.serialize(os, false);
+				os.close();
+				
+				String reason = PlayerPreview.canPreview(tempFile.getAbsolutePath());
+				
+				String vlcPath = Activator.getDefault().getPreferenceStore().getString(
+						PreferenceConstants.P_VLC_PATH);
+				
+				if (reason == null)
+					PlayerPreview.previewPlayer(tempFile.getAbsolutePath(), vlcPath);
+				else
+					MessageDialog.openError(HandlerUtil.getActiveShell(event),
+							"Unable to preview", reason);
+			} finally {
+				tempFile.delete();
+			}
 		} catch (Exception e) {
 			DesignerLog.logError("Unable to start deployment preview", e);
 		}

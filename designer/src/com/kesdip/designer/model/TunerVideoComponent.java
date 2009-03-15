@@ -8,6 +8,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -22,6 +23,9 @@ public class TunerVideoComponent extends ComponentModelElement {
 	private static final Image IMAGE_ICON = createImage("icons/wireless.png");
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final String AnalogVideoType = "Analog TV";
+	private static final String DigitalVideoType = "Digital TV";
 
 	/** 
 	 * A static array of property descriptors.
@@ -31,6 +35,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 	 * @see #setPropertyValue(Object, Object)
 	 */
 	private static IPropertyDescriptor[] descriptors;
+	/** Property ID to use for the type property value. */
+	public static final String TYPE_PROP = "Tuner.TypeProp";
 	/** Property ID to use for the device property value. */
 	public static final String DEVICE_PROP = "Tuner.DeviceProp";
 	/** Property ID to use for the channel property value. */
@@ -39,11 +45,13 @@ public class TunerVideoComponent extends ComponentModelElement {
 	public static final String INPUT_PROP = "Tuner.InputProp";
 
 	/* STATE */
+	private String type;
 	private String device;
 	private int channel;
 	private int input;
 	
 	public TunerVideoComponent() {
+		type = AnalogVideoType;
 		device = "";
 		channel = 0;
 		input = 0;
@@ -53,6 +61,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 		Element videoElement = doc.createElement("bean");
 		videoElement.setAttribute("class", "com.kesdip.player.components.TunerVideo");
 		super.serialize(doc, videoElement);
+		DOMHelpers.addProperty(doc, videoElement, "type",
+				type.equals(AnalogVideoType) ? "1" : "2");
 		DOMHelpers.addProperty(doc, videoElement, "device", device);
 		DOMHelpers.addProperty(doc, videoElement, "channel", String.valueOf(channel));
 		DOMHelpers.addProperty(doc, videoElement, "input", String.valueOf(input));
@@ -60,6 +70,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 	}
 	
 	protected void deserialize(Document doc, Node componentNode) {
+		String t = DOMHelpers.getSimpleProperty(componentNode, "type");
+		setPropertyValue(TYPE_PROP, Integer.parseInt(t) - 1);
 		setPropertyValue(DEVICE_PROP, DOMHelpers.getSimpleProperty(componentNode, "device"));
 		setPropertyValue(CHANNEL_PROP, DOMHelpers.getSimpleProperty(componentNode, "channel"));
 		setPropertyValue(INPUT_PROP, DOMHelpers.getSimpleProperty(componentNode, "input"));
@@ -68,6 +80,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	
 	public void save(IMemento memento) {
 		super.save(memento);
+		memento.putString(TAG_TUNER_TYPE, type);
 		memento.putString(TAG_DEVICE, device);
 		memento.putInteger(TAG_CHANNEL, channel);
 		memento.putInteger(TAG_INPUT, input);
@@ -75,6 +88,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	
 	public void load(IMemento memento) {
 		super.load(memento);
+		type = memento.getString(TAG_TUNER_TYPE);
 		device = memento.getString(TAG_DEVICE);
 		channel = memento.getInteger(TAG_CHANNEL);
 		input = memento.getInteger(TAG_INPUT);
@@ -84,6 +98,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	void checkEquivalence(ComponentModelElement other) {
 		super.checkEquivalence(other);
 		assert(other instanceof TunerVideoComponent);
+		assert(type.equals(((TunerVideoComponent) other).type));
 		assert(device.equals(((TunerVideoComponent) other).device));
 		assert(channel == ((TunerVideoComponent) other).channel);
 		assert(input == ((TunerVideoComponent) other).input);
@@ -97,6 +112,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 	 */
 	static {
 		descriptors = new IPropertyDescriptor[] { 
+				new ComboBoxPropertyDescriptor(TYPE_PROP, "Type",
+						new String[] { AnalogVideoType, DigitalVideoType }),
 				new TextPropertyDescriptor(DEVICE_PROP, "Device"),
 				new TextPropertyDescriptor(CHANNEL_PROP, "Channel"),
 				new TextPropertyDescriptor(INPUT_PROP, "Input Pin")
@@ -140,6 +157,15 @@ public class TunerVideoComponent extends ComponentModelElement {
 		return retVal;
 	}
 
+	private int getTunerType(String t) {
+		if (t.equals(AnalogVideoType))
+			return 0;
+		else if (t.equals(DigitalVideoType))
+			return 1;
+		else
+			throw new RuntimeException("Unknown tuner type.");		
+	}
+
 	@Override
 	public Object getPropertyValue(Object propertyId) {
 		if (CHANNEL_PROP.equals(propertyId))
@@ -148,6 +174,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 			return String.valueOf(input);
 		else if (DEVICE_PROP.equals(propertyId))
 			return device;
+		else if (TYPE_PROP.equals(propertyId))
+			return getTunerType(type);
 		else
 			return super.getPropertyValue(propertyId);
 	}
@@ -166,6 +194,16 @@ public class TunerVideoComponent extends ComponentModelElement {
 			String oldValue = device;
 			device = (String) value;
 			firePropertyChange(DEVICE_PROP, oldValue, device);
+		} else if (TYPE_PROP.equals(propertyId)) {
+			int oldValue = getTunerType(type);
+			int v = ((Integer) value).intValue();
+			if (v == 0)
+				type = AnalogVideoType;
+			else if (v == 1)
+				type = DigitalVideoType;
+			else
+				throw new RuntimeException("Unexpected tuner type.");
+			firePropertyChange(TYPE_PROP, oldValue, value);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}
@@ -178,6 +216,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	public ModelElement deepCopy() {
 		TunerVideoComponent retVal = new TunerVideoComponent();
 		retVal.deepCopy(this);
+		retVal.type = this.type;
 		retVal.device = this.device;
 		retVal.channel = this.channel;
 		retVal.input = this.input;
@@ -190,7 +229,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	}
 	
 	public String toString() {
-		return "TunerVideo: (" + device + "," + channel + "," + input + ")";
+		return "TunerVideo: (" + type + "," + device + "," + channel + "," + input + ")";
 	}
 
 

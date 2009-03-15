@@ -28,6 +28,9 @@ public class OpenFileHandler extends AbstractHandler implements IHandler {
 		dialog.setFilterExtensions(new String[] { "*.des.xml", "*.*" });
 		String path = dialog.open();
 		DesignerLog.logInfo("User entered path: " + path);
+		if (path == null)
+			return null;
+		
 		File f = new File(path);
 		try {
 			IFile deploymentFile = FileUtils.getFile(f);

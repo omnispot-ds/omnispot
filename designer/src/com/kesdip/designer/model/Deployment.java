@@ -423,5 +423,13 @@ public class Deployment extends ModelElement {
 	public String toString() {
 		return id;
 	}
+
+	@Override
+	public void resizeBy(double x, double y) {
+		size.width = (int) (size.width * x);
+		size.height = (int) (size.height * y);
+		for (ModelElement l : layoutList)
+			l.resizeBy(x, y);
+	}
 	
 }

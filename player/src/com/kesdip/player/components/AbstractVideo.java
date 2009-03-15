@@ -19,9 +19,13 @@ public abstract class AbstractVideo extends AbstractComponent {
 	protected Class<?> libVlcClass;
 	protected Class<?> libVlcExceptionClass;
 	protected Class<?> libVlcInstanceClass;
+	protected Class<?> libVlcLogClass;
+	protected Class<?> libVlcLogIteratorClass;
+	protected Class<?> libVlcLogMessageClass;
 	protected Object libVlc;
 	protected Object exception;
 	protected Object libvlc_instance_t;
+	protected Object libvlc_log;
 	protected Canvas canvas;
 	
 	protected void initVLC() throws Exception {
@@ -31,6 +35,12 @@ public abstract class AbstractVideo extends AbstractComponent {
         		"org.videolan.jvlc.internal.LibVlc$libvlc_exception_t");
         libVlcInstanceClass = Class.forName(
         		"org.videolan.jvlc.internal.LibVlc$LibVlcInstance");
+        libVlcLogClass = Class.forName(
+        		"org.videolan.jvlc.internal.LibVlc$LibVlcLog");
+        libVlcLogIteratorClass = Class.forName(
+        		"org.videolan.jvlc.internal.LibVlc$LibVlcLogIterator");
+        libVlcLogMessageClass = Class.forName(
+        		"org.videolan.jvlc.internal.LibVlc$libvlc_log_message_t");
         
         logger.info("Starting vlc");
         logger.info("version: " +
@@ -43,8 +53,14 @@ public abstract class AbstractVideo extends AbstractComponent {
         exception = libVlcExceptionClass.newInstance();
         libVlcClass.getMethod("libvlc_exception_init", libVlcExceptionClass).
 			invoke(libVlc, exception);
+        assertOnException();
         
         createVLCInstance();
+        
+        libvlc_log = libVlcClass.
+        	getMethod("libvlc_log_open", libVlcInstanceClass, libVlcExceptionClass).
+        	invoke(libVlc, libvlc_instance_t, exception);
+        assertOnException();
 	}
 	
 	protected void createVLCInstance() throws Exception {
@@ -134,10 +150,12 @@ public abstract class AbstractVideo extends AbstractComponent {
 	}
 
 	protected boolean firstTime;
+	protected int countRepaints;
 	
 	@Override
 	public void repaint() throws ComponentException {
 		if (firstTime) {
+			countRepaints = 1;
 			try {
 				startVideoOnCanvas();
 			} catch (Exception e) {
@@ -145,6 +163,67 @@ public abstract class AbstractVideo extends AbstractComponent {
 			}
 			firstTime = false;
 		}
+		
+		if (countRepaints++ % 30 != 0)
+			return;
+		
+		countRepaints = 1;
+		logger.trace("Starting VLC log dump");
+		try {
+			Object libvlc_log_iterator = libVlcClass.
+				getMethod("libvlc_log_get_iterator", libVlcLogClass, libVlcExceptionClass).
+				invoke(libVlc, libvlc_log, exception);
+			assertOnException();
+			try {
+				while (true) {
+					int hasNext = (Integer) libVlcClass.
+						getMethod("libvlc_log_iterator_has_next",
+								libVlcLogIteratorClass, libVlcExceptionClass).
+							invoke(libVlc, libvlc_log_iterator, exception);
+					assertOnException();
+					if (hasNext == 0)
+						break;
+					Object message = libVlcLogMessageClass.newInstance();
+					libVlcClass.getMethod("libvlc_log_iterator_next",
+							libVlcLogIteratorClass, libVlcLogMessageClass, libVlcExceptionClass).
+						invoke(libVlc, libvlc_log_iterator, message, exception);
+					assertOnException();
+					String msg = (String) libVlcLogMessageClass.
+							getField("psz_message").get(message);
+					int severity = (Integer) libVlcLogMessageClass.
+							getField("i_severity").get(message);
+					switch (severity) {
+					case 0:
+						logger.info(msg);
+						break;
+					case 1:
+						logger.error(msg);
+						break;
+					case 2:
+						logger.warn(msg);
+						break;
+					case 3:
+						logger.debug(msg);
+						break;
+					default:
+						logger.info(msg + " (Unexected severity: " + severity + ")");
+					}
+				}
+				libVlcClass.getMethod("libvlc_log_clear",
+						libVlcLogClass, libVlcExceptionClass).
+					invoke(libVlc, libvlc_log, exception);
+				assertOnException();
+			} finally {
+				if (libvlc_log_iterator != null) {
+					libVlcClass.getMethod("libvlc_log_iterator_free",
+							libVlcLogIteratorClass, libVlcExceptionClass).
+						invoke(libVlc, libvlc_log_iterator, exception);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Unable to gather VLC logs", e);
+		}
+		logger.trace("Completed VLC log dump");
 	}
 
 	@Override
@@ -159,9 +238,12 @@ public abstract class AbstractVideo extends AbstractComponent {
 		
 		try {
 			libVlcClass.
+				getMethod("libvlc_log_close", libVlcLogClass, libVlcExceptionClass).
+				invoke(libVlc, libvlc_log, exception);
+			assertOnException();
+			libVlcClass.
 				getMethod("libvlc_release", libVlcInstanceClass).
 				invoke(libVlc, libvlc_instance_t);
-			assertOnException();
 		} catch (Exception e) {
 			logger.error("Unable to release resources. Possible memory leak.", e);
 		}

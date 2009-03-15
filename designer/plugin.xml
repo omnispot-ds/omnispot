@@ -186,19 +186,19 @@
                label="Tools">
             <command
                   commandId="com.kesdip.designer.PreviewCommand"
-                  icon="src/com/kesdip/designer/model/icons/palette.png"
+                  icon="icons/palette.png"
                   label="Preview Deployment"
                   style="push">
             </command>
             <command
                   commandId="com.kesdip.designer.PreviewLayoutCommand"
-                  icon="src/com/kesdip/designer/model/icons/display.png"
+                  icon="icons/display.png"
                   label="Preview Layout"
                   style="push">
             </command>
             <command
                   commandId="com.kesdip.designer.PublishCommand"
-                  icon="src/com/kesdip/designer/model/icons/palette.png"
+                  icon="icons/palette.png"
                   label="Export for Publishing"
                   style="push">
             </command>

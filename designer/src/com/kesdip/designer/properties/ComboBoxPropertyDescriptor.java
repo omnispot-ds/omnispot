@@ -12,6 +12,7 @@ public class ComboBoxPropertyDescriptor extends PropertyDescriptor {
 
 	public ComboBoxPropertyDescriptor(Object id, String displayName, String[] elements) {
 		super(id, displayName);
+		this.elements = elements;
 	}
 
 	/* (non-Javadoc)

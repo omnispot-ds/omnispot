@@ -304,4 +304,11 @@ public class Layout extends ModelElement {
 	public String getName() {
 		return name;
 	}
+	
+	@Override
+	public void resizeBy(double x, double y) {
+		for (ModelElement r : regionList)
+			r.resizeBy(x, y);
+	}
+	
 }

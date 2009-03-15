@@ -68,6 +68,7 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_DEVICE = "Device";
 	public static final String TAG_CHANNEL = "Channel";
 	public static final String TAG_INPUT = "Input";
+	public static final String TAG_TUNER_TYPE = "TunerType";
 	
 	public static final String PARENT_PROP = "ModelElement.Parent";
 	public static final String CHILD_MOVE_UP = "ModelElement.ChildMoveUp";
@@ -102,6 +103,7 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public abstract boolean isLastChild(ModelElement child);
 	public abstract boolean moveChildUp(ModelElement child);
 	public abstract boolean moveChildDown(ModelElement child);
+	public abstract void resizeBy(double x, double y);
 	
 	/**
 	 * Returns a value for this property source that can be edited in a property sheet.

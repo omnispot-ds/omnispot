@@ -369,4 +369,12 @@ public abstract class ComponentModelElement extends ModelElement {
 		return false;
 	}
 
+	@Override
+	public void resizeBy(double x, double y) {
+		location.x = (int) (location.x * x);
+		location.y = (int) (location.y * y);
+		size.width = (int) (size.width * x);
+		size.height = (int) (size.height * y);
+	}
+	
 }

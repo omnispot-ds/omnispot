@@ -112,7 +112,6 @@ public class Video extends AbstractVideo
 		initVLC();
 		loadMedia(resource, actualRepeat);
 		
-		firstTime = true;
 		stillStarting = true;
 		currentRepeat = actualRepeat;
 		completed = new AtomicBoolean(false);

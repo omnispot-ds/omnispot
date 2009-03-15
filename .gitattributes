@@ -433,13 +433,10 @@ designer/.settings/org.eclipse.jdt.core.prefs -text
 designer/META-INF/MANIFEST.MF -text
 designer/build.properties -text
 designer/designer.product -text
-designer/icons/alt_about.gif -text
-designer/icons/alt_launcher.icns -text
-designer/icons/alt_launcher.ico -text
-designer/icons/alt_launcher.xpm -text
 designer/icons/display.png -text
 designer/icons/display_large.png -text
 designer/icons/new_wiz.png -text
+designer/icons/palette.png -text
 designer/lib/quartz-1.6.3.jar -text
 designer/plugin.xml -text
 designer/splash.bmp -text

@@ -372,4 +372,11 @@ public class Region extends ComponentModelElement {
 		return name;
 	}
 
+	@Override
+	public void resizeBy(double x, double y) {
+		super.resizeBy(x, y);
+		for (ModelElement c : contents)
+			c.resizeBy(x, y);
+	}
+	
 }
