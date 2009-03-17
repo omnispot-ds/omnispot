@@ -23,7 +23,6 @@ public class TestPlayer extends Player {
 	
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
 		//super.initialize();
 	}
 	
