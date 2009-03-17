@@ -438,6 +438,7 @@ designer/.project -text
 designer/.settings/org.eclipse.jdt.core.prefs -text
 designer/META-INF/MANIFEST.MF -text
 designer/build.properties -text
+designer/designer.feature.product -text
 designer/designer.product -text
 designer/icons/display.png -text
 designer/icons/display_large.png -text

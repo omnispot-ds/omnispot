@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.4"?>
+
+<product name="Ke.S.Di.P. E.P.E. Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.0.0" useFeatures="true">
+
+   <aboutInfo>
+      <image path="/com.kesdip.designer/splash.png"/>
+      <text>
+         Ke.S.Di.P. E.P.E. Designer Copyright 2009 Ke.S.Di.P. E.P.E.
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="icons/display.png" i32="icons/display_large.png"/>
+
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.kesdip.designer.feature" version="1.0.0"/>
+   </features>
+
+</product>
