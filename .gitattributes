@@ -385,9 +385,6 @@ demos/AdPlayerDemo/src/com/kesdip/player/StringTickerSource.java -text
 demos/AdPlayerDemo/src/com/kesdip/player/TickerPanel.java -text
 demos/AdPlayerDemo/src/com/kesdip/player/TickerSource.java -text
 demos/AdPlayerDemo/src/log4j.xml -text
-design-feature/.project -text
-design-feature/build.properties -text
-design-feature/feature.xml -text
 designer-help/.classpath -text
 designer-help/.project -text
 designer-help/.settings/org.eclipse.jdt.core.prefs -text
