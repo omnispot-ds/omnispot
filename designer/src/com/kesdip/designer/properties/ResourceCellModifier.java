@@ -20,8 +20,7 @@ public class ResourceCellModifier implements ICellModifier {
 		} else if ("cronExpression".equals(property)) {
 			return resource.getCronExpression();
 		} else {
-			// TODO throw an exception here.
-			return resource.toString() + property;
+			throw new IllegalArgumentException("Unexpected property " + property);
 		}
 	}
 
@@ -40,7 +39,7 @@ public class ResourceCellModifier implements ICellModifier {
 			item.setText(1, (String) value);
 			resource.setCronExpression((String) value);
 		} else {
-			// TODO throw an exception here.
+			throw new IllegalArgumentException("Unexpected property " + property);
 		}
 	}
 	

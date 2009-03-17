@@ -1,12 +1,14 @@
 package com.kesdip.designer.handler;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
@@ -16,7 +18,6 @@ import org.eclipse.ui.ide.IDE;
 
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.utils.DesignerLog;
-import com.kesdip.designer.utils.FileUtils;
 
 public class OpenFileHandler extends AbstractHandler implements IHandler {
 
@@ -33,10 +34,13 @@ public class OpenFileHandler extends AbstractHandler implements IHandler {
 		
 		File f = new File(path);
 		try {
-			IFile deploymentFile = FileUtils.getFile(f);
-
+			InputStream is = new BufferedInputStream(new FileInputStream(f));
 			Deployment input = new Deployment();
-			input.deserialize(deploymentFile.getContents());
+			try {
+				input.deserialize(is);
+			} finally {
+				is.close();
+			}
 			DeploymentEditorInput dei = new DeploymentEditorInput(input, path);
 			
 			IDE.openEditor(PlatformUI.getWorkbench().

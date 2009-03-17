@@ -33,15 +33,13 @@ public class DesignerEditorFirstPage extends EditorPart {
 	}
 
 	@Override
-	public void doSave(IProgressMonitor arg0) {
-		// TODO Auto-generated method stub
-
+	public void doSave(IProgressMonitor monitor) {
+		// Handled by the multi page editor. Intentionally empty.
 	}
 
 	@Override
 	public void doSaveAs() {
-		// TODO Auto-generated method stub
-
+		// Handled by the multi page editor. Intentionally empty.
 	}
 
 	@Override

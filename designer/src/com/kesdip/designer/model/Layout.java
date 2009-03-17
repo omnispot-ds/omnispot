@@ -10,6 +10,7 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.quartz.CronExpression;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -158,10 +159,17 @@ public class Layout extends ModelElement {
 						return (intValue >= 0) ? null : "Value must be >=  0";
 					}
 				});
+			} else if (descriptors[i].getId().equals(CRON_EXPRESSION_PROP)) {
+					((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+						public String isValid(Object value) {
+							if (CronExpression.isValidExpression((String) value))
+								return "'" + value + "' is not a valid cron expression";
+							return null;
+						}
+					});
 			} else {
 				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 					public String isValid(Object value) {
-						// TODO: We should run some validation, at least for the cron expression.
 						return null;
 					}
 				});
