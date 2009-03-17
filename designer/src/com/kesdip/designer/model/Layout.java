@@ -162,7 +162,9 @@ public class Layout extends ModelElement {
 			} else if (descriptors[i].getId().equals(CRON_EXPRESSION_PROP)) {
 					((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 						public String isValid(Object value) {
-							if (CronExpression.isValidExpression((String) value))
+							if ("".equals(value))
+								return null;
+							if (!CronExpression.isValidExpression((String) value))
 								return "'" + value + "' is not a valid cron expression";
 							return null;
 						}
