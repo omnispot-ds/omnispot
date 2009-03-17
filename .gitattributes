@@ -385,6 +385,9 @@ demos/AdPlayerDemo/src/com/kesdip/player/StringTickerSource.java -text
 demos/AdPlayerDemo/src/com/kesdip/player/TickerPanel.java -text
 demos/AdPlayerDemo/src/com/kesdip/player/TickerSource.java -text
 demos/AdPlayerDemo/src/log4j.xml -text
+designer-build/.project -text
+designer-build/build.properties -text
+designer-build/build.xml -text
 designer-feature/.project -text
 designer-feature/build.properties -text
 designer-feature/feature.xml -text
