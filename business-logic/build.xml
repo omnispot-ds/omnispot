@@ -124,11 +124,29 @@
 
 
 	<target name="generate.domain.objects">
+		<echo level="info">Generating Java code...</echo>
 		<antcall target="zz.generate.domain.objects">
 			<param name="hbm.base.dir" value="${logic.src.dir}" />
 			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml" />
 			<param name="dest.dir" value="${logic.src.dir}" />
 		</antcall>
+		
+		<echo level="info">Generating drop DDL...</echo>
+		<antcall target="zz.generate.schema.ddl">
+			<param name="hbm.base.dir" value="${logic.src.dir}"/>
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml"/>
+			<param name="dest.file" value="${etc.sql.scripts.dir}/drop-database.sql"/>
+			<param name="create.stmts" value="no"/>
+		</antcall>
+		
+		<echo level="info">Generating create DDL...</echo>
+		<antcall target="zz.generate.schema.ddl">
+			<param name="hbm.base.dir" value="${logic.src.dir}"/>
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml"/>
+			<param name="dest.file" value="${etc.sql.scripts.dir}/create-database.sql"/>
+			<param name="create.stmts" value="yes"/>
+		</antcall>
+		
 	</target>
 
 	<target name="logic.all" depends="logic.init,logic.compile,logic.dist,logic.clean" />

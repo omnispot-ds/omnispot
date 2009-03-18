@@ -73,6 +73,8 @@ public class ServerProtocolHandler {
 					.getPrintScreenName());
 			destFile.getParentFile().mkdirs();
 			fileitem.write(destFile);
+			// Bug#36: Explicitly set lastModified date
+			destFile.setLastModified(System.currentTimeMillis());
 		}
 		logger.info("Received: InstallationId: " + installationId
 				+ " playerProcAlive: " + playerProcAlive

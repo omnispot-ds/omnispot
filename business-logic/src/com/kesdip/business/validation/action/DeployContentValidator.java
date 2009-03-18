@@ -22,16 +22,19 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.kesdip.business.beans.ContentDeploymentBean;
+import com.kesdip.business.constenum.IFileNamesEnum;
 import com.kesdip.business.util.Errors;
 import com.kesdip.business.validation.BaseValidator;
 import com.kesdip.common.exception.GenericSystemException;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StreamUtils;
+import com.kesdip.common.util.StringUtils;
 
 /**
  * Validation for the content deployment action.
@@ -39,16 +42,6 @@ import com.kesdip.common.util.StreamUtils;
  * @author gerogias
  */
 public class DeployContentValidator extends BaseValidator {
-
-	/**
-	 * The deployment XML file.
-	 */
-	final String DEPLOYMENT_FILE = "deployment.xml";
-
-	/**
-	 * The media folder.
-	 */
-	final String MEDIA_FOLDER = "media";
 
 	/**
 	 * The logger.
@@ -159,9 +152,6 @@ public class DeployContentValidator extends BaseValidator {
 	 * Check the uploaded ZIP for inconsistencies. Things which are checked:
 	 * <ul>
 	 * <li>ZIP contains a root <code>deployment.xml</code> file</li>
-	 * <li>ZIP contains a root <code>media</code> subfolder</li>
-	 * <li>all other files are contained inside the <code>media</code> subfolder
-	 * </li>
 	 * <li>the XML file is grammatically correct</li>
 	 * <li>all static media referenced by the XML file are located in the ZIP</li>
 	 * <li>all files have a size &gt; zero</li>
@@ -173,22 +163,17 @@ public class DeployContentValidator extends BaseValidator {
 	 *            object to hold errors
 	 */
 	final void checkZip(ContentDeploymentBean bean, Errors errors) {
-		InputStream input = null;
 		try {
-			input = bean.getContentFile().getInputStream();
-			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(
-					input));
-			Map<String, ZipEntry> entryMap = getZipEntries(zis);
+			Map<String, ZipEntry> entryMap = getZipEntries(bean
+					.getContentFile());
 			// check file existence (deployment XML, "media" folder, files under
 			// "media")
 			checkFiles(entryMap, errors);
 			// parse deployment XML
-			parseDeployment(zis, entryMap, errors);
+			parseDeployment(bean.getContentFile(), entryMap, errors);
 		} catch (Exception e) {
 			logger.error("Error opening file stream", e);
-			throw new GenericSystemException(e);
-		} finally {
-			StreamUtils.close(input);
+			errors.addError("contentFile", e.getMessage());
 		}
 	}
 
@@ -196,19 +181,27 @@ public class DeployContentValidator extends BaseValidator {
 	 * Iterates all entries in the stream and adds them to the map using their
 	 * name as key.
 	 * 
-	 * @param zis
-	 *            the stream
+	 * @param file
+	 *            the ZIP
 	 * @return Map the entry map
 	 * @throws IOException
 	 *             on error
 	 */
-	private final Map<String, ZipEntry> getZipEntries(ZipInputStream zis)
+	private final Map<String, ZipEntry> getZipEntries(MultipartFile file)
 			throws IOException {
-		Map<String, ZipEntry> entryMap = new HashMap<String, ZipEntry>();
-		ZipEntry zipEntry = null;
-		while ((zipEntry = zis.getNextEntry()) != null) {
-			entryMap.put(zipEntry.getName(), zipEntry);
-			zis.closeEntry();
+		Map<String, ZipEntry> entryMap = null;
+		InputStream input = file.getInputStream();
+		try {
+			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(
+					input));
+			entryMap = new HashMap<String, ZipEntry>();
+			ZipEntry zipEntry = null;
+			while ((zipEntry = zis.getNextEntry()) != null) {
+				entryMap.put(zipEntry.getName(), zipEntry);
+				zis.closeEntry();
+			}
+		} finally {
+			StreamUtils.close(input);
 		}
 		return entryMap;
 	}
@@ -222,16 +215,11 @@ public class DeployContentValidator extends BaseValidator {
 	 *            the errors object
 	 */
 	private final void checkFiles(Map<String, ZipEntry> entries, Errors errors) {
-		boolean foundDeployment = false, mediaFolderError = false, foundMedia = false, foundZeroSize = false;
+		boolean foundDeployment = false, foundZeroSize = false;
 		ZipEntry zipEntry = null;
 		for (String name : entries.keySet()) {
-			if (DEPLOYMENT_FILE.equals(name)) {
+			if (IFileNamesEnum.DEPLOYMENT_XML.equals(name)) {
 				foundDeployment = true;
-			} else if (!name.startsWith(MEDIA_FOLDER) && !mediaFolderError) {
-				mediaFolderError = true;
-				errors.addError("contentFile", "error.media.not.in.folder");
-			} else {
-				foundMedia = true;
 			}
 			zipEntry = entries.get(name);
 			if (zipEntry.getSize() == 0 && !foundZeroSize) {
@@ -242,9 +230,6 @@ public class DeployContentValidator extends BaseValidator {
 		if (!foundDeployment) {
 			errors.addError("contentFile", "error.no.deployment.xml");
 		}
-		if (!foundMedia) {
-			errors.addError("contentFile", "error.no.media.folder");
-		}
 	}
 
 	/**
@@ -252,43 +237,61 @@ public class DeployContentValidator extends BaseValidator {
 	 * is not found, then an error is added to the error object holder. If
 	 * {@link #DEPLOYMENT_FILE} does not exist, nothing is done.
 	 * 
-	 * @param zis
-	 *            the ZipInputStream the stream
+	 * @param file
+	 *            the file
 	 * @param entries
 	 *            the ZIP entries
 	 * @param errors
 	 *            the error holder
 	 */
-	final void parseDeployment(ZipInputStream zis,
+	final void parseDeployment(MultipartFile file,
 			Map<String, ZipEntry> entries, Errors errors) throws IOException {
-		ZipEntry deployment = entries.get(DEPLOYMENT_FILE);
-		if (deployment == null) {
-			return;
-		}
-		zis.reset();
-		while (zis.getNextEntry() != deployment) {
-			// do nothing, just locate the right entry
-		}
-		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-		parserFactory.setValidating(false);
+		InputStream input = null;
 		try {
-			SAXParser parser = parserFactory.newSAXParser();
-			parser.parse(zis, new LocalResourceHandler(entries, errors));
-		} catch (SAXException spe) {
-			errors.addError("contentFile", "error.malformed.deployment.xml");
-		} catch (ParserConfigurationException pce) {
-			throw new IOException(pce);
+			input = file.getInputStream();
+			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(
+					input));
+			ZipEntry deployment = entries.get(IFileNamesEnum.DEPLOYMENT_XML);
+			if (deployment == null) {
+				return;
+			}
+			ZipEntry tempEntry = null;
+			String tempName = null;
+			do {
+				tempEntry = zis.getNextEntry();
+				tempName = tempEntry != null ? tempEntry.getName() : "";
+				// do nothing, just locate the right entry
+			} while (!deployment.getName().equals(tempName)
+					&& tempEntry != null);
+
+			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+			parserFactory.setValidating(false);
+			try {
+				SAXParser parser = parserFactory.newSAXParser();
+				parser.parse(zis, new LocalResourceHandler(entries, errors));
+			} catch (SAXException spe) {
+				errors
+						.addError("contentFile",
+								"error.malformed.deployment.xml");
+			} catch (ParserConfigurationException pce) {
+				throw new IOException(pce);
+			}
+		} finally {
+			StreamUtils.close(input);
 		}
-		zis.closeEntry();
 	}
 
 	/**
 	 * Utility class which waits for <code>property</code> tags and checks their
 	 * <code>name</code> and <code>value</code> attributes. If the "name" is
 	 * <em>identifier</em>, then the "value" is used to lookup up into the map
-	 * of entries. The handler only throws one error and ignores any consequent
-	 * errors.
+	 * of entries. The only exception is when the "value" is considered to
+	 * represent a remote resource.
+	 * <p>
+	 * The handler only throws one error and ignores any consequent errors.
+	 * </p>
 	 * 
+	 * @see StringUtils#isURL(String)
 	 * @author gerogias
 	 */
 	static class LocalResourceHandler extends DefaultHandler {
@@ -331,7 +334,7 @@ public class DeployContentValidator extends BaseValidator {
 				Attributes attributes) throws SAXException {
 
 			// in this case, do nothing
-			if (!"property".equalsIgnoreCase(localName) || errorReported) {
+			if (!"property".equalsIgnoreCase(name) || errorReported) {
 				return;
 			}
 			// no "name", or name != identifier
@@ -344,7 +347,7 @@ public class DeployContentValidator extends BaseValidator {
 				errorReported = true;
 				return;
 			}
-			if (!entries.containsKey(path)) {
+			if (!StringUtils.isURL(path) && !entries.containsKey(path)) {
 				errors.addError("contentFile", "error.resource.not.present");
 				errorReported = true;
 				return;

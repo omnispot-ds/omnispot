@@ -123,6 +123,24 @@
 				</p>
 				<form:errors path="contentFile" cssClass="error_message_title" />
 			</li>
+			<li id="li_policy">
+				<label class="description" for="policy">
+					<fmt:message bundle="${msg}" key="deploy.content.policy" />
+				</label>
+				<div>
+					<form:select cssClass="element select large" multiple="false" 
+					id="policy" path="policy">
+						<form:option value="0"><fmt:message bundle="${msg}" key="deploy.content.policy.keep" /></form:option>
+						<form:option value="1"><fmt:message bundle="${msg}" key="deploy.content.policy.overwrite" /></form:option>
+						<form:option value="2"><fmt:message bundle="${msg}" key="deploy.content.policy.crc" /></form:option>
+					</form:select>
+				</div>
+				<p class="guidelines" id="guide_policy">
+					<small> <fmt:message bundle="${msg}" key="deploy.content.policy.help" />
+					</small>
+				</p>
+				<form:errors path="policy" cssClass="error_message_title" />
+			</li>
 
 			<li class="buttons">
 				<input id="submit" class="button_text" type="submit" name="submit"

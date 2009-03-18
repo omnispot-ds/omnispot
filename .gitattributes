@@ -264,6 +264,7 @@ business-logic/.classpath -text
 business-logic/.project -text
 business-logic/build.xml -text
 business-logic/shared.jars -text
+business-logic/src/META-INF/MANIFEST.MF -text
 business-logic/src/com/kesdip/business/beans/ActionBean.java -text
 business-logic/src/com/kesdip/business/beans/ActionQueryBean.java -text
 business-logic/src/com/kesdip/business/beans/BaseMultitargetBean.java -text
@@ -283,7 +284,9 @@ business-logic/src/com/kesdip/business/config/console-settings.xml -text
 business-logic/src/com/kesdip/business/constenum/IActionParamsEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IActionStatusEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IActionTypesEnum.java -text
+business-logic/src/com/kesdip/business/constenum/IFileNamesEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IInstallationStatus.java -text
+business-logic/src/com/kesdip/business/constenum/IMediaCopyPolicyEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IRolesEnum.java -text
 business-logic/src/com/kesdip/business/domain/AccessControl.hbm.xml -text
 business-logic/src/com/kesdip/business/domain/AccessRight.hbm.xml -text
@@ -358,6 +361,7 @@ common/.classpath -text
 common/.project -text
 common/build.xml -text
 common/shared.jars -text
+common/src/META-INF/MANIFEST.MF -text
 common/src/com/kesdip/common/exception/BaseCheckedException.java -text
 common/src/com/kesdip/common/exception/BaseUncheckedException.java -text
 common/src/com/kesdip/common/exception/FieldCopyException.java -text
@@ -473,6 +477,7 @@ designer/src/com/kesdip/designer/command/ModelElementMove.java -text
 designer/src/com/kesdip/designer/command/RegionConstraintChange.java -text
 designer/src/com/kesdip/designer/command/RegionCreation.java -text
 designer/src/com/kesdip/designer/command/RemoveSelectionCommand.java -text
+designer/src/com/kesdip/designer/constenum/IFileNames.java -text
 designer/src/com/kesdip/designer/editor/DelegatingCommandStack.java -text
 designer/src/com/kesdip/designer/editor/DelegatingZoomManager.java -text
 designer/src/com/kesdip/designer/editor/DeploymentActionBarContributor.java -text
@@ -666,6 +671,7 @@ etc/sql/test-data.sql -text
 etc/templates/codetemplates.xml -text
 etc/templates/editortemplates.xml -text
 etc/tomcat/admin-console.xml -text
+etc/tomcat/context.xml -text
 etc/tomcat/server.xml -text
 player/.classpath -text
 player/.project -text

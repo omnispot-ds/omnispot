@@ -10,6 +10,7 @@
 package com.kesdip.common.util;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -41,7 +42,8 @@ public class StreamUtils {
 			.getName());
 
 	/**
-	 * Reads a stream into a String. The stream is closed afterwards.
+	 * Reads a stream into a String. The stream is closed afterwards. Uses the
+	 * platform's default encoding.
 	 * 
 	 * @param in
 	 *            the input stream
@@ -51,13 +53,49 @@ public class StreamUtils {
 	 */
 	public static final String readString(InputStream in) throws IOException {
 
+		return readString(in, getDefaultEncoding(), true);
+	}
+
+	/**
+	 * Reads a stream into a String. The stream is closed afterwards.
+	 * 
+	 * @param in
+	 *            the input stream
+	 * @param encoding
+	 *            the encoding to use
+	 * @return String the contents of the stream, never <code>null</code>
+	 * @throws IOException
+	 *             if an error occurs
+	 */
+	public static final String readString(InputStream in, String encoding)
+			throws IOException {
+
+		return readString(in, encoding, true);
+	}
+
+	/**
+	 * Reads a stream into a String.
+	 * 
+	 * @param in
+	 *            the input stream
+	 * @param encoding
+	 *            the encoding to use
+	 * @param closeStream
+	 *            close the stream if <code>true</code>
+	 * @return String the contents of the stream, never <code>null</code>
+	 * @throws IOException
+	 *             if an error occurs
+	 */
+	public static final String readString(InputStream in, String encoding,
+			boolean closeStream) throws IOException {
+
 		BufferedReader reader = null;
 		StringBuffer buffer = new StringBuffer();
 		if (logger.isTraceEnabled()) {
 			logger.trace("Reading from stream " + in);
 		}
 		try {
-			reader = new BufferedReader(new InputStreamReader(in));
+			reader = new BufferedReader(new InputStreamReader(in, encoding));
 
 			String temp = null;
 			while ((temp = reader.readLine()) != null) {
@@ -66,7 +104,9 @@ public class StreamUtils {
 		} catch (IOException ioe) {
 			logger.error("Error reading string", ioe);
 		} finally {
-			close(reader);
+			if (closeStream) {
+				close(reader);
+			}
 		}
 		return buffer.toString();
 	}
@@ -76,7 +116,7 @@ public class StreamUtils {
 	 * 
 	 * @param resourceUrl
 	 *            the resource URL
-	 * @return String its cntext
+	 * @return String its context
 	 * @throws IOException
 	 *             on read errors
 	 */
@@ -209,8 +249,8 @@ public class StreamUtils {
 	 * @throws IOException
 	 *             on error
 	 * @throws IllegalArgumentException
-	 *             if the arguments are <code>null</code> or the source is not
-	 *             a file
+	 *             if the arguments are <code>null</code> or the source is not a
+	 *             file
 	 */
 	public static final void copyFile(File source, File dest)
 			throws GenericSystemException, IllegalArgumentException {
@@ -281,7 +321,7 @@ public class StreamUtils {
 		if (logger.isTraceEnabled()) {
 			logger.trace("Copying stream to file " + dest.getAbsolutePath());
 		}
-		
+
 		FileOutputStream outputStream = null;
 		try {
 			outputStream = new FileOutputStream(dest);
@@ -292,6 +332,38 @@ public class StreamUtils {
 		} finally {
 			close(outputStream);
 		}
+	}
+
+	/**
+	 * Calculate the CRC from a file.
+	 * 
+	 * @param file
+	 *            the file
+	 * @return CRC32 the CRC
+	 * @throws GenericSystemException
+	 *             on error
+	 * @throws IllegalArgumentException
+	 *             if the argument is null or not a file
+	 */
+	public static final CRC32 getCrc(File file) throws GenericSystemException,
+			IllegalArgumentException {
+		if (file == null || !file.isFile()) {
+			logger.error("File is null or not a file");
+			throw new IllegalArgumentException("File is null or not a file");
+		}
+
+		FileInputStream fios = null;
+		CRC32 crc = null;
+		try {
+			fios = new FileInputStream(file);
+			crc = getCrc(fios);
+		} catch (IOException ex) {
+			logger.error("Error calculating CRC", ex);
+			throw new GenericSystemException("Error calculating CRC", ex);
+		} finally {
+			StreamUtils.close(fios);
+		}
+		return crc;
 	}
 
 	/**
@@ -385,6 +457,16 @@ public class StreamUtils {
 		} catch (Exception e) {
 			// do nothing
 		}
+	}
+
+	/**
+	 * @return String the platform's default encoding
+	 */
+	public static final String getDefaultEncoding() {
+		byte[] byteArray = { 'a' };
+		InputStream inputStream = new ByteArrayInputStream(byteArray);
+		InputStreamReader reader = new InputStreamReader(inputStream);
+		return reader.getEncoding();
 	}
 
 }

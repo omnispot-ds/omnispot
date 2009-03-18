@@ -9,15 +9,21 @@
 
 package com.kesdip.business.logic;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.CRC32;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Isolation;
@@ -31,6 +37,8 @@ import com.kesdip.business.config.ApplicationSettings;
 import com.kesdip.business.constenum.IActionParamsEnum;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IActionTypesEnum;
+import com.kesdip.business.constenum.IFileNamesEnum;
+import com.kesdip.business.constenum.IMediaCopyPolicyEnum;
 import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.domain.generated.Customer;
 import com.kesdip.business.domain.generated.Deployment;
@@ -43,6 +51,7 @@ import com.kesdip.common.exception.GenericSystemException;
 import com.kesdip.common.util.DateUtils;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StreamUtils;
+import com.kesdip.common.util.StringUtils;
 
 /**
  * Action-related logic.
@@ -60,9 +69,8 @@ public class ActionLogic extends BaseLogic {
 	 * Deploys a content file.
 	 * <p>
 	 * Depending on the selected object (customer, site, group, installation),
-	 * deploys to as many {@link Installation}s as needed. It copies the file
-	 * to the proper folder, ensuring it has a unique file name to avoid
-	 * clashes.
+	 * deploys to as many {@link Installation}s as needed. It copies the file to
+	 * the proper folder, ensuring it has a unique file name to avoid clashes.
 	 * </p>
 	 * 
 	 * @param object
@@ -76,25 +84,23 @@ public class ActionLogic extends BaseLogic {
 			throws ValidationException {
 
 		validate(object, "deployContent");
-		File contentFolder = new File(ApplicationSettings.getInstance()
-				.getFileStorageSettings().getContentFolder());
-		String uniqueName = FileUtils.getUniqueFileName(object.getContentFile()
+		String suffix = FileUtils.getSuffix(object.getContentFile()
 				.getOriginalFilename());
-		File destContent = new File(contentFolder, uniqueName);
-		if (logger.isDebugEnabled()) {
-			logger.debug("Copying to file " + destContent.getAbsolutePath());
-		}
-		CRC32 crc = new CRC32();
-		InputStream input = null;
+		ProcessedXmlFile processedFile = null;
 		try {
-			input = object.getContentFile().getInputStream();
-			StreamUtils.copyToFile(input, destContent, crc);
+			// process the file
+			if ("xml".equalsIgnoreCase(suffix)) {
+				processedFile = handleXml(object.getContentFile()
+						.getInputStream(), object.getContentFile()
+						.getOriginalFilename());
+			} else {
+				processedFile = handleZip(object);
+			}
 		} catch (IOException e) {
-			logger.error("Error getting InputStream", e);
-			throw new GenericSystemException("Error getting InputStream", e);
-		} finally {
-			StreamUtils.close(input);
+			logger.error("Error opening XML file", e);
+			throw new GenericSystemException("Error opening XML file", e);
 		}
+		// add the deployments in the DB
 		Deployment deployment = null;
 		try {
 			logger.debug("Creating deployment in the DB");
@@ -103,9 +109,11 @@ public class ActionLogic extends BaseLogic {
 					.getServerSettings().getContentBase();
 			deployment = new Deployment();
 			deployment.setName(object.getName());
-			deployment.setCrc(String.valueOf(crc.getValue()));
-			deployment.setLocalFile(destContent.getAbsolutePath());
-			deployment.setUrl(contentBase + uniqueName);
+			deployment
+					.setCrc(String.valueOf(processedFile.getCrc().getValue()));
+			deployment.setLocalFile(processedFile.getXmlFile()
+					.getAbsolutePath());
+			deployment.setUrl(contentBase + processedFile.getUniqueName());
 			deployment.setInstallations(installations);
 			deployment.setId((Long) getHibernateTemplate().save(deployment));
 			// creating actions for all installations
@@ -116,13 +124,14 @@ public class ActionLogic extends BaseLogic {
 				// CRC
 				parameter = new Parameter();
 				parameter.setName(IActionParamsEnum.DEPLOYMENT_CRC);
-				parameter.setValue(String.valueOf(crc.getValue()));
+				parameter.setValue(String.valueOf(processedFile.getCrc()
+						.getValue()));
 				parameter.setId((Long) getHibernateTemplate().save(parameter));
 				action.getParameters().add(parameter);
 				// URL
 				parameter = new Parameter();
 				parameter.setName(IActionParamsEnum.DEPLOYMENT_URL);
-				parameter.setValue(contentBase + uniqueName);
+				parameter.setValue(contentBase + processedFile.getUniqueName());
 				parameter.setId((Long) getHibernateTemplate().save(parameter));
 				action.getParameters().add(parameter);
 				// store action
@@ -135,7 +144,8 @@ public class ActionLogic extends BaseLogic {
 			}
 		} catch (RuntimeException re) {
 			// delete file on error
-			destContent.delete();
+			processedFile.getXmlFile().delete();
+			// TODO: Delete media files as well
 			throw re;
 		}
 		return deployment;
@@ -177,7 +187,6 @@ public class ActionLogic extends BaseLogic {
 			action.setType(object.getAction().getType());
 			action.setActionId(getActionId());
 			action.setId((Long) getHibernateTemplate().save(action));
-
 		}
 	}
 
@@ -243,5 +252,208 @@ public class ActionLogic extends BaseLogic {
 	private final String getActionId() {
 		return new SimpleDateFormat(DateUtils.DATE_FORMAT).format(new Date())
 				+ '_' + UUID.randomUUID().toString();
+	}
+
+	/**
+	 * Process an uploaded XML. Serializes it to the appropriate location, with
+	 * a unique filename.
+	 * 
+	 * @param xmlStream
+	 *            the XML input stream; it is closed after processing
+	 * @param originalFileName
+	 *            the original file name
+	 * @return ProcessedXmlFile the results of processing the XML
+	 */
+	private final ProcessedXmlFile handleXml(InputStream xmlStream,
+			String originalFileName) {
+		File contentFolder = new File(ApplicationSettings.getInstance()
+				.getFileStorageSettings().getContentFolder());
+		String uniqueName = FileUtils.getUniqueFileName(originalFileName);
+		File destContent = new File(contentFolder, uniqueName);
+		if (logger.isDebugEnabled()) {
+			logger.debug("Copying to file " + destContent.getAbsolutePath());
+		}
+		CRC32 crc = new CRC32();
+		try {
+			StreamUtils.copyToFile(xmlStream, destContent, crc);
+		} finally {
+			StreamUtils.close(xmlStream);
+		}
+		return new ProcessedXmlFile(destContent, crc, uniqueName);
+	}
+
+	/**
+	 * Process an uploaded ZIP file. Serializes the deployment XML and any media
+	 * files to the appropriate locations. Before serialization, it processes
+	 * the resource references in the XML to point back to the default media
+	 * folder.
+	 * 
+	 * @param object
+	 *            the file-wrapping object
+	 * @return ProcessedXmlFile the results of processing the XML
+	 * @throws IOException
+	 *             on error
+	 */
+	private final ProcessedXmlFile handleZip(ContentDeploymentBean object)
+			throws IOException {
+
+		ProcessedXmlFile deploymentXml = null;
+		ZipInputStream input = null;
+		try {
+			input = new ZipInputStream(object.getContentFile().getInputStream());
+			ZipEntry zipEntry = null;
+			while ((zipEntry = input.getNextEntry()) != null) {
+				if (IFileNamesEnum.DEPLOYMENT_XML.equalsIgnoreCase(zipEntry
+						.getName())) {
+					ByteArrayInputStream bais = new ByteArrayInputStream(
+							processDeploymentXml(input));
+					deploymentXml = handleXml(bais,
+							IFileNamesEnum.DEPLOYMENT_XML);
+				} else {
+					handleMedia(input, zipEntry, object.getPolicy());
+				}
+				input.closeEntry();
+			}
+		} finally {
+			StreamUtils.close(input);
+		}
+		return deploymentXml;
+	}
+
+	/**
+	 * Serialize a media file to the content folder, depending on the selected
+	 * policy. If the file name contains path info, it is flattened.
+	 * 
+	 * @param input
+	 *            the media file stream
+	 * @param zipEntry
+	 *            the ZIP entry, may contain path info
+	 * @param policy
+	 *            the overwrite policy
+	 * @see IMediaCopyPolicyEnum
+	 */
+	private final void handleMedia(InputStream input, ZipEntry zipEntry,
+			int policy) {
+
+		File contentFolder = new File(ApplicationSettings.getInstance()
+				.getFileStorageSettings().getContentFolder());
+		String filename = FileUtils.getName(zipEntry.getName());
+		File destFile = new File(contentFolder, filename);
+
+		if (!destFile.exists()
+				|| IMediaCopyPolicyEnum.OVERWRITE_ALWAYS == policy) {
+			// does not exist or overwrite
+			StreamUtils.copyToFile(input, destFile);
+		} else if (IMediaCopyPolicyEnum.KEEP_EXISTING == policy) {
+			// do nothing
+		} else {
+			// check CRC
+			CRC32 crc = StreamUtils.getCrc(destFile);
+			if (crc.getValue() != zipEntry.getCrc()) {
+				StreamUtils.copyToFile(input, destFile);
+			}
+		}
+	}
+
+	/**
+	 * Replace all content filenames with a URL pointing to the configured
+	 * content folder. If a file name begins with a protocol identifier
+	 * (http://, ftp://), it is left intact.
+	 * 
+	 * 
+	 * @param inputStream
+	 *            the stream holding the XML
+	 * @return byte[] the copy of the XML data
+	 * @throws IOException
+	 *             on error
+	 */
+	final byte[] processDeploymentXml(InputStream inputStream)
+			throws IOException {
+
+		String replacement = "<property name=\"identifier\" value=\"{0}\"/>";
+		Pattern pattern = Pattern.compile(
+				"<property\\s+?name=\"identifier\"\\s+?value=\"(.+?)\"\\/>",
+				Pattern.CASE_INSENSITIVE);
+
+		String contentBase = ApplicationSettings.getInstance()
+				.getServerSettings().getContentBase();
+		String xml = StreamUtils.readString(inputStream, "UTF-8", false);
+		StringBuffer newXml = new StringBuffer(xml.length());
+		Matcher matcher = pattern.matcher(xml);
+		String fileName = null, url = null;
+		while (matcher.find()) {
+			fileName = matcher.group(1);
+			if (!StringUtils.isURL(fileName)) {
+				fileName = FileUtils.getName(matcher.group(1));
+				url = contentBase + fileName;
+			} else {
+				url = fileName;
+			}
+			matcher.appendReplacement(newXml, MessageFormat.format(replacement,
+					url));
+		}
+		matcher.appendTail(newXml);
+		return newXml.toString().getBytes("UTF-8");
+	}
+
+	/**
+	 * An internal utility class to return a processed XML file and its CRC.
+	 * 
+	 * @author gerogias
+	 * 
+	 */
+	private static class ProcessedXmlFile {
+
+		/**
+		 * The wrapped XML file.
+		 */
+		private File xmlFile = null;
+
+		/**
+		 * The calculated CRC.
+		 */
+		private CRC32 crc = null;
+
+		/**
+		 * The unique file name.
+		 */
+		private String uniqueName = null;
+
+		/**
+		 * @return File the XML file
+		 */
+		public File getXmlFile() {
+			return xmlFile;
+		}
+
+		/**
+		 * @return CRC32 the calculated CRC
+		 */
+		public CRC32 getCrc() {
+			return crc;
+		}
+
+		/**
+		 * @return the uniqueName
+		 */
+		public String getUniqueName() {
+			return uniqueName;
+		}
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param file
+		 *            the file
+		 * @param crc
+		 *            the crc
+		 * @param uniqueName
+		 *            the calculated unique file name
+		 */
+		private ProcessedXmlFile(File file, CRC32 crc, String uniqueName) {
+			this.xmlFile = file;
+			this.crc = crc;
+			this.uniqueName = uniqueName;
+		}
 	}
 }

@@ -108,7 +108,7 @@
 	</target>
 	
 	<target name="recreate.database" 
-		description="Recreates the database schema from the HBMs">
+		description="Recreates the database schema from the SQL scripts">
 		<ant antfile="${etc.db.create.file}" target="drop.database" inheritrefs="true"/>
 		<ant antfile="${etc.db.create.file}" target="create.database" inheritrefs="true"/>
 		<ant antfile="${etc.db.create.file}" target="populate.database" inheritrefs="true"/>

@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated 8 ײוג 2009 1:15:19 לל by Hibernate Tools 3.2.0.b9
+// Generated Mar 17, 2009 3:41:30 PM by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;

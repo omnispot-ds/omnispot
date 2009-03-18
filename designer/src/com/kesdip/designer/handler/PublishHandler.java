@@ -21,6 +21,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import com.kesdip.designer.constenum.IFileNames;
 import com.kesdip.designer.editor.DeploymentEditor;
 import com.kesdip.designer.utils.DesignerLog;
 import com.kesdip.player.preview.PlayerPreview;
@@ -31,10 +32,11 @@ public class PublishHandler extends AbstractHandler implements IHandler {
 	public boolean isEnabled() {
 		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() == null)
 			return false;
-		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() == null)
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+				.getActivePage() == null)
 			return false;
-		IEditorPart editor = PlatformUI.getWorkbench().
-			getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		IEditorPart editor = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (editor == null)
 			return false;
 		if (!(editor instanceof DeploymentEditor))
@@ -48,39 +50,55 @@ public class PublishHandler extends AbstractHandler implements IHandler {
 		return !de.isDirty();
 	}
 
+	/**
+	 * Publish a deployment into a ZIP archive along with all dependent
+	 * resources.
+	 * <p>
+	 * The deployment is serialized as {@link IFileNames#DEPLOYMENT_XML} and all
+	 * references to resources are changed to local path names.
+	 * </p>
+	 * 
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
-			IEditorPart editor = PlatformUI.getWorkbench().
-				getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+			IEditorPart editor = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage()
+					.getActiveEditor();
 			if (editor == null)
 				return false;
 			if (!(editor instanceof DeploymentEditor))
 				return false;
 			DeploymentEditor de = (DeploymentEditor) editor;
-			DeploymentEditorInput dei = (DeploymentEditorInput) de.getEditorInput();
-			
+			DeploymentEditorInput dei = (DeploymentEditorInput) de
+					.getEditorInput();
+
 			String reason = PlayerPreview.canPreview(dei.getPath());
 			if (reason != null) {
 				MessageDialog.openError(HandlerUtil.getActiveShell(event),
 						"Unable to export deployment", reason);
 				return null;
 			}
-			
-			FileDialog dialog = new FileDialog(
-					HandlerUtil.getActiveShell(event), SWT.SAVE | SWT.APPLICATION_MODAL);
+
+			FileDialog dialog = new FileDialog(HandlerUtil
+					.getActiveShell(event), SWT.SAVE | SWT.APPLICATION_MODAL);
 			dialog.setText("Choose an export destination");
-			dialog.setFilterNames(new String[] { "ZIP Files", "All files (*.*)" });
+			dialog
+					.setFilterNames(new String[] { "ZIP Files",
+							"All files (*.*)" });
 			dialog.setFilterExtensions(new String[] { "*.zip", "*.*" });
 			String path = dialog.open();
 			DesignerLog.logInfo("User entered path: " + path);
-			
+
 			ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(
 					new FileOutputStream(path)));
-			ZipEntry entry = new ZipEntry(dei.getName());
+			// set the proper XML file name
+			ZipEntry entry = new ZipEntry(IFileNames.DEPLOYMENT_XML);
 			zos.putNextEntry(entry);
 			dei.getDeployment().serialize(zos, true);
-			Set<String> resourcePaths = PlayerPreview.getResourcePaths(dei.getPath());
+			Set<String> resourcePaths = PlayerPreview.getResourcePaths(dei
+					.getPath());
 			for (String resourcePath : resourcePaths) {
 				File f = new File(resourcePath);
 				entry = new ZipEntry(f.getName());
@@ -95,7 +113,8 @@ public class PublishHandler extends AbstractHandler implements IHandler {
 			}
 			zos.close();
 		} catch (Exception e) {
-			DesignerLog.logError("Unable to export deployment for publishing", e);
+			DesignerLog.logError("Unable to export deployment for publishing",
+					e);
 		}
 		return null;
 	}

@@ -1,0 +1,6 @@
+...</WatchedResource>
+
+	<ResourceLink 
+		name="jdbc/adminConsoleDS" 
+		global="jdbc/adminConsoleDS"
+		type="javax.sql.Datasource" />

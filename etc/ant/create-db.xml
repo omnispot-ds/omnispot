@@ -5,14 +5,6 @@
 	<import file="${etc.ant.scripts.dir}/common-targets.xml"/>
 	
 	<target name="drop.database">
-		<echo level="info">Creating schema DDL...</echo>
-		<antcall target="zz.generate.schema.ddl">
-			<param name="hbm.base.dir" value="${logic.src.dir}"/>
-			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml"/>
-			<param name="dest.file" value="${etc.sql.scripts.dir}/drop-database.sql"/>
-			<param name="create.stmts" value="no"/>
-		</antcall>
-
 		<echo level="info">Dropping database...</echo>
 		<antcall target="zz.execute.sql.file">
 			<param name="onerror" value="continue"/>
@@ -26,14 +18,6 @@
 	</target>
 	
 	<target name="create.database">
-		<echo level="info">Creating schema DDL...</echo>
-		<antcall target="zz.generate.schema.ddl">
-			<param name="hbm.base.dir" value="${logic.src.dir}"/>
-			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml"/>
-			<param name="dest.file" value="${etc.sql.scripts.dir}/create-database.sql"/>
-			<param name="create.stmts" value="yes"/>
-		</antcall>
-		
 		<echo level="info">Creating database...</echo>
 		<antcall target="zz.execute.sql.file">
 			<param name="onerror" value="abort"/>

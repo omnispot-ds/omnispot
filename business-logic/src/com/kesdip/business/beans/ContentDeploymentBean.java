@@ -11,6 +11,8 @@ package com.kesdip.business.beans;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kesdip.business.constenum.IMediaCopyPolicyEnum;
+
 /**
  * Utility bean to assist in content deployment.
  * 
@@ -34,10 +36,30 @@ public class ContentDeploymentBean extends BaseMultitargetBean {
 	private String name = null;
 	
 	/**
+	 * The policy to apply when copying media files.
+	 * @see IMediaCopyPolicyEnum
+	 */
+	private int policy = IMediaCopyPolicyEnum.KEEP_EXISTING;
+	
+	/**
 	 * @return the contentFile
 	 */
 	public MultipartFile getContentFile() {
 		return contentFile;
+	}
+
+	/**
+	 * @return the policy
+	 */
+	public int getPolicy() {
+		return policy;
+	}
+
+	/**
+	 * @param policy the overwrite policy to set
+	 */
+	public void setPolicy(int policy) {
+		this.policy = policy;
 	}
 
 	/**

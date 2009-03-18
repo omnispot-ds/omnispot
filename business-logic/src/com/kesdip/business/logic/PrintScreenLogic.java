@@ -21,7 +21,6 @@ import com.kesdip.business.beans.ViewPrintScreenBean;
 import com.kesdip.business.config.ApplicationSettings;
 import com.kesdip.business.config.FileStorageSettings;
 import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.common.util.StringUtils;
 
 /**
  * Printscreen-related logic.
@@ -128,7 +127,7 @@ public class PrintScreenLogic extends BaseLogic {
 	private final File getPrintScreenFile(Installation installation,
 			FileStorageSettings storageSettings) {
 		String fileName = storageSettings.getPrintScreenFolder()
-				+ installation.getUuid() + File.pathSeparatorChar
+				+ installation.getUuid() + File.separatorChar
 				+ storageSettings.getPrintScreenName();
 		File psFile = new File(fileName);
 		return psFile.isFile() ? psFile : new File(storageSettings

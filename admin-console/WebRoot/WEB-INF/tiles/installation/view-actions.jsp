@@ -33,14 +33,6 @@
 			<h2>
 				${dataObject.entityName}
 			</h2>
-			<p>
-				<fmt:message bundle="${msg}" key="page.refresh"/>
-				<span id="pageRefreshTimer">&nbsp;</span>
-				<a href="#" 
-					title='<fmt:message bundle="${msg}" key="button.refresh.now"/>'
-					onclick="window.location.reload();return true;"><img 
-						src="${pageContext.request.contextPath}/resources/images/reload.gif"/></a>
-			</p>
 		</div>
 
 		<c:if test="${empty dataObject.perTypeAndStatus}">
