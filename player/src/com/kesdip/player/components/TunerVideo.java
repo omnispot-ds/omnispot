@@ -75,7 +75,8 @@ public class TunerVideo extends AbstractVideo {
 		         		"--no-overlay",
 		        		"--plugin-path=" + pluginsPath.getAbsolutePath(),
 		        		"dvb-t://",
-		        		":dvb-frequency=" + channel
+		        		":dvb-frequency=" + channel,
+						"--program=" + input
 		        		};
 			else
 				ma = new String[] {
@@ -83,7 +84,8 @@ public class TunerVideo extends AbstractVideo {
 		         		"--no-overlay",
 		        		"--plugin-path=" + pluginsPath.getAbsolutePath(),
 						"dvb-t://",
-						":dvb-frequency=" + channel
+						":dvb-frequency=" + channel,
+						"--program=" + input
 						};
 		}
 		libvlc_instance_t = libVlcClass.
