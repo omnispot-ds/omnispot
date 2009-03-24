@@ -24,10 +24,20 @@ public class RssTickerSource implements TickerSource {
 	private StringBuilder sb;
 	
 	private SyndFeed feed;
+	
+	public RssTickerSource() {
+		setRssUrl(null);
+	}
 
 	public RssTickerSource(String rssUrl) {
+		setRssUrl(rssUrl);
+	}
+	
+	public void setRssUrl(String rssUrl) {
 		this.rssUrl = rssUrl;
-		reset();
+		if (rssUrl != null) {
+			reset();
+		}
 	}
 
 	@Override
@@ -68,6 +78,7 @@ public class RssTickerSource implements TickerSource {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private void readFeed() {
 		if (feed == null){
 			createFeed();
