@@ -561,6 +561,13 @@ designer/src/com/kesdip/designer/preferences/PreferenceConstants.java -text
 designer/src/com/kesdip/designer/preferences/PreferenceInitializer.java -text
 designer/src/com/kesdip/designer/properties/CheckboxPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/ComboBoxPropertyDescriptor.java -text
+designer/src/com/kesdip/designer/properties/CronCellEditor.java -text
+designer/src/com/kesdip/designer/properties/CronDatum.java -text
+designer/src/com/kesdip/designer/properties/CronDatumContentProvider.java -text
+designer/src/com/kesdip/designer/properties/CronDialog.java -text
+designer/src/com/kesdip/designer/properties/CronModel.java -text
+designer/src/com/kesdip/designer/properties/CronRangeValidator.java -text
+designer/src/com/kesdip/designer/properties/CronTableCellModifier.java -text
 designer/src/com/kesdip/designer/properties/DateCellEditor.java -text
 designer/src/com/kesdip/designer/properties/DateDialog.java -text
 designer/src/com/kesdip/designer/properties/DatePropertyDescriptor.java -text
@@ -568,7 +575,9 @@ designer/src/com/kesdip/designer/properties/DimensionPropertySource.java -text
 designer/src/com/kesdip/designer/properties/FileChooserPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/FontCellEditor.java -text
 designer/src/com/kesdip/designer/properties/FontPropertyDescriptor.java -text
+designer/src/com/kesdip/designer/properties/GenericCallback.java -text
 designer/src/com/kesdip/designer/properties/LocationPropertySource.java -text
+designer/src/com/kesdip/designer/properties/MinuteTableHelper.java -text
 designer/src/com/kesdip/designer/properties/ResourceCellModifier.java -text
 designer/src/com/kesdip/designer/properties/ResourceFileCellEditor.java -text
 designer/src/com/kesdip/designer/properties/ResourceListCellEditor.java -text

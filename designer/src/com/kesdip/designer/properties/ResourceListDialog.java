@@ -113,7 +113,8 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 				}
 			}
 		});
-		TextCellEditor cronExpressionCellEditor = new ValidatingTextCellEditor(t);
+		CronCellEditor cronExpressionCellEditor = new CronCellEditor(t, SWT.NONE);
+		/*
 		cronExpressionCellEditor.setValidator(new ICellEditorValidator() {
 			@Override
 			public String isValid(Object value) {
@@ -126,6 +127,7 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 					return "Invalid CRON expression: '" + v + "'.";
 			}
 		});
+		*/
 		table.setCellEditors(new CellEditor[] {
 				resourceCellEditor,
 				cronExpressionCellEditor
@@ -151,7 +153,7 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 		addButton = new Button(composite, SWT.NONE);
 		addButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
-				Resource newResource = new Resource("", "cron expression");
+				Resource newResource = new Resource("", null);
 				tableContents.add(newResource);
 				table.refresh();
 				updateButtons();
