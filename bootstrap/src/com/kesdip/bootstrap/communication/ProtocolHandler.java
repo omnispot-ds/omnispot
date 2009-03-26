@@ -1,15 +1,8 @@
 package com.kesdip.bootstrap.communication;
 
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import javax.imageio.ImageIO;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
@@ -25,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.bootstrap.Config;
 import com.kesdip.bootstrap.Manager;
+import com.kesdip.bootstrap.Screen;
 import com.kesdip.bootstrap.message.DeployMessage;
 import com.kesdip.bootstrap.message.RebootPlayerMessage;
 import com.kesdip.bootstrap.message.RestartPlayerMessage;
@@ -58,18 +52,14 @@ public class ProtocolHandler {
 		
 		if (actions.size() > 0) {
 			serializedActions = actionHandler.serialize(actions.toArray(new Action[0]));
-			logger.info("Actions found and will be sent to server: " + serializedActions);
+			logger.debug("Actions found and will be sent to server: " + serializedActions);
 		}
 
 		String installationId = Config.getSingleton().getinstallationId();
 		logger.info("installationId: "+installationId);
 		if (manager.includeScreendump()) {
-			//get screenshot
-			logger.info("Including Screendump");
-			Robot robot = new Robot();
-			BufferedImage screenShot = 
-				robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-			ImageIO.write(screenShot, "JPG", new File(Config.getSingleton().getScreenShotStorageLocation() , "screenShot.jpg"));
+			logger.debug("Including Screendump");
+			Screen.grabAndSaveToFile();
 			Part[] parts = {
 					new StringPart("installationId", installationId),
 					new StringPart("playerProcAlive", Boolean.toString(playerAlive)),
@@ -96,12 +86,13 @@ public class ProtocolHandler {
 		for (Action action:actions) {
 			if (action.getStatus() == IActionStatusEnum.OK)
 				getHibernateTemplate().delete(action);
-			logger.info("deleted action with status OK: "+action.toString());
+			logger.debug("deleted action with status OK: "+action.toString());
 		}
 		
 		handleResponse(post.getResponseBodyAsString());
 
 	}
+
 
 	public void handleResponse(String serializedActions) throws Exception {
 
@@ -110,7 +101,7 @@ public class ProtocolHandler {
 			return;
 
 		if (!serializedActions.equals("NO_ACTIONS")){
-			logger.info("actions received from server: " + serializedActions);			
+			logger.debug("actions received from server: " + serializedActions);			
 			Action[] actions = actionHandler.deserialize(serializedActions);
 			//must store them and add the necessary messages if required
 			for (Action action:actions) {
