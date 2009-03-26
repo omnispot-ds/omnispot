@@ -22,11 +22,14 @@
 	<property name="bootstrap.src.dir" location="${bootstrap.base.dir}/src"/>
 	<property name="bootstrap.build.file" location="${bootstrap.base.dir}/build.xml"/>
 	<property name="bootstrap.dist.file" location="${bootstrap.base.dir}/dist/bootstrap.jar"/>
-
-	<property name="player.base.dir" location="${project.base.dir}/player"/>
-	<property name="player.src.dir" location="${player.base.dir}/src"/>
-	<property name="player.build.file" location="${player.base.dir}/build.xml"/>
-	<property name="player.dist.file" location="${player.base.dir}/dist/player.jar"/>
+	
+	<!-- Explicitly values instead of locations, because InstallJammer does not work -->
+	<property name="player.base.dir" value="${project.base.dir}/player"/>
+	<property name="player.src.dir" value="${player.base.dir}/src"/>
+	<property name="player.build.file" value="${player.base.dir}/build.xml"/>
+	<property name="player.dist.dir" value="${player.base.dir}/dist" />
+	<property name="player.dist.file" value="${player.dist.dir}/player.jar"/>
+	<property name="player.installer.dir" value="${player.dist.dir}/installer" />
 
 	<property name="admin-console.base.dir" location="${project.base.dir}/admin-console"/>
 	<property name="admin-console.build.file" location="${admin-console.base.dir}/build.xml"/>
@@ -37,6 +40,7 @@
 	<property name="etc.db.create.file" location="${etc.ant.scripts.dir}/create-db.xml"/>
 	<property name="etc.sql.scripts.dir" location="${etc.base.dir}/sql"/>
 	<property name="etc.lib.dir" location="${etc.base.dir}/lib"/>
+	<property name="etc.installer.dir" location="${etc.base.dir}/installer"/>
 	
 	<property name="designer.base.dir" location="${project.base.dir}/com.kesdip.designer"/>
 	<property name="designer.build.dir" location="${project.base.dir}/com.kesdip.designer.build"/>
@@ -99,9 +103,7 @@
 	<target name="copy.player.lib.to.preview" depends="build.player,build.common"
 		description="Copy the jars from etc/lib to com.kesdip.designer.preview/lib">
 		<copy todir="${preview.lib.dir}" flatten="true">
-			<fileset dir="${etc.lib.dir}">
-				<type type="file"/>
-			</fileset>
+			<fileset dir="${etc.base.dir}/.." includesfile="${player.base.dir}/shared.jars"/>
 		</copy>
 		<copy todir="${preview.lib.dir}" file="${common.dist.file}"/>
 		<copy todir="${preview.lib.dir}" file="${player.dist.file}"/>
@@ -161,6 +163,7 @@
 			<param 
 				name="properties" 
 				value="bootstrap.home,
+				vlc.home,
 				jdbc.driver.class,
 				admin.server.host,
 				admin.server.port" />
@@ -170,6 +173,7 @@
 			<param 
 				name="properties" 
 				value="bootstrap.home,
+				vlc.home,
 				jdbc.driver.class,
 				admin.server.host,
 				admin.server.port" />
@@ -180,6 +184,7 @@
 		<mkdir dir="${bootstrap.home}/files/resource"/>
 		<mkdir dir="${bootstrap.home}/files/print-screens"/>
 		<mkdir dir="${bootstrap.home}/player"/>
+		<mkdir dir="${bootstrap.home}/vlc"/>
 	</target>	
 	
 	<target name="dist.player" depends="build.common, build.player"
@@ -188,6 +193,104 @@
 	<target name="dist.designer" depends="copy.player.lib.to.preview"
 		description="Creates the designer distributable">
 		<ant antfile="${designer.build.file}" dir="${designer.build.dir}" inheritrefs="true"/>
+	</target>
+	
+	<!-- 
+		Creates the installer for the re-distributable client (player, bootstrap,...)
+	-->
+	<target name="create.client.installer" depends="dist.player, dist.bootstrap"
+		description="Creates the player installer">
+		
+		<antcall target="prepare.client.installer.folder" inheritrefs="true"/>
+		
+		<antcall target="preprocess.client.installer.files" inheritrefs="true"/>
+		
+		<!-- Build the installer -->
+		<antcall target="zz.build.installer">
+			<param name="installer.file" value="${player.installer.dir}/installer.mpi" />
+			<param name="version" value="${player.version}" />
+			<param name="destdir" value="${player.installer.dir}" />
+		</antcall>
+	</target>
+	
+	<!-- AUXILIARY TARGETS DURING BUILD -->
+	
+	<target name="prepare.client.installer.folder">
+		<delete dir="${player.installer.dir}" failonerror="false"/>
+		<mkdir dir="${player.installer.dir}"/>
+		<!-- Copy installer -->
+		<copy flatten="false" todir="${player.installer.dir}">
+			<fileset dir="${etc.installer.dir}/client">
+				<include name="**/*.*"/>
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<!-- Copy VLC -->
+		<copy 
+			todir="${player.installer.dir}/vlc" 
+			file="${vlc.installer.path}"/>
+		<!-- Copy the player/bootstrap files -->
+		<copy flatten="false" todir="${player.installer.dir}/player">
+			<!-- We are using bootstrap.home as we have already deployed there -->
+			<fileset dir="${bootstrap.home}">
+				<include name="**/*.*"/>
+				<include name="**"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	
+	<target name="preprocess.client.installer.files">
+		<!-- Replace previous bootstrap.home in the conf files -->
+		<replace 
+			dir="${player.installer.dir}/player/conf" 
+			token="${bootstrap.home}" 
+			value="$INSTALL_PATH$">
+			<include name="player.properties"/>
+			<include name="bootstrap.properties"/>
+		</replace>
+		<!-- Replace previous vlc.home in the conf files -->
+		<replace 
+			dir="${player.installer.dir}/player/conf" 
+			token="${vlc.home}" 
+			value="$VLC_INSTALL_PATH$">
+			<include name="player.properties"/>
+			<include name="bootstrap.properties"/>
+		</replace>
+		<!-- Replace default player id with placeholder in the conf files -->
+		<replaceregexp 
+			file="${player.installer.dir}/player/conf/bootstrap.properties" 
+			match="installation_id=\w+" 
+			replace="installation_id=$player.id$"
+			flags="gi"
+			byline="true"/>
+		<!-- Replace server host and port with placeholders in the conf files -->
+		<replaceregexp 
+			file="${player.installer.dir}/player/conf/bootstrap.properties" 
+			match="server_url=http://\w+:\w+/" 
+			replace="server_url=http://$SERVER_HOST$:$SERVER_PORT$/"
+			flags="gi"
+			byline="true"/>
+		<!-- Replace all absolute base dirs with current base dir -->
+		<replace 
+			file="${player.installer.dir}/installer.mpi" 
+			token="C:/workdir-ds/player/dist/installer" 
+			value="${player.installer.dir}"/>
+		<!-- Replace VLC installer name --> 
+		<replace 
+			file="${player.installer.dir}/installer.mpi" 
+			token="vlc-0.9.8a-win32.exe" 
+			value="${vlc.installer.file}"/>
+		<!-- Replace JDK base dir with JDK base dir -->
+		<replace 
+			file="${player.installer.dir}/installer.mpi" 
+			token="C:/dbin/jdk1.6.0_11/jre" 
+			value="${jdk.home}/jre"/>
+		<!-- Fix C:\ to C:/ -->
+		<replace 
+			file="${player.installer.dir}/installer.mpi" 
+			token=":\" 
+			value=":/"/>
 	</target>
 	
 </project>

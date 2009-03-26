@@ -1,13 +1,27 @@
 common/dist/common.jar
 
 etc/lib/jdom/jdom.jar
+
 etc/lib/jvlc/jvlc-core-0.9.0-SNAPSHOT-20080727.jar
+
 etc/lib/log4j/log4j-1.2.14.jar
+
+etc/lib/apache-commons/commons-logging-1.0.4.jar
+etc/lib/apache-commons/commons-pool-1.4.jar
+etc/lib/apache-commons/commons-collections-3.1.jar
+
 etc/lib/spring/spring.jar
+
 etc/lib/dom4j/dom4j-1.6.1.jar
+
 etc/lib/jniwrap/jniwrap-3.7.jar
 etc/lib/jniwrap/winpack-3.6.jar
 etc/lib/jniwrap/comfyj-2.5.jar
+
 etc/lib/quartz/quartz-1.6.3.jar
+
+etc/lib/derby/derby.jar
+etc/lib/derby/derbyclient.jar
+
 etc/lib/sun/examples.jar
 etc/lib/sun/rome-1.0RC1.jar

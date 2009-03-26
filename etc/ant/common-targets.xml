@@ -219,5 +219,41 @@
 			        output="${dest.file}"/>
 			</else>
 		</if>			
-	</target>	
+	</target>
+	
+	<!-- 
+		Build an InstallJammer installer.
+		Replaces the version in the installer.file and calls 
+		${installjammer.home}/installjammer.exe
+		@param installer.file path to the installer file
+		@param version the module's version
+		@param destdir the name of the directory into which to generate the installer	
+		 -->
+	<target name="zz.build.installer"
+		description="Builds an IzPack installer">
+
+		<replace 
+			file="${installer.file}" 
+			token="v.0.0.0" 
+			value="${version}"/>
+
+		<exec 
+			dir="${destdir}" 
+			executable="${installjammer.home}/installjammer.exe">
+		  	<arg line="--build-for-release"/>
+		  	<arg line="-DInstallVersion ${version}"/>
+		  	<arg line="--output-dir &quot;${destdir}&quot;"/>
+		  	<arg line="--build-dir &quot;${destdir}&quot;"/>
+		  	<arg line="--build &quot;${installer.file}&quot;"/>
+		</exec>
+		
+		<!-- Clean up
+		<delete>
+			<fileset dir="${destdir}">
+				<exclude name="*.exe"/>
+			</fileset>
+		</delete>
+		-->
+	</target>
+	
 </project>
