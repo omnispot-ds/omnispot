@@ -3291,7 +3291,7 @@ A4693B13-D07D-4F9B-A75D-E7698F9F3657,CancelButton
 <%Cancel%>
 
 A4693B13-D07D-4F9B-A75D-E7698F9F3657,Caption
-{Define the host name of this Admin Console.
+{Define the host name of the Admin Console.
 The monitoring process will use this address to locate the Admin Console and establish communication.}
 
 A4693B13-D07D-4F9B-A75D-E7698F9F3657,Message
