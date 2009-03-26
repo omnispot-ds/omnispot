@@ -76,7 +76,7 @@ public class ServerProtocolHandler {
 			// Bug#36: Explicitly set lastModified date
 			destFile.setLastModified(System.currentTimeMillis());
 		}
-		logger.info("Received: InstallationId: " + installationId
+		logger.debug("Received: InstallationId: " + installationId
 				+ " playerProcAlive: " + playerProcAlive
 				+ " serializedActions: " + serializedActions);
 		if (!serializedActions.equals("NO_ACTIONS")) {
@@ -94,7 +94,7 @@ public class ServerProtocolHandler {
 				getHibernateTemplate().update(dbAction);
 			}
 
-			logger.info("Received actions updated! ");
+			logger.debug("Received actions updated! ");
 		}
 		sendResponse(resp);
 
