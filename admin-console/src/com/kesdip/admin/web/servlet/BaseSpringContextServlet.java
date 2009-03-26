@@ -14,13 +14,21 @@ import javax.servlet.http.HttpServlet;
 
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
+import com.kesdip.business.logic.InstallationLogic;
+
 /**
  * Base class for all servlets wishing to have a hold of the current spring
  * context.
  * 
  * @author gerogias
  */
+@SuppressWarnings("serial")
 public abstract class BaseSpringContextServlet extends HttpServlet {
+	
+	/**
+	 * The player UUID parameter.
+	 */
+	public static final String PLAYER_UUID_PARAM = "installationId";
 
 	/**
 	 * The Spring context.
@@ -41,6 +49,12 @@ public abstract class BaseSpringContextServlet extends HttpServlet {
 	 */
 	protected XmlWebApplicationContext getSpringContext() {
 		return springContext;
+	}
+	
+	final boolean isPlayerAuthenticated(String playerUuid) {
+		InstallationLogic logic = (InstallationLogic) getSpringContext()
+				.getBean("installationLogic");
+		return logic.getInstallationByUuid(playerUuid) != null;
 	}
 	
 }

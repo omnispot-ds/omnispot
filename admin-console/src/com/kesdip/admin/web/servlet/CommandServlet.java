@@ -21,6 +21,12 @@ public class CommandServlet extends BaseSpringContextServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		String playerUuid = req.getParameter(PLAYER_UUID_PARAM);
+		// unauthenticated player
+		if (!isPlayerAuthenticated(playerUuid)) {
+			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+			return;
+		}
 		ServerProtocolHandler handler = (ServerProtocolHandler) getSpringContext()
 				.getBean("ServerProtocolHandler");
 		try {

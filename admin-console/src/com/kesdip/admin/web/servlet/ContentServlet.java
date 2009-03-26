@@ -22,7 +22,6 @@ import com.kesdip.business.config.ApplicationSettings;
 import com.kesdip.business.config.FileStorageSettings;
 import com.kesdip.business.domain.generated.Content;
 import com.kesdip.business.logic.ContentLogic;
-import com.kesdip.business.logic.InstallationLogic;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StreamUtils;
 
@@ -47,10 +46,6 @@ import com.kesdip.common.util.StreamUtils;
  */
 public class ContentServlet extends BaseSpringContextServlet {
 
-	/**
-	 * The player UUID parameter.
-	 */
-	public static final String PLAYER_UUID_PARAM = "playerUUID";
 
 	/**
 	 * The logger.
@@ -78,10 +73,10 @@ public class ContentServlet extends BaseSpringContextServlet {
 					+ playerUuid + "'");
 		}
 		// unauthenticated player
-//		if (!isPlayerAuthenticated(playerUuid)) {
-//			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-//			return;
-//		}
+		if (!isPlayerAuthenticated(playerUuid)) {
+			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+			return;
+		}
 		// 1. treat as file
 		File file = getFileByName(pathInfo);
 		if (file != null) {
@@ -147,11 +142,6 @@ public class ContentServlet extends BaseSpringContextServlet {
 	 *            the UUID
 	 * @return boolean <code>true</code> if the player exists
 	 */
-	final boolean isPlayerAuthenticated(String playerUuid) {
-		InstallationLogic logic = (InstallationLogic) getSpringContext()
-				.getBean("installationLogic");
-		return logic.getInstallationByUuid(playerUuid) != null;
-	}
 
 	/* ******* Unsupported HTTP methods ******* */
 
