@@ -87,7 +87,6 @@ public class CronDialog extends Dialog implements ISelectionChangedListener {
 		});
 		GridData hourGridData = new GridData(SWT.LEFT, SWT.TOP, false, true);
 		final Table hourTable = hourTableViewer.getTable();
-		int targetHeight = hourTable.getItemHeight() * hourTable.getItemCount() + 4;
 		hourGridData.heightHint = 800;
 		hourGridData.widthHint = 30;
 		hourTable.setLayoutData(hourGridData);
@@ -247,19 +246,6 @@ public class CronDialog extends Dialog implements ISelectionChangedListener {
 			button.setData(i);
 			button.setSelection(cronDatum.getCronData().contains(i));
 			button.addSelectionListener(selectionListener);
-		}
-	}
-	
-	private void enableControls(Composite composite, boolean enable) {
-		composite.setEnabled(enable);
-		Control[] controls = composite.getChildren();
-		for (int i = 0 ; i < controls.length ; i++) {
-			Control control = controls[i];
-			if (control instanceof Composite) {
-				enableControls((Composite) control, enable);
-			} else {
-				control.setEnabled(enable);
-			}
 		}
 	}
 	
