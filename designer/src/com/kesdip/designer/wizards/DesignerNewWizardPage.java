@@ -38,7 +38,8 @@ public class DesignerNewWizardPage extends WizardPage {
 	public DesignerNewWizardPage() {
 		super("wizardPage");
 		setTitle("Designer Editor File");
-		setDescription("This wizard creates a new file with *.des.xml extension that can be opened by a designer editor.");
+		setDescription("This wizard creates a new file with *.des.xml extension" +
+				"that can be opened by a designer editor.");
 	}
 
 	/**

@@ -6,6 +6,11 @@ import org.eclipse.swt.widgets.TableItem;
 import com.kesdip.designer.model.Resource;
 
 public class ResourceCellModifier implements ICellModifier {
+	private ResourceListDialog dialog;
+	
+	public ResourceCellModifier(ResourceListDialog dialog) {
+		this.dialog = dialog;
+	}
 
 	@Override
 	public boolean canModify(Object element, String property) {
@@ -41,6 +46,7 @@ public class ResourceCellModifier implements ICellModifier {
 		} else {
 			throw new IllegalArgumentException("Unexpected property " + property);
 		}
+		dialog.updateButtons();
 	}
 	
 }

@@ -37,6 +37,9 @@ import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.IPageChangeProvider;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -81,7 +84,8 @@ import com.kesdip.designer.utils.DesignerLog;
 
 @SuppressWarnings("restriction")
 public class DeploymentEditor extends MultiPageEditorPart implements
-		PropertyChangeListener, ISelectionChangedListener, CommandStackListener {
+		PropertyChangeListener, ISelectionChangedListener, CommandStackListener,
+		IPageChangeProvider {
 	
 	private Deployment model;
 	private TreeViewer outlineViewer;
@@ -344,7 +348,7 @@ public class DeploymentEditor extends MultiPageEditorPart implements
     	
     	return null;
     }
-
+    
     /**
      * Indicates that the current page has changed.
      * <p>
@@ -376,6 +380,11 @@ public class DeploymentEditor extends MultiPageEditorPart implements
     		throw new RuntimeException("Unexpected current page class: " +
     				getCurrentPage().getClass().getName());
     	}
+    	
+    	PageChangedEvent event = new PageChangedEvent(this, getCurrentPage());
+    	for (IPageChangedListener l : listeners) {
+    		l.pageChanged(event);
+    	}
     }
 
 	@SuppressWarnings("unchecked")
@@ -404,7 +413,7 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 			outlineViewer.setContextMenu(menuManager);
 			getSite().registerContextMenu(menuManager, outlineViewer);
 			outlinePage = new DeploymentOutlinePage(
-					outlineViewer, getSelectionSynchronizer(), model);
+					outlineViewer, getSelectionSynchronizer(), model, actionRegistry);
 			return outlinePage;
 		}
 		return super.getAdapter(adapter);
@@ -677,5 +686,22 @@ public class DeploymentEditor extends MultiPageEditorPart implements
             }
         }
     }
+
+    private List<IPageChangedListener> listeners = new ArrayList<IPageChangedListener>();
+
+	@Override
+	public void addPageChangedListener(IPageChangedListener listener) {
+		listeners.add(listener);
+	}
+
+	@Override
+	public Object getSelectedPage() {
+		return getCurrentPage();
+	}
+
+	@Override
+	public void removePageChangedListener(IPageChangedListener listener) {
+		listeners.remove(listener);
+	}
 
 }

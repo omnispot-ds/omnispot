@@ -9,7 +9,6 @@ import java.util.UUID;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -24,7 +23,7 @@ import com.kesdip.designer.preferences.PreferenceConstants;
 import com.kesdip.designer.utils.DesignerLog;
 import com.kesdip.player.preview.PlayerPreview;
 
-public class PreviewLayoutHandler extends AbstractHandler implements IHandler {
+public class PreviewLayoutHandler extends AbstractHandler {
 
 	@Override
 	public boolean isEnabled() {

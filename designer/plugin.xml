@@ -234,6 +234,11 @@
                   label="Contents"
                   style="push">
             </command>
+            <command
+                  commandId="org.eclipse.ui.cheatsheets.openCheatSheet"
+                  label="Open Cheat Sheet..."
+                  style="push">
+            </command>
          </menu>
       </menuContribution>
    </extension>

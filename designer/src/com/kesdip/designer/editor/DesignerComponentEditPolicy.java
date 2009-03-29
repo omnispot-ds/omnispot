@@ -44,6 +44,8 @@ public class DesignerComponentEditPolicy extends ComponentEditPolicy {
 		List selections = (List) pasteRequest.getExtendedData().get("context");
 		if (selections == null || selections.size() != 1)
 			return null;
+		if (!(selections.get(0) instanceof EditPart))
+			return null;
 		Object target = ((EditPart) selections.get(0)).getModel();
 		Set<String> typeSet = new HashSet<String>();
 		for (Object o : pasteRequest.getEditParts()) {

@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.quartz.CronExpression;
 
 import com.kesdip.designer.model.Resource;
 
@@ -57,7 +58,7 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 		return tableContents;
 	}
 	
-	private void updateButtons() {
+	public void updateButtons() {
 		IStructuredSelection selection = (IStructuredSelection) table.getSelection();
 		Resource selectedResource = null;
 		if (selection.size() != 0)
@@ -68,6 +69,24 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 				selectedIndex != tableContents.size() - 1);
 		
 		removeButton.setEnabled(selectedResource != null);
+		
+		if (getButton(IDialogConstants.OK_ID) != null) {
+			boolean allOK = true;
+			for (Resource r : tableContents) {
+				File f = new File(r.getResource());
+				if (!f.exists()) {
+					allOK = false;
+					break;
+				}
+				if (r.getCronExpression() == null || r.getCronExpression().length() == 0)
+					continue;
+				if (!CronExpression.isValidExpression(r.getCronExpression())) {
+					allOK = false;
+					break;
+				}
+			}
+			getButton(IDialogConstants.OK_ID).setEnabled(allOK);
+		}
 	}
 
 	@Override
@@ -91,7 +110,7 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 		table.setContentProvider(new ResourceListContentProvider());
 		table.setLabelProvider(new ResourceListLabelProvider());
 		table.setColumnProperties(new String[] { "resource", "cronExpression" });
-		table.setCellModifier(new ResourceCellModifier());
+		table.setCellModifier(new ResourceCellModifier(this));
 		ResourceFileCellEditor resourceCellEditor = new ResourceFileCellEditor(t, SWT.NONE);
 		resourceCellEditor.setValidator(new ICellEditorValidator() {
 			@Override

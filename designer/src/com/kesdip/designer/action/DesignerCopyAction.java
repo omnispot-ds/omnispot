@@ -9,9 +9,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
-import com.kesdip.designer.parts.LayoutEditPart;
-import com.kesdip.designer.parts.OutlineLayoutPart;
-import com.kesdip.designer.parts.PageOneLayoutPart;
+import com.kesdip.designer.parts.OutlineRootPart;
+import com.kesdip.designer.parts.PageOneRootPart;
 
 @SuppressWarnings("restriction")
 public class DesignerCopyAction extends SelectionAction {
@@ -40,16 +39,12 @@ public class DesignerCopyAction extends SelectionAction {
 		if (getSelectedObjects() == null || getSelectedObjects().size() == 0)
 			return false;
 		
-		boolean nonLayoutObjectsPresent = false;
 		for (Object o : getSelectedObjects()) {
-			if (!(o instanceof LayoutEditPart) && !(o instanceof OutlineLayoutPart) &&
-					!(o instanceof PageOneLayoutPart)) {
-				nonLayoutObjectsPresent = true;
-				break;
-			}
+			if (o instanceof PageOneRootPart || o instanceof OutlineRootPart)
+				return false;
 		}
 		
-		return nonLayoutObjectsPresent;
+		return true;
 	}
 	
 	/**

@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0
 Bundle-Activator: com.kesdip.designer.help.Activator
 Bundle-Vendor: Ke.S.Di.P. E.P.E.
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.ui.cheatsheets
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

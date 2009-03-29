@@ -1,6 +1,7 @@
 package com.kesdip.designer.editor;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -26,15 +27,67 @@ import com.kesdip.designer.action.MaximizeAction;
 public class DeploymentActionBarContributor extends
 		MultiPageEditorActionBarContributor {
 
+	/** The registry of the Contributor */
+	private ActionRegistry registry = new ActionRegistry();
+	/** The registry of the active page. Initialized when the page is switched or set */
+	private ActionRegistry activePageRegistry;
+	/** The registry of the multipage editor. Initialized when the editor is switched */
+	private ActionRegistry rootEditorRegistry;
+	/** Remember the active editor */
+	protected IEditorPart rootEditor;
+
 	private List<String> globalActionKeys = new ArrayList<String>();
 	private List<IAction> retargetActions = new ArrayList<IAction>();
-	private ActionRegistry registry = new ActionRegistry();
 	private boolean maxActionInitialized;
+	
+	/**
+	 * Adds to action registry an action.
+	 * 
+	 * @param action
+	 *            The action to add
+	 */
+	protected void addAction(IAction action) {
+		getActionRegistry().registerAction(action);
+	}
+	
+	/**
+	 * Indicates the existence of a global action identified by the specified key. This global
+	 * action is defined outside the scope of this contributor, such as the Workbench's undo
+	 * action, or an action provided by a workbench ActionSet. The list of global action keys
+	 * is used whenever the active editor is changed ({@link #setActiveEditor(IEditorPart)}).
+	 * Keys provided here will result in corresponding actions being obtained from the active
+	 * editor's <code>ActionRegistry</code>, and those actions will be registered with the
+	 * ActionBars for this contributor. The editor's action handler and the global action must
+	 * have the same key.
+	 * @param key the key identifying the global action
+	 */
+	public void addGlobalActionKey(String key) {
+		globalActionKeys.add(key);
+	}
 
-	public void init(IActionBars bars, IWorkbenchPage page) {
-		super.init(bars, page);
-		declareGlobalActionKeys();
-		this.maxActionInitialized = false;
+	/**
+	 * Adds the specified RetargetAction to this contributors <code>ActionRegistry</code>. The
+	 * RetargetAction is also added as a <code>IPartListener</code> of the contributor's page.
+	 * Also, the retarget action's ID is flagged as a global action key, by calling {@link
+	 * #addGlobalActionKey(String)}.
+	 * @param action the retarget action being added
+	 */
+	public void addRetargetAction(RetargetAction action) {
+		addAction(action);
+		retargetActions.add(action);
+		getPage().addPartListener(action);
+		addGlobalActionKey(action.getId());
+	}
+
+	/**
+	 * Declares the global action keys.
+	 * 
+	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
+	 */
+	protected void declareGlobalActionKeys() {
+		addGlobalActionKey(ActionFactory.CUT.getId());
+		addGlobalActionKey(ActionFactory.COPY.getId());
+		addGlobalActionKey(ActionFactory.PASTE.getId());
 	}
 
 	/**
@@ -46,15 +99,55 @@ public class DeploymentActionBarContributor extends
 		addRetargetAction(new UndoRetargetAction());
 		addRetargetAction(new RedoRetargetAction());
 		addRetargetAction(new DeleteRetargetAction());
-		
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 		
 		if (!maxActionInitialized &&
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() != null) {
-			addAction(new MaximizeAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()));
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().
+				getActivePage().getActiveEditor() != null) {
+			addAction(new MaximizeAction(
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().
+					getActivePage().getActiveEditor()));
 			maxActionInitialized = true;
 		}
+	}
+
+	/**
+	 * Disposes the contributor. Removes all {@link RetargetAction}s that were {@link
+	 * org.eclipse.ui.IPartListener}s on the {@link org.eclipse.ui.IWorkbenchPage} and 
+	 * disposes them. Also disposes the action registry.
+	 * <P>
+	 * Subclasses may extend this method to perform additional cleanup.
+	 * @see org.eclipse.ui.part.EditorActionBarContributor#dispose()
+	 */
+	public void dispose() {
+		for (int i = 0; i < retargetActions.size(); i++) {
+			RetargetAction action = (RetargetAction) retargetActions.get(i);
+			getPage().removePartListener(action);
+			action.dispose();
+		}
+		registry.dispose();
+		retargetActions = null;
+		registry = null;
+	}
+
+	/**
+	 * Gets the registry.
+	 * 
+	 * @return ActionRegistry The registry
+	 */
+	protected ActionRegistry getActionRegistry() {
+		return registry;
+	}
+
+	protected IAction getAction(String id) {
+		return getActionRegistry().getAction(id);
+	}
+	
+	public void init(IActionBars bars, IWorkbenchPage page) {
+		super.init(bars, page);
+		declareGlobalActionKeys();
+		this.maxActionInitialized = false;
 	}
 
 	@Override
@@ -71,79 +164,66 @@ public class DeploymentActionBarContributor extends
         menuManager.insertAfter("com.kesdip.designer.EditMenu", viewMenu);
 	}
 
-	/**
-	 * Adds the retarded actions.
-	 * 
-	 * @param action
-	 *            The action to add
-	 */
-	protected void addRetargetAction(RetargetAction action) {
-		addAction(action);
-		retargetActions.add(action);
-		getPage().addPartListener(action);
-		addGlobalActionKey(action.getId());
+    /**
+     * Sets the active page of the the multi-page editor to be the given editor.
+     * Redirect actions to the given editor if actions are not already being sent to it.
+     * <p>
+     * This method is called whenever the page changes (from MultiPageEditorPart.pageChange(int)). 
+     * Subclasses must implement this method to redirect actions to the given 
+     * editor (if not already directed to it).
+     * </p>
+     *
+     * @param activeEditor the new active editor, or <code>null</code> if there is no active page, or if the
+     *   active page does not have a corresponding editor
+     */
+	public void setActivePage(IEditorPart editor) {
+		activePageRegistry = (ActionRegistry)editor.getAdapter(ActionRegistry.class);
+		// Connect the actions
+		connectActions();
 	}
+    /* (non-JavaDoc)
+     * Method declared on EditorActionBarContributor
+     * Registers the contributor with the multi-page editor for future 
+     * editor action redirection when the active page is changed, and sets
+     * the active page.
+     */
+    public void setActiveEditor(IEditorPart editor) {
+        rootEditor = editor;
+        super.setActiveEditor(editor);
+		// Switch the current page registry
+        rootEditorRegistry = (ActionRegistry) editor.getAdapter(ActionRegistry.class);
+		// Connect the actions
+		connectActions();
+    }
 
 	/**
-	 * Adds global action key.
-	 * 
-	 * @param key
-	 *            The key to add
+	 * Connect the actions registered in the globalActionKeys.
+	 * Lookup actions implementation in the rootEditor registry and in the current page registry.
 	 */
-	protected void addGlobalActionKey(String key) {
-		globalActionKeys.add(key);
-	}
-
-	/**
-	 * Adds to action registry an action.
-	 * 
-	 * @param action
-	 *            The action to add
-	 */
-	protected void addAction(IAction action) {
-		getActionRegistry().registerAction(action);
-	}
-
-	/**
-	 * Gets the registry.
-	 * 
-	 * @return ActionRegistry The registry
-	 */
-	protected ActionRegistry getActionRegistry() {
-		return registry;
-	}
-
-	/**
-	 * Declares the global action keys.
-	 * 
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
-	 */
-	protected void declareGlobalActionKeys() {
-		addGlobalActionKey(ActionFactory.UNDO.getId());
-		addGlobalActionKey(ActionFactory.REDO.getId());
-		addGlobalActionKey(ActionFactory.CUT.getId());
-		addGlobalActionKey(ActionFactory.COPY.getId());
-		addGlobalActionKey(ActionFactory.PASTE.getId());
-		addGlobalActionKey(ActionFactory.DELETE.getId());
-	}
-
-	protected IAction getAction(String id) {
-		return getActionRegistry().getAction(id);
-	}
-
-	@Override
-	public void setActivePage(IEditorPart activeEditor) {
-		if (activeEditor == null)
-			return;
-		
-		ActionRegistry registry = (ActionRegistry) activeEditor
-				.getAdapter(ActionRegistry.class);
+	protected void connectActions() {
 		IActionBars bars = getActionBars();
-		for (int i = 0; i < globalActionKeys.size(); i++) {
-			String id = (String) globalActionKeys.get(i);
-			bars.setGlobalActionHandler(id, registry.getAction(id));
+		Iterator<String> iter = globalActionKeys.iterator();
+		while (iter.hasNext()) {
+			String id = iter.next();
+			bars.setGlobalActionHandler(id, getEditorAction(id));
 		}
-		getActionBars().updateActionBars();
+		bars.updateActionBars();
 	}
+
+	/**
+	 * Get the action from one of the registry
+	 * @param key
+	 */
+  protected IAction getEditorAction(String key)
+  {
+	  IAction action = null;
+	  
+	  if (activePageRegistry!= null)
+		  action = activePageRegistry.getAction(key);
+	  if (action == null && rootEditorRegistry != null)
+		  action = rootEditorRegistry.getAction(key);
+	  
+	  return action;
+  }
 
 }

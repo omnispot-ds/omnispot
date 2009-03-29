@@ -49,10 +49,10 @@ public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 				getAction(ActionFactory.PASTE.getId()));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
-				getAction(CreateLayoutAction.ID));
+				getAction(ActionFactory.DELETE.getId()));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
-				getAction(ActionFactory.DELETE.getId()));
+				getAction(CreateLayoutAction.ID));
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
 				getAction(MoveUpAction.ID));

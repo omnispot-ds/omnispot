@@ -13,6 +13,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     }
 
     protected void makeActions(IWorkbenchWindow window) {
+    	register(ActionFactory.UNDO.create(window));
+    	register(ActionFactory.REDO.create(window));
+    	register(ActionFactory.CUT.create(window));
+    	register(ActionFactory.COPY.create(window));
+    	register(ActionFactory.PASTE.create(window));
+    	register(ActionFactory.DELETE.create(window));
 		register(ActionFactory.SAVE.create(window));
 		register(ActionFactory.SAVE_AS.create(window));
 		register(ActionFactory.SAVE_ALL.create(window));

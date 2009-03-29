@@ -8,7 +8,6 @@ import java.io.InputStream;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
@@ -19,7 +18,7 @@ import org.eclipse.ui.ide.IDE;
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.utils.DesignerLog;
 
-public class OpenFileHandler extends AbstractHandler implements IHandler {
+public class OpenFileHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {

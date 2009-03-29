@@ -10,6 +10,7 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -22,6 +23,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.part.PageBook;
@@ -36,6 +39,7 @@ public class DeploymentOutlinePage extends Page implements IContentOutlinePage {
 	private Control outline;
 	private SelectionSynchronizer selectionSynchronizer;
 	private Deployment model;
+	private ActionRegistry actionRegistry;
 	private RootEditPart overviewContent;
 	private PageBook pageBook;
 	private Canvas overview;
@@ -45,13 +49,32 @@ public class DeploymentOutlinePage extends Page implements IContentOutlinePage {
 	private IAction showOverviewAction;
 	
 	public DeploymentOutlinePage(EditPartViewer viewer,
-			SelectionSynchronizer selectionSynchronizer, Deployment model) {
+			SelectionSynchronizer selectionSynchronizer, Deployment model,
+			ActionRegistry actionRegistry) {
 		super();
 		this.viewer = viewer;
 		this.selectionSynchronizer = selectionSynchronizer;
 		this.model = model;
+		this.actionRegistry = actionRegistry;
 	}
 	
+	@Override
+	public void setActionBars(IActionBars actionBars) {
+		actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(),
+				actionRegistry.getAction(ActionFactory.UNDO.getId()));
+		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(),
+				actionRegistry.getAction(ActionFactory.REDO.getId()));
+		actionBars.setGlobalActionHandler(ActionFactory.CUT.getId(),
+				actionRegistry.getAction(ActionFactory.CUT.getId()));
+		actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(),
+				actionRegistry.getAction(ActionFactory.COPY.getId()));
+		actionBars.setGlobalActionHandler(ActionFactory.PASTE.getId(),
+				actionRegistry.getAction(ActionFactory.PASTE.getId()));
+		actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(),
+				actionRegistry.getAction(ActionFactory.DELETE.getId()));
+		actionBars.updateActionBars();
+	}
+
 	@Override
 	public void dispose() {
 		selectionSynchronizer.removeViewer(getViewer());

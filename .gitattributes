@@ -401,6 +401,8 @@ designer-help/.project -text
 designer-help/.settings/org.eclipse.jdt.core.prefs -text
 designer-help/META-INF/MANIFEST.MF -text
 designer-help/build.properties -text
+designer-help/cheatsheets/SimpleVideo.xml -text
+designer-help/cheatsheets/VideoWithAlphaBlendTicker.xml -text
 designer-help/html/concepts/concepts.html -text
 designer-help/html/concepts/deployment.html -text
 designer-help/html/concepts/layout.html -text
