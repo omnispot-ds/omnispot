@@ -3,9 +3,12 @@ package com.kesdip.designer.editor;
 import java.util.EventObject;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.SnapToGeometry;
+import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
@@ -13,8 +16,14 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SimpleFactory;
+import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.gef.ui.actions.MatchHeightAction;
+import org.eclipse.gef.ui.actions.MatchWidthAction;
+import org.eclipse.gef.ui.actions.ToggleGridAction;
+import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
@@ -38,7 +47,9 @@ import com.kesdip.designer.action.MoveUpAction;
 import com.kesdip.designer.action.MaximizeAction;
 import com.kesdip.designer.handler.LayoutEditorInput;
 import com.kesdip.designer.model.Layout;
+import com.kesdip.designer.model.LayoutRuler;
 import com.kesdip.designer.parts.DesignerEditorEditPartFactory;
+import com.kesdip.designer.parts.LayoutRulerProvider;
 
 public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 	
@@ -143,6 +154,38 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 		getSelectionActions().add(action.getId());
 		registry.registerAction(action);
 		
+		action = new MatchWidthAction(this);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+		
+		action = new MatchHeightAction(this);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+		
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.RIGHT);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.TOP);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.BOTTOM);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.CENTER);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
+		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.MIDDLE);
+		getSelectionActions().add(action.getId());
+		registry.registerAction(action);
+
 		ActionRegistry parentRegistry = (ActionRegistry)
 			getParentEditor().getAdapter(ActionRegistry.class);
 		
@@ -173,6 +216,54 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 		viewer.setEditPartFactory(new DesignerEditorEditPartFactory());
 		viewer.setRootEditPart(new ScalableFreeformRootEditPart());
 		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
+		
+		IAction action = new ToggleSnapToGeometryAction(getGraphicalViewer());
+		getActionRegistry().registerAction(action);
+
+		action = new ToggleGridAction(getGraphicalViewer());
+		getActionRegistry().registerAction(action);
+		
+		action = getActionRegistry().getAction(GEFActionConstants.MATCH_HEIGHT);
+		((MatchHeightAction) action).setSelectionProvider(getGraphicalViewer());
+		action = getActionRegistry().getAction(GEFActionConstants.MATCH_WIDTH);
+		((MatchWidthAction) action).setSelectionProvider(getGraphicalViewer());
+		action = getActionRegistry().getAction(GEFActionConstants.ALIGN_LEFT);
+		((AlignmentAction) action).setSelectionProvider(getGraphicalViewer());
+		action = getActionRegistry().getAction(GEFActionConstants.ALIGN_CENTER);
+		((AlignmentAction) action).setSelectionProvider(getGraphicalViewer());
+		action = getActionRegistry().getAction(GEFActionConstants.ALIGN_RIGHT);
+		((AlignmentAction) action).setSelectionProvider(getGraphicalViewer());
+		action = getActionRegistry().getAction(GEFActionConstants.ALIGN_BOTTOM);
+		((AlignmentAction) action).setSelectionProvider(getGraphicalViewer());
+		action = getActionRegistry().getAction(GEFActionConstants.ALIGN_MIDDLE);
+		((AlignmentAction) action).setSelectionProvider(getGraphicalViewer());
+		action = getActionRegistry().getAction(GEFActionConstants.ALIGN_TOP);
+		((AlignmentAction) action).setSelectionProvider(getGraphicalViewer());
+		
+		LayoutRuler ruler = model.getRuler(PositionConstants.WEST);
+		RulerProvider provider = null;
+		if (ruler != null) {
+			provider = new LayoutRulerProvider(ruler);
+		}
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_VERTICAL_RULER, provider);
+		ruler = model.getRuler(PositionConstants.NORTH);
+		provider = null;
+		if (ruler != null) {
+			provider = new LayoutRulerProvider(ruler);
+		}
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_RULER_VISIBILITY, false);
+
+		// Snap to Geometry property
+		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, 
+				model.isSnapToGeometry());
+		
+		// Grid properties
+		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, 
+				model.isShowGrid());
+		// We keep grid visibility and enablement in sync
+		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, 
+				model.isShowGrid());
 	
 		// configure the context menu provider
 		ContextMenuProvider cmProvider =
@@ -184,6 +275,12 @@ public class LayoutEditor extends GraphicalEditorWithFlyoutPalette {
 				outlineViewer, getActionRegistry());
 	}
 
+	public void saveProperties() {
+		model.setShowGrid(((Boolean)getGraphicalViewer()
+				.getProperty(SnapToGrid.PROPERTY_GRID_ENABLED)).booleanValue());
+		model.setSnapToGeometry(((Boolean)getGraphicalViewer()
+				.getProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED)).booleanValue());
+	}
 
 	@Override
 	public void commandStackChanged(EventObject event) {

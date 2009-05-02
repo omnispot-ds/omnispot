@@ -61,34 +61,69 @@
       </editor>
    </extension>
    <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="com.kesdip.designer.PreviewCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Ctrl+F1">
+      </key>
+      <key
+            commandId="com.kesdip.designer.PreviewLayoutCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F1">
+      </key>
+      <key
+            commandId="com.kesdip.designer.PublishCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F3">
+      </key>
+   </extension>
+   <extension
          point="org.eclipse.ui.commands">
+      <category
+            description="Commands related to the Designer Editor"
+            id="com.kesdip.designer.designerCategory"
+            name="Designer">
+      </category>
       <command
+            categoryId="com.kesdip.designer.designerCategory"
             defaultHandler="com.kesdip.designer.handler.NewFileHandler"
             id="com.kesdip.designer.NewCommand"
             name="New">
       </command>
       <command
+            categoryId="com.kesdip.designer.designerCategory"
             defaultHandler="com.kesdip.designer.handler.OpenFileHandler"
             id="com.kesdip.designer.OpenCommand"
             name="Open">
       </command>
       <command
+            categoryId="com.kesdip.designer.designerCategory"
             defaultHandler="com.kesdip.designer.handler.PreviewHandler"
+            description="Preview current deployment"
             id="com.kesdip.designer.PreviewCommand"
             name="Preview">
       </command>
       <command
+            categoryId="com.kesdip.designer.designerCategory"
             defaultHandler="com.kesdip.designer.handler.PreviewLayoutHandler"
+            description="Preview current layout"
             id="com.kesdip.designer.PreviewLayoutCommand"
             name="Preview Layout">
       </command>
       <command
+            categoryId="com.kesdip.designer.designerCategory"
             defaultHandler="com.kesdip.designer.handler.ShowViewHandler"
             id="com.kesdip.designer.ShowViewCommand"
             name="Show View">
       </command>
       <command
+            categoryId="com.kesdip.designer.designerCategory"
             defaultHandler="com.kesdip.designer.handler.PublishHandler"
+            description="Publish current deplyment"
             id="com.kesdip.designer.PublishCommand"
             name="Publish">
       </command>

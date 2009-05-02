@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.gef.internal.GEFMessages;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.gef.ui.actions.MatchHeightRetargetAction;
+import org.eclipse.gef.ui.actions.MatchWidthRetargetAction;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
@@ -14,6 +17,7 @@ import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -24,6 +28,7 @@ import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 
 import com.kesdip.designer.action.MaximizeAction;
 
+@SuppressWarnings("restriction")
 public class DeploymentActionBarContributor extends
 		MultiPageEditorActionBarContributor {
 
@@ -102,6 +107,16 @@ public class DeploymentActionBarContributor extends
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 		
+		addRetargetAction(new MatchWidthRetargetAction());
+		addRetargetAction(new MatchHeightRetargetAction());
+		
+		addRetargetAction(new RetargetAction(
+				GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY, 
+				GEFMessages.ToggleSnapToGeometry_Label, IAction.AS_CHECK_BOX));
+
+		addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, 
+				GEFMessages.ToggleGrid_Label, IAction.AS_CHECK_BOX));
+		
 		if (!maxActionInitialized &&
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().
 				getActivePage().getActiveEditor() != null) {
@@ -160,8 +175,14 @@ public class DeploymentActionBarContributor extends
         MenuManager viewMenu = new MenuManager("View");
         viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
         viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
+    	viewMenu.add(new Separator());
+    	viewMenu.add(getAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY));
+    	viewMenu.add(getAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
+    	viewMenu.add(new Separator());
+    	viewMenu.add(getAction(GEFActionConstants.MATCH_WIDTH));
+    	viewMenu.add(getAction(GEFActionConstants.MATCH_HEIGHT));
         
-        menuManager.insertAfter("com.kesdip.designer.EditMenu", viewMenu);
+    	menuManager.insertAfter("com.kesdip.designer.EditMenu", viewMenu);
 	}
 
     /**

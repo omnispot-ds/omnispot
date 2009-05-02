@@ -136,6 +136,8 @@ public class DesignerNewWizard extends Wizard implements INewWizard {
 		String emptyLayout =
 		    "        <bean class=\"com.kesdip.player.DeploymentLayout\">\n" +
 		    "          <property name=\"name\" value=\"Layout\"/>\n" +
+		    "          <property name=\"showGrid\" value=\"false\"/>\n" +
+		    "          <property name=\"snapToGeometry\" value=\"false\"/>\n" +
 		    "          <property name=\"contentRoots\">\n" +
 		    "            <list>\n" +
 		    "            </list>\n" +

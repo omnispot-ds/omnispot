@@ -45,6 +45,7 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_Y = "Y";
 	public static final String TAG_WIDTH = "Width";
 	public static final String TAG_HEIGHT = "Height";
+	public static final String TAG_LOCKED = "Locked";
 	public static final String TAG_BACK_RED = "BackRed";
 	public static final String TAG_BACK_GREEN = "BackGreen";
 	public static final String TAG_BACK_BLUE = "BackBlue";
@@ -69,6 +70,8 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_CHANNEL = "Channel";
 	public static final String TAG_INPUT = "Input";
 	public static final String TAG_TUNER_TYPE = "TunerType";
+	public static final String TAG_GRID = "Grid";
+	public static final String TAG_SNAP_GEOM = "SnapGeometry";
 	
 	public static final String PARENT_PROP = "ModelElement.Parent";
 	public static final String CHILD_MOVE_UP = "ModelElement.ChildMoveUp";

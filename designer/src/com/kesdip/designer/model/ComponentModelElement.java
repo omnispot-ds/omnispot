@@ -17,6 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.kesdip.designer.properties.CheckboxPropertyDescriptor;
 import com.kesdip.designer.properties.DimensionPropertySource;
 import com.kesdip.designer.properties.LocationPropertySource;
 import com.kesdip.designer.utils.DOMHelpers;
@@ -53,6 +54,8 @@ public abstract class ComponentModelElement extends ModelElement {
 	public static final String LOCATION_PROP = "Component.Location";
 	/** Property ID to use then the size of this shape is modified. */
 	public static final String SIZE_PROP = "Component.Size";
+	/** Property ID to use for the lockSizeAndPosition property. */
+	public static final String LOCK_SIZE_AND_POSITION_PROP = "Component.LockSizeAndPosition";
 
 	/*
 	 * Initializes the property descriptors array.
@@ -64,7 +67,8 @@ public abstract class ComponentModelElement extends ModelElement {
 		descriptors = new IPropertyDescriptor[] {
 				new TextPropertyDescriptor(LOCATION_PROP, "Location"),
 				new TextPropertyDescriptor(SIZE_PROP, "Size"),
-				new ColorPropertyDescriptor(BACK_COLOR_PROP, "Background Color")
+				new ColorPropertyDescriptor(BACK_COLOR_PROP, "Background Color"),
+				new CheckboxPropertyDescriptor(LOCK_SIZE_AND_POSITION_PROP, "Lock Size & Location")
 		};
 		// use a custom cell editor validator for all five array entries
 		for (int i = 0; i < descriptors.length; i++) {
@@ -97,6 +101,8 @@ public abstract class ComponentModelElement extends ModelElement {
 	protected DimensionPropertySource dimensionPropertySource =
 		new DimensionPropertySource(size, this);
 	protected Color backgroundColor = Color.BLACK;
+	protected boolean locked = false;
+	protected LayoutGuide verticalGuide, horizontalGuide;
 	
 	abstract Element serialize(Document doc, boolean isPublish);
 	
@@ -114,6 +120,8 @@ public abstract class ComponentModelElement extends ModelElement {
 				String.valueOf(size.width));
 		DOMHelpers.addProperty(doc, componentElement, "height",
 				String.valueOf(size.height));
+		DOMHelpers.addProperty(doc, componentElement, "locked",
+				locked ? "true" : "false");
 		if (includeBackgroundColor) {
 			Element backColorPropElement = DOMHelpers.addProperty(
 					doc, componentElement, "backgroundColor");
@@ -140,6 +148,8 @@ public abstract class ComponentModelElement extends ModelElement {
 		setPropertyValue(YPOS_PROP, DOMHelpers.getSimpleProperty(componentNode, "y"));
 		setPropertyValue(WIDTH_PROP, DOMHelpers.getSimpleProperty(componentNode, "width"));
 		setPropertyValue(HEIGHT_PROP, DOMHelpers.getSimpleProperty(componentNode, "height"));
+		setPropertyValue(LOCK_SIZE_AND_POSITION_PROP,
+				DOMHelpers.getSimpleProperty(componentNode, "locked"));
 		if (DOMHelpers.getPropertyNode(componentNode, "backgroundColor") != null) {
 			Color bc = DOMHelpers.getColorProperty(componentNode, "backgroundColor");
 			setPropertyValue(BACK_COLOR_PROP,
@@ -152,6 +162,7 @@ public abstract class ComponentModelElement extends ModelElement {
 		memento.putInteger(TAG_Y, location.y);
 		memento.putInteger(TAG_WIDTH, size.width);
 		memento.putInteger(TAG_HEIGHT, size.height);
+		memento.putBoolean(TAG_LOCKED, locked);
 		memento.putInteger(TAG_BACK_RED, backgroundColor.getRed());
 		memento.putInteger(TAG_BACK_GREEN, backgroundColor.getGreen());
 		memento.putInteger(TAG_BACK_BLUE, backgroundColor.getBlue());
@@ -160,6 +171,7 @@ public abstract class ComponentModelElement extends ModelElement {
 	public void load(IMemento memento) {
 		location = new Point(memento.getInteger(TAG_X), memento.getInteger(TAG_Y));
 		size = new Dimension(memento.getInteger(TAG_WIDTH), memento.getInteger(TAG_HEIGHT));
+		locked = memento.getBoolean(TAG_LOCKED);
 		backgroundColor = new Color(memento.getInteger(TAG_BACK_RED),
 				memento.getInteger(TAG_BACK_GREEN),
 				memento.getInteger(TAG_BACK_BLUE));
@@ -168,6 +180,7 @@ public abstract class ComponentModelElement extends ModelElement {
 	void checkEquivalence(ComponentModelElement other) {
 		assert(location.equals(other.location));
 		assert(size.equals(other.size));
+		assert(locked == other.locked);
 		if (backgroundColor == null)
 			assert(other.backgroundColor == null);
 		else
@@ -230,6 +243,9 @@ public abstract class ComponentModelElement extends ModelElement {
 		if (SIZE_PROP.equals(propertyId)) {
 			return dimensionPropertySource;
 		}
+		if (LOCK_SIZE_AND_POSITION_PROP.equals(propertyId)) {
+			return locked;
+		}
 		return super.getPropertyValue(propertyId);
 	}
 
@@ -258,6 +274,9 @@ public abstract class ComponentModelElement extends ModelElement {
 			throw new IllegalArgumentException();
 		}
 		
+		if (locked)
+			return;
+
 		Point moveBy = newLocation.getCopy().translate(location.getNegated());
 		relocateChildren(moveBy);
 		
@@ -275,17 +294,36 @@ public abstract class ComponentModelElement extends ModelElement {
 	 */
 	public void setPropertyValue(Object propertyId, Object value) {
 		if (XPOS_PROP.equals(propertyId)) {
+			if (locked)
+				return;
 			int x = Integer.parseInt((String) value);
 			setLocation(new Point(x, location.y));
 		} else if (YPOS_PROP.equals(propertyId)) {
+			if (locked)
+				return;
 			int y = Integer.parseInt((String) value);
 			setLocation(new Point(location.x, y));
 		} else if (HEIGHT_PROP.equals(propertyId)) {
+			if (locked)
+				return;
 			int height = Integer.parseInt((String) value);
 			setSize(new Dimension(size.width, height));
 		} else if (WIDTH_PROP.equals(propertyId)) {
+			if (locked)
+				return;
 			int width = Integer.parseInt((String) value);
 			setSize(new Dimension(width, size.height));
+		} else if (LOCK_SIZE_AND_POSITION_PROP.equals(propertyId)) {
+			if (value instanceof String) {
+				// We are being deserialized
+				String oldValue = locked ? "true" : "false";
+				locked = value.equals("true");
+				firePropertyChange(LOCK_SIZE_AND_POSITION_PROP, oldValue, value);
+				return;
+			}
+			Boolean oldValue = locked;
+			locked = ((Boolean) value).booleanValue();
+			firePropertyChange(LOCK_SIZE_AND_POSITION_PROP, oldValue, locked);
 		} else if (BACK_COLOR_PROP.equals(propertyId)) {
 			RGB oldValue = backgroundColor == null ?
 					new RGB(0, 0, 0) :
@@ -311,6 +349,9 @@ public abstract class ComponentModelElement extends ModelElement {
 	 * @param newSize a non-null Dimension instance or null
 	 */
 	public void setSize(Dimension newSize) {
+		if (locked)
+			return;
+
 		if (newSize != null) {
 			size.setSize(newSize);
 			firePropertyChange(SIZE_PROP, null, size);
@@ -375,6 +416,22 @@ public abstract class ComponentModelElement extends ModelElement {
 		location.y = (int) (location.y * y);
 		size.width = (int) (size.width * x);
 		size.height = (int) (size.height * y);
+	}
+
+	public LayoutGuide getVerticalGuide() {
+		return verticalGuide;
+	}
+
+	public void setVerticalGuide(LayoutGuide verticalGuide) {
+		this.verticalGuide = verticalGuide;
+	}
+
+	public LayoutGuide getHorizontalGuide() {
+		return horizontalGuide;
+	}
+
+	public void setHorizontalGuide(LayoutGuide horizontalGuide) {
+		this.horizontalGuide = horizontalGuide;
 	}
 	
 }

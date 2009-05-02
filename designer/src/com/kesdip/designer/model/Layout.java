@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMemento;
@@ -42,24 +43,39 @@ public class Layout extends ModelElement {
 	public static final String REGION_ADDED_PROP = "Layout.RegionAdded";
 	/** Property ID to use when a region is removed from this layout. */
 	public static final String REGION_REMOVED_PROP = "Layout.RegionRemoved";
+	/** Property ID to use when changing the grid visibility. */
+	public static final String SHOW_GRID_PROP = "Layout.ShowGrid";
+	/** Property ID to use when changing the snap to geometry setting. */
+	public static final String SNAP_TO_GEOMETRY_PROP = "Layout.SnapToGeometry";
 
 	/* STATE */
 	private String name;
 	private String cronExpression;
 	private int duration;
 	private List<ModelElement> regionList;
+	private boolean showGrid;
+	private boolean snapToGeometry;
+	protected LayoutRuler leftRuler, topRuler;
 	
 	public Layout() {
 		name = "New Layout";
 		cronExpression = "";
 		duration = 0;
 		regionList = new ArrayList<ModelElement>();
+		showGrid = false;
+		snapToGeometry = false;
+		leftRuler = new LayoutRuler(false);
+		topRuler = new LayoutRuler(true);
 	}
 	
 	protected Element serialize(Document doc, int layoutCount, boolean isPublish) {
 		Element layoutElement = doc.createElement("bean");
 		layoutElement.setAttribute("class", "com.kesdip.player.DeploymentLayout");
 		DOMHelpers.addProperty(doc, layoutElement, "name", name);
+		DOMHelpers.addProperty(doc, layoutElement, "showGrid",
+				showGrid ? "true" : "false");
+		DOMHelpers.addProperty(doc, layoutElement, "snapToGeometry",
+				snapToGeometry ? "true" : "false");
 		if (cronExpression != null && cronExpression.length() != 0)
 			DOMHelpers.addProperty(doc, layoutElement, "cronExpression", cronExpression);
 		if (duration != 0)
@@ -79,6 +95,10 @@ public class Layout extends ModelElement {
 	
 	protected void deserialize(Document doc, Node layoutNode) {
 		setPropertyValue(NAME_PROP, DOMHelpers.getSimpleProperty(layoutNode, "name"));
+		setPropertyValue(SHOW_GRID_PROP,
+				DOMHelpers.getSimpleProperty(layoutNode, "showGrid"));
+		setPropertyValue(SNAP_TO_GEOMETRY_PROP,
+				DOMHelpers.getSimpleProperty(layoutNode, "snapToGeometry"));
 		String cronExpression = DOMHelpers.getSimpleProperty(layoutNode, "cronExpression");
 		if (cronExpression != null)
 			setPropertyValue(CRON_EXPRESSION_PROP, cronExpression);
@@ -108,6 +128,8 @@ public class Layout extends ModelElement {
 			IMemento child = memento.createChild(TAG_REGION);
 			region.save(child);
 		}
+		memento.putBoolean(TAG_GRID, showGrid);
+		memento.putBoolean(TAG_SNAP_GEOM, snapToGeometry);
 	}
 	
 	public void load(IMemento memento) {
@@ -120,6 +142,8 @@ public class Layout extends ModelElement {
 			Region r = new Region();
 			r.load(child);
 		}
+		showGrid = memento.getBoolean(TAG_GRID);
+		snapToGeometry = memento.getBoolean(TAG_SNAP_GEOM);
 	}
 	
 	public void checkEquivalence(Layout other) {
@@ -131,6 +155,8 @@ public class Layout extends ModelElement {
 			Region otherRegion = (Region) other.regionList.get(i);
 			thisRegion.checkEquivalence(otherRegion);
 		}
+		assert(showGrid == other.showGrid);
+		assert(snapToGeometry == other.snapToGeometry);
 	}
 	
 	/*
@@ -188,6 +214,8 @@ public class Layout extends ModelElement {
 			Region r = (Region) srcr.deepCopy();
 			retVal.regionList.add(r);
 		}
+		retVal.showGrid = showGrid;
+		retVal.snapToGeometry = snapToGeometry;
 		return retVal;
 	}
 	
@@ -212,6 +240,10 @@ public class Layout extends ModelElement {
 			return cronExpression;
 		else if (DURATION_PROP.equals(propertyId))
 			return Integer.toString(duration);
+		else if (SHOW_GRID_PROP.equals(propertyId))
+			return showGrid;
+		else if (SNAP_TO_GEOMETRY_PROP.equals(propertyId))
+			return snapToGeometry;
 		else
 			return super.getPropertyValue(propertyId);
 	}
@@ -230,6 +262,28 @@ public class Layout extends ModelElement {
 			int oldValue = duration;
 			duration = Integer.parseInt((String) value);
 			firePropertyChange(DURATION_PROP, oldValue, duration);
+		} else if (SHOW_GRID_PROP.equals(propertyId)) {
+			if (value instanceof String) {
+				// We are being deserialized
+				String oldValue = showGrid ? "true" : "false";
+				showGrid = value.equals("true");
+				firePropertyChange(SHOW_GRID_PROP, oldValue, value);
+				return;
+			}
+			Boolean oldValue = showGrid;
+			showGrid = ((Boolean) value).booleanValue();
+			firePropertyChange(SHOW_GRID_PROP, oldValue, showGrid);
+		} else if (SNAP_TO_GEOMETRY_PROP.equals(propertyId)) {
+			if (value instanceof String) {
+				// We are being deserialized
+				String oldValue = snapToGeometry ? "true" : "false";
+				snapToGeometry = value.equals("true");
+				firePropertyChange(SNAP_TO_GEOMETRY_PROP, oldValue, value);
+				return;
+			}
+			Boolean oldValue = snapToGeometry;
+			snapToGeometry = ((Boolean) value).booleanValue();
+			firePropertyChange(SNAP_TO_GEOMETRY_PROP, oldValue, SNAP_TO_GEOMETRY_PROP);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}
@@ -315,6 +369,35 @@ public class Layout extends ModelElement {
 		return name;
 	}
 	
+	public boolean isShowGrid() {
+		return showGrid;
+	}
+
+	public void setShowGrid(boolean showGrid) {
+		this.showGrid = showGrid;
+	}
+
+	public boolean isSnapToGeometry() {
+		return snapToGeometry;
+	}
+
+	public void setSnapToGeometry(boolean snapToGeometry) {
+		this.snapToGeometry = snapToGeometry;
+	}
+
+	public LayoutRuler getRuler(int orientation) {
+		LayoutRuler result = null;
+		switch (orientation) {
+			case PositionConstants.NORTH :
+				result = topRuler;
+				break;
+			case PositionConstants.WEST :
+				result = leftRuler;
+				break;
+		}
+		return result;
+	}
+
 	@Override
 	public void resizeBy(double x, double y) {
 		for (ModelElement r : regionList)

@@ -473,13 +473,20 @@ designer/src/com/kesdip/designer/action/MaximizeAction.java -text
 designer/src/com/kesdip/designer/action/MoveDownAction.java -text
 designer/src/com/kesdip/designer/action/MoveUpAction.java -text
 designer/src/com/kesdip/designer/action/SaveTemplateAction.java -text
+designer/src/com/kesdip/designer/action/ToggleGridAction.java -text
+designer/src/com/kesdip/designer/action/ToggleSnapToGeometryAction.java -text
 designer/src/com/kesdip/designer/command/AddSelectionCommand.java -text
+designer/src/com/kesdip/designer/command/ChangeGuideCommand.java -text
+designer/src/com/kesdip/designer/command/CloneCommand.java -text
 designer/src/com/kesdip/designer/command/ComponentConstraintChange.java -text
 designer/src/com/kesdip/designer/command/ComponentCreation.java -text
 designer/src/com/kesdip/designer/command/ComponentDeletion.java -text
+designer/src/com/kesdip/designer/command/CreateGuideCommand.java -text
+designer/src/com/kesdip/designer/command/DeleteGuideCommand.java -text
 designer/src/com/kesdip/designer/command/LayoutCreationCommand.java -text
 designer/src/com/kesdip/designer/command/LayoutDeletionCommand.java -text
 designer/src/com/kesdip/designer/command/ModelElementMove.java -text
+designer/src/com/kesdip/designer/command/MoveGuideCommand.java -text
 designer/src/com/kesdip/designer/command/RegionConstraintChange.java -text
 designer/src/com/kesdip/designer/command/RegionCreation.java -text
 designer/src/com/kesdip/designer/command/RemoveSelectionCommand.java -text
@@ -519,6 +526,8 @@ designer/src/com/kesdip/designer/model/FlashComponent.java -text
 designer/src/com/kesdip/designer/model/FlashWeatherComponent.java -text
 designer/src/com/kesdip/designer/model/ImageComponent.java -text
 designer/src/com/kesdip/designer/model/Layout.java -text
+designer/src/com/kesdip/designer/model/LayoutGuide.java -text
+designer/src/com/kesdip/designer/model/LayoutRuler.java -text
 designer/src/com/kesdip/designer/model/ModelElement.java -text
 designer/src/com/kesdip/designer/model/Region.java -text
 designer/src/com/kesdip/designer/model/Resource.java -text
@@ -548,6 +557,7 @@ designer/src/com/kesdip/designer/model/icons/wireless_large.png -text
 designer/src/com/kesdip/designer/parts/ComponentEditPart.java -text
 designer/src/com/kesdip/designer/parts/DesignerEditorEditPartFactory.java -text
 designer/src/com/kesdip/designer/parts/LayoutEditPart.java -text
+designer/src/com/kesdip/designer/parts/LayoutRulerProvider.java -text
 designer/src/com/kesdip/designer/parts/OutlineComponentPart.java -text
 designer/src/com/kesdip/designer/parts/OutlineDeploymentPart.java -text
 designer/src/com/kesdip/designer/parts/OutlineLayoutPart.java -text

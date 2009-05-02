@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
@@ -25,7 +26,10 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.DeleteAction;
+import org.eclipse.gef.ui.actions.MatchHeightAction;
+import org.eclipse.gef.ui.actions.MatchWidthAction;
 import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -73,6 +77,8 @@ import com.kesdip.designer.action.DesignerPasteAction;
 import com.kesdip.designer.action.MoveDownAction;
 import com.kesdip.designer.action.MoveUpAction;
 import com.kesdip.designer.action.MaximizeAction;
+import com.kesdip.designer.action.ToggleGridAction;
+import com.kesdip.designer.action.ToggleSnapToGeometryAction;
 import com.kesdip.designer.handler.DeploymentEditorInput;
 import com.kesdip.designer.handler.LayoutEditorInput;
 import com.kesdip.designer.model.Deployment;
@@ -301,6 +307,22 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 		actionRegistry.registerAction(new MaximizeAction(this));
 		actionRegistry.registerAction(new ZoomInAction(getDelegatingZoomManager()));
 		actionRegistry.registerAction(new ZoomOutAction(getDelegatingZoomManager()));
+		actionRegistry.registerAction(new MatchHeightAction(this));
+		actionRegistry.registerAction(new MatchWidthAction(this));
+		actionRegistry.registerAction(
+				new AlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT));
+		actionRegistry.registerAction(
+				new AlignmentAction((IWorkbenchPart) this, PositionConstants.CENTER));
+		actionRegistry.registerAction(
+				new AlignmentAction((IWorkbenchPart) this, PositionConstants.RIGHT));
+		actionRegistry.registerAction(
+				new AlignmentAction((IWorkbenchPart) this, PositionConstants.TOP));
+		actionRegistry.registerAction(
+				new AlignmentAction((IWorkbenchPart) this, PositionConstants.MIDDLE));
+		actionRegistry.registerAction(
+				new AlignmentAction((IWorkbenchPart) this, PositionConstants.BOTTOM));
+		actionRegistry.registerAction(new ToggleSnapToGeometryAction());
+		actionRegistry.registerAction(new ToggleGridAction());
 	}
 
 	@Override
@@ -449,6 +471,14 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 			updateMenus();
 		}
 	}
+	
+	private void saveLayoutProperties() {
+		for (int i = 0; i < getPageCount(); i++) {
+			IEditorPart editor = getEditor(i);
+			if (editor instanceof LayoutEditor)
+				((LayoutEditor) editor).saveProperties();
+		}
+	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
@@ -472,6 +502,7 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 		monitor.beginTask("Saving " + path, 1);
         try {
 			monitor.worked(1);
+			saveLayoutProperties();
 			OutputStream os = new BufferedOutputStream(
 					new FileOutputStream(path));
 			deployment.serialize(os, false);
@@ -502,6 +533,7 @@ public class DeploymentEditor extends MultiPageEditorPart implements
 						new WorkspaceModifyOperation() { // run this operation
 							public void execute(final IProgressMonitor monitor) {
 								try {
+									saveLayoutProperties();
 									OutputStream os = new BufferedOutputStream(
 											new FileOutputStream(newFile));
 									getModel().serialize(os, false);

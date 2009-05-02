@@ -6,6 +6,8 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.kesdip.designer.action.CreateLayoutAction;
@@ -62,6 +64,37 @@ public class DesignerEditorContentMenuProvider extends ContextMenuProvider {
 		menu.appendToGroup(
 				GEFActionConstants.GROUP_EDIT,
 				getAction(MaximizeAction.ID));
+		
+		// Alignment Actions
+		MenuManager submenu = new MenuManager("Alignment");
+
+		IAction action = getAction(GEFActionConstants.ALIGN_LEFT);
+		if (action.isEnabled())
+			submenu.add(action);
+
+		action = getAction(GEFActionConstants.ALIGN_CENTER);
+		if (action.isEnabled())
+			submenu.add(action);
+
+		action = getAction(GEFActionConstants.ALIGN_RIGHT);
+		if (action.isEnabled())
+			submenu.add(action);
+			
+		submenu.add(new Separator());
+		
+		action = getAction(GEFActionConstants.ALIGN_TOP);
+		if (action.isEnabled())
+			submenu.add(action);
+
+		action = getAction(GEFActionConstants.ALIGN_MIDDLE);
+		if (action.isEnabled())
+			submenu.add(action);
+
+		action = getAction(GEFActionConstants.ALIGN_BOTTOM);
+		if (action.isEnabled())
+			submenu.add(action);
+
+		menu.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 	}
 
 	private IAction getAction(String actionId) {

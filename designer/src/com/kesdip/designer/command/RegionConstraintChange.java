@@ -1,9 +1,7 @@
 package com.kesdip.designer.command;
 
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 import com.kesdip.designer.model.Region;
 
@@ -13,8 +11,6 @@ public class RegionConstraintChange extends Command {
 	private final Rectangle newBounds;
 	/** Stores the old size and location. */
 	private Rectangle oldBounds;
-	/** A request to move/resize an edit part. */
-	private final ChangeBoundsRequest request;
 	/** Element to manipulate. */
 	private final Region element;
 		
@@ -25,27 +21,13 @@ public class RegionConstraintChange extends Command {
 	 * @param newBounds the new size and location
 	 * @throws IllegalArgumentException if any of the parameters is null
 	 */
-	public RegionConstraintChange(Region element, ChangeBoundsRequest req, 
-			Rectangle newBounds) {
-		if (element == null || req == null || newBounds == null) {
+	public RegionConstraintChange(Region element, Rectangle newBounds) {
+		if (element == null || newBounds == null) {
 			throw new IllegalArgumentException();
 		}
 		setLabel("move/resize");
 		this.element = element;
-		this.request = req;
 		this.newBounds = newBounds.getCopy();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
-	public boolean canExecute() {
-		Object type = request.getType();
-		// make sure the Request is of a type we support:
-		return (RequestConstants.REQ_MOVE.equals(type)
-				|| RequestConstants.REQ_MOVE_CHILDREN.equals(type) 
-				|| RequestConstants.REQ_RESIZE.equals(type)
-				|| RequestConstants.REQ_RESIZE_CHILDREN.equals(type));
 	}
 
 	/* (non-Javadoc)

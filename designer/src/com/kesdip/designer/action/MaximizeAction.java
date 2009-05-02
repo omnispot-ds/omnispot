@@ -6,9 +6,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IEditorPart;
 
@@ -57,7 +55,6 @@ public class MaximizeAction extends SelectionAction {
 				 || parent instanceof Deployment)
 			return null;
 		
-		ChangeBoundsRequest req = new ChangeBoundsRequest(RequestConstants.REQ_RESIZE);
 		Rectangle newBounds;
 		if (parent instanceof Layout) {
 			Deployment deployment = (Deployment) parent.getParent();
@@ -72,7 +69,7 @@ public class MaximizeAction extends SelectionAction {
 					(Dimension) ((DimensionPropertySource) parent.getPropertyValue(
 							ComponentModelElement.SIZE_PROP)).getEditableValue());
 		}
-		Command retVal = new ComponentConstraintChange(element, req, newBounds);
+		Command retVal = new ComponentConstraintChange(element, newBounds);
 		return retVal;
 	}
 
