@@ -49,6 +49,7 @@ public class RootContainer extends AbstractComponent {
 	/* TRANSIENT STATE */
 	protected Frame fullScreenFrame;
 	protected JFrame frame;
+	protected int lastLayer;
 
 	public void createFullScreenResources() {
 		// Intentionally left empty
@@ -63,13 +64,14 @@ public class RootContainer extends AbstractComponent {
 		
 		frame.setLocation(x, y);
 		frame.setPreferredSize(new Dimension(width, height));
+		lastLayer = 0;
 		
 		if (isTransparent) {
 			System.setProperty("sun.java2d.noddraw", "true");
 			WindowUtils.setWindowTransparent(frame, true);
 			frame.setIgnoreRepaint(true);
 		} else {
-			frame.setBackground(backgroundColor);
+			frame.getContentPane().setBackground(backgroundColor);
 		}
 	}
 	
@@ -125,8 +127,9 @@ public class RootContainer extends AbstractComponent {
 		} else {
 			logger.info("Adding component at: (" + windowComponent.getX() +
 					", " + windowComponent.getY() + "), size: (" +
-					windowComponent.getWidth() + ", " + windowComponent.getHeight() + ")");
-			frame.add(windowComponent);
+					windowComponent.getWidth() + ", " + windowComponent.getHeight() +
+					") at depth: " + lastLayer);
+			frame.getLayeredPane().add(windowComponent, new Integer(lastLayer++));
 		}
 	}
 

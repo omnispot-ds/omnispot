@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import org.apache.log4j.Logger;
+
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.ticker.TickerPanel;
@@ -20,6 +22,8 @@ import com.kesdip.player.components.ticker.TickerSource;
  * @author Pafsanias Ftakas
  */
 public class Ticker extends AbstractComponent {
+	private static final Logger logger = Logger.getLogger(Ticker.class);
+	
 	protected TickerSource tickerSource;
 	protected Font font;
 	protected Color foregroundColor;
@@ -57,6 +61,8 @@ public class Ticker extends AbstractComponent {
 			panel.setOpaque(false);
 		panel.setSize(new Dimension(width, height));
 		panel.setPreferredSize(new Dimension(width, height));
+		logger.info("About to add ticker at: (" + x + "," + y +
+				") with size: (" + width + "," + height + ")");
 		parent.add(this);
 	}
 

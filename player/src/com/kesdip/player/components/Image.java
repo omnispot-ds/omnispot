@@ -78,6 +78,8 @@ public class Image extends AbstractComponent implements InitializingBean {
 		panel.setBackground(backgroundColor);
 		panel.setSize(new Dimension(width, height));
 		panel.setPreferredSize(new Dimension(width, height));
+		logger.info("About to add image at: (" + x + "," + y +
+				") with size: (" + width + "," + height + ")");
 		parent.add(this);
 	}
 

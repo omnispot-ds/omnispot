@@ -59,6 +59,10 @@ public abstract class AbstractComponent implements Component {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+	
+	public void setLocked(boolean locked) {
+		// Only used in the designer.
+	}
 
 	@Override
 	public CompletionStatus isComplete() {

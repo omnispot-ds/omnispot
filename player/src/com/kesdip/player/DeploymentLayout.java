@@ -66,6 +66,14 @@ public class DeploymentLayout {
 		return duration;
 	}
 	
+	public void setShowGrid(boolean showGrid) {
+		// Only used by the designer
+	}
+	
+	public void setSnapToGeometry(boolean snapToGeometry) {
+		// Only used by the designer
+	}
+	
 	public CompletionStatus isComplete() {
 		for (RootContainer root : contentRoots) {
 			switch (root.isComplete()) {
