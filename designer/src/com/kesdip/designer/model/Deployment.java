@@ -67,6 +67,8 @@ public class Deployment extends ModelElement {
 	public static final String ID_PROP = "Deployment.ID";
 	/** Property ID to use for the start time. */
 	public static final String START_TIME_PROP = "Deployment.StartTime";
+	/** Property ID to use for the sleep interval. */
+	public static final String SLEEP_INTERVAL_PROP = "Deployment.SleepInterval";
 
 	/* STATE */
 	private List<ModelElement> layoutList;
@@ -76,6 +78,7 @@ public class Deployment extends ModelElement {
 	private int bit_depth;
 	private String id;
 	private Date startTime;
+	private int sleepInterval = 50;
 	
 	/**
 	 * Return the Size of this shape.
@@ -96,7 +99,8 @@ public class Deployment extends ModelElement {
 				new TextPropertyDescriptor(SIZE_PROP, "Size"),
 				new TextPropertyDescriptor(BIT_DEPTH_PROP, "Bit Depth"),
 				new PropertyDescriptor(ID_PROP, "ID"),
-				new DatePropertyDescriptor(START_TIME_PROP, "Start Time")
+				new DatePropertyDescriptor(START_TIME_PROP, "Start Time"),
+				new TextPropertyDescriptor(SLEEP_INTERVAL_PROP, "Sleep Interval")
 		};
 		// use a custom cell editor validator for all array entries
 		for (int i = 0; i < descriptors.length; i++) {
@@ -115,6 +119,18 @@ public class Deployment extends ModelElement {
 					}
 				});
 			} else if (descriptors[i].getId().equals(BIT_DEPTH_PROP)) {
+				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						int intValue = -1;
+						try {
+							intValue = Integer.parseInt((String) value);
+						} catch (NumberFormatException exc) {
+							return "Not a number";
+						}
+						return (intValue >= 0) ? null : "Value must be >=  0";
+					}
+				});
+			} else if (descriptors[i].getId().equals(SLEEP_INTERVAL_PROP)) {
 				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
 					public String isValid(Object value) {
 						int intValue = -1;
@@ -169,6 +185,9 @@ public class Deployment extends ModelElement {
 				"height", String.valueOf(size.height));
 		DOMHelpers.addProperty(doc, deploymentSettingsElement,
 				"bitDepth", String.valueOf(bit_depth));
+		if (sleepInterval != 50)
+			DOMHelpers.addProperty(doc, deploymentSettingsElement,
+					"sleepInterval", String.valueOf(sleepInterval));
 		DOMHelpers.addProperty(doc, deploymentSettingsElement, "id", id);
 		Element startTimeElement = DOMHelpers.addProperty(
 				doc, deploymentSettingsElement, "startTime");
@@ -223,6 +242,10 @@ public class Deployment extends ModelElement {
 				setPropertyValue(BIT_DEPTH_PROP, DOMHelpers.getSimpleProperty(n, "bitDepth"));
 				setPropertyValue(ID_PROP, DOMHelpers.getSimpleProperty(n, "id"));
 				setPropertyValue(START_TIME_PROP, DOMHelpers.getDateProperty(n, "startTime"));
+				String sleepIntervalString = DOMHelpers.getSimpleProperty(n, "sleepInterval");
+				if (sleepIntervalString != null) {
+					setPropertyValue(SLEEP_INTERVAL_PROP, sleepIntervalString);
+				}
 			} else if (DOMHelpers.checkAttribute(n, "id", "deploymentContents")) {
 				DOMHelpers.applyToListProperty(doc, n, "layouts", "bean",
 						new DOMHelpers.INodeListVisitor() {
@@ -245,6 +268,7 @@ public class Deployment extends ModelElement {
 		assert(bit_depth == other.bit_depth);
 		assert(id == other.id);
 		assert(startTime == other.startTime);
+		assert(sleepInterval == other.sleepInterval);
 		for (int i = 0; i < layoutList.size(); i++) {
 			Layout thisLayout = (Layout) layoutList.get(i);
 			Layout otherLayout = (Layout) other.layoutList.get(i);
@@ -285,6 +309,8 @@ public class Deployment extends ModelElement {
 			return id;
 		} else if (START_TIME_PROP.equals(propertyId)) {
 			return startTime;
+		} else if (SLEEP_INTERVAL_PROP.equals(propertyId)) {
+			return Integer.toString(sleepInterval);
 		} else {
 			return super.getPropertyValue(propertyId);
 		}
@@ -321,6 +347,10 @@ public class Deployment extends ModelElement {
 			Date oldValue = startTime;
 			startTime = (Date) value;
 			firePropertyChange(START_TIME_PROP, oldValue, value);
+		} else if (SLEEP_INTERVAL_PROP.equals(propertyId)) {
+			String oldValue = String.valueOf(sleepInterval);
+			sleepInterval = Integer.parseInt((String) value);
+			firePropertyChange(SLEEP_INTERVAL_PROP, oldValue, value);
 		} else {
 			super.setPropertyValue(propertyId, value);
 		}

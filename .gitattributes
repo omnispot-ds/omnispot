@@ -615,6 +615,7 @@ etc/client-config/bootstrap.properties -text
 etc/client-config/player.properties -text
 etc/content/sample1/ad.mp4 -text
 etc/content/sample1/bld.jpg -text
+etc/content/sample1/history.mp4 -text
 etc/content/sample1/sample.xml -text
 etc/installer/client/docs/Licence.txt -text
 etc/installer/client/docs/Readme.txt -text
@@ -759,6 +760,7 @@ player/src/com/kesdip/player/components/ticker/RssTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/StringTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/TickerPanel.java -text
 player/src/com/kesdip/player/components/ticker/TickerSource.java -text
+player/src/com/kesdip/player/components/ticker/TickerThread.java -text
 player/src/com/kesdip/player/components/weather/FlashWeatherComponent.java -text
 player/src/com/kesdip/player/components/weather/RssWeatherSource.java -text
 player/src/com/kesdip/player/components/weather/ScriptingDataProcessor.java -text

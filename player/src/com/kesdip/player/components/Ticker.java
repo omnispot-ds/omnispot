@@ -15,6 +15,7 @@ import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.ticker.TickerPanel;
 import com.kesdip.player.components.ticker.TickerSource;
+import com.kesdip.player.components.ticker.TickerThread;
 
 /**
  * Represents a component that renders a ticker.
@@ -28,6 +29,7 @@ public class Ticker extends AbstractComponent {
 	protected Font font;
 	protected Color foregroundColor;
 	protected double speed;
+	protected TickerThread tickerThread;
 	
 	public void setTickerSource(TickerSource tickerSource) {
 		this.tickerSource = tickerSource;
@@ -53,7 +55,7 @@ public class Ticker extends AbstractComponent {
 			throws ComponentException {
 		setPlayer(player);
 		
-		panel = new TickerPanel(font, foregroundColor, speed, tickerSource, width, height);
+		panel = new TickerPanel(player, font, foregroundColor, speed, tickerSource, width, height);
 		panel.setLocation(x, y);
 		if (backgroundColor != null)
 			panel.setBackground(backgroundColor);
@@ -64,6 +66,13 @@ public class Ticker extends AbstractComponent {
 		logger.info("About to add ticker at: (" + x + "," + y +
 				") with size: (" + width + "," + height + ")");
 		parent.add(this);
+		
+		tickerThread = new TickerThread(panel, player.getSleepInterval());
+	}
+	
+	@Override
+	public void releaseResources() {
+		tickerThread.stopRunning();
 	}
 
 	@Override
@@ -78,7 +87,9 @@ public class Ticker extends AbstractComponent {
 
 	@Override
 	public void repaint() throws ComponentException {
-		panel.repaint();
+		// TickerThread handles the repaint to give a smoother L&F.
+		if (!tickerThread.isAlive())
+			tickerThread.start();
 	}
 
 }

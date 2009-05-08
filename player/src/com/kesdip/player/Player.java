@@ -214,6 +214,10 @@ public class Player implements Runnable {
 		return false; // TODO revisit this later...
 		// return layout.getContentRoots().size() == 1;
 	}
+	
+	public int getSleepInterval() {
+		return settings.getSleepInterval();
+	}
 
 	/**
 	 * Helper to run a single layout.
