@@ -14,11 +14,20 @@
    </configIni>
 
    <launcherArgs>
+      <programArgs>--launcher.XXMaxPermSize
+256M</programArgs>
+      <vmArgs>-Dosgi.requiredJavaVersion=1.6
+-XX:-UseAdaptiveSizePolicy
+-Xrs
+-Xms64m
+-Xmx768m
+-XX:MaxPermSize=128m
+-XX:MaxNewSize=384m
+-XX:SurvivorRatio=8</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="icons/display.png" i32="icons/display_large.png"/>
-
 
    <launcher>
       <solaris/>
@@ -26,7 +35,6 @@
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
