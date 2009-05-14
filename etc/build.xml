@@ -130,6 +130,7 @@
 		description="Creates the bootstrap.jar and dependencies, copies them along with the service wrapper components">
 		<delete dir="${bootstrap.home}" failonerror="false"/>
 		<mkdir dir="${bootstrap.home}"/>
+		<!-- Copy all the referenced JARs -->
 		<mkdir dir="${bootstrap.home}/lib"/>
 		<copy todir="${bootstrap.home}/lib" flatten="true">
 			<fileset file="${bootstrap.dist.file}"/>
@@ -139,6 +140,7 @@
 			<fileset dir="${etc.base.dir}/.." 
 				includesfile="${player.base.dir}/shared.jars"/>
 		</copy>
+		<!-- Service wrapper and SQL -->
 		<copy todir="${bootstrap.home}/service-wrapper" >
 			<fileset dir="${etc.base.dir}/service-wrapper">
 				<include name="**/*.*"/>
@@ -158,6 +160,16 @@
 				<include name="player.properties"/>
 			</fileset>
 		</copy>
+		<!-- DLLs -->
+		<mkdir dir="${bootstrap.home}/native"/>
+		<copy todir="${bootstrap.home}/native" flatten="true">
+			<fileset dir="${etc.lib.dir}">
+				<include name="**/*.dll"/>
+				<include name="**/*.so"/>
+				<include name="**/*.bin"/>
+			</fileset>
+		</copy>
+		<!-- Property replacement -->
 		<antcall target="zz.replace.properties">
 			<param name="file" value="${bootstrap.home}/conf/bootstrap.properties" />
 			<param 
@@ -178,7 +190,7 @@
 				admin.server.host,
 				admin.server.port" />
 		</antcall>
-		
+		<!-- Run-time folders --> 
 		<mkdir dir="${bootstrap.home}/files/data"/>
 		<mkdir dir="${bootstrap.home}/files/deployment"/>
 		<mkdir dir="${bootstrap.home}/files/resource"/>

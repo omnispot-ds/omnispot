@@ -649,6 +649,7 @@ etc/lib/j2ee/api.jar -text
 etc/lib/jdom/jdom.jar -text
 etc/lib/jniwrap/comfyj-2.6.jar -text
 etc/lib/jniwrap/jniwrap-3.7.2.jar -text
+etc/lib/jniwrap/jniwrap.dll -text
 etc/lib/jniwrap/winpack-3.7.jar -text
 etc/lib/jstl/jstl-1.1.0.jar -text
 etc/lib/jstl/standard.jar -text
@@ -713,7 +714,6 @@ player/appContextForFrames.xml -text
 player/appContextFullScreen.xml -text
 player/build.xml -text
 player/etc/comfyj.lic -text
-player/etc/jniwrap.dll -text
 player/etc/jniwrap.lic -text
 player/etc/yahoo.groovy -text
 player/etc/yahoo.java -text
