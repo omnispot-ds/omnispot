@@ -72,7 +72,11 @@ public class Ticker extends AbstractComponent {
 	
 	@Override
 	public void releaseResources() {
-		tickerThread.stopRunning();
+		try {
+			tickerThread.stopRunning();
+		} catch (Exception e) {
+			logger.error("Error releasing resources", e);
+		}
 	}
 
 	@Override
