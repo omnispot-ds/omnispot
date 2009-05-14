@@ -25,10 +25,11 @@ public class Region extends ComponentModelElement {
 
 	/** A 16x16 pictogram of an elliptical shape. */
 	private static final Image IMAGE_ICON = createImage("icons/film_folder.png");
-	
-	/** 
-	 * A static array of property descriptors.
-	 * There is one IPropertyDescriptor entry per editable property.
+
+	/**
+	 * A static array of property descriptors. There is one IPropertyDescriptor
+	 * entry per editable property.
+	 * 
 	 * @see #getPropertyDescriptors()
 	 * @see #getPropertyValue(Object)
 	 * @see #setPropertyValue(Object, Object)
@@ -47,28 +48,32 @@ public class Region extends ComponentModelElement {
 	private String name;
 	private boolean isTransparent;
 	private List<ModelElement> contents;
-	
+
 	public Region() {
 		name = "New Region";
 		isTransparent = false;
 		contents = new ArrayList<ModelElement>();
 	}
-	
+
 	@Override
 	protected Element serialize(Document doc, boolean isPublish) {
-		throw new RuntimeException("Normal component serialization called for a region.");
+		throw new RuntimeException(
+				"Normal component serialization called for a region.");
 	}
-	
-	protected Element serialize(Document doc, int layoutNumber, int regionNumber,
-			boolean isPublish) {
+
+	protected Element serialize(Document doc, int layoutNumber,
+			int regionNumber, boolean isPublish) {
 		Element regionElement = doc.createElement("bean");
-		regionElement.setAttribute("id", "frame" + layoutNumber + "_" + regionNumber);
-		regionElement.setAttribute("class", "com.kesdip.player.components.RootContainer");
+		regionElement.setAttribute("id", "frame" + layoutNumber + "_"
+				+ regionNumber);
+		regionElement.setAttribute("class",
+				"com.kesdip.player.components.RootContainer");
 		super.serialize(doc, regionElement, !isTransparent);
 		DOMHelpers.addProperty(doc, regionElement, "name", name);
 		DOMHelpers.addProperty(doc, regionElement, "isTransparent",
 				isTransparent ? "true" : "false");
-		Element contentsElement = DOMHelpers.addProperty(doc, regionElement, "contents");
+		Element contentsElement = DOMHelpers.addProperty(doc, regionElement,
+				"contents");
 		Element listElement = doc.createElement("list");
 		contentsElement.appendChild(listElement);
 		for (ModelElement element : contents) {
@@ -76,63 +81,74 @@ public class Region extends ComponentModelElement {
 			Element componentElement = component.serialize(doc, isPublish);
 			listElement.appendChild(componentElement);
 		}
-		
+
 		doc.getDocumentElement().appendChild(regionElement);
-		
+
 		Element refElement = doc.createElement("ref");
-		refElement.setAttribute("bean", "frame" + layoutNumber + "_" + regionNumber);
+		refElement.setAttribute("bean", "frame" + layoutNumber + "_"
+				+ regionNumber);
 
 		return refElement;
 	}
-	
+
 	protected void deserialize(Document doc, Node refNode) {
-		String beanID = refNode.getAttributes().getNamedItem("bean").getNodeValue();
-		
+		String beanID = refNode.getAttributes().getNamedItem("bean")
+				.getNodeValue();
+
 		final List<ModelElement> newContents = new ArrayList<ModelElement>();
 		NodeList nl = doc.getDocumentElement().getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node beanNode = nl.item(i);
-			if (beanNode.getNodeType() == Node.ELEMENT_NODE &&
-					beanNode.getNodeName().equals("bean") &&
-					DOMHelpers.checkAttribute(beanNode, "id", beanID)) {
-				setPropertyValue(NAME_PROP,
-						DOMHelpers.getSimpleProperty(beanNode, "name"));
-				setPropertyValue(TRANSPARENT_PROP,
-						DOMHelpers.getSimpleProperty(beanNode, "isTransparent"));
+			if (beanNode.getNodeType() == Node.ELEMENT_NODE
+					&& beanNode.getNodeName().equals("bean")
+					&& DOMHelpers.checkAttribute(beanNode, "id", beanID)) {
+				setPropertyValue(NAME_PROP, DOMHelpers.getSimpleProperty(
+						beanNode, "name"));
+				setPropertyValue(TRANSPARENT_PROP, DOMHelpers
+						.getSimpleProperty(beanNode, "isTransparent"));
 				super.deserialize(doc, beanNode);
-				DOMHelpers.applyToListProperty(doc, beanNode, "contents", "bean",
-						new DOMHelpers.INodeListVisitor() {
-					@Override
-					public void visitListItem(Document doc, Node listItem) {
-						String className = listItem.getAttributes().
-							getNamedItem("class").getNodeValue();
-						ComponentModelElement component;
-						if ("com.kesdip.player.components.Ticker".equals(className)) {
-							component = new TickerComponent();
-						} else if ("com.kesdip.player.components.Video".equals(className)) {
-							component = new VideoComponent();
-						} else if ("com.kesdip.player.components.TunerVideo".equals(className)) {
-							component = new TunerVideoComponent();
-						} else if ("com.kesdip.player.components.Image".equals(className)) {
-							component = new ImageComponent();
-						} else if ("com.kesdip.player.components.FlashComponent".equals(className)) {
-							component = new FlashComponent();
-						} else if ("com.kesdip.player.components.weather.FlashWeatherComponent".equals(className)) {
-							component = new FlashWeatherComponent();
-						} else {
-							throw new RuntimeException("Unexpected class name: " + className);
-						}
-						component.deserialize(doc, listItem);
-						component.setParent(Region.this);
-						newContents.add(component);
-					}
-				});
+				DOMHelpers.applyToListProperty(doc, beanNode, "contents",
+						"bean", new DOMHelpers.INodeListVisitor() {
+							@Override
+							public void visitListItem(Document doc,
+									Node listItem) {
+								String className = listItem.getAttributes()
+										.getNamedItem("class").getNodeValue();
+								ComponentModelElement component;
+								if ("com.kesdip.player.components.Ticker"
+										.equals(className)) {
+									component = new TickerComponent();
+								} else if ("com.kesdip.player.components.Video"
+										.equals(className)) {
+									component = new VideoComponent();
+								} else if ("com.kesdip.player.components.TunerVideo"
+										.equals(className)) {
+									component = new TunerVideoComponent();
+								} else if ("com.kesdip.player.components.Image"
+										.equals(className)) {
+									component = new ImageComponent();
+								} else if ("com.kesdip.player.components.FlashComponent"
+										.equals(className)) {
+									component = new FlashComponent();
+								} else if ("com.kesdip.player.components.weather.FlashWeatherComponent"
+										.equals(className)) {
+									component = new FlashWeatherComponent();
+								} else {
+									throw new RuntimeException(
+											"Unexpected class name: "
+													+ className);
+								}
+								component.deserialize(doc, listItem);
+								component.setParent(Region.this);
+								newContents.add(component);
+							}
+						});
 				break;
 			}
 		}
 		contents = newContents;
 	}
-	
+
 	public void save(IMemento memento) {
 		super.save(memento);
 		memento.putString(TAG_NAME, name);
@@ -153,12 +169,12 @@ public class Region extends ComponentModelElement {
 			else if (element instanceof FlashWeatherComponent)
 				child.putString(TAG_COMPONENT_TYPE, TYPE_WEATHER);
 			else
-				throw new RuntimeException("Unexpected component type: " +
-						element.getClass().getName());
+				throw new RuntimeException("Unexpected component type: "
+						+ element.getClass().getName());
 			element.save(child);
 		}
 	}
-	
+
 	public void load(IMemento memento) {
 		super.load(memento);
 		name = memento.getString(TAG_NAME);
@@ -189,55 +205,60 @@ public class Region extends ComponentModelElement {
 			}
 		}
 	}
-	
+
 	@Override
 	void checkEquivalence(ComponentModelElement other) {
 		super.checkEquivalence(other);
 		if (!(other instanceof Region))
-			throw new RuntimeException("A region can only be equivalent to a region.");
-		assert(name.equals(((Region) other).name));
-		assert(isTransparent == ((Region) other).isTransparent);
-		assert(getLocation().equals(other.getLocation()));
-		assert(getSize().equals(other.getSize()));
+			throw new RuntimeException(
+					"A region can only be equivalent to a region.");
+		assert (name.equals(((Region) other).name));
+		assert (isTransparent == ((Region) other).isTransparent);
+		assert (getLocation().equals(other.getLocation()));
+		assert (getSize().equals(other.getSize()));
 		for (int i = 0; i < contents.size(); i++) {
-			ComponentModelElement component = (ComponentModelElement) contents.get(i);
-			ComponentModelElement otherComponent =
-				(ComponentModelElement) ((Region) other).contents.get(i);
+			ComponentModelElement component = (ComponentModelElement) contents
+					.get(i);
+			ComponentModelElement otherComponent = (ComponentModelElement) ((Region) other).contents
+					.get(i);
 			component.checkEquivalence(otherComponent);
 		}
 	}
-	
+
 	/*
 	 * Initializes the property descriptors array.
+	 * 
 	 * @see #getPropertyDescriptors()
+	 * 
 	 * @see #getPropertyValue(Object)
+	 * 
 	 * @see #setPropertyValue(Object, Object)
 	 */
 	static {
-		descriptors = new IPropertyDescriptor[] { 
+		descriptors = new IPropertyDescriptor[] {
 				new TextPropertyDescriptor(NAME_PROP, "Name"),
-				new CheckboxPropertyDescriptor(TRANSPARENT_PROP, "Transparent")
-		};
+				new CheckboxPropertyDescriptor(TRANSPARENT_PROP, "Transparent") };
 		// use a custom cell editor validator for all three array entries
 		for (int i = 0; i < descriptors.length; i++) {
 			((PropertyDescriptor) descriptors[i]).setCategory("Behaviour");
-			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-				public String isValid(Object value) {
-					// No validation needed.
-					return null;
-				}
-			});
+			((PropertyDescriptor) descriptors[i])
+					.setValidator(new ICellEditorValidator() {
+						public String isValid(Object value) {
+							// No validation needed.
+							return null;
+						}
+					});
 		}
 	} // static
 
 	public void relocateChildren(Point moveBy) {
 		for (ModelElement elem : contents) {
 			ComponentModelElement e = (ComponentModelElement) elem;
-			e.setPropertyValue(ComponentModelElement.LOCATION_PROP,
-					e.location.getCopy().translate(moveBy));
+			e.setPropertyValue(ComponentModelElement.LOCATION_PROP, e.location
+					.getCopy().translate(moveBy));
 		}
 	}
-	
+
 	public ModelElement deepCopy() {
 		Region retVal = new Region();
 		retVal.deepCopy(this);
@@ -296,8 +317,8 @@ public class Region extends ComponentModelElement {
 
 	@Override
 	public void add(ModelElement child) {
-		if (child != null && child instanceof ComponentModelElement &&
-				contents.add(child)) {
+		if (child != null && child instanceof ComponentModelElement
+				&& contents.add(child)) {
 			child.setParent(this);
 			firePropertyChange(COMPONENT_ADDED_PROP, null, child);
 		}
@@ -305,8 +326,8 @@ public class Region extends ComponentModelElement {
 
 	@Override
 	public boolean removeChild(ModelElement child) {
-		if (child != null && child instanceof ComponentModelElement &&
-				contents.remove(child)) {
+		if (child != null && child instanceof ComponentModelElement
+				&& contents.remove(child)) {
 			child.setParent(null);
 			firePropertyChange(COMPONENT_REMOVED_PROP, null, child);
 			return true;
@@ -335,8 +356,8 @@ public class Region extends ComponentModelElement {
 
 	@Override
 	public boolean isLastChild(ModelElement child) {
-		return contents.indexOf(child) == contents.size() - 1 &&
-				contents.size() != 0;
+		return contents.indexOf(child) == contents.size() - 1
+				&& contents.size() != 0;
 	}
 
 	@Override
@@ -367,7 +388,7 @@ public class Region extends ComponentModelElement {
 	public Image getIcon() {
 		return IMAGE_ICON;
 	}
-	
+
 	public String toString() {
 		return name;
 	}
@@ -378,5 +399,71 @@ public class Region extends ComponentModelElement {
 		for (ModelElement c : contents)
 			c.resizeBy(x, y);
 	}
-	
+
+	/**
+	 * Changes the coordinates of the element to make it appear within the area
+	 * of the region, if necessary. Calls
+	 * {@link #bringWithinBounds(ComponentModelElement, int, boolean)} with a
+	 * <code>true</code> flag.
+	 * 
+	 * @param element
+	 *            the element to move
+	 * @param pixels
+	 *            the number of pixels the point should be distanced from the
+	 *            edge if moved
+	 */
+	public void bringWithinBounds(ComponentModelElement element, int pixels) {
+		bringWithinBounds(element, pixels, true);
+	}
+
+	/**
+	 * Changes the coordinates of the element to make it appear within the area
+	 * of the region, if necessary.
+	 * 
+	 * @param element
+	 *            the element to move
+	 * @param pixels
+	 *            the number of pixels the point should be distanced from the
+	 *            edge if moved inside the area
+	 * @param translate
+	 *            if the point should be translated first to this element's
+	 *            coordinates
+	 */
+	public void bringWithinBounds(ComponentModelElement element, int pixels,
+			boolean translate) {
+		// first translate to this coordinate system, if necessary
+		Point point = translate ? element.getLocation().translate(location)
+				: element.getLocation();
+		// do nothing if already visible
+		if (containsPoint(point, false)) {
+			return;
+		}
+		Point lowerRight = getLowerRight();
+		// different treatment depending on which edge it is closer
+		int newX = 0;
+		if (point.x > location.x && point.x < lowerRight.x) {
+			// x is in bounds
+			newX = point.x;
+		} else if (point.x < location.x) {
+			// x is to the left
+			newX = location.x + pixels;
+		} else {
+			// x is to the right
+			newX = lowerRight.x - pixels;
+		}
+		int newY = 0;
+		if (point.y > location.y && point.y < lowerRight.y) {
+			// y is in bounds
+			newY = point.y;
+		} else if (point.y < location.y) {
+			// y is above
+			newY = location.y + pixels;
+		} else {
+			// y is below
+			newY = lowerRight.y - pixels;
+		}
+		// set the new location
+		point.setLocation(newX, newY);
+		element.setLocation(point);
+	}
 }
