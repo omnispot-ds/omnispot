@@ -66,7 +66,6 @@
       <import plugin="org.eclipse.core.commands" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.equinox.common" version="3.3.0" match="compatible"/>
       <import plugin="org.eclipse.swt" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.ui.workbench" version="3.4.0" match="compatible"/>
       <import plugin="org.eclipse.core.expressions" version="3.4.0" match="compatible"/>
       <import plugin="org.eclipse.core.filesystem" version="1.0.0" match="compatible"/>
       <import plugin="org.eclipse.help" version="3.2.0" match="compatible"/>
@@ -81,6 +80,8 @@
       <import plugin="org.eclipse.core.net" version="1.0.0" match="compatible"/>
       <import plugin="org.eclipse.update.core" version="3.0.0" match="compatible"/>
       <import plugin="org.eclipse.update.core" version="3.1.0" match="compatible"/>
+      <import plugin="org.eclipse.ui.cheatsheets"/>
+      <import plugin="org.eclipse.ui.workbench" version="3.4.2" match="compatible"/>
    </requires>
 
    <plugin
@@ -547,6 +548,13 @@
 
    <plugin
          id="org.mortbay.jetty"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.ui.cheatsheets"
          download-size="0"
          install-size="0"
          version="0.0.0"
