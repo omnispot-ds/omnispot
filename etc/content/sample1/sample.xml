@@ -36,10 +36,10 @@
 					<property name="y" value="0"/>
 					<property name="width" value="800"/>
 					<property name="height" value="600"/>
-					<property name="content">
+					<property name="contents">
 						<list>
 							<bean class="com.kesdip.player.components.Resource">
-								<property name="identifier" value="http://192.168.1.4:8080/admin-console/content/ad.mp4"/>
+								<property name="identifier" value="./ad.mp4"/>
 								<property name="checksum" value="1818024839"/>
 							</bean>
 						</list>
@@ -83,9 +83,9 @@
 							<constructor-arg type="int" value="255"/>
 						</bean>
 					</property>
-					<property name="source">
+					<property name="tickerSource">
 						<bean class="com.kesdip.player.components.ticker.StringTickerSource">
-							<property name="src" value="This is a test! "/>
+							<property name="src" value="This is a test κ λίγα ελληνικά! "/>
 						</bean>
 					</property>
 					<property name="speed" value="2.0"/>
@@ -111,7 +111,7 @@
 					<property name="contents">
 						<list>
 							<bean class="com.kesdip.player.components.Resource">
-								<property name="identifier" value="http://192.168.1.4:8080/admin-console/content/bld.jpg"/>
+								<property name="identifier" value="./bld.jpg"/>
 								<property name="checksum" value="405415918"/>
 							</bean>
 						</list>

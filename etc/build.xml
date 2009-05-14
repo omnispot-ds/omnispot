@@ -279,7 +279,7 @@
 		<!-- Replace VLC installer name --> 
 		<replace 
 			file="${player.installer.dir}/installer.mpi" 
-			token="vlc-0.9.8a-win32.exe" 
+			token="vlc-0.9.9-win32.exe" 
 			value="${vlc.installer.file}"/>
 		<!-- Replace JDK base dir with JDK base dir -->
 		<replace 

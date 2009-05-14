@@ -1,1 +1,1 @@
-java -cp ..\..\conf;..\..\lib\player.jar;..\..\lib\bootstrap.jar;..\..\lib\common.jar;..\..\lib\spring.jar;..\..\lib\log4j-1.2.14.jar;..\..\lib\derbyclient.jar;..\..\lib\commons-pool-1.4.jar;..\..\lib\jvlc-core-0.9.0-SNAPSHOT-20080727.jar;..\..\lib\commons-logging-1.0.4.jar;..\..\lib\commons-dbcp-1.2.2.jar;..\..\lib\quartz-1.6.3.jar;..\..\lib\examples.jar;..\..\lib\jdom.jar;..\..\lib\rome-1.0RC1.jar; com.kesdip.player.Player
+java -cp ..\..\conf;..\..\lib\*;..\..\lib com.kesdip.player.PlayerPreview 

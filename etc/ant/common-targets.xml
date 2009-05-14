@@ -69,10 +69,10 @@
 			excludes="**/*.java ${exclude.patterns}">
  			<manifest>
  				<attribute name="Class-Path" value="${class.path}"/>
- 	 			<attribute name="Specification-Title" value="AdHoc Digital Signage application"/>
+ 	 			<attribute name="Specification-Title" value="KesdipEPE Digital Signage application"/>
  	 			<attribute name="Specification-Version" value="0.1"/>
  	 			<attribute name="Specification-Vendor" value="Kesdip E.P.E."/>
- 	 			<attribute name="Implementation-Title" value="AdHoc"/>
+ 	 			<attribute name="Implementation-Title" value="KesdipEPE"/>
  	 			<attribute name="Implementation-Version" value="0.1"/>
  	 			<attribute name="Implementation-Vendor" value="S.&amp;S.&amp;P.&amp;P.&amp;N."/>
  			</manifest>
