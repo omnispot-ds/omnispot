@@ -360,9 +360,10 @@ public class Player implements Runnable {
 				} catch (InterruptedException ie) {
 				}
 			}
-
+			
 			createBackgroundFrame();
-
+			logger.info("Created background frame");
+			
 			while (true) {
 				List<DeploymentLayout> layouts = contents.getLayouts();
 				int layoutsIndex = 0;
@@ -381,7 +382,7 @@ public class Player implements Runnable {
 					}
 
 					try {
-						logger.info("Staring layout " + nextLayout.getName());
+						logger.info("Starting layout " + nextLayout.getName());
 						monitor.startingLayout(nextLayout);
 						runSingleLayout(nextLayout);
 					} catch (Exception e) {

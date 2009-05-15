@@ -614,8 +614,8 @@ etc/client-config/bootstrap.properties -text
 etc/client-config/player.properties -text
 etc/content/sample1/ad.mp4 -text
 etc/content/sample1/bld.jpg -text
-etc/content/sample1/history.mp4 -text
-etc/content/sample1/sample.xml -text
+etc/content/sample1/digital.wmv -text
+etc/content/sample1/sample.des.xml -text
 etc/installer/client/docs/Licence.txt -text
 etc/installer/client/docs/Readme.txt -text
 etc/installer/client/installer.mpi -text

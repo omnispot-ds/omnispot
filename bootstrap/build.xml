@@ -42,13 +42,6 @@
 				<include name="**/*.xsd" />
 			</fileset>
 		</copy>
-		<!-- Replace the JDBC URL in bootstrapContext.xml -->
-		<replaceregexp 
-			file="${bootstrap.classes.dir}/bootstrapContext.xml"
-			match="name=&quot;url&quot; value=&quot;.*"
-			replace="name=&quot;url&quot; value=&quot;jdbc:derby://localhost:1527/${bootstrap.home}/data/client;create=false;user=kesdipepe;password=kesdipepe&quot;/>"
-			byline="true"
-		/>
 	</target>
 
 	<target name="bootstrap.dist" description="create the common JAR file" 

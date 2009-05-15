@@ -1035,6 +1035,11 @@ File ::45CFE637-322B-446D-9DE7-90374F168CBF -name test-data.sql -parent 954CD201
 File ::E93E30EC-0EAD-432D-BF2C-38123127FEB7 -type dir -name vlc -active 0 -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
 File ::520FDEDB-DE12-4F15-9E4F-27DBB8F50B8A -type dir -name native -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
 File ::211DC24A-873E-4EED-81A7-C0741A8E41E0 -name jniwrap.dll -parent 520FDEDB-DE12-4F15-9E4F-27DBB8F50B8A
+File ::9ED4B46C-2CF6-4443-87F0-0750A603C860 -type dir -name sample -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
+File ::45E64054-EE75-4ECB-816F-3582CA866678 -name ad.mp4 -parent 9ED4B46C-2CF6-4443-87F0-0750A603C860
+File ::E5A6AF20-3F55-45E2-A0E4-B384D364BBD1 -name bld.jpg -parent 9ED4B46C-2CF6-4443-87F0-0750A603C860
+File ::A6C5B9BF-5E38-4488-8DB1-CC8D1900B93A -name digital.wmv -parent 9ED4B46C-2CF6-4443-87F0-0750A603C860
+File ::090D7929-549B-4D5E-9D30-E72E6094B9A8 -name sample.des.xml -parent 9ED4B46C-2CF6-4443-87F0-0750A603C860
 Component ::952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3 -setup Install -alias EngineComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name {Rendering Engine} -parent Components
 Component ::EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4 -setup Install -alias MonitorComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Monitor -parent Components
 Component ::773B2602-6F0C-4C59-A829-5512C4D8914D -setup Install -alias VLCComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name VLC -parent Components

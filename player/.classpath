@@ -3,8 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="src-test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Player-lib"/>
-	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
