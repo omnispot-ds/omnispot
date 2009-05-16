@@ -127,6 +127,9 @@ public class Region extends ComponentModelElement {
 								} else if ("com.kesdip.player.components.Image"
 										.equals(className)) {
 									component = new ImageComponent();
+								} else if ("com.kesdip.player.components.Clock"
+										.equals(className)) {
+									component = new ClockComponent();
 								} else if ("com.kesdip.player.components.FlashComponent"
 										.equals(className)) {
 									component = new FlashComponent();
@@ -164,6 +167,8 @@ public class Region extends ComponentModelElement {
 				child.putString(TAG_COMPONENT_TYPE, TYPE_TICKER);
 			else if (element instanceof ImageComponent)
 				child.putString(TAG_COMPONENT_TYPE, TYPE_IMAGE);
+			else if (element instanceof ClockComponent)
+				child.putString(TAG_COMPONENT_TYPE, TYPE_CLOCK);
 			else if (element instanceof FlashComponent)
 				child.putString(TAG_COMPONENT_TYPE, TYPE_FLASH);
 			else if (element instanceof FlashWeatherComponent)
@@ -193,6 +198,9 @@ public class Region extends ComponentModelElement {
 				t.load(child);
 			} else if (TYPE_IMAGE.equals(type)) {
 				ImageComponent i = new ImageComponent();
+				i.load(child);
+			} else if (TYPE_CLOCK.equals(type)) {
+				ClockComponent i = new ClockComponent();
 				i.load(child);
 			} else if (TYPE_FLASH.equals(type)) {
 				FlashComponent f = new FlashComponent();

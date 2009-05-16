@@ -75,7 +75,7 @@ public class TickerComponent extends ComponentModelElement {
 		type = STRING_TICKER_TYPE;
 		url = "";
 		string = "Repeat this text forever!";
-		speed = 2.0;
+		speed = 160.0;
 		font = new Font("Arial", Font.PLAIN, 24);
 		foregroundColor = Color.WHITE;
 		isTransparent = false;

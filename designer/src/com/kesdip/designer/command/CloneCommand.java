@@ -9,6 +9,7 @@ import java.util.Map;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
+import com.kesdip.designer.model.ClockComponent;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.FlashComponent;
 import com.kesdip.designer.model.FlashWeatherComponent;
@@ -65,6 +66,8 @@ public class CloneCommand extends Command {
 			newPart = new FlashWeatherComponent();
 		} else if (oldPart instanceof ImageComponent) {
 			newPart = new ImageComponent();
+		} else if (oldPart instanceof ClockComponent) {
+			newPart = new ClockComponent();
 		} else if (oldPart instanceof TickerComponent) {
 			newPart = new TickerComponent();
 		} else if (oldPart instanceof TunerVideoComponent) {

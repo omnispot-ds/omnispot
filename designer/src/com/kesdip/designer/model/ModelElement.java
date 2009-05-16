@@ -39,6 +39,7 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TYPE_TUNER_VIDEO = "tunerVideo";
 	public static final String TYPE_TICKER = "ticker";
 	public static final String TYPE_IMAGE = "image";
+	public static final String TYPE_CLOCK = "clock";
 	public static final String TYPE_FLASH = "flash";
 	public static final String TYPE_WEATHER = "weather";
 	public static final String TAG_X = "X";

@@ -11,6 +11,7 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 
+import com.kesdip.designer.model.ClockComponent;
 import com.kesdip.designer.model.Deployment;
 import com.kesdip.designer.model.FlashComponent;
 import com.kesdip.designer.model.FlashWeatherComponent;
@@ -53,6 +54,15 @@ final class DesignerEditorPaletteFactory {
 				new SimpleFactory(ImageComponent.class), 
 				ImageDescriptor.createFromFile(Deployment.class, "icons/camera.png"), 
 				ImageDescriptor.createFromFile(Deployment.class, "icons/camera_large.png"));
+		componentsDrawer.add(component);
+		
+		component = new CombinedTemplateCreationEntry(
+				"Clock", 
+				"Create a clock", 
+				ClockComponent.class,
+				new SimpleFactory(ClockComponent.class), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/clock.png"), 
+				ImageDescriptor.createFromFile(Deployment.class, "icons/clock_large.png"));
 		componentsDrawer.add(component);
 	
 		component = new CombinedTemplateCreationEntry(

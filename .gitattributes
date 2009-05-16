@@ -427,6 +427,7 @@ designer-preview/META-INF/MANIFEST.MF -text
 designer-preview/META-INF/comfyj.lic -text
 designer-preview/META-INF/jniwrap.lic -text
 designer-preview/build.properties -text
+designer-preview/jniwrap.dll -text
 designer-preview/src/com/kesdip/player/preview/Activator.java -text
 designer-preview/src/jniwrap.dll -text
 designer-preview/src/log4j.properties -text
@@ -505,6 +506,7 @@ designer/src/com/kesdip/designer/editor/FirstPageContextMenuProvider.java -text
 designer/src/com/kesdip/designer/editor/LayoutEditor.java -text
 designer/src/com/kesdip/designer/editor/icons/outline.gif -text
 designer/src/com/kesdip/designer/editor/icons/overview.gif -text
+designer/src/com/kesdip/designer/figure/ClockFigure.java -text
 designer/src/com/kesdip/designer/figure/FlashFigure.java -text
 designer/src/com/kesdip/designer/figure/FlashWeatherFigure.java -text
 designer/src/com/kesdip/designer/figure/ImageFigure.java -text
@@ -519,6 +521,7 @@ designer/src/com/kesdip/designer/handler/PreviewHandler.java -text
 designer/src/com/kesdip/designer/handler/PreviewLayoutHandler.java -text
 designer/src/com/kesdip/designer/handler/PublishHandler.java -text
 designer/src/com/kesdip/designer/handler/ShowViewHandler.java -text
+designer/src/com/kesdip/designer/model/ClockComponent.java -text
 designer/src/com/kesdip/designer/model/ComponentModelElement.java -text
 designer/src/com/kesdip/designer/model/Deployment.java -text
 designer/src/com/kesdip/designer/model/FlashComponent.java -text
@@ -539,6 +542,8 @@ designer/src/com/kesdip/designer/model/icons/camera.png -text
 designer/src/com/kesdip/designer/model/icons/camera_large.png -text
 designer/src/com/kesdip/designer/model/icons/clapperboard.png -text
 designer/src/com/kesdip/designer/model/icons/clapperboard_large.png -text
+designer/src/com/kesdip/designer/model/icons/clock.png -text
+designer/src/com/kesdip/designer/model/icons/clock_large.png -text
 designer/src/com/kesdip/designer/model/icons/cloud_sun.png -text
 designer/src/com/kesdip/designer/model/icons/cloud_sun_large.png -text
 designer/src/com/kesdip/designer/model/icons/display.png -text
@@ -597,6 +602,8 @@ designer/src/com/kesdip/designer/properties/ResourceListContentProvider.java -te
 designer/src/com/kesdip/designer/properties/ResourceListDialog.java -text
 designer/src/com/kesdip/designer/properties/ResourceListLabelProvider.java -text
 designer/src/com/kesdip/designer/properties/ResourceListPropertyDescriptor.java -text
+designer/src/com/kesdip/designer/properties/ResourcePropertyDescriptor.java -text
+designer/src/com/kesdip/designer/properties/SimpleResourceCellEditor.java -text
 designer/src/com/kesdip/designer/properties/ValidatingTextCellEditor.java -text
 designer/src/com/kesdip/designer/template/TemplateManager.java -text
 designer/src/com/kesdip/designer/utils/DOMHelpers.java -text

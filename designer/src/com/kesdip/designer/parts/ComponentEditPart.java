@@ -14,12 +14,14 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 import com.kesdip.designer.editor.DesignerComponentEditPolicy;
+import com.kesdip.designer.figure.ClockFigure;
 import com.kesdip.designer.figure.FlashFigure;
 import com.kesdip.designer.figure.FlashWeatherFigure;
 import com.kesdip.designer.figure.ImageFigure;
 import com.kesdip.designer.figure.TickerFigure;
 import com.kesdip.designer.figure.TunerVideoFigure;
 import com.kesdip.designer.figure.VideoFigure;
+import com.kesdip.designer.model.ClockComponent;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.FlashComponent;
 import com.kesdip.designer.model.FlashWeatherComponent;
@@ -55,6 +57,9 @@ public class ComponentEditPart extends AbstractGraphicalEditPart implements
 		if (getModel() instanceof ImageComponent) {
 			ImageComponent imageComponent = (ImageComponent) getModel();
 			f = new ImageFigure(imageComponent);
+		} else if (getModel() instanceof ClockComponent) {
+			ClockComponent clockComponent = (ClockComponent) getModel();
+			f = new ClockFigure(clockComponent);
 		} else if (getModel() instanceof VideoComponent) {
 			VideoComponent videoComponent = (VideoComponent) getModel();
 			f = new VideoFigure(videoComponent);

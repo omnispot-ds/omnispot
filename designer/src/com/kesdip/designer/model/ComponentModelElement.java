@@ -12,7 +12,6 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
-import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -69,8 +68,8 @@ public abstract class ComponentModelElement extends ModelElement {
 	 */
 	static {
 		descriptors = new IPropertyDescriptor[] {
-				new TextPropertyDescriptor(LOCATION_PROP, "Location"),
-				new TextPropertyDescriptor(SIZE_PROP, "Size"),
+				new PropertyDescriptor(LOCATION_PROP, "Location"),
+				new PropertyDescriptor(SIZE_PROP, "Size"),
 				new ColorPropertyDescriptor(BACK_COLOR_PROP, "Background Color"),
 				new CheckboxPropertyDescriptor(LOCK_SIZE_AND_POSITION_PROP,
 						"Lock Size & Location") };

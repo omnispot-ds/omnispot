@@ -38,6 +38,7 @@ import com.kesdip.designer.command.CloneCommand;
 import com.kesdip.designer.command.ComponentConstraintChange;
 import com.kesdip.designer.command.ComponentCreation;
 import com.kesdip.designer.editor.DesignerComponentEditPolicy;
+import com.kesdip.designer.model.ClockComponent;
 import com.kesdip.designer.model.ComponentModelElement;
 import com.kesdip.designer.model.FlashComponent;
 import com.kesdip.designer.model.FlashWeatherComponent;
@@ -279,6 +280,7 @@ public class RegionEditPart extends AbstractGraphicalEditPart implements
 		protected Command getCreateCommand(CreateRequest request) {
 			Object childClass = request.getNewObjectType();
 			if (childClass == ImageComponent.class ||
+					childClass == ClockComponent.class ||
 					childClass == TickerComponent.class ||
 					childClass == VideoComponent.class ||
 					childClass == FlashComponent.class ||
