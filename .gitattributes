@@ -770,7 +770,6 @@ player/src/com/kesdip/player/components/ticker/RssTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/StringTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/TickerPanel.java -text
 player/src/com/kesdip/player/components/ticker/TickerSource.java -text
-player/src/com/kesdip/player/components/ticker/TickerThread.java -text
 player/src/com/kesdip/player/components/weather/FlashWeatherComponent.java -text
 player/src/com/kesdip/player/components/weather/RssWeatherSource.java -text
 player/src/com/kesdip/player/components/weather/ScriptingDataProcessor.java -text

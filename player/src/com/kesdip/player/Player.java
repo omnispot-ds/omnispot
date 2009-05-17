@@ -120,6 +120,8 @@ public class Player implements Runnable {
 			throws Exception {
 		this.ctx = ctx;
 		this.settings = settings;
+		if (logger.isDebugEnabled())
+			logger.debug("Deployment sleep interval is: " + settings.getSleepInterval());
 		this.contents = contents;
 		this.completeDeployment = true;
 		this.completeLayout = true;

@@ -58,6 +58,8 @@ public class PreviewLayoutHandler extends AbstractHandler {
 			Deployment tempDeployment = new Deployment();
 			tempDeployment.setPropertyValue(Deployment.BIT_DEPTH_PROP,
 					d.getPropertyValue(Deployment.BIT_DEPTH_PROP));
+			tempDeployment.setPropertyValue(Deployment.SLEEP_INTERVAL_PROP,
+					d.getPropertyValue(Deployment.SLEEP_INTERVAL_PROP));
 			tempDeployment.setPropertyValue(Deployment.SIZE_PROP, d.getSize());
 			tempDeployment.setPropertyValue(Deployment.ID_PROP,
 					UUID.randomUUID().toString());

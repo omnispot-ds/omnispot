@@ -8,6 +8,8 @@ package com.kesdip.player.components;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 
@@ -15,7 +17,6 @@ import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.ticker.TickerPanel;
 import com.kesdip.player.components.ticker.TickerSource;
-import com.kesdip.player.components.ticker.TickerThread;
 
 /**
  * Represents a component that renders a ticker.
@@ -29,7 +30,6 @@ public class Ticker extends AbstractComponent {
 	protected Font font;
 	protected Color foregroundColor;
 	protected double speed;
-	protected TickerThread tickerThread;
 	
 	public void setTickerSource(TickerSource tickerSource) {
 		this.tickerSource = tickerSource;
@@ -49,13 +49,16 @@ public class Ticker extends AbstractComponent {
 	
 	/* TRANSIENT STATE */
 	private TickerPanel panel;
+	private Timer timer;
+	private boolean firstTime;
 
 	@Override
 	public void init(Component parent, TimingMonitor timingMonitor, Player player)
 			throws ComponentException {
 		setPlayer(player);
 		
-		panel = new TickerPanel(player, font, foregroundColor, speed, tickerSource, width, height);
+		panel = new TickerPanel(font, foregroundColor, speed, tickerSource, width, height);
+		panel.setDoubleBuffered(true);
 		panel.setLocation(x, y);
 		if (backgroundColor != null)
 			panel.setBackground(backgroundColor);
@@ -67,16 +70,13 @@ public class Ticker extends AbstractComponent {
 				") with size: (" + width + "," + height + ")");
 		parent.add(this);
 		
-		tickerThread = new TickerThread(panel, player.getSleepInterval());
+		timer = new Timer("Ticker Timer");
+		firstTime = true;
 	}
 	
 	@Override
 	public void releaseResources() {
-		try {
-			tickerThread.stopRunning();
-		} catch (Exception e) {
-			logger.error("Error releasing resources", e);
-		}
+		timer.cancel();
 	}
 
 	@Override
@@ -91,9 +91,15 @@ public class Ticker extends AbstractComponent {
 
 	@Override
 	public void repaint() throws ComponentException {
-		// TickerThread handles the repaint to give a smoother L&F.
-		if (!tickerThread.isAlive())
-			tickerThread.start();
+		if (firstTime) {
+			timer.scheduleAtFixedRate(new TimerTask() {
+				@Override
+				public void run() {
+					panel.timingEvent();
+				}
+			}, 0, player.getSleepInterval());
+			firstTime = false;
+		}
 	}
-
+	
 }
