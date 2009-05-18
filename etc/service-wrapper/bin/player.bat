@@ -1,2 +1,2 @@
 cd ..\..\sample
-java -cp ..\conf;..\lib\*;..\lib com.kesdip.player.PlayerPreview .\sample.des.xml "c:\Program Files\VideoLan\VLC" 
+java -cp ..\conf;..\lib\*;..\lib com.kesdip.player.preview.PlayerPreview .\sample.des.xml "c:\Program Files\VideoLan\VLC" 

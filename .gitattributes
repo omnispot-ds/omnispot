@@ -618,6 +618,7 @@ etc/ant/create-db.xml -text
 etc/build.properties -text
 etc/build.xml -text
 etc/client-config/bootstrap.properties -text
+etc/client-config/derby.properties -text
 etc/client-config/player.properties -text
 etc/content/sample1/ad.mp4 -text
 etc/content/sample1/bld.jpg -text
@@ -627,6 +628,7 @@ etc/installer/client/docs/Licence.txt -text
 etc/installer/client/docs/Readme.txt -text
 etc/installer/client/installer.mpi -text
 etc/installer/client/silent.bat -text
+etc/installer/server/installer.mpi -text
 etc/lib/ant-contrib/ant-contrib-1.0b3.jar -text
 etc/lib/apache-commons/commons-beanutils-1.7.0.jar -text
 etc/lib/apache-commons/commons-codec-1.3.jar -text
@@ -709,7 +711,6 @@ etc/sql/static-data.sql -text
 etc/sql/test-data.sql -text
 etc/templates/codetemplates.xml -text
 etc/templates/editortemplates.xml -text
-etc/tomcat/admin-console.xml -text
 etc/tomcat/context.xml -text
 etc/tomcat/server.xml -text
 player/.classpath -text

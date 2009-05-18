@@ -45,9 +45,17 @@
 	<property name="designer.base.dir" location="${project.base.dir}/com.kesdip.designer"/>
 	<property name="designer.build.dir" location="${project.base.dir}/com.kesdip.designer.build"/>
 	<property name="designer.build.file" location="${project.base.dir}/com.kesdip.designer.build/build.xml"/>
-	<property name="bootstrap.dist.file"
-		location="${bootstrap.base.dir}/designer.build/I.DesignerBuild/DesignerBuild-win32.win32.x86.zip"/>
-
+	<property name="designer.dist.dir"
+		location="${project.base.dir}/designer.build/I.DesignerBuild"/>
+	<property name="designer.dist.filename"
+		value="DesignerBuild-win32.win32.x86.zip"/>
+	<property name="designer.dist.file"
+		location="${project.dist.folder}/${designer.dist.filename}"/>
+	
+	<property name="server.installer.dir"
+		value="${project.base.dir}/designer.build/installer"/>
+	
+	
 	<property name="preview.lib.dir" location="${project.base.dir}/com.kesdip.designer.preview/lib"/>
 	
 	<import file="${etc.ant.scripts.dir}/common-targets.xml"/>
@@ -199,6 +207,68 @@
 		<mkdir dir="${bootstrap.home}/vlc"/>
 	</target>	
 	
+	<target name="dist.derby" depends="build.bootstrap"
+		description="Creates a Derby distribution">
+		<delete dir="${derby.home}" failonerror="false"/>
+		<mkdir dir="${derby.home}"/>
+		<!-- Copy all required JARs -->
+		<mkdir dir="${derby.home}/lib"/>
+		<copy todir="${derby.home}/lib" flatten="true">
+			<fileset dir="${etc.lib.dir}">
+				<include name="derby/*"/>
+				<include name="log4j/*"/>
+				<include name="apache-commons/commons-dbcp*"/>
+				<include name="apache-commons/commons-collections*"/>
+				<include name="apache-commons/commons-io*"/>
+				<include name="apache-commons/commons-pool*"/>
+			</fileset>
+		</copy>
+		<!-- Service wrapper and SQL -->
+		<copy todir="${derby.home}/service-wrapper" >
+			<fileset dir="${etc.base.dir}/service-wrapper">
+				<include name="**/*Derby*.*"/>
+				<include name="**/wrapper.exe"/>
+				<include name="conf/**/*.*"/>
+				<include name="lib/**/*.*"/>
+			</fileset>
+		</copy>
+		<mkdir dir="${derby.home}/service-wrapper/logs"/>
+		<mkdir dir="${derby.home}/sql"/>
+		<copy todir="${derby.home}/sql"> 
+			<fileset dir="${etc.sql.scripts.dir}">
+				<include name="*.sql"/>
+			</fileset>
+		</copy>
+		<!-- Config files -->
+		<mkdir dir="${derby.home}/conf"/>
+		<copy tofile="${derby.home}/conf/bootstrap.properties" 
+			file="${etc.base.dir}/client-config/derby.properties"/>
+		<!-- Individual class files -->
+		<copy todir="${derby.home}/conf" flatten="false">
+			<fileset dir="${bootstrap.base.dir}/build/classes">
+				<include name="**/LaunchDerby.class"/>
+				<include name="**/Config.class"/>
+				<include name="**/log4j.properties"/>
+			</fileset>
+			<fileset dir="${common.base.dir}/build/classes">
+				<include name="**/DBUtils.class"/>
+				<include name="**/StreamUtils.class"/>
+				<include name="**/GenericSystemException.class"/>
+				<include name="**/BaseUncheckedException.class"/>
+			</fileset>
+		</copy>
+		<!-- Property replacement -->
+		<antcall target="zz.replace.properties">
+			<param name="file" value="${derby.home}/conf/bootstrap.properties" />
+			<param 
+				name="properties" 
+				value="derby.home,
+				jdbc.driver.class" />
+		</antcall>
+		<!-- Run-time folders --> 
+		<mkdir dir="${derby.home}/data"/>
+	</target>	
+	
 	<target name="dist.player" depends="build.common, build.player"
 		description="Creates player.jar"/>
 	
@@ -225,9 +295,29 @@
 		</antcall>
 	</target>
 	
-	<!-- AUXILIARY TARGETS DURING BUILD -->
+	<!-- 
+		Creates the installer for the re-distributable server (designer, admin console)
+	-->
+	<target name="create.server.installer" depends="dist.derby, dist.designer, dist.admin-console"
+		description="Creates the player installer">
+		
+		<antcall target="prepare.server.installer.folder" inheritrefs="true"/>
+		
+		<antcall target="preprocess.server.installer.files" inheritrefs="true"/>
+		
+		<antcall target="zz.build.installer">
+			<param name="installer.file" value="${server.installer.dir}/installer.mpi" />
+			<param name="version" value="${server.version}" />
+			<param name="destdir" value="${server.installer.dir}" />
+		</antcall>
+		
+	</target>
 	
-	<target name="prepare.client.installer.folder">
+	<!-- ========== AUXILIARY TARGETS DURING BUILD ============= -->
+	
+	<target name="prepare.client.installer.folder" 
+		depends="dist.designer, dist.derby, dist.admin-console">
+		
 		<delete dir="${player.installer.dir}" failonerror="false"/>
 		<mkdir dir="${player.installer.dir}"/>
 		<!-- Copy installer -->
@@ -249,8 +339,57 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<!-- Copy sample -->
+		<copy flatten="false" todir="${player.installer.dir}/player/sample">
+			<fileset dir="${etc.base.dir}/content/sample1">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
 	</target>
 	
+	
+	<target name="prepare.server.installer.folder">
+		<delete dir="${server.installer.dir}" failonerror="false"/>
+		<mkdir dir="${server.installer.dir}"/>
+		<!-- Copy designer -->
+		<mkdir dir="${server.installer.dir}/designer"/>
+		<copy todir="${server.installer.dir}/designer">
+			<fileset dir="${designer.dist.dir}">
+				<include name="${designer.dist.filename}"/>
+			</fileset>
+		</copy>
+		
+		<!-- Copy installer files -->
+		<copy todir="${server.installer.dir}">
+			<fileset dir="${etc.installer.dir}/server">
+				<include name="**/*.*"/>
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<!-- Copy VLC -->
+		<copy 
+			todir="${server.installer.dir}/vlc" 
+			file="${vlc.installer.path}"/>
+		<!-- Copy Tomcat -->
+		<copy 
+			todir="${server.installer.dir}/tomcat" 
+			file="${tomcat.installer.path}"/>
+		<!-- Copy Tomcat config files -->
+		<copy todir="${server.installer.dir}/tomcat">
+			<fileset dir="${etc.base.dir}/tomcat" includes="*.xml"/>
+		</copy>
+		<!-- Copy the admin console WAR -->
+		<copy 
+			todir="${server.installer.dir}/admin-console"
+			file="${admin-console.dist.file}"/>
+		<!-- Copy Derby distro -->
+		<copy 
+			todir="${server.installer.dir}/db">
+			<fileset dir="${derby.home}">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
+	</target>
 	
 	<target name="preprocess.client.installer.files">
 		<!-- Replace previous bootstrap.home in the conf files -->
@@ -305,4 +444,43 @@
 			value=":/"/>
 	</target>
 	
+
+	<target name="preprocess.server.installer.files">
+		<!-- Replace derby.home in the conf files -->
+		<replace 
+			file="${server.installer.dir}/db/conf/bootstrap.properties" 
+			token="${derby.home}" 
+			value="$INSTALL_PATH$"/>
+		<!-- Replace DB path for Tomcat -->
+		<replace 
+			file="${server.installer.dir}/tomcat/server.xml" 
+			token="${derby.home}" 
+			value="$INSTALL_PATH$/"/>
+		<!-- Replace all absolute base dirs with current base dir -->
+		<replace 
+			file="${server.installer.dir}/installer.mpi" 
+			token="C:/workdir-ds/designer.build/installer" 
+			value="${server.installer.dir}"/>
+		<!-- Replace VLC installer name --> 
+		<replace 
+			file="${player.installer.dir}/installer.mpi" 
+			token="vlc-0.9.9-win32.exe" 
+			value="${vlc.installer.file}"/>
+		<!-- Replace Tomcat installer name --> 
+		<replace 
+			file="${server.installer.dir}/installer.mpi" 
+			token="apache-tomcat-6.0.18.zip" 
+			value="${tomcat.installer.file}"/>
+		<!-- Replace JDK base dir with JDK base dir -->
+		<replace 
+			file="${server.installer.dir}/installer.mpi" 
+			token="C:/dbin/jdk1.6.0_11" 
+			value="${jdk.home}"/>
+		<!-- Fix C:\ to C:/ -->
+		<replace 
+			file="${server.installer.dir}/installer.mpi" 
+			token=":\" 
+			value=":/"/>
+	</target>
+
 </project>
