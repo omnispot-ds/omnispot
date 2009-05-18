@@ -21,10 +21,21 @@
     Further modified by Pafsanias Ftakas <salagator@gmail.com>.
 -->
 <project name="com.kesdip.desginer.build" default="build">
-	<property file="../etc/build.properties" />
-	<property file="../etc/profiles/${target.env}.properties"/>
     <property file="build.properties" />
 
+	<target name="designer.init">
+		<echo level="info">Initializing...</echo>
+		<uptodate property="compile.notRequired" targetfile="${designer.dist.file}">
+			<srcfiles dir="${designer.base.dir}" includes="**/*.*" excludes="bin/**"/>
+			<srcfiles dir="${designer.build.dir}" includes="**/*.*" excludes="bin/**"/>
+			<srcfiles dir="${designer.feature.dir}" includes="**/*.*" excludes="bin/**"/>
+			<srcfiles dir="${designer.help.dir}" includes="**/*.*" excludes="bin/**"/>
+			<srcfiles dir="${designer.preview.dir}" includes="**/*.*" excludes="bin/**"/>
+		</uptodate>
+		<echo level="info">Compile not required ${compile.notRequired}</echo>
+	</target>
+	
+	
     <!--
         PDE Build expects that the build directory contains a "plugins"
         directory and a "features" directory. These directories should contain
@@ -37,7 +48,9 @@
         This tutorial simply copies the projects directly from your workspace
         into the appropriate build directory folders.
     -->
-    <target name="init">
+    <target name="init" 
+    	depends="designer.init"
+    	unless="compile.notRequired">
         <mkdir dir="${buildDirectory}" />
         <mkdir dir="${buildDirectory}/plugins" />
         <mkdir dir="${buildDirectory}/features" />
@@ -53,19 +66,15 @@
                 <include name="com.kesdip.designer.feature/**" />
             </fileset>
         </copy>
-    	<mkdir dir="${buildDirectory}/designer"/>
-        <copy todir="${buildDirectory}/designer">
-            <fileset dir="${baseLocation}">
-                <include name="eclipse.exe" />
-            </fileset>
-        </copy>
     </target>
 
     <!--
         This target actually executes the PDE Build process by launching the
         Eclipse antRunner application.
     -->
-    <target name="pde-build">
+    <target name="pde-build"
+    	depends="designer.init"
+    	unless="compile.notRequired">
         <echo message="Executing ${baseLocation}/plugins/org.eclipse.equinox.launcher_${equinoxLauncherPluginVersion}.jar"/>
     	<echo message="base: ${base}"/>
     	<echo message="baseLocation: ${baseLocation}"/>
@@ -96,5 +105,7 @@
         <delete dir="${buildDirectory}" />
     </target>
 
-    <target name="build" depends="clean, init, pde-build" />
+    <target name="build" depends="init, pde-build" />
+	
+	<target name="build-all" depends="clean, init, pde-build" />
 </project>

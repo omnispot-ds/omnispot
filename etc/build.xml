@@ -44,13 +44,16 @@
 	
 	<property name="designer.base.dir" location="${project.base.dir}/com.kesdip.designer"/>
 	<property name="designer.build.dir" location="${project.base.dir}/com.kesdip.designer.build"/>
+	<property name="designer.feature.dir" location="${project.base.dir}/com.kesdip.designer.feature"/>
+	<property name="designer.help.dir" location="${project.base.dir}/com.kesdip.designer.help"/>
+	<property name="designer.preview.dir" location="${project.base.dir}/com.kesdip.designer.preview"/>
 	<property name="designer.build.file" location="${project.base.dir}/com.kesdip.designer.build/build.xml"/>
 	<property name="designer.dist.dir"
 		location="${project.base.dir}/designer.build/I.DesignerBuild"/>
 	<property name="designer.dist.filename"
 		value="DesignerBuild-win32.win32.x86.zip"/>
 	<property name="designer.dist.file"
-		location="${project.dist.folder}/${designer.dist.filename}"/>
+		location="${designer.dist.dir}/${designer.dist.filename}"/>
 	
 	<property name="server.installer.dir"
 		value="${project.base.dir}/designer.build/installer"/>
@@ -315,8 +318,7 @@
 	
 	<!-- ========== AUXILIARY TARGETS DURING BUILD ============= -->
 	
-	<target name="prepare.client.installer.folder" 
-		depends="dist.designer, dist.derby, dist.admin-console">
+	<target name="prepare.client.installer.folder">
 		
 		<delete dir="${player.installer.dir}" failonerror="false"/>
 		<mkdir dir="${player.installer.dir}"/>
@@ -455,7 +457,7 @@
 		<replace 
 			file="${server.installer.dir}/tomcat/server.xml" 
 			token="${derby.home}" 
-			value="$INSTALL_PATH$/"/>
+			value="$INSTALL_PATH$"/>
 		<!-- Replace all absolute base dirs with current base dir -->
 		<replace 
 			file="${server.installer.dir}/installer.mpi" 

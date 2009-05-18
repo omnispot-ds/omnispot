@@ -1,6 +1,6 @@
 Dyfio E.P.E.
 
-KESDIP E.P.E. Player License
+KESDIP E.P.E. Designer & AdminConsole License
 
 This file contains the End-User License Agreement (EULA), please, take some time to read it.
 .
