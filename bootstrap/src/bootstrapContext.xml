@@ -9,7 +9,7 @@
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
 
 	<bean id="config" class="com.kesdip.bootstrap.Config"
-		factory-method="getInstance" scope="singleton"/>
+		factory-method="getSingleton" scope="singleton"/>
 	<!-- The JDBC URL -->
 	<bean id="config.JDBCUrl" class="org.springframework.beans.factory.config.PropertyPathFactoryBean"/>
 	
