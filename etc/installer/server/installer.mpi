@@ -212,8 +212,8 @@ test
 FileGroup ::3F0DD56E-0453-496A-BFA4-7A0753E8038A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name Designer -parent FileGroups
 File ::01A7F2A5-F770-4E95-A828-6FD0D69DD8BC -name C:/workdir-ds/designer.build/installer/designer/DesignerBuild-win32.win32.x86.zip -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
 File ::8BFBB49A-870E-4C12-A60A-007A553361B2 -type dir -name C:/workdir-ds/designer.build/installer/docs -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
-File ::EF0F2435-24AD-459A-AC44-EA27A80FD5CE -name License.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
 File ::29AC3250-1E00-4A36-8747-E19600DAD035 -name Readme.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
+File ::893CC613-E8A5-4B4C-A9C0-8E99BACAC1AB -name Licence.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
 FileGroup ::EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name AdminConsole -parent FileGroups
 File ::DC155905-FC87-4BCA-8D98-2186C4ADFF2D -type dir -name C:/workdir-ds/designer.build/installer/admin-console -parent EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A
 File ::C07B7139-7CA4-45B2-AAC4-0A226E1FA12E -name admin-console.war -parent DC155905-FC87-4BCA-8D98-2186C4ADFF2D
@@ -266,6 +266,8 @@ File ::B23578D7-6457-4A31-9119-9A4C1645797F -name test-data.sql -parent 733DDDAC
 FileGroup ::62E1C143-0C6B-453A-BD7B-7B2CB2FB586E -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name Tomcat -parent FileGroups
 File ::44B8E586-AECD-47BA-A9CD-DC4B46CF3710 -type dir -name C:/workdir-ds/designer.build/installer/tomcat -parent 62E1C143-0C6B-453A-BD7B-7B2CB2FB586E
 File ::4814E1EF-E29F-42CC-87AC-3FD7616A7DC0 -name apache-tomcat-6.0.18.zip -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
+File ::8F4BC925-E7D9-42AB-B30A-94EE56A5132E -name context.xml -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
+File ::0536390C-D236-4DC1-AC68-9B87940C4BD8 -name server.xml -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
 FileGroup ::1D4D862E-6A79-40E5-B04A-6DDF1556446B -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name VLC -parent FileGroups
 File ::58C187F1-9560-4996-A045-C9B01B2A46C2 -type dir -name C:/workdir-ds/designer.build/installer/vlc -parent 1D4D862E-6A79-40E5-B04A-6DDF1556446B
 File ::C7B46D96-85DF-4152-A4CB-5DEF90A29886 -name vlc-0.9.9-win32.exe -parent 58C187F1-9560-4996-A045-C9B01B2A46C2
@@ -3498,7 +3500,7 @@ InstallComponent 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D -setup Install -type pane 
 InstallComponent 9854CE5C-C2DC-4021-99AC-4F6692364FFA -setup Install -type action -conditions {EB4DC0EC-EB45-41AF-8C82-43F08A0AE41B 4C77CE19-8641-4C4E-8A1D-E23861EF897E} -title {View Readme Checkbutton} -component AddWidget -command insert -active Yes -parent 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D
 Condition EB4DC0EC-EB45-41AF-8C82-43F08A0AE41B -active Yes -parent 9854CE5C-C2DC-4021-99AC-4F6692364FFA -title {File Exists Condition} -component FileExistsCondition -TreeObject::id EB4DC0EC-EB45-41AF-8C82-43F08A0AE41B
 Condition 4C77CE19-8641-4C4E-8A1D-E23861EF897E -active Yes -parent 9854CE5C-C2DC-4021-99AC-4F6692364FFA -title {String Is Condition} -component StringIsCondition -TreeObject::id 4C77CE19-8641-4C4E-8A1D-E23861EF897E
-InstallComponent 8054ED7A-0DF5-4D65-ADF1-6BC22389E826 -setup Install -type action -conditions {352C53B4-B4FF-4016-B87D-F8E9B713DA75 4404A490-323F-46B7-83F6-121462EE26DB} -title {Launch Application Checkbutton} -component AddWidget -command reorder -active Yes -parent 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D
+InstallComponent 8054ED7A-0DF5-4D65-ADF1-6BC22389E826 -setup Install -type action -conditions {352C53B4-B4FF-4016-B87D-F8E9B713DA75 4404A490-323F-46B7-83F6-121462EE26DB} -title {Launch Application Checkbutton} -component AddWidget -command insert -active Yes -parent 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D
 Condition 352C53B4-B4FF-4016-B87D-F8E9B713DA75 -active Yes -parent 8054ED7A-0DF5-4D65-ADF1-6BC22389E826 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 352C53B4-B4FF-4016-B87D-F8E9B713DA75
 Condition 4404A490-323F-46B7-83F6-121462EE26DB -active Yes -parent 8054ED7A-0DF5-4D65-ADF1-6BC22389E826 -title {String Is Condition} -component StringIsCondition -TreeObject::id 4404A490-323F-46B7-83F6-121462EE26DB
 InstallComponent BA6E0F93-C95F-46C0-84B3-16A172FF56E7 -setup Install -type action -conditions {7B4978F5-464B-434B-8077-40F74ED598A6 CC6ED0F0-3C3F-4661-A4A1-B47D5454FF4C} -title {Desktop Shortcut Checkbutton} -component AddWidget -command insert -active Yes -parent 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D
@@ -3558,7 +3560,7 @@ Condition 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -active Yes -parent 3BC307C6-8D24
 InstallComponent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -setup Install -type actiongroup -title {Service Installation Actions} -alias {Service Installation Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 42C52142-D6C7-4AE9-ACBC-412CDA7B8FA1 -setup Install -type action -conditions 9DE0F83E-C7FA-493D-8036-A5B9DB9C6D7E -title {Install Derby Service} -component ExecuteExternalProgram -command insert -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
 Condition 9DE0F83E-C7FA-493D-8036-A5B9DB9C6D7E -active Yes -parent 42C52142-D6C7-4AE9-ACBC-412CDA7B8FA1 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 9DE0F83E-C7FA-493D-8036-A5B9DB9C6D7E
-InstallComponent D64655B5-89A0-411D-AE56-807FBF5C87A8 -setup Install -type action -conditions 993EC00E-108E-4D70-A245-5C83CE3204E1 -title {Install Tomcat Service} -component ExecuteExternalProgram -command insert -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
+InstallComponent D64655B5-89A0-411D-AE56-807FBF5C87A8 -setup Install -type action -conditions 993EC00E-108E-4D70-A245-5C83CE3204E1 -title {Install Tomcat Service} -component ExecuteExternalProgram -command reorder -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
 Condition 993EC00E-108E-4D70-A245-5C83CE3204E1 -active Yes -parent D64655B5-89A0-411D-AE56-807FBF5C87A8 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 993EC00E-108E-4D70-A245-5C83CE3204E1
 InstallComponent B9285021-9ADA-444F-9BCD-ABAAE8100FE4 -setup Install -type action -conditions B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB -title {Start Derby Service} -component StartWindowsService -command insert -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
 Condition B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB -active Yes -parent B9285021-9ADA-444F-9BCD-ABAAE8100FE4 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB
@@ -3566,17 +3568,19 @@ InstallComponent E919759A-797B-46B5-90FB-543695B55482 -setup Install -type actio
 InstallComponent 4DF4012A-14E0-4A98-9A10-67722E5A9A10 -setup Install -type actiongroup -title {Other Actions} -alias {Other Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -setup Install -type action -conditions 833C9A62-0AD5-4536-92EA-15C1843CD84A -title {Unzip Designer} -component UnzipFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 833C9A62-0AD5-4536-92EA-15C1843CD84A -active Yes -parent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 833C9A62-0AD5-4536-92EA-15C1843CD84A
-InstallComponent 2A172A8A-60FF-49D7-BE13-CFD4900E3231 -setup Install -type action -conditions 7C8CC91F-5843-4EA7-8C0D-3EF975D9225D -title {Unzip Tomcat} -component UnzipFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 2A172A8A-60FF-49D7-BE13-CFD4900E3231 -setup Install -type action -conditions 7C8CC91F-5843-4EA7-8C0D-3EF975D9225D -title {Unzip Tomcat} -component UnzipFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 7C8CC91F-5843-4EA7-8C0D-3EF975D9225D -active Yes -parent 2A172A8A-60FF-49D7-BE13-CFD4900E3231 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 7C8CC91F-5843-4EA7-8C0D-3EF975D9225D
-InstallComponent 42D9AC66-4712-485E-843D-7BDD9C2E4EB4 -setup Install -type action -conditions 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685 -title {Replace values in CONF files} -component ReplaceTextInFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 42D9AC66-4712-485E-843D-7BDD9C2E4EB4 -setup Install -type action -conditions 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685 -title {Replace values in CONF files} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685 -active Yes -parent 42D9AC66-4712-485E-843D-7BDD9C2E4EB4 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685
-InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -conditions A8DCF517-5E07-4847-94E3-4FEDB2892A92 -title {Copy Console WAR} -component CopyFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 24E354C6-9547-408C-B63D-C52FA29DC539 -setup Install -type action -conditions F770B0CE-B40E-4935-B385-8174BC1E245D -title {Change Tomcat startup mode} -component ReplaceTextInFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+Condition F770B0CE-B40E-4935-B385-8174BC1E245D -active Yes -parent 24E354C6-9547-408C-B63D-C52FA29DC539 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id F770B0CE-B40E-4935-B385-8174BC1E245D
+InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -conditions A8DCF517-5E07-4847-94E3-4FEDB2892A92 -title {Copy Console WAR} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition A8DCF517-5E07-4847-94E3-4FEDB2892A92 -active Yes -parent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A8DCF517-5E07-4847-94E3-4FEDB2892A92
-InstallComponent 9A4D77D0-FFF6-4639-A41F-084B10D88CB2 -setup Install -type action -conditions 5D301ABB-E83E-4276-9020-D858F0B0AF8A -title {Copy Tomcat context.xml} -component CopyFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 9A4D77D0-FFF6-4639-A41F-084B10D88CB2 -setup Install -type action -conditions 5D301ABB-E83E-4276-9020-D858F0B0AF8A -title {Copy Tomcat context.xml} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 5D301ABB-E83E-4276-9020-D858F0B0AF8A -active Yes -parent 9A4D77D0-FFF6-4639-A41F-084B10D88CB2 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 5D301ABB-E83E-4276-9020-D858F0B0AF8A
-InstallComponent BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE -setup Install -type action -conditions AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0 -title {Copy Tomcat server.xml} -component CopyFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE -setup Install -type action -conditions AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0 -title {Copy Tomcat server.xml} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0 -active Yes -parent BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0
-InstallComponent 28717DC5-E5B4-43EB-9FA9-FE53B7865229 -setup Install -type action -conditions E07E7C65-01FF-4788-A82C-FC9CB326FFC1 -title {Replace Backslashes} -component ReplaceTextInFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 28717DC5-E5B4-43EB-9FA9-FE53B7865229 -setup Install -type action -conditions E07E7C65-01FF-4788-A82C-FC9CB326FFC1 -title {Replace Backslashes} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition E07E7C65-01FF-4788-A82C-FC9CB326FFC1 -active Yes -parent 28717DC5-E5B4-43EB-9FA9-FE53B7865229 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id E07E7C65-01FF-4788-A82C-FC9CB326FFC1
 InstallComponent E20DEC68-27C1-40EC-9C98-86EA0E6A6347 -setup Install -type action -conditions 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5 -title {Add JDK to Path} -component AddDirectoryToPath -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5 -active Yes -parent E20DEC68-27C1-40EC-9C98-86EA0E6A6347 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5
@@ -3626,13 +3630,13 @@ InstallComponent 7445C11C-4E1D-4992-858D-9931391E456B -setup Uninstall -type act
 Condition 6FF60F37-A6BE-4B2C-BA3B-070AE21A1D4E -active Yes -parent 7445C11C-4E1D-4992-858D-9931391E456B -title {String Is Condition} -component StringIsCondition -TreeObject::id 6FF60F37-A6BE-4B2C-BA3B-070AE21A1D4E
 Condition 0A0CAF06-2168-4087-8763-4824DF508DE7 -active Yes -parent 7445C11C-4E1D-4992-858D-9931391E456B -title {Ask Yes or No} -component AskYesOrNo -TreeObject::id 0A0CAF06-2168-4087-8763-4824DF508DE7
 InstallComponent 2244799C-A34C-41C5-9E70-11C661B94237 -setup Uninstall -type actiongroup -title {Uninstall Services} -alias {Uninstall Services} -active Yes -parent ActionGroupsUninstall
-InstallComponent 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A -setup Uninstall -type action -conditions 564865D7-306B-4E1D-A44E-5305C3616217 -title {Stop Derby Service} -component StopWindowsService -command reorder -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
+InstallComponent 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A -setup Uninstall -type action -conditions 564865D7-306B-4E1D-A44E-5305C3616217 -title {Stop Derby Service} -component StopWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition 564865D7-306B-4E1D-A44E-5305C3616217 -active Yes -parent 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 564865D7-306B-4E1D-A44E-5305C3616217
-InstallComponent 90D3B0E7-4CA5-41AE-86B9-B994E8081B11 -setup Uninstall -type action -conditions EFBCF33B-16DA-420A-965B-0C7657F23BBD -title {Stop Tomcat Service} -component StopWindowsService -command reorder -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
+InstallComponent 90D3B0E7-4CA5-41AE-86B9-B994E8081B11 -setup Uninstall -type action -conditions EFBCF33B-16DA-420A-965B-0C7657F23BBD -title {Stop Tomcat Service} -component StopWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition EFBCF33B-16DA-420A-965B-0C7657F23BBD -active Yes -parent 90D3B0E7-4CA5-41AE-86B9-B994E8081B11 -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id EFBCF33B-16DA-420A-965B-0C7657F23BBD
-InstallComponent 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8 -setup Uninstall -type action -conditions C4C67009-A510-4567-978D-5A6847C64904 -title {Delete Derby Service} -component DeleteWindowsService -command reorder -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
+InstallComponent 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8 -setup Uninstall -type action -conditions C4C67009-A510-4567-978D-5A6847C64904 -title {Delete Derby Service} -component DeleteWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition C4C67009-A510-4567-978D-5A6847C64904 -active Yes -parent 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8 -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id C4C67009-A510-4567-978D-5A6847C64904
-InstallComponent 0F5B788E-6859-429C-AD98-171611191CEC -setup Uninstall -type action -conditions 6DFC651F-938F-4A3B-939F-3BCD98827EAE -title {Delete Tomcat Service} -component DeleteWindowsService -command reorder -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
+InstallComponent 0F5B788E-6859-429C-AD98-171611191CEC -setup Uninstall -type action -conditions 6DFC651F-938F-4A3B-939F-3BCD98827EAE -title {Delete Tomcat Service} -component DeleteWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition 6DFC651F-938F-4A3B-939F-3BCD98827EAE -active Yes -parent 0F5B788E-6859-429C-AD98-171611191CEC -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 6DFC651F-938F-4A3B-939F-3BCD98827EAE
 InstallComponent B0EBFCA3-5884-4981-B3F6-B06CD741C3A2 -setup Uninstall -type actiongroup -title {Uninstall Other Software} -alias {Uninstall Other Software} -active Yes -parent ActionGroupsUninstall
 InstallComponent 7D39D997-8A93-47DC-8F06-712B76FE1383 -setup Uninstall -type action -conditions 9E57807E-D837-42E3-8807-DD54AB955494 -title {Uninstall VLC} -component ExecuteExternalProgram -command insert -active Yes -parent B0EBFCA3-5884-4981-B3F6-B06CD741C3A2
@@ -3844,11 +3848,20 @@ false
 2244799C-A34C-41C5-9E70-11C661B94237,Conditions
 {0 conditions}
 
+24E354C6-9547-408C-B63D-C52FA29DC539,Conditions
+{1 condition}
+
+24E354C6-9547-408C-B63D-C52FA29DC539,Files
+tomcat/apache-tomcat-6.0.18/bin/service.bat
+
+24E354C6-9547-408C-B63D-C52FA29DC539,StringMap
+{--StopMode jvm	--StopMode jvm --Startup auto}
+
 28717DC5-E5B4-43EB-9FA9-FE53B7865229,Conditions
 {1 condition}
 
 28717DC5-E5B4-43EB-9FA9-FE53B7865229,Files
-{db/conf/bootstrap.properties;tomcat/server.xml}
+{db/conf/bootstrap.properties;tomcat/apache-tomcat-6.0.18/conf/server.xml}
 
 28717DC5-E5B4-43EB-9FA9-FE53B7865229,StringMap
 {\\	/}
@@ -4664,7 +4677,7 @@ ViewReadme
 {Before Action is Executed}
 
 993EC00E-108E-4D70-A245-5C83CE3204E1,ObjectID
-TomcatComponent
+ConsoleComponent
 
 9A4D77D0-FFF6-4639-A41F-084B10D88CB2,Conditions
 {1 condition}
@@ -5247,6 +5260,12 @@ false
 
 F4EF62D0-7DF5-4C43-B54C-AB6324CFB443,String
 <%UpgradeInstall%>
+
+F770B0CE-B40E-4935-B385-8174BC1E245D,CheckCondition
+{Before Action is Executed}
+
+F770B0CE-B40E-4935-B385-8174BC1E245D,ObjectID
+ConsoleComponent
 
 FreeBSD-4-x86,Active
 No

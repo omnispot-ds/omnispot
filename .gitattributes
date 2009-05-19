@@ -217,6 +217,7 @@ admin-console/src/com/kesdip/admin/web/controller/user/DeleteController.java -te
 admin-console/src/com/kesdip/admin/web/controller/user/EditController.java -text
 admin-console/src/com/kesdip/admin/web/controller/user/ViewController.java -text
 admin-console/src/com/kesdip/admin/web/filter/EncodingFilter.java -text
+admin-console/src/com/kesdip/admin/web/listener/SchemaUpdateContextListener.java -text
 admin-console/src/com/kesdip/admin/web/servlet/BaseSpringContextServlet.java -text
 admin-console/src/com/kesdip/admin/web/servlet/CommandServlet.java -text
 admin-console/src/com/kesdip/admin/web/servlet/ContentServlet.java -text
@@ -229,6 +230,7 @@ admin-console/src/com/kesdip/admin/web/tag/treeview/tree-template.txt -text
 admin-console/src/com/kesdip/admin/web/util/SimpleRequestWrapper.java -text
 admin-console/src/com/kesdip/admin/web/util/SimpleResponseWrapper.java -text
 admin-console/src/com/kesdip/admin/web/util/SpringViewResolver.java -text
+admin-console/src/com/kesdip/admin/web/util/schema/1.0.sql -text
 admin-console/src/log4j.properties -text
 admin-console/src/messages.properties -text
 bootstrap/.classpath -text
@@ -258,6 +260,7 @@ bootstrap/src/com/kesdip/bootstrap/message/IMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RebootPlayerMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text
+bootstrap/src/com/kesdip/bootstrap/schema/1.0.sql -text
 bootstrap/src/log4j.properties -text
 bootstrap/test/bootstrap.properties -text
 bootstrap/test/sample.xml -text
@@ -314,6 +317,7 @@ business-logic/src/com/kesdip/business/domain/generated/Site.java -text
 business-logic/src/com/kesdip/business/domain/generated/StatusEntry.java -text
 business-logic/src/com/kesdip/business/domain/generated/User.java -text
 business-logic/src/com/kesdip/business/exception/InvalidEntityIdentifierException.java -text
+business-logic/src/com/kesdip/business/exception/SchemaUpdateFailedException.java -text
 business-logic/src/com/kesdip/business/exception/ValidationException.java -text
 business-logic/src/com/kesdip/business/logic/ActionLogic.java -text
 business-logic/src/com/kesdip/business/logic/BaseLogic.java -text
@@ -336,6 +340,7 @@ business-logic/src/com/kesdip/business/util/propertyeditor/CustomerEditor.java -
 business-logic/src/com/kesdip/business/util/propertyeditor/DateEditor.java -text
 business-logic/src/com/kesdip/business/util/propertyeditor/FileArrayEditor.java -text
 business-logic/src/com/kesdip/business/util/propertyeditor/InstallationEditor.java -text
+business-logic/src/com/kesdip/business/util/schema/SchemaUpdater.java -text
 business-logic/src/com/kesdip/business/util/tree/TreeNode.java -text
 business-logic/src/com/kesdip/business/util/tree/TreeNodeFactory.java -text
 business-logic/src/com/kesdip/business/util/tree/TreeViewGenerator.java -text
