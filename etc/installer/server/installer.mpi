@@ -108,7 +108,7 @@ PackageDescription
 {Kesdipepe Designer & AdminConsole Installer}
 
 PackageLicense
-{Please, view the End-User License Agreement}
+{Please, review the End-User License Agreement}
 
 PackageMaintainer
 {}
@@ -213,10 +213,11 @@ FileGroup ::3F0DD56E-0453-496A-BFA4-7A0753E8038A -setup Install -active Yes -pla
 File ::01A7F2A5-F770-4E95-A828-6FD0D69DD8BC -name C:/workdir-ds/designer.build/installer/designer/DesignerBuild-win32.win32.x86.zip -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
 File ::8BFBB49A-870E-4C12-A60A-007A553361B2 -type dir -name C:/workdir-ds/designer.build/installer/docs -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
 File ::29AC3250-1E00-4A36-8747-E19600DAD035 -name Readme.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
-File ::893CC613-E8A5-4B4C-A9C0-8E99BACAC1AB -name Licence.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
+File ::DABE059B-7E56-405B-9CA3-68995A73EC61 -name License.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
 FileGroup ::EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name AdminConsole -parent FileGroups
 File ::DC155905-FC87-4BCA-8D98-2186C4ADFF2D -type dir -name C:/workdir-ds/designer.build/installer/admin-console -parent EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A
 File ::C07B7139-7CA4-45B2-AAC4-0A226E1FA12E -name admin-console.war -parent DC155905-FC87-4BCA-8D98-2186C4ADFF2D
+File ::911EF695-5180-4522-BFE9-F0BFEE5B7951 -name console-settings.xml -parent DC155905-FC87-4BCA-8D98-2186C4ADFF2D
 File ::13319BE1-E05F-4358-8F63-6891126F51E8 -type dir -name C:/workdir-ds/designer.build/installer/db -parent EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A
 File ::EC5DEA35-FBA6-488F-9E50-CAE8B2B49F3A -type dir -name conf -parent 13319BE1-E05F-4358-8F63-6891126F51E8
 File ::133ECD2B-283D-469D-90B2-B565B7BD9071 -name bootstrap.properties -parent EC5DEA35-FBA6-488F-9E50-CAE8B2B49F3A
@@ -256,13 +257,6 @@ File ::D61FCE9A-AC29-44EB-A04E-E028B6EE01D3 -name derby.policy -parent 0806B212-
 File ::058E4B30-58D1-4B12-882F-DAC13280DD7A -type dir -name lib -parent E26F252B-0EFE-4FC5-85B1-E9F69DA9CEB5
 File ::706B79AE-777C-4D11-99C3-4D9BD7CB9C63 -name wrapper.dll -parent 058E4B30-58D1-4B12-882F-DAC13280DD7A
 File ::72586512-371F-442E-81C5-7332D2767F2B -name wrapper.jar -parent 058E4B30-58D1-4B12-882F-DAC13280DD7A
-File ::733DDDAC-6063-468C-9DB8-8AB1E36A2DC1 -type dir -name sql -parent 13319BE1-E05F-4358-8F63-6891126F51E8
-File ::DDE8E48D-86E7-4781-8A36-EFEC68DF52D5 -name create-bootstrap-database.sql -parent 733DDDAC-6063-468C-9DB8-8AB1E36A2DC1
-File ::54379A7F-DA0A-45AE-A7D5-AE97220A8D5F -name create-database.sql -parent 733DDDAC-6063-468C-9DB8-8AB1E36A2DC1
-File ::A5F9C989-8A36-45C4-8CE7-939B9AE73EE6 -name drop-bootstrap-database.sql -parent 733DDDAC-6063-468C-9DB8-8AB1E36A2DC1
-File ::CFECF5AD-EB24-4FD4-8062-D7F27445A151 -name drop-database.sql -parent 733DDDAC-6063-468C-9DB8-8AB1E36A2DC1
-File ::5D59AD4F-9CAB-42FB-AA2E-BBF4A82C8C63 -name static-data.sql -parent 733DDDAC-6063-468C-9DB8-8AB1E36A2DC1
-File ::B23578D7-6457-4A31-9119-9A4C1645797F -name test-data.sql -parent 733DDDAC-6063-468C-9DB8-8AB1E36A2DC1
 FileGroup ::62E1C143-0C6B-453A-BD7B-7B2CB2FB586E -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name Tomcat -parent FileGroups
 File ::44B8E586-AECD-47BA-A9CD-DC4B46CF3710 -type dir -name C:/workdir-ds/designer.build/installer/tomcat -parent 62E1C143-0C6B-453A-BD7B-7B2CB2FB586E
 File ::4814E1EF-E29F-42CC-87AC-3FD7616A7DC0 -name apache-tomcat-6.0.18.zip -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
@@ -3467,6 +3461,7 @@ File ::3790DDA4-693F-46B7-87FB-0B6B1736AD8B -type dir -name server -parent F95D6
 File ::CAD3C2A5-6C64-4B28-8FFE-F8A88BD4DE5F -name Ebay.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
 File ::DFDE6D27-0AE9-4169-8797-94A0388679B6 -name ImageProvider.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
 File ::E4FD13FA-0193-452B-8A52-85C542947691 -name Main.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
+File ::96FE9256-45CD-4F1D-A3DC-B3D934A44182 -name src.zip -parent CCE58DA9-3D46-48EB-BDEB-871E2406B39C
 Component ::91DD14D5-970E-40E3-A9B8-1D1E4B403333 -setup Install -alias DesignerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Designer -parent Components
 Component ::956841E0-D201-4941-A063-7949A26DFCBC -setup Install -alias ConsoleComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name {Administration Console} -parent Components
 Component ::7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E -setup Install -alias VLCComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name VLC -parent Components
@@ -3485,6 +3480,14 @@ InstallComponent C2127FC3-F33F-4A67-9480-D8774900E635 -setup Install -type actio
 InstallComponent BA1F223B-5B9F-49A9-A358-FC9056C21191 -setup Install -type pane -conditions 0C044F25-00ED-4FE3-8848-A55A0C2B76F6 -title {Choose Components} -component ChooseComponents -command insert -active Yes -parent StandardInstall
 Condition 0C044F25-00ED-4FE3-8848-A55A0C2B76F6 -active Yes -parent BA1F223B-5B9F-49A9-A358-FC9056C21191 -title {String Equal Condition} -component StringEqualCondition -TreeObject::id 0C044F25-00ED-4FE3-8848-A55A0C2B76F6
 InstallComponent 9FCAFE2A-20A3-478B-9C95-F7BB6BFD8987 -setup Install -type action -title {Populate Components} -component PopulateComponents -active Yes -parent BA1F223B-5B9F-49A9-A358-FC9056C21191
+InstallComponent 307EEF1C-9EDC-456D-BA85-9071734368B2 -setup Install -type pane -conditions {791E5CCA-69B4-4BBC-AB8B-A26427205D6D CA342975-903B-477D-BAD8-9E275A7B1874 819F4DA6-C5C1-4FFB-B960-696BC1E13F54 C3A467F8-021A-47E5-94CF-7DBFCD25F2C6 46A8A0F3-4157-4582-8BDE-71FEDD3337E3} -title {Define Server URL} -component CustomBlankPane2 -command reorder -active Yes -parent StandardInstall
+Condition 791E5CCA-69B4-4BBC-AB8B-A26427205D6D -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 791E5CCA-69B4-4BBC-AB8B-A26427205D6D
+Condition CA342975-903B-477D-BAD8-9E275A7B1874 -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2 -title {String Is Condition} -component StringIsCondition -TreeObject::id CA342975-903B-477D-BAD8-9E275A7B1874
+Condition 819F4DA6-C5C1-4FFB-B960-696BC1E13F54 -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2 -title {String Match Condition} -component StringMatchCondition -TreeObject::id 819F4DA6-C5C1-4FFB-B960-696BC1E13F54
+Condition C3A467F8-021A-47E5-94CF-7DBFCD25F2C6 -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2 -title {String Is Condition} -component StringIsCondition -TreeObject::id C3A467F8-021A-47E5-94CF-7DBFCD25F2C6
+Condition 46A8A0F3-4157-4582-8BDE-71FEDD3337E3 -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2 -title {String Match Condition} -component StringMatchCondition -TreeObject::id 46A8A0F3-4157-4582-8BDE-71FEDD3337E3
+InstallComponent BE428E56-F741-4F13-9110-25D0096D6F2C -setup Install -type action -title {Server Address input field} -component AddWidget -alias ServerAddressWidget -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2
+InstallComponent 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1 -setup Install -type action -title {Server Port input field} -component AddWidget -alias ServerPortWidget -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2
 InstallComponent BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE -setup Install -type pane -title {Start Copying Files} -component StartCopyingFiles -active Yes -parent StandardInstall
 InstallComponent 52055324-A30E-4200-AD67-AFF1CE1BF6D5 -setup Install -type pane -title {Copying Files} -component CopyFiles -active Yes -parent StandardInstall
 InstallComponent 119E15D2-F5D0-40AB-B42C-B28C827F1B85 -setup Install -type action -title {Disable Buttons} -component ModifyWidget -active Yes -parent 52055324-A30E-4200-AD67-AFF1CE1BF6D5
@@ -3565,21 +3568,27 @@ Condition 993EC00E-108E-4D70-A245-5C83CE3204E1 -active Yes -parent D64655B5-89A0
 InstallComponent B9285021-9ADA-444F-9BCD-ABAAE8100FE4 -setup Install -type action -conditions B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB -title {Start Derby Service} -component StartWindowsService -command insert -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
 Condition B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB -active Yes -parent B9285021-9ADA-444F-9BCD-ABAAE8100FE4 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB
 InstallComponent E919759A-797B-46B5-90FB-543695B55482 -setup Install -type action -title Wait -component Wait -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
+InstallComponent 1BDA3598-BE4A-471C-8215-5339830972BE -setup Install -type action -conditions 0C32EEB5-D395-4317-98FD-FABB93E52ACF -title {Start Tomcat Service} -component StartWindowsService -command reorder -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
+Condition 0C32EEB5-D395-4317-98FD-FABB93E52ACF -active Yes -parent 1BDA3598-BE4A-471C-8215-5339830972BE -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 0C32EEB5-D395-4317-98FD-FABB93E52ACF
 InstallComponent 4DF4012A-14E0-4A98-9A10-67722E5A9A10 -setup Install -type actiongroup -title {Other Actions} -alias {Other Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -setup Install -type action -conditions 833C9A62-0AD5-4536-92EA-15C1843CD84A -title {Unzip Designer} -component UnzipFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 833C9A62-0AD5-4536-92EA-15C1843CD84A -active Yes -parent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 833C9A62-0AD5-4536-92EA-15C1843CD84A
 InstallComponent 2A172A8A-60FF-49D7-BE13-CFD4900E3231 -setup Install -type action -conditions 7C8CC91F-5843-4EA7-8C0D-3EF975D9225D -title {Unzip Tomcat} -component UnzipFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 7C8CC91F-5843-4EA7-8C0D-3EF975D9225D -active Yes -parent 2A172A8A-60FF-49D7-BE13-CFD4900E3231 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 7C8CC91F-5843-4EA7-8C0D-3EF975D9225D
-InstallComponent 42D9AC66-4712-485E-843D-7BDD9C2E4EB4 -setup Install -type action -conditions 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685 -title {Replace values in CONF files} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 42D9AC66-4712-485E-843D-7BDD9C2E4EB4 -setup Install -type action -conditions 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685 -title {Replace DB in CONF files} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685 -active Yes -parent 42D9AC66-4712-485E-843D-7BDD9C2E4EB4 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685
-InstallComponent 24E354C6-9547-408C-B63D-C52FA29DC539 -setup Install -type action -conditions F770B0CE-B40E-4935-B385-8174BC1E245D -title {Change Tomcat startup mode} -component ReplaceTextInFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent F5A99211-2206-4E08-BEB0-51C153CD0B8C -setup Install -type action -conditions 96BF4AD4-34F9-4984-B7FF-CC4A55EEA1B0 -title {Replace values in console-settings} -component ReplaceTextInFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+Condition 96BF4AD4-34F9-4984-B7FF-CC4A55EEA1B0 -active Yes -parent F5A99211-2206-4E08-BEB0-51C153CD0B8C -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 96BF4AD4-34F9-4984-B7FF-CC4A55EEA1B0
+InstallComponent 24E354C6-9547-408C-B63D-C52FA29DC539 -setup Install -type action -conditions F770B0CE-B40E-4935-B385-8174BC1E245D -title {Change Tomcat startup mode} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition F770B0CE-B40E-4935-B385-8174BC1E245D -active Yes -parent 24E354C6-9547-408C-B63D-C52FA29DC539 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id F770B0CE-B40E-4935-B385-8174BC1E245D
+InstallComponent B229B89B-1DCC-4C9D-8837-51AA5A29E7DE -setup Install -type action -conditions 9F1861BC-5A4E-43D8-B849-F4746B513374 -title {Add Tomcat system properties} -component ReplaceTextInFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+Condition 9F1861BC-5A4E-43D8-B849-F4746B513374 -active Yes -parent B229B89B-1DCC-4C9D-8837-51AA5A29E7DE -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 9F1861BC-5A4E-43D8-B849-F4746B513374
 InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -conditions A8DCF517-5E07-4847-94E3-4FEDB2892A92 -title {Copy Console WAR} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition A8DCF517-5E07-4847-94E3-4FEDB2892A92 -active Yes -parent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A8DCF517-5E07-4847-94E3-4FEDB2892A92
-InstallComponent 9A4D77D0-FFF6-4639-A41F-084B10D88CB2 -setup Install -type action -conditions 5D301ABB-E83E-4276-9020-D858F0B0AF8A -title {Copy Tomcat context.xml} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
-Condition 5D301ABB-E83E-4276-9020-D858F0B0AF8A -active Yes -parent 9A4D77D0-FFF6-4639-A41F-084B10D88CB2 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 5D301ABB-E83E-4276-9020-D858F0B0AF8A
-InstallComponent BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE -setup Install -type action -conditions AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0 -title {Copy Tomcat server.xml} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE -setup Install -type action -conditions AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0 -title {Copy Tomcat XMLs} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0 -active Yes -parent BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0
+InstallComponent 6707EC69-3109-415E-918F-9FABB97AF228 -setup Install -type action -conditions 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4 -title {Copy Derby JARs} -component CopyFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+Condition 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4 -active Yes -parent 6707EC69-3109-415E-918F-9FABB97AF228 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4
 InstallComponent 28717DC5-E5B4-43EB-9FA9-FE53B7865229 -setup Install -type action -conditions E07E7C65-01FF-4788-A82C-FC9CB326FFC1 -title {Replace Backslashes} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition E07E7C65-01FF-4788-A82C-FC9CB326FFC1 -active Yes -parent 28717DC5-E5B4-43EB-9FA9-FE53B7865229 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id E07E7C65-01FF-4788-A82C-FC9CB326FFC1
 InstallComponent E20DEC68-27C1-40EC-9C98-86EA0E6A6347 -setup Install -type action -conditions 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5 -title {Add JDK to Path} -component AddDirectoryToPath -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
@@ -3713,11 +3722,47 @@ No
 0A6F6287-D55C-4CB7-BEC1-0722E7E37EDC,Alias
 {Setup Actions}
 
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Alias
+ServerPortWidget
+
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Conditions
+{0 conditions}
+
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Text,subst
+1
+
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Type
+entry
+
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,ValidateEntryOn
+FocusOut
+
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Value
+80
+
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,VirtualText
+ServerPort
+
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Width
+400
+
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,X
+16
+
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Y
+180
+
 0C044F25-00ED-4FE3-8848-A55A0C2B76F6,String1
 <%InstallType%>
 
 0C044F25-00ED-4FE3-8848-A55A0C2B76F6,String2
 Custom
+
+0C32EEB5-D395-4317-98FD-FABB93E52ACF,CheckCondition
+{Before Action is Executed}
+
+0C32EEB5-D395-4317-98FD-FABB93E52ACF,ObjectID
+ConsoleComponent
 
 0EA22ABE-B025-4DBA-9EC7-C88F4249C0C1,Action
 {Uninstall Actions}
@@ -3729,7 +3774,7 @@ Custom
 {1 condition}
 
 0F5B788E-6859-429C-AD98-171611191CEC,ServiceName
-Tomcat6
+{Apache Tomcat}
 
 119E15D2-F5D0-40AB-B42C-B28C827F1B85,ExecuteAction
 {Before Pane is Displayed}
@@ -3781,6 +3826,18 @@ CreateQuickLaunchShortcut
 
 151EEB64-D0D4-4ACC-BDBA-9C4A29B617B1,Action
 {Install Actions}
+
+17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4,CheckCondition
+{Before Action is Executed}
+
+17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4,ObjectID
+ConsoleComponent
+
+1BDA3598-BE4A-471C-8215-5339830972BE,Conditions
+{1 condition}
+
+1BDA3598-BE4A-471C-8215-5339830972BE,ServiceName
+{Apache Tomcat}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Caption,subst
 1
@@ -3855,13 +3912,13 @@ false
 tomcat/apache-tomcat-6.0.18/bin/service.bat
 
 24E354C6-9547-408C-B63D-C52FA29DC539,StringMap
-{--StopMode jvm	--StopMode jvm --Startup auto}
+{"--StopMode jvm"	"--StopMode jvm --Startup auto"}
 
 28717DC5-E5B4-43EB-9FA9-FE53B7865229,Conditions
 {1 condition}
 
 28717DC5-E5B4-43EB-9FA9-FE53B7865229,Files
-{db/conf/bootstrap.properties;tomcat/apache-tomcat-6.0.18/conf/server.xml}
+{db/conf/bootstrap.properties;tomcat/apache-tomcat-6.0.18/conf/server.xml;admin-console/console-settings.xml}
 
 28717DC5-E5B4-43EB-9FA9-FE53B7865229,StringMap
 {\\	/}
@@ -3889,6 +3946,33 @@ Yes
 
 2FAB1DA8-9C66-42D6-A956-E20110953073,Conditions
 {0 conditions}
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Active
+Yes
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,BackButton,subst
+1
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,CancelButton,subst
+1
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Caption,subst
+1
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Conditions
+{5 conditions}
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Message,subst
+1
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,NextButton,subst
+1
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Subtitle,subst
+1
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Title,subst
+1
 
 33EA4749-E978-429B-B43C-62D610FA2889,CheckCondition
 {Before Action is Executed}
@@ -3988,6 +4072,18 @@ JAVA_HOME
 
 458538B7-F45F-4FDF-A70A-5D4F602770A9,Alias
 {Cancel Actions}
+
+46A8A0F3-4157-4582-8BDE-71FEDD3337E3,CheckCondition
+{Before Next Pane is Displayed}
+
+46A8A0F3-4157-4582-8BDE-71FEDD3337E3,FailureMessage
+{Server Host name contains invalid characters.}
+
+46A8A0F3-4157-4582-8BDE-71FEDD3337E3,Pattern
+{[0-9a-z\-_.]*}
+
+46A8A0F3-4157-4582-8BDE-71FEDD3337E3,String
+<%ServerHost%>
 
 493C7428-DFC5-43B5-A621-5D45413EA60A,CheckCondition
 {Before Action is Executed}
@@ -4187,12 +4283,6 @@ disabled
 5B4ABC6A-F502-4214-8424-4CC69AB9D921,Widget
 {NextButton; CancelButton}
 
-5D301ABB-E83E-4276-9020-D858F0B0AF8A,CheckCondition
-{Before Action is Executed}
-
-5D301ABB-E83E-4276-9020-D858F0B0AF8A,ObjectID
-ConsoleComponent
-
 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE,Alias
 JDKComponent
 
@@ -4252,6 +4342,15 @@ Tomcat
 
 63492674-1EB3-4E7F-8A74-CBFCD5B4AE40,Conditions
 {0 conditions}
+
+6707EC69-3109-415E-918F-9FABB97AF228,Conditions
+{1 condition}
+
+6707EC69-3109-415E-918F-9FABB97AF228,Destination
+<%InstallDir%>/tomcat/apache-tomcat-6.0.18/lib
+
+6707EC69-3109-415E-918F-9FABB97AF228,Source
+{<%InstallDir%>/db/lib/derbyclient.jar;<%InstallDir%>/db/lib/derbynet.jar}
 
 67AEEDC0-A89F-4ECF-A945-BAD39A9534F0,ExecuteAction
 {Before Pane is Displayed}
@@ -4385,6 +4484,9 @@ Tomcat6
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,Title,subst
 1
 
+791E5CCA-69B4-4BBC-AB8B-A26427205D6D,ObjectID
+ConsoleComponent
+
 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8,Conditions
 {1 condition}
 
@@ -4413,7 +4515,7 @@ ConsoleComponent
 {1 condition}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,ProgramCommandLine
-{uninstall.exe /S /NCRC /mode silent}
+{uninstall.exe /NCRC /mode silent}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,WorkingDirectory
 <%PROGRAM_FILES%>/VideoLan/VLC
@@ -4480,6 +4582,18 @@ LaunchApplication
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,NextButton,subst
 1
+
+819F4DA6-C5C1-4FFB-B960-696BC1E13F54,CheckCondition
+{Before Next Pane is Displayed}
+
+819F4DA6-C5C1-4FFB-B960-696BC1E13F54,FailureMessage
+{Server port must be a number.}
+
+819F4DA6-C5C1-4FFB-B960-696BC1E13F54,Pattern
+{[0-9]*}
+
+819F4DA6-C5C1-4FFB-B960-696BC1E13F54,String
+<%ServerPort%>
 
 81C1F403-57F6-45DE-803B-CF69742DF6F3,CheckCondition
 {Before Action is Executed}
@@ -4578,7 +4692,7 @@ false
 {1 condition}
 
 90D3B0E7-4CA5-41AE-86B9-B994E8081B11,ServiceName
-Tomcat6
+{Apache Tomcat}
 
 91893656-ADC4-408D-8D82-5527CCD34052,BackButton,subst
 1
@@ -4643,6 +4757,12 @@ ConsoleComponent
 963AD7A8-BA48-49AD-AA0E-18C5473505A7,Conditions
 {0 conditions}
 
+96BF4AD4-34F9-4984-B7FF-CC4A55EEA1B0,CheckCondition
+{Before Action is Executed}
+
+96BF4AD4-34F9-4984-B7FF-CC4A55EEA1B0,ObjectID
+ConsoleComponent
+
 97260C98-99ED-4EF9-952A-08EC1225A0E9,Conditions
 {1 condition}
 
@@ -4679,15 +4799,6 @@ ViewReadme
 993EC00E-108E-4D70-A245-5C83CE3204E1,ObjectID
 ConsoleComponent
 
-9A4D77D0-FFF6-4639-A41F-084B10D88CB2,Conditions
-{1 condition}
-
-9A4D77D0-FFF6-4639-A41F-084B10D88CB2,Destination
-<%InstallDir%>/tomcat/apache-tomcat-6.0.18
-
-9A4D77D0-FFF6-4639-A41F-084B10D88CB2,Source
-<%InstallDir%>/tomcat/context.xml
-
 9BC72422-8149-4183-969E-93D0CD01233B,CheckCondition
 {Before Action is Executed}
 
@@ -4717,6 +4828,12 @@ ConsoleComponent
 
 9E57807E-D837-42E3-8807-DD54AB955494,Filename
 <%InstallDir%>/vlc
+
+9F1861BC-5A4E-43D8-B849-F4746B513374,CheckCondition
+{Before Action is Executed}
+
+9F1861BC-5A4E-43D8-B849-F4746B513374,ObjectID
+ConsoleComponent
 
 9FCAFE2A-20A3-478B-9C95-F7BB6BFD8987,ExecuteAction
 {Before Pane is Displayed}
@@ -4856,6 +4973,15 @@ B15CAD54-78BC-49DD-A057-2CC01952E36D,Alias
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message,subst
 1
 
+B229B89B-1DCC-4C9D-8837-51AA5A29E7DE,Conditions
+{1 condition}
+
+B229B89B-1DCC-4C9D-8837-51AA5A29E7DE,Files
+tomcat/apache-tomcat-6.0.18/bin/service.bat
+
+B229B89B-1DCC-4C9D-8837-51AA5A29E7DE,StringMap
+{-Djava.io.tmpdir	-Dconsole-settings=<%InstallDir%>/admin-console/console-settings.xml;-Djava.io.tmpdir}
+
 B2D6182E-2892-4C80-89B8-A0A993B3ED23,Action
 {Uninstall Other Software}
 
@@ -4982,6 +5108,36 @@ BDC3D4E1-917E-410E-A133-165BE1A64A75,CheckCondition
 BDC3D4E1-917E-410E-A133-165BE1A64A75,Filename
 <%ProgramExecutable%>
 
+BE428E56-F741-4F13-9110-25D0096D6F2C,Alias
+ServerAddressWidget
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,Conditions
+{0 conditions}
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,Text,subst
+1
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,Type
+entry
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,ValidateEntryOn
+FocusOut
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,Value
+server.host.domain
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,VirtualText
+ServerHost
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,Width
+400
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,X
+16
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,Y
+130
+
 BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE,Conditions
 {1 condition}
 
@@ -4989,7 +5145,7 @@ BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE,Destination
 <%InstallDir%>/tomcat/apache-tomcat-6.0.18/conf
 
 BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE,Source
-<%InstallDir%>/tomcat/server.xml
+{<%InstallDir%>/tomcat/server.xml;<%InstallDir%>/tomcat/context.xml}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,BackButton,subst
 1
@@ -5020,6 +5176,18 @@ C2127FC3-F33F-4A67-9480-D8774900E635,Conditions
 
 C2127FC3-F33F-4A67-9480-D8774900E635,ExecuteAction
 {Before Pane is Displayed}
+
+C3A467F8-021A-47E5-94CF-7DBFCD25F2C6,CheckCondition
+{Before Next Pane is Displayed}
+
+C3A467F8-021A-47E5-94CF-7DBFCD25F2C6,FailureMessage
+{Server port cannot be empty.}
+
+C3A467F8-021A-47E5-94CF-7DBFCD25F2C6,Operator
+{not empty}
+
+C3A467F8-021A-47E5-94CF-7DBFCD25F2C6,String
+<%ServerPort%>
 
 C4C67009-A510-4567-978D-5A6847C64904,CheckCondition
 {Before Action is Executed}
@@ -5080,6 +5248,18 @@ C9A6E452-D92E-4A60-A7F7-F2AA9D12347D,Filename
 
 C9A6E452-D92E-4A60-A7F7-F2AA9D12347D,Permission
 {can create}
+
+CA342975-903B-477D-BAD8-9E275A7B1874,CheckCondition
+{Before Next Pane is Displayed}
+
+CA342975-903B-477D-BAD8-9E275A7B1874,FailureMessage
+{Server host cannot be empty.}
+
+CA342975-903B-477D-BAD8-9E275A7B1874,Operator
+{not empty}
+
+CA342975-903B-477D-BAD8-9E275A7B1874,String
+<%ServerHost%>
 
 CAD5A93E-2B6C-48D0-9734-A2C109D0C2AB,ExitType
 Finish
@@ -5260,6 +5440,17 @@ false
 
 F4EF62D0-7DF5-4C43-B54C-AB6324CFB443,String
 <%UpgradeInstall%>
+
+F5A99211-2206-4E08-BEB0-51C153CD0B8C,Conditions
+{1 condition}
+
+F5A99211-2206-4E08-BEB0-51C153CD0B8C,Files
+admin-console/console-settings.xml
+
+F5A99211-2206-4E08-BEB0-51C153CD0B8C,StringMap
+{$INSTALL_PATH$	<%InstallDir%>
+$HOST$	<%ServerHost%>
+$PORT$	<%ServerPort%>}
 
 F770B0CE-B40E-4935-B385-8174BC1E245D,CheckCondition
 {Before Action is Executed}
@@ -5734,6 +5925,9 @@ B6A030CE-CAD0-4B42-B505-03E642653B59,Message
 0A0CAF06-2168-4087-8763-4824DF508DE7,Title
 <%UninstallApplicationText%>
 
+0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Text
+Port
+
 12F58043-152A-48EC-ADEE-493EB682DEF7,Description
 <%CustomInstallDescription%>
 
@@ -5748,6 +5942,20 @@ B6A030CE-CAD0-4B42-B505-03E642653B59,Message
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Title
 <%ApplicationReadmeText%>
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Caption
+{Define the host name of the Admin Console.
+This is the address which external installations will use to access the application.}
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Message
+{The address can be an address [server.host.domain] or an IP [000.000.000.000].
+The port can be any number in the range [1 - 65535].}
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Subtitle
+{Define the URL of this Admin Console.}
+
+307EEF1C-9EDC-456D-BA85-9071734368B2,Title
+{Admin Console URL}
 
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
 <%UninstallCompleteText%>
@@ -5805,6 +6013,9 @@ B6A030CE-CAD0-4B42-B505-03E642653B59,Message
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,Text
 <%CreateDesktopShortcutText%>
+
+BE428E56-F741-4F13-9110-25D0096D6F2C,Text
+{Host Name}
 
 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,Message
 <%InstallStartupText%>

@@ -6,13 +6,14 @@
 		<ps-root-folder>c:/tmp/console/print-screens/</ps-root-folder>
 		<content-root-folder>c:/tmp/console/content/</content-root-folder>
 		<printScreen-name>printScreen.jpg</printScreen-name>
-		<default-printScreen>c:/tmp/console/print-screens/defaultPrintScreen.jpg</default-printScreen>
-		<temp-folder>c:/tmp/temp-files</temp-folder>
+		<temp-folder>c:/tmp/console/temp-files</temp-folder>
 	</file-storage>
 
 	<server>
-		<content-base>http://localhost:8080/admin-console/content/</content-base>
-		<printScreen-base>http://localhost:8080/admin-console/secure/printScreen/</printScreen-base>
+		<host>localhost</host>
+		<port>8080</port>
+		<content-base>/admin-console/content/</content-base>
+		<printScreen-base>/admin-console/secure/printScreen/</printScreen-base>
 	</server>
 	
 </settings>

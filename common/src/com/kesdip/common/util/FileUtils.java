@@ -12,6 +12,8 @@ package com.kesdip.common.util;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
 import java.util.zip.CRC32;
 
@@ -102,8 +104,8 @@ public class FileUtils {
 	 *            the file
 	 * @return String the extension without the dot or an empty string
 	 * @throws IllegalArgumentException
-	 *             if the argument is <code>null</code> or does not represent
-	 *             a file
+	 *             if the argument is <code>null</code> or does not represent a
+	 *             file
 	 */
 	public static String getSuffix(File file) throws IllegalArgumentException {
 		if (file == null) {
@@ -232,6 +234,27 @@ public class FileUtils {
 			StreamUtils.close(in);
 		}
 		return crc;
+	}
+
+	/**
+	 * Converts a file to a {@link URL} object.
+	 * 
+	 * @param file
+	 *            the file
+	 * @return URL the url or <code>null</code>
+	 */
+	public static URL toUrl(File file) {
+		if (file == null) {
+			return null;
+		}
+		String path = file.getAbsolutePath();
+		String url = "file://" + (path.startsWith("/") ? "" : '/')
+				+ file.getAbsolutePath();
+		try {
+			return new URL(url);
+		} catch (MalformedURLException mue) {
+			return null;
+		}
 	}
 
 	/**

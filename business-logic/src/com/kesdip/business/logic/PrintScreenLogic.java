@@ -64,7 +64,7 @@ public class PrintScreenLogic extends BaseLogic {
 		}
 
 		String psServerBase = ApplicationSettings.getInstance()
-				.getServerSettings().getPrintScreenBase();
+				.getServerSettings().getPrintScreenBaseUrl();
 		FileStorageSettings fileStorageSettings = ApplicationSettings
 				.getInstance().getFileStorageSettings();
 
@@ -130,7 +130,6 @@ public class PrintScreenLogic extends BaseLogic {
 				+ installation.getUuid() + File.separatorChar
 				+ storageSettings.getPrintScreenName();
 		File psFile = new File(fileName);
-		return psFile.isFile() ? psFile : new File(storageSettings
-				.getDefaultPrintScreen());
+		return psFile.isFile() ? psFile : new File("foo");
 	}
 }

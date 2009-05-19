@@ -283,6 +283,11 @@ File ::F41B045B-3BFE-49DE-9BF3-E8FA17B36E9D -name test-data.sql -parent 269EC280
 File ::E6901D07-E75C-45EA-88EA-868A5C7ACEA0 -type dir -name vlc -parent 13CE08AC-5002-45A5-850D-3E0CD0BA2F93
 File ::AF6D1711-41DF-461F-AE97-6E56EEB126F4 -type dir -name native -parent 13CE08AC-5002-45A5-850D-3E0CD0BA2F93
 File ::797172A2-0ACE-4E45-A27E-6723AB742D8D -name jniwrap.dll -parent AF6D1711-41DF-461F-AE97-6E56EEB126F4
+File ::6555B768-D98B-4AB1-B793-BBF94F189AE7 -type dir -name sample -parent 13CE08AC-5002-45A5-850D-3E0CD0BA2F93
+File ::99867290-BD1C-4123-9C82-3EB6BBEA6615 -name ad.mp4 -parent 6555B768-D98B-4AB1-B793-BBF94F189AE7
+File ::BC80358A-8294-40CC-B587-E508883620FA -name bld.jpg -parent 6555B768-D98B-4AB1-B793-BBF94F189AE7
+File ::D65518AE-FE4B-44C5-BBD9-08192390E59B -name digital.wmv -parent 6555B768-D98B-4AB1-B793-BBF94F189AE7
+File ::5D6DADDA-6F8F-4C85-A495-F1B52D19D064 -name sample.des.xml -parent 6555B768-D98B-4AB1-B793-BBF94F189AE7
 FileGroup ::41E55171-BC0B-4AC2-80CC-5BC876C10958 -setup Install -alias JREFiles -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name JRE -parent FileGroups
 File ::BBCF7631-B8D5-4B21-BF9F-03C242B43199 -type dir -name C:/dbin/jdk1.6.0_11/jre -parent 41E55171-BC0B-4AC2-80CC-5BC876C10958
 File ::F86810D7-EDFF-4A80-A2BC-863015916650 -name COPYRIGHT -parent BBCF7631-B8D5-4B21-BF9F-03C242B43199
@@ -1025,13 +1030,6 @@ File ::42574C34-AA51-469C-BFCA-95A3ECC45570 -type dir -name lib -parent F6374F08
 File ::156B0B9B-4418-4DF5-9326-0666940AFE20 -name wrapper.dll -parent 42574C34-AA51-469C-BFCA-95A3ECC45570
 File ::7707EB1F-641C-4D70-9DCD-0826AE3F260F -name wrapper.jar -parent 42574C34-AA51-469C-BFCA-95A3ECC45570
 File ::BF37FB25-92FB-4E25-9963-CABA549FBA36 -type dir -name logs -parent F6374F08-EF52-4DB7-89FE-ABD20EB135CD
-File ::954CD201-25BD-47B8-A81A-7727803CE394 -type dir -name sql -active 0 -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
-File ::04074932-92D9-4248-AADC-C1BA4EEBB42A -name create-bootstrap-database.sql -parent 954CD201-25BD-47B8-A81A-7727803CE394
-File ::178F440A-0CD3-44F2-B01B-0C800A234077 -name create-database.sql -parent 954CD201-25BD-47B8-A81A-7727803CE394
-File ::AF22FD59-C378-4B59-86D3-F46080056847 -name drop-bootstrap-database.sql -parent 954CD201-25BD-47B8-A81A-7727803CE394
-File ::CE203E4C-3B85-4AB5-8BB4-FAA596F19DFA -name drop-database.sql -parent 954CD201-25BD-47B8-A81A-7727803CE394
-File ::D16E0490-7F43-4563-8B44-D7E264B78629 -name static-data.sql -parent 954CD201-25BD-47B8-A81A-7727803CE394
-File ::45CFE637-322B-446D-9DE7-90374F168CBF -name test-data.sql -parent 954CD201-25BD-47B8-A81A-7727803CE394
 File ::E93E30EC-0EAD-432D-BF2C-38123127FEB7 -type dir -name vlc -active 0 -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
 File ::520FDEDB-DE12-4F15-9E4F-27DBB8F50B8A -type dir -name native -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
 File ::211DC24A-873E-4EED-81A7-C0741A8E41E0 -name jniwrap.dll -parent 520FDEDB-DE12-4F15-9E4F-27DBB8F50B8A
@@ -1063,7 +1061,7 @@ Condition DC3D21A5-4333-401D-9065-A7D2C4E64BC6 -active Yes -parent DB0C92E9-BE04
 Condition 19FBC94B-58E3-498C-867B-1D8D8C478016 -active Yes -parent DB0C92E9-BE04-4A06-8FEE-E35B214D1049 -title {String Is Condition} -component StringIsCondition -TreeObject::id 19FBC94B-58E3-498C-867B-1D8D8C478016
 Condition 43430865-2255-460F-8DF5-19D5DD16EE2F -active Yes -parent DB0C92E9-BE04-4A06-8FEE-E35B214D1049 -title {String Match Condition} -component StringMatchCondition -TreeObject::id 43430865-2255-460F-8DF5-19D5DD16EE2F
 InstallComponent BFAD7812-3352-4E22-B813-0E9FF377FBAD -setup Install -type action -title {ID input field} -component AddWidget -alias PlayerIdWidget -active Yes -parent DB0C92E9-BE04-4A06-8FEE-E35B214D1049
-InstallComponent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -setup Install -type pane -conditions {A7951CB0-1FBE-4E58-9F60-A98BD6EEE072 16C40521-0ED6-4673-99C8-1AA6A78680C1 04806203-3CB2-4D00-8001-941E1F931D0D D6DABE3E-60AE-4C54-9EA4-621773DE4086 808B8CA2-92A3-423A-8E5C-25D5BFDD5153} -title {Define Server URL} -component CustomBlankPane2 -command insert -alias DefinePlayerIDScreen -active Yes -parent StandardInstall
+InstallComponent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -setup Install -type pane -conditions {A7951CB0-1FBE-4E58-9F60-A98BD6EEE072 16C40521-0ED6-4673-99C8-1AA6A78680C1 04806203-3CB2-4D00-8001-941E1F931D0D D6DABE3E-60AE-4C54-9EA4-621773DE4086 808B8CA2-92A3-423A-8E5C-25D5BFDD5153} -title {Define Server URL} -component CustomBlankPane2 -command reorder -alias DefinePlayerIDScreen -active Yes -parent StandardInstall
 Condition A7951CB0-1FBE-4E58-9F60-A98BD6EEE072 -active Yes -parent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id DC3D21A5-4333-401D-9065-A7D2C4E64BC6
 Condition 16C40521-0ED6-4673-99C8-1AA6A78680C1 -active Yes -parent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -title {String Is Condition} -component StringIsCondition -TreeObject::id 19FBC94B-58E3-498C-867B-1D8D8C478016
 Condition 04806203-3CB2-4D00-8001-941E1F931D0D -active Yes -parent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -title {String Match Condition} -component StringMatchCondition -TreeObject::id 43430865-2255-460F-8DF5-19D5DD16EE2F
@@ -1154,7 +1152,7 @@ InstallComponent 527102CE-213C-490D-A519-922EF7037D7E -setup Uninstall -type act
 InstallComponent 17CCD213-08CB-476B-909D-5DCF68D642CB -setup Uninstall -type action -title {Execute Uninstall Other Software} -component ExecuteAction -active Yes -parent A3B2D857-C194-4DA9-8A77-27DDE9B78B2D
 InstallComponent 16CC0C06-CE59-43E4-90F9-C50CE8AAB83C -setup Uninstall -type action -title {Execute Uninstall Actions} -component ExecuteAction -active Yes -parent A3B2D857-C194-4DA9-8A77-27DDE9B78B2D
 InstallComponent 574747C5-A6BE-4262-8819-CDE431D68BCA -setup Uninstall -type action -title {Move Forward} -component MoveForward -active Yes -parent A3B2D857-C194-4DA9-8A77-27DDE9B78B2D
-InstallComponent AD0067DC-49F8-48CA-B2BD-E65F1FB9F01E -setup Uninstall -type pane -conditions 474F6BDE-5AA9-4DDF-B000-83957DB8B37E -title {Uninstall Details} -component UninstallDetails -command reorder -active Yes -parent StandardUninstall
+InstallComponent AD0067DC-49F8-48CA-B2BD-E65F1FB9F01E -setup Uninstall -type pane -conditions 474F6BDE-5AA9-4DDF-B000-83957DB8B37E -title {Uninstall Details} -component UninstallDetails -command insert -active Yes -parent StandardUninstall
 Condition 474F6BDE-5AA9-4DDF-B000-83957DB8B37E -active Yes -parent AD0067DC-49F8-48CA-B2BD-E65F1FB9F01E -title {String Is Condition} -component StringIsCondition -TreeObject::id 474F6BDE-5AA9-4DDF-B000-83957DB8B37E
 InstallComponent 53B93B93-992B-4CB8-81CE-F86942F73857 -setup Uninstall -type pane -title {Uninstall Complete} -component UninstallComplete -active Yes -parent StandardUninstall
 InstallComponent 0626B96A-B3FC-4097-AAD1-2550F9093B73 -setup Uninstall -type action -title {Console Ask Yes Or No} -component ConsoleAskYesOrNo -active Yes -parent ConsoleUninstall
@@ -1179,16 +1177,16 @@ InstallComponent BF8DB42A-11B6-4318-B16D-D61771E339F6 -setup Uninstall -type act
 InstallComponent 6EB75CC7-92F9-458C-AC32-00BDF75A7D15 -setup Uninstall -type action -title {Uninstall Selected Files} -component UninstallSelectedFiles -active Yes -parent BF8DB42A-11B6-4318-B16D-D61771E339F6
 InstallComponent C38D0E99-0031-4AC6-A365-42A767D5B4D9 -setup Uninstall -type actiongroup -conditions 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10 -title {Uninstall Services Actions} -command insert -alias {Uninstall Services Actions} -active Yes -parent ActionGroupsUninstall
 Condition 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10 -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9 -title {Platform Condition} -component PlatformCondition -TreeObject::id 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10
-InstallComponent 73B30873-7AB4-4D67-BB07-BC7CD8B97BFB -setup Uninstall -type action -conditions 40916953-85FC-4B77-847E-F3A67FFF0DFB -title {Stop Derby Service} -component StopWindowsService -command reorder -alias {Stop Derby Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
+InstallComponent 73B30873-7AB4-4D67-BB07-BC7CD8B97BFB -setup Uninstall -type action -conditions 40916953-85FC-4B77-847E-F3A67FFF0DFB -title {Stop Derby Service} -component StopWindowsService -command insert -alias {Stop Derby Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
 Condition 40916953-85FC-4B77-847E-F3A67FFF0DFB -active Yes -parent 73B30873-7AB4-4D67-BB07-BC7CD8B97BFB -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 40916953-85FC-4B77-847E-F3A67FFF0DFB
 InstallComponent EE96A966-3C78-4B5F-B95E-10F0AE16B21B -setup Uninstall -type action -conditions 7EAE0CF0-84DB-4777-A1E3-0AF65D5A1FBC -title {Stop Bootstrap Service} -component StopWindowsService -command insert -alias {Stop Bootstrap Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
 Condition 7EAE0CF0-84DB-4777-A1E3-0AF65D5A1FBC -active Yes -parent EE96A966-3C78-4B5F-B95E-10F0AE16B21B -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 7EAE0CF0-84DB-4777-A1E3-0AF65D5A1FBC
 InstallComponent 9A6B1CA0-407C-4014-9D0C-414D14DE71AC -setup Uninstall -type action -conditions D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF -title {Delete Derby Service} -component DeleteWindowsService -command insert -alias {Delete Derby Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
 Condition D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF -active Yes -parent 9A6B1CA0-407C-4014-9D0C-414D14DE71AC -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF
-InstallComponent 51FBEC01-F58A-4B95-90D2-67F8CF46A00E -setup Uninstall -type action -conditions 6413473F-965C-4719-8572-53ED1212F412 -title {Delete Bootstrap Service} -component DeleteWindowsService -command reorder -alias {Delete Bootstrap Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
+InstallComponent 51FBEC01-F58A-4B95-90D2-67F8CF46A00E -setup Uninstall -type action -conditions 6413473F-965C-4719-8572-53ED1212F412 -title {Delete Bootstrap Service} -component DeleteWindowsService -command insert -alias {Delete Bootstrap Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
 Condition 6413473F-965C-4719-8572-53ED1212F412 -active Yes -parent 51FBEC01-F58A-4B95-90D2-67F8CF46A00E -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 6413473F-965C-4719-8572-53ED1212F412
 InstallComponent 0D3BE045-E8AA-45B6-A106-45613F8610DB -setup Uninstall -type actiongroup -title {Uninstall Other Software} -alias {Uninstall Other Software} -active Yes -parent ActionGroupsUninstall
-InstallComponent A504F227-72DE-4366-86B4-9476AE7DD909 -setup Uninstall -type action -conditions BF3C2F06-1975-4212-ABAF-8538E2CD6D12 -title {Uninstall VLC} -component ExecuteExternalProgram -command reorder -active Yes -parent 0D3BE045-E8AA-45B6-A106-45613F8610DB
+InstallComponent A504F227-72DE-4366-86B4-9476AE7DD909 -setup Uninstall -type action -conditions BF3C2F06-1975-4212-ABAF-8538E2CD6D12 -title {Uninstall VLC} -component ExecuteExternalProgram -command insert -active Yes -parent 0D3BE045-E8AA-45B6-A106-45613F8610DB
 Condition BF3C2F06-1975-4212-ABAF-8538E2CD6D12 -active Yes -parent A504F227-72DE-4366-86B4-9476AE7DD909 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id BF3C2F06-1975-4212-ABAF-8538E2CD6D12
 InstallComponent 015FF5A0-C436-4B16-9A91-95B73F352EBD -setup Uninstall -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsUninstall
 InstallComponent 7B24D153-85A0-4B69-AB7D-6BB7E7211192 -setup Uninstall -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroupsUninstall

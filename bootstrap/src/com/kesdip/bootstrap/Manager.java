@@ -138,7 +138,7 @@ public class Manager extends Thread {
 	 * Updates the DB schema to the latest version.
 	 */
 	private final void updateDbSchema() {
-		SchemaUpdater schemaUpdater = new SchemaUpdater(SQL_PKG);
+		SchemaUpdater schemaUpdater = new SchemaUpdater(SQL_PKG, null);
 		schemaUpdater.updateSchema((HibernateTemplate) ctx
 				.getBean("hibernateTemplate"));
 	}

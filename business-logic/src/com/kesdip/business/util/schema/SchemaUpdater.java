@@ -49,13 +49,21 @@ public class SchemaUpdater {
 	private String sqlPackage = null;
 
 	/**
+	 * The classloader to use.
+	 */
+	private ClassLoader classLoader = null;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param basePackage
 	 *            the package where SQL files are located in path notation (i.e.
 	 *            /foo/bar)
+	 * @param clazzLoader
+	 *            the classloader to use; if <code>null</code> the current
+	 *            classloader is used
 	 */
-	public SchemaUpdater(String basePackage) {
+	public SchemaUpdater(String basePackage, ClassLoader clazzLoader) {
 		this.sqlPackage = basePackage;
 		if (sqlPackage == null) {
 			sqlPackage = "/";
@@ -63,6 +71,8 @@ public class SchemaUpdater {
 		if (!sqlPackage.endsWith("/")) {
 			sqlPackage += "/";
 		}
+		this.classLoader = (clazzLoader != null) ? clazzLoader
+				: SchemaUpdater.class.getClassLoader();
 	}
 
 	/**

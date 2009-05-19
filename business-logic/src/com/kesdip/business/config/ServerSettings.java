@@ -35,6 +35,40 @@ public class ServerSettings extends ComponentSettings {
 	private String printScreenBase = null;
 
 	/**
+	 * The URL for the printscreen servlet.
+	 */
+	private transient String printScreenBaseUrl = null;
+
+	/**
+	 * The base URL for the content servlet.
+	 */
+	private transient String contentBaseUrl = null;
+
+	/**
+	 * The host name or IP of the server.
+	 */
+	private String host = null;
+
+	/**
+	 * The port of the server.
+	 */
+	private String port = null;
+
+	/**
+	 * @return the host
+	 */
+	public String getHost() {
+		return host;
+	}
+
+	/**
+	 * @return the port
+	 */
+	public String getPort() {
+		return port;
+	}
+
+	/**
 	 * @return String the name of the settings component
 	 * @see gr.panouepe.monitor.common.settings.ComponentSettings#getName()
 	 */
@@ -55,6 +89,11 @@ public class ServerSettings extends ComponentSettings {
 		logger.trace("Loading server.printScreen-base");
 		this.printScreenBase = configuration
 				.getString("server.printScreen-base");
+
+		logger.trace("Loading server.host");
+		this.host = configuration.getString("server.host");
+		logger.trace("Loading server.port");
+		this.port = configuration.getString("server.port");
 	}
 
 	/**
@@ -69,6 +108,26 @@ public class ServerSettings extends ComponentSettings {
 	 */
 	public String getPrintScreenBase() {
 		return printScreenBase;
+	}
+
+	/**
+	 * @return the printScreenBaseUrl
+	 */
+	public String getPrintScreenBaseUrl() {
+		if (printScreenBaseUrl == null) {
+			printScreenBaseUrl = "http://" + host + ":" + port + printScreenBase;
+		}
+		return printScreenBaseUrl;
+	}
+
+	/**
+	 * @return the contenBaseUrl
+	 */
+	public String getContentBaseUrl() {
+		if (contentBaseUrl == null) {
+			contentBaseUrl = "http://" + host + ":" + port + contentBase;
+		}
+		return contentBaseUrl;
 	}
 
 }

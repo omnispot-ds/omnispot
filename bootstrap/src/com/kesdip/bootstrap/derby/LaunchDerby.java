@@ -99,9 +99,7 @@ public class LaunchDerby {
 					"ACTION",
 					new String[] { "TABLE"});
 			if (!rs.next()) {
-				logger.warn("Schema does not exist. Creating...");
-				createSchema(c);
-				logger.warn("Schema recreated!");
+				logger.warn("Schema does not exist");
 			}
 		} finally {
 			// clean up
@@ -119,21 +117,7 @@ public class LaunchDerby {
 	}
 
 	/**
-	 * Creates the DB schema.
-	 * 
-	 * @param c
-	 *            the connection to use
-	 */
-	private static void createSchema(Connection c) throws Exception {
-		logger.info("Loading schema DDL...");
-		String createSchema = StreamUtils.readResource(LaunchDerby.class
-				.getClassLoader().getResource("create-bootstrap-database.sql"));
-		logger.info("Creating tables...");
-		DBUtils.executeBatchUpdate(c, createSchema);
-	}
-
-	/**
-	 * Start the DB server. Blocks until the server is verified to hace started.
+	 * Start the DB server. Blocks until the server is verified to have started.
 	 * 
 	 * @param serverName
 	 * @param port

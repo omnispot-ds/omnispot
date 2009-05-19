@@ -11,10 +11,10 @@ package com.kesdip.common.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -116,7 +116,7 @@ public class StreamUtils {
 	 * 
 	 * @param resourceUrl
 	 *            the resource URL
-	 * @return String its context
+	 * @return String its content
 	 * @throws IOException
 	 *             on read errors
 	 */
@@ -127,9 +127,8 @@ public class StreamUtils {
 			logger.trace("Reading from resource " + resourceUrl);
 		}
 		try {
-			// replace spaces in path
-			reader = new BufferedReader(new FileReader(resourceUrl.getFile()
-					.replace("%20", " ")));
+			reader = new BufferedReader(new InputStreamReader(resourceUrl
+					.openStream()));
 			String temp = null;
 			while ((temp = reader.readLine()) != null) {
 				builder.append(temp).append("\n");
@@ -138,6 +137,31 @@ public class StreamUtils {
 			close(reader);
 		}
 		return builder.toString();
+	}
+
+	/**
+	 * Load a local resource as a byte array.
+	 * 
+	 * @param resourceUrl
+	 *            the resource URL
+	 * @return byte[] its content
+	 * @throws IOException
+	 *             on read errors
+	 */
+	public static final byte[] readResourceData(URL resourceUrl)
+			throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		if (logger.isTraceEnabled()) {
+			logger.trace("Reading from resource " + resourceUrl);
+		}
+		InputStream input = null;
+		try {
+			input = resourceUrl.openStream();
+			copyStream(input, out);
+		} finally {
+			close(input);
+		}
+		return out.toByteArray();
 	}
 
 	/**

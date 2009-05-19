@@ -130,6 +130,10 @@ public class DBUtils {
 			reader = new BufferedReader(new StringReader(batchQuery));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
+				// ignore empty lines and comments
+				if (StringUtils.isEmpty(line.trim()) || line.startsWith("--")) {
+					continue;
+				}
 				if (logger.isDebugEnabled()) {
 					logger.debug("Adding batch [" + line + "]");
 				}

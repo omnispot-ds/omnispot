@@ -43,11 +43,6 @@ public class FileStorageSettings extends ComponentSettings {
 	private String printScreenName = null;
 
 	/**
-	 * The default print-screen.
-	 */
-	private String defaultPrintScreen = null;
-	
-	/**
 	 * Folder for all temporary files.
 	 */
 	private String tempFolder = null;
@@ -77,9 +72,6 @@ public class FileStorageSettings extends ComponentSettings {
 		logger.trace("Loading file-storage.printScreen-name");
 		this.printScreenName = configuration
 				.getString("file-storage.printScreen-name");
-		logger.trace("Loading file-storage.default-printScreen");
-		this.defaultPrintScreen = configuration
-				.getString("file-storage.default-printScreen");
 		logger.trace("Loading file-storage.temp-folder");
 		this.tempFolder = configuration
 				.getString("file-storage.temp-folder");
@@ -133,13 +125,6 @@ public class FileStorageSettings extends ComponentSettings {
 	 */
 	public String getPrintScreenName() {
 		return printScreenName;
-	}
-
-	/**
-	 * @return the defaultPrintScreen
-	 */
-	public String getDefaultPrintScreen() {
-		return defaultPrintScreen;
 	}
 
 	/**

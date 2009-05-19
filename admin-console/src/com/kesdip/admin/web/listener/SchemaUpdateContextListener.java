@@ -12,6 +12,7 @@ package com.kesdip.admin.web.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -29,6 +30,11 @@ import com.kesdip.business.util.schema.SchemaUpdater;
  */
 public class SchemaUpdateContextListener implements ServletContextListener {
 
+	/**
+	 * The logger.
+	 */
+	private final static Logger logger = Logger.getLogger(SchemaUpdateContextListener.class);
+	
 	/**
 	 * Package containing SQLs for schema updating. 
 	 */
@@ -49,9 +55,12 @@ public class SchemaUpdateContextListener implements ServletContextListener {
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
 	public void contextInitialized(ServletContextEvent contextEvent) {
+		logger.info("Getting Spring ApplicationContext");
 		ApplicationContext context = WebApplicationContextUtils
 				.getWebApplicationContext(contextEvent.getServletContext());
-		SchemaUpdater schemaUpdater = new SchemaUpdater(SQL_PKG);
+		logger.info("Init SchemaUpdater");
+		SchemaUpdater schemaUpdater = new SchemaUpdater(SQL_PKG, getClass().getClassLoader());
+		logger.info("Update schema");
 		schemaUpdater.updateSchema((HibernateTemplate) context
 				.getBean("hibernateTemplate"));
 	}

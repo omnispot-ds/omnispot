@@ -106,7 +106,7 @@ public class ActionLogic extends BaseLogic {
 			logger.debug("Creating deployment in the DB");
 			Set<Installation> installations = getInstallations(object);
 			String contentBase = ApplicationSettings.getInstance()
-					.getServerSettings().getContentBase();
+					.getServerSettings().getContentBaseUrl();
 			deployment = new Deployment();
 			deployment.setName(object.getName());
 			deployment
@@ -376,7 +376,7 @@ public class ActionLogic extends BaseLogic {
 				Pattern.CASE_INSENSITIVE);
 
 		String contentBase = ApplicationSettings.getInstance()
-				.getServerSettings().getContentBase();
+				.getServerSettings().getContentBaseUrl();
 		String xml = StreamUtils.readString(inputStream, "UTF-8", false);
 		StringBuffer newXml = new StringBuffer(xml.length());
 		Matcher matcher = pattern.matcher(xml);

@@ -218,6 +218,7 @@ admin-console/src/com/kesdip/admin/web/controller/user/EditController.java -text
 admin-console/src/com/kesdip/admin/web/controller/user/ViewController.java -text
 admin-console/src/com/kesdip/admin/web/filter/EncodingFilter.java -text
 admin-console/src/com/kesdip/admin/web/listener/SchemaUpdateContextListener.java -text
+admin-console/src/com/kesdip/admin/web/listener/SettingsLoadingContextListener.java -text
 admin-console/src/com/kesdip/admin/web/servlet/BaseSpringContextServlet.java -text
 admin-console/src/com/kesdip/admin/web/servlet/CommandServlet.java -text
 admin-console/src/com/kesdip/admin/web/servlet/ContentServlet.java -text
@@ -230,6 +231,7 @@ admin-console/src/com/kesdip/admin/web/tag/treeview/tree-template.txt -text
 admin-console/src/com/kesdip/admin/web/util/SimpleRequestWrapper.java -text
 admin-console/src/com/kesdip/admin/web/util/SimpleResponseWrapper.java -text
 admin-console/src/com/kesdip/admin/web/util/SpringViewResolver.java -text
+admin-console/src/com/kesdip/admin/web/util/resources/defaultPrintScreen.jpg -text
 admin-console/src/com/kesdip/admin/web/util/schema/1.0.sql -text
 admin-console/src/log4j.properties -text
 admin-console/src/messages.properties -text
@@ -284,7 +286,6 @@ business-logic/src/com/kesdip/business/config/ComponentSettings.java -text
 business-logic/src/com/kesdip/business/config/FileStorageSettings.java -text
 business-logic/src/com/kesdip/business/config/ServerSettings.java -text
 business-logic/src/com/kesdip/business/config/SettingsLoadingException.java -text
-business-logic/src/com/kesdip/business/config/console-settings.xml -text
 business-logic/src/com/kesdip/business/constenum/IActionParamsEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IActionStatusEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IActionTypesEnum.java -text
@@ -362,6 +363,7 @@ business-logic/src/com/kesdip/business/validation/user/CreateValidator.java -tex
 business-logic/src/com/kesdip/business/validation/user/DeleteValidator.java -text
 business-logic/src/com/kesdip/business/validation/user/EditValidator.java -text
 business-logic/src/com/kesdip/business/validation/user/LoginValidator.java -text
+business-logic/src/console-settings.xml -text
 business-logic/src/inactive_hibernate.cfg.xml -text
 common/.classpath -text
 common/.project -text

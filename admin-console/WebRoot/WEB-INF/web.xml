@@ -56,6 +56,10 @@
     </filter-mapping>
 
 	<listener>
+  		<listener-class>com.kesdip.admin.web.listener.SettingsLoadingContextListener</listener-class>
+	</listener>
+
+	<listener>
   		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	

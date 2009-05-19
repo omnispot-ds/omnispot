@@ -158,12 +158,6 @@
 			</fileset>
 		</copy>
 		<mkdir dir="${bootstrap.home}/service-wrapper/logs"/>
-		<mkdir dir="${bootstrap.home}/sql"/>
-		<copy todir="${bootstrap.home}/sql"> 
-			<fileset dir="${etc.sql.scripts.dir}">
-				<include name="*.sql"/>
-			</fileset>
-		</copy>
 		<mkdir dir="${bootstrap.home}/conf"/>
 		<copy todir="${bootstrap.home}/conf">
 			<fileset dir="${etc.base.dir}/client-config">
@@ -236,12 +230,6 @@
 			</fileset>
 		</copy>
 		<mkdir dir="${derby.home}/service-wrapper/logs"/>
-		<mkdir dir="${derby.home}/sql"/>
-		<copy todir="${derby.home}/sql"> 
-			<fileset dir="${etc.sql.scripts.dir}">
-				<include name="*.sql"/>
-			</fileset>
-		</copy>
 		<!-- Config files -->
 		<mkdir dir="${derby.home}/conf"/>
 		<copy tofile="${derby.home}/conf/bootstrap.properties" 
@@ -307,13 +295,13 @@
 		<antcall target="prepare.server.installer.folder" inheritrefs="true"/>
 		
 		<antcall target="preprocess.server.installer.files" inheritrefs="true"/>
-		
+
+		<!-- Build the installer -->
 		<antcall target="zz.build.installer">
 			<param name="installer.file" value="${server.installer.dir}/installer.mpi" />
 			<param name="version" value="${server.version}" />
 			<param name="destdir" value="${server.installer.dir}" />
 		</antcall>
-		
 	</target>
 	
 	<!-- ========== AUXILIARY TARGETS DURING BUILD ============= -->
@@ -384,6 +372,10 @@
 		<copy 
 			todir="${server.installer.dir}/admin-console"
 			file="${admin-console.dist.file}"/>
+		<!-- Copy the admin console modified settings file -->
+		<copy 
+			todir="${server.installer.dir}/admin-console"
+			file="${logic.src.dir}/console-settings.xml"/>
 		<!-- Copy Derby distro -->
 		<copy 
 			todir="${server.installer.dir}/db">
@@ -458,7 +450,20 @@
 			file="${server.installer.dir}/tomcat/server.xml" 
 			token="${derby.home}" 
 			value="$INSTALL_PATH$"/>
-		<!-- Replace all absolute base dirs with current base dir -->
+		<!-- Replace base paths and server host/port in console-config -->
+		<replace 
+			file="${server.installer.dir}/admin-console/console-settings.xml" 
+			token="c:/tmp/console" 
+			value="$INSTALL_PATH$"/>
+		<replace 
+			file="${server.installer.dir}/admin-console/console-settings.xml" 
+			token="localhost" 
+			value="$HOST$"/>
+		<replace 
+			file="${server.installer.dir}/admin-console/console-settings.xml" 
+			token="8080" 
+			value="$PORT$"/>
+		<!-- Replace all absolute base dirs with current base dir in installer file -->
 		<replace 
 			file="${server.installer.dir}/installer.mpi" 
 			token="C:/workdir-ds/designer.build/installer" 
@@ -473,7 +478,7 @@
 			file="${server.installer.dir}/installer.mpi" 
 			token="apache-tomcat-6.0.18.zip" 
 			value="${tomcat.installer.file}"/>
-		<!-- Replace JDK base dir with JDK base dir -->
+		<!-- Replace absolute JDK dir with current JDK dir -->
 		<replace 
 			file="${server.installer.dir}/installer.mpi" 
 			token="C:/dbin/jdk1.6.0_11" 
