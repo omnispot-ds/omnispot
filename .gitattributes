@@ -750,6 +750,8 @@ player/src/com/kesdip/player/component/flash/ExternalInterfaceCall.java -text
 player/src/com/kesdip/player/component/flash/ExternalInterfaceSerializer.java -text
 player/src/com/kesdip/player/components/AbstractComponent.java -text
 player/src/com/kesdip/player/components/AbstractVideo.java -text
+player/src/com/kesdip/player/components/Clock.java -text
+player/src/com/kesdip/player/components/ClockPanel.java -text
 player/src/com/kesdip/player/components/Component.java -text
 player/src/com/kesdip/player/components/ComponentException.java -text
 player/src/com/kesdip/player/components/FlashComponent.java -text
