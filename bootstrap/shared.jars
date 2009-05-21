@@ -11,6 +11,7 @@ etc/lib/apache-commons/commons-dbcp-1.2.2.jar
 etc/lib/apache-commons/commons-pool-1.4.jar
 etc/lib/apache-commons/commons-logging-1.0.4.jar
 etc/lib/apache-commons/commons-collections-3.1.jar
+etc/lib/apache-commons/commons-lang.jar
 
 etc/lib/sun/jna.jar
 etc/lib/sun/examples.jar

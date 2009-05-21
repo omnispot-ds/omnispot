@@ -1,6 +1,6 @@
 array set info {
 AllowLanguageSelection
-Yes
+No
 
 AppName
 {Kesdipepe Player}
@@ -138,7 +138,7 @@ ScriptExt
 .bat
 
 ShortAppName
-KesdiPlayer
+ContentPlayer
 
 SkipUnusedFileGroups
 Yes
@@ -273,13 +273,13 @@ File ::A2BD2907-0FDB-464E-8AFC-F1A00E8B2C63 -type dir -name lib -parent 7945966C
 File ::6C647E8B-550B-4F5D-8379-A9DC85FA3410 -name wrapper.dll -parent A2BD2907-0FDB-464E-8AFC-F1A00E8B2C63
 File ::80D2A0C2-556D-4C5C-819B-183849678A02 -name wrapper.jar -parent A2BD2907-0FDB-464E-8AFC-F1A00E8B2C63
 File ::DC2CDDB5-E5BB-463D-A71A-ADF68F5020C0 -type dir -name logs -parent 7945966C-EBC3-4203-87A0-B54538341963
-File ::269EC280-C700-4F65-A23B-E4885DE2EC19 -type dir -name sql -parent 13CE08AC-5002-45A5-850D-3E0CD0BA2F93
-File ::576233FD-2FD0-447B-8D9F-B57FC2420480 -name create-bootstrap-database.sql -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
-File ::54479E38-3A92-4077-9658-8A4E1925C903 -name create-database.sql -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
-File ::377286F3-A52A-4FE1-987B-34E5EA9D68AE -name drop-bootstrap-database.sql -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
-File ::330EB098-C2B4-434D-9C21-1C7A5A0656B1 -name drop-database.sql -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
-File ::AAB8B65C-C8D0-4BDC-AEA6-DD339EE7CECD -name static-data.sql -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
-File ::F41B045B-3BFE-49DE-9BF3-E8FA17B36E9D -name test-data.sql -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
+File ::269EC280-C700-4F65-A23B-E4885DE2EC19 -type dir -name sql -active 0 -parent 13CE08AC-5002-45A5-850D-3E0CD0BA2F93
+File ::576233FD-2FD0-447B-8D9F-B57FC2420480 -name create-bootstrap-database.sql -active 0 -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
+File ::54479E38-3A92-4077-9658-8A4E1925C903 -name create-database.sql -active 0 -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
+File ::377286F3-A52A-4FE1-987B-34E5EA9D68AE -name drop-bootstrap-database.sql -active 0 -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
+File ::330EB098-C2B4-434D-9C21-1C7A5A0656B1 -name drop-database.sql -active 0 -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
+File ::AAB8B65C-C8D0-4BDC-AEA6-DD339EE7CECD -name static-data.sql -active 0 -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
+File ::F41B045B-3BFE-49DE-9BF3-E8FA17B36E9D -name test-data.sql -active 0 -parent 269EC280-C700-4F65-A23B-E4885DE2EC19
 File ::E6901D07-E75C-45EA-88EA-868A5C7ACEA0 -type dir -name vlc -parent 13CE08AC-5002-45A5-850D-3E0CD0BA2F93
 File ::AF6D1711-41DF-461F-AE97-6E56EEB126F4 -type dir -name native -parent 13CE08AC-5002-45A5-850D-3E0CD0BA2F93
 File ::797172A2-0ACE-4E45-A27E-6723AB742D8D -name jniwrap.dll -parent AF6D1711-41DF-461F-AE97-6E56EEB126F4
@@ -1038,6 +1038,13 @@ File ::45E64054-EE75-4ECB-816F-3582CA866678 -name ad.mp4 -parent 9ED4B46C-2CF6-4
 File ::E5A6AF20-3F55-45E2-A0E4-B384D364BBD1 -name bld.jpg -parent 9ED4B46C-2CF6-4443-87F0-0750A603C860
 File ::A6C5B9BF-5E38-4488-8DB1-CC8D1900B93A -name digital.wmv -parent 9ED4B46C-2CF6-4443-87F0-0750A603C860
 File ::090D7929-549B-4D5E-9D30-E72E6094B9A8 -name sample.des.xml -parent 9ED4B46C-2CF6-4443-87F0-0750A603C860
+File ::9ECEE8F0-88E0-4FCE-AA6C-699B78497F10 -type dir -name sql -active 0 -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
+File ::670F8F5C-35FA-42FE-B9C1-CDA80D0E3A34 -name create-bootstrap-database.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
+File ::2FECEB05-50D2-43FD-807C-DEBBDE9F5DCC -name create-database.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
+File ::8A495B15-1B50-483B-BFD7-494CB24C4FF1 -name drop-bootstrap-database.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
+File ::560CC655-88B8-4779-A4B2-32A7409D8B0D -name drop-database.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
+File ::34A456C7-0B50-4D7B-800A-FE244DBD5509 -name static-data.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
+File ::6EED4521-6154-4D05-A18D-BAEC6EB6F6A7 -name test-data.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
 Component ::952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3 -setup Install -alias EngineComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name {Rendering Engine} -parent Components
 Component ::EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4 -setup Install -alias MonitorComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Monitor -parent Components
 Component ::773B2602-6F0C-4C59-A829-5512C4D8914D -setup Install -alias VLCComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name VLC -parent Components
@@ -1046,9 +1053,10 @@ SetupType ::210B766B-106B-43B9-954F-0099E94C11D2 -setup Install -active Yes -pla
 SetupType ::3C51262F-7577-4899-A92A-D3BFBAC91FBC -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Custom -parent SetupTypes
 
 InstallComponent 576DAC7F-54EB-4A2D-97A8-B9C891A110D8 -setup Install -type pane -title {Welcome Screen} -component Welcome -active Yes -parent StandardInstall
-InstallComponent A3C24BA1-479A-4FDB-8AF9-856867C05EB3 -setup Install -type pane -conditions {47021A93-DD4C-4F07-8FDF-0C67E809F465 2041C65D-CF86-4124-A25B-9B7DDBE8DF9A} -title {Select Destination} -component SelectDestination -command insert -active Yes -parent StandardInstall
+InstallComponent A3C24BA1-479A-4FDB-8AF9-856867C05EB3 -setup Install -type pane -conditions {47021A93-DD4C-4F07-8FDF-0C67E809F465 2041C65D-CF86-4124-A25B-9B7DDBE8DF9A 2761CDBD-E843-4253-B9EB-6C62ED5BD258} -title {Select Destination} -component SelectDestination -command insert -active Yes -parent StandardInstall
 Condition 47021A93-DD4C-4F07-8FDF-0C67E809F465 -active Yes -parent A3C24BA1-479A-4FDB-8AF9-856867C05EB3 -title {Script Condition} -component ScriptCondition -TreeObject::id 47021A93-DD4C-4F07-8FDF-0C67E809F465
 Condition 2041C65D-CF86-4124-A25B-9B7DDBE8DF9A -active Yes -parent A3C24BA1-479A-4FDB-8AF9-856867C05EB3 -title {File Permission Condition} -component FilePermissionCondition -TreeObject::id 2041C65D-CF86-4124-A25B-9B7DDBE8DF9A
+Condition 2761CDBD-E843-4253-B9EB-6C62ED5BD258 -active Yes -parent A3C24BA1-479A-4FDB-8AF9-856867C05EB3 -title {String Match Condition} -component StringMatchCondition -TreeObject::id 2761CDBD-E843-4253-B9EB-6C62ED5BD258
 InstallComponent 237B32B9-0BF7-4459-AC12-96B4A467462C -setup Install -type pane -conditions {673A59FF-5C93-4B4F-9239-42D8EB4D771F 73C69742-C80F-46A2-8C90-363E046A9525} -title {Setup Type} -component SetupType -command insert -active Yes -parent StandardInstall
 Condition 673A59FF-5C93-4B4F-9239-42D8EB4D771F -active Yes -parent 237B32B9-0BF7-4459-AC12-96B4A467462C -title {Script Condition} -component ScriptCondition -TreeObject::id 673A59FF-5C93-4B4F-9239-42D8EB4D771F
 Condition 73C69742-C80F-46A2-8C90-363E046A9525 -active Yes -parent 237B32B9-0BF7-4459-AC12-96B4A467462C -title {String Is Condition} -component StringIsCondition -TreeObject::id 73C69742-C80F-46A2-8C90-363E046A9525
@@ -1061,7 +1069,7 @@ Condition DC3D21A5-4333-401D-9065-A7D2C4E64BC6 -active Yes -parent DB0C92E9-BE04
 Condition 19FBC94B-58E3-498C-867B-1D8D8C478016 -active Yes -parent DB0C92E9-BE04-4A06-8FEE-E35B214D1049 -title {String Is Condition} -component StringIsCondition -TreeObject::id 19FBC94B-58E3-498C-867B-1D8D8C478016
 Condition 43430865-2255-460F-8DF5-19D5DD16EE2F -active Yes -parent DB0C92E9-BE04-4A06-8FEE-E35B214D1049 -title {String Match Condition} -component StringMatchCondition -TreeObject::id 43430865-2255-460F-8DF5-19D5DD16EE2F
 InstallComponent BFAD7812-3352-4E22-B813-0E9FF377FBAD -setup Install -type action -title {ID input field} -component AddWidget -alias PlayerIdWidget -active Yes -parent DB0C92E9-BE04-4A06-8FEE-E35B214D1049
-InstallComponent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -setup Install -type pane -conditions {A7951CB0-1FBE-4E58-9F60-A98BD6EEE072 16C40521-0ED6-4673-99C8-1AA6A78680C1 04806203-3CB2-4D00-8001-941E1F931D0D D6DABE3E-60AE-4C54-9EA4-621773DE4086 808B8CA2-92A3-423A-8E5C-25D5BFDD5153} -title {Define Server URL} -component CustomBlankPane2 -command reorder -alias DefinePlayerIDScreen -active Yes -parent StandardInstall
+InstallComponent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -setup Install -type pane -conditions {A7951CB0-1FBE-4E58-9F60-A98BD6EEE072 16C40521-0ED6-4673-99C8-1AA6A78680C1 04806203-3CB2-4D00-8001-941E1F931D0D D6DABE3E-60AE-4C54-9EA4-621773DE4086 808B8CA2-92A3-423A-8E5C-25D5BFDD5153} -title {Define Server URL} -component CustomBlankPane2 -command insert -alias DefinePlayerIDScreen -active Yes -parent StandardInstall
 Condition A7951CB0-1FBE-4E58-9F60-A98BD6EEE072 -active Yes -parent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id DC3D21A5-4333-401D-9065-A7D2C4E64BC6
 Condition 16C40521-0ED6-4673-99C8-1AA6A78680C1 -active Yes -parent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -title {String Is Condition} -component StringIsCondition -TreeObject::id 19FBC94B-58E3-498C-867B-1D8D8C478016
 Condition 04806203-3CB2-4D00-8001-941E1F931D0D -active Yes -parent A4693B13-D07D-4F9B-A75D-E7698F9F3657 -title {String Match Condition} -component StringMatchCondition -TreeObject::id 43430865-2255-460F-8DF5-19D5DD16EE2F
@@ -1128,6 +1136,7 @@ InstallComponent 3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6 -setup Install -type actio
 InstallComponent 871E85CF-6860-434F-83A0-BBE408A594CD -setup Install -type action -title {Install Bootstrap Service} -component ExecuteExternalProgram -command reorder -alias {Install Bootstrap Service} -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
 InstallComponent 25273EB3-3A11-4B71-9600-7031C5F02BA5 -setup Install -type action -title {Start Derby Service} -component StartWindowsService -command reorder -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
 InstallComponent 4751C163-35B6-4EA1-95C5-D28440457797 -setup Install -type action -title {Wait for Derby to launch} -component Wait -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
+InstallComponent C704E0A4-91B1-4856-BBB4-F10A36F065EC -setup Install -type action -title {Start Bootstrap Service} -component StartWindowsService -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
 InstallComponent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE -setup Install -type actiongroup -title {Other Actions} -alias OtherActions -active Yes -parent ActionGroupsInstall
 InstallComponent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -setup Install -type action -conditions DE29D43F-1430-42E2-9EC2-FC765F2C936B -title {Add JRE To Path} -component AddDirectoryToPath -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition DE29D43F-1430-42E2-9EC2-FC765F2C936B -active Yes -parent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id DE29D43F-1430-42E2-9EC2-FC765F2C936B
@@ -1144,7 +1153,6 @@ InstallComponent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -setup Install -type actio
 Condition D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F -active Yes -parent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -title {String Is Condition} -component StringIsCondition -TreeObject::id D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F
 Condition 9C0AA0DC-3F85-49F3-8A73-5BF2CB014636 -active Yes -parent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -title {String Is Condition} -component StringIsCondition -TreeObject::id 9C0AA0DC-3F85-49F3-8A73-5BF2CB014636
 Condition 18DC3036-ACC5-4B6C-B14F-3A5C24149323 -active Yes -parent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 18DC3036-ACC5-4B6C-B14F-3A5C24149323
-InstallComponent B08DBCBB-2276-4D6F-AB53-954FB8AAE690 -setup Install -type action -title {Reboot or Shutdown System} -component RebootOrShutdownSystem -active Yes -parent A5116484-B4F7-4431-917E-051A5043C4AD
 InstallComponent ED796931-F0FE-4B85-8B25-C0EE3770082D -setup Install -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent A3B2D857-C194-4DA9-8A77-27DDE9B78B2D -setup Uninstall -type pane -title Uninstall -component Uninstall -active Yes -parent StandardUninstall
 InstallComponent ACDA2582-0227-4371-9220-FC4D9848466B -setup Uninstall -type action -title {Disable Next Button} -component ModifyWidget -active Yes -parent A3B2D857-C194-4DA9-8A77-27DDE9B78B2D
@@ -1428,6 +1436,21 @@ OtherActions
 
 26FB6615-6EC1-4F27-A1EB-AA7809C0FC33,TrueValue
 No
+
+2761CDBD-E843-4253-B9EB-6C62ED5BD258,CheckCondition
+{Before Next Pane is Displayed}
+
+2761CDBD-E843-4253-B9EB-6C62ED5BD258,FailureMessage
+{The Destination Folder cannot contain spaces.}
+
+2761CDBD-E843-4253-B9EB-6C62ED5BD258,Operator
+{does not match}
+
+2761CDBD-E843-4253-B9EB-6C62ED5BD258,Pattern
+{*\ *}
+
+2761CDBD-E843-4253-B9EB-6C62ED5BD258,String
+<%InstallDir%>
 
 2BB0A756-FC8A-4650-A2A0-643124847170,Conditions
 {0 conditions}
@@ -2084,7 +2107,7 @@ A3C24BA1-479A-4FDB-8AF9-856867C05EB3,Caption,subst
 1
 
 A3C24BA1-479A-4FDB-8AF9-856867C05EB3,Conditions
-{2 conditions}
+{3 conditions}
 
 A3C24BA1-479A-4FDB-8AF9-856867C05EB3,DestinationLabel,subst
 0
@@ -2147,7 +2170,7 @@ A504F227-72DE-4366-86B4-9476AE7DD909,IncludeStderr
 Yes
 
 A504F227-72DE-4366-86B4-9476AE7DD909,ProgramCommandLine
-{uninstall.exe /S /NCRC }
+{uninstall.exe /S /NCRC}
 
 A504F227-72DE-4366-86B4-9476AE7DD909,WorkingDirectory
 <%PROGRAM_FILES%>/VideoLan/VLC
@@ -2332,9 +2355,6 @@ No
 AIX-ppc,RootInstallDir
 /usr/local/<%ShortAppName%>
 
-B08DBCBB-2276-4D6F-AB53-954FB8AAE690,Conditions
-{0 conditions}
-
 B1A62C4C-A819-4718-9EA2-5D0E5BD006EB,CheckCondition
 {Before Action is Executed}
 
@@ -2455,6 +2475,12 @@ C4F867E9-F818-462A-9812-8DFC1CDC9EB6,Action
 C4F867E9-F818-462A-9812-8DFC1CDC9EB6,Conditions
 {0 conditions}
 
+C704E0A4-91B1-4856-BBB4-F10A36F065EC,Conditions
+{0 conditions}
+
+C704E0A4-91B1-4856-BBB4-F10A36F065EC,ServiceName
+{Bootstrap app service}
+
 C7423F71-CF36-4F56-B08C-526EF040ACCD,Default
 Yes
 
@@ -2471,7 +2497,7 @@ CB1809C7-BDC4-4420-B82B-D34F2F13F525,IncludeStderr
 Yes
 
 CB1809C7-BDC4-4420-B82B-D34F2F13F525,ProgramCommandLine
-{vlc-0.9.9-win32.exe /S /NCRC }
+{vlc-0.9.9-win32.exe /S}
 
 CB1809C7-BDC4-4420-B82B-D34F2F13F525,ProgressiveOutputWidget
 ProgressTextBox
@@ -3132,7 +3158,7 @@ Windows,IncludeTWAPI
 Yes
 
 Windows,InstallDir
-c:/<%ShortAppName%>
+c:/Kesdipepe/<%ShortAppName%>
 
 Windows,InstallMode
 Standard
@@ -3379,6 +3405,20 @@ Please, wait...}
 
 BFAD7812-3352-4E22-B813-0E9FF377FBAD,Text
 {Player ID}
+
+CCC59E78-62AE-4BA4-9B8E-0A9AED27839F,Text
+{Install Directory:
+            <%InstallDir%>
+
+Setup Type:
+            <%InstallType%>
+
+Player ID:
+            <%PlayerId%>
+
+Admin Console:
+            Host: <%ServerHost%>
+            Port: <%ServerPort%>}
 
 D2E0DCF9-2A25-4358-B9B9-02066ACC8252,Text
 {Host Name}
