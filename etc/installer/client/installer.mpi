@@ -2170,7 +2170,7 @@ A504F227-72DE-4366-86B4-9476AE7DD909,IncludeStderr
 Yes
 
 A504F227-72DE-4366-86B4-9476AE7DD909,ProgramCommandLine
-{uninstall.exe /S /NCRC}
+{uninstall.exe /mode silent}
 
 A504F227-72DE-4366-86B4-9476AE7DD909,WorkingDirectory
 <%PROGRAM_FILES%>/VideoLan/VLC

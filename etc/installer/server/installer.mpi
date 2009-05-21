@@ -3557,8 +3557,12 @@ InstallComponent 8232165B-CE87-438C-9D88-6CEF7AFC120C -setup Install -type actio
 Condition 53529148-6CE2-432A-B1C0-36BF557419F7 -active Yes -parent 8232165B-CE87-438C-9D88-6CEF7AFC120C -title {String Is Condition} -component StringIsCondition -TreeObject::id 53529148-6CE2-432A-B1C0-36BF557419F7
 InstallComponent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -setup Install -type action -conditions F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -title {Windows Uninstall Registry} -component AddWindowsUninstallEntry -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -active Yes -parent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -title {String Is Condition} -component StringIsCondition -TreeObject::id F4EF62D0-7DF5-4C43-B54C-AB6324CFB443
-InstallComponent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -setup Install -type action -conditions A892A8DD-7E7E-4B7D-913C-DC73668E5B50 -title {Program Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
+InstallComponent 6DC01586-C6BC-4452-83CA-AE711249BE6A -setup Install -type action -conditions {2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 76EED346-2AAE-4254-86AF-DEBEE4B79A09} -title {Admin Console Shortcut} -component InstallProgramFolderShortcut -command reorder -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
+Condition 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 -active Yes -parent 6DC01586-C6BC-4452-83CA-AE711249BE6A -title {String Is Condition} -component StringIsCondition -TreeObject::id 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2
+Condition 76EED346-2AAE-4254-86AF-DEBEE4B79A09 -active Yes -parent 6DC01586-C6BC-4452-83CA-AE711249BE6A -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 76EED346-2AAE-4254-86AF-DEBEE4B79A09
+InstallComponent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -setup Install -type action -conditions {A892A8DD-7E7E-4B7D-913C-DC73668E5B50 2F400726-BFE7-4D3A-B39B-1E7470ACA671} -title {Designer Shortcut} -component InstallProgramFolderShortcut -command reorder -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition A892A8DD-7E7E-4B7D-913C-DC73668E5B50 -active Yes -parent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -title {String Is Condition} -component StringIsCondition -TreeObject::id A892A8DD-7E7E-4B7D-913C-DC73668E5B50
+Condition 2F400726-BFE7-4D3A-B39B-1E7470ACA671 -active Yes -parent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 2F400726-BFE7-4D3A-B39B-1E7470ACA671
 InstallComponent 3BC307C6-8D24-46B9-9A3D-4E98937B4F74 -setup Install -type action -conditions 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -title {Uninstall Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -active Yes -parent 3BC307C6-8D24-46B9-9A3D-4E98937B4F74 -title {String Is Condition} -component StringIsCondition -TreeObject::id 431EE5AC-4222-44D4-B590-BBB7E4D12B65
 InstallComponent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -setup Install -type actiongroup -title {Service Installation Actions} -alias {Service Installation Actions} -active Yes -parent ActionGroupsInstall
@@ -3584,6 +3588,8 @@ InstallComponent 24E354C6-9547-408C-B63D-C52FA29DC539 -setup Install -type actio
 Condition F770B0CE-B40E-4935-B385-8174BC1E245D -active Yes -parent 24E354C6-9547-408C-B63D-C52FA29DC539 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id F770B0CE-B40E-4935-B385-8174BC1E245D
 InstallComponent B229B89B-1DCC-4C9D-8837-51AA5A29E7DE -setup Install -type action -conditions 9F1861BC-5A4E-43D8-B849-F4746B513374 -title {Add Tomcat system properties} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 9F1861BC-5A4E-43D8-B849-F4746B513374 -active Yes -parent B229B89B-1DCC-4C9D-8837-51AA5A29E7DE -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 9F1861BC-5A4E-43D8-B849-F4746B513374
+InstallComponent 5E8FD0F6-FC47-462A-B6EF-8D07A1361086 -setup Install -type action -conditions B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028 -title {Change Tomcat port} -component ReplaceTextInFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+Condition B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028 -active Yes -parent 5E8FD0F6-FC47-462A-B6EF-8D07A1361086 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028
 InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -conditions A8DCF517-5E07-4847-94E3-4FEDB2892A92 -title {Copy Console WAR} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition A8DCF517-5E07-4847-94E3-4FEDB2892A92 -active Yes -parent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A8DCF517-5E07-4847-94E3-4FEDB2892A92
 InstallComponent BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE -setup Install -type action -conditions AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0 -title {Copy Tomcat XMLs} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
@@ -3942,6 +3948,21 @@ Yes
 2BF7FC5A-B8CA-4AE3-B449-F22241CA8824,Prompt
 <%InstallStartupText%>
 
+2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2,CheckCondition
+{Before Action is Executed}
+
+2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2,Operator
+false
+
+2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2,String
+<%UpgradeInstall%>
+
+2F400726-BFE7-4D3A-B39B-1E7470ACA671,CheckCondition
+{Before Action is Executed}
+
+2F400726-BFE7-4D3A-B39B-1E7470ACA671,ObjectID
+DesignerComponent
+
 2FAB1DA8-9C66-42D6-A956-E20110953073,Action
 {Uninstall Services}
 
@@ -3992,6 +4013,9 @@ Yes
 
 3B0B7BCF-4F59-42E4-979B-BA52DFD6D32B,Conditions
 {0 conditions}
+
+3BC307C6-8D24-46B9-9A3D-4E98937B4F74,Conditions
+{1 condition}
 
 3BC307C6-8D24-46B9-9A3D-4E98937B4F74,FileName
 <%ShortAppName%>-uninstall
@@ -4323,6 +4347,15 @@ beginning
 5E8E763B-98F6-4DD5-989E-EA3FDA484467,ExitType
 Finish
 
+5E8FD0F6-FC47-462A-B6EF-8D07A1361086,Conditions
+{1 condition}
+
+5E8FD0F6-FC47-462A-B6EF-8D07A1361086,Files
+tomcat/apache-tomcat-6.0.18/conf/server.xml
+
+5E8FD0F6-FC47-462A-B6EF-8D07A1361086,StringMap
+{8080	<%ServerPort%>}
+
 6248D2BA-F081-4B5F-8035-5D8776FE8590,Default
 Yes
 
@@ -4416,6 +4449,18 @@ false
 6DA46015-9F36-49E6-9E17-43445A8A8B8D,String
 <%InstallStopped%>
 
+6DC01586-C6BC-4452-83CA-AE711249BE6A,Conditions
+{2 conditions}
+
+6DC01586-C6BC-4452-83CA-AE711249BE6A,ShortcutName
+{Admin Console}
+
+6DC01586-C6BC-4452-83CA-AE711249BE6A,ShortcutType
+Link
+
+6DC01586-C6BC-4452-83CA-AE711249BE6A,TargetFileName
+http://<%ServerHost%>:<%ServerPort%>/admin-console
+
 6DFC651F-938F-4A3B-939F-3BCD98827EAE,CheckCondition
 {Before Action is Executed}
 
@@ -4436,6 +4481,12 @@ Tomcat6
 
 7445C11C-4E1D-4992-858D-9931391E456B,Comment
 {Ask the user if they want to proceed with the uninstall.}
+
+76EED346-2AAE-4254-86AF-DEBEE4B79A09,CheckCondition
+{Before Action is Executed}
+
+76EED346-2AAE-4254-86AF-DEBEE4B79A09,ObjectID
+ConsoleComponent
 
 77CE0CD4-B23C-4B8D-BA3F-3C923C4CC14F,Conditions
 {2 conditions}
@@ -4516,7 +4567,7 @@ ConsoleComponent
 {1 condition}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,ProgramCommandLine
-{uninstall.exe /S}
+{uninstall.exe /S /NCRC}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,WorkingDirectory
 <%PROGRAM_FILES%>/VideoLan/VLC
@@ -4565,6 +4616,9 @@ LaunchApplication
 
 809EC975-DD69-4885-835E-40F878975B9A,Comment
 {Ask the user if they want to proceed with the install.}
+
+809EC975-DD69-4885-835E-40F878975B9A,Conditions
+{2 conditions}
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,BackButton,subst
 1
@@ -4869,8 +4923,11 @@ JDK
 A55F4F98-7E82-4DDE-A7DA-1E5DDC5DDF80,Alias
 {Setup Actions}
 
+A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,Conditions
+{2 conditions}
+
 A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,ShortcutName
-<%AppName%>
+{Kesdipepe Designer}
 
 A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,TargetFileName
 <%ProgramExecutable%>
@@ -4973,6 +5030,12 @@ B15CAD54-78BC-49DD-A057-2CC01952E36D,Alias
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message,subst
 1
+
+B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028,CheckCondition
+{Before Action is Executed}
+
+B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028,ObjectID
+ConsoleComponent
 
 B229B89B-1DCC-4C9D-8837-51AA5A29E7DE,Conditions
 {1 condition}
@@ -5156,6 +5219,9 @@ BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,CancelButton,subst
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Caption,subst
 1
+
+BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Conditions
+{0 conditions}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Message,subst
 1
@@ -6029,6 +6095,17 @@ BA6E0F93-C95F-46C0-84B3-16A172FF56E7,Text
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,Text
 {Host Name}
+
+BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Text
+{Install Directory:
+            <%InstallDir%>
+
+Setup Type:
+            <%InstallType%>
+
+Admin Console:
+            Host: <%ServerHost%>
+            Port: <%ServerPort%>}
 
 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,Message
 <%InstallStartupText%>

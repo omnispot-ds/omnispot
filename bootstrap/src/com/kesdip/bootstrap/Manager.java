@@ -47,17 +47,20 @@ public class Manager extends Thread {
 				.getScreenDumpInterval()) * 1000;
 		serverURL = Config.getSingleton().getServerURL();
 		intervalsRatio = screendumpInterval / communicationInterval;
+		
+		ctx = new ClassPathXmlApplicationContext("bootstrapContext.xml");
+
+		// update DB before starting message pump
+		updateDbSchema();
+		
 		MessagePump pump = new MessagePump();
 		pump.start();
 		setPump(pump);
-		ctx = new ClassPathXmlApplicationContext("bootstrapContext.xml");
 	}
 
 	@Override
 	public void run() {
 		init();
-
-		updateDbSchema();
 
 		int exceptioncount = 0;
 		long firstExceptionTimeStamp = 0;
