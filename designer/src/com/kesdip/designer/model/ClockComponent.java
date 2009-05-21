@@ -46,9 +46,9 @@ public class ClockComponent extends ComponentModelElement {
 		Element imageElement = doc.createElement("bean");
 		imageElement.setAttribute("class", "com.kesdip.player.components.Clock");
 		super.serialize(doc, imageElement);
-		Element contentPropElement = DOMHelpers.addProperty(doc, imageElement, "imageResource");
-		Element resourceElement = image.serialize(doc, isPublish);
-		contentPropElement.appendChild(resourceElement);
+		//Element contentPropElement = DOMHelpers.addProperty(doc, imageElement, "imageResource");
+		//Element resourceElement = image.serialize(doc, isPublish);
+		//contentPropElement.appendChild(resourceElement);
 		return imageElement;
 	}
 	
@@ -56,8 +56,8 @@ public class ClockComponent extends ComponentModelElement {
 	protected void deserialize(Document doc, Node componentNode) {
 		super.deserialize(doc, componentNode);
 		Node contentPropNode = DOMHelpers.getPropertyNode(componentNode, "imageResource");
-		image = new Resource("", "");
-		image.deserialize(doc, contentPropNode);
+//		image = new Resource("", "");
+//		image.deserialize(doc, contentPropNode);
 	}
 	
 	public void save(IMemento memento) {
@@ -147,7 +147,7 @@ public class ClockComponent extends ComponentModelElement {
 	public ModelElement deepCopy() {
 		ClockComponent retVal = new ClockComponent();
 		retVal.deepCopy(this);
-		retVal.image = Resource.deepCopy(image);
+		//retVal.image = Resource.deepCopy(image);
 		return retVal;
 	}
 
