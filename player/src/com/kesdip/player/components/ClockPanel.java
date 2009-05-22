@@ -304,25 +304,25 @@ public class ClockPanel extends JLayeredPane {
 				paramGraphics2D.setPaint(Color.blue);
 				paramGraphics2D.drawLine(this.centerXY, this.centerXY, this.centerXY - (int)d5, this.centerXY - (int)d6);
 
-				//finger image
-				Image inputImage = new ImageIcon("d:\\finger.jpg").getImage();
-
-				AffineTransform at = new AffineTransform();
-				BufferedImage sourceBI = new BufferedImage(inputImage.getWidth(null), inputImage
-						.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-				Graphics2D g = (Graphics2D) sourceBI.getGraphics();
-			//	g.drawImage(inputImage, 0, 0, null);
-
-				// scale image
-				//at.scale(2.0, 2.0);
-
-				// rotate 
-				at.rotate(d4-90*Math.PI/180 , sourceBI.getWidth() , sourceBI.getHeight() );
-				BufferedImageOp bio;
-				bio = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-
-				BufferedImage destinationBI = bio.filter(sourceBI, null);
-				paramGraphics2D.drawImage(destinationBI, this.centerXY - (int)d5,this.centerXY - (int)d6, null);
+				//finger as image 
+//				Image inputImage = new ImageIcon("d:\\finger.jpg").getImage();
+//
+//				AffineTransform at = new AffineTransform();
+//				BufferedImage sourceBI = new BufferedImage(inputImage.getWidth(null), inputImage
+//						.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+//				Graphics2D g = (Graphics2D) sourceBI.getGraphics();
+//			//	g.drawImage(inputImage, 0, 0, null);
+//
+//				// scale image
+//				//at.scale(2.0, 2.0);
+//
+//				// rotate 
+//				at.rotate(d4-90*Math.PI/180 , sourceBI.getWidth() , sourceBI.getHeight() );
+//				BufferedImageOp bio;
+//				bio = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+//
+//				BufferedImage destinationBI = bio.filter(sourceBI, null);
+//				paramGraphics2D.drawImage(destinationBI, this.centerXY - (int)d5,this.centerXY - (int)d6, null);
 			}
 		}
 	}
