@@ -26,14 +26,14 @@ import com.kesdip.business.communication.ActionSerializationHandler;
 import com.kesdip.business.constenum.IActionParamsEnum;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IActionTypesEnum;
+import com.kesdip.business.constenum.IMessageParamsEnum;
 import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.domain.generated.Parameter;
 
-
 public class ProtocolHandler {
 
-	private static final Logger logger =
-		Logger.getLogger(ProtocolHandler.class);
+	private static final Logger logger = Logger
+			.getLogger(ProtocolHandler.class);
 	private Manager manager;
 	private ActionSerializationHandler actionHandler = new ActionSerializationHandler();
 
@@ -48,51 +48,60 @@ public class ProtocolHandler {
 		boolean playerAlive = true;
 
 		List<Action> actions = getHibernateTemplate().loadAll(Action.class);
-		String serializedActions = "NO_ACTIONS";
-		
+		String serializedActions = IActionParamsEnum.NO_ACTIONS;
+
 		if (actions.size() > 0) {
-			serializedActions = actionHandler.serialize(actions.toArray(new Action[0]));
-			logger.debug("Actions found and will be sent to server: " + serializedActions);
+			serializedActions = actionHandler.serialize(actions
+					.toArray(new Action[0]));
+			if (logger.isDebugEnabled()) {
+				logger.debug("Actions found and will be sent to server: "
+						+ serializedActions);
+			}
 		}
 
 		String installationId = Config.getSingleton().getinstallationId();
-		logger.info("installationId: "+installationId);
+		if (logger.isDebugEnabled()) {
+			logger.debug("installationId: " + installationId);
+		}
 		if (manager.includeScreendump()) {
 			logger.debug("Including Screendump");
 			Screen.grabAndSaveToFile();
 			Part[] parts = {
-					new StringPart("installationId", installationId),
-					new StringPart("playerProcAlive", Boolean.toString(playerAlive)),
-					new StringPart("serializedActions" , serializedActions),
-					new FilePart("screenshot",
-							new File(Config.getSingleton().getScreenShotStorageLocation() ,
-							"screenShot.jpg"))
-			};
-			post.setRequestEntity(new MultipartRequestEntity(parts ,post.getParams()));
+					new StringPart(IMessageParamsEnum.INSTALLATION_ID,
+							installationId),
+					new StringPart(IMessageParamsEnum.PLAYER_PROC_ALIVE,
+							Boolean.toString(playerAlive)),
+					new StringPart(IMessageParamsEnum.SERIALIZED_ACTIONS,
+							serializedActions),
+					new FilePart(IMessageParamsEnum.SCREENSHOT, new File(Config
+							.getSingleton().getScreenShotStorageLocation(),
+							"screenShot.jpg")) };
+			post.setRequestEntity(new MultipartRequestEntity(parts, post
+					.getParams()));
 		} else {
 			NameValuePair[] data = {
-					new NameValuePair("installationId", installationId),
-					new NameValuePair("playerProcAlive", Boolean.toString(playerAlive)),
-					new NameValuePair("serializedActions" , serializedActions)
-			};
+					new NameValuePair(IMessageParamsEnum.INSTALLATION_ID,
+							installationId),
+					new NameValuePair(IMessageParamsEnum.PLAYER_PROC_ALIVE,
+							Boolean.toString(playerAlive)),
+					new NameValuePair(IMessageParamsEnum.SERIALIZED_ACTIONS,
+							serializedActions) };
 			post.setRequestBody(data);
 		}
-
 
 		http.getHttpConnectionManager().getParams().setConnectionTimeout(5000);
 		http.executeMethod(post);
 
-		//delete all actions with status done...
-		for (Action action:actions) {
+		// delete all actions with status done...
+		for (Action action : actions) {
 			if (action.getStatus() == IActionStatusEnum.OK)
 				getHibernateTemplate().delete(action);
-			logger.debug("deleted action with status OK: "+action.toString());
+			logger.debug("deleted action with status OK: " + action.toString());
 		}
-		
+
 		handleResponse(post.getResponseBodyAsString());
 
 	}
-
 
 	public void handleResponse(String serializedActions) throws Exception {
 
@@ -100,32 +109,38 @@ public class ProtocolHandler {
 		if (serializedActions.length() == 0)
 			return;
 
-		if (!serializedActions.equals("NO_ACTIONS")){
-			logger.debug("actions received from server: " + serializedActions);			
+		if (!serializedActions.equals(IActionParamsEnum.NO_ACTIONS)) {
+			logger.debug("actions received from server: " + serializedActions);
 			Action[] actions = actionHandler.deserialize(serializedActions);
-			//must store them and add the necessary messages if required
-			for (Action action:actions) {
+			// must store them and add the necessary messages if required
+			for (Action action : actions) {
 				if (action.getType() == IActionTypesEnum.DEPLOY) {
 					Set<Parameter> params = action.getParameters();
 					String descriptorUrl = "";
 					String crc = "";
 					for (Parameter p : params) {
-						if (p.getName().equals(IActionParamsEnum.DEPLOYMENT_URL)) {
+						if (p.getName()
+								.equals(IActionParamsEnum.DEPLOYMENT_URL)) {
 							descriptorUrl = p.getValue();
 						}
-						if (p.getName().equals(IActionParamsEnum.DEPLOYMENT_CRC)) {
+						if (p.getName()
+								.equals(IActionParamsEnum.DEPLOYMENT_CRC)) {
 							crc = p.getValue();
 						}
-						p.setId((Long)getHibernateTemplate().save(p));
+						p.setId((Long) getHibernateTemplate().save(p));
 					}
 					logger.info("Adding new deploy message");
-					manager.getPump().addMessage(new DeployMessage(descriptorUrl,Long.parseLong(crc), action.getActionId()));
+					manager.getPump().addMessage(
+							new DeployMessage(descriptorUrl, Long
+									.parseLong(crc), action.getActionId()));
 				} else if (action.getType() == IActionTypesEnum.RESTART) {
 					logger.info("Adding new restartplayer message");
-					manager.getPump().addMessage(new RestartPlayerMessage(action.getActionId()));
+					manager.getPump().addMessage(
+							new RestartPlayerMessage(action.getActionId()));
 				} else if (action.getType() == IActionTypesEnum.REBOOT) {
 					logger.info("Adding new rebootplayer message");
-					manager.getPump().addMessage(new RebootPlayerMessage(action.getActionId()));
+					manager.getPump().addMessage(
+							new RebootPlayerMessage(action.getActionId()));
 				}
 				action.setInstallation(null);
 				action.setStatus(IActionStatusEnum.SENT);
@@ -133,8 +148,6 @@ public class ProtocolHandler {
 			}
 		}
 	}
-
-	
 
 	public String serverURL = Config.getSingleton().getServerURL();
 	/**

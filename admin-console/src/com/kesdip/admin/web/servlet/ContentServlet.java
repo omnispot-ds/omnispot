@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import com.kesdip.business.config.ApplicationSettings;
 import com.kesdip.business.config.FileStorageSettings;
+import com.kesdip.business.constenum.IMessageParamsEnum;
 import com.kesdip.business.domain.generated.Content;
 import com.kesdip.business.logic.ContentLogic;
 import com.kesdip.common.util.FileUtils;
@@ -67,7 +68,7 @@ public class ContentServlet extends BaseSpringContextServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String pathInfo = req.getPathInfo();
-		String playerUuid = req.getParameter(PLAYER_UUID_PARAM);
+		String playerUuid = req.getParameter(IMessageParamsEnum.INSTALLATION_ID);
 		if (logger.isInfoEnabled()) {
 			logger.info("Received request '" + pathInfo + "' from player '"
 					+ playerUuid + "'");

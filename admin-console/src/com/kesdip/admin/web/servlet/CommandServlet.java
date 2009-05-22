@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.kesdip.business.communication.ServerProtocolHandler;
+import com.kesdip.business.constenum.IMessageParamsEnum;
 
 @SuppressWarnings("serial")
 public class CommandServlet extends BaseSpringContextServlet {
@@ -21,7 +22,7 @@ public class CommandServlet extends BaseSpringContextServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String playerUuid = req.getParameter(PLAYER_UUID_PARAM);
+		String playerUuid = req.getParameter(IMessageParamsEnum.INSTALLATION_ID);
 		// unauthenticated player
 		if (!isPlayerAuthenticated(playerUuid)) {
 			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -32,7 +33,7 @@ public class CommandServlet extends BaseSpringContextServlet {
 		try {
 			handler.handleRequest(req, resp);
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.toString());
 		}
 	}
 

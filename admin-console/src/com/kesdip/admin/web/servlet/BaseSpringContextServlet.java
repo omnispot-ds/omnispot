@@ -26,11 +26,6 @@ import com.kesdip.business.logic.InstallationLogic;
 public abstract class BaseSpringContextServlet extends HttpServlet {
 	
 	/**
-	 * The player UUID parameter.
-	 */
-	public static final String PLAYER_UUID_PARAM = "installationId";
-
-	/**
 	 * The Spring context.
 	 */
 	private XmlWebApplicationContext springContext;

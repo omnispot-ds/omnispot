@@ -20,9 +20,14 @@ public interface IActionParamsEnum {
 	 * CRC for deployment.
 	 */
 	String DEPLOYMENT_CRC = "deploymentCrc";
-	
+
 	/**
 	 * URL for deployment file.
 	 */
 	String DEPLOYMENT_URL = "deploymentUrl";
+
+	/**
+	 * Reply value to indicate that no actions are available.
+	 */
+	String NO_ACTIONS = "NO_ACTIONS";
 }

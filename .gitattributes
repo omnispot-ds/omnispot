@@ -292,6 +292,7 @@ business-logic/src/com/kesdip/business/constenum/IActionTypesEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IFileNamesEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IInstallationStatus.java -text
 business-logic/src/com/kesdip/business/constenum/IMediaCopyPolicyEnum.java -text
+business-logic/src/com/kesdip/business/constenum/IMessageParamsEnum.java -text
 business-logic/src/com/kesdip/business/constenum/IRolesEnum.java -text
 business-logic/src/com/kesdip/business/domain/AccessControl.hbm.xml -text
 business-logic/src/com/kesdip/business/domain/AccessRight.hbm.xml -text

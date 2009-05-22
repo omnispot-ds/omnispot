@@ -3461,7 +3461,6 @@ File ::3790DDA4-693F-46B7-87FB-0B6B1736AD8B -type dir -name server -parent F95D6
 File ::CAD3C2A5-6C64-4B28-8FFE-F8A88BD4DE5F -name Ebay.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
 File ::DFDE6D27-0AE9-4169-8797-94A0388679B6 -name ImageProvider.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
 File ::E4FD13FA-0193-452B-8A52-85C542947691 -name Main.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
-File ::96FE9256-45CD-4F1D-A3DC-B3D934A44182 -name src.zip -parent CCE58DA9-3D46-48EB-BDEB-871E2406B39C
 Component ::91DD14D5-970E-40E3-A9B8-1D1E4B403333 -setup Install -alias DesignerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Designer -parent Components
 Component ::956841E0-D201-4941-A063-7949A26DFCBC -setup Install -alias ConsoleComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name {Administration Console} -parent Components
 Component ::7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E -setup Install -alias VLCComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name VLC -parent Components
@@ -3557,10 +3556,10 @@ InstallComponent 8232165B-CE87-438C-9D88-6CEF7AFC120C -setup Install -type actio
 Condition 53529148-6CE2-432A-B1C0-36BF557419F7 -active Yes -parent 8232165B-CE87-438C-9D88-6CEF7AFC120C -title {String Is Condition} -component StringIsCondition -TreeObject::id 53529148-6CE2-432A-B1C0-36BF557419F7
 InstallComponent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -setup Install -type action -conditions F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -title {Windows Uninstall Registry} -component AddWindowsUninstallEntry -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -active Yes -parent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -title {String Is Condition} -component StringIsCondition -TreeObject::id F4EF62D0-7DF5-4C43-B54C-AB6324CFB443
-InstallComponent 6DC01586-C6BC-4452-83CA-AE711249BE6A -setup Install -type action -conditions {2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 76EED346-2AAE-4254-86AF-DEBEE4B79A09} -title {Admin Console Shortcut} -component InstallProgramFolderShortcut -command reorder -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
+InstallComponent 6DC01586-C6BC-4452-83CA-AE711249BE6A -setup Install -type action -conditions {2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 76EED346-2AAE-4254-86AF-DEBEE4B79A09} -title {Admin Console Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 -active Yes -parent 6DC01586-C6BC-4452-83CA-AE711249BE6A -title {String Is Condition} -component StringIsCondition -TreeObject::id 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2
 Condition 76EED346-2AAE-4254-86AF-DEBEE4B79A09 -active Yes -parent 6DC01586-C6BC-4452-83CA-AE711249BE6A -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 76EED346-2AAE-4254-86AF-DEBEE4B79A09
-InstallComponent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -setup Install -type action -conditions {A892A8DD-7E7E-4B7D-913C-DC73668E5B50 2F400726-BFE7-4D3A-B39B-1E7470ACA671} -title {Designer Shortcut} -component InstallProgramFolderShortcut -command reorder -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
+InstallComponent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -setup Install -type action -conditions {A892A8DD-7E7E-4B7D-913C-DC73668E5B50 2F400726-BFE7-4D3A-B39B-1E7470ACA671} -title {Designer Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition A892A8DD-7E7E-4B7D-913C-DC73668E5B50 -active Yes -parent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -title {String Is Condition} -component StringIsCondition -TreeObject::id A892A8DD-7E7E-4B7D-913C-DC73668E5B50
 Condition 2F400726-BFE7-4D3A-B39B-1E7470ACA671 -active Yes -parent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 2F400726-BFE7-4D3A-B39B-1E7470ACA671
 InstallComponent 3BC307C6-8D24-46B9-9A3D-4E98937B4F74 -setup Install -type action -conditions 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -title {Uninstall Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
@@ -3584,12 +3583,12 @@ InstallComponent 42D9AC66-4712-485E-843D-7BDD9C2E4EB4 -setup Install -type actio
 Condition 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685 -active Yes -parent 42D9AC66-4712-485E-843D-7BDD9C2E4EB4 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 8AF9C09E-84FC-49D2-9CE2-99F6C21D8685
 InstallComponent F5A99211-2206-4E08-BEB0-51C153CD0B8C -setup Install -type action -conditions 96BF4AD4-34F9-4984-B7FF-CC4A55EEA1B0 -title {Replace values in console-settings} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 96BF4AD4-34F9-4984-B7FF-CC4A55EEA1B0 -active Yes -parent F5A99211-2206-4E08-BEB0-51C153CD0B8C -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 96BF4AD4-34F9-4984-B7FF-CC4A55EEA1B0
+InstallComponent 5E8FD0F6-FC47-462A-B6EF-8D07A1361086 -setup Install -type action -conditions B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028 -title {Change Tomcat port} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+Condition B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028 -active Yes -parent 5E8FD0F6-FC47-462A-B6EF-8D07A1361086 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028
 InstallComponent 24E354C6-9547-408C-B63D-C52FA29DC539 -setup Install -type action -conditions F770B0CE-B40E-4935-B385-8174BC1E245D -title {Change Tomcat startup mode} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition F770B0CE-B40E-4935-B385-8174BC1E245D -active Yes -parent 24E354C6-9547-408C-B63D-C52FA29DC539 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id F770B0CE-B40E-4935-B385-8174BC1E245D
 InstallComponent B229B89B-1DCC-4C9D-8837-51AA5A29E7DE -setup Install -type action -conditions 9F1861BC-5A4E-43D8-B849-F4746B513374 -title {Add Tomcat system properties} -component ReplaceTextInFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 9F1861BC-5A4E-43D8-B849-F4746B513374 -active Yes -parent B229B89B-1DCC-4C9D-8837-51AA5A29E7DE -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 9F1861BC-5A4E-43D8-B849-F4746B513374
-InstallComponent 5E8FD0F6-FC47-462A-B6EF-8D07A1361086 -setup Install -type action -conditions B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028 -title {Change Tomcat port} -component ReplaceTextInFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
-Condition B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028 -active Yes -parent 5E8FD0F6-FC47-462A-B6EF-8D07A1361086 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B1DD3EE3-8BF9-442E-8237-1A2D7CE8A028
 InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -conditions A8DCF517-5E07-4847-94E3-4FEDB2892A92 -title {Copy Console WAR} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition A8DCF517-5E07-4847-94E3-4FEDB2892A92 -active Yes -parent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A8DCF517-5E07-4847-94E3-4FEDB2892A92
 InstallComponent BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE -setup Install -type action -conditions AC9D5F2A-6D80-4C22-9EDF-523995BC3FC0 -title {Copy Tomcat XMLs} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
@@ -4351,7 +4350,7 @@ Finish
 {1 condition}
 
 5E8FD0F6-FC47-462A-B6EF-8D07A1361086,Files
-tomcat/apache-tomcat-6.0.18/conf/server.xml
+tomcat/server.xml
 
 5E8FD0F6-FC47-462A-B6EF-8D07A1361086,StringMap
 {8080	<%ServerPort%>}

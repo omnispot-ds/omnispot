@@ -21,8 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.config.ApplicationSettings;
 import com.kesdip.business.config.FileStorageSettings;
+import com.kesdip.business.constenum.IActionParamsEnum;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IInstallationStatus;
+import com.kesdip.business.constenum.IMessageParamsEnum;
 import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.domain.generated.Installation;
 
@@ -44,9 +46,9 @@ public class ServerProtocolHandler {
 		Map<String, String[]> parameters = isMultipart(req) ? parseMultipart(req)
 				: req.getParameterMap();
 
-		installationId = getParameter("installationId", parameters);
-		String serializedActions = getParameter("serializedActions", parameters);
-		String playerProcAlive = getParameter("playerProcAlive", parameters);
+		installationId = getParameter(IMessageParamsEnum.INSTALLATION_ID, parameters);
+		String serializedActions = getParameter(IMessageParamsEnum.SERIALIZED_ACTIONS, parameters);
+		String playerProcAlive = getParameter(IMessageParamsEnum.PLAYER_PROC_ALIVE, parameters);
 		
 		//update installation status
 		List<Installation> installations = getHibernateTemplate().find(
@@ -60,14 +62,14 @@ public class ServerProtocolHandler {
 							: IInstallationStatus.PLAYER_DOWN);
 			getHibernateTemplate().update(installation);
 		} else {
-			logger.error("Player with installation id: "+installationId+" doesnot exist!!??");
+			logger.error("Player with installation id: "+installationId+" does not exist!!??");
 			return;
 		}
 		
-		if (req.getAttribute("screenshot") != null) {
+		if (req.getAttribute(IMessageParamsEnum.SCREENSHOT) != null) {
 			FileStorageSettings settings = ApplicationSettings.getInstance()
 					.getFileStorageSettings();
-			FileItem fileitem = (FileItem) req.getAttribute("screenshot");
+			FileItem fileitem = (FileItem) req.getAttribute(IMessageParamsEnum.SCREENSHOT);
 			File destFile = new File(settings.getPrintScreenFolder()
 					+ File.separator + installationId, settings
 					.getPrintScreenName());
@@ -76,10 +78,12 @@ public class ServerProtocolHandler {
 			// Bug#36: Explicitly set lastModified date
 			destFile.setLastModified(System.currentTimeMillis());
 		}
-		logger.debug("Received: InstallationId: " + installationId
-				+ " playerProcAlive: " + playerProcAlive
-				+ " serializedActions: " + serializedActions);
-		if (!serializedActions.equals("NO_ACTIONS")) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Received: InstallationId: " + installationId
+					+ " playerProcAlive: " + playerProcAlive
+					+ " serializedActions: " + serializedActions);
+		}
+		if (!serializedActions.equals(IActionParamsEnum.NO_ACTIONS)) {
 			Action[] actions = actionHandler.deserialize(serializedActions);
 			// now update the admin-console db
 			for (Action action : actions) {
@@ -114,11 +118,13 @@ public class ServerProtocolHandler {
 						new Object[] { IActionStatusEnum.SCHEDULED,
 								installationId });
 
-		String serializedActions = "NO_ACTIONS";
+		String serializedActions = IActionParamsEnum.NO_ACTIONS;
 		if (actions.size() > 0) {
 			serializedActions = actionHandler.serialize(actions.toArray(new Action[0]));
-			logger.info("Actions found and will be sent to installation with id "
-					+actions.get(0).getInstallation().getName()+". Actions: "+serializedActions);
+			if (logger.isInfoEnabled()) {
+				logger.info("Actions found and will be sent to installation with id "
+						+actions.get(0).getInstallation().getName()+". Actions: "+serializedActions);
+			}
 		}
 		resp.getOutputStream().print(serializedActions);
 		resp.getOutputStream().close();
@@ -128,7 +134,6 @@ public class ServerProtocolHandler {
 			action.setStatus(IActionStatusEnum.SENT);
 			getHibernateTemplate().update(action);
 		}
-
 	}
 
 	@SuppressWarnings("unchecked")
