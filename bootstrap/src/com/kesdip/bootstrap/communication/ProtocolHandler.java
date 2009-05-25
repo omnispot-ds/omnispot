@@ -134,16 +134,16 @@ public class ProtocolHandler {
 							new DeployMessage(descriptorUrl, Long
 									.parseLong(crc), action.getActionId()));
 				} else if (action.getType() == IActionTypesEnum.RESTART) {
-					logger.info("Adding new restartplayer message");
+					logger.info("Adding new restartPlayer message");
 					manager.getPump().addMessage(
 							new RestartPlayerMessage(action.getActionId()));
 				} else if (action.getType() == IActionTypesEnum.REBOOT) {
-					logger.info("Adding new rebootplayer message");
+					logger.info("Adding new rebootPlayer message");
 					manager.getPump().addMessage(
 							new RebootPlayerMessage(action.getActionId()));
 				}
 				action.setInstallation(null);
-				action.setStatus(IActionStatusEnum.SENT);
+				action.setStatus(IActionStatusEnum.OK);
 				getHibernateTemplate().save(action);
 			}
 		}
