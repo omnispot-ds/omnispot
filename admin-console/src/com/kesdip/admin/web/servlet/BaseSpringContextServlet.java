@@ -24,7 +24,7 @@ import com.kesdip.business.logic.InstallationLogic;
  */
 @SuppressWarnings("serial")
 public abstract class BaseSpringContextServlet extends HttpServlet {
-	
+
 	/**
 	 * The Spring context.
 	 */
@@ -45,11 +45,17 @@ public abstract class BaseSpringContextServlet extends HttpServlet {
 	protected XmlWebApplicationContext getSpringContext() {
 		return springContext;
 	}
-	
+
+	/**
+	 * Utility method to check if a player exists.
+	 * 
+	 * @param playerUuid 
+	 * @return
+	 */
 	final boolean isPlayerAuthenticated(String playerUuid) {
 		InstallationLogic logic = (InstallationLogic) getSpringContext()
 				.getBean("installationLogic");
 		return logic.getInstallationByUuid(playerUuid) != null;
 	}
-	
+
 }

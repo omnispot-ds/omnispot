@@ -68,15 +68,8 @@ public class ContentServlet extends BaseSpringContextServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String pathInfo = req.getPathInfo();
-		String playerUuid = req.getParameter(IMessageParamsEnum.INSTALLATION_ID);
-		if (logger.isInfoEnabled()) {
-			logger.info("Received request '" + pathInfo + "' from player '"
-					+ playerUuid + "'");
-		}
-		// unauthenticated player
-		if (!isPlayerAuthenticated(playerUuid)) {
-			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-			return;
+		if (logger.isTraceEnabled()) {
+			logger.trace("Received request '" + pathInfo + "'");
 		}
 		// 1. treat as file
 		File file = getFileByName(pathInfo);

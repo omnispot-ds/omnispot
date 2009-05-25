@@ -4566,7 +4566,7 @@ ConsoleComponent
 {1 condition}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,ProgramCommandLine
-{uninstall.exe /S /NCRC}
+{uninstall.exe /mode silent}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,WorkingDirectory
 <%PROGRAM_FILES%>/VideoLan/VLC

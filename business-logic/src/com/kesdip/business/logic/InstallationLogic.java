@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.beans.ViewPrintScreenBean;
+import com.kesdip.business.constenum.IInstallationStatus;
 import com.kesdip.business.domain.generated.Customer;
 import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.domain.generated.InstallationGroup;
@@ -91,6 +92,7 @@ public class InstallationLogic extends BaseLogic {
 		object.setActive(true);
 		String uuid = generateUuid();
 		object.setUuid(uuid);
+		object.setCurrentStatus(IInstallationStatus.MACHINE_DOWN);
 		object.setId((Long) getHibernateTemplate().save(object));
 		// TODO update keystore
 

@@ -27,6 +27,8 @@ import com.kesdip.business.constenum.IInstallationStatus;
 import com.kesdip.business.constenum.IMessageParamsEnum;
 import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.domain.generated.Installation;
+import com.kesdip.business.logic.InstallationLogic;
+import com.kesdip.business.logic.LogicFactory;
 
 public class ServerProtocolHandler {
 
@@ -34,7 +36,7 @@ public class ServerProtocolHandler {
 			.getLogger(ServerProtocolHandler.class);
 
 	String installationId;
-	
+
 	private ActionSerializationHandler actionHandler = new ActionSerializationHandler();
 
 	@Transactional(isolation = Isolation.READ_COMMITTED)
@@ -42,36 +44,49 @@ public class ServerProtocolHandler {
 	public void handleRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 
-
 		Map<String, String[]> parameters = isMultipart(req) ? parseMultipart(req)
 				: req.getParameterMap();
 
-		installationId = getParameter(IMessageParamsEnum.INSTALLATION_ID, parameters);
-		String serializedActions = getParameter(IMessageParamsEnum.SERIALIZED_ACTIONS, parameters);
-		String playerProcAlive = getParameter(IMessageParamsEnum.PLAYER_PROC_ALIVE, parameters);
-		
-		//update installation status
+		installationId = getParameter(IMessageParamsEnum.INSTALLATION_ID,
+				parameters);
+		String serializedActions = getParameter(
+				IMessageParamsEnum.SERIALIZED_ACTIONS, parameters);
+		String playerProcAlive = getParameter(
+				IMessageParamsEnum.PLAYER_PROC_ALIVE, parameters);
+
+		// player id is unknown, exit immediately
+		// TODO This is a temporary solution, remove when permanent player
+		// identification is in-place
+		InstallationLogic logic = getLogicFactory().getInstallationLogic();
+		if (logic.getInstallationByUuid(installationId) == null) {
+			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+			return;
+		}
+
+		// update installation status
 		List<Installation> installations = getHibernateTemplate().find(
-				"from " + Installation.class.getName()
-						+ " i where i.uuid = ?",
+				"from " + Installation.class.getName() + " i where i.uuid = ?",
 				new Object[] { installationId });
 		if (installations.size() != 0) {
 			Installation installation = installations.get(0);
-			installation
-					.setCurrentStatus(playerProcAlive.equalsIgnoreCase("TRUE") ? IInstallationStatus.OK
-							: IInstallationStatus.PLAYER_DOWN);
+			installation.setCurrentStatus(playerProcAlive
+					.equalsIgnoreCase("TRUE") ? IInstallationStatus.OK
+					: IInstallationStatus.PLAYER_DOWN);
 			getHibernateTemplate().update(installation);
 		} else {
-			logger.error("Player with installation id: "+installationId+" does not exist!!??");
+			logger.error("Player with installation id: " + installationId
+					+ " does not exist!!??");
 			return;
 		}
-		
+
 		if (req.getAttribute(IMessageParamsEnum.SCREENSHOT) != null) {
 			FileStorageSettings settings = ApplicationSettings.getInstance()
 					.getFileStorageSettings();
-			FileItem fileitem = (FileItem) req.getAttribute(IMessageParamsEnum.SCREENSHOT);
-			File destFile = new File(settings.getPrintScreenFolder()
-					+ File.separator + installationId, settings
+			FileItem fileitem = (FileItem) req
+					.getAttribute(IMessageParamsEnum.SCREENSHOT);
+			String destPath = settings.getPrintScreenFolder() + File.separator
+					+ installationId;
+			File destFile = new File(destPath.trim(), settings
 					.getPrintScreenName());
 			destFile.getParentFile().mkdirs();
 			fileitem.write(destFile);
@@ -120,10 +135,13 @@ public class ServerProtocolHandler {
 
 		String serializedActions = IActionParamsEnum.NO_ACTIONS;
 		if (actions.size() > 0) {
-			serializedActions = actionHandler.serialize(actions.toArray(new Action[0]));
+			serializedActions = actionHandler.serialize(actions
+					.toArray(new Action[0]));
 			if (logger.isInfoEnabled()) {
-				logger.info("Actions found and will be sent to installation with id "
-						+actions.get(0).getInstallation().getName()+". Actions: "+serializedActions);
+				logger
+						.info("Actions found and will be sent to installation with id "
+								+ actions.get(0).getInstallation().getName()
+								+ ". Actions: " + serializedActions);
 			}
 		}
 		resp.getOutputStream().print(serializedActions);
@@ -207,6 +225,26 @@ public class ServerProtocolHandler {
 	 * Utility Hibernate template.
 	 */
 	private HibernateTemplate hibernateTemplate = null;
+
+	/**
+	 * Utility logic factory.
+	 */
+	private LogicFactory logicFactory = null;
+
+	/**
+	 * @return the logicFactory
+	 */
+	public LogicFactory getLogicFactory() {
+		return logicFactory;
+	}
+
+	/**
+	 * @param logicFactory
+	 *            the logicFactory to set
+	 */
+	public void setLogicFactory(LogicFactory logicFactory) {
+		this.logicFactory = logicFactory;
+	}
 
 	/**
 	 * @return the hibernateTemplate

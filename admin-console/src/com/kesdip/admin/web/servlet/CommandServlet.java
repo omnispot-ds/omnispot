@@ -9,8 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.kesdip.business.communication.ServerProtocolHandler;
-import com.kesdip.business.constenum.IMessageParamsEnum;
 
+/**
+ * Servlet to accept command responses from bootstrap clients. Delegates to
+ * {@link ServerProtocolHandler}.
+ * 
+ * @author gerogias
+ */
 @SuppressWarnings("serial")
 public class CommandServlet extends BaseSpringContextServlet {
 
@@ -22,12 +27,6 @@ public class CommandServlet extends BaseSpringContextServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String playerUuid = req.getParameter(IMessageParamsEnum.INSTALLATION_ID);
-		// unauthenticated player
-		if (!isPlayerAuthenticated(playerUuid)) {
-			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-			return;
-		}
 		ServerProtocolHandler handler = (ServerProtocolHandler) getSpringContext()
 				.getBean("ServerProtocolHandler");
 		try {
@@ -36,5 +35,4 @@ public class CommandServlet extends BaseSpringContextServlet {
 			logger.error(e.toString());
 		}
 	}
-
 }

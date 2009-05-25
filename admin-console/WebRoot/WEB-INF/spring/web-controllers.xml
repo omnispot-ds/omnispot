@@ -393,5 +393,6 @@
 	<bean id="ServerProtocolHandler" 
 		class="com.kesdip.business.communication.ServerProtocolHandler">
 		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+		<property name="logicFactory" ref="logicFactory"/>
 	</bean>
 </beans>
