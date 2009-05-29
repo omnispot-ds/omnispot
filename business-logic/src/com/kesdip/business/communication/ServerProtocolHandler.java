@@ -106,11 +106,13 @@ public class ServerProtocolHandler {
 						"from " + Action.class.getName()
 								+ " a where a.actionId = ? ",
 						new Object[] { action.getActionId() });
-				if (l.size() > 1)
+				if (l.size() > 1) {
 					throw new AssertionError("Duplicate actionIds found!?!?");
-				Action dbAction = l.get(0);
-				dbAction.setStatus(action.getStatus());
-				getHibernateTemplate().update(dbAction);
+				} else if (l.size() == 1) {
+					Action dbAction = l.get(0);
+					dbAction.setStatus(action.getStatus());
+					getHibernateTemplate().update(dbAction);
+				}
 			}
 
 			logger.debug("Received actions updated! ");

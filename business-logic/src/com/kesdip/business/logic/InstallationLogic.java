@@ -15,6 +15,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import com.kesdip.business.domain.generated.Customer;
 import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.domain.generated.InstallationGroup;
 import com.kesdip.business.domain.generated.Site;
+import com.kesdip.business.domain.generated.StatusEntry;
 import com.kesdip.business.exception.ValidationException;
 import com.kesdip.common.util.DateUtils;
 
@@ -203,8 +205,8 @@ public class InstallationLogic extends BaseLogic {
 	/**
 	 * @param customer
 	 *            the customer to look for
-	 * @return Set the child installations or <code>null</code> if the
-	 *         argument was <code>null</code>
+	 * @return Set the child installations or <code>null</code> if the argument
+	 *         was <code>null</code>
 	 */
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
@@ -234,6 +236,25 @@ public class InstallationLogic extends BaseLogic {
 				"select i from " + Installation.class.getName() + " i "
 						+ "where i.uuid = ? ", uuid);
 		return !results.isEmpty() ? results.get(0) : null;
+	}
+
+	/**
+	 * Updates the status of the installation. Also adds/updates an entry in the
+	 * {@link StatusEntry} table.
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public void updateInstallationStatus(Installation dto, short status) {
+		if (logger.isTraceEnabled()) {
+			logger.trace("Updating Installation " + dto.getId()
+					+ " with status " + status);
+		}
+		// update object
+		Installation dbInstallation = (Installation) getHibernateTemplate()
+				.get(Installation.class, dto.getId());
+		dbInstallation.setCurrentStatus(status);
+		getHibernateTemplate().update(dbInstallation);
+		// status entry
+		Query query = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery("select se from " + StatusEntry.class.getName() + " where se.");
 	}
 
 	/**
