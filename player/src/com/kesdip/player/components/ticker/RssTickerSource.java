@@ -19,11 +19,27 @@ import com.sun.syndication.io.XmlReader;
 public class RssTickerSource implements TickerSource {
 	private static final Logger logger = Logger.getLogger(RssTickerSource.class);
 	
+	/**
+	 * a default string appearing between title and description
+	 */
+	private static final String DEFAULT_AFTER_TITLE = ": ";
+	
+	/**
+	 * a default string appearing between items
+	 */
+	private static final String DEFAULT_ITEM_SEPERATOR = " - ";
+	
 	private String rssUrl;
 
 	private StringBuilder sb;
 	
 	private SyndFeed feed;
+	
+	private boolean showOnlyTitles;
+	
+	private String afterTitle = DEFAULT_AFTER_TITLE;
+	
+	private String itemSeperator = DEFAULT_ITEM_SEPERATOR;
 	
 	public RssTickerSource() {
 		setRssUrl(null);
@@ -90,8 +106,24 @@ public class RssTickerSource implements TickerSource {
 			SyndEntry syndEntry = (SyndEntry) iterator.next();
 
 			sb.append(syndEntry.getTitle());
-			sb.append("   ");
+			if(!showOnlyTitles){
+				sb.append(afterTitle != null ? afterTitle : " ");
+				sb.append(syndEntry.getDescription());
+			}
+			sb.append(itemSeperator != null ? itemSeperator : " ");
 		}
+	}
+
+	public void setShowOnlyTitles(boolean showOnlyTitles) {
+		this.showOnlyTitles = showOnlyTitles;
+	}
+
+	public void setAfterTitle(String afterTitle) {
+		this.afterTitle = afterTitle;
+	}
+
+	public void setItemSeperator(String itemSeperator) {
+		this.itemSeperator = itemSeperator;
 	}
 	
 
