@@ -591,6 +591,7 @@ designer/src/com/kesdip/designer/properties/CronDatum.java -text
 designer/src/com/kesdip/designer/properties/CronDatumContentProvider.java -text
 designer/src/com/kesdip/designer/properties/CronDialog.java -text
 designer/src/com/kesdip/designer/properties/CronModel.java -text
+designer/src/com/kesdip/designer/properties/CronPropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/CronRangeValidator.java -text
 designer/src/com/kesdip/designer/properties/CronTableCellModifier.java -text
 designer/src/com/kesdip/designer/properties/DateCellEditor.java -text

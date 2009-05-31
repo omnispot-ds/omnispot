@@ -16,6 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.kesdip.designer.properties.CronPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
 
 public class Layout extends ModelElement {
@@ -168,7 +169,7 @@ public class Layout extends ModelElement {
 	static {
 		descriptors = new IPropertyDescriptor[] { 
 				new TextPropertyDescriptor(NAME_PROP, "Name"),
-				new TextPropertyDescriptor(CRON_EXPRESSION_PROP, "Cron Expression"),
+				new CronPropertyDescriptor(CRON_EXPRESSION_PROP, "Cron Expression"),
 				new TextPropertyDescriptor(DURATION_PROP, "Duration")
 		};
 		// use a custom cell editor validator for all three array entries
