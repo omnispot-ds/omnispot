@@ -94,7 +94,7 @@
 				class="com.kesdip.business.domain.generated.AccessControl" />
 		</set>
 
-		<set name="statusHistory" cascade="all" lazy="true">
+		<set name="statusHistory" cascade="all" lazy="true" inverse="true">
 			<meta attribute="field-description">
 				The status change history for this installation.
 			</meta>

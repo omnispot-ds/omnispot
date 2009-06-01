@@ -332,6 +332,8 @@ business-logic/src/com/kesdip/business/logic/PrintScreenLogic.java -text
 business-logic/src/com/kesdip/business/logic/SearchLogic.java -text
 business-logic/src/com/kesdip/business/logic/SiteLogic.java -text
 business-logic/src/com/kesdip/business/logic/UserLogic.java -text
+business-logic/src/com/kesdip/business/logic/jobs/InstallationHealthJob.java -text
+business-logic/src/com/kesdip/business/logic/jobs/StatusEntryCleanupJob.java -text
 business-logic/src/com/kesdip/business/util/Error.java -text
 business-logic/src/com/kesdip/business/util/Errors.java -text
 business-logic/src/com/kesdip/business/util/list/OptionListGenerator.java -text

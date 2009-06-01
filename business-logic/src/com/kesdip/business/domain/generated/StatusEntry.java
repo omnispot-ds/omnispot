@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated Mar 17, 2009 3:41:30 PM by Hibernate Tools 3.2.0.b9
+// Generated Jun 1, 2009 6:57:07 PM by Hibernate Tools 3.2.0.b9
 
 
 import java.util.Date;
@@ -28,13 +28,18 @@ public class StatusEntry  implements java.io.Serializable {
  * 			
      */
      private short status;
+     /**
+      * The parent installation.
+     */
+     private Installation installation;
 
     public StatusEntry() {
     }
 
-    public StatusEntry(Date timestamp, short status) {
+    public StatusEntry(Date timestamp, short status, Installation installation) {
        this.timestamp = timestamp;
        this.status = status;
+       this.installation = installation;
     }
    
     /**       
@@ -70,6 +75,16 @@ public class StatusEntry  implements java.io.Serializable {
     public void setStatus(short status) {
         this.status = status;
     }
+    /**       
+     *      * The parent installation.
+     */
+    public Installation getInstallation() {
+        return this.installation;
+    }
+    
+    public void setInstallation(Installation installation) {
+        this.installation = installation;
+    }
 
     /**
      * toString
@@ -82,6 +97,7 @@ public class StatusEntry  implements java.io.Serializable {
       buffer.append("id").append("='").append(getId()).append("' ");			
       buffer.append("timestamp").append("='").append(getTimestamp()).append("' ");			
       buffer.append("status").append("='").append(getStatus()).append("' ");			
+      buffer.append("installation").append("='").append(getInstallation()).append("' ");			
       buffer.append("]");
       
       return buffer.toString();
@@ -100,6 +116,7 @@ public class StatusEntry  implements java.io.Serializable {
          int result = 17;
          
          result = 37 * result + ( getId() == null ? 0 : this.getId().hashCode() );
+         
          
          
          return result;

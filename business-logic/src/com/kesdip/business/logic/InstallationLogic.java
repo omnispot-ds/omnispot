@@ -239,10 +239,16 @@ public class InstallationLogic extends BaseLogic {
 	}
 
 	/**
-	 * Updates the status of the installation. Also adds/updates an entry in the
-	 * {@link StatusEntry} table.
+	 * Updates the status of the installation identified by the DTO. Also
+	 * adds/updates an entry in the {@link StatusEntry} table.
+	 * 
+	 * @param dto
+	 *            the DTO of the installation
+	 * @param status
+	 *            the new status
 	 */
 	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@SuppressWarnings("unchecked")
 	public void updateInstallationStatus(Installation dto, short status) {
 		if (logger.isTraceEnabled()) {
 			logger.trace("Updating Installation " + dto.getId()
@@ -251,10 +257,76 @@ public class InstallationLogic extends BaseLogic {
 		// update object
 		Installation dbInstallation = (Installation) getHibernateTemplate()
 				.get(Installation.class, dto.getId());
-		dbInstallation.setCurrentStatus(status);
-		getHibernateTemplate().update(dbInstallation);
-		// status entry
-		Query query = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery("select se from " + StatusEntry.class.getName() + " where se.");
+		updateInstallationStatusInternal(dbInstallation, status);
+	}
+
+	/**
+	 * Updates the status of the installation identified by the UUID. Also
+	 * adds/updates an entry in the {@link StatusEntry} table.
+	 * 
+	 * @param uuid
+	 *            the UUID of the installation
+	 * @param status
+	 *            the new status
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@SuppressWarnings("unchecked")
+	public void updateInstallationStatus(String uuid, short status) {
+		if (logger.isTraceEnabled()) {
+			logger.trace("Updating Installation " + uuid + " with status "
+					+ status);
+		}
+		// update object
+		List<Installation> installations = getHibernateTemplate().find(
+				"select i from " + Installation.class.getName()
+						+ " i where i.uuid = ?", new Object[] { uuid });
+		if (installations.size() != 0) {
+			// update status
+			updateInstallationStatusInternal(installations.get(0), status);
+		} else {
+			logger.error("Player with installation id: " + uuid
+					+ " does not exist!");
+			return;
+		}
+	}
+
+	/**
+	 * Update the status of the given DB object and create entries in the
+	 * StatusEntry table.
+	 * 
+	 * @param installation
+	 *            the installation to update
+	 * @param status
+	 *            the new status
+	 */
+	@SuppressWarnings("unchecked")
+	private final void updateInstallationStatusInternal(
+			Installation installation, short status) {
+		installation.setCurrentStatus(status);
+		getHibernateTemplate().update(installation);
+		// latest status entry
+		Query query = getHibernateTemplate()
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(
+						"select se from "
+								+ StatusEntry.class.getName()
+								+ " se where se.installation = :installation order by se.timestamp desc")
+				.setEntity("installation", installation);
+		query.setMaxResults(1);
+		List<StatusEntry> results = query.list();
+		StatusEntry entry = null;
+		if (!results.isEmpty() && results.get(0).getStatus() == status) {
+			// update timestamp in the last entry
+			entry = results.get(0);
+			entry.setTimestamp(new Date());
+			getHibernateTemplate().update(entry);
+		} else {
+			// the very first entry or a change of status
+			entry = new StatusEntry(new Date(), status, installation);
+			entry.setId((Long) getHibernateTemplate().save(entry));
+		}
+
 	}
 
 	/**

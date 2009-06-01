@@ -207,4 +207,62 @@
 		</property>
 	</bean>
 
+
+	<!-- === QUARTZ JOBS === -->
+	
+	<!-- Installation health checking logic -->
+	<bean id="installationHealthLogic" 
+		parent="baseLogicBean"
+		class="com.kesdip.business.logic.jobs.InstallationHealthJob">
+		<property name="minutesInactive" value="5"/>
+	</bean>
+	
+	<!-- Old status entry cleanup logic -->
+	<bean id="statusEntryCleanupLogic" 
+		parent="baseLogicBean"
+		class="com.kesdip.business.logic.jobs.StatusEntryCleanupJob">
+		<property name="daysInThePast" value="7"/>
+	</bean>
+
+	<bean id="installationHealthJob" 
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="installationHealthLogic" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="statusEntryCleanupJob" 
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="statusEntryCleanupLogic" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- ==== QUARTZ-related ==== 
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	    <property name="triggers">
+	        <list>
+	            <ref bean="installationHealthTrigger" />
+	            <ref bean="statusEntryCleanupTrigger" />
+	        </list>
+	    </property>
+	    <property name="waitForJobsToCompleteOnShutdown" value="false"/>
+	</bean>
+	-->
+	
+	<bean id="installationHealthTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	    <property name="jobDetail" ref="installationHealthJob" />
+	    <!--  run every 5 mins -->
+	    <property name="cronExpression" value="0 * * * * ?" />
+	    <property name="misfireInstructionName" value="MISFIRE_INSTRUCTION_FIRE_ONCE_NOW"/>
+	</bean>	
+	
+	<bean id="statusEntryCleanupTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	    <property name="jobDetail" ref="statusEntryCleanupJob" />
+	    <!-- run every day at 1 am -->
+	    <property name="cronExpression" value="0 0 1 * * ?" />
+	    
+	    <property name="misfireInstructionName" value="MISFIRE_INSTRUCTION_FIRE_ONCE_NOW"/>
+	</bean>	
+
 </beans>

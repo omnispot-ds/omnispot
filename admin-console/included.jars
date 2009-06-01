@@ -35,3 +35,5 @@ etc/lib/apache-commons/commons-io.jar
 etc/lib/apache-commons/commons-codec-1.3.jar
 
 etc/lib/dom4j/dom4j-1.6.1.jar
+
+etc/lib/quartz/quartz-1.6.3.jar

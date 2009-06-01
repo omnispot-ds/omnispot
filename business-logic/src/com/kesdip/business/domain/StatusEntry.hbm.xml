@@ -37,6 +37,13 @@
 			</meta>
 		</property>
 
+		<many-to-one name="installation"
+			class="com.kesdip.business.domain.generated.Installation"
+			column="INSTALLATION_ID" not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">The parent installation.</meta>
+		</many-to-one>
+
 	</class>
 
 </hibernate-mapping>

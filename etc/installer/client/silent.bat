@@ -1,1 +1,1 @@
-KesdiPlayer-0.3-Setup.exe /mode silent /playerId MyPlayer12345Id /prefix c:/KesdiPlayer /serverHost myhost.kesdipepe.gr /serverPort 8080
+ContentPlayer-0.3-Setup.exe /mode silent /playerId MyPlayer12345Id /prefix c:/Kesdipepe/ContentPlayer /serverHost myhost.kesdipepe.gr /serverPort 8080

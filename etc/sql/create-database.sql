@@ -11,7 +11,7 @@ create table INST_DEPLOYMENT (DEPLOYMENT_ID bigint not null, INSTALLATION_ID big
 create table INST_GROUP (ID bigint not null, NAME varchar(50) not null, COMMENTS varchar(512), CUSTOMER_ID bigint not null, primary key (ID));
 create table PARAMETER (ID bigint not null, NAME varchar(512) not null, PARAM_VALUE varchar(512) not null, ACTION_ID bigint, primary key (ID));
 create table SITE (ID bigint not null, NAME varchar(50) not null, COMMENTS varchar(512), ACTIVE smallint not null, CUSTOMER_ID bigint not null, primary key (ID));
-create table STATUS_ENTRY (ID bigint not null, STATUS_DATE timestamp not null, STATUS smallint not null, INSTALLATION_ID bigint, primary key (ID));
+create table STATUS_ENTRY (ID bigint not null, STATUS_DATE timestamp not null, STATUS smallint not null, INSTALLATION_ID bigint not null, primary key (ID));
 create table USERS (USERNAME varchar(50) not null, PASSWORD varchar(50) not null, FIRST_NAME varchar(50) not null, LAST_NAME varchar(50) not null, CUSTOMER_ID bigint, primary key (USERNAME));
 create table USER_RIGHTS (USERNAME varchar(50) not null, ROLE_NAME varchar(50) not null, primary key (USERNAME, ROLE_NAME));
 alter table ACC_CONTROL add constraint FK7B45A35FECADAFAB foreign key (USERNAME) references USERS;

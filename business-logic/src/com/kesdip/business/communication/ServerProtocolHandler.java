@@ -26,7 +26,6 @@ import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IInstallationStatus;
 import com.kesdip.business.constenum.IMessageParamsEnum;
 import com.kesdip.business.domain.generated.Action;
-import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.logic.InstallationLogic;
 import com.kesdip.business.logic.LogicFactory;
 
@@ -34,8 +33,6 @@ public class ServerProtocolHandler {
 
 	private final static Logger logger = Logger
 			.getLogger(ServerProtocolHandler.class);
-
-	String installationId;
 
 	private ActionSerializationHandler actionHandler = new ActionSerializationHandler();
 
@@ -47,8 +44,8 @@ public class ServerProtocolHandler {
 		Map<String, String[]> parameters = isMultipart(req) ? parseMultipart(req)
 				: req.getParameterMap();
 
-		installationId = getParameter(IMessageParamsEnum.INSTALLATION_ID,
-				parameters);
+		String installationId = getParameter(
+				IMessageParamsEnum.INSTALLATION_ID, parameters);
 		String serializedActions = getParameter(
 				IMessageParamsEnum.SERIALIZED_ACTIONS, parameters);
 		String playerProcAlive = getParameter(
@@ -64,20 +61,9 @@ public class ServerProtocolHandler {
 		}
 
 		// update installation status
-		List<Installation> installations = getHibernateTemplate().find(
-				"from " + Installation.class.getName() + " i where i.uuid = ?",
-				new Object[] { installationId });
-		if (installations.size() != 0) {
-			Installation installation = installations.get(0);
-			installation.setCurrentStatus(playerProcAlive
-					.equalsIgnoreCase("TRUE") ? IInstallationStatus.OK
-					: IInstallationStatus.PLAYER_DOWN);
-			getHibernateTemplate().update(installation);
-		} else {
-			logger.error("Player with installation id: " + installationId
-					+ " does not exist!!??");
-			return;
-		}
+		logic.updateInstallationStatus(installationId, "TRUE"
+				.equalsIgnoreCase(playerProcAlive) ? IInstallationStatus.OK
+				: IInstallationStatus.PLAYER_DOWN);
 
 		if (req.getAttribute(IMessageParamsEnum.SCREENSHOT) != null) {
 			FileStorageSettings settings = ApplicationSettings.getInstance()
@@ -117,12 +103,13 @@ public class ServerProtocolHandler {
 
 			logger.debug("Received actions updated! ");
 		}
-		sendResponse(resp);
+		sendResponse(resp, installationId);
 
 	}
 
 	@SuppressWarnings("unchecked")
-	private void sendResponse(HttpServletResponse resp) throws Exception {
+	private void sendResponse(HttpServletResponse resp, String installationId)
+			throws Exception {
 
 		// send any pending actions
 
