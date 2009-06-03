@@ -243,7 +243,7 @@
 	    <property name="triggers">
 	        <list>
 	            <ref bean="installationHealthTrigger" />
-<!-- 	            <ref bean="statusEntryCleanupTrigger" /> -->
+	            <ref bean="statusEntryCleanupTrigger" /> 
 	        </list>
 	    </property>
 	    <property name="waitForJobsToCompleteOnShutdown" value="false"/>
