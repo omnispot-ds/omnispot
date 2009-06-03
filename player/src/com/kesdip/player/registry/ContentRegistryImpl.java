@@ -63,7 +63,7 @@ public class ContentRegistryImpl extends ContentRegistry {
 			
 			return retVal;
 		} catch (Exception e) {
-			logger.error("Unable to query resource path", e);
+			logger.warn("Unable to query resource path: " + e.getMessage());
 			if (c != null) try { c.rollback(); } catch (SQLException sqle) { }
 		} finally {
 			if (c != null) try { c.close(); } catch (SQLException e) { }

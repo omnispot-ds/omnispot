@@ -25,58 +25,64 @@ import com.kesdip.player.components.ticker.TickerSource;
  */
 public class Ticker extends AbstractComponent {
 	private static final Logger logger = Logger.getLogger(Ticker.class);
-	
+
 	protected TickerSource tickerSource;
 	protected Font font;
 	protected Color foregroundColor;
 	protected double speed;
-	
+
 	public void setTickerSource(TickerSource tickerSource) {
 		this.tickerSource = tickerSource;
 	}
-	
+
 	public void setFont(Font font) {
 		this.font = font;
 	}
-	
+
 	public void setForegroundColor(Color foregroundColor) {
 		this.foregroundColor = foregroundColor;
 	}
-	
+
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
-	
+
 	/* TRANSIENT STATE */
 	private TickerPanel panel;
 	private Timer timer;
 	private boolean firstTime;
 
 	@Override
-	public void init(Component parent, TimingMonitor timingMonitor, Player player)
-			throws ComponentException {
+	public void init(Component parent, TimingMonitor timingMonitor,
+			Player player) throws ComponentException {
 		setPlayer(player);
-		
-		panel = new TickerPanel(font, foregroundColor, speed, tickerSource, width, height);
+
+		panel = new TickerPanel(font, foregroundColor, speed, tickerSource,
+				width, height);
 		panel.setDoubleBuffered(true);
 		panel.setLocation(x, y);
-		if (backgroundColor != null)
+		if (backgroundColor != null) {
 			panel.setBackground(backgroundColor);
-		else
+		} else {
 			panel.setOpaque(false);
+		}
 		panel.setSize(new Dimension(width, height));
 		panel.setPreferredSize(new Dimension(width, height));
-		logger.info("About to add ticker at: (" + x + "," + y +
-				") with size: (" + width + "," + height + ")");
+		if (logger.isInfoEnabled()) {
+			logger.info("About to add ticker at: (" + x + "," + y
+					+ ") with size: (" + width + "," + height + ")");
+		}
 		parent.add(this);
-		
+
 		timer = new Timer("Ticker Timer");
 		firstTime = true;
 	}
-	
+
 	@Override
 	public void releaseResources() {
-		timer.cancel();
+		if (timer != null) {
+			timer.cancel();
+		}
 	}
 
 	@Override
@@ -101,5 +107,5 @@ public class Ticker extends AbstractComponent {
 			firstTime = false;
 		}
 	}
-	
+
 }
