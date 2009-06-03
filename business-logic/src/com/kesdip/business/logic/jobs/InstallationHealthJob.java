@@ -31,15 +31,24 @@ import com.kesdip.common.util.DateUtils;
  */
 public class InstallationHealthJob extends BaseLogic {
 
-	private final String SQL = "SELECT i.id, se.last_update \n"
-			+ "FROM Installation i INNER JOIN \n"
-			+ "(SELECT s.installation_id AS inst_id, status_date AS last_update \n"
-			+ "FROM Status_Entry s INNER JOIN \n"
-			+ "(SELECT installation_id AS inst_id, MAX(status_date) AS last_update \n"
-			+ "FROM Status_Entry \n" + "GROUP BY installation_id \n"
-			+ ") AS s1 \n" + "ON s.last_update = s1.last_update \n"
-			+ "AND s.inst_id = l.inst_id \n" + ") AS se \n"
-			+ "ON i.id = se.inst_id \n" + "AND se.last_update < ?";
+	// private final String SQL = "SELECT i.id, se.last_update \n"
+	// + "FROM Installation i INNER JOIN \n"
+	// + "(SELECT s.installation_id AS inst_id, s.status_date AS last_update \n"
+	// + "FROM Status_Entry s INNER JOIN \n"
+	// +
+	// "(SELECT installation_id AS inst_id, MAX(status_date) AS last_update \n"
+	// + "FROM Status_Entry \n" + "GROUP BY installation_id \n"
+	// + ") AS s1 \n" + "ON s.last_update = s1.last_update \n"
+	// + "AND s.inst_id = l.inst_id \n" + ") AS se \n"
+	// + "ON i.id = se.inst_id \n" + "AND se.last_update < ?";
+
+	private final String SQL = "SELECT i.id, se.status_date \n"
+			+ "FROM Installation i INNER JOIN Status_Entry se \n"
+			+ "ON i.id = se.installation_id " 
+			+ "WHERE se.status_date < ? "
+			+ "AND se.status_date >= ALL (SELECT s.status_date \n"
+			+ "FROM Status_Entry s \n" 
+			+ "WHERE s.installation_id = i.id)";
 
 	/**
 	 * The logger.
@@ -51,6 +60,30 @@ public class InstallationHealthJob extends BaseLogic {
 	 * Number of minutes after which the installation is considered inactive.
 	 */
 	private int minutesInactive = 5;
+
+	/**
+	 * Executes the job's logic.
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@SuppressWarnings("unchecked")
+	public void execute() {
+
+		Date dateInThePast = DateUtils.addMinutes(new Date(), -minutesInactive);
+
+		logger.debug("Executing InstallationHealthJob");
+
+		SQLQuery query = (SQLQuery) getHibernateTemplate().getSessionFactory()
+				.getCurrentSession().createSQLQuery(SQL).setDate(0,
+						dateInThePast);
+		List<Object[]> results = query.list();
+		if (!results.isEmpty()) {
+			if (logger.isInfoEnabled()) {
+				logger.info("Found " + results.size() + " dead installations");
+			}
+		} else {
+			logger.info("All installations are up-to-date");
+		}
+	}
 
 	/**
 	 * @return the minutesInactive
@@ -67,26 +100,4 @@ public class InstallationHealthJob extends BaseLogic {
 		this.minutesInactive = minutesInactive;
 	}
 
-	/**
-	 * Executes the job's logic.
-	 */
-	@Transactional(isolation = Isolation.READ_COMMITTED)
-	@SuppressWarnings("unchecked")
-	public void execute() {
-
-		Date dateInThePast = DateUtils.addMinutes(new Date(), -minutesInactive);
-		
-		logger.debug("Executing InstallationHealthJob");
-
-		SQLQuery query = (SQLQuery) getHibernateTemplate().getSessionFactory()
-				.getCurrentSession().createSQLQuery(SQL).setDate(0, dateInThePast);
-		List<Object[]> results = query.list();
-		if (!results.isEmpty()) {
-			if (logger.isInfoEnabled()) {
-				logger.info("Found " + results.size() + " dead installations");
-			}
-		} else {
-			logger.info("All installations are up-to-date");
-		}
-	}
 }

@@ -238,17 +238,16 @@
 		<property name="concurrent" value="false" />
 	</bean>
 
-	<!-- ==== QUARTZ-related ==== 
+	<!-- ==== QUARTZ-related ==== -->
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 	    <property name="triggers">
 	        <list>
 	            <ref bean="installationHealthTrigger" />
-	            <ref bean="statusEntryCleanupTrigger" />
+<!-- 	            <ref bean="statusEntryCleanupTrigger" /> -->
 	        </list>
 	    </property>
 	    <property name="waitForJobsToCompleteOnShutdown" value="false"/>
 	</bean>
-	-->
 	
 	<bean id="installationHealthTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 	    <property name="jobDetail" ref="installationHealthJob" />
@@ -261,6 +260,7 @@
 	    <property name="jobDetail" ref="statusEntryCleanupJob" />
 	    <!-- run every day at 1 am -->
 	    <property name="cronExpression" value="0 0 1 * * ?" />
+	    <!-- <property name="cronExpression" value="0 * * * * ?" /> -->
 	    
 	    <property name="misfireInstructionName" value="MISFIRE_INSTRUCTION_FIRE_ONCE_NOW"/>
 	</bean>	
