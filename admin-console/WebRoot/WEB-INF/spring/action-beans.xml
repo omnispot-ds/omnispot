@@ -252,7 +252,7 @@
 	<bean id="installationHealthTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 	    <property name="jobDetail" ref="installationHealthJob" />
 	    <!--  run every 5 mins -->
-	    <property name="cronExpression" value="0 * * * * ?" />
+	    <property name="cronExpression" value="0 0/5 * * * ?" />
 	    <property name="misfireInstructionName" value="MISFIRE_INSTRUCTION_FIRE_ONCE_NOW"/>
 	</bean>	
 	

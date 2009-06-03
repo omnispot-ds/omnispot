@@ -17,9 +17,11 @@ import org.hibernate.SQLQuery;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kesdip.business.constenum.IInstallationStatus;
 import com.kesdip.business.domain.generated.Installation;
 import com.kesdip.business.domain.generated.StatusEntry;
 import com.kesdip.business.logic.BaseLogic;
+import com.kesdip.business.logic.InstallationLogic;
 import com.kesdip.common.util.DateUtils;
 
 /**
@@ -42,13 +44,12 @@ public class InstallationHealthJob extends BaseLogic {
 	// + "AND s.inst_id = l.inst_id \n" + ") AS se \n"
 	// + "ON i.id = se.inst_id \n" + "AND se.last_update < ?";
 
-	private final String SQL = "SELECT i.id, se.status_date \n"
+	private final String SQL = "SELECT i.id, i.uuid, se.status_date \n"
 			+ "FROM Installation i INNER JOIN Status_Entry se \n"
-			+ "ON i.id = se.installation_id " 
-			+ "WHERE se.status_date < ? "
-			+ "AND se.status_date >= ALL (SELECT s.status_date \n"
-			+ "FROM Status_Entry s \n" 
-			+ "WHERE s.installation_id = i.id)";
+			+ "ON i.id = se.installation_id " + "WHERE se.status_date < ? "
+			+ "AND i.status <> " + IInstallationStatus.MACHINE_DOWN
+			+ " " + "AND se.status_date >= ALL (SELECT s.status_date \n"
+			+ "FROM Status_Entry s \n" + "WHERE s.installation_id = i.id)";
 
 	/**
 	 * The logger.
@@ -73,15 +74,34 @@ public class InstallationHealthJob extends BaseLogic {
 		logger.debug("Executing InstallationHealthJob");
 
 		SQLQuery query = (SQLQuery) getHibernateTemplate().getSessionFactory()
-				.getCurrentSession().createSQLQuery(SQL).setDate(0,
+				.getCurrentSession().createSQLQuery(SQL).setTimestamp(0,
 						dateInThePast);
 		List<Object[]> results = query.list();
 		if (!results.isEmpty()) {
 			if (logger.isInfoEnabled()) {
-				logger.info("Found " + results.size() + " dead installations");
+				logger.info("Found " + results.size()
+						+ " non-responsive installations");
 			}
+			updateInstallationStatuses(results);
 		} else {
 			logger.info("All installations are up-to-date");
+		}
+	}
+
+	/**
+	 * Iterate the list and update the statuses for all installations.
+	 * 
+	 * @param results
+	 *            the list of ids
+	 */
+	private final void updateInstallationStatuses(List<Object[]> results) {
+		InstallationLogic logic = getLogicFactory().getInstallationLogic();
+		for (Object[] row : results) {
+			if (logger.isTraceEnabled()) {
+				logger.trace("Updating status of " + row[1]);
+			}
+			logic.updateInstallationStatus((String) row[1],
+					IInstallationStatus.MACHINE_DOWN);
 		}
 	}
 
