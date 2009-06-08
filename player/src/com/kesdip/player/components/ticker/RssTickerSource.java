@@ -27,7 +27,7 @@ public class RssTickerSource implements TickerSource {
 	/**
 	 * a default string appearing between items
 	 */
-	private static final String DEFAULT_ITEM_SEPERATOR = " - ";
+	private static final String DEFAULT_ITEM_SEPARATOR = " - ";
 	
 	private String rssUrl;
 
@@ -39,7 +39,7 @@ public class RssTickerSource implements TickerSource {
 	
 	private String afterTitle = DEFAULT_AFTER_TITLE;
 	
-	private String itemSeperator = DEFAULT_ITEM_SEPERATOR;
+	private String itemSeparator = DEFAULT_ITEM_SEPARATOR;
 	
 	public RssTickerSource() {
 		setRssUrl(null);
@@ -51,25 +51,23 @@ public class RssTickerSource implements TickerSource {
 	
 	public void setRssUrl(String rssUrl) {
 		this.rssUrl = rssUrl;
-		if (rssUrl != null) {
-			reset();
-		}
 	}
 
 	@Override
 	public void addTrailingChar() {
 		readFeed();
-
 	}
 
 	@Override
 	public void dropLeadingChar() {
 		sb.deleteCharAt(0);
-
 	}
 
 	@Override
 	public String getCurrentContent() {
+		if (sb == null)
+			reset();
+		
 		return sb.toString();
 	}
 
@@ -82,8 +80,6 @@ public class RssTickerSource implements TickerSource {
 		readFeed();
 	}
 
-	
-
 	private void createFeed() {
 		SyndFeedInput input = new SyndFeedInput();
 		try {
@@ -93,9 +89,13 @@ public class RssTickerSource implements TickerSource {
 		}
 	}
 	
-	
 	@SuppressWarnings("unchecked")
 	private void readFeed() {
+		if (logger.isTraceEnabled()) {
+			logger.trace("Reading RSS source from: " + rssUrl +
+					" (" + (showOnlyTitles ? "true" : "false") + ")");
+		}
+		
 		if (feed == null){
 			createFeed();
 		}
@@ -108,9 +108,9 @@ public class RssTickerSource implements TickerSource {
 			sb.append(syndEntry.getTitle());
 			if(!showOnlyTitles){
 				sb.append(afterTitle != null ? afterTitle : " ");
-				sb.append(syndEntry.getDescription());
+				sb.append(syndEntry.getDescription().getValue());
 			}
-			sb.append(itemSeperator != null ? itemSeperator : " ");
+			sb.append(itemSeparator != null ? itemSeparator : " ");
 		}
 	}
 
@@ -122,8 +122,8 @@ public class RssTickerSource implements TickerSource {
 		this.afterTitle = afterTitle;
 	}
 
-	public void setItemSeperator(String itemSeperator) {
-		this.itemSeperator = itemSeperator;
+	public void setItemSeparator(String itemSeparator) {
+		this.itemSeparator = itemSeparator;
 	}
 	
 

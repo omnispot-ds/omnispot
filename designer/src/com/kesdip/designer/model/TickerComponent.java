@@ -58,6 +58,12 @@ public class TickerComponent extends ComponentModelElement {
 	public static final String SPEED_PROP = "Ticker.SpeedProp";
 	/** Property ID to use for the transparent property value. */
 	public static final String TRANSPARENT_PROP = "Ticker.TransparentProp";
+	/** Property ID to use for the show only titles property value. */
+	public static final String SHOW_ONLY_TITLES_PROP = "Ticker.ShowOnlyTitlesProp";
+	/** Property ID to use for the item separator property value. */
+	public static final String ITEM_SEPARATOR_PROP = "Ticker.ItemSeparatorProp";
+	/** Property ID to use for the after title property value. */
+	public static final String AFTER_TITLE_PROP = "Ticker.AfterTitleProp";
 
 	/* STATE */
 	private String type;
@@ -67,6 +73,9 @@ public class TickerComponent extends ComponentModelElement {
 	private Font font;
 	private Color foregroundColor;
 	private boolean isTransparent;
+	private boolean showOnlyTitles;
+	private String itemSeparator;
+	private String afterTitle;
 	
 	/* Transient state */
 	private FontData fontData;
@@ -79,6 +88,9 @@ public class TickerComponent extends ComponentModelElement {
 		font = new Font("Arial", Font.PLAIN, 24);
 		foregroundColor = Color.WHITE;
 		isTransparent = false;
+		showOnlyTitles = true;
+		itemSeparator = " - ";
+		afterTitle = ": ";
 		
 		fontData = null;
 	}
@@ -136,6 +148,9 @@ public class TickerComponent extends ComponentModelElement {
 			tickerSourceElement.setAttribute(
 					"class", "com.kesdip.player.components.ticker.RssTickerSource");
 			DOMHelpers.addProperty(doc, tickerSourceElement, "rssUrl", url);
+			DOMHelpers.addProperty(doc, tickerSourceElement, "showOnlyTitles", showOnlyTitles ? "true" : "false");
+			DOMHelpers.addProperty(doc, tickerSourceElement, "itemSeparator", itemSeparator);
+			DOMHelpers.addProperty(doc, tickerSourceElement, "afterTitle", afterTitle);
 		}
 		tickerSourcePropElement.appendChild(tickerSourceElement);
 		return tickerElement;
@@ -167,6 +182,12 @@ public class TickerComponent extends ComponentModelElement {
 				} else if ("com.kesdip.player.components.ticker.RssTickerSource".equals(className)) {
 					setPropertyValue(TYPE_PROP, getTickerType(RSS_TICKER_TYPE));
 					setPropertyValue(URL_PROP, DOMHelpers.getSimpleProperty(child, "rssUrl"));
+					setPropertyValue(SHOW_ONLY_TITLES_PROP,
+							DOMHelpers.getSimpleProperty(child, "showOnlyTitles"));
+					setPropertyValue(ITEM_SEPARATOR_PROP,
+							DOMHelpers.getSimpleProperty(child, "itemSeparator"));
+					setPropertyValue(AFTER_TITLE_PROP,
+							DOMHelpers.getSimpleProperty(child, "afterTitle"));
 				} else {
 					throw new RuntimeException("Unexpected ticker source class: " + className);
 				}
@@ -180,6 +201,9 @@ public class TickerComponent extends ComponentModelElement {
 		memento.putString(TAG_TICKER_TYPE, type);
 		memento.putString(TAG_TICKER_URL, url);
 		memento.putString(TAG_TICKER_STRING, string);
+		memento.putBoolean(TAG_TICKER_SHOW_ONLY_TITLES, showOnlyTitles);
+		memento.putString(TAG_TICKER_ITEM_SEPARATOR, itemSeparator);
+		memento.putString(TAG_TICKER_AFTER_TITLE, afterTitle);
 		memento.putFloat(TAG_TICKER_SPEED, (float) speed);
 		memento.putString(TAG_FONT_NAME, font.getFamily());
 		memento.putInteger(TAG_FONT_STYLE, font.getStyle());
@@ -194,6 +218,9 @@ public class TickerComponent extends ComponentModelElement {
 		type = memento.getString(TAG_TICKER_TYPE);
 		url = memento.getString(TAG_TICKER_URL);
 		string = memento.getString(TAG_TICKER_STRING);
+		showOnlyTitles = memento.getBoolean(TAG_TICKER_SHOW_ONLY_TITLES);
+		itemSeparator = memento.getString(TAG_TICKER_ITEM_SEPARATOR);
+		afterTitle = memento.getString(TAG_TICKER_AFTER_TITLE);
 		speed = memento.getFloat(TAG_TICKER_SPEED);
 		font = new Font(memento.getString(TAG_FONT_NAME),
 				memento.getInteger(TAG_FONT_STYLE), memento.getInteger(TAG_FONT_SIZE));
@@ -209,6 +236,9 @@ public class TickerComponent extends ComponentModelElement {
 		assert(type.equals(((TickerComponent) other).type));
 		assert(url.equals(((TickerComponent) other).url));
 		assert(string.equals(((TickerComponent) other).string));
+		assert(showOnlyTitles == ((TickerComponent) other).showOnlyTitles);
+		assert(itemSeparator.equals(((TickerComponent) other).itemSeparator));
+		assert(afterTitle.equals(((TickerComponent) other).afterTitle));
 		assert(speed == ((TickerComponent) other).speed);
 		assert(font.equals(((TickerComponent) other).font));
 		assert(foregroundColor.equals(((TickerComponent) other).foregroundColor));
@@ -226,6 +256,9 @@ public class TickerComponent extends ComponentModelElement {
 						new String[] { STRING_TICKER_TYPE, RSS_TICKER_TYPE }),
 				new TextPropertyDescriptor(URL_PROP, "RSS URL"),
 				new TextPropertyDescriptor(STRING_PROP, "String Source"),
+				new CheckboxPropertyDescriptor(SHOW_ONLY_TITLES_PROP, "Show Only Titles"),
+				new TextPropertyDescriptor(ITEM_SEPARATOR_PROP, "Item Separator"),
+				new TextPropertyDescriptor(AFTER_TITLE_PROP, "After Title"),
 				new TextPropertyDescriptor(SPEED_PROP, "Speed"),
 				new ColorPropertyDescriptor(FOREGROUND_COLOR_PROP, "Foreground Color"),
 				new FontPropertyDescriptor(FONT_PROP, "Font"),
@@ -283,6 +316,12 @@ public class TickerComponent extends ComponentModelElement {
 			return url;
 		} else if (STRING_PROP.equals(propertyId)) {
 			return string;
+		} else if (SHOW_ONLY_TITLES_PROP.equals(propertyId)) {
+			return showOnlyTitles;
+		} else if (ITEM_SEPARATOR_PROP.equals(propertyId)) {
+			return itemSeparator;
+		} else if (AFTER_TITLE_PROP.equals(propertyId)) {
+			return afterTitle;
 		} else if (TYPE_PROP.equals(propertyId)) {
 			return getTickerType(type);
 		} else if (SPEED_PROP.equals(propertyId)) {
@@ -311,6 +350,25 @@ public class TickerComponent extends ComponentModelElement {
 			String oldValue = string;
 			string = (String) value;
 			firePropertyChange(STRING_PROP, oldValue, string);
+		} else if (SHOW_ONLY_TITLES_PROP.equals(propertyId)) {
+			if (value instanceof String) {
+				// We are being deserialized
+				String oldValue = showOnlyTitles ? "true" : "false";
+				showOnlyTitles = value.equals("true");
+				firePropertyChange(SHOW_ONLY_TITLES_PROP, oldValue, value);
+				return;
+			}
+			Boolean oldValue = showOnlyTitles;
+			showOnlyTitles = ((Boolean) value).booleanValue();
+			firePropertyChange(SHOW_ONLY_TITLES_PROP, oldValue, showOnlyTitles);
+		} else if (ITEM_SEPARATOR_PROP.equals(propertyId)) {
+			String oldValue = itemSeparator;
+			itemSeparator = (String) value;
+			firePropertyChange(ITEM_SEPARATOR_PROP, oldValue, itemSeparator);
+		} else if (AFTER_TITLE_PROP.equals(propertyId)) {
+			String oldValue = afterTitle;
+			afterTitle = (String) value;
+			firePropertyChange(AFTER_TITLE_PROP, oldValue, afterTitle);
 		} else if (TYPE_PROP.equals(propertyId)) {
 			int oldValue = getTickerType(type);
 			int v = ((Integer) value).intValue();
@@ -383,6 +441,9 @@ public class TickerComponent extends ComponentModelElement {
 		retVal.speed = this.speed;
 		retVal.type = this.type;
 		retVal.string = this.string;
+		retVal.showOnlyTitles = this.showOnlyTitles;
+		retVal.itemSeparator = this.itemSeparator;
+		retVal.afterTitle = this.afterTitle;
 		retVal.url = this.url;
 		retVal.isTransparent = this.isTransparent;
 		return retVal;

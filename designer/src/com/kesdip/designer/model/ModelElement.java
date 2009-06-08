@@ -56,6 +56,9 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_TICKER_URL = "TickerUrl";
 	public static final String TAG_TICKER_STRING = "TickerString";
 	public static final String TAG_TICKER_SPEED = "TickerSpeed";
+	public static final String TAG_TICKER_SHOW_ONLY_TITLES = "TickerShowOnlyTitles";
+	public static final String TAG_TICKER_ITEM_SEPARATOR = "TickerItemSeparator";
+	public static final String TAG_TICKER_AFTER_TITLE = "TickerAfterTitle";
 	public static final String TAG_FRONT_RED = "FrontRed";
 	public static final String TAG_FRONT_GREEN = "FrontGreen";
 	public static final String TAG_FRONT_BLUE = "FrontBlue";
