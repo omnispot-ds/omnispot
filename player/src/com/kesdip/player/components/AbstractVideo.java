@@ -70,11 +70,13 @@ public abstract class AbstractVideo extends AbstractComponent {
 			ma = new String[] {
 					"-vvv",
 	         		"--no-video-title-show",
+	         		"--aspect-ratio=" + width + ":" + height,
 	         		"--no-overlay",
 	        		"--plugin-path=" + pluginsPath.getAbsolutePath() };
 		else
 			ma = new String[] {
 	         		"--no-video-title-show",
+	         		"--aspect-ratio=" + width + ":" + height,
 	         		"--no-overlay",
 	        		"--plugin-path=" + pluginsPath.getAbsolutePath() };
 		libvlc_instance_t = libVlcClass.
