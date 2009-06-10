@@ -94,8 +94,8 @@ public class InstallationLogic extends BaseLogic {
 		object.setActive(true);
 		String uuid = generateUuid();
 		object.setUuid(uuid);
-		object.setCurrentStatus(IInstallationStatus.MACHINE_DOWN);
 		object.setId((Long) getHibernateTemplate().save(object));
+		updateInstallationStatus(object, IInstallationStatus.OK);
 		// TODO update keystore
 
 		return object;
