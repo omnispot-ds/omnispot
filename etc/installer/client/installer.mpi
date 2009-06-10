@@ -63,7 +63,7 @@ InstallPassword
 {}
 
 InstallVersion
-0.3.0.0
+1.0.0.0
 
 Language,de
 No
@@ -2166,11 +2166,17 @@ No
 A504F227-72DE-4366-86B4-9476AE7DD909,Conditions
 {1 condition}
 
+A504F227-72DE-4366-86B4-9476AE7DD909,IgnoreErrors
+Yes
+
 A504F227-72DE-4366-86B4-9476AE7DD909,IncludeStderr
 Yes
 
 A504F227-72DE-4366-86B4-9476AE7DD909,ProgramCommandLine
 {uninstall.exe /mode silent}
+
+A504F227-72DE-4366-86B4-9476AE7DD909,WaitForProgram
+No
 
 A504F227-72DE-4366-86B4-9476AE7DD909,WorkingDirectory
 <%PROGRAM_FILES%>/VideoLan/VLC

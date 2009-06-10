@@ -3649,6 +3649,7 @@ InstallComponent 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A -setup Uninstall -type act
 Condition 564865D7-306B-4E1D-A44E-5305C3616217 -active Yes -parent 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 564865D7-306B-4E1D-A44E-5305C3616217
 InstallComponent 90D3B0E7-4CA5-41AE-86B9-B994E8081B11 -setup Uninstall -type action -conditions EFBCF33B-16DA-420A-965B-0C7657F23BBD -title {Stop Tomcat Service} -component StopWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition EFBCF33B-16DA-420A-965B-0C7657F23BBD -active Yes -parent 90D3B0E7-4CA5-41AE-86B9-B994E8081B11 -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id EFBCF33B-16DA-420A-965B-0C7657F23BBD
+InstallComponent 1DE208ED-4977-4D0E-B47D-E363B77BCD51 -setup Uninstall -type action -title Wait -component Wait -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 InstallComponent 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8 -setup Uninstall -type action -conditions C4C67009-A510-4567-978D-5A6847C64904 -title {Delete Derby Service} -component DeleteWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition C4C67009-A510-4567-978D-5A6847C64904 -active Yes -parent 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8 -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id C4C67009-A510-4567-978D-5A6847C64904
 InstallComponent 0F5B788E-6859-429C-AD98-171611191CEC -setup Uninstall -type action -conditions 6DFC651F-938F-4A3B-939F-3BCD98827EAE -title {Delete Tomcat Service} -component DeleteWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
@@ -3883,6 +3884,12 @@ VLC
 
 1DAC68B7-6DD9-4B5A-BDFA-07A73AA72E15,Permission
 {can create}
+
+1DE208ED-4977-4D0E-B47D-E363B77BCD51,Conditions
+{0 conditions}
+
+1DE208ED-4977-4D0E-B47D-E363B77BCD51,WaitTime
+20000
 
 20BE6D1C-AC10-4F04-A706-4A9184AF6E27,Comment
 {Don't display this pane in an upgrade install}
@@ -4567,6 +4574,9 @@ ConsoleComponent
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,ProgramCommandLine
 {uninstall.exe /mode silent}
+
+7D39D997-8A93-47DC-8F06-712B76FE1383,WaitForProgram
+No
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,WorkingDirectory
 <%PROGRAM_FILES%>/VideoLan/VLC

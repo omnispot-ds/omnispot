@@ -230,7 +230,7 @@
 		@param destdir the name of the directory into which to generate the installer	
 		 -->
 	<target name="zz.build.installer"
-		description="Builds an IzPack installer">
+		description="Builds an InstallJammer installer">
 
 		<replace 
 			file="${installer.file}" 

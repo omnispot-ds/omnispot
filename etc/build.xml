@@ -302,9 +302,15 @@
 		
 		<antcall target="preprocess.server.installer.files" inheritrefs="true"/>
 
-		<!-- Build the installer -->
+		<!-- Build the setup installer -->
 		<antcall target="zz.build.installer">
 			<param name="installer.file" value="${server.installer.dir}/installer.mpi" />
+			<param name="version" value="${server.version}" />
+			<param name="destdir" value="${server.installer.dir}" />
+		</antcall>
+		<!-- Build the update installer -->
+		<antcall target="zz.build.installer">
+			<param name="installer.file" value="${server.installer.dir}/update.mpi" />
 			<param name="version" value="${server.version}" />
 			<param name="destdir" value="${server.installer.dir}" />
 		</antcall>
@@ -482,6 +488,10 @@
 			file="${server.installer.dir}/installer.mpi" 
 			token="C:/workdir-ds/designer.build/installer" 
 			value="${server.installer.dir}"/>
+		<replace 
+			file="${server.installer.dir}/update.mpi" 
+			token="C:/workdir-ds/designer.build/installer" 
+			value="${server.installer.dir}"/>
 		<!-- Replace VLC installer name --> 
 		<replace 
 			file="${player.installer.dir}/installer.mpi" 
@@ -500,6 +510,10 @@
 		<!-- Fix C:\ to C:/ -->
 		<replace 
 			file="${server.installer.dir}/installer.mpi" 
+			token=":\" 
+			value=":/"/>
+		<replace 
+			file="${server.installer.dir}/update.mpi" 
 			token=":\" 
 			value=":/"/>
 	</target>
