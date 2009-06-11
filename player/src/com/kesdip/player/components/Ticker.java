@@ -98,6 +98,7 @@ public class Ticker extends AbstractComponent {
 	@Override
 	public void repaint() throws ComponentException {
 		if (firstTime) {
+			panel.tickerStarting();
 			timer.scheduleAtFixedRate(new TimerTask() {
 				@Override
 				public void run() {

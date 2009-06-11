@@ -133,6 +133,10 @@ public class TickerPanel extends JPanel {
 		positionInitialized.set(false);
 		source.reset();
 	}
+	
+	public void tickerStarting() {
+		oldTotalElapsedTime = System.currentTimeMillis();
+	}
 
 	public void timingEvent() {
 		long currentTime = System.currentTimeMillis();
