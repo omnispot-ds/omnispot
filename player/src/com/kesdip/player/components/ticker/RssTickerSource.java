@@ -55,7 +55,7 @@ public class RssTickerSource implements TickerSource {
 
 	@Override
 	public void addTrailingChar() {
-		readFeed();
+		sb.append(sb.toString());
 	}
 
 	@Override
