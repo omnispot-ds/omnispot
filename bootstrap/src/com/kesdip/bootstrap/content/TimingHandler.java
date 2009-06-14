@@ -21,6 +21,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.Config;
+import com.kesdip.business.constenum.IActionParamsEnum;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IActionTypesEnum;
 import com.kesdip.common.util.DBUtils;
@@ -212,7 +213,7 @@ public class TimingHandler implements ContentHandler {
 				"SELECT PARAMETER.PARAM_VALUE FROM ACTION,PARAMETER " +
 				"WHERE PARAMETER.ACTION_ID = ACTION.ID AND " +
 				"PARAMETER.NAME=? AND ACTION.TYPE=? AND ACTION.STATUS=?");
-		ps.setString(1, "crc");
+		ps.setString(1, IActionParamsEnum.DEPLOYMENT_CRC);
 		ps.setShort(2, IActionTypesEnum.DEPLOY);
 		ps.setShort(3, IActionStatusEnum.IN_PROGRESS);
 		
@@ -232,12 +233,12 @@ public class TimingHandler implements ContentHandler {
 				"SELECT CRC,FAILED_RESOURCE FROM DEPLOYMENT " +
 				"WHERE FILENAME != '' " +
 		"AND DEPLOY_DATE <= ? AND CRC=? ORDER BY DEPLOY_DATE DESC");
+		
 		PreparedStatement ps2 = c.prepareStatement(
 				"update ACTION SET ACTION.STATUS=? " +
 				"where action.id in " + 
 				"(select parameter.ACTION_ID from PARAMETER where "+ 
-						"PARAMETER.NAME=? and PARAMETER.PARAM_VALUE=?" );
-
+						"PARAMETER.NAME=? and PARAMETER.PARAM_VALUE=?)" );
 		for (String crc:crcs) {
 			
 			ps.setTimestamp(1, new Timestamp(new Date().getTime()));
@@ -245,13 +246,14 @@ public class TimingHandler implements ContentHandler {
 			rs = ps.executeQuery();
 			
 			if (rs.next()) {
+				
 				String crcKey = rs.getString(1);
 				String failed = rs.getString(2);
 				if (failed.equals("Y"))
 					ps2.setShort(1, IActionStatusEnum.FAILED);
 				else
 					ps2.setShort(1, IActionStatusEnum.OK);
-				ps2.setString(2, "crc");
+				ps2.setString(2, IActionParamsEnum.DEPLOYMENT_CRC);
 				ps2.setString(3, crcKey);
 				ps2.executeUpdate();
 			}
