@@ -94,8 +94,12 @@ public class ProtocolHandler {
 
 		// delete all actions with status done...
 		for (Action action : actions) {
-			if (action.getStatus() == IActionStatusEnum.OK)
+			if (action.getStatus() == IActionStatusEnum.OK) {
+				for (Parameter param:action.getParameters()) {
+					getHibernateTemplate().delete(param);
+				}
 				getHibernateTemplate().delete(action);
+			}
 			logger.debug("deleted action with status OK: " + action.toString());
 		}
 
@@ -114,6 +118,15 @@ public class ProtocolHandler {
 			Action[] actions = actionHandler.deserialize(serializedActions);
 			// must store them and add the necessary messages if required
 			for (Action action : actions) {
+				//first save the actions
+				action.setInstallation(null);
+				action.setStatus(IActionStatusEnum.SCHEDULED);
+				for (Parameter param:action.getParameters()) {
+					param.setId((Long) getHibernateTemplate().save(param));
+				}
+				getHibernateTemplate().save(action);
+				getHibernateTemplate().flush();
+				
 				if (action.getType() == IActionTypesEnum.DEPLOY) {
 					Set<Parameter> params = action.getParameters();
 					String descriptorUrl = "";
@@ -127,7 +140,7 @@ public class ProtocolHandler {
 								.equals(IActionParamsEnum.DEPLOYMENT_CRC)) {
 							crc = p.getValue();
 						}
-						p.setId((Long) getHibernateTemplate().save(p));
+						//p.setId((Long) getHibernateTemplate().save(p));
 					}
 					logger.info("Adding new deploy message");
 					manager.getPump().addMessage(
@@ -142,9 +155,6 @@ public class ProtocolHandler {
 					manager.getPump().addMessage(
 							new RebootPlayerMessage(action.getActionId()));
 				}
-				action.setInstallation(null);
-				action.setStatus(IActionStatusEnum.SCHEDULED);
-				getHibernateTemplate().save(action);
 			}
 		}
 	}
