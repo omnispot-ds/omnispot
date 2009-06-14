@@ -45,7 +45,7 @@ public class ProtocolHandler {
 		HttpClient http = new HttpClient();
 		PostMethod post = new PostMethod(serverURL);
 
-		boolean playerAlive = true;
+		boolean playerAlive = RestartPlayerMessage.isPlayerProcessAlive();
 
 		List<Action> actions = getHibernateTemplate().loadAll(Action.class);
 		String serializedActions = IActionParamsEnum.NO_ACTIONS;
@@ -143,7 +143,7 @@ public class ProtocolHandler {
 							new RebootPlayerMessage(action.getActionId()));
 				}
 				action.setInstallation(null);
-				action.setStatus(IActionStatusEnum.OK);
+				action.setStatus(IActionStatusEnum.SCHEDULED);
 				getHibernateTemplate().save(action);
 			}
 		}
