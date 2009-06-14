@@ -88,6 +88,10 @@ public class ServerProtocolHandler {
 			Action[] actions = actionHandler.deserialize(serializedActions);
 			// now update the admin-console db
 			for (Action action : actions) {
+				//avoid setting back to scheduled actions that have not changed state in client
+				if (action.getStatus() == IActionStatusEnum.SCHEDULED)
+					continue;
+				
 				List<Action> l = getHibernateTemplate().find(
 						"from " + Action.class.getName()
 								+ " a where a.actionId = ? ",
@@ -127,8 +131,7 @@ public class ServerProtocolHandler {
 			serializedActions = actionHandler.serialize(actions
 					.toArray(new Action[0]));
 			if (logger.isInfoEnabled()) {
-				logger
-						.info("Actions found and will be sent to installation with id "
+				logger.info("Actions found and will be sent to installation with id "
 								+ actions.get(0).getInstallation().getName()
 								+ ". Actions: " + serializedActions);
 			}
