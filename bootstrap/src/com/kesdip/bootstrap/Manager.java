@@ -27,8 +27,6 @@ public class Manager extends Thread {
 
 	private long intervalsRatio;
 
-	public boolean includeScreendump = false;
-
 	public String serverURL = Config.getSingleton().getServerURL();
 
 	MessagePump pump;
@@ -78,7 +76,7 @@ public class Manager extends Thread {
 					exceptioncount++;
 					if (firstExceptionTimeStamp == 0)
 						firstExceptionTimeStamp = new Date().getTime();
-
+					int comm2excRate; 
 					if (exceptioncount == 5) {
 						if (new Date().getTime() - firstExceptionTimeStamp < 1800 * 1000) {
 							logger
@@ -107,26 +105,6 @@ public class Manager extends Thread {
 			return true;
 		}
 		return false;
-	}
-
-	public long getScreendumpInterval() {
-		return screendumpInterval;
-	}
-
-	public void setScreendumpInterval(long screendumpInterval) {
-		this.screendumpInterval = screendumpInterval;
-		logger.info("Heartbeat interval set to '" + screendumpInterval / 1000
-				+ "'.");
-	}
-
-	public void setRun(boolean run) {
-		this.run = run;
-	}
-
-	public void setCommunicationInterval(long communicationInterval) {
-		this.communicationInterval = communicationInterval;
-		logger.info("Communication interval set to '" + communicationInterval
-				/ 1000 + "'.");
 	}
 
 	public MessagePump getPump() {
