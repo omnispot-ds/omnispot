@@ -16,6 +16,7 @@ import org.quartz.JobDetail;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 
+import com.kesdip.common.util.StringUtils;
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
@@ -91,8 +92,9 @@ public abstract class AbstractComponent implements Component {
 	protected void scheduleResources(TimingMonitor timingMonitor,
 			List<Resource> resources) throws ParseException, SchedulerException {
 		for (Resource resource : resources) {
-			if (resource.getCronExpression() == null)
+			if (StringUtils.isEmpty(resource.getCronExpression())) {
 				continue;
+			}
 			
 			Trigger trigger = new CronTrigger(resource.getIdentifier() + "_trigger",
 					"component", resource.getCronExpression());

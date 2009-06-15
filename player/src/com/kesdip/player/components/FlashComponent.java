@@ -70,10 +70,7 @@ public class FlashComponent extends AbstractComponent {
 		parent.add(this);
 		if (filename == null) {
 			ContentRegistry registry = ContentRegistry.getContentRegistry();
-			filename = registry.getResourcePath(source);
-			
-			if (filename == null)
-				filename = source.getIdentifier();
+			filename = registry.getResourcePath(source, true);
 		}
 		doOpen(filename);
 	}

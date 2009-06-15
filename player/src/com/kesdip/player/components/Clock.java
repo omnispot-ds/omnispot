@@ -72,7 +72,6 @@ public class Clock extends AbstractComponent implements Runnable {
 					panel.timeSeconds = k;
 
 					panel.timeMillis = 0;
-					logger.debug("tik!");
 					panel.refresh();
 				}
 				Thread.sleep(250L);

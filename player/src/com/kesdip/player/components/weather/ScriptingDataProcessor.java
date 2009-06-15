@@ -43,10 +43,7 @@ public class ScriptingDataProcessor extends WeatherDataProcessor {
 	private void reloadIfNecessary() {
 		if (file == null) {
 			ContentRegistry registry = ContentRegistry.getContentRegistry();
-			String filename = registry.getResourcePath(scriptFile);
-			
-			if (filename == null)
-				filename = scriptFile.getIdentifier();
+			String filename = registry.getResourcePath(scriptFile, true);
 			file = new File(filename);
 		}
 		if (lastModified == 0 || lastModified != file.lastModified()) {

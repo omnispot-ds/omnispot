@@ -48,13 +48,7 @@ public class Image extends AbstractComponent implements InitializingBean {
 
 	private void loadImage() throws ComponentException {
 		ContentRegistry registry = ContentRegistry.getContentRegistry();
-		String imageFilename = registry.getResourcePath(contents.get(currentImageIndex));
-        if (imageFilename == null) {
-        	logger.info("Registry returned NULL for resource: " +
-        			contents.get(currentImageIndex).getIdentifier() +
-        			". Falling back to trying to open the resource identifier.");
-        	imageFilename = contents.get(currentImageIndex).getIdentifier();
-        }
+		String imageFilename = registry.getResourcePath(contents.get(currentImageIndex), true);
 		logger.info("Loading image from file: " + imageFilename);
 		try {
 		    img = ImageIO.read(new File(imageFilename));
