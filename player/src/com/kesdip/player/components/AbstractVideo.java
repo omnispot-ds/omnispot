@@ -29,6 +29,7 @@ public abstract class AbstractVideo extends AbstractComponent {
 	protected Object libVlc;
 	protected Object exception;
 	protected Object libvlc_instance_t;
+	protected Object libvlc_media_instance_t;
 	protected Object libvlc_log;
 	protected Canvas canvas;
 	/**
@@ -170,18 +171,14 @@ public abstract class AbstractVideo extends AbstractComponent {
 				String[].class, libVlcExceptionClass).invoke(libVlc, ma.length,
 				ma, exception);
 		assertOnException("createVLCInstance.libvlc_new");
-		logger.debug("Initialized LibVLC instance");
-//		if (!fullscreen) {
-//			int drawable = (int) com.sun.jna.Native.getComponentID(canvas);
-//			logger.trace("Drawable retrieved from underlying window ("
-//					+ drawable + ")");
-//			libVlcClass.getMethod("libvlc_video_set_parent",
-//					libVlcInstanceClass, long.class, libVlcExceptionClass)
-//					.invoke(libVlc, libvlc_instance_t, drawable, exception);
-//			assertOnException("startVideoOnCanvas.libvlc_video_set_parent");
-//			logger.trace("Attached the player to the drawable");
-//		}
+		// init media player
+		libvlc_media_instance_t = libVlcClass.getMethod(
+				"libvlc_media_player_new", libVlcInstanceClass,
+				libVlcExceptionClass).invoke(libVlc, libvlc_instance_t,
+				exception);
+		assertOnException("createVLCInstance.libvlc_new");
 
+		logger.debug("Initialized LibVLC instance");
 	}
 
 	/**
@@ -356,9 +353,9 @@ public abstract class AbstractVideo extends AbstractComponent {
 
 		try {
 			// close the log
-//			libVlcClass.getMethod("libvlc_log_close", libVlcLogClass,
-//					libVlcExceptionClass).invoke(libVlc, libvlc_log, exception);
-//			assertOnException("releaseResources.libvlc_log_close");
+			// libVlcClass.getMethod("libvlc_log_close", libVlcLogClass,
+			// libVlcExceptionClass).invoke(libVlc, libvlc_log, exception);
+			// assertOnException("releaseResources.libvlc_log_close");
 			// release the instance
 			libVlcClass.getMethod("libvlc_release", libVlcInstanceClass)
 					.invoke(libVlc, libvlc_instance_t);
