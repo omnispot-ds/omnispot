@@ -126,7 +126,6 @@ public class TimingMonitor implements Runnable {
 	 * 
 	 * @throws SchedulerException
 	 *             iff something goes wrong.
-	 */
 	private void removeAllJobs() throws SchedulerException {
 		String[] groupNames = scheduler.getJobGroupNames();
 		for (String groupName : groupNames) {
@@ -136,7 +135,21 @@ public class TimingMonitor implements Runnable {
 			}
 		}
 	}
-
+	 */
+	/**
+	 * Helper method to remove all scheduled component jobs from the
+	 * quartz scheduler. Used when a layout changes, so as to remove scheduled jobs for
+	 * components, but leave any scheduled jobs for sibling layouts.
+	 * 
+	 * @throws SchedulerException iff something goes wrong.
+	 */
+	private void removeAllComponentJobs() throws SchedulerException {
+		String[] jobNames = scheduler.getJobNames("component");
+		for (String jobName : jobNames) {
+			scheduler.deleteJob(jobName, "component");
+		}
+	}
+	
 	/**
 	 * Helper method to start "playing" a deployment.
 	 * 
@@ -160,7 +173,7 @@ public class TimingMonitor implements Runnable {
 					"The application context "
 							+ "factory should contain a bean with ID 'deploymentContents'.");
 
-		removeAllJobs();
+		removeAllComponentJobs();
 		for (DeploymentLayout layout : contents.getLayouts()) {
 			if (layout.getCronExpression() == null)
 				continue;
