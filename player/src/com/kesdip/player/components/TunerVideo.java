@@ -83,9 +83,7 @@ public class TunerVideo extends AbstractVideo {
 		this.fullScreen = fullscreen;
 		// init native component
 		String[] ma = args.toArray(new String[args.size()]);
-		libvlc_instance_t = libVlcClass.getMethod("libvlc_new", int.class,
-				String[].class, libVlcExceptionClass).invoke(libVlc, ma.length,
-				ma, exception);
+		libvlc_instance_t = libVlc.libvlc_new(ma.length, ma, exception);
 		assertOnException("createVLCInstance.libvlc_new");
 
 		logger.trace("Initialized LibVLC instance");

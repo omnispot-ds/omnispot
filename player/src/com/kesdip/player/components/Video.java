@@ -18,13 +18,13 @@ import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
 import com.kesdip.player.helpers.PlayerUtils;
-import com.kesdip.player.registry.ContentRegistry;
 
 /**
- * Represents a component that renders a video (through the VLC client
+ * Represents a component that renders video files (through the VLC client
  * interface).
  * 
  * @author Pafsanias Ftakas
+ * @author Stelios Gerogiannakis
  */
 public class Video extends AbstractVideo implements InitializingBean {
 	private static final Logger logger = Logger.getLogger(Video.class);
@@ -32,6 +32,10 @@ public class Video extends AbstractVideo implements InitializingBean {
 	/* SPRING STATE */
 	private List<Resource> contents;
 	private boolean repeat = false;
+	/**
+	 * Flag to indicate we have a scheduled resource.
+	 */
+	protected boolean scheduledResource = false;
 
 	public void setContents(List<Resource> content) {
 		this.contents = content;
@@ -52,49 +56,50 @@ public class Video extends AbstractVideo implements InitializingBean {
 	protected boolean stillStarting;
 	protected boolean currentRepeat;
 
+	/**
+	 * Loads the given resource in the player and starts playing.
+	 * <p>
+	 * If the resource is <code>null</code>, it is interpreted as
+	 * "load all the items in the resource list".
+	 * </p>
+	 * 
+	 * @param resource
+	 *            the resource or <code>null</code>
+	 * @param actualRepeat
+	 *            if the content should loop or not
+	 * @throws Exception
+	 *             on error
+	 */
 	protected void loadMedia(Resource resource, boolean actualRepeat)
 			throws Exception {
 		// clear playlist
 		clearPlaylist();
 
-		ContentRegistry registry = ContentRegistry.getContentRegistry();
 		if (resource != null) {
 			logger.trace("Loading a single video");
-			String videoFilename = registry.getResourcePath(resource, true);
-
-			libVlcClass.getMethod("libvlc_playlist_add", libVlcInstanceClass,
-					String.class, String.class, libVlcExceptionClass).invoke(
-					libVlc, libvlc_instance_t, videoFilename, null, exception);
-			assertOnException("loadMedia.libvlc_playlist_add");
+			addResourceToPlaylist(resource);
 
 		} else {
 			logger.trace("Loading a video playlist");
+			// this is definitely not a scheduled resource
+			scheduledResource = false;
 			for (Resource res : contents) {
 				// do not put in the list videos with a CRON expression
 				if (!StringUtils.isEmpty(res.getCronExpression())) {
 					continue;
 				}
-				String videoFilename = registry.getResourcePath(res, true);
-
-				libVlcClass.getMethod("libvlc_playlist_add",
-						libVlcInstanceClass, String.class, String.class,
-						libVlcExceptionClass).invoke(libVlc, libvlc_instance_t,
-						videoFilename, null, exception);
-				assertOnException("loadMedia.libvlc_playlist_add");
+				addResourceToPlaylist(res);
 			}
 		}
-
 		if (actualRepeat) {
-			libVlcClass.getMethod("libvlc_playlist_loop", libVlcInstanceClass,
-					int.class, libVlcExceptionClass).invoke(libVlc,
-					libvlc_instance_t, 1, exception);
+			libVlc.libvlc_playlist_loop(libvlc_instance_t, 1, exception);
 			assertOnException("loadMedia.libvlc_playlist_loop");
 		} else {
-			libVlcClass.getMethod("libvlc_playlist_play", libVlcInstanceClass,
-					int.class, int.class, String[].class, libVlcExceptionClass)
-					.invoke(libVlc, libvlc_instance_t, -1, 0, null, exception);
+			libVlc.libvlc_playlist_play(libvlc_instance_t, -1, 0, null,
+					exception);
 			assertOnException("loadMedia.libvlc_playlist_play");
 		}
+		stillStarting = true;
 	}
 
 	@Override
@@ -113,9 +118,9 @@ public class Video extends AbstractVideo implements InitializingBean {
 
 	protected void startVideo(Resource resource, boolean actualRepeat)
 			throws Exception {
+		releaseResources();
 		// check if video is marked as full-screen and initialize accordingly
 		initVLC(PlayerUtils.isResourceFullScreen(resource));
-		stillStarting = true;
 		loadMedia(resource, actualRepeat);
 		currentRepeat = actualRepeat;
 		completed = new AtomicBoolean(false);
@@ -129,18 +134,15 @@ public class Video extends AbstractVideo implements InitializingBean {
 
 		if (!currentRepeat) {
 			try {
-				int v = ((Integer) libVlcClass.getMethod(
-						"libvlc_playlist_isplaying", libVlcInstanceClass,
-						libVlcExceptionClass).invoke(libVlc, libvlc_instance_t,
-						exception)).intValue();
-				assertOnException("repaint.libvlc_playlist_isplaying");
+				boolean playing = isPlaying();
 				if (stillStarting) {
-					if (v == 1) {
+					// playing or a finished scheduled resource
+					if (playing || scheduledResource) {
 						stillStarting = false;
 					}
-				} else {
+				} else if (!playing) {
 					if (!repeat) {
-						completed.set(v == 0);
+						completed.set(!playing);
 					} else {
 						logger.info("Scheduled video completed, restarting "
 								+ "normal video sequence.");
@@ -187,15 +189,41 @@ public class Video extends AbstractVideo implements InitializingBean {
 		}
 
 		try {
-			releaseResources();
-
 			logger.info("Starting scheduled video from resource: "
 					+ resource.getIdentifier());
-
+			scheduledResource = true;
 			startVideo(resource, false);
 		} catch (Exception e) {
 			logger.error("Unable to reschedule video", e);
 		}
 	}
 
+	/**
+	 * Check if the video player is playing at the moment.
+	 * 
+	 * @return boolean <code>true</code> if the media player is playing
+	 */
+	protected boolean isPlaying() throws Exception {
+		int v = 0;
+		if (libVlc != null) {
+			v = libVlc.libvlc_playlist_isplaying(libvlc_instance_t, exception);
+		}
+		assertOnException("isPlaying.libvlc_playlist_isplaying");
+		return v == 1;
+	}
+
+	/**
+	 * @return the scheduledResource
+	 */
+	public boolean isScheduledResource() {
+		return scheduledResource;
+	}
+
+	/**
+	 * @param scheduledResource
+	 *            the scheduledResource to set
+	 */
+	public void setScheduledResource(boolean scheduledResource) {
+		this.scheduledResource = scheduledResource;
+	}
 }

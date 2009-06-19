@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.videolan.jvlc.internal.LibVlc;
+import org.videolan.jvlc.internal.LibVlc.LibVlcInstance;
+import org.videolan.jvlc.internal.LibVlc.LibVlcLog;
+import org.videolan.jvlc.internal.LibVlc.LibVlcLogIterator;
+import org.videolan.jvlc.internal.LibVlc.libvlc_exception_t;
+import org.videolan.jvlc.internal.LibVlc.libvlc_log_message_t;
 
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
@@ -15,28 +21,29 @@ import com.kesdip.player.DeploymentLayout.CompletionStatus;
 import com.kesdip.player.helpers.PlayerUtils;
 import com.kesdip.player.registry.ContentRegistry;
 
+/**
+ * Base class for all components rendering media through the VLC client
+ * interface.
+ * 
+ * @author Pafsanias Ftakas
+ * @author Stelios Gerogiannakis
+ */
 public abstract class AbstractVideo extends AbstractComponent {
 	private static final Logger logger = Logger.getLogger(AbstractVideo.class);
+	private static final Logger vlcLogger = Logger.getLogger(LibVlc.class);
+	
 
 	/* TRANSIENT STATE */
-	protected Class<?> libVlcClass;
-	protected Class<?> libVlcExceptionClass;
-	protected Class<?> libVlcInstanceClass;
-	protected Class<?> libVlcMediaInstanceClass;
-	protected Class<?> libVlcLogClass;
-	protected Class<?> libVlcLogIteratorClass;
-	protected Class<?> libVlcLogMessageClass;
-	protected Object libVlc;
-	protected Object exception;
-	protected Object libvlc_instance_t;
-	protected Object libvlc_media_instance_t;
-	protected Object libvlc_log;
+	protected LibVlc libVlc;
+	protected libvlc_exception_t exception;
+	protected LibVlcInstance libvlc_instance_t;
+	protected LibVlcLog libvlc_log;
 	protected Canvas canvas;
 	/**
 	 * Flag to indicate if the current instance is full-screen.
 	 */
 	protected boolean fullScreen = false;
-
+	
 	/**
 	 * Initialize a VLC instance. Same as calling
 	 * {@link #initVLC(Resource, boolean)} with a <code>null</code> resource.
@@ -67,39 +74,20 @@ public abstract class AbstractVideo extends AbstractComponent {
 	 */
 	protected void initVLC(Resource resource, boolean fullscreen)
 			throws Exception {
-		libVlcClass = Class.forName("org.videolan.jvlc.internal.LibVlc");
-		libVlc = libVlcClass.getField("SYNC_INSTANCE").get(null);
-		libVlcExceptionClass = Class
-				.forName("org.videolan.jvlc.internal.LibVlc$libvlc_exception_t");
-		libVlcInstanceClass = Class
-				.forName("org.videolan.jvlc.internal.LibVlc$LibVlcInstance");
-		libVlcMediaInstanceClass = Class
-				.forName("org.videolan.jvlc.internal.LibVlc$LibVlcMediaInstance");
-		libVlcLogClass = Class
-				.forName("org.videolan.jvlc.internal.LibVlc$LibVlcLog");
-		libVlcLogIteratorClass = Class
-				.forName("org.videolan.jvlc.internal.LibVlc$LibVlcLogIterator");
-		libVlcLogMessageClass = Class
-				.forName("org.videolan.jvlc.internal.LibVlc$libvlc_log_message_t");
+		libVlc = LibVlc.SYNC_INSTANCE;
 
-		logger.info("Starting vlc");
-		logger.debug("version: "
-				+ libVlcClass.getMethod("libvlc_get_version").invoke(libVlc));
-		logger.debug("changeset: "
-				+ libVlcClass.getMethod("libvlc_get_changeset").invoke(libVlc));
-		logger.debug("compiler: "
-				+ libVlcClass.getMethod("libvlc_get_compiler").invoke(libVlc));
+		logger.info("Starting VLC");
+		logger.debug("version: " + libVlc.libvlc_get_version());
+		logger.debug("changeset: " + libVlc.libvlc_get_changeset());
+		logger.debug("compiler: " + libVlc.libvlc_get_compiler());
 
-		exception = libVlcExceptionClass.newInstance();
-		libVlcClass.getMethod("libvlc_exception_init", libVlcExceptionClass)
-				.invoke(libVlc, exception);
+		exception = new LibVlc.libvlc_exception_t();
+		libVlc.libvlc_exception_init(exception);
 		assertOnException("initVLC.libvlc_exception_init");
 
 		createVLCInstance(resource, fullscreen);
 
-		libvlc_log = libVlcClass.getMethod("libvlc_log_open",
-				libVlcInstanceClass, libVlcExceptionClass).invoke(libVlc,
-				libvlc_instance_t, exception);
+		libvlc_log = libVlc.libvlc_log_open(libvlc_instance_t, exception);
 		assertOnException("initVLC.libvlc_log_open");
 	}
 
@@ -127,8 +115,6 @@ public abstract class AbstractVideo extends AbstractComponent {
 	 *            identifies the single video to initialize the instance with.
 	 *            If <code>null</code> it is ignored and descendant classes mut
 	 *            take actions to load some files for playback.
-	 * @param fullscreen
-	 *            if the instance is full-screen or not
 	 * @throws Exception
 	 *             on error
 	 */
@@ -167,17 +153,8 @@ public abstract class AbstractVideo extends AbstractComponent {
 		this.fullScreen = fullscreen;
 		// init native component
 		String[] ma = args.toArray(new String[args.size()]);
-		libvlc_instance_t = libVlcClass.getMethod("libvlc_new", int.class,
-				String[].class, libVlcExceptionClass).invoke(libVlc, ma.length,
-				ma, exception);
+		libvlc_instance_t = libVlc.libvlc_new(ma.length, ma, exception);
 		assertOnException("createVLCInstance.libvlc_new");
-		// init media player
-		libvlc_media_instance_t = libVlcClass.getMethod(
-				"libvlc_media_player_new", libVlcInstanceClass,
-				libVlcExceptionClass).invoke(libVlc, libvlc_instance_t,
-				exception);
-		assertOnException("createVLCInstance.libvlc_new");
-
 		logger.debug("Initialized LibVLC instance");
 	}
 
@@ -191,13 +168,10 @@ public abstract class AbstractVideo extends AbstractComponent {
 	 *             if there was an error
 	 */
 	protected void assertOnException(String context) throws Exception {
-		Integer status = (Integer) libVlcClass.getMethod(
-				"libvlc_exception_raised", libVlcExceptionClass).invoke(libVlc,
-				exception);
+		Integer status = (Integer) libVlc.libvlc_exception_raised(exception);
 		if (status.intValue() == 1) {
-			String msg = (String) libVlcClass.getMethod(
-					"libvlc_exception_get_message", libVlcExceptionClass)
-					.invoke(libVlc, exception);
+			String msg = (String) libVlc
+					.libvlc_exception_get_message(exception);
 			throw new Exception(context + ": " + msg);
 		}
 	}
@@ -208,16 +182,12 @@ public abstract class AbstractVideo extends AbstractComponent {
 		logger.trace("Drawable retrieved from underlying window (" + drawable
 				+ ")");
 
-		libVlcClass.getMethod("libvlc_video_set_parent", libVlcInstanceClass,
-				long.class, libVlcExceptionClass).invoke(libVlc,
-				libvlc_instance_t, drawable, exception);
+		libVlc.libvlc_video_set_parent(libvlc_instance_t, drawable, exception);
 		assertOnException("startVideoOnCanvas.libvlc_video_set_parent");
 
 		logger.trace("Attached the player to the drawable");
 
-		libVlcClass.getMethod("libvlc_playlist_play", libVlcInstanceClass,
-				int.class, int.class, String[].class, libVlcExceptionClass)
-				.invoke(libVlc, libvlc_instance_t, -1, 0, null, exception);
+		libVlc.libvlc_playlist_play(libvlc_instance_t, -1, 0, null, exception);
 		assertOnException("startVideoOnCanvas.libvlc_playlist_play");
 
 		logger.debug("Started media playing");
@@ -277,57 +247,47 @@ public abstract class AbstractVideo extends AbstractComponent {
 		countRepaints = 1;
 		logger.trace("Starting VLC log dump");
 		try {
-			Object libvlc_log_iterator = libVlcClass.getMethod(
-					"libvlc_log_get_iterator", libVlcLogClass,
-					libVlcExceptionClass).invoke(libVlc, libvlc_log, exception);
+			LibVlcLogIterator libvlc_log_iterator = libVlc
+					.libvlc_log_get_iterator(libvlc_log, exception);
 			assertOnException("repaint.libvlc_log_get_iterator");
 			try {
 				while (true) {
-					int hasNext = (Integer) libVlcClass.getMethod(
-							"libvlc_log_iterator_has_next",
-							libVlcLogIteratorClass, libVlcExceptionClass)
-							.invoke(libVlc, libvlc_log_iterator, exception);
+					int hasNext = libVlc.libvlc_log_iterator_has_next(
+							libvlc_log_iterator, exception);
 					assertOnException("repaint.libvlc_log_iterator_has_next");
 					if (hasNext == 0) {
 						break;
 					}
-					Object message = libVlcLogMessageClass.newInstance();
-					libVlcClass.getMethod("libvlc_log_iterator_next",
-							libVlcLogIteratorClass, libVlcLogMessageClass,
-							libVlcExceptionClass).invoke(libVlc,
-							libvlc_log_iterator, message, exception);
+					libvlc_log_message_t message = new LibVlc.libvlc_log_message_t();
+					libVlc.libvlc_log_iterator_next(libvlc_log_iterator,
+							message, exception);
 					assertOnException("repaint.libvlc_log_iterator_next");
-					String msg = (String) libVlcLogMessageClass.getField(
-							"psz_message").get(message);
-					int severity = (Integer) libVlcLogMessageClass.getField(
-							"i_severity").get(message);
+					String msg = message.psz_message;
+					int severity = message.i_severity;
 					switch (severity) {
 					case 0:
-						logger.info(msg);
+						vlcLogger.info(msg);
 						break;
 					case 1:
-						logger.error(msg);
+						vlcLogger.error(msg);
 						break;
 					case 2:
-						logger.warn(msg);
+						vlcLogger.warn(msg);
 						break;
 					case 3:
-						logger.debug(msg);
+						vlcLogger.debug(msg);
 						break;
 					default:
-						logger.info(msg + " (Unexpected severity: " + severity
+						vlcLogger.info(msg + " (Unexpected severity: " + severity
 								+ ")");
 					}
 				}
-				libVlcClass.getMethod("libvlc_log_clear", libVlcLogClass,
-						libVlcExceptionClass).invoke(libVlc, libvlc_log,
-						exception);
+				libVlc.libvlc_log_clear(libvlc_log, exception);
 				assertOnException("repaint.libvlc_log_clear");
 			} finally {
 				if (libvlc_log_iterator != null) {
-					libVlcClass.getMethod("libvlc_log_iterator_free",
-							libVlcLogIteratorClass, libVlcExceptionClass)
-							.invoke(libVlc, libvlc_log_iterator, exception);
+					libVlc.libvlc_log_iterator_free(libvlc_log_iterator,
+							exception);
 					assertOnException("repaint.libvlc_log_iterator_free");
 				}
 			}
@@ -344,21 +304,16 @@ public abstract class AbstractVideo extends AbstractComponent {
 
 	@Override
 	public void releaseResources() {
-		if (libVlcInstanceClass == null) {
+		if (libVlc == null) {
 			return;
 		}
-
 		stopPlayer();
-		clearPlaylist();
-
 		try {
 			// close the log
-			// libVlcClass.getMethod("libvlc_log_close", libVlcLogClass,
-			// libVlcExceptionClass).invoke(libVlc, libvlc_log, exception);
-			// assertOnException("releaseResources.libvlc_log_close");
+//			libVlc.libvlc_log_close(libvlc_log, exception);
+//			assertOnException("releaseResources.libvlc_log_close");
 			// release the instance
-			libVlcClass.getMethod("libvlc_release", libVlcInstanceClass)
-					.invoke(libVlc, libvlc_instance_t);
+			libVlc.libvlc_release(libvlc_instance_t);
 			assertOnException("releaseVLCInstance.libvlc_release");
 		} catch (Exception e) {
 			logger.error("Unable to release resources. Possible memory leak.",
@@ -379,10 +334,8 @@ public abstract class AbstractVideo extends AbstractComponent {
 	protected void stopPlayer() {
 		try {
 			// stop player
-			libVlcClass.getMethod("libvlc_playlist_stop", libVlcInstanceClass,
-					libVlcExceptionClass).invoke(libVlc, libvlc_instance_t,
-					exception);
-			assertOnException("releaseVLCInstance.libvlc_playlist_stop");
+			libVlc.libvlc_playlist_stop(libvlc_instance_t, exception);
+			assertOnException("stopPlayer.libvlc_playlist_stop");
 		} catch (Exception e) {
 			logger.warn("Could not stop player: " + e.getMessage());
 		}
@@ -393,12 +346,34 @@ public abstract class AbstractVideo extends AbstractComponent {
 	 */
 	protected void clearPlaylist() {
 		try {
-			libVlcClass.getMethod("libvlc_playlist_clear", libVlcInstanceClass,
-					libVlcExceptionClass).invoke(libVlc, libvlc_instance_t,
-					exception);
+			libVlc.libvlc_playlist_clear(libvlc_instance_t, exception);
 			assertOnException("releaseVLCInstance.libvlc_playlist_clear");
 		} catch (Exception e) {
 			logger.warn("Could not clear playlist: " + e.getMessage());
 		}
 	}
+
+	/**
+	 * Adds the given resource to the current playlist.
+	 * <p>
+	 * Adds any playback hint necessary while adding (e.g. fullscreen).
+	 * </p>
+	 * 
+	 * @param resource
+	 *            the resource to add
+	 */
+	protected void addResourceToPlaylist(Resource resource) throws Exception {
+		ContentRegistry registry = ContentRegistry.getContentRegistry();
+		String videoFilename = registry.getResourcePath(resource, true);
+		// create hint string
+		StringBuilder hints = new StringBuilder();
+		if (PlayerUtils.isResourceFullScreen(resource) || resource.getIdentifier().endsWith("MVI_3498.AVI")) {
+			hints.append("fullscreen").append(' ');
+		}
+		libVlc.libvlc_playlist_add(libvlc_instance_t, videoFilename, hints
+				.toString(), exception);
+		assertOnException("addResourceToPlaylist.libvlc_playlist_add");
+
+	}
+
 }
