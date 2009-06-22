@@ -120,9 +120,10 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 					return null;
 				try {
 					File f = new File(v);
-					if (f.exists())
-						return null; // valid resource
-					
+					if (f.exists()) {
+						// valid resource
+						return null; 
+					}
 					return "Unable to locate resource at: " + v;
 				} catch (Exception e) {
 					return "Error while trying to access resource at: " + v +
