@@ -6,8 +6,9 @@
 	<!-- Support for file upload -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-
-		<property name="maxUploadSize" value="10000000" />
+		
+		<!-- 1 Gb -->
+		<property name="maxUploadSize" value="1073741824" />
 	</bean>
 
 	<bean id="baseFormController" abstract="true">
