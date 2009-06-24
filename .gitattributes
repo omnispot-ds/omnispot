@@ -501,6 +501,8 @@ designer/src/com/kesdip/designer/command/RegionConstraintChange.java -text
 designer/src/com/kesdip/designer/command/RegionCreation.java -text
 designer/src/com/kesdip/designer/command/RemoveSelectionCommand.java -text
 designer/src/com/kesdip/designer/constenum/IFileNames.java -text
+designer/src/com/kesdip/designer/constenum/ResourceListCellEditorTypes.java -text
+designer/src/com/kesdip/designer/constenum/ResourceListColumnNames.java -text
 designer/src/com/kesdip/designer/editor/DelegatingCommandStack.java -text
 designer/src/com/kesdip/designer/editor/DelegatingZoomManager.java -text
 designer/src/com/kesdip/designer/editor/DeploymentActionBarContributor.java -text
@@ -616,6 +618,9 @@ designer/src/com/kesdip/designer/properties/ResourceListPropertyDescriptor.java 
 designer/src/com/kesdip/designer/properties/ResourcePropertyDescriptor.java -text
 designer/src/com/kesdip/designer/properties/SimpleResourceCellEditor.java -text
 designer/src/com/kesdip/designer/properties/ValidatingTextCellEditor.java -text
+designer/src/com/kesdip/designer/properties/VideoResourceCellModifier.java -text
+designer/src/com/kesdip/designer/properties/VideoResourceListCellEditor.java -text
+designer/src/com/kesdip/designer/properties/VideoResourceListDialog.java -text
 designer/src/com/kesdip/designer/template/TemplateManager.java -text
 designer/src/com/kesdip/designer/utils/DOMHelpers.java -text
 designer/src/com/kesdip/designer/utils/DesignerLog.java -text

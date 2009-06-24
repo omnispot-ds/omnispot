@@ -1,3 +1,12 @@
+/*
+ * Disclaimer:
+ * Copyright 2008 - KESDIP E.P.E & Stelios Gerogiannakis - All rights reserved.
+ * eof Disclaimer
+ * 
+ * Date: Jun 22, 2009
+ * @author <a href="mailto:sgerogia@gmail.com">Stelios Gerogiannakis</a>
+ */
+
 package com.kesdip.designer.properties;
 
 import org.eclipse.jface.viewers.ICellModifier;
@@ -6,13 +15,34 @@ import org.eclipse.swt.widgets.TableItem;
 import com.kesdip.designer.constenum.ResourceListColumnNames;
 import com.kesdip.designer.model.Resource;
 
-public class ResourceCellModifier implements ICellModifier {
-	private ResourceListDialog dialog;
+/**
+ * Cell modifier for the table of a video resource list.
+ * 
+ * @author gerogias
+ */
+public class VideoResourceCellModifier implements ICellModifier {
 
-	public ResourceCellModifier(ResourceListDialog dialog) {
+	/**
+	 * The parent dialog.
+	 */
+	private VideoResourceListDialog dialog;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param dialog
+	 *            the parent dialog.
+	 */
+	public VideoResourceCellModifier(VideoResourceListDialog dialog) {
 		this.dialog = dialog;
 	}
 
+	/**
+	 * We can always modify the cells.
+	 * 
+	 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
+	 *      java.lang.String)
+	 */
 	@Override
 	public boolean canModify(Object element, String property) {
 		return true;
@@ -23,6 +53,8 @@ public class ResourceCellModifier implements ICellModifier {
 		Resource resource = (Resource) element;
 		if (ResourceListColumnNames.RESOURCE.equals(property)) {
 			return resource.getResource();
+		} else if (ResourceListColumnNames.FULL_SCREEN.equals(property)) {
+			return resource.isFullscreen();
 		} else if (ResourceListColumnNames.CRON_EXPRESSION.equals(property)) {
 			return resource.getCronExpression();
 		} else {
@@ -31,6 +63,12 @@ public class ResourceCellModifier implements ICellModifier {
 		}
 	}
 
+	/**
+	 * Modify the model object based on the incoming value.
+	 * 
+	 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object,
+	 *      java.lang.String, java.lang.Object)
+	 */
 	@Override
 	public void modify(Object element, String property, Object value) {
 		TableItem item = (TableItem) element;
@@ -41,11 +79,17 @@ public class ResourceCellModifier implements ICellModifier {
 			}
 			item.setText(0, (String) value);
 			resource.setResource((String) value);
+		} else if (ResourceListColumnNames.FULL_SCREEN.equals(property)) {
+			if (value == null) {
+				value = Boolean.FALSE;
+			}
+			item.setText(1, ((Boolean) value) ? "X" : "");
+			resource.setFullscreen((Boolean) value);
 		} else if (ResourceListColumnNames.CRON_EXPRESSION.equals(property)) {
 			if (value == null) {
 				value = "";
 			}
-			item.setText(1, (String) value);
+			item.setText(2, (String) value);
 			resource.setCronExpression((String) value);
 		} else {
 			throw new IllegalArgumentException("Unexpected property "

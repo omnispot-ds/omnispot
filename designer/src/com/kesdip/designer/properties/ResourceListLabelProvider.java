@@ -19,7 +19,8 @@ public class ResourceListLabelProvider extends LabelProvider implements
 		Resource r = (Resource) element;
 		switch (columnIndex) {
 		case 0: return r.getResource();
-		case 1: return r.getCronExpression();
+		case 1: return r.isFullscreen() ? "X" : "";
+		case 2: return r.getCronExpression();
 		default: throw new RuntimeException("Unexpected column: " + columnIndex);
 		}
 	}

@@ -31,7 +31,6 @@ import com.kesdip.player.registry.ContentRegistry;
 public abstract class AbstractVideo extends AbstractComponent {
 	private static final Logger logger = Logger.getLogger(AbstractVideo.class);
 	private static final Logger vlcLogger = Logger.getLogger(LibVlc.class);
-	
 
 	/* TRANSIENT STATE */
 	protected LibVlc libVlc;
@@ -43,7 +42,7 @@ public abstract class AbstractVideo extends AbstractComponent {
 	 * Flag to indicate if the current instance is full-screen.
 	 */
 	protected boolean fullScreen = false;
-	
+
 	/**
 	 * Initialize a VLC instance. Same as calling
 	 * {@link #initVLC(Resource, boolean)} with a <code>null</code> resource.
@@ -77,9 +76,12 @@ public abstract class AbstractVideo extends AbstractComponent {
 		libVlc = LibVlc.SYNC_INSTANCE;
 
 		logger.info("Starting VLC");
-		logger.debug("version: " + libVlc.libvlc_get_version());
-		logger.debug("changeset: " + libVlc.libvlc_get_changeset());
-		logger.debug("compiler: " + libVlc.libvlc_get_compiler());
+		if (logger.isDebugEnabled()) {
+			logger.debug("Fullscreen: " + fullscreen);
+			logger.debug("Version: " + libVlc.libvlc_get_version());
+			logger.debug("Changeset: " + libVlc.libvlc_get_changeset());
+			logger.debug("Compiler: " + libVlc.libvlc_get_compiler());
+		}
 
 		exception = new LibVlc.libvlc_exception_t();
 		libVlc.libvlc_exception_init(exception);
@@ -124,8 +126,7 @@ public abstract class AbstractVideo extends AbstractComponent {
 				+ "plugins");
 		List<String> args = new ArrayList<String>();
 		if (logger.isDebugEnabled()) {
-			logger.debug("Creating LibVLC instance. Resource " + resource
-					+ ", Fullscreen: " + fullscreen);
+			logger.debug("Creating LibVLC instance. Resource " + resource);
 		}
 		// detailed logging
 		if (logger.isTraceEnabled()) {
@@ -177,15 +178,27 @@ public abstract class AbstractVideo extends AbstractComponent {
 	}
 
 	protected void startVideoOnCanvas() throws Exception {
-		int drawable = (int) com.sun.jna.Native.getComponentID(canvas);
+		// only attach to a canvas if not fullscreen
+		if (!fullScreen) {
+			int drawable = (int) com.sun.jna.Native.getComponentID(canvas);
 
-		logger.trace("Drawable retrieved from underlying window (" + drawable
-				+ ")");
+			if (logger.isTraceEnabled()) {
+				logger.trace("Drawable retrieved from underlying window ("
+						+ drawable + ")");
+			}
 
-		libVlc.libvlc_video_set_parent(libvlc_instance_t, drawable, exception);
-		assertOnException("startVideoOnCanvas.libvlc_video_set_parent");
+			libVlc.libvlc_video_set_parent(libvlc_instance_t, drawable,
+					exception);
+			assertOnException("startVideoOnCanvas.libvlc_video_set_parent");
 
-		logger.trace("Attached the player to the drawable");
+			logger.trace("Attached the player to the drawable");
+		} else {
+			libVlc.libvlc_video_set_parent(libvlc_instance_t, 0,
+					exception);
+			assertOnException("startVideoOnCanvas.libvlc_video_set_parent");
+
+			logger.trace("Detached the player from any drawable");
+		}
 
 		libVlc.libvlc_playlist_play(libvlc_instance_t, -1, 0, null, exception);
 		assertOnException("startVideoOnCanvas.libvlc_playlist_play");
@@ -278,8 +291,8 @@ public abstract class AbstractVideo extends AbstractComponent {
 						vlcLogger.debug(msg);
 						break;
 					default:
-						vlcLogger.info(msg + " (Unexpected severity: " + severity
-								+ ")");
+						vlcLogger.info(msg + " (Unexpected severity: "
+								+ severity + ")");
 					}
 				}
 				libVlc.libvlc_log_clear(libvlc_log, exception);
@@ -310,8 +323,9 @@ public abstract class AbstractVideo extends AbstractComponent {
 		stopPlayer();
 		try {
 			// close the log
-//			libVlc.libvlc_log_close(libvlc_log, exception);
-//			assertOnException("releaseResources.libvlc_log_close");
+			// FIXME Commented out because it kills the JVM
+			// libVlc.libvlc_log_close(libvlc_log, exception);
+			// assertOnException("releaseResources.libvlc_log_close");
 			// release the instance
 			libVlc.libvlc_release(libvlc_instance_t);
 			assertOnException("releaseVLCInstance.libvlc_release");
@@ -342,9 +356,9 @@ public abstract class AbstractVideo extends AbstractComponent {
 	}
 
 	/**
-	 * Utility method to clear the playlist.
+	 * Utility method to clear the VLC internal playlist.
 	 */
-	protected void clearPlaylist() {
+	protected void clearVlcPlaylist() {
 		try {
 			libVlc.libvlc_playlist_clear(libvlc_instance_t, exception);
 			assertOnException("releaseVLCInstance.libvlc_playlist_clear");
@@ -354,20 +368,22 @@ public abstract class AbstractVideo extends AbstractComponent {
 	}
 
 	/**
-	 * Adds the given resource to the current playlist.
+	 * Adds the given resource to the current VLC internal playlist.
 	 * <p>
 	 * Adds any playback hint necessary while adding (e.g. fullscreen).
 	 * </p>
 	 * 
+	 * FIXME Hints require the use of <code>libvlc_playlist_add_extended</code>.
+	 * 
 	 * @param resource
 	 *            the resource to add
 	 */
-	protected void addResourceToPlaylist(Resource resource) throws Exception {
+	protected void addResourceToVlcPlaylist(Resource resource) throws Exception {
 		ContentRegistry registry = ContentRegistry.getContentRegistry();
 		String videoFilename = registry.getResourcePath(resource, true);
 		// create hint string
 		StringBuilder hints = new StringBuilder();
-		if (PlayerUtils.isResourceFullScreen(resource) || resource.getIdentifier().endsWith("MVI_3498.AVI")) {
+		if (PlayerUtils.isResourceFullScreen(resource)) {
 			hints.append("fullscreen").append(' ');
 		}
 		libVlc.libvlc_playlist_add(libvlc_instance_t, videoFilename, hints
@@ -376,4 +392,30 @@ public abstract class AbstractVideo extends AbstractComponent {
 
 	}
 
+	/**
+	 * Adds the given list of resources to the current VLC internal playlist.
+	 * <p>
+	 * Adds any playback hint necessary while adding (e.g. fullscreen).
+	 * </p>
+	 * 
+	 * FIXME Hints require the use of <code>libvlc_playlist_add_extended</code>.
+	 * 
+	 * @param resources
+	 *            the resources to add
+	 */
+	protected void addResourcesToVlcPlaylist(List<Resource> resources)
+			throws Exception {
+		ContentRegistry registry = ContentRegistry.getContentRegistry();
+		for (Resource res : resources) {
+			String videoFilename = registry.getResourcePath(res, true);
+			// create hint string
+			StringBuilder hints = new StringBuilder();
+			if (PlayerUtils.isResourceFullScreen(res)) {
+				hints.append("fullscreen").append(' ');
+			}
+			libVlc.libvlc_playlist_add(libvlc_instance_t, videoFilename, hints
+					.toString(), exception);
+			assertOnException("addResourceToPlaylist.libvlc_playlist_add");
+		}
+	}
 }

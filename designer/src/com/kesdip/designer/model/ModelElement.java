@@ -76,6 +76,7 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_TUNER_TYPE = "TunerType";
 	public static final String TAG_GRID = "Grid";
 	public static final String TAG_SNAP_GEOM = "SnapGeometry";
+	public static final String TAG_FULL_SCREEN = "FullScreen";
 	
 	public static final String PARENT_PROP = "ModelElement.Parent";
 	public static final String CHILD_MOVE_UP = "ModelElement.ChildMoveUp";

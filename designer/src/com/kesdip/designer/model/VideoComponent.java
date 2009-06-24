@@ -14,6 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.kesdip.designer.constenum.ResourceListCellEditorTypes;
 import com.kesdip.designer.properties.CheckboxPropertyDescriptor;
 import com.kesdip.designer.properties.ResourceListPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
@@ -21,12 +22,13 @@ import com.kesdip.designer.utils.DOMHelpers;
 public class VideoComponent extends ComponentModelElement {
 	/** A 16x16 pictogram of an elliptical shape. */
 	private static final Image IMAGE_ICON = createImage("icons/clapperboard.png");
-	
+
 	private static final long serialVersionUID = 1L;
-	
-	/** 
-	 * A static array of property descriptors.
-	 * There is one IPropertyDescriptor entry per editable property.
+
+	/**
+	 * A static array of property descriptors. There is one IPropertyDescriptor
+	 * entry per editable property.
+	 * 
 	 * @see #getPropertyDescriptors()
 	 * @see #getPropertyValue(Object)
 	 * @see #setPropertyValue(Object, Object)
@@ -44,7 +46,7 @@ public class VideoComponent extends ComponentModelElement {
 	/* STATE */
 	private List<Resource> videos;
 	private boolean repeat;
-	
+
 	public VideoComponent() {
 		videos = new ArrayList<Resource>();
 		repeat = false;
@@ -52,10 +54,13 @@ public class VideoComponent extends ComponentModelElement {
 
 	protected Element serialize(Document doc, boolean isPublish) {
 		Element videoElement = doc.createElement("bean");
-		videoElement.setAttribute("class", "com.kesdip.player.components.Video");
+		videoElement
+				.setAttribute("class", "com.kesdip.player.components.Video");
 		super.serialize(doc, videoElement);
-		DOMHelpers.addProperty(doc, videoElement, "repeat", repeat ? "true" : "false");
-		Element contentPropElement = DOMHelpers.addProperty(doc, videoElement, "contents");
+		DOMHelpers.addProperty(doc, videoElement, "repeat", repeat ? "true"
+				: "false");
+		Element contentPropElement = DOMHelpers.addProperty(doc, videoElement,
+				"contents");
 		Element listElement = doc.createElement("list");
 		contentPropElement.appendChild(listElement);
 		for (Resource r : videos) {
@@ -64,40 +69,41 @@ public class VideoComponent extends ComponentModelElement {
 		}
 		return videoElement;
 	}
-	
+
 	protected void deserialize(Document doc, Node componentNode) {
-		setPropertyValue(REPEAT_PROP, DOMHelpers.getSimpleProperty(componentNode, "repeat"));
+		setPropertyValue(REPEAT_PROP, DOMHelpers.getSimpleProperty(
+				componentNode, "repeat"));
 		super.deserialize(doc, componentNode);
 		final List<Resource> newVideos = new ArrayList<Resource>();
 		DOMHelpers.applyToListProperty(doc, componentNode, "contents", "bean",
 				new DOMHelpers.INodeListVisitor() {
-			@Override
-			public void visitListItem(Document doc, Node listItem) {
-				if (!DOMHelpers.checkAttribute(
-						listItem, "class", "com.kesdip.player.components.Resource")) {
-					throw new RuntimeException("Unexpected resource class: " + 
-							listItem.getAttributes().getNamedItem("class").getNodeValue());
-				}
-				Resource r = new Resource("", "");
-				r.deserialize(doc, listItem);
-				newVideos.add(r);
-			}
-		});
+					@Override
+					public void visitListItem(Document doc, Node listItem) {
+						if (!DOMHelpers.checkAttribute(listItem, "class",
+								"com.kesdip.player.components.Resource")) {
+							throw new RuntimeException(
+									"Unexpected resource class: "
+											+ listItem.getAttributes()
+													.getNamedItem("class")
+													.getNodeValue());
+						}
+						Resource r = new Resource("", "");
+						r.deserialize(doc, listItem);
+						newVideos.add(r);
+					}
+				});
 		videos = newVideos;
 	}
-	
+
 	public void save(IMemento memento) {
 		super.save(memento);
 		memento.putBoolean(TAG_REPEAT, repeat);
 		/*
-		 * Do not save resources.
-		for (Resource r : videos) {
-			IMemento child = memento.createChild(TAG_RESOURCE);
-			r.save(child);
-		}
+		 * Do not save resources. for (Resource r : videos) { IMemento child =
+		 * memento.createChild(TAG_RESOURCE); r.save(child); }
 		 */
 	}
-	
+
 	public void load(IMemento memento) {
 		super.load(memento);
 		repeat = memento.getBoolean(TAG_REPEAT);
@@ -108,39 +114,43 @@ public class VideoComponent extends ComponentModelElement {
 			videos.add(r);
 		}
 	}
-	
+
 	@Override
 	void checkEquivalence(ComponentModelElement other) {
 		super.checkEquivalence(other);
-		assert(other instanceof VideoComponent);
-		assert(repeat == ((VideoComponent) other).repeat);
+		assert (other instanceof VideoComponent);
+		assert (repeat == ((VideoComponent) other).repeat);
 		for (int i = 0; i < videos.size(); i++) {
 			Resource resource = videos.get(i);
 			Resource otherResource = ((VideoComponent) other).videos.get(i);
 			resource.checkEquivalence(otherResource);
 		}
 	}
-	
+
 	/*
 	 * Initializes the property descriptors array.
+	 * 
 	 * @see #getPropertyDescriptors()
+	 * 
 	 * @see #getPropertyValue(Object)
+	 * 
 	 * @see #setPropertyValue(Object, Object)
 	 */
 	static {
-		descriptors = new IPropertyDescriptor[] { 
-				new ResourceListPropertyDescriptor(VIDEO_PROP, "Videos"),
-				new CheckboxPropertyDescriptor(REPEAT_PROP, "Repeat")
-		};
+		descriptors = new IPropertyDescriptor[] {
+				new ResourceListPropertyDescriptor(VIDEO_PROP, "Videos",
+						ResourceListCellEditorTypes.VIDEO_RESOURCE_LIST_EDITOR),
+				new CheckboxPropertyDescriptor(REPEAT_PROP, "Repeat") };
 		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
 			((PropertyDescriptor) descriptors[i]).setCategory("Behaviour");
-			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-				public String isValid(Object value) {
-					// No validation for the videos.
-					return null;
-				}
-			});
+			((PropertyDescriptor) descriptors[i])
+					.setValidator(new ICellEditorValidator() {
+						public String isValid(Object value) {
+							// No validation for the videos.
+							return null;
+						}
+					});
 		}
 	} // static
 
@@ -189,9 +199,11 @@ public class VideoComponent extends ComponentModelElement {
 			super.setPropertyValue(propertyId, value);
 	}
 
-	/** 
+	/**
 	 * Add a video to this video component.
-	 * @param v a non-null video instance
+	 * 
+	 * @param v
+	 *            a non-null video instance
 	 * @return true, iff the video was added, false otherwise
 	 */
 	public boolean addVideo(Resource v) {
@@ -202,14 +214,19 @@ public class VideoComponent extends ComponentModelElement {
 		return false;
 	}
 
-	/** Return a List of videos in this component.  The returned List should not be modified. */
+	/**
+	 * Return a List of videos in this component. The returned List should not
+	 * be modified.
+	 */
 	public List<Resource> getVideos() {
 		return videos;
 	}
 
 	/**
 	 * Remove a video from this video component.
-	 * @param v a non-null video instance;
+	 * 
+	 * @param v
+	 *            a non-null video instance;
 	 * @return true, iff the video was removed, false otherwise
 	 */
 	public boolean removeVideo(Resource v) {
@@ -219,11 +236,11 @@ public class VideoComponent extends ComponentModelElement {
 		}
 		return false;
 	}
-	
+
 	public void relocateChildren(Point moveBy) {
 		// Intentionally empty. Component not a container.
 	}
-	
+
 	public ModelElement deepCopy() {
 		VideoComponent retVal = new VideoComponent();
 		retVal.deepCopy(this);
@@ -238,10 +255,10 @@ public class VideoComponent extends ComponentModelElement {
 	public Image getIcon() {
 		return IMAGE_ICON;
 	}
-	
+
 	public String toString() {
 		boolean first = true;
-		StringBuilder sb= new StringBuilder("[");
+		StringBuilder sb = new StringBuilder("[");
 		for (Resource r : videos) {
 			if (first) {
 				first = false;

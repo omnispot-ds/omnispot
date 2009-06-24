@@ -28,9 +28,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.quartz.CronExpression;
 
+import com.kesdip.designer.constenum.ResourceListColumnNames;
 import com.kesdip.designer.model.Resource;
 
-public class ResourceListDialog extends Dialog implements ISelectionChangedListener {
+public class ResourceListDialog extends Dialog implements
+		ISelectionChangedListener {
 	private List<Resource> tableContents;
 	private TableViewer table;
 	private Button addButton;
@@ -41,35 +43,40 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 	protected ResourceListDialog(Shell parentShell) {
 		super(parentShell);
 	}
-	
+
 	public void setValues(List<Resource> resourceList) {
-		// Make a deep copy of the resource list, so that we have our very own copy.
-		// We need this because the text editors make modifications directly on the
-		// resource instance that we hold, and if this is the same instance as the
-		// resource list held by our caller, we might effect changes that the user
+		// Make a deep copy of the resource list, so that we have our very own
+		// copy.
+		// We need this because the text editors make modifications directly on
+		// the
+		// resource instance that we hold, and if this is the same instance as
+		// the
+		// resource list held by our caller, we might effect changes that the
+		// user
 		// will later cancel.
 		tableContents = new ArrayList<Resource>();
 		for (Resource r : resourceList) {
 			tableContents.add(Resource.deepCopy(r));
 		}
 	}
-	
+
 	public List<Resource> getValues() {
 		return tableContents;
 	}
-	
+
 	public void updateButtons() {
-		IStructuredSelection selection = (IStructuredSelection) table.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) table
+				.getSelection();
 		Resource selectedResource = null;
 		if (selection.size() != 0)
 			selectedResource = (Resource) selection.getFirstElement();
 		int selectedIndex = tableContents.indexOf(selectedResource);
 		upButton.setEnabled(selectedResource != null && selectedIndex != 0);
-		downButton.setEnabled(selectedResource != null &&
-				selectedIndex != tableContents.size() - 1);
-		
+		downButton.setEnabled(selectedResource != null
+				&& selectedIndex != tableContents.size() - 1);
+
 		removeButton.setEnabled(selectedResource != null);
-		
+
 		if (getButton(IDialogConstants.OK_ID) != null) {
 			boolean allOK = true;
 			for (Resource r : tableContents) {
@@ -78,7 +85,8 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 					allOK = false;
 					break;
 				}
-				if (r.getCronExpression() == null || r.getCronExpression().length() == 0)
+				if (r.getCronExpression() == null
+						|| r.getCronExpression().length() == 0)
 					continue;
 				if (!CronExpression.isValidExpression(r.getCronExpression())) {
 					allOK = false;
@@ -98,71 +106,12 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 		container.setLayout(gridLayout);
 
 		final Group resourcleListGroup = new Group(container, SWT.NONE);
-		resourcleListGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		resourcleListGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true));
 		resourcleListGroup.setText("Resourcle List");
 		resourcleListGroup.setLayout(new GridLayout());
 
-		table = new TableViewer(resourcleListGroup,
-				SWT.FULL_SELECTION | SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
-		Table t = table.getTable();
-		t.setHeaderVisible(true);
-		t.setLinesVisible(true);
-		table.setContentProvider(new ResourceListContentProvider());
-		table.setLabelProvider(new ResourceListLabelProvider());
-		table.setColumnProperties(new String[] { "resource", "cronExpression" });
-		table.setCellModifier(new ResourceCellModifier(this));
-		ResourceFileCellEditor resourceCellEditor = new ResourceFileCellEditor(t, SWT.NONE);
-		resourceCellEditor.setValidator(new ICellEditorValidator() {
-			@Override
-			public String isValid(Object value) {
-				String v = (String) value;
-				if (v == null || "".equals(v))
-					return null;
-				try {
-					File f = new File(v);
-					if (f.exists()) {
-						// valid resource
-						return null; 
-					}
-					return "Unable to locate resource at: " + v;
-				} catch (Exception e) {
-					return "Error while trying to access resource at: " + v +
-							" [" + e.getMessage() + "]";
-				}
-			}
-		});
-		CronCellEditor cronExpressionCellEditor = new CronCellEditor(t, SWT.NONE);
-		/*
-		cronExpressionCellEditor.setValidator(new ICellEditorValidator() {
-			@Override
-			public String isValid(Object value) {
-				String v = (String) value;
-				if (v == null || "".equals(v))
-					return null;
-				if (CronExpression.isValidExpression(v))
-					return null;
-				else
-					return "Invalid CRON expression: '" + v + "'.";
-			}
-		});
-		*/
-		table.setCellEditors(new CellEditor[] {
-				resourceCellEditor,
-				cronExpressionCellEditor
-			});
-		String[] columnNames = new String[] {
-				"Resoure", "Cron Expr."
-		};
-		int[] columnWidths = new int[] { 250, 100 };
-		int[] columnAlignments = new int[] { SWT.LEFT, SWT.LEFT };
-		for (int i = 0; i < columnNames.length; i++) {
-			TableColumn tableColumn = new TableColumn(t, columnAlignments[i]);
-			tableColumn.setText(columnNames[i]);
-			tableColumn.setWidth(columnWidths[i]);
-		}
-		t.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		table.setInput(tableContents);
-		table.addSelectionChangedListener(this);
+		table = createResourceTableViewer(resourcleListGroup, this, tableContents);
 
 		final Composite composite = new Composite(container, SWT.NONE);
 		composite.setLayoutData(new GridData(100, SWT.DEFAULT));
@@ -183,8 +132,10 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 		removeButton = new Button(composite, SWT.NONE);
 		removeButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
-				IStructuredSelection selection = (IStructuredSelection) table.getSelection();
-				Resource selectedResource = (Resource) selection.getFirstElement();
+				IStructuredSelection selection = (IStructuredSelection) table
+						.getSelection();
+				Resource selectedResource = (Resource) selection
+						.getFirstElement();
 				tableContents.remove(selectedResource);
 				table.refresh();
 				updateButtons();
@@ -200,8 +151,10 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 		upButton = new Button(composite, SWT.NONE);
 		upButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
-				IStructuredSelection selection = (IStructuredSelection) table.getSelection();
-				Resource selectedResource = (Resource) selection.getFirstElement();
+				IStructuredSelection selection = (IStructuredSelection) table
+						.getSelection();
+				Resource selectedResource = (Resource) selection
+						.getFirstElement();
 				int oldIndex = tableContents.indexOf(selectedResource);
 				tableContents.remove(selectedResource);
 				tableContents.add(oldIndex - 1, selectedResource);
@@ -215,8 +168,10 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 		downButton = new Button(composite, SWT.NONE);
 		downButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
-				IStructuredSelection selection = (IStructuredSelection) table.getSelection();
-				Resource selectedResource = (Resource) selection.getFirstElement();
+				IStructuredSelection selection = (IStructuredSelection) table
+						.getSelection();
+				Resource selectedResource = (Resource) selection
+						.getFirstElement();
 				int oldIndex = tableContents.indexOf(selectedResource);
 				tableContents.remove(selectedResource);
 				tableContents.add(oldIndex + 1, selectedResource);
@@ -227,14 +182,90 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 		final GridData gd_downButton = new GridData(90, SWT.DEFAULT);
 		downButton.setLayoutData(gd_downButton);
 		downButton.setText("Down");
-		
+
 		updateButtons();
-		
+
 		return container;
 	}
 
 	/**
+	 * Creates a populated and initialized table instance for addition in the
+	 * dialog. Template method for descendants to override if necessary.
+	 * 
+	 * @param resourceListGroup
+	 *            the component group in which to add the table
+	 * @param listener
+	 *            the selection changed listener
+	 * @param tableContents
+	 *            the contents of the table
+	 * @return Table the table instance
+	 */
+	protected TableViewer createResourceTableViewer(Group resourceListGroup,
+			ISelectionChangedListener listener, List<Resource> tableContents) {
+		TableViewer table = new TableViewer(resourceListGroup,
+				SWT.FULL_SELECTION | SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL
+						| SWT.H_SCROLL);
+		Table t = table.getTable();
+		t.setHeaderVisible(true);
+		t.setLinesVisible(true);
+		table.setContentProvider(new ResourceListContentProvider());
+		table.setLabelProvider(new ResourceListLabelProvider());
+		table
+				.setColumnProperties(new String[] { ResourceListColumnNames.RESOURCE,
+						ResourceListColumnNames.CRON_EXPRESSION });
+		table.setCellModifier(new ResourceCellModifier(this));
+		ResourceFileCellEditor resourceCellEditor = new ResourceFileCellEditor(
+				t, SWT.NONE);
+		resourceCellEditor.setValidator(new ICellEditorValidator() {
+			@Override
+			public String isValid(Object value) {
+				String v = (String) value;
+				if (v == null || "".equals(v)) {
+					return null;
+				}
+				try {
+					File f = new File(v);
+					if (f.exists()) {
+						// valid resource
+						return null; 
+					}
+					return "Unable to locate resource at: " + v;
+				} catch (Exception e) {
+					return "Error while trying to access resource at: " + v
+							+ " [" + e.getMessage() + "]";
+				}
+			}
+		});
+		CronCellEditor cronExpressionCellEditor = new CronCellEditor(t,
+				SWT.NONE);
+		/*
+		 * cronExpressionCellEditor.setValidator(new ICellEditorValidator() {
+		 * 
+		 * @Override public String isValid(Object value) { String v = (String)
+		 * value; if (v == null || "".equals(v)) return null; if
+		 * (CronExpression.isValidExpression(v)) return null; else return
+		 * "Invalid CRON expression: '" + v + "'."; } });
+		 */
+		table.setCellEditors(new CellEditor[] { resourceCellEditor,
+				cronExpressionCellEditor });
+		String[] columnNames = new String[] { "Resoure", "Cron Expr." };
+		int[] columnWidths = new int[] { 250, 100 };
+		int[] columnAlignments = new int[] { SWT.LEFT, SWT.LEFT };
+		for (int i = 0; i < columnNames.length; i++) {
+			TableColumn tableColumn = new TableColumn(t, columnAlignments[i]);
+			tableColumn.setText(columnNames[i]);
+			tableColumn.setWidth(columnWidths[i]);
+		}
+		t.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		table.setInput(tableContents);
+		table.addSelectionChangedListener(listener);
+
+		return table;
+	}
+
+	/**
 	 * Create contents of the button bar
+	 * 
 	 * @param parent
 	 */
 	@Override
@@ -244,7 +275,7 @@ public class ResourceListDialog extends Dialog implements ISelectionChangedListe
 		createButton(parent, IDialogConstants.CANCEL_ID,
 				IDialogConstants.CANCEL_LABEL, false);
 	}
-	
+
 	/**
 	 * Return the initial size of the dialog
 	 */

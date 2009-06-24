@@ -15,18 +15,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.kesdip.designer.constenum.ResourceListCellEditorTypes;
 import com.kesdip.designer.properties.ResourceListPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
 
 public class ImageComponent extends ComponentModelElement {
 	/** A 16x16 pictogram of an elliptical shape. */
 	private static final Image IMAGE_ICON = createImage("icons/camera.png");
-	
+
 	private static final long serialVersionUID = 1L;
-	
-	/** 
-	 * A static array of property descriptors.
-	 * There is one IPropertyDescriptor entry per editable property.
+
+	/**
+	 * A static array of property descriptors. There is one IPropertyDescriptor
+	 * entry per editable property.
+	 * 
 	 * @see #getPropertyDescriptors()
 	 * @see #getPropertyValue(Object)
 	 * @see #setPropertyValue(Object, Object)
@@ -44,7 +46,7 @@ public class ImageComponent extends ComponentModelElement {
 	/* STATE */
 	private List<Resource> images;
 	private int duration;
-	
+
 	public ImageComponent() {
 		images = new ArrayList<Resource>();
 		duration = 0;
@@ -53,10 +55,13 @@ public class ImageComponent extends ComponentModelElement {
 	@Override
 	protected Element serialize(Document doc, boolean isPublish) {
 		Element imageElement = doc.createElement("bean");
-		imageElement.setAttribute("class", "com.kesdip.player.components.Image");
-		DOMHelpers.addProperty(doc, imageElement, "duration", String.valueOf(duration));
+		imageElement
+				.setAttribute("class", "com.kesdip.player.components.Image");
+		DOMHelpers.addProperty(doc, imageElement, "duration", String
+				.valueOf(duration));
 		super.serialize(doc, imageElement);
-		Element contentPropElement = DOMHelpers.addProperty(doc, imageElement, "contents");
+		Element contentPropElement = DOMHelpers.addProperty(doc, imageElement,
+				"contents");
 		Element listElement = doc.createElement("list");
 		contentPropElement.appendChild(listElement);
 		for (Resource r : images) {
@@ -65,41 +70,42 @@ public class ImageComponent extends ComponentModelElement {
 		}
 		return imageElement;
 	}
-	
+
 	@Override
 	protected void deserialize(Document doc, Node componentNode) {
-		setPropertyValue(DURATION_PROP, DOMHelpers.getSimpleProperty(componentNode, "duration"));
+		setPropertyValue(DURATION_PROP, DOMHelpers.getSimpleProperty(
+				componentNode, "duration"));
 		super.deserialize(doc, componentNode);
 		final List<Resource> newImages = new ArrayList<Resource>();
 		DOMHelpers.applyToListProperty(doc, componentNode, "contents", "bean",
 				new DOMHelpers.INodeListVisitor() {
-			@Override
-			public void visitListItem(Document doc, Node listItem) {
-				if (!DOMHelpers.checkAttribute(
-						listItem, "class", "com.kesdip.player.components.Resource")) {
-					throw new RuntimeException("Unexpected resource class: " + 
-							listItem.getAttributes().getNamedItem("class").getNodeValue());
-				}
-				Resource r = new Resource("", "");
-				r.deserialize(doc, listItem);
-				newImages.add(r);
-			}
-		});
+					@Override
+					public void visitListItem(Document doc, Node listItem) {
+						if (!DOMHelpers.checkAttribute(listItem, "class",
+								"com.kesdip.player.components.Resource")) {
+							throw new RuntimeException(
+									"Unexpected resource class: "
+											+ listItem.getAttributes()
+													.getNamedItem("class")
+													.getNodeValue());
+						}
+						Resource r = new Resource("", "");
+						r.deserialize(doc, listItem);
+						newImages.add(r);
+					}
+				});
 		images = newImages;
 	}
-	
+
 	public void save(IMemento memento) {
 		super.save(memento);
 		memento.putInteger(TAG_DURATION, duration);
 		/*
-		 * Do not save resources.
-		for (Resource r : images) {
-			IMemento child = memento.createChild(TAG_RESOURCE);
-			r.save(child);
-		}
+		 * Do not save resources. for (Resource r : images) { IMemento child =
+		 * memento.createChild(TAG_RESOURCE); r.save(child); }
 		 */
 	}
-	
+
 	public void load(IMemento memento) {
 		super.load(memento);
 		duration = memento.getInteger(TAG_DURATION);
@@ -110,39 +116,45 @@ public class ImageComponent extends ComponentModelElement {
 			images.add(r);
 		}
 	}
-		
+
 	@Override
 	void checkEquivalence(ComponentModelElement other) {
 		super.checkEquivalence(other);
-		assert(other instanceof ImageComponent);
-		assert(duration == ((ImageComponent) other).duration);
+		assert (other instanceof ImageComponent);
+		assert (duration == ((ImageComponent) other).duration);
 		for (int i = 0; i < images.size(); i++) {
 			Resource resource = images.get(i);
 			Resource otherResource = ((ImageComponent) other).images.get(i);
 			resource.checkEquivalence(otherResource);
 		}
 	}
-	
+
 	/*
 	 * Initializes the property descriptors array.
+	 * 
 	 * @see #getPropertyDescriptors()
+	 * 
 	 * @see #getPropertyValue(Object)
+	 * 
 	 * @see #setPropertyValue(Object, Object)
 	 */
 	static {
-		descriptors = new IPropertyDescriptor[] { 
-				new ResourceListPropertyDescriptor(IMAGE_PROP, "Images"),
-				new TextPropertyDescriptor(DURATION_PROP, "Duration")
-		};
+		descriptors = new IPropertyDescriptor[] {
+				new ResourceListPropertyDescriptor(
+						IMAGE_PROP,
+						"Images",
+						ResourceListCellEditorTypes.GENERIC_RESOURCE_LIST_EDITOR),
+				new TextPropertyDescriptor(DURATION_PROP, "Duration") };
 		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
 			((PropertyDescriptor) descriptors[i]).setCategory("Behaviour");
-			((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
-				public String isValid(Object value) {
-					// No validation for the images or duration.
-					return null;
-				}
-			});
+			((PropertyDescriptor) descriptors[i])
+					.setValidator(new ICellEditorValidator() {
+						public String isValid(Object value) {
+							// No validation for the images or duration.
+							return null;
+						}
+					});
 		}
 	} // static
 
@@ -184,9 +196,11 @@ public class ImageComponent extends ComponentModelElement {
 			super.setPropertyValue(propertyId, value);
 	}
 
-	/** 
+	/**
 	 * Add an image to this image component.
-	 * @param i a non-null image instance
+	 * 
+	 * @param i
+	 *            a non-null image instance
 	 * @return true, iff the image was added, false otherwise
 	 */
 	public boolean addImage(Resource i) {
@@ -197,14 +211,19 @@ public class ImageComponent extends ComponentModelElement {
 		return false;
 	}
 
-	/** Return a List of images in this component.  The returned List should not be modified. */
+	/**
+	 * Return a List of images in this component. The returned List should not
+	 * be modified.
+	 */
 	public List<Resource> getImages() {
 		return images;
 	}
 
 	/**
 	 * Remove an image from this image component.
-	 * @param i a non-null image instance;
+	 * 
+	 * @param i
+	 *            a non-null image instance;
 	 * @return true, iff the image was removed, false otherwise
 	 */
 	public boolean removeImage(Resource i) {
@@ -218,7 +237,7 @@ public class ImageComponent extends ComponentModelElement {
 	public void relocateChildren(Point moveBy) {
 		// Intentionally empty. Component not a container.
 	}
-	
+
 	public ModelElement deepCopy() {
 		ImageComponent retVal = new ImageComponent();
 		retVal.deepCopy(this);
@@ -233,10 +252,10 @@ public class ImageComponent extends ComponentModelElement {
 	public Image getIcon() {
 		return IMAGE_ICON;
 	}
-	
+
 	public String toString() {
 		boolean first = true;
-		StringBuilder sb= new StringBuilder("[");
+		StringBuilder sb = new StringBuilder("[");
 		for (Resource r : images) {
 			if (first) {
 				first = false;
