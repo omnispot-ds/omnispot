@@ -11,7 +11,6 @@ import org.quartz.JobExecutionException;
 
 import com.kesdip.player.components.Component;
 import com.kesdip.player.components.Resource;
-import com.kesdip.player.constenum.ResourceAttributeKeys;
 
 /**
  * Helper class. Implementation of the quartz Job interface to represent jobs
@@ -26,8 +25,6 @@ public class ComponentJob implements Job {
 				.get("component");
 		Resource resource = (Resource) ctx.getJobDetail().getJobDataMap().get(
 				"resource");
-		// TODO Remove this hack
-		resource.getAttributes().put(ResourceAttributeKeys.FULL_SCREEN, "true");
 		component.runResource(resource);
 	}
 

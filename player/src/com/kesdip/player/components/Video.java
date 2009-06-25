@@ -93,6 +93,11 @@ public class Video extends AbstractVideo implements InitializingBean {
 			// most probably a scheduled resource
 			logger.trace("Loading a single video");
 			addResourceToVlcPlaylist(resource);
+			// start
+			libVlc.libvlc_playlist_play(libvlc_instance_t, -1, 0, null,
+					exception);
+			assertOnException("loadMedia.libvlc_playlist_play");
+			stillStarting = true;
 		} else {
 			// check if we should loop
 			if (currentPlaylistIndex >= playlists.size() - 1) {
@@ -105,15 +110,15 @@ public class Video extends AbstractVideo implements InitializingBean {
 			}
 			// this is definitely not a scheduled resource
 			scheduledResource = false;
-		}
-		if (currentPlaylistIndex < playlists.size()) {
-			// populate VLC playlist
-			addResourcesToVlcPlaylist(playlists.get(currentPlaylistIndex));
-			// still not consumed the internal playlist
-			libVlc.libvlc_playlist_play(libvlc_instance_t, -1, 0, null,
-					exception);
-			assertOnException("loadMedia.libvlc_playlist_play");
-			stillStarting = true;
+			if (currentPlaylistIndex < playlists.size()) {
+				// populate VLC playlist
+				addResourcesToVlcPlaylist(playlists.get(currentPlaylistIndex));
+				// start
+				libVlc.libvlc_playlist_play(libvlc_instance_t, -1, 0, null,
+						exception);
+				assertOnException("loadMedia.libvlc_playlist_play");
+				stillStarting = true;
+			}
 		}
 	}
 
@@ -138,7 +143,7 @@ public class Video extends AbstractVideo implements InitializingBean {
 
 	protected void startVideo(Resource resource) throws Exception {
 		// clear playlist
-//		clearVlcPlaylist();
+		// clearVlcPlaylist();
 		releaseResources();
 		// check if video or next playlist are marked as full-screen and
 		// initialize accordingly
@@ -262,7 +267,7 @@ public class Video extends AbstractVideo implements InitializingBean {
 		Resource previousRes = null;
 		List<Resource> subList = null;
 		for (Resource res : contents) {
-			// do not put in the list videos with a CRON expression
+			// do not put in the lists videos with a CRON expression
 			if (!StringUtils.isEmpty(res.getCronExpression())) {
 				continue;
 			}
