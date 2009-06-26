@@ -159,7 +159,7 @@ UpgradeApplicationID
 {}
 
 Version
-0.3
+1.0
 
 ViewReadme
 Yes
@@ -1185,14 +1185,14 @@ InstallComponent BF8DB42A-11B6-4318-B16D-D61771E339F6 -setup Uninstall -type act
 InstallComponent 6EB75CC7-92F9-458C-AC32-00BDF75A7D15 -setup Uninstall -type action -title {Uninstall Selected Files} -component UninstallSelectedFiles -active Yes -parent BF8DB42A-11B6-4318-B16D-D61771E339F6
 InstallComponent C38D0E99-0031-4AC6-A365-42A767D5B4D9 -setup Uninstall -type actiongroup -conditions 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10 -title {Uninstall Services Actions} -command insert -alias {Uninstall Services Actions} -active Yes -parent ActionGroupsUninstall
 Condition 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10 -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9 -title {Platform Condition} -component PlatformCondition -TreeObject::id 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10
-InstallComponent 73B30873-7AB4-4D67-BB07-BC7CD8B97BFB -setup Uninstall -type action -conditions 40916953-85FC-4B77-847E-F3A67FFF0DFB -title {Stop Derby Service} -component StopWindowsService -command insert -alias {Stop Derby Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
-Condition 40916953-85FC-4B77-847E-F3A67FFF0DFB -active Yes -parent 73B30873-7AB4-4D67-BB07-BC7CD8B97BFB -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 40916953-85FC-4B77-847E-F3A67FFF0DFB
 InstallComponent EE96A966-3C78-4B5F-B95E-10F0AE16B21B -setup Uninstall -type action -conditions 7EAE0CF0-84DB-4777-A1E3-0AF65D5A1FBC -title {Stop Bootstrap Service} -component StopWindowsService -command insert -alias {Stop Bootstrap Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
 Condition 7EAE0CF0-84DB-4777-A1E3-0AF65D5A1FBC -active Yes -parent EE96A966-3C78-4B5F-B95E-10F0AE16B21B -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 7EAE0CF0-84DB-4777-A1E3-0AF65D5A1FBC
-InstallComponent 9A6B1CA0-407C-4014-9D0C-414D14DE71AC -setup Uninstall -type action -conditions D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF -title {Delete Derby Service} -component DeleteWindowsService -command insert -alias {Delete Derby Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
-Condition D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF -active Yes -parent 9A6B1CA0-407C-4014-9D0C-414D14DE71AC -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF
+InstallComponent 73B30873-7AB4-4D67-BB07-BC7CD8B97BFB -setup Uninstall -type action -conditions 40916953-85FC-4B77-847E-F3A67FFF0DFB -title {Stop Derby Service} -component StopWindowsService -command insert -alias {Stop Derby Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
+Condition 40916953-85FC-4B77-847E-F3A67FFF0DFB -active Yes -parent 73B30873-7AB4-4D67-BB07-BC7CD8B97BFB -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 40916953-85FC-4B77-847E-F3A67FFF0DFB
 InstallComponent 51FBEC01-F58A-4B95-90D2-67F8CF46A00E -setup Uninstall -type action -conditions 6413473F-965C-4719-8572-53ED1212F412 -title {Delete Bootstrap Service} -component DeleteWindowsService -command insert -alias {Delete Bootstrap Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
 Condition 6413473F-965C-4719-8572-53ED1212F412 -active Yes -parent 51FBEC01-F58A-4B95-90D2-67F8CF46A00E -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 6413473F-965C-4719-8572-53ED1212F412
+InstallComponent 9A6B1CA0-407C-4014-9D0C-414D14DE71AC -setup Uninstall -type action -conditions D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF -title {Delete Derby Service} -component DeleteWindowsService -command insert -alias {Delete Derby Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
+Condition D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF -active Yes -parent 9A6B1CA0-407C-4014-9D0C-414D14DE71AC -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF
 InstallComponent 0D3BE045-E8AA-45B6-A106-45613F8610DB -setup Uninstall -type actiongroup -title {Uninstall Other Software} -alias {Uninstall Other Software} -active Yes -parent ActionGroupsUninstall
 InstallComponent A504F227-72DE-4366-86B4-9476AE7DD909 -setup Uninstall -type action -conditions BF3C2F06-1975-4212-ABAF-8538E2CD6D12 -title {Uninstall VLC} -component ExecuteExternalProgram -command insert -active Yes -parent 0D3BE045-E8AA-45B6-A106-45613F8610DB
 Condition BF3C2F06-1975-4212-ABAF-8538E2CD6D12 -active Yes -parent A504F227-72DE-4366-86B4-9476AE7DD909 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id BF3C2F06-1975-4212-ABAF-8538E2CD6D12
