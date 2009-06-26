@@ -69,7 +69,7 @@ InstallPassword
 {}
 
 InstallVersion
-0.3.0.0
+1.0.0.0
 
 Language,de
 No
@@ -168,7 +168,7 @@ UpgradeApplicationID
 690A6BBE-0CF3-4899-BEE8-4179C959A3C1
 
 Version
-0.3
+1.0
 
 ViewReadme
 Yes
@@ -263,9 +263,9 @@ SetupType ::58542507-E2DE-4295-A41F-7958A9B30F4E -setup Install -active Yes -pla
 
 InstallComponent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494 -setup Install -type pane -title {Welcome Screen} -component Welcome -active Yes -parent StandardInstall
 InstallComponent EB5B67D7-4350-48D0-83DB-5FC95D333B17 -setup Install -type action -title {Check for Previous Install} -component CheckForPreviousInstall -active Yes -parent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494
-InstallComponent 85A6DBCB-65D6-442A-809B-C6CC531047BC -setup Install -type action -conditions 7F8C32A8-F3F7-4998-B69B-06F68B7150EC -title {Message Box} -component MessageBox -command reorder -active Yes -parent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494
+InstallComponent 85A6DBCB-65D6-442A-809B-C6CC531047BC -setup Install -type action -conditions 7F8C32A8-F3F7-4998-B69B-06F68B7150EC -title {Message Box} -component MessageBox -command insert -active Yes -parent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494
 Condition 7F8C32A8-F3F7-4998-B69B-06F68B7150EC -active Yes -parent 85A6DBCB-65D6-442A-809B-C6CC531047BC -title {String Is Condition} -component StringIsCondition -TreeObject::id 7F8C32A8-F3F7-4998-B69B-06F68B7150EC
-InstallComponent 22E860C8-F289-4FC3-9473-2A22E86F5445 -setup Install -type action -conditions 980210F7-CC23-44E9-BB3B-D441CECCB850 -title Exit -component Exit -command reorder -active Yes -parent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494
+InstallComponent 22E860C8-F289-4FC3-9473-2A22E86F5445 -setup Install -type action -conditions 980210F7-CC23-44E9-BB3B-D441CECCB850 -title Exit -component Exit -command insert -active Yes -parent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494
 Condition 980210F7-CC23-44E9-BB3B-D441CECCB850 -active Yes -parent 22E860C8-F289-4FC3-9473-2A22E86F5445 -title {String Is Condition} -component StringIsCondition -TreeObject::id 980210F7-CC23-44E9-BB3B-D441CECCB850
 InstallComponent 1F15ABB6-AB38-46C5-9823-E21F403CA293 -setup Install -type action -title {Set InstallDir} -component SetVirtualText -active Yes -parent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494
 InstallComponent BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE -setup Install -type pane -title {Start Copying Files} -component StartCopyingFiles -active Yes -parent StandardInstall
@@ -315,7 +315,7 @@ InstallComponent D87D5E86-99E1-4C84-AF43-DFC7A3B9E865 -setup Install -type actio
 InstallComponent 5E8E763B-98F6-4DD5-989E-EA3FDA484467 -setup Install -type action -title Exit -component Exit -active Yes -parent SilentInstall
 InstallComponent 0A6F6287-D55C-4CB7-BEC1-0722E7E37EDC -setup Install -type actiongroup -title {Setup Actions} -alias {Setup Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent E854EAC5-01AD-4B1B-AAAE-1509136A36F7 -setup Install -type actiongroup -title {Startup Actions} -alias {Startup Actions} -active Yes -parent ActionGroupsInstall
-InstallComponent 809EC975-DD69-4885-835E-40F878975B9A -setup Install -type action -conditions {D255D60D-1052-4636-AEE0-1DF612C37630 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4} -title Exit -component Exit -command reorder -active Yes -parent E854EAC5-01AD-4B1B-AAAE-1509136A36F7
+InstallComponent 809EC975-DD69-4885-835E-40F878975B9A -setup Install -type action -conditions {D255D60D-1052-4636-AEE0-1DF612C37630 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4} -title Exit -component Exit -command insert -active Yes -parent E854EAC5-01AD-4B1B-AAAE-1509136A36F7
 Condition D255D60D-1052-4636-AEE0-1DF612C37630 -active Yes -parent 809EC975-DD69-4885-835E-40F878975B9A -title {String Is Condition} -component StringIsCondition -TreeObject::id D255D60D-1052-4636-AEE0-1DF612C37630
 Condition D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4 -active Yes -parent 809EC975-DD69-4885-835E-40F878975B9A -title {Ask Yes or No} -component AskYesOrNo -TreeObject::id D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4
 InstallComponent E6F52B60-2690-4977-BEE4-ED363700F73C -setup Install -type action -title {Create Install Panes} -component CreateInstallPanes -active Yes -parent E854EAC5-01AD-4B1B-AAAE-1509136A36F7
@@ -327,27 +327,31 @@ InstallComponent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -setup Install -type actio
 Condition F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -active Yes -parent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -title {String Is Condition} -component StringIsCondition -TreeObject::id F4EF62D0-7DF5-4C43-B54C-AB6324CFB443
 InstallComponent 3BC307C6-8D24-46B9-9A3D-4E98937B4F74 -setup Install -type action -conditions 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -title {Uninstall Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -active Yes -parent 3BC307C6-8D24-46B9-9A3D-4E98937B4F74 -title {String Is Condition} -component StringIsCondition -TreeObject::id 431EE5AC-4222-44D4-B590-BBB7E4D12B65
-InstallComponent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -setup Install -type actiongroup -conditions {3AE77692-FD01-45F9-A0AA-6DC5C1927E8A 0A5501A8-EB48-4EE5-B1E5-EB06F64E4C57} -title {Service Startup Actions} -command reorder -alias {Service Startup Actions} -active Yes -parent ActionGroupsInstall
+InstallComponent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -setup Install -type actiongroup -conditions {3AE77692-FD01-45F9-A0AA-6DC5C1927E8A 0A5501A8-EB48-4EE5-B1E5-EB06F64E4C57} -title {Service Startup Actions} -command insert -alias {Service Startup Actions} -active Yes -parent ActionGroupsInstall
 Condition 3AE77692-FD01-45F9-A0AA-6DC5C1927E8A -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -title {Platform Condition} -component PlatformCondition -TreeObject::id 3AE77692-FD01-45F9-A0AA-6DC5C1927E8A
 Condition 0A5501A8-EB48-4EE5-B1E5-EB06F64E4C57 -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 0A5501A8-EB48-4EE5-B1E5-EB06F64E4C57
 InstallComponent B9285021-9ADA-444F-9BCD-ABAAE8100FE4 -setup Install -type action -title {Start Derby Service} -component StartWindowsService -command reorder -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
 InstallComponent E919759A-797B-46B5-90FB-543695B55482 -setup Install -type action -title {Wait for Derby to launch} -component Wait -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
 InstallComponent 1BDA3598-BE4A-471C-8215-5339830972BE -setup Install -type action -title {Start Tomcat Service} -component StartWindowsService -command reorder -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
-InstallComponent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA -setup Install -type actiongroup -conditions 40991313-0B78-4789-A994-849B6DFA4CB7 -title {Service Stop Actions} -command reorder -alias {Service Stop Actions} -active Yes -parent ActionGroupsInstall
+InstallComponent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA -setup Install -type actiongroup -conditions 40991313-0B78-4789-A994-849B6DFA4CB7 -title {Service Stop Actions} -command insert -alias {Service Stop Actions} -active Yes -parent ActionGroupsInstall
 Condition 40991313-0B78-4789-A994-849B6DFA4CB7 -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 40991313-0B78-4789-A994-849B6DFA4CB7
 InstallComponent 88D2E7AA-A086-43F7-8720-2F9FA6316DD7 -setup Install -type action -title {Stop Tomcat Service} -component StopWindowsService -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA
 InstallComponent 4D0DBB1B-B404-42AB-AE55-F90A5AE42742 -setup Install -type action -title {Stop Derby Service} -component StopWindowsService -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA
 InstallComponent 4DF4012A-14E0-4A98-9A10-67722E5A9A10 -setup Install -type actiongroup -title {Other Actions} -alias {Other Actions} -active Yes -parent ActionGroupsInstall
-InstallComponent E7A5FEB2-17D9-48C7-9B3E-23841EEA0F42 -setup Install -type action -conditions 8CA03297-689E-4991-B7B1-1FC4518C0DC1 -title {Delete Designer Folder} -component DeleteFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
-Condition 8CA03297-689E-4991-B7B1-1FC4518C0DC1 -active Yes -parent E7A5FEB2-17D9-48C7-9B3E-23841EEA0F42 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 8CA03297-689E-4991-B7B1-1FC4518C0DC1
-InstallComponent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -setup Install -type action -conditions 833C9A62-0AD5-4536-92EA-15C1843CD84A -title {Unzip Designer} -component UnzipFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
-Condition 833C9A62-0AD5-4536-92EA-15C1843CD84A -active Yes -parent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 833C9A62-0AD5-4536-92EA-15C1843CD84A
-InstallComponent E7515EF1-0F1E-4694-84E3-6A9142F41B57 -setup Install -type action -conditions 28B63CF9-EB57-46B4-8590-AA474B3162E9 -title {Delete Console App Folder} -component DeleteFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 9394CA2C-4FAC-4C68-B4A1-9FE22AA70B18 -setup Install -type action -title {Execute "Prepare Designer Folder"} -component ExecuteAction -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent E7515EF1-0F1E-4694-84E3-6A9142F41B57 -setup Install -type action -conditions 28B63CF9-EB57-46B4-8590-AA474B3162E9 -title {Delete Console App Folder} -component DeleteFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 28B63CF9-EB57-46B4-8590-AA474B3162E9 -active Yes -parent E7515EF1-0F1E-4694-84E3-6A9142F41B57 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 28B63CF9-EB57-46B4-8590-AA474B3162E9
-InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -conditions A8DCF517-5E07-4847-94E3-4FEDB2892A92 -title {Copy Console WAR} -component CopyFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -conditions A8DCF517-5E07-4847-94E3-4FEDB2892A92 -title {Copy Console WAR} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition A8DCF517-5E07-4847-94E3-4FEDB2892A92 -active Yes -parent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A8DCF517-5E07-4847-94E3-4FEDB2892A92
-InstallComponent 6707EC69-3109-415E-918F-9FABB97AF228 -setup Install -type action -conditions 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4 -title {Copy Derby JARs} -component CopyFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 6707EC69-3109-415E-918F-9FABB97AF228 -setup Install -type action -conditions 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4 -title {Copy Derby JARs} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4 -active Yes -parent 6707EC69-3109-415E-918F-9FABB97AF228 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4
+InstallComponent 295C93BA-A531-4E0D-BA6A-390E508BCB14 -setup Install -type actiongroup -conditions A3A4812B-615E-4E8C-B100-5509A8776105 -title {Prepare Designer Folder} -command insert -alias {Prepare Designer Folder} -active Yes -parent ActionGroupsInstall
+Condition A3A4812B-615E-4E8C-B100-5509A8776105 -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A3A4812B-615E-4E8C-B100-5509A8776105
+InstallComponent E7A5FEB2-17D9-48C7-9B3E-23841EEA0F42 -setup Install -type action -title {Delete Designer Folder} -component DeleteFile -command reorder -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
+InstallComponent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -setup Install -type action -title {Unzip Designer} -component UnzipFile -command reorder -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
+InstallComponent FC9F1EF9-994A-4617-B1AD-EE6EEA8AB114 -setup Install -type action -title {Unzip preview.jar} -component UnzipFile -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
+InstallComponent 9F928C84-B09E-4D03-916E-521F0956F1CD -setup Install -type action -title {Copy files into player lib folder} -component CopyFile -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
+InstallComponent 821EAF5C-D54F-42FD-B672-D2ABB971AFF3 -setup Install -type action -title {Delete uneeded files} -component DeleteFile -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
 InstallComponent 63492674-1EB3-4E7F-8A74-CBFCD5B4AE40 -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 059F69E7-77AE-4559-9F5F-1A44EE0B281C -setup Install -type action -conditions {8A53C66A-05F9-4D1F-A87B-A1E2BC27363C 8E8AD2F5-7FD6-4751-90B1-12DF70B20F86} -title {Install Desktop Shortcut} -component InstallDesktopShortcut -command insert -active Yes -parent 63492674-1EB3-4E7F-8A74-CBFCD5B4AE40
 Condition 8A53C66A-05F9-4D1F-A87B-A1E2BC27363C -active Yes -parent 059F69E7-77AE-4559-9F5F-1A44EE0B281C -title {String Is Condition} -component StringIsCondition -TreeObject::id 8A53C66A-05F9-4D1F-A87B-A1E2BC27363C
@@ -439,7 +443,7 @@ array set Properties {
 No
 
 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3,Conditions
-{1 condition}
+{0 conditions}
 
 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3,Destination
 <%InstallDir%>
@@ -563,6 +567,12 @@ InstallDir
 
 28B63CF9-EB57-46B4-8590-AA474B3162E9,ObjectID
 ConsoleComponent
+
+295C93BA-A531-4E0D-BA6A-390E508BCB14,Alias
+{Prepare Designer Folder}
+
+295C93BA-A531-4E0D-BA6A-390E508BCB14,Conditions
+{1 condition}
 
 2BF7FC5A-B8CA-4AE3-B449-F22241CA8824,Default
 Yes
@@ -1047,6 +1057,12 @@ false
 81C1F403-57F6-45DE-803B-CF69742DF6F3,String
 <%InstallStopped%>
 
+821EAF5C-D54F-42FD-B672-D2ABB971AFF3,Conditions
+{0 conditions}
+
+821EAF5C-D54F-42FD-B672-D2ABB971AFF3,Files
+{<%InstallDir%>/designer/com;<%InstallDir%>/designer/META-INF;<%InstallDir%>/designer/jniwrap.dll;<%InstallDir%>/designer/log4j.properties}
+
 8298698B-A157-413E-ADE4-89747145C604,Action
 {Uninstall Services}
 
@@ -1055,12 +1071,6 @@ false
 
 83085741-B770-40D3-9225-A829476501B9,Alias
 {Startup Actions}
-
-833C9A62-0AD5-4536-92EA-15C1843CD84A,CheckCondition
-{Before Action is Executed}
-
-833C9A62-0AD5-4536-92EA-15C1843CD84A,ObjectID
-DesignerComponent
 
 85023F3C-997B-4F4A-9FCE-8279A88E7E18,Action
 {Other Actions}
@@ -1112,12 +1122,6 @@ CreateQuickLaunchShortcut
 
 8A8D796C-8051-4B6A-806E-BCF876E668BE,Y
 200
-
-8CA03297-689E-4991-B7B1-1FC4518C0DC1,CheckCondition
-{Before Action is Executed}
-
-8CA03297-689E-4991-B7B1-1FC4518C0DC1,ObjectID
-ConsoleComponent
 
 8CE7CE78-5767-48CD-A1DF-F88296F80A3F,CheckCondition
 {Before Action is Executed}
@@ -1178,6 +1182,12 @@ DesignerComponent
 
 91DD14D5-970E-40E3-A9B8-1D1E4B403333,Name
 Designer
+
+9394CA2C-4FAC-4C68-B4A1-9FE22AA70B18,Action
+{Prepare Designer Folder}
+
+9394CA2C-4FAC-4C68-B4A1-9FE22AA70B18,Conditions
+{0 conditions}
 
 93A14173-1B0F-468C-953E-A6BACBE36523,ExitType
 Finish
@@ -1260,6 +1270,15 @@ false
 9E57807E-D837-42E3-8807-DD54AB955494,Filename
 <%InstallDir%>/vlc
 
+9F928C84-B09E-4D03-916E-521F0956F1CD,Conditions
+{0 conditions}
+
+9F928C84-B09E-4D03-916E-521F0956F1CD,Destination
+<%InstallDir%>/designer/lib
+
+9F928C84-B09E-4D03-916E-521F0956F1CD,Source
+{<%InstallDir%>/designer/jniwrap.dll;<%InstallDir%>/designer/log4j.properties}
+
 A1E46153-1E9D-48D9-853B-41260853F7C1,Background
 white
 
@@ -1277,6 +1296,12 @@ A1E46153-1E9D-48D9-853B-41260853F7C1,X
 
 A1E46153-1E9D-48D9-853B-41260853F7C1,Y
 180
+
+A3A4812B-615E-4E8C-B100-5509A8776105,CheckCondition
+{Before Action is Executed}
+
+A3A4812B-615E-4E8C-B100-5509A8776105,ObjectID
+DesignerComponent
 
 A55F4F98-7E82-4DDE-A7DA-1E5DDC5DDF80,Alias
 {Setup Actions}
@@ -1510,7 +1535,7 @@ E7515EF1-0F1E-4694-84E3-6A9142F41B57,Files
 <%InstallDir%>/tomcat/apache-tomcat-6.0.18/webapps/admin-console
 
 E7A5FEB2-17D9-48C7-9B3E-23841EEA0F42,Conditions
-{1 condition}
+{0 conditions}
 
 E7A5FEB2-17D9-48C7-9B3E-23841EEA0F42,Files
 <%InstallDir%>/designer
@@ -1586,6 +1611,18 @@ false
 
 F4EF62D0-7DF5-4C43-B54C-AB6324CFB443,String
 <%UpgradeInstall%>
+
+FC9F1EF9-994A-4617-B1AD-EE6EEA8AB114,Conditions
+{0 conditions}
+
+FC9F1EF9-994A-4617-B1AD-EE6EEA8AB114,Destination
+<%InstallDir%>/designer
+
+FC9F1EF9-994A-4617-B1AD-EE6EEA8AB114,StatusText,subst
+1
+
+FC9F1EF9-994A-4617-B1AD-EE6EEA8AB114,ZipFile
+<%InstallDir%>/designer/plugins/com.kesdip.designer.preview_1.0.0.jar
 
 FreeBSD-4-x86,Active
 No
