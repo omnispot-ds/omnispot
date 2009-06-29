@@ -23,4 +23,11 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         configurer.setShowStatusLine(false);
     }
     
+    @Override
+    public void postWindowCreate() {
+    	super.postWindowCreate();
+    	// hide the "Run" menu item contributed by org.eclipse.ui.externaltools 
+    	getWindowConfigurer().getWindow().getActivePage().hideActionSet("org.eclipse.ui.externaltools.ExternalToolsSet");
+    }
+    
 }

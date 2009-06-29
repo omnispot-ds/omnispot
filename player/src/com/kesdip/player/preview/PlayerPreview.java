@@ -26,7 +26,9 @@ import com.kesdip.player.components.RootContainer;
  * @author gerogias
  */
 public class PlayerPreview extends Player {
-
+	
+	private boolean standaloneProcess = false;
+	
 	public PlayerPreview() throws SchedulerException {
 		super();
 	}
@@ -36,12 +38,19 @@ public class PlayerPreview extends Player {
 		this.completeLayout = false;
 		this.stopRunning = new AtomicBoolean(false);
 	}
+	
+	public static void previewPlayer(String path, String vlcPath) throws Exception {
+		previewPlayer(path, vlcPath, false);
+	}
 
-	public static void previewPlayer(String path, String vlcPath)
+	public static void previewPlayer(String path, String vlcPath, boolean standalone)
 			throws Exception {
+		System.out.println("launching PlayerPreview with " + path + " and " + vlcPath);
 		System.setProperty("KESDIP_EPE_DESIGNER_VLC_PATH", vlcPath);
 
 		PlayerPreview preview = new PlayerPreview();
+		preview.standaloneProcess = standalone;
+		
 		new Thread(preview).start();
 
 		ApplicationContext ctx = new FileSystemXmlApplicationContext(path);
@@ -50,6 +59,14 @@ public class PlayerPreview extends Player {
 		DeploymentContents deploymentContents = (DeploymentContents) ctx
 				.getBean("deploymentContents");
 		preview.startDeployment(ctx, deploymentSettings, deploymentContents);
+	}
+	
+	@Override
+	protected void playerExited() {
+		if (standaloneProcess) {
+			System.out.println("Preview process stopped.");
+			System.exit(0);
+		}
 	}
 
 	public static Set<String> getResourcePaths(String path) {
@@ -136,7 +153,7 @@ public class PlayerPreview extends Player {
 			return;
 		}
 		try {
-			previewPlayer(args[0], args[1]);
+			previewPlayer(args[0], args[1], true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);

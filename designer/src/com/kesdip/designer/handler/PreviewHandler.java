@@ -22,6 +22,8 @@ import com.kesdip.designer.utils.DesignerLog;
 import com.kesdip.player.preview.PlayerPreview;
 
 public class PreviewHandler extends AbstractHandler {
+	
+	private static boolean launchStandalone = true;
 
 	@Override
 	public boolean isEnabled() {
@@ -84,10 +86,15 @@ public class PreviewHandler extends AbstractHandler {
 						os.close();
 						deploymentLocation = tempDeploymentFile.getAbsolutePath();
 					}
-					PlayerPreview.previewPlayer(deploymentLocation, vlcPath);
+					if (launchStandalone) {
+						PreviewLauncher.launchPreview(deploymentLocation, vlcPath);
+					} else {
+						PlayerPreview.previewPlayer(deploymentLocation, vlcPath);
+					}
 				} finally {
-					if (tempDeploymentFile != null)
-						tempDeploymentFile.delete();
+					// TODO These had to be commented out for standalone player to work
+					//if (tempDeploymentFile != null)
+						//tempDeploymentFile.delete();
 				}
 			} else {
 				MessageDialog.openError(HandlerUtil.getActiveShell(event),

@@ -25,6 +25,8 @@ import com.kesdip.player.preview.PlayerPreview;
 
 public class PreviewLayoutHandler extends AbstractHandler {
 
+	private static boolean launchStandalone = true;
+	
 	@Override
 	public boolean isEnabled() {
 		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() == null)
@@ -88,13 +90,20 @@ public class PreviewLayoutHandler extends AbstractHandler {
 				String vlcPath = Activator.getDefault().getPreferenceStore().getString(
 						PreferenceConstants.P_VLC_PATH);
 				
-				if (reason == null)
-					PlayerPreview.previewPlayer(tempFile.getAbsolutePath(), vlcPath);
+				if (reason == null) {
+					String deploymentLocation = tempFile.getAbsolutePath();
+					if (launchStandalone) {
+						PreviewLauncher.launchPreview(deploymentLocation, vlcPath);
+					} else {
+						PlayerPreview.previewPlayer(deploymentLocation, vlcPath);
+					}
+				}
 				else
 					MessageDialog.openError(HandlerUtil.getActiveShell(event),
 							"Unable to preview", reason);
 			} finally {
-				tempFile.delete();
+				// TODO Commented out for standalone
+				// tempFile.delete();
 			}
 		} catch (Exception e) {
 			DesignerLog.logError("Unable to start deployment preview", e);

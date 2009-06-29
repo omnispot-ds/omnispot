@@ -309,8 +309,14 @@ public class Player implements Runnable {
 					container.destroyWindowedResources();
 				}
 			}
+			playerExited();
 		}
 	}
+	
+	/**
+	 * Hook to be overridden by PlayerPreview in order to exit the process.
+	 */
+	protected void playerExited() {}
 	
 	protected JFrame backgroundFrame;
 
@@ -407,6 +413,7 @@ public class Player implements Runnable {
 			}
 			
 			destroyBackgroundFrame();
+			playerExited();
 		} catch (Throwable t) {
 			logger.error("Error during the player run method.", t);
 		}
