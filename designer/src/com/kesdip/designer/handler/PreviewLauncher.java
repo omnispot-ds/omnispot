@@ -46,11 +46,14 @@ public class PreviewLauncher {
 			classpath.append(';');
 		}
 		
-		String args = "-cp " + classpath.substring(0, classpath.length()-1) + " com.kesdip.player.preview.PlayerPreview \"" + deploymentLocation + "\" \"" + vlcPath + "\"";
+		String args = "-cp \"" + classpath.substring(0, classpath.length()-1) + "\" com.kesdip.player.preview.PlayerPreview \"" + deploymentLocation + "\" \"" + vlcPath + "\"";
 
 		ILaunchConfigurationWorkingCopy wc = lcType.newInstance(null, name);
 		wc.setAttribute(IExternalToolConstants.ATTR_LOCATION, cmdLine);
 		wc.setAttribute(IExternalToolConstants.ATTR_TOOL_ARGUMENTS, args);
+		
+		DesignerLog.logInfo("Launch configuration created with command line:" + cmdLine + " " + args);
+		
 		return wc.doSave();
 	}
 	

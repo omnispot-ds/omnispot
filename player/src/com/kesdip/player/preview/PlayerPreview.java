@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -27,6 +28,8 @@ import com.kesdip.player.components.RootContainer;
  */
 public class PlayerPreview extends Player {
 	
+	private static final Logger logger = Logger.getLogger(PlayerPreview.class);
+	
 	private boolean standaloneProcess = false;
 	
 	public PlayerPreview() throws SchedulerException {
@@ -45,7 +48,6 @@ public class PlayerPreview extends Player {
 
 	public static void previewPlayer(String path, String vlcPath, boolean standalone)
 			throws Exception {
-		System.out.println("launching PlayerPreview with " + path + " and " + vlcPath);
 		System.setProperty("KESDIP_EPE_DESIGNER_VLC_PATH", vlcPath);
 
 		PlayerPreview preview = new PlayerPreview();
@@ -64,7 +66,7 @@ public class PlayerPreview extends Player {
 	@Override
 	protected void playerExited() {
 		if (standaloneProcess) {
-			System.out.println("Preview process stopped.");
+			logger.info("Preview process stopped.");
 			System.exit(0);
 		}
 	}
