@@ -1,6 +1,7 @@
 package com.kesdip.player.components;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,6 +56,7 @@ public class FlashComponent extends AbstractComponent {
 	public java.awt.Component getWindowComponent() {
 		logger.info("getWindowComponent called");
 		oleContainer.setSize(width, height);
+		oleContainer.setLocation(new Point(x, y));
 		return oleContainer;
 	}
 
