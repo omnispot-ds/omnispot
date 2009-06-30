@@ -3589,6 +3589,7 @@ InstallComponent AFE07A91-6307-4033-BCC9-9B3F08E531CD -setup Install -type actio
 Condition A1B2985E-E2C4-4E15-8E5F-AB43A881217D -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A1B2985E-E2C4-4E15-8E5F-AB43A881217D
 InstallComponent 7ED3D725-E68D-454D-A592-AB2DCFA8E8C7 -setup Install -type action -title {Unzip preview.jar} -component UnzipFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent 11582766-7002-4CC3-BA8E-76E008BE32EE -setup Install -type action -title {Copy files into player lib folder} -component CopyFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
+InstallComponent E29D80BB-A432-4198-B966-4DC0BEF12407 -setup Install -type action -title {Copy jniwrap to VLC (PATH)} -component CopyFile -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent 0FB296FB-EF20-4B52-8575-7A4034738288 -setup Install -type action -title {Delete unneeded files} -component DeleteFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent 44B3D116-B024-4C1D-A840-B7A664BD799F -setup Install -type action -title {Add KESDIP_PLAYER_LIB} -component AddEnvironmentVariable -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent DC5DB553-26F4-436D-9D37-C5D42A34327C -setup Install -type actiongroup -conditions F763C9D6-885C-47E5-A1CE-1327217A4FD3 -title {Prepare Console} -command insert -alias {Prepare Console} -active Yes -parent ActionGroupsInstall
@@ -3602,7 +3603,7 @@ InstallComponent B229B89B-1DCC-4C9D-8837-51AA5A29E7DE -setup Install -type actio
 InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -title {Copy Console WAR} -component CopyFile -command reorder -active Yes -parent DC5DB553-26F4-436D-9D37-C5D42A34327C
 InstallComponent BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE -setup Install -type action -title {Copy Tomcat XMLs} -component CopyFile -command reorder -active Yes -parent DC5DB553-26F4-436D-9D37-C5D42A34327C
 InstallComponent 6707EC69-3109-415E-918F-9FABB97AF228 -setup Install -type action -title {Copy Derby JARs} -component CopyFile -command reorder -active Yes -parent DC5DB553-26F4-436D-9D37-C5D42A34327C
-InstallComponent 28717DC5-E5B4-43EB-9FA9-FE53B7865229 -setup Install -type action -title {Replace Backslashes} -component ReplaceTextInFile -command reorder -active Yes -parent DC5DB553-26F4-436D-9D37-C5D42A34327C
+InstallComponent E764C0CE-1ABB-4FDF-BF8F-35D3695916D6 -setup Install -type action -title {Replace Backslashes} -component ReplaceTextInFile -active Yes -parent DC5DB553-26F4-436D-9D37-C5D42A34327C
 InstallComponent 63492674-1EB3-4E7F-8A74-CBFCD5B4AE40 -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 059F69E7-77AE-4559-9F5F-1A44EE0B281C -setup Install -type action -conditions {8A53C66A-05F9-4D1F-A87B-A1E2BC27363C 8E8AD2F5-7FD6-4751-90B1-12DF70B20F86} -title {Install Desktop Shortcut} -component InstallDesktopShortcut -command insert -active Yes -parent 63492674-1EB3-4E7F-8A74-CBFCD5B4AE40
 Condition 8A53C66A-05F9-4D1F-A87B-A1E2BC27363C -active Yes -parent 059F69E7-77AE-4559-9F5F-1A44EE0B281C -title {String Is Condition} -component StringIsCondition -TreeObject::id 8A53C66A-05F9-4D1F-A87B-A1E2BC27363C
@@ -3657,6 +3658,8 @@ InstallComponent 7D39D997-8A93-47DC-8F06-712B76FE1383 -setup Uninstall -type act
 Condition 9E57807E-D837-42E3-8807-DD54AB955494 -active Yes -parent 7D39D997-8A93-47DC-8F06-712B76FE1383 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 9E57807E-D837-42E3-8807-DD54AB955494
 InstallComponent E9D1BD54-B555-4879-982A-3B78A3128146 -setup Uninstall -type actiongroup -title {Uninstall Actions} -alias {Uninstall Actions} -active Yes -parent ActionGroupsUninstall
 InstallComponent 230500FE-D27B-453F-9672-155516D8BC8F -setup Uninstall -type action -title {Uninstall Selected Files} -component UninstallSelectedFiles -active Yes -parent E9D1BD54-B555-4879-982A-3B78A3128146
+InstallComponent 2DCDEE7F-B23B-4718-B130-6F667376D42C -setup Uninstall -type action -conditions B9AEC158-B17D-4F2C-A7A9-DF1F63806B04 -title {Delete Workspace} -component DeleteFile -command insert -active Yes -parent E9D1BD54-B555-4879-982A-3B78A3128146
+Condition B9AEC158-B17D-4F2C-A7A9-DF1F63806B04 -active Yes -parent 2DCDEE7F-B23B-4718-B130-6F667376D42C -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B9AEC158-B17D-4F2C-A7A9-DF1F63806B04
 InstallComponent CD3D3C02-B7BE-41A5-A98A-A65349DD0770 -setup Uninstall -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsUninstall
 InstallComponent 458538B7-F45F-4FDF-A70A-5D4F602770A9 -setup Uninstall -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroupsUninstall
 
@@ -3937,15 +3940,6 @@ tomcat/apache-tomcat-6.0.18/bin/service.bat
 24E354C6-9547-408C-B63D-C52FA29DC539,StringMap
 {"--StopMode jvm"	"--StopMode jvm --Startup auto"}
 
-28717DC5-E5B4-43EB-9FA9-FE53B7865229,Conditions
-{0 conditions}
-
-28717DC5-E5B4-43EB-9FA9-FE53B7865229,Files
-{db/conf/bootstrap.properties;tomcat/apache-tomcat-6.0.18/conf/server.xml;admin-console/console-settings.xml}
-
-28717DC5-E5B4-43EB-9FA9-FE53B7865229,StringMap
-{\\	/}
-
 2A172A8A-60FF-49D7-BE13-CFD4900E3231,Conditions
 {0 conditions}
 
@@ -3972,6 +3966,15 @@ false
 
 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2,String
 <%UpgradeInstall%>
+
+2DCDEE7F-B23B-4718-B130-6F667376D42C,Conditions
+{1 condition}
+
+2DCDEE7F-B23B-4718-B130-6F667376D42C,Files
+<%Home%>/workspace
+
+2DCDEE7F-B23B-4718-B130-6F667376D42C,IgnoreErrors
+Yes
 
 2F400726-BFE7-4D3A-B39B-1E7470ACA671,CheckCondition
 {Before Action is Executed}
@@ -4567,6 +4570,9 @@ ConsoleComponent
 7D39D997-8A93-47DC-8F06-712B76FE1383,Conditions
 {1 condition}
 
+7D39D997-8A93-47DC-8F06-712B76FE1383,IgnoreErrors
+Yes
+
 7D39D997-8A93-47DC-8F06-712B76FE1383,ProgramCommandLine
 {uninstall.exe /mode silent}
 
@@ -5086,6 +5092,12 @@ B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB,CheckCondition
 B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB,ObjectID
 ConsoleComponent
 
+B9AEC158-B17D-4F2C-A7A9-DF1F63806B04,CheckCondition
+{Before Action is Executed}
+
+B9AEC158-B17D-4F2C-A7A9-DF1F63806B04,ObjectID
+DesignerComponent
+
 BA1F223B-5B9F-49A9-A358-FC9056C21191,Active
 Yes
 
@@ -5377,8 +5389,26 @@ system
 E20DEC68-27C1-40EC-9C98-86EA0E6A6347,Location
 beginning
 
+E29D80BB-A432-4198-B966-4DC0BEF12407,Conditions
+{0 conditions}
+
+E29D80BB-A432-4198-B966-4DC0BEF12407,Destination
+<%PROGRAM_FILES%>/VideoLan/VLC
+
+E29D80BB-A432-4198-B966-4DC0BEF12407,Source
+<%InstallDir%>/designer/jniwrap.dll
+
 E58642FE-164B-41A8-8A16-CA671C540873,Alias
 {Cancel Actions}
+
+E764C0CE-1ABB-4FDF-BF8F-35D3695916D6,Conditions
+{0 conditions}
+
+E764C0CE-1ABB-4FDF-BF8F-35D3695916D6,Files
+{db/conf/bootstrap.properties;tomcat/apache-tomcat-6.0.18/conf/server.xml;admin-console/console-settings.xml}
+
+E764C0CE-1ABB-4FDF-BF8F-35D3695916D6,StringMap
+{\\	/}
 
 E854EAC5-01AD-4B1B-AAAE-1509136A36F7,Alias
 {Startup Actions}
@@ -5391,6 +5421,9 @@ E919759A-797B-46B5-90FB-543695B55482,WaitTime
 
 E9D1BD54-B555-4879-982A-3B78A3128146,Alias
 {Uninstall Actions}
+
+E9D1BD54-B555-4879-982A-3B78A3128146,Conditions
+{0 conditions}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,Active
 Yes

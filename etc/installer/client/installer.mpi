@@ -1146,8 +1146,8 @@ InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type actio
 Condition 518CE47F-6CCA-4206-8681-11D59206B145 -active Yes -parent EFF0FC5D-E676-4652-A183-A406FB21067D -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
 InstallComponent FFEA53D6-E1E7-46AC-9FA3-13235F247567 -setup Install -type action -title {Add VLC To Path} -component AddDirectoryToPath -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 InstallComponent 8F64A6F8-7622-464D-9740-800E150128DD -setup Install -type action -title {Add Native lib To Path} -component AddDirectoryToPath -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
-InstallComponent 6C0101D6-93D3-4E75-A2A2-D82140808210 -setup Install -type action -conditions 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6 -title {Replace Backslashes} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
-Condition 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6 -active Yes -parent 6C0101D6-93D3-4E75-A2A2-D82140808210 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
+InstallComponent BB74BF46-C94E-453A-AECC-2C84202339C6 -setup Install -type action -conditions FB70E133-5BC9-48B3-8384-D43C322C5452 -title {Replace Backslashes} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+Condition FB70E133-5BC9-48B3-8384-D43C322C5452 -active Yes -parent BB74BF46-C94E-453A-AECC-2C84202339C6 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
 InstallComponent A5116484-B4F7-4431-917E-051A5043C4AD -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -setup Install -type action -conditions {D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F 9C0AA0DC-3F85-49F3-8A73-5BF2CB014636 18DC3036-ACC5-4B6C-B14F-3A5C24149323} -title {View Readme Window} -component TextWindow -command insert -active Yes -parent A5116484-B4F7-4431-917E-051A5043C4AD
 Condition D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F -active Yes -parent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -title {String Is Condition} -component StringIsCondition -TreeObject::id D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F
@@ -1253,12 +1253,6 @@ disabled
 
 12789677-23B7-4236-826A-95608099460B,Widget
 {Back Button;Next Button}
-
-132E59EE-E6A9-4EF9-8B14-2EE6F47256A6,CheckCondition
-{Before Action is Executed}
-
-132E59EE-E6A9-4EF9-8B14-2EE6F47256A6,ObjectID
-MonitorComponent
 
 149FDCA2-2928-4140-A3D8-79357F5888C9,Conditions
 {1 condition}
@@ -1736,15 +1730,6 @@ VLCComponent
 
 6BD87EE5-BAB6-4779-8487-7F6820C9FE42,Conditions
 {0 conditions}
-
-6C0101D6-93D3-4E75-A2A2-D82140808210,Conditions
-{1 condition}
-
-6C0101D6-93D3-4E75-A2A2-D82140808210,Files
-{player/conf/bootstrap.properties;player/conf/player.properties}
-
-6C0101D6-93D3-4E75-A2A2-D82140808210,StringMap
-{\\	/}
 
 6F1431B9-185E-489C-97CA-3766402D792B,ExitType
 Finish
@@ -2394,6 +2379,15 @@ B8DDE021-D282-4C5F-B100-3A26E59FE477,Operator
 B8DDE021-D282-4C5F-B100-3A26E59FE477,String
 <%PlayerId%>
 
+BB74BF46-C94E-453A-AECC-2C84202339C6,Conditions
+{1 condition}
+
+BB74BF46-C94E-453A-AECC-2C84202339C6,Files
+{player/conf/bootstrap.properties;player/conf/player.properties}
+
+BB74BF46-C94E-453A-AECC-2C84202339C6,StringMap
+{\\	/}
+
 BE6F3AAC-BE19-4316-9E0F-2EAFFCB12FD6,Active
 Yes
 
@@ -2802,6 +2796,12 @@ false
 
 FAB2883F-B9F5-4A69-9CF5-E85BFB6C51C7,String
 <%Answer%>
+
+FB70E133-5BC9-48B3-8384-D43C322C5452,CheckCondition
+{Before Action is Executed}
+
+FB70E133-5BC9-48B3-8384-D43C322C5452,ObjectID
+MonitorComponent
 
 FFEA53D6-E1E7-46AC-9FA3-13235F247567,Conditions
 {0 conditions}

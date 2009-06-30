@@ -63,10 +63,11 @@ public class TickerPanel extends JPanel {
 		while (true) {
 			String retVal = source.getCurrentContent();
 			Rectangle2D r = g.getFontMetrics().getStringBounds(retVal, g);
-			if (r.getWidth() < currentXPos + width)
+			if (r.getWidth() < Math.abs(currentXPos) + width) {
 				source.addTrailingChar();
-			else
+			} else {
 				return retVal;
+			}
 		}
 	}
 

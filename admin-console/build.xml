@@ -37,6 +37,10 @@
 				<include name="**/*.properties" />
 				<include name="**/*.xsd" />
 				<include name="**/*.txt" />
+				<include name="**/*.jpg" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.sql" />
 			</fileset>
 		</copy>
  	</target>
@@ -62,10 +66,13 @@
  				<include name="META-INF/*.*"/>
  				<exclude name="CVS/**"/>
  				<exclude name="SVN/**"/>
+ 				<exclude name="WEB-INF/classes/**"/>
  			</fileset>
  		</copy>
  		<copy todir="${admin-console.build.dir}/WEB-INF/classes">
- 			<fileset dir="${admin-console.classes.dir}"/>
+ 			<fileset dir="${admin-console.classes.dir}">
+ 				<include name="**/*.*"/>
+ 			</fileset>
  		</copy>
  		<mkdir dir="${admin-console.dist.dir}"/>
  		<antcall target="zz.create.war">

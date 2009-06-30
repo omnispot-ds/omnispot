@@ -45,6 +45,13 @@
 		<copy todir="${player.build.dir}" flatten="true">
 			<fileset dir="${player.etc.dir}" >
 				<include name="**/*.*" />
+				<exclude name="**/*.lic" />
+			</fileset>
+		</copy>
+		<mkdir dir="${player.build.dir}/META-INF"/>
+		<copy todir="${player.build.dir}/META-INF" flatten="true">
+			<fileset dir="${player.etc.dir}" >
+				<include name="**/*.lic" />
 			</fileset>
 		</copy>
 	</target>

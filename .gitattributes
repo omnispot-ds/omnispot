@@ -434,12 +434,9 @@ designer-preview/.classpath -text
 designer-preview/.project -text
 designer-preview/.settings/org.eclipse.jdt.core.prefs -text
 designer-preview/META-INF/MANIFEST.MF -text
-designer-preview/META-INF/comfyj.lic -text
-designer-preview/META-INF/jniwrap.lic -text
 designer-preview/build.properties -text
 designer-preview/jniwrap.dll -text
 designer-preview/src/com/kesdip/player/preview/Activator.java -text
-designer-preview/src/jniwrap.dll -text
 designer-preview/src/log4j.properties -text
 designer-test/.classpath -text
 designer-test/.project -text

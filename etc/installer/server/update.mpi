@@ -351,7 +351,9 @@ InstallComponent E7A5FEB2-17D9-48C7-9B3E-23841EEA0F42 -setup Install -type actio
 InstallComponent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -setup Install -type action -title {Unzip Designer} -component UnzipFile -command reorder -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
 InstallComponent FC9F1EF9-994A-4617-B1AD-EE6EEA8AB114 -setup Install -type action -title {Unzip preview.jar} -component UnzipFile -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
 InstallComponent 9F928C84-B09E-4D03-916E-521F0956F1CD -setup Install -type action -title {Copy files into player lib folder} -component CopyFile -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
+InstallComponent 6FB1B52D-2725-4ED6-BA45-CF312F49F712 -setup Install -type action -title {Copy jniwrap to VLC (PATH)} -component CopyFile -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
 InstallComponent 821EAF5C-D54F-42FD-B672-D2ABB971AFF3 -setup Install -type action -title {Delete uneeded files} -component DeleteFile -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
+InstallComponent DF8EE0EB-56E0-4F4F-B989-BC2B29DB9C8D -setup Install -type action -title {Add KESDIP_PLAYER_LIB} -component AddEnvironmentVariable -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
 InstallComponent 63492674-1EB3-4E7F-8A74-CBFCD5B4AE40 -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 059F69E7-77AE-4559-9F5F-1A44EE0B281C -setup Install -type action -conditions {8A53C66A-05F9-4D1F-A87B-A1E2BC27363C 8E8AD2F5-7FD6-4751-90B1-12DF70B20F86} -title {Install Desktop Shortcut} -component InstallDesktopShortcut -command insert -active Yes -parent 63492674-1EB3-4E7F-8A74-CBFCD5B4AE40
 Condition 8A53C66A-05F9-4D1F-A87B-A1E2BC27363C -active Yes -parent 059F69E7-77AE-4559-9F5F-1A44EE0B281C -title {String Is Condition} -component StringIsCondition -TreeObject::id 8A53C66A-05F9-4D1F-A87B-A1E2BC27363C
@@ -937,6 +939,15 @@ false
 6DFC651F-938F-4A3B-939F-3BCD98827EAE,ServiceName
 Tomcat6
 
+6FB1B52D-2725-4ED6-BA45-CF312F49F712,Conditions
+{0 conditions}
+
+6FB1B52D-2725-4ED6-BA45-CF312F49F712,Destination
+<%PROGRAM_FILES%>/VideoLan/VLC
+
+6FB1B52D-2725-4ED6-BA45-CF312F49F712,Source
+<%InstallDir%>/designer/jniwrap.dll
+
 6FF60F37-A6BE-4B2C-BA3B-070AE21A1D4E,CheckCondition
 {Before Action is Executed}
 
@@ -1009,8 +1020,14 @@ Tomcat6
 7D39D997-8A93-47DC-8F06-712B76FE1383,Conditions
 {1 condition}
 
+7D39D997-8A93-47DC-8F06-712B76FE1383,IgnoreErrors
+Yes
+
 7D39D997-8A93-47DC-8F06-712B76FE1383,ProgramCommandLine
 {uninstall.exe /mode silent}
+
+7D39D997-8A93-47DC-8F06-712B76FE1383,WaitForProgram
+No
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,WorkingDirectory
 <%PROGRAM_FILES%>/VideoLan/VLC
@@ -1524,6 +1541,15 @@ D87D5E86-99E1-4C84-AF43-DFC7A3B9E865,Action
 
 D87D5E86-99E1-4C84-AF43-DFC7A3B9E865,Conditions
 {0 conditions}
+
+DF8EE0EB-56E0-4F4F-B989-BC2B29DB9C8D,Conditions
+{0 conditions}
+
+DF8EE0EB-56E0-4F4F-B989-BC2B29DB9C8D,Value
+{<%InstallDir%>\designer\lib}
+
+DF8EE0EB-56E0-4F4F-B989-BC2B29DB9C8D,Variable
+KESDIP_PLAYER_LIB
 
 E58642FE-164B-41A8-8A16-CA671C540873,Alias
 {Cancel Actions}
