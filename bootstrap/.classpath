@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src-test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/player"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/business-logic"/>
+	<classpathentry kind="lib" path="/etc/sql"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Kesdipepe-lib"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

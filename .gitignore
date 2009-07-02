@@ -3,3 +3,6 @@ admin-console/WebRoot/WEB-INF/classes/log4j.properties
 admin-console/WebRoot/WEB-INF/classes/messages.properties
 admin-console/build
 admin-console/dist
+bootstrap/bin
+bootstrap/build
+bootstrap/dist
