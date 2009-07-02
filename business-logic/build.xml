@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Digital Signage business logic project" basedir=".">
+	<description>Build file for the common code</description>
+
+	<import file="${etc.ant.scripts.dir}/common-targets.xml" />
+
+	<property name="logic.base.dir" location="." />
+
+	<property name="logic.build.dir" location="${logic.base.dir}/build" />
+	<property name="logic.dist.dir" location="${logic.base.dir}/dist" />
+	<property name="logic.classes.dir" location="${logic.build.dir}/classes" />
+
+	<property name="shared.jars.file" location="${logic.base.dir}/shared.jars" />
+
+	<target name="logic.init">
+		<echo level="info">Initializing...</echo>
+		<uptodate property="compile.notRequired" targetfile="${logic.dist.file}">
+			<srcfiles dir="${logic.src.dir}" includes="**/*" />
+		</uptodate>
+		<echo level="info">Compile not required ${compile.notRequired}</echo>
+	</target>
+
+	<target name="logic.compile" description="compile the logic classes" 
+		depends="logic.init" 
+		unless="compile.notRequired">
+		<echo level="info">Compiling sources...</echo>
+		<delete dir="${logic.classes.dir}" failonerror="false" />
+		<mkdir dir="${logic.classes.dir}" />
+		<javac destdir="${logic.classes.dir}" debug="true" encoding="UTF-8">
+			<src path="${logic.src.dir}" />
+			<classpath>
+				<fileset dir="${project.base.dir}" includesfile="${shared.jars.file}" />
+			</classpath>
+		</javac>
+		<copy todir="${logic.classes.dir}">
+			<fileset dir="${logic.src.dir}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<include name="**/*.xsd" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="logic.dist" description="create the common JAR file" 
+		depends="logic.init" unless="build.notRequired">
+		<echo level="info">Creating distribution</echo>
+		<copy todir="${logic.build.dir}">
+			<fileset dir="${logic.build.dir}/classes" />
+		</copy>
+
+		<!-- antcall target="process.hibernate.cfg" inheritall="true" / -->
+
+		<mkdir dir="${logic.dist.dir}" />
+
+		<antcall target="zz.create.simple.jar">
+			<param name="base.dir" value="${logic.build.dir}" />
+			<param name="dest.file" value="${logic.dist.file}" />
+			<param name="fileset.file" value="${shared.jars.file}" />
+			<param name="lib.base.dir" value="${project.base.dir}" />
+			<param name="exclude.patterns" value="classes/**" />
+		</antcall>
+
+	</target>
+
+	<target name="logic.clean">
+		<echo level="info">Cleaning files and directories</echo>
+ 		<delete dir="${logic.build.dir}" failonerror="false"/>
+ 		<delete dir="${logic.dist.dir}" failonerror="false"/>
+	    <mkdir dir="${logic.build.dir}"/>
+ 		<mkdir dir="${logic.dist.dir}"/>
+	</target>
+
+
+	<target name="process.hibernate.cfg">
+
+		<property name="hibernate.file" location="${logic.build.dir}/inactive_hibernate.cfg.xml" />
+
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[<!-- DEVELOPMENT SETTINGS -->]]></replacetoken>
+			<replacevalue>
+				<![CDATA[<!-- DEVELOPMENT SETTINGS ]]>
+			</replacevalue>
+		</replace>
+
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[<!-- EOF DEVELOPMENT SETTINGS -->]]></replacetoken>
+			<replacevalue>
+				<![CDATA[ EOF DEVELOPMENT SETTINGS -->]]></replacevalue>
+		</replace>
+
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[<!-- PRODUCTION SETTINGS]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[<!-- PRODUCTION SETTINGS -->]]></replacevalue>
+		</replace>
+
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[EOF PRODUCTION SETTINGS -->]]></replacetoken>
+			<replacevalue>
+				<![CDATA[<!-- EOF PRODUCTION SETTINGS -->]]></replacevalue>
+		</replace>
+
+		<antcall target="zz.replace.properties">
+			<param name="file" value="${logic.build.dir}/inactive_hibernate.cfg.xml" />
+			<param name="properties" value="jdbc.driver.class, jdbc.url, db.user.name, db.user.password" />
+		</antcall>
+
+		<!-- Fix ampersands in driver URL -->
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[&]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[&amp;]]>
+			</replacevalue>
+		</replace>
+	</target>
+
+
+	<target name="generate.domain.objects">
+		<echo level="info">Generating Java code...</echo>
+		<antcall target="zz.generate.domain.objects">
+			<param name="hbm.base.dir" value="${logic.src.dir}" />
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml" />
+			<param name="dest.dir" value="${logic.src.dir}" />
+		</antcall>
+		
+		<echo level="info">Generating drop DDL...</echo>
+		<antcall target="zz.generate.schema.ddl">
+			<param name="hbm.base.dir" value="${logic.src.dir}"/>
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml"/>
+			<param name="dest.file" value="${etc.sql.scripts.dir}/drop-database.sql"/>
+			<param name="create.stmts" value="no"/>
+		</antcall>
+		
+		<echo level="info">Generating create DDL...</echo>
+		<antcall target="zz.generate.schema.ddl">
+			<param name="hbm.base.dir" value="${logic.src.dir}"/>
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml"/>
+			<param name="dest.file" value="${etc.sql.scripts.dir}/create-database.sql"/>
+			<param name="create.stmts" value="yes"/>
+		</antcall>
+		
+	</target>
+
+	<target name="logic.all" depends="logic.init,logic.compile,logic.dist,logic.clean" />
+</project>
