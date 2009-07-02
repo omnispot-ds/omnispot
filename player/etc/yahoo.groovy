@@ -1,0 +1,2 @@
+import org.dom4j.QNameimport com.kesdip.player.components.weather.WeatherData// el.getNamespaceForPrefix(arg0)// QName(String, Namespace)if (sourceData == null)	returndef yweatherNs = sourceData.getNamespaceForPrefix('yweather')//def city = sourceData.element('channel').element('yweather:location').attributeValue('city')def chanElement = sourceData.element('channel')def locElement = chanElement.element(new QName('location', yweatherNs))println locElement.name
+weatherData = new WeatherData();weatherData.location = locElement.attributeValue('city');
