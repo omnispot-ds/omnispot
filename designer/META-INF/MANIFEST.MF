@@ -1,0 +1,34 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Designer Plug-in
+Bundle-SymbolicName: com.kesdip.designer; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: com.kesdip.designer.Activator
+Bundle-Vendor: Ke.S.Di.P. E.P.E.
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.views,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.views.log,
+ org.eclipse.gef,
+ org.eclipse.draw2d,
+ org.eclipse.help.ui,
+ org.eclipse.help.webapp,
+ com.kesdip.designer.preview,
+ com.kesdip.designer.help,
+ org.eclipse.debug.core,
+ org.eclipse.ui.externaltools
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: lib/quartz-1.6.3.jar,
+ .
+Export-Package: com.kesdip.designer,
+ com.kesdip.designer.action,
+ com.kesdip.designer.command,
+ com.kesdip.designer.editor,
+ com.kesdip.designer.handler,
+ com.kesdip.designer.model,
+ com.kesdip.designer.parts,
+ com.kesdip.designer.properties,
+ com.kesdip.designer.utils
