@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The contents of this file will be loaded for each web application -->
+<Context debug="1" reloadable="true">
+
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+	<ResourceLink 
+		name="jdbc/adminConsoleDS" 
+		global="jdbc/adminConsoleDS"
+		type="javax.sql.Datasource" />
+
+</Context>
