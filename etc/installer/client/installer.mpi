@@ -1132,8 +1132,8 @@ Condition B1A62C4C-A819-4718-9EA2-5D0E5BD006EB -active Yes -parent 149FDCA2-2928
 InstallComponent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -setup Install -type actiongroup -conditions {4273646A-7505-4F3E-B2D6-40F7B06AE591 050D899D-B5A2-4BC8-BF3A-119FE556F871} -title {Service Installation Actions} -command insert -alias {Service Installation Actions} -active Yes -parent ActionGroupsInstall
 Condition 4273646A-7505-4F3E-B2D6-40F7B06AE591 -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -title {Platform Condition} -component PlatformCondition -TreeObject::id 4273646A-7505-4F3E-B2D6-40F7B06AE591
 Condition 050D899D-B5A2-4BC8-BF3A-119FE556F871 -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 050D899D-B5A2-4BC8-BF3A-119FE556F871
-InstallComponent 3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6 -setup Install -type action -title {Install Derby Service} -component ExecuteExternalProgram -command reorder -alias {Install Derby Service} -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
-InstallComponent 871E85CF-6860-434F-83A0-BBE408A594CD -setup Install -type action -title {Install Bootstrap Service} -component ExecuteExternalProgram -command reorder -alias {Install Bootstrap Service} -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
+InstallComponent E1B6961B-96D2-4B25-8FB4-72CCE7B08179 -setup Install -type action -title {Install Derby Service} -component CreateWindowsService -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
+InstallComponent FD5C6CA4-8668-49B3-9BF1-8C3C27834179 -setup Install -type action -title {Install Bootstrap Service} -component CreateWindowsService -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
 InstallComponent 25273EB3-3A11-4B71-9600-7031C5F02BA5 -setup Install -type action -title {Start Derby Service} -component StartWindowsService -command reorder -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
 InstallComponent 4751C163-35B6-4EA1-95C5-D28440457797 -setup Install -type action -title {Wait for Derby to launch} -component Wait -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
 InstallComponent C704E0A4-91B1-4856-BBB4-F10A36F065EC -setup Install -type action -title {Start Bootstrap Service} -component StartWindowsService -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
@@ -1145,7 +1145,8 @@ Condition 597B653B-99F7-422E-A2AE-E67F9E935359 -active Yes -parent CB1809C7-BDC4
 InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type action -conditions 518CE47F-6CCA-4206-8681-11D59206B145 -title {Replace Values in CONF files} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 518CE47F-6CCA-4206-8681-11D59206B145 -active Yes -parent EFF0FC5D-E676-4652-A183-A406FB21067D -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
 InstallComponent FFEA53D6-E1E7-46AC-9FA3-13235F247567 -setup Install -type action -title {Add VLC To Path} -component AddDirectoryToPath -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
-InstallComponent 8F64A6F8-7622-464D-9740-800E150128DD -setup Install -type action -title {Add Native lib To Path} -component AddDirectoryToPath -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent 1786BE0E-4C0C-4B34-90B6-2D1C706A7268 -setup Install -type action -title {Copy Native libraries To ./lib} -component CopyFile -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent 8F64A6F8-7622-464D-9740-800E150128DD -setup Install -type action -title {Add native lib to PATH} -component AddDirectoryToPath -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 InstallComponent BB74BF46-C94E-453A-AECC-2C84202339C6 -setup Install -type action -conditions FB70E133-5BC9-48B3-8384-D43C322C5452 -title {Replace Backslashes} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition FB70E133-5BC9-48B3-8384-D43C322C5452 -active Yes -parent BB74BF46-C94E-453A-AECC-2C84202339C6 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
 InstallComponent A5116484-B4F7-4431-917E-051A5043C4AD -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
@@ -1286,6 +1287,15 @@ disabled
 
 16CC0C06-CE59-43E4-90F9-C50CE8AAB83C,Conditions
 {0 conditions}
+
+1786BE0E-4C0C-4B34-90B6-2D1C706A7268,Conditions
+{0 conditions}
+
+1786BE0E-4C0C-4B34-90B6-2D1C706A7268,Destination
+<%InstallDir%>/player/service-wrapper/lib
+
+1786BE0E-4C0C-4B34-90B6-2D1C706A7268,Source
+<%InstallDir%>/player/native/*
 
 17CCD213-08CB-476B-909D-5DCF68D642CB,Action
 {Uninstall Other Software}
@@ -1484,30 +1494,6 @@ OtherActions
 
 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE,Conditions
 {0 conditions}
-
-3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6,Alias
-{Install Derby Service}
-
-3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6,ClearProgressiveWidget
-No
-
-3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6,Conditions
-{0 conditions}
-
-3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6,IncludeStderr
-Yes
-
-3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6,ProgramCommandLine
-InstallDerby-NT.bat
-
-3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6,ProgressiveOutputWidget
-ProgressTextBox
-
-3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6,ShowProgressiveOutput
-Yes
-
-3754AB5C-BAF6-4B67-A9AD-45CD4A7BE4C6,WorkingDirectory
-<%InstallDir%>/player/service-wrapper/bin
 
 3A127B48-C00D-4953-B8C1-06836DEA064C,Comment
 {Ask the user if they want to proceed with the install.}
@@ -1868,30 +1854,6 @@ PlayerIdWidget
 
 847E4D2B-1B9F-45F2-BBBA-C090606F4EC0,String
 <%GuiMode%>
-
-871E85CF-6860-434F-83A0-BBE408A594CD,Alias
-{Install Bootstrap Service}
-
-871E85CF-6860-434F-83A0-BBE408A594CD,ClearProgressiveWidget
-No
-
-871E85CF-6860-434F-83A0-BBE408A594CD,Conditions
-{0 conditions}
-
-871E85CF-6860-434F-83A0-BBE408A594CD,IncludeStderr
-Yes
-
-871E85CF-6860-434F-83A0-BBE408A594CD,ProgramCommandLine
-InstallBootstrap-NT.bat
-
-871E85CF-6860-434F-83A0-BBE408A594CD,ProgressiveOutputWidget
-ProgressTextBox
-
-871E85CF-6860-434F-83A0-BBE408A594CD,ShowProgressiveOutput
-Yes
-
-871E85CF-6860-434F-83A0-BBE408A594CD,WorkingDirectory
-<%InstallDir%>/player/service-wrapper/bin
 
 88991219-0076-45F9-8FD0-5A967A2EE2F1,CheckCondition
 {Before Action is Executed}
@@ -2697,6 +2659,18 @@ false
 E07F61CF-B90B-425E-B403-E850579539AA,String
 <%UpgradeInstall%>
 
+E1B6961B-96D2-4B25-8FB4-72CCE7B08179,Command
+{<%InstallDir%>/player/service-wrapper/bin/wrapper.exe -s <%InstallDir%>/player/service-wrapper/conf/derby.conf}
+
+E1B6961B-96D2-4B25-8FB4-72CCE7B08179,Conditions
+{0 conditions}
+
+E1B6961B-96D2-4B25-8FB4-72CCE7B08179,DisplayName
+{Derby DB service}
+
+E1B6961B-96D2-4B25-8FB4-72CCE7B08179,ServiceName
+{Derby DB}
+
 E1FE3413-7EBA-408A-92FF-A20D48BF07F6,Action
 {Uninstall Actions}
 
@@ -2802,6 +2776,21 @@ FB70E133-5BC9-48B3-8384-D43C322C5452,CheckCondition
 
 FB70E133-5BC9-48B3-8384-D43C322C5452,ObjectID
 MonitorComponent
+
+FD5C6CA4-8668-49B3-9BF1-8C3C27834179,Command
+{<%InstallDir%>/player/service-wrapper/bin/wrapper.exe -s <%InstallDir%>/player/service-wrapper/conf/bootstrap.conf}
+
+FD5C6CA4-8668-49B3-9BF1-8C3C27834179,Conditions
+{0 conditions}
+
+FD5C6CA4-8668-49B3-9BF1-8C3C27834179,DisplayName
+{Bootstrap app service}
+
+FD5C6CA4-8668-49B3-9BF1-8C3C27834179,Interactive
+Yes
+
+FD5C6CA4-8668-49B3-9BF1-8C3C27834179,ServiceName
+{Bootstrap app}
 
 FFEA53D6-E1E7-46AC-9FA3-13235F247567,Conditions
 {0 conditions}

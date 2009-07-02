@@ -3563,9 +3563,9 @@ Condition 2F400726-BFE7-4D3A-B39B-1E7470ACA671 -active Yes -parent A5D3F148-5989
 InstallComponent 3BC307C6-8D24-46B9-9A3D-4E98937B4F74 -setup Install -type action -conditions 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -title {Uninstall Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -active Yes -parent 3BC307C6-8D24-46B9-9A3D-4E98937B4F74 -title {String Is Condition} -component StringIsCondition -TreeObject::id 431EE5AC-4222-44D4-B590-BBB7E4D12B65
 InstallComponent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -setup Install -type actiongroup -title {Service Installation Actions} -alias {Service Installation Actions} -active Yes -parent ActionGroupsInstall
-InstallComponent 42C52142-D6C7-4AE9-ACBC-412CDA7B8FA1 -setup Install -type action -conditions 9DE0F83E-C7FA-493D-8036-A5B9DB9C6D7E -title {Install Derby Service} -component ExecuteExternalProgram -command insert -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
-Condition 9DE0F83E-C7FA-493D-8036-A5B9DB9C6D7E -active Yes -parent 42C52142-D6C7-4AE9-ACBC-412CDA7B8FA1 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 9DE0F83E-C7FA-493D-8036-A5B9DB9C6D7E
-InstallComponent D64655B5-89A0-411D-AE56-807FBF5C87A8 -setup Install -type action -conditions 993EC00E-108E-4D70-A245-5C83CE3204E1 -title {Install Tomcat Service} -component ExecuteExternalProgram -command insert -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
+InstallComponent DCFF7B49-4954-4BA8-B655-1A18C632E056 -setup Install -type action -conditions 24B8A472-3661-47F9-9F93-FDC99CE5B3D4 -title {Install Derby Service} -component CreateWindowsService -command insert -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
+Condition 24B8A472-3661-47F9-9F93-FDC99CE5B3D4 -active Yes -parent DCFF7B49-4954-4BA8-B655-1A18C632E056 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 3E671DF7-E654-4EA1-8D6F-6339471C9E4C
+InstallComponent D64655B5-89A0-411D-AE56-807FBF5C87A8 -setup Install -type action -conditions 993EC00E-108E-4D70-A245-5C83CE3204E1 -title {Install Tomcat Service} -component ExecuteExternalProgram -command reorder -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
 Condition 993EC00E-108E-4D70-A245-5C83CE3204E1 -active Yes -parent D64655B5-89A0-411D-AE56-807FBF5C87A8 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 993EC00E-108E-4D70-A245-5C83CE3204E1
 InstallComponent B9285021-9ADA-444F-9BCD-ABAAE8100FE4 -setup Install -type action -conditions B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB -title {Start Derby Service} -component StartWindowsService -command insert -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC
 Condition B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB -active Yes -parent B9285021-9ADA-444F-9BCD-ABAAE8100FE4 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB
@@ -3781,6 +3781,9 @@ ConsoleComponent
 0F5B788E-6859-429C-AD98-171611191CEC,Conditions
 {1 condition}
 
+0F5B788E-6859-429C-AD98-171611191CEC,IgnoreErrors
+Yes
+
 0F5B788E-6859-429C-AD98-171611191CEC,ServiceName
 {Apache Tomcat}
 
@@ -3931,6 +3934,12 @@ false
 230500FE-D27B-453F-9672-155516D8BC8F,Conditions
 {0 conditions}
 
+24B8A472-3661-47F9-9F93-FDC99CE5B3D4,CheckCondition
+{Before Action is Executed}
+
+24B8A472-3661-47F9-9F93-FDC99CE5B3D4,ObjectID
+ConsoleComponent
+
 24E354C6-9547-408C-B63D-C52FA29DC539,Conditions
 {0 conditions}
 
@@ -4056,15 +4065,6 @@ Yes
 
 3F0DD56E-0453-496A-BFA4-7A0753E8038A,Name
 Designer
-
-42C52142-D6C7-4AE9-ACBC-412CDA7B8FA1,Conditions
-{1 condition}
-
-42C52142-D6C7-4AE9-ACBC-412CDA7B8FA1,ProgramCommandLine
-InstallDerby-NT.bat
-
-42C52142-D6C7-4AE9-ACBC-412CDA7B8FA1,WorkingDirectory
-<%InstallDir%>/db/service-wrapper/bin
 
 42D9AC66-4712-485E-843D-7BDD9C2E4EB4,Conditions
 {0 conditions}
@@ -4552,6 +4552,9 @@ ConsoleComponent
 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8,Conditions
 {1 condition}
 
+79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8,IgnoreErrors
+Yes
+
 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8,ServiceName
 {Derby DB service}
 
@@ -4720,6 +4723,9 @@ false
 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A,Conditions
 {1 condition}
 
+8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A,IgnoreErrors
+Yes
+
 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A,ServiceName
 {Derby DB service}
 
@@ -4743,6 +4749,9 @@ false
 
 90D3B0E7-4CA5-41AE-86B9-B994E8081B11,Conditions
 {1 condition}
+
+90D3B0E7-4CA5-41AE-86B9-B994E8081B11,IgnoreErrors
+Yes
 
 90D3B0E7-4CA5-41AE-86B9-B994E8081B11,ServiceName
 {Apache Tomcat}
@@ -4869,12 +4878,6 @@ false
 
 9D19AB78-5D33-46FE-8268-BF80DC1D9DC6,Action
 {Install Actions}
-
-9DE0F83E-C7FA-493D-8036-A5B9DB9C6D7E,CheckCondition
-{Before Action is Executed}
-
-9DE0F83E-C7FA-493D-8036-A5B9DB9C6D7E,ObjectID
-ConsoleComponent
 
 9E57807E-D837-42E3-8807-DD54AB955494,CheckCondition
 {Before Action is Executed}
@@ -5376,6 +5379,18 @@ DC5DB553-26F4-436D-9D37-C5D42A34327C,Alias
 
 DC5DB553-26F4-436D-9D37-C5D42A34327C,Conditions
 {1 condition}
+
+DCFF7B49-4954-4BA8-B655-1A18C632E056,Command
+{<%InstallDir%>\db\service-wrapper\bin\wrapper.exe -s <%InstallDir%>\db\service-wrapper\conf\derby.conf}
+
+DCFF7B49-4954-4BA8-B655-1A18C632E056,Conditions
+{1 condition}
+
+DCFF7B49-4954-4BA8-B655-1A18C632E056,DisplayName
+{Derby DB service}
+
+DCFF7B49-4954-4BA8-B655-1A18C632E056,ServiceName
+{Derby DB}
 
 E20DEC68-27C1-40EC-9C98-86EA0E6A6347,Conditions
 {1 condition}
