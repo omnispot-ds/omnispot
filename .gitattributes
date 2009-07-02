@@ -386,6 +386,9 @@ common/src/com/kesdip/common/util/ProcessInfo.java -text
 common/src/com/kesdip/common/util/ProcessUtils.java -text
 common/src/com/kesdip/common/util/StreamUtils.java -text
 common/src/com/kesdip/common/util/StringUtils.java -text
+designer-build/.project -text
+designer-build/build.properties -text
+designer-build/build.xml -text
 designer/.classpath -text
 designer/.project -text
 designer/.settings/org.eclipse.jdt.core.prefs -text
