@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,7 +59,7 @@ public class DescriptorHandler implements ContentHandler {
 			logger.info("Starting download of deployment descriptor: " + descriptorUrl);
 			
 			// Download the deployment descriptor.
-			URL descriptor = new URL(descriptorUrl);
+			URL descriptor = new URL(URLEncoder.encode(descriptorUrl, "utf-8"));
 			File deploymentDir = new File(Config.getSingleton().getDeploymentPath());
 			int counter = 0;
 			File newDeployment;

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,7 +63,7 @@ public class ResourceHandler implements ContentHandler {
 			logger.info("Starting download of resource: " + resourceUrl);
 			
 			// Download the resource.
-			URL resource = new URL(resourceUrl);
+			URL resource = new URL(URLEncoder.encode(resourceUrl, "utf-8"));
 			File resourceDir = new File(Config.getSingleton().getResourcePath());
 			int counter = 0;
 			File newResource;
