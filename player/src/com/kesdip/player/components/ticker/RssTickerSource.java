@@ -6,10 +6,17 @@
 package com.kesdip.player.components.ticker;
 
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerUtils;
+import org.quartz.impl.StdSchedulerFactory;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -41,6 +48,10 @@ public class RssTickerSource implements TickerSource {
 	
 	private String itemSeparator = DEFAULT_ITEM_SEPARATOR;
 	
+	private int refreshInterval;
+	
+	private String lastContent;
+	
 	public RssTickerSource() {
 		setRssUrl(null);
 	}
@@ -55,7 +66,8 @@ public class RssTickerSource implements TickerSource {
 
 	@Override
 	public void addTrailingChar() {
-		sb.append(sb.toString());
+		logger.info("addTrailingChar called");
+		sb.append(lastContent);
 	}
 
 	@Override
@@ -73,14 +85,42 @@ public class RssTickerSource implements TickerSource {
 
 	@Override
 	public void reset() {
-		sb = new StringBuilder();
-		
+		loadContent();
+		try {
+			Scheduler sched = new StdSchedulerFactory().getScheduler();
+
+			sched.start();
+			
+			JobDetail jobDetail = new JobDetail("refreshJob",
+                    null,
+                    RefreshJob.class);
+			
+			jobDetail.getJobDataMap().put("source", this);
+			
+			Trigger trigger = TriggerUtils.makeMinutelyTrigger(refreshInterval);
+			Calendar start = Calendar.getInstance();
+			start.add(Calendar.MINUTE, refreshInterval);
+			trigger.setStartTime(start.getTime());
+			trigger.setName("aTrigger");
+
+			sched.scheduleJob(jobDetail, trigger);
+			
+		} catch (SchedulerException e) {
+			logger.error("Unable to schedule refresh job", e);
+		}
+	}
+	
+	/**
+	 * Loads content from the specified rss source
+	 */
+	void loadContent(){		
 		createFeed();
 
 		readFeed();
 	}
 
 	private void createFeed() {
+		logger.info("createFeed() called");
 		SyndFeedInput input = new SyndFeedInput();
 		try {
 			feed = input.build(new XmlReader(new URL(rssUrl)));
@@ -95,23 +135,32 @@ public class RssTickerSource implements TickerSource {
 			logger.trace("Reading RSS source from: " + rssUrl +
 					" (" + (showOnlyTitles ? "true" : "false") + ")");
 		}
-		
+		logger.info("readFeed() called");
 		if (feed == null){
 			createFeed();
 		}
-		if (feed == null)
+		if (feed == null) {
+			
 			return;
+		}
 		List entries = feed.getEntries();
+		StringBuilder builder = new StringBuilder();
 		for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
 			SyndEntry syndEntry = (SyndEntry) iterator.next();
 
-			sb.append(syndEntry.getTitle());
+			builder.append(syndEntry.getTitle());
 			if(!showOnlyTitles){
-				sb.append(afterTitle != null ? afterTitle : " ");
-				sb.append(syndEntry.getDescription().getValue());
+				builder.append(afterTitle != null ? afterTitle : " ");
+				builder.append(syndEntry.getDescription().getValue());
 			}
-			sb.append(itemSeparator != null ? itemSeparator : " ");
+			builder.append(itemSeparator != null ? itemSeparator : " ");
 		}
+		lastContent = builder.toString();
+		
+		if(sb == null){
+			sb = new StringBuilder();
+			sb.append(builder.toString());
+		}		
 	}
 
 	public void setShowOnlyTitles(boolean showOnlyTitles) {
@@ -125,6 +174,12 @@ public class RssTickerSource implements TickerSource {
 	public void setItemSeparator(String itemSeparator) {
 		this.itemSeparator = itemSeparator;
 	}
-	
 
+	public int getRefreshInterval() {
+		return refreshInterval;
+	}
+
+	public void setRefreshInterval(int refreshInterval) {
+		this.refreshInterval = refreshInterval;
+	}
 }

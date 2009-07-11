@@ -787,6 +787,7 @@ player/src/com/kesdip/player/components/flash/shockwaveflashobjects/server/IFlas
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/server/IFlashObjectInterfaceVTBL.java -text
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/server/IShockwaveFlashVTBL.java -text
 player/src/com/kesdip/player/components/image/ImagePanel.java -text
+player/src/com/kesdip/player/components/ticker/RefreshJob.java -text
 player/src/com/kesdip/player/components/ticker/RssTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/StringTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/TickerPanel.java -text
