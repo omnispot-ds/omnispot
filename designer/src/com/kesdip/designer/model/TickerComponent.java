@@ -64,6 +64,8 @@ public class TickerComponent extends ComponentModelElement {
 	public static final String ITEM_SEPARATOR_PROP = "Ticker.ItemSeparatorProp";
 	/** Property ID to use for the after title property value. */
 	public static final String AFTER_TITLE_PROP = "Ticker.AfterTitleProp";
+	/** Property ID to use for refresh iterval property value. */
+	public static final String REFRESH_INTERVAL_PROP = "Ticker.RefreshIntervalProp";
 
 	/* STATE */
 	private String type;
@@ -76,6 +78,7 @@ public class TickerComponent extends ComponentModelElement {
 	private boolean showOnlyTitles;
 	private String itemSeparator;
 	private String afterTitle;
+	private int refreshInterval;
 	
 	/* Transient state */
 	private FontData fontData;
@@ -91,6 +94,7 @@ public class TickerComponent extends ComponentModelElement {
 		showOnlyTitles = true;
 		itemSeparator = " - ";
 		afterTitle = ": ";
+		refreshInterval = 10;
 		
 		fontData = null;
 	}
@@ -151,6 +155,7 @@ public class TickerComponent extends ComponentModelElement {
 			DOMHelpers.addProperty(doc, tickerSourceElement, "showOnlyTitles", showOnlyTitles ? "true" : "false");
 			DOMHelpers.addProperty(doc, tickerSourceElement, "itemSeparator", itemSeparator);
 			DOMHelpers.addProperty(doc, tickerSourceElement, "afterTitle", afterTitle);
+			DOMHelpers.addProperty(doc, tickerSourceElement, "refreshInterval", String.valueOf(refreshInterval));
 		}
 		tickerSourcePropElement.appendChild(tickerSourceElement);
 		return tickerElement;
@@ -188,6 +193,8 @@ public class TickerComponent extends ComponentModelElement {
 							DOMHelpers.getSimpleProperty(child, "itemSeparator"));
 					setPropertyValue(AFTER_TITLE_PROP,
 							DOMHelpers.getSimpleProperty(child, "afterTitle"));
+					setPropertyValue(REFRESH_INTERVAL_PROP,
+							DOMHelpers.getSimpleProperty(child, "refreshInterval"));
 				} else {
 					throw new RuntimeException("Unexpected ticker source class: " + className);
 				}
@@ -205,6 +212,7 @@ public class TickerComponent extends ComponentModelElement {
 		memento.putString(TAG_TICKER_ITEM_SEPARATOR, itemSeparator);
 		memento.putString(TAG_TICKER_AFTER_TITLE, afterTitle);
 		memento.putFloat(TAG_TICKER_SPEED, (float) speed);
+		memento.putFloat(TAG_TICKER_REFRESH_ITERVAL, (float) refreshInterval);
 		memento.putString(TAG_FONT_NAME, font.getFamily());
 		memento.putInteger(TAG_FONT_STYLE, font.getStyle());
 		memento.putInteger(TAG_FONT_SIZE, font.getSize());
@@ -222,6 +230,7 @@ public class TickerComponent extends ComponentModelElement {
 		itemSeparator = memento.getString(TAG_TICKER_ITEM_SEPARATOR);
 		afterTitle = memento.getString(TAG_TICKER_AFTER_TITLE);
 		speed = memento.getFloat(TAG_TICKER_SPEED);
+		refreshInterval = memento.getInteger(TAG_TICKER_REFRESH_ITERVAL);
 		font = new Font(memento.getString(TAG_FONT_NAME),
 				memento.getInteger(TAG_FONT_STYLE), memento.getInteger(TAG_FONT_SIZE));
 		foregroundColor = new Color(memento.getInteger(TAG_FRONT_RED),
@@ -240,6 +249,7 @@ public class TickerComponent extends ComponentModelElement {
 		assert(itemSeparator.equals(((TickerComponent) other).itemSeparator));
 		assert(afterTitle.equals(((TickerComponent) other).afterTitle));
 		assert(speed == ((TickerComponent) other).speed);
+		assert(refreshInterval == ((TickerComponent) other).refreshInterval);
 		assert(font.equals(((TickerComponent) other).font));
 		assert(foregroundColor.equals(((TickerComponent) other).foregroundColor));
 	}
@@ -262,7 +272,8 @@ public class TickerComponent extends ComponentModelElement {
 				new TextPropertyDescriptor(SPEED_PROP, "Speed"),
 				new ColorPropertyDescriptor(FOREGROUND_COLOR_PROP, "Foreground Color"),
 				new FontPropertyDescriptor(FONT_PROP, "Font"),
-				new CheckboxPropertyDescriptor(TRANSPARENT_PROP, "Transparent")
+				new CheckboxPropertyDescriptor(TRANSPARENT_PROP, "Transparent"),
+				new TextPropertyDescriptor(REFRESH_INTERVAL_PROP, "Refresh Interval (in minutes)")
 		};
 		// use a custom cell editor validator for all three array entries
 		for (int i = 0; i < descriptors.length; i++) {
@@ -274,6 +285,17 @@ public class TickerComponent extends ComponentModelElement {
 							Double.parseDouble((String) value);
 						} catch (Exception e) {
 							return "Invalid double value: " + value;
+						}
+						return null;
+					}
+				});
+			} else if (descriptors[i].getId().equals(REFRESH_INTERVAL_PROP)) {
+				((PropertyDescriptor) descriptors[i]).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						try {
+							Integer.parseInt((String) value);
+						} catch (Exception e) {
+							return "Invalid integer value: " + value;
 						}
 						return null;
 					}
@@ -322,6 +344,8 @@ public class TickerComponent extends ComponentModelElement {
 			return itemSeparator;
 		} else if (AFTER_TITLE_PROP.equals(propertyId)) {
 			return afterTitle;
+		} else if (REFRESH_INTERVAL_PROP.equals(propertyId)) {
+			return String.valueOf(refreshInterval);
 		} else if (TYPE_PROP.equals(propertyId)) {
 			return getTickerType(type);
 		} else if (SPEED_PROP.equals(propertyId)) {
@@ -369,6 +393,10 @@ public class TickerComponent extends ComponentModelElement {
 			String oldValue = afterTitle;
 			afterTitle = (String) value;
 			firePropertyChange(AFTER_TITLE_PROP, oldValue, afterTitle);
+		} else if (REFRESH_INTERVAL_PROP.equals(propertyId)) {
+			String oldValue = String.valueOf(refreshInterval);
+			refreshInterval = value != null ? Integer.parseInt((String)value) : 10;
+			firePropertyChange(REFRESH_INTERVAL_PROP, oldValue, refreshInterval);
 		} else if (TYPE_PROP.equals(propertyId)) {
 			int oldValue = getTickerType(type);
 			int v = ((Integer) value).intValue();
@@ -446,6 +474,7 @@ public class TickerComponent extends ComponentModelElement {
 		retVal.afterTitle = this.afterTitle;
 		retVal.url = this.url;
 		retVal.isTransparent = this.isTransparent;
+		retVal.refreshInterval = this.refreshInterval;
 		return retVal;
 	}
 
