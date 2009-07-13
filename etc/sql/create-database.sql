@@ -1,7 +1,7 @@
 create table ACCESS_RIGHT (NAME varchar(50) not null, primary key (NAME));
 create table ACC_CONTROL (ID bigint not null, ACC_TYPE smallint not null, USERNAME varchar(50) not null, INSTALLATION_ID bigint not null, primary key (ID));
 create table ACTION (ID bigint not null, ACTION_ID varchar(50) not null, TYPE smallint not null, STATUS smallint not null, DATE_ADDED timestamp not null, MESSAGE varchar(3000), INSTALLATION_ID bigint, primary key (ID));
-create table CONTENT (ID bigint not null, URL varchar(512) not null, CRC varchar(128), LOCAL_FILE varchar(512), primary key (ID));
+create table CONTENT (ID bigint not null, URL varchar(512) not null, CRC varchar(128), SIZE bigint, LOCAL_FILE varchar(512), primary key (ID));
 create table CUSTOMER (ID bigint not null, NAME varchar(50) not null, COMMENTS varchar(512), ACTIVE smallint not null, primary key (ID));
 create table DEPLOYMENT (ID bigint not null, URL varchar(512) not null, NAME varchar(50) not null, CRC varchar(128), LOCAL_FILE varchar(512), STATUS smallint not null, RETRIES integer not null, primary key (ID));
 create table DEPL_CONTENT (CONTENT_ID bigint not null, DEPLOYMENT_ID bigint not null, primary key (DEPLOYMENT_ID, CONTENT_ID));

@@ -11,6 +11,7 @@ package com.kesdip.business.util.schema;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -111,6 +112,11 @@ public class SchemaUpdater {
 		// iterate the known versions and execute only for those greater than
 		// the known version
 		Connection connection = session.connection();
+		try {
+			connection.setAutoCommit(false);
+		} catch (SQLException se) {
+			logger.error("Failed to set autocommit to false", se);
+		}
 		String updateSql = null, sqlName = null;
 		for (String knownVersion : schemaVersions) {
 			if (version == null || knownVersion.compareTo(version) > 0) {
@@ -118,8 +124,7 @@ public class SchemaUpdater {
 				try {
 					sqlName = sqlPackage + knownVersion + ".sql";
 					updateSql = com.kesdip.common.util.StreamUtils
-							.readResource(SchemaUpdater.class.getClassLoader()
-									.getResource(sqlName));
+							.readResource(classLoader.getResource(sqlName));
 				} catch (IOException ioe) {
 					logger
 							.fatal("Failed to read " + knownVersion + ".sql",
@@ -129,9 +134,21 @@ public class SchemaUpdater {
 				}
 				try {
 					DBUtils.executeBatchUpdate(connection, updateSql);
+					if (logger.isInfoEnabled()) {
+						logger.info("Committing transaction for "
+								+ knownVersion);
+					}
+					connection.commit();
 				} catch (Exception e) {
 					logger.fatal("Failed while executing " + knownVersion
 							+ ".sql", e);
+					try {
+						logger.info("About to roll-back changes");
+						connection.rollback();
+					} catch (Exception e1) {
+						logger.error("Error while rolling back batch update",
+								e1);
+					}
 					throw new SchemaUpdateFailedException(
 							"Failed while executing " + knownVersion + ".sql",
 							e);

@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.generated;
-// Generated Jun 1, 2009 6:57:07 PM by Hibernate Tools 3.2.0.b9
+// Generated 13 Ιουλ 2009 7:41:20 μμ by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;
@@ -26,9 +26,15 @@ public class Content  implements java.io.Serializable {
      private String url;
      /**
       *         		CRC for the content file.
+ *         		A dash-separated value of the form CRC-SIZE.
  *         	
      */
      private String crc;
+     /**
+      *         		The content file's size.
+ *         	
+     */
+     private Long size;
      /**
       *         		Local file for the content.
  *         	
@@ -47,9 +53,10 @@ public class Content  implements java.io.Serializable {
     public Content(String url) {
         this.url = url;
     }
-    public Content(String url, String crc, String localFile, Set<Deployment> deployments) {
+    public Content(String url, String crc, Long size, String localFile, Set<Deployment> deployments) {
        this.url = url;
        this.crc = crc;
+       this.size = size;
        this.localFile = localFile;
        this.deployments = deployments;
     }
@@ -78,6 +85,7 @@ public class Content  implements java.io.Serializable {
     }
     /**       
      *      *         		CRC for the content file.
+     *         		A dash-separated value of the form CRC-SIZE.
      *         	
      */
     public String getCrc() {
@@ -86,6 +94,17 @@ public class Content  implements java.io.Serializable {
     
     public void setCrc(String crc) {
         this.crc = crc;
+    }
+    /**       
+     *      *         		The content file's size.
+     *         	
+     */
+    public Long getSize() {
+        return this.size;
+    }
+    
+    public void setSize(Long size) {
+        this.size = size;
     }
     /**       
      *      *         		Local file for the content.
@@ -121,6 +140,7 @@ public class Content  implements java.io.Serializable {
       buffer.append("id").append("='").append(getId()).append("' ");			
       buffer.append("url").append("='").append(getUrl()).append("' ");			
       buffer.append("crc").append("='").append(getCrc()).append("' ");			
+      buffer.append("size").append("='").append(getSize()).append("' ");			
       buffer.append("localFile").append("='").append(getLocalFile()).append("' ");			
       buffer.append("]");
       
@@ -140,6 +160,7 @@ public class Content  implements java.io.Serializable {
          int result = 17;
          
          result = 37 * result + ( getId() == null ? 0 : this.getId().hashCode() );
+         
          
          
          
