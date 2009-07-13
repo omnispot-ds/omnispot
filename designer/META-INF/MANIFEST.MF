@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.externaltools
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: lib/quartz-1.6.3.jar,
+Bundle-ClassPath: lib/quartz-1.6.3.jar, lib/common.jar,
  .
 Export-Package: com.kesdip.designer,
  com.kesdip.designer.action,

@@ -7,8 +7,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.kesdip.common.util.FileUtils;
 import com.kesdip.designer.utils.DOMHelpers;
-import com.kesdip.designer.utils.FileUtils;
 
 public class Resource {
 	private String resource;
@@ -56,9 +56,9 @@ public class Resource {
 		Element resourceElement = doc.createElement("bean");
 		resourceElement.setAttribute("class",
 				"com.kesdip.player.components.Resource");
+		File file = new File(resource);
 		if (isPublish) {
-			File f = new File(resource);
-			DOMHelpers.addProperty(doc, resourceElement, "identifier", f
+			DOMHelpers.addProperty(doc, resourceElement, "identifier", file
 					.getName());
 		} else {
 			DOMHelpers
@@ -69,7 +69,8 @@ public class Resource {
 					cronExpression);
 		}
 		DOMHelpers.addProperty(doc, resourceElement, "checksum", String
-				.valueOf(FileUtils.getChecksum(resource)));
+				.valueOf(FileUtils.getCrc(file))
+				+ '-' + String.valueOf(FileUtils.getSize(file)));
 		if (fullscreen) {
 			DOMHelpers.addMapValue(resourceElement, "attributes", "fullScreen",
 					Boolean.toString(fullscreen));

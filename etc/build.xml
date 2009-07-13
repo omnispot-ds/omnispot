@@ -60,6 +60,8 @@
 	
 	
 	<property name="preview.lib.dir" location="${project.base.dir}/com.kesdip.designer.preview/lib"/>
+	<property name="designer.lib.dir" location="${project.base.dir}/com.kesdip.designer/lib"/>
+	
 	
 	<import file="${etc.ant.scripts.dir}/common-targets.xml"/>
 
@@ -111,13 +113,16 @@
 			target="clean" inheritrefs="true"/>
 	</target>
 		
-	<target name="copy.player.lib.to.preview" depends="build.player,build.common"
-		description="Copy the jars from etc/lib to com.kesdip.designer.preview/lib">
+	<target name="copy.jars.to.designer" depends="build.player,build.common"
+		description="Copy the jars from etc/lib and project distributables to com.kesdip.designer.preview/lib and com.kesdip.designer/lib">
 		<copy todir="${preview.lib.dir}" flatten="true">
 			<fileset dir="${etc.base.dir}/.." includesfile="${player.base.dir}/shared.jars"/>
 		</copy>
 		<copy todir="${preview.lib.dir}" file="${common.dist.file}"/>
 		<copy todir="${preview.lib.dir}" file="${player.dist.file}"/>
+		
+		<copy todir="${designer.lib.dir}" file="${common.dist.file}"/>
+		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/quartz/quartz-1.6.3.jar"/>
 	</target>
 	
 	<target name="recreate.database" 
@@ -263,7 +268,7 @@
 	<target name="dist.player" depends="build.common, build.player"
 		description="Creates player.jar"/>
 	
-	<target name="dist.designer" depends="copy.player.lib.to.preview"
+	<target name="dist.designer" depends="copy.jars.to.designer"
 		description="Creates the designer distributable">
 		<ant antfile="${designer.build.file}" dir="${designer.build.dir}" inheritrefs="true"/>
 	</target>

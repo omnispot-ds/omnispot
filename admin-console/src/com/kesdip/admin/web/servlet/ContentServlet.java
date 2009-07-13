@@ -11,6 +11,10 @@ package com.kesdip.admin.web.servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +28,10 @@ import com.kesdip.business.domain.generated.Content;
 import com.kesdip.business.logic.ContentLogic;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StreamUtils;
+import com.kesdip.common.util.StringUtils;
 
 /**
- * Serves static content as requested by clients. The serlvet only supports GET
+ * Serves static content as requested by clients. The servlet only supports GET
  * requests.
  * <p>
  * Contents serving is done using a cascading approach
@@ -41,11 +46,18 @@ import com.kesdip.common.util.StreamUtils;
  * The player's UUID should be part of the URL and correspond to a valid player,
  * or the request is forbidden.
  * </p>
+ * <p>
+ * The servlet also supports the <code>Range</code> header for partial download
+ * resume. Only the first part of the range is taken into account. E.g. for a
+ * header <code>Range: bytes=500-1000</code>, the servlet will start serving
+ * from byte 500 until the end of the file, not until byte 1000. If multiple
+ * ranges are requested, only the first entry is taken into account. If the
+ * header is malformed, it is ignored.
+ * </p>
  * 
  * @author gerogias
  */
 public class ContentServlet extends BaseSpringContextServlet {
-
 
 	/**
 	 * The logger.
@@ -56,6 +68,12 @@ public class ContentServlet extends BaseSpringContextServlet {
 	 * Serialization version.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Pattern to select a bytes pattern range.
+	 */
+	private static final Pattern BYTES_PATTERN = Pattern
+			.compile("^bytes=(\\d+)-.*$");
 
 	/**
 	 * Service method.
@@ -76,16 +94,26 @@ public class ContentServlet extends BaseSpringContextServlet {
 			logger.debug("Located file");
 			StreamUtils.streamFile(file, resp.getOutputStream());
 			return;
+		} else {
+			// 2. treat as UUID
+			file = getFileByUuid(pathInfo);
+			if (file != null) {
+				logger.debug("Located UUID");
+			}
 		}
-		// 2. treat as UUID
-		file = getFileByUuid(pathInfo);
-		if (file != null) {
-			logger.debug("Located UUID");
-			StreamUtils.streamFile(file, resp.getOutputStream());
+		// nothing found, return
+		if (file == null) {
+			logger.debug("Not found");
+			resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
-		logger.debug("Not found");
-		resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+		// file size header
+		addFileSizeHeader(file, resp);
+
+		// get the byte to start from
+		int bytePosition = extractRangeStart(req.getHeader("Range"));
+
+		StreamUtils.streamFile(file, resp.getOutputStream(), bytePosition);
 	}
 
 	/**
@@ -100,7 +128,12 @@ public class ContentServlet extends BaseSpringContextServlet {
 	final File getFileByName(String pathInfo) {
 		FileStorageSettings storageSettings = ApplicationSettings.getInstance()
 				.getFileStorageSettings();
-		String fileName = FileUtils.getName(pathInfo);
+		String fileName = null;
+		try {
+			fileName = FileUtils.getName(URLDecoder.decode(pathInfo, "UTF-8"));
+		} catch (UnsupportedEncodingException uee) {
+
+		}
 		File targetFile = new File(storageSettings.getContentFolder(), fileName);
 		return targetFile.isFile() ? targetFile : null;
 	}
@@ -129,12 +162,44 @@ public class ContentServlet extends BaseSpringContextServlet {
 	}
 
 	/**
-	 * Check if a player with this UUID exists.
+	 * Gets a file's length and adds it as a response header.
 	 * 
-	 * @param playerUuid
-	 *            the UUID
-	 * @return boolean <code>true</code> if the player exists
+	 * @param file
+	 *            the file
+	 * @param response
+	 *            the response
 	 */
+	private final void addFileSizeHeader(File file, HttpServletResponse response) throws IOException {
+		int size = FileUtils.getSize(file);
+		response.setHeader("Content-Length", String.valueOf(size));
+	}
+
+	/**
+	 * Extract the range start byte index, if the <code>Range</code> header was
+	 * included.
+	 * 
+	 * @param rangeString
+	 *            the <code>Range</code> header value
+	 * @return int the range start, or 0 if the <code>Range</code> header was
+	 *         not present or was malformed
+	 */
+	final int extractRangeStart(String rangeString) {
+		if (StringUtils.isEmpty(rangeString)) {
+			return 0;
+		}
+		Matcher rangeMatcher = BYTES_PATTERN.matcher(rangeString);
+		if (!rangeMatcher.matches()) {
+			return 0;
+		}
+		String rangeStart = rangeMatcher.group(1);
+		int rangeStartValue = 0;
+		try {
+			rangeStartValue = Integer.valueOf(rangeStart);
+		} catch (NumberFormatException nfe) {
+			// do nothing
+		}
+		return rangeStartValue;
+	}
 
 	/* ******* Unsupported HTTP methods ******* */
 

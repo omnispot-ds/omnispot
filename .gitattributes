@@ -233,6 +233,7 @@ admin-console/src/com/kesdip/admin/web/util/SimpleResponseWrapper.java -text
 admin-console/src/com/kesdip/admin/web/util/SpringViewResolver.java -text
 admin-console/src/com/kesdip/admin/web/util/resources/defaultPrintScreen.jpg -text
 admin-console/src/com/kesdip/admin/web/util/schema/1.0.sql -text
+admin-console/src/com/kesdip/admin/web/util/schema/1.1.sql -text
 admin-console/src/log4j.properties -text
 admin-console/src/messages.properties -text
 bootstrap/.classpath -text
@@ -263,6 +264,7 @@ bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RebootPlayerMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/schema/1.0.sql -text
+bootstrap/src/com/kesdip/bootstrap/schema/1.1.sql -text
 bootstrap/src/log4j.properties -text
 bootstrap/test/bootstrap.properties -text
 bootstrap/test/sample.xml -text
@@ -384,6 +386,7 @@ common/src/com/kesdip/common/util/DateUtils.java -text
 common/src/com/kesdip/common/util/FileUtils.java -text
 common/src/com/kesdip/common/util/ProcessInfo.java -text
 common/src/com/kesdip/common/util/ProcessUtils.java -text
+common/src/com/kesdip/common/util/StreamCopyListener.java -text
 common/src/com/kesdip/common/util/StreamUtils.java -text
 common/src/com/kesdip/common/util/StringUtils.java -text
 demos/AdPlayerDemo/.classpath -text
@@ -622,7 +625,6 @@ designer/src/com/kesdip/designer/properties/VideoResourceListDialog.java -text
 designer/src/com/kesdip/designer/template/TemplateManager.java -text
 designer/src/com/kesdip/designer/utils/DOMHelpers.java -text
 designer/src/com/kesdip/designer/utils/DesignerLog.java -text
-designer/src/com/kesdip/designer/utils/FileUtils.java -text
 designer/src/com/kesdip/designer/utils/FontKludge.java -text
 designer/src/com/kesdip/designer/wizards/DesignerNewWizard.java -text
 designer/src/com/kesdip/designer/wizards/DesignerNewWizardPage.java -text

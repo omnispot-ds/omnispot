@@ -38,4 +38,48 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
 				|| trimmedName.startsWith("ftp://");
 	}
 
+	/**
+	 * Extracts the crc part from a composite CRC value.
+	 * <p>
+	 * If the string contains a dash (-), it returns the part before the first
+	 * dash. Otherwise, it returns the string as is.
+	 * </p>
+	 * 
+	 * @param value
+	 *            the value to examine
+	 * @return String the CRC part or the value as-is
+	 */
+	public static final String extractCrc(String value) {
+		if (isEmpty(value)) {
+			return value;
+		}
+		if (!value.contains("-")) {
+			return value;
+		}
+		int pos = value.indexOf('-');
+		return value.substring(0, pos);
+	}
+	
+	/**
+	 * Extracts the size part from a composite CRC value.
+	 * <p>
+	 * If the string contains a dash (-), it returns the part after the first
+	 * dash. Otherwise, it returns <code>null</code>.
+	 * </p>
+	 * 
+	 * @param value
+	 *            the value to examine
+	 * @return String the CRC part or <code>null</code>
+	 */
+	public static final String extractSize(String value) {
+		if (isEmpty(value)) {
+			return null;
+		}
+		if (!value.contains("-")) {
+			return null;
+		}
+		int pos = value.indexOf('-');
+		return value.substring(pos + 1);
+	}
+	
 }

@@ -12,6 +12,7 @@ package com.kesdip.common.util;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
@@ -254,6 +255,39 @@ public class FileUtils {
 			return new URL(url);
 		} catch (MalformedURLException mue) {
 			return null;
+		}
+	}
+
+	/**
+	 * Returns the size of the file in bytes.
+	 * 
+	 * @param file
+	 *            the file
+	 * @return int the size in bytes
+	 * @throws IllegalArgumentException
+	 *             if the file is <code>null</code> or invalid
+	 * @throws GenericSystemException
+	 *             on error
+	 */
+	public static int getSize(File file) throws IllegalArgumentException,
+			GenericSystemException {
+		if (file == null || !file.isFile()) {
+			logger.error("File is not valid");
+			throw new IllegalArgumentException("File is not valid");
+		}
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+			return fis.available();
+		} catch (IOException ioe) {
+			logger.error("Error calculating size", ioe);
+			throw new GenericSystemException("Error calculating size", ioe);
+		} finally {
+			try {
+				fis.close();
+			} catch (Exception e) {
+				// do nothing
+			}
 		}
 	}
 

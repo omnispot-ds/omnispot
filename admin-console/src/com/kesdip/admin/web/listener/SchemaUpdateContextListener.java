@@ -33,13 +33,19 @@ public class SchemaUpdateContextListener implements ServletContextListener {
 	/**
 	 * The logger.
 	 */
-	private final static Logger logger = Logger.getLogger(SchemaUpdateContextListener.class);
-	
+	private final static Logger logger = Logger
+			.getLogger(SchemaUpdateContextListener.class);
+
 	/**
-	 * Package containing SQLs for schema updating. 
+	 * Package containing SQLs for schema updating.
 	 */
 	public static final String SQL_PKG = "com/kesdip/admin/web/util/schema/";
-	
+
+	/**
+	 * The list of admin console schema versions.
+	 */
+	private final String[] VERSIONS = { "1.0" };
+
 	/**
 	 * Empty implementation.
 	 * 
@@ -59,7 +65,8 @@ public class SchemaUpdateContextListener implements ServletContextListener {
 		ApplicationContext context = WebApplicationContextUtils
 				.getWebApplicationContext(contextEvent.getServletContext());
 		logger.info("Init SchemaUpdater");
-		SchemaUpdater schemaUpdater = new SchemaUpdater(SQL_PKG, getClass().getClassLoader());
+		SchemaUpdater schemaUpdater = new SchemaUpdater(SQL_PKG, getClass()
+				.getClassLoader(), VERSIONS);
 		logger.info("Update schema");
 		schemaUpdater.updateSchema((HibernateTemplate) context
 				.getBean("hibernateTemplate"));

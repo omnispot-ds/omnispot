@@ -115,6 +115,12 @@ public class RestartPlayerMessage extends Message {
 		cmdArray[3] = Config.getSingleton().getPlayerMainClass();
 		String workingDir = Config.getSingleton().getPlayerWorkingDir();
 		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Player CP: " + cmdArray[2]);
+			logger.debug("Player main class: " + cmdArray[3]);
+			logger.debug("Player workdir: " + workingDir);
+		}
+		
 		// See Bugzilla#9 for the following line
 		ProcessUtils.killAll("explorer.exe");
 		

@@ -49,6 +49,11 @@ public class SchemaUpdater {
 	private String sqlPackage = null;
 
 	/**
+	 * The list of known schema version to update to.
+	 */
+	private String[] schemaVersions = null;
+
+	/**
 	 * The classloader to use.
 	 */
 	private ClassLoader classLoader = null;
@@ -62,9 +67,13 @@ public class SchemaUpdater {
 	 * @param clazzLoader
 	 *            the classloader to use; if <code>null</code> the current
 	 *            classloader is used
+	 * @param knownVersions
+	 *            the list of known schema versions for the calling module
 	 */
-	public SchemaUpdater(String basePackage, ClassLoader clazzLoader) {
+	public SchemaUpdater(String basePackage, ClassLoader clazzLoader,
+			String[] knownVersions) {
 		this.sqlPackage = basePackage;
+		this.schemaVersions = knownVersions;
 		if (sqlPackage == null) {
 			sqlPackage = "/";
 		}
@@ -74,11 +83,6 @@ public class SchemaUpdater {
 		this.classLoader = (clazzLoader != null) ? clazzLoader
 				: SchemaUpdater.class.getClassLoader();
 	}
-
-	/**
-	 * The list of schema versions.
-	 */
-	private final String[] VERSIONS = { "1.0" };
 
 	/**
 	 * Main logic method.
@@ -108,7 +112,7 @@ public class SchemaUpdater {
 		// the known version
 		Connection connection = session.connection();
 		String updateSql = null, sqlName = null;
-		for (String knownVersion : VERSIONS) {
+		for (String knownVersion : schemaVersions) {
 			if (version == null || knownVersion.compareTo(version) > 0) {
 				logger.info("Executing SQL for version " + knownVersion);
 				try {

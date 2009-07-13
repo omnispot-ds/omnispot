@@ -19,6 +19,11 @@ public class Manager extends Thread {
 	 */
 	public static final String SQL_PKG = "com/kesdip/bootstrap/schema/";
 	
+	/**
+	 * The list of bootstrap schema versions.
+	 */
+	private final String[] VERSIONS = { "1.0", "1.1" };
+
 	private boolean run = true;
 
 	private long communicationInterval;
@@ -119,7 +124,7 @@ public class Manager extends Thread {
 	 * Updates the DB schema to the latest version.
 	 */
 	private final void updateDbSchema() {
-		SchemaUpdater schemaUpdater = new SchemaUpdater(SQL_PKG, null);
+		SchemaUpdater schemaUpdater = new SchemaUpdater(SQL_PKG, null, VERSIONS);
 		schemaUpdater.updateSchema((HibernateTemplate) ctx
 				.getBean("hibernateTemplate"));
 	}

@@ -34,6 +34,14 @@
         	<meta attribute="use-in-tostring">true</meta>
         	<meta attribute="field-description">
         		CRC for the content file.
+        		A dash-separated value of the form CRC-SIZE.
+        	</meta>
+        </property>
+
+        <property name="size" column="SIZE" type="java.lang.Long">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		The content file's size.
         	</meta>
         </property>
 
