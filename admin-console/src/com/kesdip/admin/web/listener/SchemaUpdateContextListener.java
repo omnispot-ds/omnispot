@@ -44,7 +44,7 @@ public class SchemaUpdateContextListener implements ServletContextListener {
 	/**
 	 * The list of admin console schema versions.
 	 */
-	private final String[] VERSIONS = { "1.0" };
+	private final String[] VERSIONS = { "1.0", "1.1" };
 
 	/**
 	 * Empty implementation.

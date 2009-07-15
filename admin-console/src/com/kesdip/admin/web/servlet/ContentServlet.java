@@ -92,8 +92,6 @@ public class ContentServlet extends BaseSpringContextServlet {
 		File file = getFileByName(pathInfo);
 		if (file != null) {
 			logger.debug("Located file");
-			StreamUtils.streamFile(file, resp.getOutputStream());
-			return;
 		} else {
 			// 2. treat as UUID
 			file = getFileByUuid(pathInfo);
