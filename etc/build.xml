@@ -123,6 +123,7 @@
 		
 		<copy todir="${designer.lib.dir}" file="${common.dist.file}"/>
 		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/quartz/quartz-1.6.3.jar"/>
+		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/log4j/log4j-1.2.14.jar"/>
 	</target>
 	
 	<target name="recreate.database" 
