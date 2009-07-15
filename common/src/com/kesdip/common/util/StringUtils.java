@@ -8,6 +8,9 @@
  */
 package com.kesdip.common.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * Class offering string utility methods on top of those offered by Commons
  * Utilities.
@@ -59,7 +62,7 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
 		int pos = value.indexOf('-');
 		return value.substring(0, pos);
 	}
-	
+
 	/**
 	 * Extracts the size part from a composite CRC value.
 	 * <p>
@@ -81,5 +84,32 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
 		int pos = value.indexOf('-');
 		return value.substring(pos + 1);
 	}
-	
+
+	/**
+	 * Process the final part of a URL to escape any illegal characters.
+	 * <p>
+	 * If the URL does not contain slashes (/), it is returned as is.
+	 * </p>
+	 * 
+	 * @param url
+	 *            the url
+	 * @return String the initial URL with the file name URL-encoded or
+	 *         <code>null</code>/empty if the url was such
+	 */
+	public static final String encodeFileName(String url) {
+		if (StringUtils.isEmpty(url)) {
+			return url;
+		}
+		int pos = url.lastIndexOf('/');
+		if (pos == -1) {
+			return url;
+		}
+		String filename = null;
+		try {
+			filename = URLEncoder.encode(url.substring(pos + 1), "UTF-8");
+		} catch (UnsupportedEncodingException uee) {
+			// will not happen
+		}
+		return url.substring(0, pos + 1) + filename;
+	}
 }

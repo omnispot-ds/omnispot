@@ -26,6 +26,7 @@ import com.kesdip.common.util.DBUtils;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StreamCopyListener;
 import com.kesdip.common.util.StreamUtils;
+import com.kesdip.common.util.StringUtils;
 
 /**
  * A handler for retrieving resources from the server.
@@ -71,8 +72,11 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 			logger.info("Starting download of resource: " + resourceUrl);
 
 			// Download the resource.
-			URL resource = new URL(URLEncoder.encode(resourceUrl, "UTF-8"));
+			URL resource = new URL(StringUtils.encodeFileName(resourceUrl));
 			File resourceDir = new File(Config.getSingleton().getResourcePath());
+			if (!resourceDir.isDirectory()) {
+				resourceDir.mkdirs();
+			}
 			int counter = 0;
 			File newResource;
 			UUID newResourceUUID = UUID.randomUUID();

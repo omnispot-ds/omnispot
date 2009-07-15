@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,9 +60,12 @@ public class DescriptorHandler implements ContentHandler {
 					+ descriptorUrl);
 
 			// Download the deployment descriptor.
-			URL descriptor = new URL(URLEncoder.encode(descriptorUrl, "utf-8"));
+			URL descriptor = new URL(StringUtils.encodeFileName(descriptorUrl));
 			File deploymentDir = new File(Config.getSingleton()
 					.getDeploymentPath());
+			if (!deploymentDir.isDirectory()) {
+				deploymentDir.mkdirs();
+			}
 			int counter = 0;
 			File newDeployment;
 			UUID newDeploymentUUID = UUID.randomUUID();
@@ -165,7 +167,8 @@ public class DescriptorHandler implements ContentHandler {
 							ps = c
 									.prepareStatement(
 											"INSERT INTO RESOURCE "
-													+ "(URL, CRC, FILENAME, RETRIES, DOWNLOADED_BYTES, LAST_UPDATE, SIZE) VALUES (?,?,?,?,?,?)",
+													+ "(URL, CRC, FILENAME, RETRIES, DOWNLOADED_BYTES, LAST_UPDATE, SIZE) "
+													+ "VALUES (?,?,?,?,?,?,?)",
 											Statement.RETURN_GENERATED_KEYS);
 							ps.setString(1, resource.getIdentifier());
 							ps.setString(2, checksum);

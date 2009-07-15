@@ -21,6 +21,11 @@ public class Screen {
 		
 		screenShot = new BufferedImage(newWidth,480,BufferedImage.TYPE_INT_RGB);
 		screenShot.createGraphics().drawImage(screen, 0, 0, null);
-		ImageIO.write(screenShot, "JPG", new File(Config.getSingleton().getScreenShotStorageLocation() , "screenShot.jpg"));
+		File parentFolder = new File(Config.getSingleton().getScreenShotStorageLocation());
+		// make sure it exists
+		if (!parentFolder.isDirectory()) {
+			parentFolder.mkdirs();
+		}
+		ImageIO.write(screenShot, "JPG", new File(parentFolder, "screenShot.jpg"));
 	}
 }
