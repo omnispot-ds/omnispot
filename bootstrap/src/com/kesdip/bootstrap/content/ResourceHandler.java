@@ -194,13 +194,16 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 		try {
 			c = DBUtils.getConnection();
 			PreparedStatement ps = c
-					.prepareStatement("UPDATE RESOURCE R SET R.DOWNLOADED_BYTES=?, R.LAST_UPDATE=? "
-							+ "INNER JOIN PENDING P ON R.ID = P.RESOURCE_ID "
-							+ "WHERE P.DEPLOYMENT_ID=? AND R.ID=?");
+					.prepareStatement("UPDATE RESOURCE "
+							+ "SET RESOURCE.DOWNLOADED_BYTES=?, RESOURCE.LAST_UPDATE=? "
+							+ "WHERE RESOURCE.ID=? AND RESOURCE.ID IN ( "
+							+ "SELECT PENDING.RESOURCE_ID FROM PENDING "
+							+ "WHERE PENDING.DEPLOYMENT_ID=? "
+							+ ")");
 			ps.setLong(1, numOfBytes);
 			ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
-			ps.setLong(3, deployment_id);
-			ps.setLong(4, resource_id);
+			ps.setLong(3, resource_id);
+			ps.setLong(4, deployment_id);
 			ps.executeUpdate();
 
 			ps.close();
