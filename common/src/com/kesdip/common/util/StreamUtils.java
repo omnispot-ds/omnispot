@@ -380,7 +380,7 @@ public class StreamUtils {
 					crc.update(buffer, 0, readCount);
 				}
 				bytesRead += readCount;
-				if (++copyCount == listener.getByteBufferCount()) {
+				if ((++copyCount % listener.getByteBufferCount()) == 0) {
 					listener.bufferCopied(bytesRead, crc);
 				}
 			}

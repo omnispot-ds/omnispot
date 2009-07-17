@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.nio.channels.FileChannel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -220,11 +219,36 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 	}
 
 	/**
+	 * Updates the downloaded bytes column with the value of the size.
+	 * <p>
+	 * The method updates the entry only if size &gt; 0. 
+	 * </p>
 	 * @see com.kesdip.common.util.StreamCopyListener#copyCompleted()
 	 */
 	@Override
 	public void copyCompleted() {
-		// do nothing for now
+		Connection c = null;
+		try {
+			c = DBUtils.getConnection();
+			PreparedStatement ps = c
+					.prepareStatement("UPDATE RESOURCE "
+							+ "SET DOWNLOADED_BYTES=SIZE, RESOURCE.LAST_UPDATE=? "
+							+ "WHERE RESOURCE.ID=? AND SIZE>0");
+			ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+			ps.setLong(2, resource_id);
+			ps.executeUpdate();
+
+			ps.close();
+			c.commit();
+		} catch (Exception e) {
+			logger.error("Error updating bytes read", e);
+		} finally {
+			try {
+				c.close();
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
 	}
 
 	/**
@@ -241,6 +265,6 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 	 */
 	@Override
 	public int getByteBufferCount() {
-		return 50;
+		return 30;
 	}
 }
