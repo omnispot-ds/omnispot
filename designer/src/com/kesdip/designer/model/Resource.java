@@ -69,7 +69,7 @@ public class Resource {
 					cronExpression);
 		}
 		DOMHelpers.addProperty(doc, resourceElement, "checksum", String
-				.valueOf(FileUtils.getCrc(file))
+				.valueOf(FileUtils.getCrc(file).getValue())
 				+ '-' + String.valueOf(FileUtils.getSize(file)));
 		if (fullscreen) {
 			DOMHelpers.addMapValue(resourceElement, "attributes", "fullScreen",

@@ -114,22 +114,26 @@ public class PlayerPreview extends Player {
 							missingResources.append("\t" + r.getIdentifier()
 									+ "\n");
 							missingResourcesExist = true;
-						} else if (!String.valueOf(
-								FileUtils.getCrc(f).getValue()).equals(
-								r.getChecksum())) {
-							corruptResources.append("\t" + r.getIdentifier()
-									+ "\n");
-							corruptResourcesExist = true;
+						} else {
+							String fileCrc = String.valueOf(FileUtils.getCrc(f).getValue());
+							String resCrc = StringUtils.extractCrc(r.getChecksum());
+							if (!fileCrc.equals(resCrc)) {
+								corruptResources.append("\t" + r.getIdentifier()
+										+ "\n");
+								corruptResourcesExist = true;
+							}
 						}
 					}
 				}
 			}
 
 			String retVal = "";
-			if (missingResourcesExist)
+			if (missingResourcesExist) {
 				retVal += missingResources.toString();
-			if (corruptResourcesExist)
+			}
+			if (corruptResourcesExist) {
 				retVal += corruptResources.toString();
+			}
 
 			return retVal.length() == 0 ? null : retVal;
 		} catch (BeansException be) {

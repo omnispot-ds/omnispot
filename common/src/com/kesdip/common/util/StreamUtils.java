@@ -291,11 +291,15 @@ public class StreamUtils {
 		try {
 			byte[] buffer = new byte[2048];
 			int readCount = 0;
+			// useful for debugging/throttling purposes
+			int bufferCounter = 0;
 			while ((readCount = in.read(buffer)) != -1) {
+				bufferCounter++;
 				out.write(buffer, 0, readCount);
 				out.flush();
-				if (crc != null)
+				if (crc != null) {
 					crc.update(buffer, 0, readCount);
+				}
 			}
 		} catch (IOException ioe) {
 			logger.error("Error copying streams", ioe);
