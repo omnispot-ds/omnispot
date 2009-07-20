@@ -73,7 +73,7 @@ public class ContentServlet extends BaseSpringContextServlet {
 	 * Pattern to select a bytes pattern range.
 	 */
 	private static final Pattern BYTES_PATTERN = Pattern
-			.compile("^bytes=(\\d+)-.*$");
+			.compile("byte\\=(\\d+)\\-.*");
 
 	/**
 	 * Service method.
