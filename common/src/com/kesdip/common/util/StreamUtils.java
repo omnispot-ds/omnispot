@@ -336,6 +336,31 @@ public class StreamUtils {
 	}
 
 	/**
+	 * Same as calling
+	 * {@link #copyStream(InputStream, RandomAccessFile, CRC32, StreamCopyListener)}
+	 * with a <code>null</code> CRC32 argument.
+	 * 
+	 * @param in
+	 *            the input stream
+	 * @param out
+	 *            the output {@link RandomAccessFile}
+	 * @param listener
+	 *            the listener to notify every X bytes copied.
+	 * @throws IllegalArgumentException
+	 *             if the streams are invalid or the listener <code>null</code>
+	 * @throws IllegalStateException
+	 *             if {@link StreamCopyListener#getByteBufferCount()} returns
+	 *             &lt;= 0
+	 * @throws IOException
+	 *             on copy error
+	 */
+	public static final void copyStream(InputStream in, RandomAccessFile out,
+			StreamCopyListener listener) throws IllegalArgumentException,
+			IllegalStateException, IOException {
+		copyStream(in, out, null, listener);
+	}
+
+	/**
 	 * Copies input to output while updating the given checksum (optional) and
 	 * notifying the listener. The streams are not closed.
 	 * 
@@ -376,6 +401,66 @@ public class StreamUtils {
 			while ((readCount = in.read(buffer)) != -1) {
 				out.write(buffer, 0, readCount);
 				out.flush();
+				if (crc != null) {
+					crc.update(buffer, 0, readCount);
+				}
+				bytesRead += readCount;
+				if ((++copyCount % listener.getByteBufferCount()) == 0) {
+					listener.bufferCopied(bytesRead, crc);
+				}
+			}
+			listener.copyCompleted();
+		} catch (IOException ioe) {
+			listener.copyFailed();
+			logger.error("Error copying streams", ioe);
+			throw ioe;
+		} catch (Exception ex) {
+			listener.copyFailed();
+			logger.error("Error copying streams", ex);
+			throw new IOException(ex.getMessage());
+		}
+	}
+
+	/**
+	 * Copies input to output while updating the given checksum (optional) and
+	 * notifying the listener. The streams are not closed.
+	 * 
+	 * @param in
+	 *            the input stream
+	 * @param out
+	 *            the output {@link RandomAccessFile}
+	 * @param crc
+	 *            the CRC checksum to update during the stream copy; ignored if
+	 *            <code>null</code>
+	 * @param listener
+	 *            the listener to notify every X bytes copied.
+	 * @throws IllegalArgumentException
+	 *             if the streams are invalid or the listener <code>null</code>
+	 * @throws IllegalStateException
+	 *             if {@link StreamCopyListener#getByteBufferCount()} returns
+	 *             &lt;= 0
+	 * @throws IOException
+	 *             on copy error
+	 */
+	public static final void copyStream(InputStream in, RandomAccessFile out,
+			CRC32 crc, StreamCopyListener listener)
+			throws IllegalArgumentException, IllegalStateException, IOException {
+		if (in == null || out == null || listener == null) {
+			logger.error("Arguments cannot be null");
+			throw new IllegalArgumentException("Arguments cannot be null");
+		}
+		if (listener.getByteBufferCount() <= 0) {
+			logger.error("Listener cannot have a buffer count <= 0");
+			throw new IllegalStateException(
+					"Listener cannot have a buffer count <= 0");
+		}
+		int copyCount = 0;
+		int bytesRead = 0;
+		try {
+			byte[] buffer = new byte[2048];
+			int readCount = 0;
+			while ((readCount = in.read(buffer)) != -1) {
+				out.write(buffer, 0, readCount);
 				if (crc != null) {
 					crc.update(buffer, 0, readCount);
 				}

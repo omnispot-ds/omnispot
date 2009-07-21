@@ -6,11 +6,11 @@
 package com.kesdip.bootstrap.content;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.channels.FileChannel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,7 +66,7 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 
 	public void run() {
 		InputStream is = null;
-		FileOutputStream os = null;
+		RandomAccessFile os = null;
 		try {
 			logger.info("Starting download of resource: " + resourceUrl);
 
@@ -76,21 +76,13 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 			if (!resourceDir.isDirectory()) {
 				resourceDir.mkdirs();
 			}
-			int counter = 0;
-			File newResource;
-			UUID newResourceUUID = UUID.randomUUID();
-			do {
-				newResource = new File(resourceDir, "resource_"
-						+ newResourceUUID + "_" + counter);
-				counter++;
-			} while (!newResource.createNewFile());
-			os = new FileOutputStream(newResource);
+			File newResource = getResourceFileName(resourceDir);
+			os = new RandomAccessFile(newResource, "rw");
 			URLConnection connection = resource.openConnection();
 			if (startByteIndex > 0) {
 				connection.setRequestProperty("Range", "byte=" + startByteIndex
 						+ "-");
-				FileChannel fileChannel = os.getChannel();
-				fileChannel.position(startByteIndex);
+				os.seek(startByteIndex);
 			}
 			is = connection.getInputStream();
 
@@ -125,20 +117,8 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 
 				rs.close();
 				ps.close();
-
+				// TODO Now that filename is saved immediately, should we remove this?
 				if (updateResource) {
-					ps = c.prepareStatement("UPDATE RESOURCE "
-							+ "SET FILENAME=? WHERE ID=?");
-					ps.setString(1, newResource.getPath());
-					ps.setLong(2, resource_id);
-					int modifiedRows = ps.executeUpdate();
-					if (modifiedRows != 1) {
-						throw new Exception("Updating the resource with the "
-								+ "filename, touched " + modifiedRows
-								+ " rows.");
-					}
-					ps.close();
-
 					ps = c.prepareStatement("DELETE FROM PENDING "
 							+ "WHERE DEPLOYMENT_ID=? AND RESOURCE_ID=?");
 					ps.setLong(1, deployment_id);
@@ -181,6 +161,87 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 	}
 
 	/**
+	 * Returns the name of the file for the current resource. The file is either
+	 * new (a new download) or an existing one (a resumed download).
+	 * 
+	 * @param resourceDir
+	 *            the parent resource directory
+	 * @return File the filename for the resource
+	 * @throws IOException
+	 *             on error creating the new file
+	 */
+	private final File getResourceFileName(File resourceDir) throws IOException {
+		File resource = null;
+		// first try in the DB to see if it is a resumed download
+		Connection c = null;
+		try {
+			c = DBUtils.getConnection();
+			PreparedStatement ps = c
+					.prepareStatement("SELECT RESOURCE.FILENAME "
+							+ "FROM RESOURCE, PENDING "
+							+ "WHERE RESOURCE.ID=PENDING.RESOURCE_ID "
+							+ "AND RESOURCE.ID=? AND PENDING.DEPLOYMENT_ID=?");
+			ps.setLong(1, resource_id);
+			ps.setLong(2, deployment_id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				String filename = rs.getString(1);
+				if (!StringUtils.isEmpty(filename)) {
+					resource = new File(filename);
+				}
+			}
+			rs.close();
+			ps.close();
+		} catch (Exception e) {
+			logger.error("Error querying resource file name from the DB", e);
+		} finally {
+			try {
+				c.close();
+			} catch (Exception e) {
+				// only logging
+				logger.error("Error closing connection", e);
+			}
+		}
+		if (resource != null) {
+			return resource;
+		}
+		// not in the DB, so create a new
+		UUID newResourceUUID = UUID.randomUUID();
+		int counter = 0;
+		do {
+			resource = new File(resourceDir, "resource_" + newResourceUUID
+					+ "_" + counter);
+			counter++;
+		} while (!resource.createNewFile());
+		// save filename in DB
+		try {
+			c = DBUtils.getConnection();
+			PreparedStatement ps = c.prepareStatement("UPDATE RESOURCE "
+					+ "SET FILENAME=? WHERE ID=?");
+			ps.setString(1, resource.getPath());
+			ps.setLong(2, resource_id);
+			int modifiedRows = ps.executeUpdate();
+			if (modifiedRows != 1) {
+				throw new Exception("Updating resource " + resource_id
+						+ " with the " + "filename, touched " + modifiedRows
+						+ " rows.");
+			}
+			ps.close();
+			c.commit();
+		} catch (Exception e) {
+			logger.error("Error updating new resource file name in the DB", e);
+		} finally {
+			try {
+				c.close();
+			} catch (Exception e) {
+				// only logging
+				logger.error("Error closing connection", e);
+			}
+		}
+		return resource;
+	}
+
+	/**
 	 * Update the RESOURCE table with the current downloaded byte count and the
 	 * current timestamp.
 	 * 
@@ -197,8 +258,7 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 							+ "SET RESOURCE.DOWNLOADED_BYTES=?, RESOURCE.LAST_UPDATE=? "
 							+ "WHERE RESOURCE.ID=? AND RESOURCE.ID IN ( "
 							+ "SELECT PENDING.RESOURCE_ID FROM PENDING "
-							+ "WHERE PENDING.DEPLOYMENT_ID=? "
-							+ ")");
+							+ "WHERE PENDING.DEPLOYMENT_ID=? " + ")");
 			ps.setLong(1, numOfBytes);
 			ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 			ps.setLong(3, resource_id);
@@ -221,8 +281,9 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 	/**
 	 * Updates the downloaded bytes column with the value of the size.
 	 * <p>
-	 * The method updates the entry only if size &gt; 0. 
+	 * The method updates the entry only if size &gt; 0.
 	 * </p>
+	 * 
 	 * @see com.kesdip.common.util.StreamCopyListener#copyCompleted()
 	 */
 	@Override
@@ -230,10 +291,9 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 		Connection c = null;
 		try {
 			c = DBUtils.getConnection();
-			PreparedStatement ps = c
-					.prepareStatement("UPDATE RESOURCE "
-							+ "SET DOWNLOADED_BYTES=SIZE, RESOURCE.LAST_UPDATE=? "
-							+ "WHERE RESOURCE.ID=? AND SIZE>0");
+			PreparedStatement ps = c.prepareStatement("UPDATE RESOURCE "
+					+ "SET DOWNLOADED_BYTES=SIZE, RESOURCE.LAST_UPDATE=? "
+					+ "WHERE RESOURCE.ID=? AND SIZE>0");
 			ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 			ps.setLong(2, resource_id);
 			ps.executeUpdate();

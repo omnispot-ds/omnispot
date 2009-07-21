@@ -138,7 +138,7 @@ public class DescriptorHandler implements ContentHandler {
 
 					for (Resource resource : resourceSet) {
 						ps = c.prepareStatement("SELECT ID FROM RESOURCE "
-								+ "WHERE URL=? AND CRC=? AND FILENAME!=''");
+								+ "WHERE URL=? AND CRC=? AND SIZE=DOWNLOADED_BYTES");
 						ps.setString(1, resource.getIdentifier());
 						ps.setString(2, resource.getChecksum());
 						rs = ps.executeQuery();

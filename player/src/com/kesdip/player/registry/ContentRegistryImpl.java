@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import com.kesdip.common.util.DBUtils;
+import com.kesdip.common.util.StringUtils;
 import com.kesdip.player.components.Resource;
 
 /**
@@ -52,7 +53,7 @@ public class ContentRegistryImpl extends ContentRegistry {
 					.prepareStatement("SELECT FILENAME FROM RESOURCE "
 							+ "WHERE URL=? AND CRC=? AND FILENAME != ''");
 			ps.setString(1, resource.getIdentifier());
-			ps.setString(2, resource.getChecksum());
+			ps.setString(2, StringUtils.extractCrc(resource.getChecksum()));
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next())
