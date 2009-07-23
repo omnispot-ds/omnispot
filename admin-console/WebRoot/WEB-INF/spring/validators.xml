@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+
+	<bean id="baseValidator" abstract="true">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+
+	<bean id="loginValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.user.LoginValidator"
+		scope="singleton" />
+		
+	<bean id="createUserValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.user.CreateValidator"
+		scope="singleton" />
+
+	<bean id="deleteUserValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.user.DeleteValidator"
+		scope="singleton" />
+
+	<bean id="editUserValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.user.EditValidator"
+		scope="singleton" />
+
+	<bean id="createCustomerValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.customer.CreateValidator"
+		scope="singleton" />
+
+	<bean id="editCustomerValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.customer.EditValidator"
+		scope="singleton" />
+		
+	<bean id="createSiteValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.site.CreateValidator"
+		scope="singleton" />
+
+	<bean id="editSiteValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.site.EditValidator"
+		scope="singleton" />
+		
+	<bean id="createInstallationValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.installation.CreateValidator"
+		scope="singleton" />
+
+	<bean id="editInstallationValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.installation.EditValidator"
+		scope="singleton" />
+
+	<bean id="createGroupValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.group.CreateValidator"
+		scope="singleton" />
+
+	<bean id="editGroupValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.group.EditValidator"
+		scope="singleton" />
+
+	<bean id="deployContentValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.action.DeployContentValidator"
+		scope="singleton" />
+
+	<bean id="simpleActionValidator"
+		parent="baseValidator"
+		class="com.kesdip.business.validation.action.SimpleActionValidator"
+		scope="singleton" />
+		
+</beans>

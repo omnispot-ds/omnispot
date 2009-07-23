@@ -1,0 +1,53 @@
+<link 
+	rel="stylesheet" 
+	type="text/css" 
+	href="{0}/resources/css/tree.css"/>
+<link 
+	rel="stylesheet" 
+	type="text/css" 
+	href="{0}/resources/js/yui/fonts/fonts-min.css"> 
+<link 
+	rel="stylesheet" 
+	type="text/css" 
+	href="{0}/resources/js/yui/menu/assets/menu.css"> 
+	
+<script 
+	type="text/javascript" 
+	src="{0}/resources/js/yui/yahoo/yahoo.js"></script> 
+<script 
+	type="text/javascript" 
+	src="{0}/resources/js/yui/event/event.js"></script> 
+<script 
+	type="text/javascript" 
+	src="{0}/resources/js/yui/treeview/treeview.js"></script> 
+<script 
+	type="text/javascript" 
+	src="{0}/resources/js/yui/dom/dom.js"></script>
+<script 
+	type="text/javascript" 
+	src="{0}/resources/js/yui/connection/connection.js"></script>
+<script 
+	type="text/javascript" 
+	src="{0}/resources/js/yui/animation/animation.js"></script>
+<script 
+	type="text/javascript"
+	src="{0}/resources/js/yui/connection/connection.js"></script> 
+<script 
+	type="text/javascript"
+	src="{0}/resources/js/yui/container/container.js"></script> 
+<script 
+	type="text/javascript"
+	src="{0}/resources/js/yui/menu/menu.js"></script> 
+<script 
+	type="text/javascript">
+/**
+ * Expands the node and its parents.
+ */
+function expandNode(node) '{'
+	var tempNode = node;
+	while (tempNode != undefined) '{'
+		tempNode.expanded = true;
+		tempNode = tempNode.parent;
+	'}'
+'}' 
+</script>	
