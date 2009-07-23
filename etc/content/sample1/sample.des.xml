@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+  <bean class="com.kesdip.player.DeploymentSettings" id="deploymentSettings">
+    <property name="width" value="800"/>
+    <property name="height" value="600"/>
+    <property name="bitDepth" value="24"/>
+    <property name="id" value="2fdcb8ca-5fbb-48da-8551-804b6ebb59e0"/>
+    <property name="startTime">
+      <bean class="java.util.Date">
+        <constructor-arg type="long" value="1236192600000"/>
+      </bean>
+    </property>
+  </bean>
+  <bean class="com.kesdip.player.components.RootContainer" id="frame1_1">
+    <property name="x" value="0"/>
+    <property name="y" value="0"/>
+    <property name="width" value="800"/>
+    <property name="height" value="600"/>
+    <property name="locked" value="false"/>
+    <property name="backgroundColor">
+      <bean class="java.awt.Color">
+        <constructor-arg type="int" value="0"/>
+        <constructor-arg type="int" value="0"/>
+        <constructor-arg type="int" value="0"/>
+      </bean>
+    </property>
+    <property name="name" value="New Region"/>
+    <property name="isTransparent" value="false"/>
+    <property name="contents">
+      <list>
+        <bean class="com.kesdip.player.components.Ticker">
+          <property name="x" value="3"/>
+          <property name="y" value="544"/>
+          <property name="width" value="795"/>
+          <property name="height" value="50"/>
+          <property name="locked" value="false"/>
+          <property name="backgroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+            </bean>
+          </property>
+          <property name="speed" value="15.0"/>
+          <property name="foregroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="255"/>
+              <constructor-arg type="int" value="255"/>
+              <constructor-arg type="int" value="255"/>
+            </bean>
+          </property>
+          <property name="font">
+            <bean class="java.awt.Font">
+              <constructor-arg type="java.lang.String" value="Arial"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="24"/>
+            </bean>
+          </property>
+          <property name="tickerSource">
+            <bean class="com.kesdip.player.components.ticker.RssTickerSource">
+              <property name="rssUrl" value="http://ws.kathimerini.gr/xml_files/ellnews.xml"/>
+            </bean>
+          </property>
+        </bean>
+        <bean class="com.kesdip.player.components.Ticker">
+          <property name="x" value="1"/>
+          <property name="y" value="3"/>
+          <property name="width" value="796"/>
+          <property name="height" value="50"/>
+          <property name="locked" value="false"/>
+          <property name="backgroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+            </bean>
+          </property>
+          <property name="speed" value="0.0"/>
+          <property name="foregroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="255"/>
+              <constructor-arg type="int" value="255"/>
+              <constructor-arg type="int" value="255"/>
+            </bean>
+          </property>
+          <property name="font">
+            <bean class="java.awt.Font">
+              <constructor-arg type="java.lang.String" value="Arial"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="24"/>
+            </bean>
+          </property>
+          <property name="tickerSource">
+            <bean class="com.kesdip.player.components.ticker.StringTickerSource">
+              <property name="src" value="KesdipEPE test file. Shows 1 Image with 1 file, 1 VLCVideo with 2 files and an RSSTicker from Kathimerini "/>
+            </bean>
+          </property>
+        </bean>
+        <bean class="com.kesdip.player.components.Image">
+          <property name="duration" value="0"/>
+          <property name="x" value="4"/>
+          <property name="y" value="79"/>
+          <property name="width" value="374"/>
+          <property name="height" value="395"/>
+          <property name="locked" value="false"/>
+          <property name="backgroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+            </bean>
+          </property>
+          <property name="contents">
+            <list>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="./bld.jpg"/>
+                <property name="checksum" value="405415918"/>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean class="com.kesdip.player.components.Video">
+          <property name="x" value="397"/>
+          <property name="y" value="83"/>
+          <property name="width" value="389"/>
+          <property name="height" value="390"/>
+          <property name="locked" value="false"/>
+          <property name="backgroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+            </bean>
+          </property>
+          <property name="repeat" value="false"/>
+          <property name="contents">
+            <list>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="./ad.mp4"/>
+                <property name="checksum" value="1818024839"/>
+              </bean>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="./digital.wmv"/>
+                <property name="checksum" value="1754321314"/>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean class="com.kesdip.player.DeploymentContents" id="deploymentContents">
+    <property name="layouts">
+      <list>
+        <bean class="com.kesdip.player.DeploymentLayout">
+          <property name="name" value="Layout"/>
+          <property name="showGrid" value="false"/>
+          <property name="snapToGeometry" value="false"/>
+          <property name="contentRoots">
+            <list>
+              <ref bean="frame1_1"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>
