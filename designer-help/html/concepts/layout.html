@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>Layout</title>
+</head>
+
+<body>
+<h1><img src="../../icons/display.png" alt="(image)" />&nbsp;&nbsp;Layout</h1>
+<p>A <em>layout</em> represents a particular arrangement of components on the screen. It
+observes the notion of <em>duration</em> and <em>completion</em>. It also is associated
+with a cron expression for scheduling purposes. A layout is termed to
+have completed either when its duration has expired, or any one of its components has
+completed. When a layout completes, the next layout in the list of layouts in its
+deployment will start. The only exception to this rule is that if the cron expression
+of a layout fires, then that layout will start immediately, irrespective of whether the
+currently running layout has completed or not.</p>
+<p>A layout has a set of properties that can be modified in the property sheet
+view. These are:</p>
+<ul>
+	<li><b>Cron Expression:</b> Specifies the cron expression that is associated with
+	the layout. If empty, then there is no trigger associated with the layout, and it
+	can only run if its turn comes in the normal scheme of things.</li>
+	<li><b>Duration:</b> The duration (in seconds) of the layout. If the layout runs longer
+	than this amount of seconds, it is deemed to have completed.</li>
+	<li><b>Name:</b> A name for the layout. This is only used in the designer and in error
+	reporting.</li>
+</ul>
+<p>A layout also contains a list of <a href="region.html">regions</a>. The ordering of the
+list specifies the z-ordering of the regions in case of overlaps (the last region in this
+list overlaps any preceding regions that happen to have common areas.</p>
+</body>
+</html>
