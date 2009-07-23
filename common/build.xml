@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Digital Signage common project" basedir=".">
+	<description>Build file for the common code</description>
+
+	<import file="${etc.ant.scripts.dir}/common-targets.xml" />
+
+	<property name="common.base.dir" location="." />
+
+	<property name="common.build.dir" location="${common.base.dir}/build" />
+	<property name="common.dist.dir" location="${common.base.dir}/dist" />
+	<property name="common.classes.dir" location="${common.build.dir}/classes" />
+
+	<property name="shared.jars.file" location="${common.base.dir}/shared.jars" />
+
+	<target name="common.init">
+		<echo level="info">Initializing...</echo>
+		<uptodate property="compile.notRequired" targetfile="${common.dist.file}">
+			<srcfiles dir="${common.src.dir}" includes="**/*" />
+		</uptodate>
+		<echo level="info">Compile not required ${compile.notRequired}</echo>
+	</target>
+
+	<target name="common.compile" description="compile the logic classes" 
+		depends="common.init" 
+		unless="compile.notRequired">
+		<echo level="info">Compiling sources...</echo>
+		<delete dir="${common.classes.dir}" failonerror="false" />
+		<mkdir dir="${common.classes.dir}" />
+		<javac destdir="${common.classes.dir}" debug="true" encoding="UTF-8">
+			<src path="${common.src.dir}" />
+			<classpath>
+				<fileset dir="${project.base.dir}" includesfile="${shared.jars.file}" />
+			</classpath>
+		</javac>
+		<copy todir="${common.classes.dir}">
+			<fileset dir="${common.src.dir}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<include name="**/*.xsd" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="common.dist" description="create the common JAR file" 
+		depends="common.init" unless="build.notRequired">
+		<echo level="info">Creating distribution</echo>
+		<copy todir="${common.build.dir}">
+			<fileset dir="${common.build.dir}/classes" />
+		</copy>
+
+		<!-- antcall target="process.hibernate.cfg" inheritall="true" / -->
+
+		<mkdir dir="${common.dist.dir}" />
+
+		<antcall target="zz.create.simple.jar">
+			<param name="base.dir" value="${common.build.dir}" />
+			<param name="dest.file" value="${common.dist.file}" />
+			<param name="fileset.file" value="${shared.jars.file}" />
+			<param name="lib.base.dir" value="${project.base.dir}" />
+			<param name="exclude.patterns" value="classes/**" />
+		</antcall>
+
+	</target>
+
+	<target name="common.clean">
+		<echo level="info">Cleaning files and directories</echo>
+ 		<delete dir="${common.build.dir}" failonerror="false"/>
+ 		<delete dir="${common.dist.dir}" failonerror="false"/>
+	    <mkdir dir="${common.build.dir}"/>
+ 		<mkdir dir="${common.dist.dir}"/>
+	</target>
+
+
+	<target name="process.hibernate.cfg">
+
+		<property name="hibernate.file" location="${common.build.dir}/inactive_hibernate.cfg.xml" />
+
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[<!-- DEVELOPMENT SETTINGS -->]]></replacetoken>
+			<replacevalue>
+				<![CDATA[<!-- DEVELOPMENT SETTINGS ]]>
+			</replacevalue>
+		</replace>
+
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[<!-- EOF DEVELOPMENT SETTINGS -->]]></replacetoken>
+			<replacevalue>
+				<![CDATA[ EOF DEVELOPMENT SETTINGS -->]]></replacevalue>
+		</replace>
+
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[<!-- PRODUCTION SETTINGS]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[<!-- PRODUCTION SETTINGS -->]]></replacevalue>
+		</replace>
+
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[EOF PRODUCTION SETTINGS -->]]></replacetoken>
+			<replacevalue>
+				<![CDATA[<!-- EOF PRODUCTION SETTINGS -->]]></replacevalue>
+		</replace>
+
+		<antcall target="zz.replace.properties">
+			<param name="file" value="${common.build.dir}/inactive_hibernate.cfg.xml" />
+			<param name="properties" value="jdbc.driver.class, jdbc.url, db.user.name, db.user.password" />
+		</antcall>
+
+		<!-- Fix ampersands in driver URL -->
+		<replace file="${hibernate.file}">
+			<replacetoken>
+				<![CDATA[&]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[&amp;]]>
+			</replacevalue>
+		</replace>
+	</target>
+
+
+	<target name="generate.domain.objects">
+		<antcall target="zz.generate.domain.objects">
+			<param name="hbm.base.dir" value="${common.src.dir}" />
+			<param name="cfg.xml" value="${common.src.dir}/inactive_hibernate.cfg.xml" />
+			<param name="dest.dir" value="${common.src.dir}" />
+		</antcall>
+	</target>
+
+	<target name="common.all" depends="common.init,common.compile,common.dist,common.clean" />
+</project>
