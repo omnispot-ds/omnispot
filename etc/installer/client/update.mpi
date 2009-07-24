@@ -44,6 +44,12 @@ DefaultDirectoryLocation
 DefaultLanguage
 English
 
+DefaultToSystemLanguage
+Yes
+
+EnableResponseFiles
+Yes
+
 Ext
 .exe
 
@@ -52,6 +58,12 @@ No
 
 Icon
 Modern/Small/SetupModernSmall01.gif
+
+IgnoreDirectories
+{}
+
+IgnoreFiles
+{}
 
 Image
 Modern/SetupModern01.gif
@@ -63,7 +75,10 @@ InstallPassword
 {}
 
 InstallVersion
-1.0.0.0
+1.1.0.0
+
+Language,ca
+Yes
 
 Language,de
 No
@@ -83,6 +98,9 @@ No
 Language,it
 No
 
+Language,lt
+Yes
+
 Language,nl
 No
 
@@ -94,6 +112,12 @@ No
 
 Language,ru
 No
+
+LastIgnoreDirectories
+{}
+
+LastIgnoreFiles
+{}
 
 PackageDescription
 {Kesdipepe Player Updater}
@@ -129,7 +153,7 @@ ProjectID
 61ABE13A-8433-4667-AD29-3EB3574A568F
 
 ProjectVersion
-1.2.12.0
+1.2.13.8
 
 SaveOnlyToplevelDirs
 No
@@ -159,7 +183,7 @@ UpgradeApplicationID
 6451766E-A779-4C5A-8463-120FE9338635
 
 Version
-1.0
+1.1
 
 ViewReadme
 Yes
@@ -197,7 +221,7 @@ test
 {Testing Switch Yes No {} {run uninstaller without uninstalling any files}}
 
 }
-FileGroup ::5531C858-3982-4F4D-A3C0-B3CCB5F0B797 -setup Install -alias MonitorFiles -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name Monitor -parent FileGroups
+FileGroup ::5531C858-3982-4F4D-A3C0-B3CCB5F0B797 -setup Install -alias MonitorFiles -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Monitor -parent FileGroups
 File ::AB40298B-6738-488D-8F0A-0D5639B813FD -type dir -name C:/workdir-ds/player/dist/installer/docs -parent 5531C858-3982-4F4D-A3C0-B3CCB5F0B797
 File ::65B546EF-DA6E-4438-96A0-D28F69776118 -name Licence.txt -parent AB40298B-6738-488D-8F0A-0D5639B813FD
 File ::4BC1BC7C-9FD5-4290-A13A-C9056DAB11ED -name Readme.txt -parent AB40298B-6738-488D-8F0A-0D5639B813FD
@@ -277,7 +301,7 @@ File ::99867290-BD1C-4123-9C82-3EB6BBEA6615 -name ad.mp4 -parent 6555B768-D98B-4
 File ::BC80358A-8294-40CC-B587-E508883620FA -name bld.jpg -parent 6555B768-D98B-4AB1-B793-BBF94F189AE7
 File ::D65518AE-FE4B-44C5-BBD9-08192390E59B -name digital.wmv -parent 6555B768-D98B-4AB1-B793-BBF94F189AE7
 File ::5D6DADDA-6F8F-4C85-A495-F1B52D19D064 -name sample.des.xml -parent 6555B768-D98B-4AB1-B793-BBF94F189AE7
-FileGroup ::1AD4896A-F108-4BFE-A121-0A2B9C352749 -setup Install -alias PlayerFiles -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name Player -parent FileGroups
+FileGroup ::1AD4896A-F108-4BFE-A121-0A2B9C352749 -setup Install -alias PlayerFiles -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Player -parent FileGroups
 File ::DA22A94E-0A28-40C7-B10E-7E20C52E755D -type dir -name C:/workdir-ds/player/dist/installer/player -parent 1AD4896A-F108-4BFE-A121-0A2B9C352749
 File ::71A64C96-EAB1-4EC4-B00C-AADFD30174EB -type dir -name conf -active 0 -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
 File ::34E88DDE-4D6C-4797-BD3E-171F715CA577 -name bootstrap.properties -parent 71A64C96-EAB1-4EC4-B00C-AADFD30174EB
@@ -354,22 +378,22 @@ File ::8A495B15-1B50-483B-BFD7-494CB24C4FF1 -name drop-bootstrap-database.sql -a
 File ::560CC655-88B8-4779-A4B2-32A7409D8B0D -name drop-database.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
 File ::34A456C7-0B50-4D7B-800A-FE244DBD5509 -name static-data.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
 File ::6EED4521-6154-4D05-A18D-BAEC6EB6F6A7 -name test-data.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
-Component ::952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3 -setup Install -alias EngineComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name {Rendering Engine} -parent Components
-Component ::EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4 -setup Install -alias MonitorComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Monitor -parent Components
-SetupType ::210B766B-106B-43B9-954F-0099E94C11D2 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Typical -parent SetupTypes
+Component ::952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3 -setup Install -alias EngineComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name {Rendering Engine} -parent Components
+Component ::EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4 -setup Install -alias MonitorComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Monitor -parent Components
+SetupType ::210B766B-106B-43B9-954F-0099E94C11D2 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Typical -parent SetupTypes
 
 InstallComponent 576DAC7F-54EB-4A2D-97A8-B9C891A110D8 -setup Install -type pane -title {Welcome Screen} -component Welcome -active Yes -parent StandardInstall
 InstallComponent A57DCFF6-71DC-4929-BDD3-02DD1F547A0D -setup Install -type action -title {Check for Previous Install} -component CheckForPreviousInstall -command reorder -active Yes -parent 576DAC7F-54EB-4A2D-97A8-B9C891A110D8
-InstallComponent 1AFEFA3C-1604-4021-8800-154B98AB0B2D -setup Install -type action -conditions C2CAFCBC-833E-44AC-B8DF-269CFE88F38D -title {Message Box} -component MessageBox -command insert -active Yes -parent 576DAC7F-54EB-4A2D-97A8-B9C891A110D8
+InstallComponent 1AFEFA3C-1604-4021-8800-154B98AB0B2D -setup Install -type action -conditions C2CAFCBC-833E-44AC-B8DF-269CFE88F38D -title {Message Box} -component MessageBox -command reorder -active Yes -parent 576DAC7F-54EB-4A2D-97A8-B9C891A110D8
 Condition C2CAFCBC-833E-44AC-B8DF-269CFE88F38D -active Yes -parent 1AFEFA3C-1604-4021-8800-154B98AB0B2D -title {String Is Condition} -component StringIsCondition -TreeObject::id C2CAFCBC-833E-44AC-B8DF-269CFE88F38D
-InstallComponent 1F320725-D78D-4EFD-9EFD-31719CC5D5DD -setup Install -type action -conditions EF26BF66-9236-42CF-A7EA-A8C5FA923253 -title Exit -component Exit -command insert -active Yes -parent 576DAC7F-54EB-4A2D-97A8-B9C891A110D8
+InstallComponent 1F320725-D78D-4EFD-9EFD-31719CC5D5DD -setup Install -type action -conditions EF26BF66-9236-42CF-A7EA-A8C5FA923253 -title Exit -component Exit -command reorder -active Yes -parent 576DAC7F-54EB-4A2D-97A8-B9C891A110D8
 Condition EF26BF66-9236-42CF-A7EA-A8C5FA923253 -active Yes -parent 1F320725-D78D-4EFD-9EFD-31719CC5D5DD -title {String Is Condition} -component StringIsCondition -TreeObject::id EF26BF66-9236-42CF-A7EA-A8C5FA923253
 InstallComponent 5AAD8F98-8216-48C8-B70E-095B7843442A -setup Install -type action -title {Set InstallDir} -component SetVirtualText -active Yes -parent 576DAC7F-54EB-4A2D-97A8-B9C891A110D8
 InstallComponent CCC59E78-62AE-4BA4-9B8E-0A9AED27839F -setup Install -type pane -title {Start Copying Files} -component StartCopyingFiles -command reorder -active Yes -parent StandardInstall
 InstallComponent AF950D72-EA7F-4A72-92F0-F25A1A9EC1E4 -setup Install -type pane -title {Copying Files} -component CopyFiles -active Yes -parent StandardInstall
 InstallComponent DC798977-9DC7-45FF-A9D7-D5E27F07F987 -setup Install -type action -title {Disable Buttons} -component ModifyWidget -active Yes -parent AF950D72-EA7F-4A72-92F0-F25A1A9EC1E4
 InstallComponent 3D77D432-60F3-4C01-8B4C-EC8721380C8B -setup Install -type action -title {Execute Service Stop Actions} -component ExecuteAction -active Yes -parent AF950D72-EA7F-4A72-92F0-F25A1A9EC1E4
-InstallComponent 7DD7EEF0-C40C-4E6E-919F-840B66FB7383 -setup Install -type action -title {Execute Action} -component ExecuteAction -active Yes -parent AF950D72-EA7F-4A72-92F0-F25A1A9EC1E4
+InstallComponent 7DD7EEF0-C40C-4E6E-919F-840B66FB7383 -setup Install -type action -title {Execute Install Actions} -component ExecuteAction -active Yes -parent AF950D72-EA7F-4A72-92F0-F25A1A9EC1E4
 InstallComponent 6BD87EE5-BAB6-4779-8487-7F6820C9FE42 -setup Install -type action -title {Execute Service Startup Actions} -component ExecuteAction -active Yes -parent AF950D72-EA7F-4A72-92F0-F25A1A9EC1E4
 InstallComponent 493D55C6-E94C-4EB2-A493-3FF440FD09E8 -setup Install -type action -title {Move Forward} -component MoveForward -active Yes -parent AF950D72-EA7F-4A72-92F0-F25A1A9EC1E4
 InstallComponent AF19736B-27BC-4493-88EB-939C747A8D5B -setup Install -type pane -title {Setup Complete} -component SetupComplete -active Yes -parent StandardInstall
@@ -409,7 +433,7 @@ Condition 43C297F6-D41E-4D6C-9BF5-9404298D6038 -active Yes -parent 3A127B48-C00D
 InstallComponent 2D2FCBE4-D5A5-467D-B479-2920CCA56D40 -setup Install -type action -title {Create Install Panes} -component CreateInstallPanes -active Yes -parent 83B2A98A-7DDE-49C6-BA31-50C834CF4471
 InstallComponent 341A26EB-E98F-4896-BA42-436D31F2AF0F -setup Install -type actiongroup -title {Install Actions} -alias {Install Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 4F5105CC-1634-4CA1-9F91-AE891DFD4DF4 -setup Install -type action -title {Install Selected Files} -component InstallSelectedFiles -active Yes -parent 341A26EB-E98F-4896-BA42-436D31F2AF0F
-InstallComponent 548BE662-1764-4941-8BF3-5BB435321FDA -setup Install -type action -conditions E07F61CF-B90B-425E-B403-E850579539AA -title {Install Uninstaller} -component InstallUninstaller -command insert -active Yes -parent 341A26EB-E98F-4896-BA42-436D31F2AF0F
+InstallComponent 548BE662-1764-4941-8BF3-5BB435321FDA -setup Install -type action -conditions E07F61CF-B90B-425E-B403-E850579539AA -title {Install Uninstaller} -component InstallUninstaller -command reorder -active Yes -parent 341A26EB-E98F-4896-BA42-436D31F2AF0F
 Condition E07F61CF-B90B-425E-B403-E850579539AA -active Yes -parent 548BE662-1764-4941-8BF3-5BB435321FDA -title {String Is Condition} -component StringIsCondition -TreeObject::id E07F61CF-B90B-425E-B403-E850579539AA
 InstallComponent 3C642D39-1C6B-4A82-A0A0-0D77CA0E0D60 -setup Install -type action -conditions A5F4461B-43AF-440E-B9C3-AF823B7E9E8B -title {Windows Uninstall Registry} -component AddWindowsUninstallEntry -command insert -active Yes -parent 341A26EB-E98F-4896-BA42-436D31F2AF0F
 Condition A5F4461B-43AF-440E-B9C3-AF823B7E9E8B -active Yes -parent 3C642D39-1C6B-4A82-A0A0-0D77CA0E0D60 -title {String Is Condition} -component StringIsCondition -TreeObject::id A5F4461B-43AF-440E-B9C3-AF823B7E9E8B
@@ -421,10 +445,11 @@ Condition 050D899D-B5A2-4BC8-BF3A-119FE556F871 -active Yes -parent EF22811D-2A17
 InstallComponent 25273EB3-3A11-4B71-9600-7031C5F02BA5 -setup Install -type action -title {Start Derby Service} -component StartWindowsService -command reorder -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
 InstallComponent 4751C163-35B6-4EA1-95C5-D28440457797 -setup Install -type action -title {Wait for Derby to launch} -component Wait -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
 InstallComponent C704E0A4-91B1-4856-BBB4-F10A36F065EC -setup Install -type action -title {Start Bootstrap Service} -component StartWindowsService -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
-InstallComponent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE -setup Install -type actiongroup -conditions 549B4C7C-7117-454F-94AD-9B4D732F79C2 -title {Service Stop Actions} -command insert -alias {Service Stop Actions} -active Yes -parent ActionGroupsInstall
+InstallComponent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE -setup Install -type actiongroup -conditions 549B4C7C-7117-454F-94AD-9B4D732F79C2 -title {Service Stop Actions} -command reorder -alias {Service Stop Actions} -active Yes -parent ActionGroupsInstall
 Condition 549B4C7C-7117-454F-94AD-9B4D732F79C2 -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 549B4C7C-7117-454F-94AD-9B4D732F79C2
 InstallComponent 1FE19820-A662-41F2-80CE-EEF38316934F -setup Install -type action -title {Stop Bootstrap Service} -component StopWindowsService -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 InstallComponent F9528F62-CA7B-474E-B67B-D13A175BD111 -setup Install -type action -title {Stop Derby Service} -component StopWindowsService -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent 6D9C397C-C1ED-4B65-938F-676E2E247CBA -setup Install -type action -title {Kill java Task} -component ExecuteExternalProgram -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 InstallComponent A5116484-B4F7-4431-917E-051A5043C4AD -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -setup Install -type action -conditions {D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F 9C0AA0DC-3F85-49F3-8A73-5BF2CB014636 18DC3036-ACC5-4B6C-B14F-3A5C24149323} -title {View Readme Window} -component TextWindow -command insert -active Yes -parent A5116484-B4F7-4431-917E-051A5043C4AD
 Condition D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F -active Yes -parent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -title {String Is Condition} -component StringIsCondition -TreeObject::id D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F
@@ -607,6 +632,9 @@ Player
 1FE19820-A662-41F2-80CE-EEF38316934F,Conditions
 {0 conditions}
 
+1FE19820-A662-41F2-80CE-EEF38316934F,IgnoreErrors
+Yes
+
 1FE19820-A662-41F2-80CE-EEF38316934F,ServiceName
 {Bootstrap app service}
 
@@ -699,6 +727,9 @@ No
 
 3D77D432-60F3-4C01-8B4C-EC8721380C8B,Conditions
 {0 conditions}
+
+3D77D432-60F3-4C01-8B4C-EC8721380C8B,IgnoreErrors
+Yes
 
 40916953-85FC-4B77-847E-F3A67FFF0DFB,CheckCondition
 {Before Action is Executed}
@@ -861,6 +892,18 @@ InstallDir
 
 6BD87EE5-BAB6-4779-8487-7F6820C9FE42,Conditions
 {0 conditions}
+
+6D9C397C-C1ED-4B65-938F-676E2E247CBA,Conditions
+{0 conditions}
+
+6D9C397C-C1ED-4B65-938F-676E2E247CBA,IgnoreErrors
+Yes
+
+6D9C397C-C1ED-4B65-938F-676E2E247CBA,ProgramCommandLine
+{taskkill.exe /F /IM java.exe}
+
+6D9C397C-C1ED-4B65-938F-676E2E247CBA,WaitForProgram
+No
 
 6F1431B9-185E-489C-97CA-3766402D792B,Conditions
 {0 conditions}
@@ -1507,6 +1550,9 @@ F7273A5C-E5BE-4AC4-A97B-B0E6EDB372B1,String
 F9528F62-CA7B-474E-B67B-D13A175BD111,Conditions
 {0 conditions}
 
+F9528F62-CA7B-474E-B67B-D13A175BD111,IgnoreErrors
+Yes
+
 F9528F62-CA7B-474E-B67B-D13A175BD111,ServiceName
 {Derby DB service}
 
@@ -1571,6 +1617,168 @@ FreeBSD-4-x86,RequireRoot
 No
 
 FreeBSD-4-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+FreeBSD-5-x86,Active
+No
+
+FreeBSD-5-x86,BuildSeparateArchives
+No
+
+FreeBSD-5-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-5-x86,DefaultFilePermission
+0755
+
+FreeBSD-5-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-5-x86,FallBackToConsole
+Yes
+
+FreeBSD-5-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-5-x86,InstallMode
+Standard
+
+FreeBSD-5-x86,InstallType
+Typical
+
+FreeBSD-5-x86,ProgramExecutable
+{}
+
+FreeBSD-5-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-5-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-5-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-5-x86,ProgramName
+{}
+
+FreeBSD-5-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-5-x86,PromptForRoot
+Yes
+
+FreeBSD-5-x86,RequireRoot
+No
+
+FreeBSD-5-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+FreeBSD-6-x86,Active
+No
+
+FreeBSD-6-x86,BuildSeparateArchives
+No
+
+FreeBSD-6-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-6-x86,DefaultFilePermission
+0755
+
+FreeBSD-6-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-6-x86,FallBackToConsole
+Yes
+
+FreeBSD-6-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-6-x86,InstallMode
+Standard
+
+FreeBSD-6-x86,InstallType
+Typical
+
+FreeBSD-6-x86,ProgramExecutable
+{}
+
+FreeBSD-6-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-6-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-6-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-6-x86,ProgramName
+{}
+
+FreeBSD-6-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-6-x86,PromptForRoot
+Yes
+
+FreeBSD-6-x86,RequireRoot
+No
+
+FreeBSD-6-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+FreeBSD-7-x86,Active
+No
+
+FreeBSD-7-x86,BuildSeparateArchives
+No
+
+FreeBSD-7-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-7-x86,DefaultFilePermission
+0755
+
+FreeBSD-7-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-7-x86,FallBackToConsole
+Yes
+
+FreeBSD-7-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-7-x86,InstallMode
+Standard
+
+FreeBSD-7-x86,InstallType
+Typical
+
+FreeBSD-7-x86,ProgramExecutable
+{}
+
+FreeBSD-7-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-7-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-7-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-7-x86,ProgramName
+{}
+
+FreeBSD-7-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-7-x86,PromptForRoot
+Yes
+
+FreeBSD-7-x86,RequireRoot
+No
+
+FreeBSD-7-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 FreeBSD-x86,Active
@@ -1735,6 +1943,60 @@ No
 Linux-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
+Linux-x86_64,Active
+No
+
+Linux-x86_64,BuildSeparateArchives
+No
+
+Linux-x86_64,DefaultDirectoryPermission
+0755
+
+Linux-x86_64,DefaultFilePermission
+0755
+
+Linux-x86_64,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Linux-x86_64,FallBackToConsole
+Yes
+
+Linux-x86_64,InstallDir
+<%Home%>/<%ShortAppName%>
+
+Linux-x86_64,InstallMode
+Standard
+
+Linux-x86_64,InstallType
+Typical
+
+Linux-x86_64,ProgramExecutable
+{}
+
+Linux-x86_64,ProgramFolderAllUsers
+No
+
+Linux-x86_64,ProgramFolderName
+<%AppName%>
+
+Linux-x86_64,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+Linux-x86_64,ProgramName
+{}
+
+Linux-x86_64,ProgramReadme
+<%InstallDir%>/README.txt
+
+Linux-x86_64,PromptForRoot
+Yes
+
+Linux-x86_64,RequireRoot
+No
+
+Linux-x86_64,RootInstallDir
+/usr/local/<%ShortAppName%>
+
 Solaris-sparc,Active
 No
 
@@ -1787,6 +2049,60 @@ Solaris-sparc,RequireRoot
 No
 
 Solaris-sparc,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+Solaris-x86,Active
+No
+
+Solaris-x86,BuildSeparateArchives
+No
+
+Solaris-x86,DefaultDirectoryPermission
+0755
+
+Solaris-x86,DefaultFilePermission
+0755
+
+Solaris-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Solaris-x86,FallBackToConsole
+Yes
+
+Solaris-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+Solaris-x86,InstallMode
+Standard
+
+Solaris-x86,InstallType
+Typical
+
+Solaris-x86,ProgramExecutable
+{}
+
+Solaris-x86,ProgramFolderAllUsers
+No
+
+Solaris-x86,ProgramFolderName
+<%AppName%>
+
+Solaris-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+Solaris-x86,ProgramName
+{}
+
+Solaris-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+Solaris-x86,PromptForRoot
+Yes
+
+Solaris-x86,RequireRoot
+No
+
+Solaris-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 TarArchive,Active
@@ -1876,6 +2192,9 @@ Standard
 Windows,InstallType
 Typical
 
+Windows,LastRequireAdministrator
+Yes
+
 Windows,ProgramExecutable
 <%InstallDir%>/KesdiPlayer.exe
 
@@ -1893,6 +2212,12 @@ Windows,ProgramName
 
 Windows,ProgramReadme
 <%InstallDir%>/docs/README.txt
+
+Windows,RequireAdministrator
+Yes
+
+Windows,UseUncompressedBinaries
+No
 
 Windows,WindowsIcon
 {Setup Blue Screen.ico}

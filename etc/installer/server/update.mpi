@@ -50,6 +50,12 @@ DefaultDirectoryLocation
 DefaultLanguage
 English
 
+DefaultToSystemLanguage
+Yes
+
+EnableResponseFiles
+Yes
+
 Ext
 .exe
 
@@ -58,6 +64,12 @@ No
 
 Icon
 Modern/Small/SetupModernSmall01.gif
+
+IgnoreDirectories
+{}
+
+IgnoreFiles
+{}
 
 Image
 Modern/SetupModern01.gif
@@ -69,7 +81,10 @@ InstallPassword
 {}
 
 InstallVersion
-1.0.0.0
+1.1.0.0
+
+Language,ca
+Yes
 
 Language,de
 No
@@ -89,6 +104,9 @@ No
 Language,it
 No
 
+Language,lt
+Yes
+
 Language,nl
 No
 
@@ -100,6 +118,12 @@ No
 
 Language,ru
 No
+
+LastIgnoreDirectories
+{}
+
+LastIgnoreFiles
+{}
 
 LaunchApplication
 Yes
@@ -138,7 +162,7 @@ ProjectID
 BB8FBCB6-5BD1-4C12-9FF7-517ADBB04B0B
 
 ProjectVersion
-1.2.12.0
+1.2.13.8
 
 SaveOnlyToplevelDirs
 No
@@ -168,7 +192,7 @@ UpgradeApplicationID
 690A6BBE-0CF3-4899-BEE8-4179C959A3C1
 
 Version
-1.0
+1.1
 
 ViewReadme
 Yes
@@ -209,12 +233,12 @@ test
 {Testing Switch Yes No {} {run uninstaller without uninstalling any files}}
 
 }
-FileGroup ::3F0DD56E-0453-496A-BFA4-7A0753E8038A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name Designer -parent FileGroups
+FileGroup ::3F0DD56E-0453-496A-BFA4-7A0753E8038A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Designer -parent FileGroups
 File ::01A7F2A5-F770-4E95-A828-6FD0D69DD8BC -name C:/workdir-ds/designer.build/installer/designer/DesignerBuild-win32.win32.x86.zip -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
 File ::8BFBB49A-870E-4C12-A60A-007A553361B2 -type dir -name C:/workdir-ds/designer.build/installer/docs -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
 File ::29AC3250-1E00-4A36-8747-E19600DAD035 -name Readme.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
 File ::DABE059B-7E56-405B-9CA3-68995A73EC61 -name License.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
-FileGroup ::EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name AdminConsole -parent FileGroups
+FileGroup ::EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name AdminConsole -parent FileGroups
 File ::DC155905-FC87-4BCA-8D98-2186C4ADFF2D -type dir -name C:/workdir-ds/designer.build/installer/admin-console -parent EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A
 File ::C07B7139-7CA4-45B2-AAC4-0A226E1FA12E -name admin-console.war -parent DC155905-FC87-4BCA-8D98-2186C4ADFF2D
 File ::911EF695-5180-4522-BFE9-F0BFEE5B7951 -name console-settings.xml -active 0 -parent DC155905-FC87-4BCA-8D98-2186C4ADFF2D
@@ -257,9 +281,9 @@ File ::D61FCE9A-AC29-44EB-A04E-E028B6EE01D3 -name derby.policy -active 0 -parent
 File ::058E4B30-58D1-4B12-882F-DAC13280DD7A -type dir -name lib -parent E26F252B-0EFE-4FC5-85B1-E9F69DA9CEB5
 File ::706B79AE-777C-4D11-99C3-4D9BD7CB9C63 -name wrapper.dll -parent 058E4B30-58D1-4B12-882F-DAC13280DD7A
 File ::72586512-371F-442E-81C5-7332D2767F2B -name wrapper.jar -parent 058E4B30-58D1-4B12-882F-DAC13280DD7A
-Component ::91DD14D5-970E-40E3-A9B8-1D1E4B403333 -setup Install -alias DesignerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Designer -parent Components
-Component ::956841E0-D201-4941-A063-7949A26DFCBC -setup Install -alias ConsoleComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name {Administration Console} -parent Components
-SetupType ::58542507-E2DE-4295-A41F-7958A9B30F4E -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Typical -parent SetupTypes
+Component ::91DD14D5-970E-40E3-A9B8-1D1E4B403333 -setup Install -alias DesignerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Designer -parent Components
+Component ::956841E0-D201-4941-A063-7949A26DFCBC -setup Install -alias ConsoleComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name {Administration Console} -parent Components
+SetupType ::58542507-E2DE-4295-A41F-7958A9B30F4E -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Typical -parent SetupTypes
 
 InstallComponent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494 -setup Install -type pane -title {Welcome Screen} -component Welcome -active Yes -parent StandardInstall
 InstallComponent EB5B67D7-4350-48D0-83DB-5FC95D333B17 -setup Install -type action -title {Check for Previous Install} -component CheckForPreviousInstall -active Yes -parent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494
@@ -337,6 +361,7 @@ InstallComponent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA -setup Install -type actio
 Condition 40991313-0B78-4789-A994-849B6DFA4CB7 -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 40991313-0B78-4789-A994-849B6DFA4CB7
 InstallComponent 88D2E7AA-A086-43F7-8720-2F9FA6316DD7 -setup Install -type action -title {Stop Tomcat Service} -component StopWindowsService -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA
 InstallComponent 4D0DBB1B-B404-42AB-AE55-F90A5AE42742 -setup Install -type action -title {Stop Derby Service} -component StopWindowsService -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA
+InstallComponent 7C16F3CB-0AA7-4186-B91E-97E2B43C6C44 -setup Install -type action -title {Stop java Processes} -component ExecuteExternalProgram -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA
 InstallComponent 4DF4012A-14E0-4A98-9A10-67722E5A9A10 -setup Install -type actiongroup -title {Other Actions} -alias {Other Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 9394CA2C-4FAC-4C68-B4A1-9FE22AA70B18 -setup Install -type action -title {Execute "Prepare Designer Folder"} -component ExecuteAction -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 InstallComponent E7515EF1-0F1E-4694-84E3-6A9142F41B57 -setup Install -type action -conditions 28B63CF9-EB57-46B4-8590-AA474B3162E9 -title {Delete Console App Folder} -component DeleteFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
@@ -1022,6 +1047,15 @@ Yes
 
 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8,ServiceName
 {Derby DB service}
+
+7C16F3CB-0AA7-4186-B91E-97E2B43C6C44,Conditions
+{0 conditions}
+
+7C16F3CB-0AA7-4186-B91E-97E2B43C6C44,ProgramCommandLine
+{taskkill.exe /F /IM java.exe}
+
+7C16F3CB-0AA7-4186-B91E-97E2B43C6C44,WaitForProgram
+No
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,Conditions
 {1 condition}
@@ -1716,6 +1750,168 @@ No
 FreeBSD-4-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
+FreeBSD-5-x86,Active
+No
+
+FreeBSD-5-x86,BuildSeparateArchives
+No
+
+FreeBSD-5-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-5-x86,DefaultFilePermission
+0755
+
+FreeBSD-5-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-5-x86,FallBackToConsole
+Yes
+
+FreeBSD-5-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-5-x86,InstallMode
+Standard
+
+FreeBSD-5-x86,InstallType
+Typical
+
+FreeBSD-5-x86,ProgramExecutable
+{}
+
+FreeBSD-5-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-5-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-5-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-5-x86,ProgramName
+{}
+
+FreeBSD-5-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-5-x86,PromptForRoot
+Yes
+
+FreeBSD-5-x86,RequireRoot
+No
+
+FreeBSD-5-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+FreeBSD-6-x86,Active
+No
+
+FreeBSD-6-x86,BuildSeparateArchives
+No
+
+FreeBSD-6-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-6-x86,DefaultFilePermission
+0755
+
+FreeBSD-6-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-6-x86,FallBackToConsole
+Yes
+
+FreeBSD-6-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-6-x86,InstallMode
+Standard
+
+FreeBSD-6-x86,InstallType
+Typical
+
+FreeBSD-6-x86,ProgramExecutable
+{}
+
+FreeBSD-6-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-6-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-6-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-6-x86,ProgramName
+{}
+
+FreeBSD-6-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-6-x86,PromptForRoot
+Yes
+
+FreeBSD-6-x86,RequireRoot
+No
+
+FreeBSD-6-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+FreeBSD-7-x86,Active
+No
+
+FreeBSD-7-x86,BuildSeparateArchives
+No
+
+FreeBSD-7-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-7-x86,DefaultFilePermission
+0755
+
+FreeBSD-7-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-7-x86,FallBackToConsole
+Yes
+
+FreeBSD-7-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-7-x86,InstallMode
+Standard
+
+FreeBSD-7-x86,InstallType
+Typical
+
+FreeBSD-7-x86,ProgramExecutable
+{}
+
+FreeBSD-7-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-7-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-7-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-7-x86,ProgramName
+{}
+
+FreeBSD-7-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-7-x86,PromptForRoot
+Yes
+
+FreeBSD-7-x86,RequireRoot
+No
+
+FreeBSD-7-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
 FreeBSD-x86,Active
 No
 
@@ -1878,6 +2074,60 @@ No
 Linux-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
+Linux-x86_64,Active
+No
+
+Linux-x86_64,BuildSeparateArchives
+No
+
+Linux-x86_64,DefaultDirectoryPermission
+0755
+
+Linux-x86_64,DefaultFilePermission
+0755
+
+Linux-x86_64,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Linux-x86_64,FallBackToConsole
+Yes
+
+Linux-x86_64,InstallDir
+<%Home%>/<%ShortAppName%>
+
+Linux-x86_64,InstallMode
+Standard
+
+Linux-x86_64,InstallType
+Typical
+
+Linux-x86_64,ProgramExecutable
+{}
+
+Linux-x86_64,ProgramFolderAllUsers
+No
+
+Linux-x86_64,ProgramFolderName
+<%AppName%>
+
+Linux-x86_64,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+Linux-x86_64,ProgramName
+{}
+
+Linux-x86_64,ProgramReadme
+<%InstallDir%>/README.txt
+
+Linux-x86_64,PromptForRoot
+Yes
+
+Linux-x86_64,RequireRoot
+No
+
+Linux-x86_64,RootInstallDir
+/usr/local/<%ShortAppName%>
+
 Solaris-sparc,Active
 No
 
@@ -1930,6 +2180,60 @@ Solaris-sparc,RequireRoot
 No
 
 Solaris-sparc,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+Solaris-x86,Active
+No
+
+Solaris-x86,BuildSeparateArchives
+No
+
+Solaris-x86,DefaultDirectoryPermission
+0755
+
+Solaris-x86,DefaultFilePermission
+0755
+
+Solaris-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Solaris-x86,FallBackToConsole
+Yes
+
+Solaris-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+Solaris-x86,InstallMode
+Standard
+
+Solaris-x86,InstallType
+Typical
+
+Solaris-x86,ProgramExecutable
+{}
+
+Solaris-x86,ProgramFolderAllUsers
+No
+
+Solaris-x86,ProgramFolderName
+<%AppName%>
+
+Solaris-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+Solaris-x86,ProgramName
+{}
+
+Solaris-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+Solaris-x86,PromptForRoot
+Yes
+
+Solaris-x86,RequireRoot
+No
+
+Solaris-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 TarArchive,Active
@@ -2019,6 +2323,9 @@ Standard
 Windows,InstallType
 Typical
 
+Windows,LastRequireAdministrator
+Yes
+
 Windows,ProgramExecutable
 <%InstallDir%>/designer/launcher.exe
 
@@ -2036,6 +2343,12 @@ Windows,ProgramName
 
 Windows,ProgramReadme
 <%InstallDir%>/docs/README.txt
+
+Windows,RequireAdministrator
+Yes
+
+Windows,UseUncompressedBinaries
+No
 
 Windows,WindowsIcon
 {Setup Blue Screen.ico}

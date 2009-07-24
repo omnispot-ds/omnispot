@@ -77,6 +77,9 @@ public class TunerVideo extends AbstractVideo {
 		} else {
 			args.add("dvb-t://");
 			args.add(":dvb-frequency=" + channel);
+			// in Greece it is always 8
+			// TODO make editable for other countries 
+			args.add(":dvb-bandwidth=8");
 			args.add("--program=" + input);
 		}
 		// set instance flag
