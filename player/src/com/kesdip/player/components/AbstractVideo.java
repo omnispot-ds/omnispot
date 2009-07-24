@@ -112,6 +112,8 @@ public abstract class AbstractVideo extends AbstractComponent {
 		}
 		// no annoying video title
 		args.add("--no-video-title-show");
+		// reduce bulk VLC log output
+		args.add("--quiet-synchro");
 		// force aspect ratio so that there are no black borders
 		args.add("--aspect-ratio=" + width + ":" + height);
 		// no overlays
@@ -152,8 +154,8 @@ public abstract class AbstractVideo extends AbstractComponent {
 		if (!fullScreen) {
 			int drawable = (int) com.sun.jna.Native.getComponentID(canvas);
 
-			if (logger.isTraceEnabled()) {
-				logger.trace("Drawable retrieved from underlying window ("
+			if (logger.isInfoEnabled()) {
+				logger.info("Drawable retrieved from underlying window ("
 						+ drawable + ")");
 			}
 
