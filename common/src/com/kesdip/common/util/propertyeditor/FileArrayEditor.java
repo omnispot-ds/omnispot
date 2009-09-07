@@ -7,7 +7,7 @@
  * @author <a href="mailto:sgerogia@gmail.com">Stelios Gerogiannakis</a>
  */
 
-package com.kesdip.business.util.propertyeditor;
+package com.kesdip.common.util.propertyeditor;
 
 import java.io.File;
 import java.util.ArrayList;

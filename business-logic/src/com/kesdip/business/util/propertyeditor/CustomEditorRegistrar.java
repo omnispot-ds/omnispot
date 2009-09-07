@@ -14,6 +14,8 @@ import java.util.Map;
 import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.PropertyEditorRegistry;
 
+import com.kesdip.common.util.propertyeditor.BaseTypeEditor;
+
 /**
  * Common registrar for all custom editors.
  * 

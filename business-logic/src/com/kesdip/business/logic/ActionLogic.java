@@ -172,8 +172,8 @@ public class ActionLogic extends BaseLogic {
 		Date currentDate = new Date();
 		for (Installation installation : installations) {
 			action = new Action();
-			// the parameters first (for CONFIGURE action only)
-			if (object.getAction().getType() == IActionTypesEnum.RECONFIGURE) {
+			// parameters first, if any
+			if (!object.getAction().getParameters().isEmpty()) {
 				for (Parameter parameter : object.getAction().getParameters()) {
 					parameter.setId(null);
 					parameter.setId((Long) getHibernateTemplate().save(

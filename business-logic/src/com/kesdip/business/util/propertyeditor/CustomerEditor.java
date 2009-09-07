@@ -18,7 +18,7 @@ import com.kesdip.business.domain.generated.Customer;
  * 
  * @author gerogias
  */
-public class CustomerEditor extends BaseTypeEditor {
+public class CustomerEditor extends BaseDBTypeEditor {
 
 	/**
 	 * The logger.

@@ -16,7 +16,7 @@ import com.kesdip.business.domain.generated.Installation;
 /**
  * @author pavlos
  */
-public class InstallationEditor extends BaseTypeEditor {
+public class InstallationEditor extends BaseDBTypeEditor {
 	
 	/**
 	 * The logger.

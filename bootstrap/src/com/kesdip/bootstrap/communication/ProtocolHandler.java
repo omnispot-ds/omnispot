@@ -20,7 +20,9 @@ import com.kesdip.bootstrap.Config;
 import com.kesdip.bootstrap.Manager;
 import com.kesdip.bootstrap.Screen;
 import com.kesdip.bootstrap.message.DeployMessage;
+import com.kesdip.bootstrap.message.Message;
 import com.kesdip.bootstrap.message.RebootPlayerMessage;
+import com.kesdip.bootstrap.message.ReconfigureMessage;
 import com.kesdip.bootstrap.message.RestartPlayerMessage;
 import com.kesdip.business.communication.ActionSerializationHandler;
 import com.kesdip.business.constenum.IActionParamsEnum;
@@ -30,13 +32,58 @@ import com.kesdip.business.constenum.IMessageParamsEnum;
 import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.domain.generated.Parameter;
 
+/**
+ * Handles client-to-server communication.
+ * <p>
+ * Performs a request to the server ({@link #performRequest()}), including the
+ * screen-dump, if necessary, and any pending outgoing messages. Retrieves and
+ * parses the server's response, scheduling any incoming messages.
+ * </p>
+ * 
+ * @author gerogias
+ */
 public class ProtocolHandler {
 
+	/**
+	 * The logger.
+	 */
 	private static final Logger logger = Logger
 			.getLogger(ProtocolHandler.class);
-	private Manager manager;
-	private ActionSerializationHandler actionHandler = new ActionSerializationHandler();
 
+	/**
+	 * The parent bootstrap manager.
+	 */
+	private Manager manager;
+
+	/**
+	 * The protocol serializer class.
+	 */
+	private ActionSerializationHandler actionHandler = null;
+
+	/**
+	 * The server's URL to perform requests to.
+	 */
+	private String serverURL = null;
+
+	/**
+	 * Utility Hibernate template.
+	 */
+	private HibernateTemplate hibernateTemplate = null;
+
+	/**
+	 * Default constructor.
+	 */
+	public ProtocolHandler() {
+		actionHandler = new ActionSerializationHandler();
+		serverURL = Config.getSingleton().getServerURL();
+	}
+
+	/**
+	 * Perform request to server.
+	 * 
+	 * @throws Exception
+	 *             on error
+	 */
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@SuppressWarnings("unchecked")
 	public void performRequest() throws Exception {
@@ -54,7 +101,8 @@ public class ProtocolHandler {
 			serializedActions = actionHandler.serialize(actions
 					.toArray(new Action[0]));
 			if (logger.isDebugEnabled()) {
-				logger.debug("Actions found and will be sent to server: "
+				logger.debug(actions.size()
+						+ " actions found and will be sent to server: "
 						+ serializedActions);
 			}
 		}
@@ -95,38 +143,49 @@ public class ProtocolHandler {
 		// delete all actions with status done...
 		for (Action action : actions) {
 			if (action.getStatus() == IActionStatusEnum.OK) {
-				for (Parameter param:action.getParameters()) {
+				for (Parameter param : action.getParameters()) {
 					getHibernateTemplate().delete(param);
 				}
 				getHibernateTemplate().delete(action);
 			}
-			logger.debug("deleted action with status OK: " + action.toString());
+			if (logger.isDebugEnabled()) {
+				logger.debug("Deleted action with status OK: "
+						+ action.toString());
+			}
 		}
-
 		handleResponse(post.getResponseBodyAsString());
-
 	}
 
+	/**
+	 * Parse response from server.
+	 * 
+	 * @param serializedActions
+	 *            the server's serialized action string
+	 * @throws Exception
+	 *             on error
+	 */
 	public void handleResponse(String serializedActions) throws Exception {
 
 		logger.info("Response received from server...");
-		if (serializedActions.length() == 0)
+		if (serializedActions.length() == 0) {
 			return;
+		}
 
 		if (!serializedActions.equals(IActionParamsEnum.NO_ACTIONS)) {
 			logger.debug("actions received from server: " + serializedActions);
 			Action[] actions = actionHandler.deserialize(serializedActions);
 			// must store them and add the necessary messages if required
 			for (Action action : actions) {
-				//first save the actions
+				// first save the actions
 				action.setInstallation(null);
 				action.setStatus(IActionStatusEnum.SCHEDULED);
-				for (Parameter param:action.getParameters()) {
+				for (Parameter param : action.getParameters()) {
 					param.setId((Long) getHibernateTemplate().save(param));
 				}
 				getHibernateTemplate().save(action);
 				getHibernateTemplate().flush();
-				
+
+				Message message = null;
 				if (action.getType() == IActionTypesEnum.DEPLOY) {
 					Set<Parameter> params = action.getParameters();
 					String descriptorUrl = "";
@@ -140,30 +199,29 @@ public class ProtocolHandler {
 								.equals(IActionParamsEnum.DEPLOYMENT_CRC)) {
 							crc = p.getValue();
 						}
-						//p.setId((Long) getHibernateTemplate().save(p));
 					}
 					logger.info("Adding new deploy message");
-					manager.getPump().addMessage(
-							new DeployMessage(descriptorUrl, Long
-									.parseLong(crc), action.getActionId()));
+					message = new DeployMessage(descriptorUrl, Long
+							.parseLong(crc), action.getActionId());
 				} else if (action.getType() == IActionTypesEnum.RESTART) {
 					logger.info("Adding new restartPlayer message");
-					manager.getPump().addMessage(
-							new RestartPlayerMessage(action.getActionId()));
+					message = new RestartPlayerMessage(action.getActionId());
 				} else if (action.getType() == IActionTypesEnum.REBOOT) {
 					logger.info("Adding new rebootPlayer message");
-					manager.getPump().addMessage(
-							new RebootPlayerMessage(action.getActionId()));
+					message = new RebootPlayerMessage(action.getActionId());
+				} else if (action.getType() == IActionTypesEnum.RECONFIGURE) {
+					logger.info("Adding new reconfigure message");
+					message = new ReconfigureMessage(action.getActionId(),
+							manager, RestartPlayerMessage.getPlayerProcess());
+				}
+				// add to the pump
+				if (message != null) {
+					message.setHibernateTemplate(hibernateTemplate);
+					manager.getPump().addMessage(message);
 				}
 			}
 		}
 	}
-
-	public String serverURL = Config.getSingleton().getServerURL();
-	/**
-	 * Utility Hibernate template.
-	 */
-	private HibernateTemplate hibernateTemplate = null;
 
 	/**
 	 * @return the hibernateTemplate

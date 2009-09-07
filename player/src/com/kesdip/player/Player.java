@@ -22,6 +22,7 @@ import com.kesdip.common.util.DBUtils;
 import com.kesdip.player.components.ComponentException;
 import com.kesdip.player.components.FullScreenComponent;
 import com.kesdip.player.components.RootContainer;
+import com.kesdip.player.configure.DeploymentConfigurer;
 import com.kesdip.player.helpers.PlayerUtils;
 
 /**
@@ -48,12 +49,46 @@ import com.kesdip.player.helpers.PlayerUtils;
  * <li>Starting a new scheduled layout.</li>
  * </ul>
  * 
+ * <p>
+ * The player instance also listens on the standard in for reconfiguration
+ * messages of the form <code>expression=value</code>. These refer to beans of
+ * the currently playing deployment.
+ * </p>
+ * 
  * @author Pafsanias Ftakas
  */
 public class Player implements Runnable {
+
+	/**
+	 * The logger.
+	 */
 	private static final Logger logger = Logger.getLogger(Player.class);
 
-	private static Properties props = new Properties();
+	private static Properties props = null;
+
+	protected TimingMonitor monitor;
+
+	protected AtomicBoolean stopRunning;
+
+	/**
+	 * The current deployment Spring application context.
+	 */
+	private ApplicationContext deploymentContext;
+
+	private DeploymentSettings settings;
+
+	private DeploymentContents contents;
+
+	/* TRANSIENT STATE */
+	protected FullScreenComponent fullScreen;
+
+	protected boolean completeDeployment;
+
+	protected boolean completeLayout;
+
+	protected DeploymentLayout nextLayout;
+
+	protected JFrame backgroundFrame;
 
 	static {
 		try {
@@ -72,31 +107,24 @@ public class Player implements Runnable {
 
 	public static String getVlcPath() {
 		String sysProp = System.getProperty("KESDIP_EPE_DESIGNER_VLC_PATH");
-		if (sysProp != null)
+		if (sysProp != null) {
 			return sysProp;
+		}
 		return props.getProperty("vlc_path");
 	}
 
-	protected TimingMonitor monitor;
-	protected AtomicBoolean stopRunning;
-
-	/* SPRING CONFIGURATION STATE */
-	private ApplicationContext ctx;
-
-	private DeploymentSettings settings;
-
-	private DeploymentContents contents;
-
 	/**
-	 * Initializing constructor.
+	 * Default constructor.
 	 * 
 	 * @throws SchedulerException
+	 *             on error creating the schedulers
 	 */
 	public Player() throws SchedulerException {
 		this.monitor = new TimingMonitor(this);
+		props = new Properties();
 		initialize();
 	}
-	
+
 	public void initialize() throws SchedulerException {
 		new Thread(this.monitor, "monitor").start();
 		this.completeDeployment = false;
@@ -118,10 +146,12 @@ public class Player implements Runnable {
 	public synchronized void startDeployment(ApplicationContext ctx,
 			DeploymentSettings settings, DeploymentContents contents)
 			throws Exception {
-		this.ctx = ctx;
+		this.deploymentContext = ctx;
 		this.settings = settings;
-		if (logger.isDebugEnabled())
-			logger.debug("Deployment sleep interval is: " + settings.getSleepInterval());
+		if (logger.isDebugEnabled()) {
+			logger.debug("Deployment sleep interval is: "
+					+ settings.getSleepInterval());
+		}
 		this.contents = contents;
 		this.completeDeployment = true;
 		this.completeLayout = true;
@@ -146,15 +176,6 @@ public class Player implements Runnable {
 		this.completeLayout = true;
 		this.nextLayout = layout;
 	}
-
-	/* TRANSIENT STATE */
-	protected FullScreenComponent fullScreen;
-
-	protected boolean completeDeployment;
-
-	protected boolean completeLayout;
-
-	protected DeploymentLayout nextLayout;
 
 	/**
 	 * Helper to query the flags to see whether the current deployment should
@@ -216,7 +237,7 @@ public class Player implements Runnable {
 		return false; // TODO revisit this later...
 		// return layout.getContentRoots().size() == 1;
 	}
-	
+
 	public int getSleepInterval() {
 		return settings.getSleepInterval();
 	}
@@ -234,7 +255,7 @@ public class Player implements Runnable {
 		boolean isFullScreen = isFullScreenMode(layout);
 		if (isFullScreen) {
 			fullScreen = new FullScreenComponent();
-			fullScreen.setApplicationContext(ctx);
+			fullScreen.setApplicationContext(deploymentContext);
 			fullScreen.init(null, monitor, this);
 		}
 
@@ -242,11 +263,12 @@ public class Player implements Runnable {
 			// Create the resources for each root container.
 			for (RootContainer container : layout.getContentRoots()) {
 				container.setPlayer(this);
-				
-				if (isFullScreenMode(layout))
+
+				if (isFullScreenMode(layout)) {
 					container.createFullScreenResources();
-				else
+				} else {
 					container.createWindowedResources();
+				}
 
 				container.init(fullScreen, monitor, this);
 			}
@@ -266,15 +288,17 @@ public class Player implements Runnable {
 				try {
 					Thread.sleep(settings.getSleepInterval());
 				} catch (InterruptedException ie) {
+					// do nothing
 				}
 
 				// Decide whether the layout should exit.
 				boolean shouldBreak = false;
 				for (RootContainer container : layout.getContentRoots()) {
 					switch (container.isComplete()) {
-					case COMPLETE:
+					case COMPLETE: {
 						shouldBreak = true;
 						break;
+					}
 					case INCOMPLETE:
 					case DONT_CARE:
 						// Do nothing
@@ -283,8 +307,9 @@ public class Player implements Runnable {
 						throw new RuntimeException("Unexpected completion "
 								+ "state: " + container.isComplete());
 					}
-					if (shouldBreak)
+					if (shouldBreak) {
 						break;
+					}
 				}
 				if (shouldBreak) {
 					logger.info("The current layout (" + layout.getName()
@@ -292,7 +317,8 @@ public class Player implements Runnable {
 					break;
 				}
 				if (stopRunning.get()) {
-					logger.info("The stop running flag has been raised. Player is exiting.");
+					logger
+							.info("The stop running flag has been raised. Player is exiting.");
 					break;
 				}
 			}
@@ -312,13 +338,12 @@ public class Player implements Runnable {
 			playerExited();
 		}
 	}
-	
+
 	/**
 	 * Hook to be overridden by PlayerPreview in order to exit the process.
 	 */
-	protected void playerExited() {}
-	
-	protected JFrame backgroundFrame;
+	protected void playerExited() {
+	}
 
 	/**
 	 * Helper to create a background frame to hide the screen contents in
@@ -332,8 +357,8 @@ public class Player implements Runnable {
 		backgroundFrame.setCursor(PlayerUtils.getNoCursor());
 
 		backgroundFrame.setLocation(0, 0);
-		backgroundFrame.setPreferredSize(new Dimension(settings.getWidth(), settings
-				.getHeight()));
+		backgroundFrame.setPreferredSize(new Dimension(settings.getWidth(),
+				settings.getHeight()));
 		backgroundFrame.setBackground(Color.BLACK);
 		backgroundFrame.getContentPane().setBackground(Color.BLACK);
 
@@ -341,13 +366,13 @@ public class Player implements Runnable {
 		backgroundFrame.setVisible(true);
 		backgroundFrame.requestFocus();
 	}
-	
+
 	private void destroyBackgroundFrame() {
 		backgroundFrame.setVisible(false);
 		backgroundFrame.dispose();
 		backgroundFrame = null;
 	}
-	
+
 	public void stopPlaying() {
 		stopRunning.set(true);
 	}
@@ -366,12 +391,13 @@ public class Player implements Runnable {
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException ie) {
+					// do nothing
 				}
 			}
-			
+
 			createBackgroundFrame();
 			logger.info("Created background frame");
-			
+
 			while (true) {
 				List<DeploymentLayout> layouts = contents.getLayouts();
 				int layoutsIndex = 0;
@@ -398,20 +424,22 @@ public class Player implements Runnable {
 								+ nextLayout.getName()
 								+ ". Will continue with next " + "layout.", e);
 					}
-					
+
 					if (stopRunning.get()) {
-						logger.info("The stop running flag has been raised. Player is exiting.");
+						logger
+								.info("The stop running flag has been raised. Player is exiting.");
 						break;
 					}
 				}
 				if (stopRunning.get()) {
-					logger.info("The stop running flag has been raised. Player is exiting.");
+					logger
+							.info("The stop running flag has been raised. Player is exiting.");
 					break;
 				} else {
 					logger.info("Completing deployment flag has been raised.");
 				}
 			}
-			
+
 			destroyBackgroundFrame();
 			playerExited();
 		} catch (Throwable t) {
@@ -420,12 +448,27 @@ public class Player implements Runnable {
 	}
 
 	public static void main(String[] args) {
+		Player player = null;
 		try {
-			Player player = new Player();
+			player = new Player();
 			new Thread(player, "player").start();
 		} catch (Exception e) {
 			logger.error("Error in the main Player method", e);
+			return;
+		}
+		
+		try {
+			DeploymentConfigurer configurer = new DeploymentConfigurer(player);
+			new Thread(configurer, "playerConfigurer").start();
+		} catch (Exception e) {
+			logger.error("Error creating the configurer", e);
 		}
 	}
 
+	/**
+	 * @return the deploymentContext
+	 */
+	public ApplicationContext getDeploymentContext() {
+		return deploymentContext;
+	}
 }

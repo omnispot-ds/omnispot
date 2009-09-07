@@ -10,45 +10,53 @@ import java.util.List;
 import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.domain.generated.Parameter;
 
+/**
+ * Responsible for action serialization into the Kesdip message format.
+ * 
+ * @author gerogias
+ */
 public class ActionSerializationHandler {
 
-	private final static String action = "[ACTION]";
+	private static final String ACTION = "[ACTION]";
 
-	private final static String endOfAction = "[ACTION_END]";
+	private static final String END_OF_ACTION = "[ACTION_END]";
 
-	private final static String actionId = "ACTION_ID:";
+	private static final String ACTION_ID = "ACTION_ID:";
 
-	private final static String dateAdded = "DATE_ADDED:";
+	private static final String DATE_ADDED = "DATE_ADDED:";
 
-	private final static String message = "MESSAGE:";
+	private static final String MESSAGE = "MESSAGE:";
 
-	private final static String status = "STATUS:";
+	private static final String STATUS = "STATUS:";
 
-	private final static String type = "TYPE:";
+	private static final String TYPE = "TYPE:";
 
-	private final static String parameterName = "NAME:";
+	private static final String PARAMETER_NAME = "NAME:";
 
-	private final static String parameterValue = "VALUE:";
+	private static final String PARAMETER_VALUE = "VALUE:";
 
-	private final static String newLine = System.getProperty("line.separator");
+	/**
+	 * A cross-platform new-line character.
+	 */
+	private static final String NEW_LINE = "\n";
 
 	public String serialize(Action[] actions) {
 		StringBuilder sb = new StringBuilder();
-		for (Action action : actions) {
-			sb.append(ActionSerializationHandler.action).append(newLine);
-			sb.append(actionId).append(action.getActionId()).append(newLine);
-			sb.append(dateAdded).append(action.getDateAdded().getTime())
-					.append(newLine);
-			sb.append(message).append(action.getMessage()).append(newLine);
-			sb.append(status).append(action.getStatus()).append(newLine);
-			sb.append(type).append(action.getType()).append(newLine);
-			for (Parameter param : action.getParameters()) {
-				sb.append(parameterName).append(param.getName())
-						.append(newLine);
-				sb.append(parameterValue).append(param.getValue()).append(
-						newLine);
+		for (Action currentAction : actions) {
+			sb.append(ActionSerializationHandler.ACTION).append(NEW_LINE);
+			sb.append(ACTION_ID).append(currentAction.getActionId()).append(NEW_LINE);
+			sb.append(DATE_ADDED).append(currentAction.getDateAdded().getTime())
+					.append(NEW_LINE);
+			sb.append(MESSAGE).append(currentAction.getMessage()).append(NEW_LINE);
+			sb.append(STATUS).append(currentAction.getStatus()).append(NEW_LINE);
+			sb.append(TYPE).append(currentAction.getType()).append(NEW_LINE);
+			for (Parameter param : currentAction.getParameters()) {
+				sb.append(PARAMETER_NAME).append(param.getName())
+						.append(NEW_LINE);
+				sb.append(PARAMETER_VALUE).append(param.getValue()).append(
+						NEW_LINE);
 			}
-			sb.append(endOfAction).append(newLine);
+			sb.append(END_OF_ACTION).append(NEW_LINE);
 		}
 		return sb.toString();
 	}
@@ -56,45 +64,46 @@ public class ActionSerializationHandler {
 	public Action[] deserialize(String serializedActions) throws IOException {
 
 		if (serializedActions == null || serializedActions.equals("")
-				|| serializedActions.equals("NO_ACTIONS"))
+				|| serializedActions.equals("NO_ACTIONS")) {
 			return new Action[0];
+		}
 
 		BufferedReader reader = new BufferedReader(new StringReader(
 				serializedActions));
-		String line;
+		String line = null;
 		List<Action> actions = new ArrayList<Action>();
 		Action action = null;
 		Parameter parameter = null;
 
 		while ((line = reader.readLine()) != null) {
 
-			if (line.equals(ActionSerializationHandler.action)) {
+			if (line.equals(ActionSerializationHandler.ACTION)) {
 				action = new Action();
 				continue;
 			}
 
-			if (line.equals(endOfAction)) {
+			if (line.equals(END_OF_ACTION)) {
 				actions.add(action);
 				continue;
 			}
 
-			if (line.startsWith(actionId)) {
-				action.setActionId(line.substring(actionId.length()));
-			} else if (line.startsWith(dateAdded)) {
+			if (line.startsWith(ACTION_ID)) {
+				action.setActionId(line.substring(ACTION_ID.length()));
+			} else if (line.startsWith(DATE_ADDED)) {
 				action.setDateAdded(new Date(Long.parseLong(line
-						.substring(dateAdded.length()))));
-			} else if (line.startsWith(message)) {
-				action.setMessage(line.substring(message.length()));
-			} else if (line.startsWith(status)) {
-				action.setStatus(Short.parseShort(line.substring(status
+						.substring(DATE_ADDED.length()))));
+			} else if (line.startsWith(MESSAGE)) {
+				action.setMessage(line.substring(MESSAGE.length()));
+			} else if (line.startsWith(STATUS)) {
+				action.setStatus(Short.parseShort(line.substring(STATUS
 						.length())));
-			} else if (line.startsWith(type)) {
-				action.setType(Short.parseShort(line.substring(type.length())));
-			} else if (line.startsWith(parameterName)) {
+			} else if (line.startsWith(TYPE)) {
+				action.setType(Short.parseShort(line.substring(TYPE.length())));
+			} else if (line.startsWith(PARAMETER_NAME)) {
 				parameter = new Parameter();
-				parameter.setName(line.substring(parameterName.length()));
-			} else if (line.startsWith(parameterValue)) {
-				parameter.setValue(line.substring(parameterValue.length()));
+				parameter.setName(line.substring(PARAMETER_NAME.length()));
+			} else if (line.startsWith(PARAMETER_VALUE)) {
+				parameter.setValue(line.substring(PARAMETER_VALUE.length()));
 				action.getParameters().add(parameter);
 			}
 		}

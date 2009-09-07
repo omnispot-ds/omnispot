@@ -10,7 +10,7 @@
 	</file-storage>
 
 	<server>
-		<host>localhost</host>
+		<host>tw028308</host>
 		<port>8080</port>
 		<content-base>/admin-console/content/</content-base>
 		<printScreen-base>/admin-console/secure/printScreen/</printScreen-base>

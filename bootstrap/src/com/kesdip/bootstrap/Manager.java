@@ -10,34 +10,73 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.kesdip.bootstrap.communication.ProtocolHandler;
 import com.kesdip.business.util.schema.SchemaUpdater;
 
+/**
+ * Entry-point class for the bootstrap application.
+ * 
+ * @author gerogias
+ */
 public class Manager extends Thread {
 
+	/**
+	 * The logger.
+	 */
 	private static final Logger logger = Logger.getLogger(Manager.class);
 
 	/**
 	 * The package containing schema update SQL scripts.
 	 */
 	public static final String SQL_PKG = "com/kesdip/bootstrap/schema/";
-	
+
 	/**
-	 * The list of bootstrap schema versions.
+	 * Private constructor.
+	 */
+	private Manager() {
+		// do nothing
+	}
+
+	/**
+	 * The list of supported bootstrap schema versions.
 	 */
 	private final String[] VERSIONS = { "1.0", "1.1" };
 
 	private boolean run = true;
 
+	/**
+	 * Interval in millis for heart-beat messages.
+	 */
 	private long communicationInterval;
 
+	/**
+	 * Interval in millis for screendumps.
+	 */
 	private long screendumpInterval;
 
+	/**
+	 * Calculated ratio for screendumps (commInt/dumpInt).
+	 */
 	private long intervalsRatio;
 
-	public String serverURL = Config.getSingleton().getServerURL();
+	/**
+	 * The server's URL.
+	 */
+	private String serverURL = null;
 
-	MessagePump pump;
+	/**
+	 * The internal message pump.
+	 */
+	private MessagePump pump;
 
-	static ApplicationContext ctx;
+	/**
+	 * The bootstrap's application context.
+	 */
+	private ApplicationContext applicationContext;
 
+	/**
+	 * Main method.
+	 * 
+	 * @param args
+	 *            ignored
+	 */
 	public static void main(String[] args) {
 		Manager manager = new Manager();
 		manager.start();
@@ -50,12 +89,12 @@ public class Manager extends Thread {
 				.getScreenDumpInterval()) * 1000;
 		serverURL = Config.getSingleton().getServerURL();
 		intervalsRatio = screendumpInterval / communicationInterval;
-		
-		ctx = new ClassPathXmlApplicationContext("bootstrapContext.xml");
+
+		applicationContext = new ClassPathXmlApplicationContext("bootstrapContext.xml");
 
 		// update DB before starting message pump
 		updateDbSchema();
-		
+
 		MessagePump pump = new MessagePump();
 		pump.start();
 		setPump(pump);
@@ -70,18 +109,17 @@ public class Manager extends Thread {
 		while (run) {
 			try {
 				Thread.sleep(communicationInterval);
-				ProtocolHandler comm = (ProtocolHandler) ctx
+				ProtocolHandler comm = (ProtocolHandler) applicationContext
 						.getBean("ProtocolHandler");
 				comm.setManager(this);
 				try {
 					comm.performRequest();
 				} catch (Exception e) {
 					logger.error(e);
-					e.printStackTrace();
 					exceptioncount++;
-					if (firstExceptionTimeStamp == 0)
+					if (firstExceptionTimeStamp == 0) {
 						firstExceptionTimeStamp = new Date().getTime();
-					int comm2excRate; 
+					}
 					if (exceptioncount == 5) {
 						if (new Date().getTime() - firstExceptionTimeStamp < 1800 * 1000) {
 							logger
@@ -116,7 +154,7 @@ public class Manager extends Thread {
 		return pump;
 	}
 
-	public void setPump(MessagePump pump) {
+	private void setPump(MessagePump pump) {
 		this.pump = pump;
 	}
 
@@ -125,7 +163,59 @@ public class Manager extends Thread {
 	 */
 	private final void updateDbSchema() {
 		SchemaUpdater schemaUpdater = new SchemaUpdater(SQL_PKG, null, VERSIONS);
-		schemaUpdater.updateSchema((HibernateTemplate) ctx
+		schemaUpdater.updateSchema((HibernateTemplate) applicationContext
 				.getBean("hibernateTemplate"));
 	}
+
+	// *** Getters and setters below are for dynamic configuration only ***  
+	
+	/**
+	 * @return the communicationInterval
+	 */
+	public long getCommunicationInterval() {
+		return communicationInterval;
+	}
+
+	/**
+	 * @param communicationInterval the communicationInterval to set
+	 */
+	public void setCommunicationInterval(long communicationInterval) {
+		this.communicationInterval = communicationInterval;
+	}
+
+	/**
+	 * @return the screendumpInterval
+	 */
+	public long getScreendumpInterval() {
+		return screendumpInterval;
+	}
+
+	/**
+	 * @param screendumpInterval the screendumpInterval to set
+	 */
+	public void setScreendumpInterval(long screendumpInterval) {
+		this.screendumpInterval = screendumpInterval;
+	}
+
+	/**
+	 * @return the serverURL
+	 */
+	public String getServerURL() {
+		return serverURL;
+	}
+
+	/**
+	 * @param serverURL the serverURL to set
+	 */
+	public void setServerURL(String serverURL) {
+		this.serverURL = serverURL;
+	}
+
+	/**
+	 * @return the applicationContext
+	 */
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+	
 }

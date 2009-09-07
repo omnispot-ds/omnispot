@@ -9,16 +9,16 @@
 
 package com.kesdip.business.util.propertyeditor;
 
-import java.beans.PropertyEditorSupport;
-
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.kesdip.common.util.propertyeditor.BaseTypeEditor;
+
 /**
- * Base class for all custom type resolvers.
+ * Base class for all custom type resolvers needing DB access.
  * 
  * @author gerogias
  */
-public class BaseTypeEditor extends PropertyEditorSupport {
+public class BaseDBTypeEditor extends BaseTypeEditor {
 
 	private HibernateTemplate hibernateTemplate = null;
 

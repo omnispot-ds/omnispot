@@ -7,7 +7,7 @@
  * @author <a href="mailto:sgerogia@gmail.com">Stelios Gerogiannakis</a>
  */
 
-package com.kesdip.business.util.propertyeditor;
+package com.kesdip.common.util.propertyeditor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,16 +19,16 @@ import com.kesdip.common.util.DateUtils;
 import com.kesdip.common.util.StringUtils;
 
 /**
- * Resolves a string to a {@link Date}.
+ * Resolves a string to a {@link Date}, using {@link DateUtils#DATE_TIME_FORMAT}.
  * 
  * @author gerogias
  */
-public class DateEditor extends BaseTypeEditor {
+public class DateTimeEditor extends BaseTypeEditor {
 
 	/**
 	 * The logger.
 	 */
-	private final static Logger logger = Logger.getLogger(DateEditor.class);
+	private static final Logger logger = Logger.getLogger(DateTimeEditor.class);
 
 	/**
 	 * @return String the date representation
@@ -39,11 +39,14 @@ public class DateEditor extends BaseTypeEditor {
 		if (getValue() == null) {
 			return "";
 		}
-		return new SimpleDateFormat(DateUtils.DATE_FORMAT).format(getValue());
+		return new SimpleDateFormat(DateUtils.DATE_TIME_FORMAT)
+				.format(getValue());
 	}
 
 	/**
 	 * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
+	 * @throws IllegalArgumentException
+	 *             if the text is not correct
 	 */
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
@@ -54,7 +57,8 @@ public class DateEditor extends BaseTypeEditor {
 			logger.trace("Parsing " + text);
 		}
 		try {
-			setValue(new SimpleDateFormat(DateUtils.DATE_FORMAT).parse(text));
+			setValue(new SimpleDateFormat(DateUtils.DATE_TIME_FORMAT)
+					.parse(text));
 		} catch (ParseException e) {
 			logger.error(e);
 			throw new IllegalArgumentException(e);

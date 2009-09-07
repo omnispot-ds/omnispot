@@ -24,6 +24,10 @@ public class RestartPlayerMessage extends Message {
 		Logger.getLogger(RestartPlayerMessage.class);
 	
 	private String actionId;
+	private static Process playerProcess;
+	private static LoggerThread playerOutputLoggingThread;
+	private static LoggerThread playerErrorLoggingThread;
+	
 
 	@Override
 	public String getActionId() {
@@ -43,7 +47,7 @@ public class RestartPlayerMessage extends Message {
 		private BufferedReader reader;
 		private boolean running;
 		
-		public LoggerThread(String output, BufferedReader reader) {
+		private LoggerThread(String output, BufferedReader reader) {
 			super(output);
 			
 			this.reader = reader;
@@ -63,10 +67,13 @@ public class RestartPlayerMessage extends Message {
 			while (isRunning()) {
 				try {
 					String line = reader.readLine();
-					if (line == null)
-						stopRunning(); // The player has probably died...
-					if (logger.isDebugEnabled())
+					if (line == null) {
+						// The player has probably died...
+						stopRunning(); 
+					}
+					if (logger.isDebugEnabled()) {
 						logger.debug(line);
+					}
 				} catch (Throwable t) {
 					logger.error("Exception while logging player " +
 							"process output.", t);
@@ -75,18 +82,15 @@ public class RestartPlayerMessage extends Message {
 		}
 	}
 	
-	private static Process playerProcess;
-	private static LoggerThread playerOutputLoggingThread;
-	private static LoggerThread playerErrorLoggingThread;
-	
 	/**
 	 * Query the player process to see if it is alive.
 	 * @return True iff the player is still alive.
 	 */
 	public static boolean isPlayerProcessAlive() {
 		try {
-			if (playerProcess == null)
+			if (playerProcess == null) {
 				throw new IllegalStateException("Player process is null!?!?");
+			}
 			int exitValue = playerProcess.exitValue();
 			logger.info("The player process has exited with status: " +
 					exitValue);
@@ -139,5 +143,12 @@ public class RestartPlayerMessage extends Message {
 
 	public String toMessageString() {
 		return "[RestartPlayer]";
+	}
+	
+	/**
+	 * @return Process the running player process.
+	 */
+	public static Process getPlayerProcess() {
+		return playerProcess;
 	}
 }

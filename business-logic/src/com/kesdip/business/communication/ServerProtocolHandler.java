@@ -89,15 +89,16 @@ public class ServerProtocolHandler {
 			// now update the admin-console db
 			for (Action action : actions) {
 				//avoid setting back to scheduled actions that have not changed state in client
-				if (action.getStatus() == IActionStatusEnum.SCHEDULED)
+				if (action.getStatus() == IActionStatusEnum.SCHEDULED) {
 					continue;
+				}
 				
 				List<Action> l = getHibernateTemplate().find(
 						"from " + Action.class.getName()
 								+ " a where a.actionId = ? ",
 						new Object[] { action.getActionId() });
 				if (l.size() > 1) {
-					throw new AssertionError("Duplicate actionIds found!?!?");
+					throw new IllegalStateException("Duplicate actionIds found!?!?");
 				} else if (l.size() == 1) {
 					Action dbAction = l.get(0);
 					dbAction.setStatus(action.getStatus());
@@ -166,7 +167,7 @@ public class ServerProtocolHandler {
 		for (int i = 0; i < fileItems.size(); i++) {
 			FileItem item = (FileItem) fileItems.get(i);
 
-			if (item.isFormField() == true) {
+			if (item.isFormField()) {
 				List<String> values = formParameters.get(item.getFieldName());
 				if (values != null) {
 					values.add(item.getString("UTF-8"));

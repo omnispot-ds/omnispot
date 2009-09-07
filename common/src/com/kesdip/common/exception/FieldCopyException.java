@@ -17,7 +17,7 @@ public class FieldCopyException extends BaseUncheckedException {
 	/**
 	 * Serialization version.
 	 */
-	static final long serialVersionUID = 123456L;
+	private static final long serialVersionUID = 123456L;
 	
 	/**
 	 * Default constructor.

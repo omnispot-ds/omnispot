@@ -7,3 +7,6 @@ etc/lib/apache-commons/commons-beanutils-1.7.0.jar
 
 etc/lib/sun/jna.jar
 etc/lib/sun/examples.jar
+
+etc/lib/spring/spring.jar
+etc/lib/spring/spring-context.jar

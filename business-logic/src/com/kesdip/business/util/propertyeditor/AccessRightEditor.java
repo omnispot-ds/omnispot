@@ -20,7 +20,7 @@ import com.kesdip.business.domain.generated.AccessRight;
  * 
  * @author gerogias
  */
-public class AccessRightEditor extends BaseTypeEditor {
+public class AccessRightEditor extends BaseDBTypeEditor {
 
 	/**
 	 * The logger.

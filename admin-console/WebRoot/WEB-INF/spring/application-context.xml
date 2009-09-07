@@ -47,7 +47,7 @@
 			<map>
 				<entry key="java.io.File[]">
 					<bean
-						class="com.kesdip.business.util.propertyeditor.FileArrayEditor"
+						class="com.kesdip.common.util.propertyeditor.FileArrayEditor"
 						parent="baseTypeEditor" scope="singleton" />
 				</entry>
 				<entry key="com.kesdip.business.domain.generated.AccessRight">
@@ -67,7 +67,7 @@
 				</entry>
 				<entry key="java.util.Date">
 					<bean
-						class="com.kesdip.business.util.propertyeditor.DateEditor"
+						class="com.kesdip.common.util.propertyeditor.DateEditor"
 						parent="baseTypeEditor" scope="singleton" />
 				</entry>
 			</map>
