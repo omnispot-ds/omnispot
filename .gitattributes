@@ -374,6 +374,7 @@ common/.classpath -text
 common/.project -text
 common/build.xml -text
 common/shared.jars -text
+common/src-test/com/kesdip/common/configure/ApplicationContextBeanSetterTest.java -text
 common/src-test/com/kesdip/common/configure/resources/TestBean.java -text
 common/src-test/com/kesdip/common/configure/resources/applicationContextBeanSetter.xml -text
 common/src-test/com/kesdip/common/test/BaseSpringTest.java -text
