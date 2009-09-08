@@ -141,11 +141,9 @@ public class Player implements Runnable {
 	 *            The settings object.
 	 * @param contents
 	 *            The contents object.
-	 * @throws Exception
 	 */
 	public synchronized void startDeployment(ApplicationContext ctx,
-			DeploymentSettings settings, DeploymentContents contents)
-			throws Exception {
+			DeploymentSettings settings, DeploymentContents contents) {
 		this.deploymentContext = ctx;
 		this.settings = settings;
 		if (logger.isDebugEnabled()) {

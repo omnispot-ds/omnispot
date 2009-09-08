@@ -5,11 +5,13 @@
  */
 package com.kesdip.player;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -125,23 +127,20 @@ public class TimingMonitor implements Runnable {
 	 * Helper method to remove all scheduled jobs from the quartz scheduler.
 	 * 
 	 * @throws SchedulerException
-	 *             iff something goes wrong.
-	private void removeAllJobs() throws SchedulerException {
-		String[] groupNames = scheduler.getJobGroupNames();
-		for (String groupName : groupNames) {
-			String[] jobNames = scheduler.getJobNames(groupName);
-			for (String jobName : jobNames) {
-				scheduler.deleteJob(jobName, groupName);
-			}
-		}
-	}
+	 *             iff something goes wrong. private void removeAllJobs() throws
+	 *             SchedulerException { String[] groupNames =
+	 *             scheduler.getJobGroupNames(); for (String groupName :
+	 *             groupNames) { String[] jobNames =
+	 *             scheduler.getJobNames(groupName); for (String jobName :
+	 *             jobNames) { scheduler.deleteJob(jobName, groupName); } } }
 	 */
 	/**
-	 * Helper method to remove all scheduled component jobs from the
-	 * quartz scheduler. Used when a layout changes, so as to remove scheduled jobs for
+	 * Helper method to remove all scheduled component jobs from the quartz
+	 * scheduler. Used when a layout changes, so as to remove scheduled jobs for
 	 * components, but leave any scheduled jobs for sibling layouts.
 	 * 
-	 * @throws SchedulerException iff something goes wrong.
+	 * @throws SchedulerException
+	 *             iff something goes wrong.
 	 */
 	private void removeAllComponentJobs() throws SchedulerException {
 		String[] jobNames = scheduler.getJobNames("component");
@@ -149,34 +148,45 @@ public class TimingMonitor implements Runnable {
 			scheduler.deleteJob(jobName, "component");
 		}
 	}
-	
+
 	/**
 	 * Helper method to start "playing" a deployment.
 	 * 
 	 * @param contextPath
 	 *            The deployment descriptor path.
-	 * @throws Exception
+	 * @throws BeanInitializationException
+	 *             if the context file does nto define the expected beans
+	 * @throws IOException
+	 *             if the context file is not found
+	 * @throws ParseException
+	 *             if CRON expressions are invalid
+	 * @throws SchedulerException
+	 *             if Quartz jobs fail to schedule
 	 */
-	private void startDeployment(long id, String contextPath) throws Exception {
+	private void startDeployment(long id, String contextPath)
+			throws BeanInitializationException, IOException, ParseException,
+			SchedulerException {
 		ApplicationContext ctx = new FileSystemXmlApplicationContext(
 				contextPath);
 		DeploymentSettings settings = (DeploymentSettings) ctx
 				.getBean("deploymentSettings");
 		DeploymentContents contents = (DeploymentContents) ctx
 				.getBean("deploymentContents");
-		if (settings == null)
+		if (settings == null) {
 			throw new BeanInitializationException(
 					"The application context "
 							+ "factory should contain a bean with ID 'deploymentSettings'.");
-		if (contents == null)
+		}
+		if (contents == null) {
 			throw new BeanInitializationException(
 					"The application context "
 							+ "factory should contain a bean with ID 'deploymentContents'.");
-
+		}
 		removeAllComponentJobs();
 		for (DeploymentLayout layout : contents.getLayouts()) {
-			if (layout.getCronExpression() == null)
+			if (layout.getCronExpression() == null) {
 				continue;
+			}
 
 			Trigger trigger = new CronTrigger(layout.getName() + "_trigger",
 					"layout", layout.getCronExpression());
@@ -249,8 +259,13 @@ public class TimingMonitor implements Runnable {
 					logger.info("Startind deployment with ID: "
 							+ potentialDeploymentId + ", from path: "
 							+ potentialDeploymentPath);
-					startDeployment(potentialDeploymentId,
-							potentialDeploymentPath);
+					try {
+						startDeployment(potentialDeploymentId,
+								potentialDeploymentPath);
+					} catch (Exception e) {
+						logger.error("Failed to start deployment: "
+								+ potentialDeploymentPath, e);
+					}
 				}
 
 				rs.close();

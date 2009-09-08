@@ -92,7 +92,7 @@ public class BeanSetter {
 			throws FieldSetException, IllegalArgumentException {
 
 		// invalid expression
-		if (!StringUtils.isEmpty(expression)) {
+		if (StringUtils.isEmpty(expression)) {
 			logger.warn("Expression is incorrect: " + expression);
 			throw new IllegalArgumentException("Expression is incorrect: "
 					+ expression);

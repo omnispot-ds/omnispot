@@ -139,7 +139,7 @@ public class ReconfigureMessage extends Message {
 
 		HibernateTemplate hibernateTemplate = getHibernateTemplate();
 		List<Action> actions = hibernateTemplate.find("select a from "
-				+ Action.class.getName() + " where a.actionId = '"
+				+ Action.class.getName() + " a where a.actionId = '"
 				+ getActionId() + "'");
 		return !actions.isEmpty() ? actions.iterator().next() : null;
 	}
