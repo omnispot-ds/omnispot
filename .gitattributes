@@ -379,6 +379,7 @@ common/src-test/com/kesdip/common/configure/resources/TestBean.java -text
 common/src-test/com/kesdip/common/configure/resources/applicationContextBeanSetter.xml -text
 common/src-test/com/kesdip/common/test/BaseSpringTest.java -text
 common/src-test/com/kesdip/common/test/BaseTest.java -text
+common/src-test/com/kesdip/common/util/propertyeditor/ColorEditorTest.java -text
 common/src/META-INF/MANIFEST.MF -text
 common/src/com/kesdip/common/configure/ApplicationContextBeanSetter.java -text
 common/src/com/kesdip/common/configure/BeanSetter.java -text
