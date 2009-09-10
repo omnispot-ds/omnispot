@@ -36,9 +36,12 @@
 		</property>
 	</bean>
 
-	<bean id="baseTypeEditor" abstract="true">
+	<bean id="baseTypeEditor" abstract="true"/>
+
+	<bean id="baseDbEditor" abstract="true" parent="baseTypeEditor">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
+	
 
 	<!-- Custom value editors and resolvers -->
 	<bean id="customEditorRegistrar"
@@ -50,25 +53,30 @@
 						class="com.kesdip.common.util.propertyeditor.FileArrayEditor"
 						parent="baseTypeEditor" scope="singleton" />
 				</entry>
-				<entry key="com.kesdip.business.domain.generated.AccessRight">
-					<bean
-						class="com.kesdip.business.util.propertyeditor.AccessRightEditor"
-						parent="baseTypeEditor" scope="singleton" />
-				</entry>
-				<entry key="com.kesdip.business.domain.generated.Installation">
-					<bean
-						class="com.kesdip.business.util.propertyeditor.InstallationEditor"
-						parent="baseTypeEditor" scope="singleton" />
-				</entry>
-				<entry key="com.kesdip.business.domain.generated.Customer">
-					<bean
-						class="com.kesdip.business.util.propertyeditor.CustomerEditor"
-						parent="baseTypeEditor" scope="singleton" />
-				</entry>
 				<entry key="java.util.Date">
 					<bean
 						class="com.kesdip.common.util.propertyeditor.DateEditor"
 						parent="baseTypeEditor" scope="singleton" />
+				</entry>
+				<entry key="java.awt.Color">
+					<bean
+						class="com.kesdip.common.util.propertyeditor.ColorEditor"
+						parent="baseTypeEditor" scope="singleton" />
+				</entry>
+				<entry key="com.kesdip.business.domain.generated.AccessRight">
+					<bean
+						class="com.kesdip.business.util.propertyeditor.AccessRightEditor"
+						parent="baseDbEditor" scope="singleton" />
+				</entry>
+				<entry key="com.kesdip.business.domain.generated.Installation">
+					<bean
+						class="com.kesdip.business.util.propertyeditor.InstallationEditor"
+						parent="baseDbEditor" scope="singleton" />
+				</entry>
+				<entry key="com.kesdip.business.domain.generated.Customer">
+					<bean
+						class="com.kesdip.business.util.propertyeditor.CustomerEditor"
+						parent="baseDbEditor" scope="singleton" />
 				</entry>
 			</map>
 		</property>

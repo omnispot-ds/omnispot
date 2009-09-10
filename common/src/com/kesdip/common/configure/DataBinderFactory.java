@@ -9,6 +9,7 @@
 
 package com.kesdip.common.configure;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import org.springframework.validation.DefaultBindingErrorProcessor;
 
 import com.kesdip.common.util.StringUtils;
 import com.kesdip.common.util.propertyeditor.BaseTypeEditor;
+import com.kesdip.common.util.propertyeditor.ColorEditor;
 import com.kesdip.common.util.propertyeditor.DateTimeEditor;
 import com.kesdip.common.util.propertyeditor.FileArrayEditor;
 
@@ -51,6 +53,7 @@ public class DataBinderFactory {
 		customEditors = new HashMap<Class<?>, BaseTypeEditor>();
 		customEditors.put(Date.class, new DateTimeEditor());
 		customEditors.put(File[].class, new FileArrayEditor());
+		customEditors.put(Color.class, new ColorEditor());
 	}
 
 	/**
@@ -66,14 +69,14 @@ public class DataBinderFactory {
 	 */
 	public static DataBinder createDataBinder(Object bean, String name)
 			throws IllegalArgumentException {
-		
+
 		if (bean == null) {
 			throw new IllegalArgumentException("Bean cannot be null");
 		}
 		if (StringUtils.isEmpty(name)) {
 			throw new IllegalArgumentException("Bean name cannot be null/empty");
 		}
-		
+
 		DataBinder binder = new DataBinder(bean, name);
 		binder.setBindingErrorProcessor(new DefaultBindingErrorProcessor());
 		binder.setIgnoreInvalidFields(false);
@@ -82,5 +85,25 @@ public class DataBinderFactory {
 			binder.registerCustomEditor(clazz, customEditors.get(clazz));
 		}
 		return binder;
+	}
+
+	/**
+	 * Adds an editor for a specific type in the global map. This method may
+	 * also be used to "override" an already registered editor with a new one.
+	 * 
+	 * @param supportedType
+	 *            the class the editor is for
+	 * @param editor
+	 *            the editor instance
+	 * @throws IllegalArgumentException
+	 *             if an argument is <code>null</code>
+	 */
+	public static void addCustomTypeEditor(Class<?> supportedType,
+			BaseTypeEditor editor) throws IllegalArgumentException {
+
+		if (supportedType == null || editor == null) {
+			throw new IllegalArgumentException("Arguments cannot be null");
+		}
+		customEditors.put(supportedType, editor);
 	}
 }
