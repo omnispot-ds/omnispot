@@ -38,6 +38,10 @@ import com.kesdip.common.util.DBUtils;
  * @author Pafsanias Ftakas
  */
 public class TimingMonitor implements Runnable {
+
+	/**
+	 * The logger.
+	 */
 	private static final Logger logger = Logger.getLogger(TimingMonitor.class);
 
 	/**
@@ -61,16 +65,42 @@ public class TimingMonitor implements Runnable {
 	private Player player;
 	private Scheduler scheduler;
 	private long lastDeploymentID;
+	/**
+	 * Flag to notify the class it is in preview mode. 
+	 */
+	private boolean previewMode = false;
 
 	/**
 	 * Initializing constructor.
 	 * 
 	 * @param player
 	 *            The player associated with this timing monitor.
+	 * @param previewMode
+	 *            <code>true</code> if the player is in preview mode (i.e. no
+	 *            DB)
 	 * @throws SchedulerException
 	 *             Iff something goes wrong starting the scheduler.
 	 */
-	public TimingMonitor(Player player) throws SchedulerException {
+	public TimingMonitor(Player player, boolean previewMode)
+			throws SchedulerException {
+		this.player = player;
+		this.scheduler = StdSchedulerFactory.getDefaultScheduler();
+		this.scheduler.start();
+		this.lastDeploymentID = -1;
+		this.previewMode = previewMode;
+	}
+	
+	/**
+	 * Initializing constructor.
+	 * Preview mode defaults to <code>false</code>.
+	 * 
+	 * @param player
+	 *            The player associated with this timing monitor.
+	 * @throws SchedulerException
+	 *             Iff something goes wrong starting the scheduler.
+	 */
+	public TimingMonitor(Player player)
+			throws SchedulerException {
 		this.player = player;
 		this.scheduler = StdSchedulerFactory.getDefaultScheduler();
 		this.scheduler.start();
@@ -298,12 +328,14 @@ public class TimingMonitor implements Runnable {
 	 */
 	private void checkLayoutExpiry() {
 		DeploymentLayout currentLayout = getCurrentLayout();
-		if (currentLayout == null)
+		if (currentLayout == null) {
 			return;
+		}
 
 		// The layout did not specify a duration. Skip test.
-		if (currentLayout.getDuration() == 0)
+		if (currentLayout.getDuration() == 0) {
 			return;
+		}
 
 		Date now = new Date();
 		Date expiry = new Date(layoutStart.getTime()
@@ -318,7 +350,9 @@ public class TimingMonitor implements Runnable {
 	public void run() {
 		try {
 			while (true) {
-				monitorDeployments();
+				if (!previewMode) {
+					monitorDeployments();
+				}
 
 				checkLayoutExpiry();
 

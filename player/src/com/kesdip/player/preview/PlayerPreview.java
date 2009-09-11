@@ -3,6 +3,7 @@ package com.kesdip.player.preview;
 import java.io.File;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -18,6 +19,7 @@ import com.kesdip.player.DeploymentContents;
 import com.kesdip.player.DeploymentLayout;
 import com.kesdip.player.DeploymentSettings;
 import com.kesdip.player.Player;
+import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.Resource;
 import com.kesdip.player.components.RootContainer;
 
@@ -33,10 +35,11 @@ public class PlayerPreview extends Player {
 	private boolean standaloneProcess = false;
 	
 	public PlayerPreview() throws SchedulerException {
-		super();
+		this.monitor = new TimingMonitor(this, true);
 	}
 
 	public void initialize() {
+		new Thread(this.monitor, "monitor").start();
 		this.completeDeployment = false;
 		this.completeLayout = false;
 		this.stopRunning = new AtomicBoolean(false);
@@ -51,6 +54,7 @@ public class PlayerPreview extends Player {
 		System.setProperty("KESDIP_EPE_DESIGNER_VLC_PATH", vlcPath);
 
 		PlayerPreview preview = new PlayerPreview();
+		preview.initialize();
 		preview.standaloneProcess = standalone;
 		
 		new Thread(preview).start();

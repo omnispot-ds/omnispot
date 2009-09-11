@@ -64,7 +64,7 @@ public class Player implements Runnable {
 	 */
 	private static final Logger logger = Logger.getLogger(Player.class);
 
-	private static Properties props = null;
+	protected static Properties props = new Properties();
 
 	protected TimingMonitor monitor;
 
@@ -121,8 +121,6 @@ public class Player implements Runnable {
 	 */
 	public Player() throws SchedulerException {
 		this.monitor = new TimingMonitor(this);
-		props = new Properties();
-		initialize();
 	}
 
 	public void initialize() throws SchedulerException {
@@ -320,6 +318,8 @@ public class Player implements Runnable {
 					break;
 				}
 			}
+		} catch (Exception e) {
+			logger.error("Error in the layout loop", e);
 		} finally {
 			logger.info("Completed layout: " + layout.getName() + ".");
 			if (isFullScreen) {
@@ -333,7 +333,8 @@ public class Player implements Runnable {
 					container.destroyWindowedResources();
 				}
 			}
-			playerExited();
+			// caused problems in deployment preview  
+			// playerExited();
 		}
 	}
 
@@ -449,6 +450,7 @@ public class Player implements Runnable {
 		Player player = null;
 		try {
 			player = new Player();
+			player.initialize();
 			new Thread(player, "player").start();
 		} catch (Exception e) {
 			logger.error("Error in the main Player method", e);
