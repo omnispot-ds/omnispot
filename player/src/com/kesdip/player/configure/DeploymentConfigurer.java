@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.kesdip.common.configure.ApplicationContextBeanSetter;
 import com.kesdip.common.exception.FieldSetException;
+import com.kesdip.common.util.StringUtils;
 import com.kesdip.player.Player;
 
 /**
@@ -68,6 +69,9 @@ public class DeploymentConfigurer implements Runnable {
 			while (true) {
 				String line = reader.readLine();
 				// not a configuration line
+				if (StringUtils.isEmpty(line)) {
+					continue;
+				}
 				if (line.indexOf('=') == -1) {
 					logger.warn("Ignoring line: " + line);
 					continue;

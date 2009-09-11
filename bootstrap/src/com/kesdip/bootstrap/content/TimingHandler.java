@@ -73,7 +73,7 @@ public class TimingHandler implements ContentHandler {
 			try {
 				c = DBUtils.getConnection();
 
-				actionsUpdate(c);
+				deployActionsUpdate(c);
 
 				Map<ResourceHandler, Integer> pendingMap = new HashMap<ResourceHandler, Integer>();
 
@@ -236,7 +236,15 @@ public class TimingHandler implements ContentHandler {
 		logger.info("Completed task for: " + toMessageString());
 	}
 
-	private void actionsUpdate(Connection c) throws SQLException {
+	/**
+	 * Update for deployment actions.
+	 * 
+	 * @param c
+	 *            the connection
+	 * @throws SQLException
+	 *             on error
+	 */
+	private void deployActionsUpdate(Connection c) throws SQLException {
 		// look for any pending updates in the action table...
 		PreparedStatement ps = c
 				.prepareStatement("SELECT PARAMETER.PARAM_VALUE FROM ACTION,PARAMETER "
@@ -255,8 +263,9 @@ public class TimingHandler implements ContentHandler {
 		rs.close();
 		ps.close();
 
-		if (crcs.size() == 0)
+		if (crcs.size() == 0) {
 			return;
+		}
 
 		ps = c.prepareStatement("SELECT CRC,FAILED_RESOURCE FROM DEPLOYMENT "
 				+ "WHERE FILENAME != '' "
@@ -277,10 +286,11 @@ public class TimingHandler implements ContentHandler {
 
 				String crcKey = rs.getString(1);
 				String failed = rs.getString(2);
-				if (failed.equals("Y"))
+				if (failed.equals("Y")) {
 					ps2.setShort(1, IActionStatusEnum.FAILED);
-				else
+				} else {
 					ps2.setShort(1, IActionStatusEnum.OK);
+				}
 				ps2.setString(2, IActionParamsEnum.DEPLOYMENT_CRC);
 				ps2.setString(3, crcKey);
 				ps2.executeUpdate();

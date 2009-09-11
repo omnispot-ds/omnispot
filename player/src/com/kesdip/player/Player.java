@@ -397,6 +397,15 @@ public class Player implements Runnable {
 			createBackgroundFrame();
 			logger.info("Created background frame");
 
+			try {
+				DeploymentConfigurer configurer = new DeploymentConfigurer(
+						this);
+				new Thread(configurer, "playerConfigurer").start();
+				logger.info("Created the configurer");
+			} catch (Exception e) {
+				logger.error("Error creating the configurer", e);
+			}
+
 			while (true) {
 				List<DeploymentLayout> layouts = contents.getLayouts();
 				int layoutsIndex = 0;
@@ -457,12 +466,6 @@ public class Player implements Runnable {
 			return;
 		}
 		
-		try {
-			DeploymentConfigurer configurer = new DeploymentConfigurer(player);
-			new Thread(configurer, "playerConfigurer").start();
-		} catch (Exception e) {
-			logger.error("Error creating the configurer", e);
-		}
 	}
 
 	/**

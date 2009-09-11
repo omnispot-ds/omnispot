@@ -169,7 +169,7 @@ public class ReconfigureMessage extends Message {
 			}
 		} else if (IClientReconfigureComponentsEnum.PLAYER.equals(parts[0])) {
 			// send to process input
-			playerInput.println(expression + '=' + parameter.getValue());
+			playerInput.println(beanExpression + '=' + parameter.getValue());
 		} else {
 			logger.warn("Invalid module name in expression: " + expression);
 		}

@@ -27,7 +27,7 @@ public abstract class Message implements IMessage {
 			return;
 		}
 		// messages not handled in the pump thread
-		if (isHandledInPumpThread() && status == IActionStatusEnum.OK) {
+		if (isHandledInPumpThread() || status == IActionStatusEnum.OK) {
 			return;
 		}
 
