@@ -508,6 +508,11 @@
 			file="${server.installer.dir}/installer.mpi" 
 			token="apache-tomcat-6.0.18.zip" 
 			value="${tomcat.installer.file}"/>
+		<!-- Replace Tomcat dest folder --> 
+		<replace 
+			file="${server.installer.dir}/installer.mpi" 
+			token="apache-tomcat-6.0.18" 
+			value="${tomcat.version.string}"/>
 		<!-- Replace absolute JDK dir with current JDK dir -->
 		<replace 
 			file="${server.installer.dir}/installer.mpi" 

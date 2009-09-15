@@ -286,6 +286,7 @@ File ::44B8E586-AECD-47BA-A9CD-DC4B46CF3710 -type dir -name C:/workdir-ds/design
 File ::4814E1EF-E29F-42CC-87AC-3FD7616A7DC0 -name apache-tomcat-6.0.18.zip -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
 File ::8F4BC925-E7D9-42AB-B30A-94EE56A5132E -name context.xml -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
 File ::0536390C-D236-4DC1-AC68-9B87940C4BD8 -name server.xml -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
+File ::7AF45777-7E1A-411A-9052-39ECA7052374 -name apache-tomcat-6.0.20.zip -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
 FileGroup ::1D4D862E-6A79-40E5-B04A-6DDF1556446B -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name VLC -parent FileGroups
 File ::58C187F1-9560-4996-A045-C9B01B2A46C2 -type dir -name C:/workdir-ds/designer.build/installer/vlc -parent 1D4D862E-6A79-40E5-B04A-6DDF1556446B
 File ::C7B46D96-85DF-4152-A4CB-5DEF90A29886 -name vlc-0.9.9-win32.exe -parent 58C187F1-9560-4996-A045-C9B01B2A46C2
@@ -3809,7 +3810,7 @@ ConsoleComponent
 Yes
 
 0F5B788E-6859-429C-AD98-171611191CEC,ServiceName
-{Apache Tomcat}
+{Apache Tomcat 6}
 
 0FB296FB-EF20-4B52-8575-7A4034738288,Conditions
 {0 conditions}
@@ -3881,7 +3882,7 @@ CreateQuickLaunchShortcut
 {1 condition}
 
 1BDA3598-BE4A-471C-8215-5339830972BE,ServiceName
-{Apache Tomcat}
+{Apache Tomcat 6}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Caption,subst
 1
@@ -4778,7 +4779,7 @@ false
 Yes
 
 90D3B0E7-4CA5-41AE-86B9-B994E8081B11,ServiceName
-{Apache Tomcat}
+{Apache Tomcat 6}
 
 91893656-ADC4-408D-8D82-5527CCD34052,BackButton,subst
 1

@@ -515,7 +515,7 @@ ConsoleComponent
 Yes
 
 0F5B788E-6859-429C-AD98-171611191CEC,ServiceName
-{Apache Tomcat}
+{Apache Tomcat 6}
 
 119E15D2-F5D0-40AB-B42C-B28C827F1B85,ExecuteAction
 {Before Pane is Displayed}
@@ -548,7 +548,7 @@ ConsoleComponent
 {0 conditions}
 
 1BDA3598-BE4A-471C-8215-5339830972BE,ServiceName
-{Apache Tomcat}
+{Apache Tomcat 6}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Caption,subst
 1
@@ -1214,7 +1214,7 @@ Yes
 Yes
 
 90D3B0E7-4CA5-41AE-86B9-B994E8081B11,ServiceName
-{Apache Tomcat}
+{Apache Tomcat 6}
 
 91893656-ADC4-408D-8D82-5527CCD34052,BackButton,subst
 1

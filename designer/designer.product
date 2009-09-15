@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Ke.S.Di.P. E.P.E. Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.0.0" useFeatures="false">
+<product name="Ke.S.Di.P. E.P.E. Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.1.0" useFeatures="false">
 
    <aboutInfo>
       <image path="/com.kesdip.designer/splash.png"/>
