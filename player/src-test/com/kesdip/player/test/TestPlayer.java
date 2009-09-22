@@ -3,6 +3,7 @@ package com.kesdip.player.test;
 import org.quartz.SchedulerException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.kesdip.player.DeploymentContents;
 import com.kesdip.player.DeploymentSettings;
@@ -11,7 +12,7 @@ import com.kesdip.player.Player;
 public class TestPlayer extends Player {
 	
 	public TestPlayer() throws SchedulerException {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("appContext.xml", TestPlayer.class);
+		ApplicationContext ctx = new FileSystemXmlApplicationContext("C:\\Documents and Settings\\gerogias\\Desktop\\ticker.des.xml");
 		DeploymentSettings deploymentSettings = (DeploymentSettings) ctx.getBean("deploymentSettings");
 		DeploymentContents deploymentContents = (DeploymentContents) ctx.getBean("deploymentContents");
 		try {
@@ -23,13 +24,28 @@ public class TestPlayer extends Player {
 	
 	@Override
 	public void initialize() {
-		//super.initialize();
+		try {
+			super.initialize();
+		} catch (SchedulerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
+	/**
+	 * @param args
+	 */
+	/**
+	 * @param args
+	 */
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			TestPlayer player = new TestPlayer();
 			new Thread(player, "testPlayer").start();
+			player.initialize();
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}

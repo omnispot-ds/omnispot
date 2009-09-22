@@ -85,7 +85,7 @@ public class TimingMonitor implements Runnable {
 			throws SchedulerException {
 		this.player = player;
 		this.scheduler = StdSchedulerFactory.getDefaultScheduler();
-		this.scheduler.start();
+		//this.scheduler.start();
 		this.lastDeploymentID = -1;
 		this.previewMode = previewMode;
 	}
@@ -349,18 +349,18 @@ public class TimingMonitor implements Runnable {
 	@Override
 	public void run() {
 		try {
-			while (true) {
-				if (!previewMode) {
-					monitorDeployments();
-				}
-
-				checkLayoutExpiry();
-
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException ie) {
-				}
-			}
+//			while (true) {
+//				if (!previewMode) {
+//					monitorDeployments();
+//				}
+//
+//				checkLayoutExpiry();
+//
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException ie) {
+//				}
+//			}
 		} catch (Throwable t) {
 			logger.error("Error during the monitor thread main loop", t);
 		}

@@ -35,6 +35,11 @@ public class FileUtils {
 	private final static Logger logger = Logger.getLogger(FileUtils.class);
 
 	/**
+	 * Temp directory for the JVM.
+	 */
+	private final static String TMP_DIR = System.getProperty("java.io.tmpdir");
+
+	/**
 	 * Utility method to create a folder structure,if it does not exist.
 	 * 
 	 * @param name
@@ -195,6 +200,52 @@ public class FileUtils {
 			return name.substring(0, dotIndex) + suffix
 					+ name.substring(dotIndex);
 		}
+	}
+
+	/**
+	 * Returns a unique file inside <code>java.io.tmpdir</code> with "tmp" as
+	 * prefix.
+	 * 
+	 * @param deleteOnExit
+	 *            if the file should be deleted on JVM's exit
+	 * @return File the created file
+	 * @throws IOException
+	 *             if the file could not be created
+	 * @throws IllegalArgumentException
+	 *             if the name is <code>null</code>/empty
+	 */
+	public static File createUniqueFile(boolean deleteOnExit)
+			throws IOException, IllegalArgumentException {
+		return createUniqueFile("tmp", deleteOnExit);
+	}
+
+	/**
+	 * Returns a unique file inside <code>java.io.tmpdir</code> with the given
+	 * name as prefix.
+	 * 
+	 * @param name
+	 *            the name of the file, w/o any path info
+	 * @param deleteOnExit
+	 *            if the file should be deleted on JVM's exit
+	 * @return File the created file
+	 * @throws IOException
+	 *             if the file could not be created
+	 * @throws IllegalArgumentException
+	 *             if the name is <code>null</code>/empty
+	 */
+	public static File createUniqueFile(String name, boolean deleteOnExit)
+			throws IOException, IllegalArgumentException {
+		if (StringUtils.isEmpty(name)) {
+			logger.error("Name is null");
+			throw new IllegalArgumentException("Name is null");
+		}
+		String unique = getUniqueFileName(name);
+		File uniqueFile = new File(TMP_DIR, unique);
+		uniqueFile.createNewFile();
+		if (deleteOnExit) {
+			uniqueFile.deleteOnExit();
+		}
+		return uniqueFile;
 	}
 
 	/**

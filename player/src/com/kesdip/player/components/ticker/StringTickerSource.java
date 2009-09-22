@@ -44,8 +44,9 @@ public class StringTickerSource implements TickerSource, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (src == null)
+		if (src == null) {
 			throw new Exception("Property 'src' must be set.");
+		}
 		reset();
 	}
 }

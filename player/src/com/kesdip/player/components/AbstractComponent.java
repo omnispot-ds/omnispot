@@ -36,6 +36,7 @@ public abstract class AbstractComponent implements Component {
 	protected int height;
 	protected Color backgroundColor;
 	protected Player player;
+	protected String id; 
 	
 	public void setX(int x) {
 		this.x = x;
@@ -110,6 +111,13 @@ public abstract class AbstractComponent implements Component {
 	public synchronized void runResource(Resource resource) {
 		// Do nothing. Subclasses should override if they need to do something
 		// here. Check the documentation of the Component interface.
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 }

@@ -8,6 +8,7 @@
  */
 package com.kesdip.common.util;
 
+import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -111,5 +112,33 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
 			// will not happen
 		}
 		return url.substring(0, pos + 1) + filename;
+	}
+
+	/**
+	 * Converts a color to its hex representation (0xFFFFFF).
+	 * 
+	 * @param color
+	 *            the color
+	 * @return String its string representation or <code>null</code>
+	 */
+	public static final String toHexString(Color color) {
+		if (color == null) {
+			return null;
+		}
+		StringBuilder str = new StringBuilder("0x");
+		if (color.getRed() < 16) {
+			str.append('0');
+		}
+		str.append(Integer.toHexString(color.getRed()));
+		if (color.getGreen() < 16) {
+			str.append('0');
+		}
+		str.append(Integer.toHexString(color.getGreen()));
+		if (color.getBlue() < 16) {
+			str.append('0');
+		}
+		str.append(Integer.toHexString(color.getBlue()));
+		
+		return str.toString();
 	}
 }
