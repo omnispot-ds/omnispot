@@ -73,8 +73,9 @@ public class TickerPanel extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		if (logger.isTraceEnabled())
+		if (logger.isTraceEnabled()) {
 			logger.trace("TickerPanel.paintComponent() called");
+		}
 		
 		super.paintComponent(g);
 		
@@ -103,9 +104,10 @@ public class TickerPanel extends JPanel {
 		
 		// Now write the content
 		String content = getTickerContent(g);
-		if (logger.isTraceEnabled())
+		if (logger.isTraceEnabled()) {
 			logger.trace("(" + ((int) Math.round(currentXPos)) + ", " + currentYPos +
 					"): '" + content + "'");
+		}
 		g.drawString(content, (int) Math.round(currentXPos), currentYPos);
 		
 		oldContent = content;
@@ -149,12 +151,14 @@ public class TickerPanel extends JPanel {
 		// The formula is:
 		// -1.0 * (sleep / 1000.0) * speed;
 		double sleep = currentTime - oldTotalElapsedTime;
-		if (logger.isTraceEnabled())
+		if (logger.isTraceEnabled()) {
 			logger.trace("The time lapse since we last repainted the " +
 					"ticker is: " + sleep + "ms");
+		}
 		currentXPos += (-1.0 * (sleep / 1000.0) * speed);
-		if (logger.isTraceEnabled())
+		if (logger.isTraceEnabled()) {
 			logger.trace("New currentXPos: " + currentXPos);
+		}
 		oldTotalElapsedTime = currentTime;
 		
 		repaint();

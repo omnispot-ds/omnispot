@@ -19,7 +19,7 @@ public class DeploymentSettings {
 	private int bitDepth;
 	private String id;
 	private Date startTime;
-	private int sleepInterval = 50;
+	private int sleepInterval = 20;
 	
 	public int getWidth() {
 		return width;

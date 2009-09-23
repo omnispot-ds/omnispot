@@ -21,10 +21,11 @@ public class TunerVideo extends AbstractVideo {
 
 	public void setType(int type) {
 		if (type != TunerReceptionTypes.ANALOG
-				&& type != TunerReceptionTypes.DIGITAL)
+				&& type != TunerReceptionTypes.DIGITAL) {
 			throw new IllegalArgumentException(
 					"The Tuner Video type must be either 1"
 							+ "(for analog) or 2 (for digital) reception.");
+		}
 		this.type = type;
 	}
 

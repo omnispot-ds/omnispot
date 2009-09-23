@@ -399,6 +399,10 @@ common/src/com/kesdip/common/util/ProcessUtils.java -text
 common/src/com/kesdip/common/util/StreamCopyListener.java -text
 common/src/com/kesdip/common/util/StreamUtils.java -text
 common/src/com/kesdip/common/util/StringUtils.java -text
+common/src/com/kesdip/common/util/process/ProcessExitDetector.java -text
+common/src/com/kesdip/common/util/process/ProcessExitListener.java -text
+common/src/com/kesdip/common/util/process/ProcessOutputListener.java -text
+common/src/com/kesdip/common/util/process/StreamLogger.java -text
 common/src/com/kesdip/common/util/propertyeditor/BaseTypeEditor.java -text
 common/src/com/kesdip/common/util/propertyeditor/ColorEditor.java -text
 common/src/com/kesdip/common/util/propertyeditor/DateEditor.java -text
@@ -763,6 +767,7 @@ player/etc/yahoo.js -text
 player/shared.jars -text
 player/src-test/com/kesdip/player/component/test/FlashComponent.java -text
 player/src-test/com/kesdip/player/component/test/FlashTest.java -text
+player/src-test/com/kesdip/player/component/test/TestFrame.java -text
 player/src-test/com/kesdip/player/test/Test1.java -text
 player/src-test/com/kesdip/player/test/TestPlayer.java -text
 player/src-test/com/kesdip/player/test/appContext.xml -text
@@ -803,6 +808,15 @@ player/src/com/kesdip/player/components/flash/shockwaveflashobjects/server/IFlas
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/server/IFlashObjectInterfaceVTBL.java -text
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/server/IShockwaveFlashVTBL.java -text
 player/src/com/kesdip/player/components/image/ImagePanel.java -text
+player/src/com/kesdip/player/components/media/AbstractMPlayerVideo.java -text
+player/src/com/kesdip/player/components/media/AnalogTVConfiguration.java -text
+player/src/com/kesdip/player/components/media/DVBTConfiguration.java -text
+player/src/com/kesdip/player/components/media/FileVideo.java -text
+player/src/com/kesdip/player/components/media/MPlayer.java -text
+player/src/com/kesdip/player/components/media/MPlayerConfiguration.java -text
+player/src/com/kesdip/player/components/media/MPlayerEventListener.java -text
+player/src/com/kesdip/player/components/media/TunerVideo.java -text
+player/src/com/kesdip/player/components/media/VideoConfiguration.java -text
 player/src/com/kesdip/player/components/ticker/RefreshJob.java -text
 player/src/com/kesdip/player/components/ticker/RssTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/StringTickerSource.java -text
