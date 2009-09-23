@@ -130,7 +130,7 @@ public class VideoConfiguration extends MPlayerConfiguration {
 	 * 
 	 * @author gerogias
 	 */
-	public final class Playlist implements Serializable {
+	public static final class Playlist implements Serializable {
 
 		/**
 		 * Serialization version.

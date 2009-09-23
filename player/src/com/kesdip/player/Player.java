@@ -120,7 +120,7 @@ public class Player implements Runnable {
 	 *             on error creating the schedulers
 	 */
 	public Player() throws SchedulerException {
-		//this.monitor = new TimingMonitor(this);
+		this.monitor = new TimingMonitor(this);
 	}
 
 	public void initialize() throws SchedulerException {

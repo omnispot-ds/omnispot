@@ -16,9 +16,15 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
+import com.kesdip.common.util.StringUtils;
+import com.kesdip.player.Player;
+import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
+import com.kesdip.player.components.Component;
+import com.kesdip.player.components.ComponentException;
 import com.kesdip.player.components.Resource;
-import com.kesdip.player.registry.ContentRegistry;
+import com.kesdip.player.components.media.VideoConfiguration.Playlist;
+import com.kesdip.player.helpers.PlayerUtils;
 
 /**
  * Renders video files through MPlayer.
@@ -48,11 +54,14 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	@Override
 	protected MPlayerConfiguration getPlayerConfiguration() {
 		VideoConfiguration config = new VideoConfiguration();
-		config.setPlayerName(super.id);
+		config.setPlayerName(super.id != null ? super.id : "FileVideo");
 		config.setColorKey(getWindowComponent().getBackground());
 		config.setFullScreen(false);
 		config.setLoop(repeat);
-		config.setWindowId(com.sun.jna.Native.getComponentID(getWindowComponent()));
+		config.setWindowId(com.sun.jna.Native
+				.getComponentID(getWindowComponent()));
+		// split resources into playlists
+		preparePlaylists(config);
 		return config;
 	}
 
@@ -88,12 +97,8 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 		if (repeat) {
 			return super.isComplete();
 		}
-		return CompletionStatus.COMPLETE;
-//		if (completed != null && completed.get()) {
-//			return CompletionStatus.COMPLETE;
-//		} else {
-//			return CompletionStatus.INCOMPLETE;
-//		}
+		return getMPlayer().isPlaybackCompleted() ? CompletionStatus.COMPLETE
+				: CompletionStatus.INCOMPLETE;
 	}
 
 	/**
@@ -113,13 +118,96 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 				logger.info("Starting scheduled video from resource: "
 						+ resource.getIdentifier());
 			}
-			ContentRegistry registry = ContentRegistry.getContentRegistry();
-			String videoFilename = registry.getResourcePath(resource, true);
-
-			getMPlayer().playFile(videoFilename);
+			String videoFilename = getResourcePath(resource);
+			boolean fullScreen = PlayerUtils.isResourceFullScreen(resource);
+			getMPlayer().playFile(videoFilename, fullScreen);
 		} catch (Exception e) {
-			logger.error("Unable to reschedule video", e);
+			logger.error("Unable to play scheduled video", e);
 		}
+	}
+
+	/**
+	 * Populate the internal <code>playlists</code> structure from the defined
+	 * <code>contents</code>.
+	 * <p>
+	 * While iterating the contents, whenever a fullscreen flag changes value
+	 * between 2 consequent {@link Resource}s, it is a signal for a new sublist
+	 * inside <code>playlists</code>.
+	 * </p>
+	 * <p>
+	 * Resources with a CRON expression are ignored.
+	 * </p>
+	 * 
+	 * @param config
+	 *            the configuration object to populate
+	 */
+	protected void preparePlaylists(VideoConfiguration config) {
+		logger.trace("Preparing playlists");
+		Resource previousRes = null;
+		Playlist playlist = null;
+		int count = 1;
+		for (Resource res : contents) {
+			// do not put in the lists videos with a CRON expression
+			if (!StringUtils.isEmpty(res.getCronExpression())) {
+				continue;
+			}
+			boolean resFs = PlayerUtils.isResourceFullScreen(res);
+			boolean prevResFs = PlayerUtils.isResourceFullScreen(previousRes);
+			// change of flag -> new list
+			if (previousRes == null || resFs != prevResFs) {
+				String playlistId = super.id + '_' + count++;
+				playlist = new Playlist(playlistId);
+				playlist.setFullScreen(resFs);
+				config.addPlaylist(playlist);
+			}
+			playlist.addFile(getResourcePath(res));
+			previousRes = res;
+		}
+	}
+
+	/**
+	 * Schedule all resources with a CRON expression.
+	 * 
+	 * @see com.kesdip.player.components.media.AbstractMPlayerVideo#init(com.kesdip.player.components.Component,
+	 *      com.kesdip.player.TimingMonitor, com.kesdip.player.Player)
+	 */
+	@Override
+	public void init(Component parent, TimingMonitor timingMonitor,
+			Player player) throws ComponentException {
+		super.init(parent, timingMonitor, player);
+		try {
+			scheduleResources(timingMonitor, contents);
+		} catch (Exception e) {
+			throw new ComponentException("Unable to initialize component", e);
+		}
+	}
+
+	/**
+	 * @return the repeat
+	 */
+	public boolean isRepeat() {
+		return repeat;
+	}
+
+	/**
+	 * @param repeat the repeat to set
+	 */
+	public void setRepeat(boolean repeat) {
+		this.repeat = repeat;
+	}
+
+	/**
+	 * @return the contents
+	 */
+	public List<Resource> getContents() {
+		return contents;
+	}
+
+	/**
+	 * @param contents the contents to set
+	 */
+	public void setContents(List<Resource> contents) {
+		this.contents = contents;
 	}
 
 }

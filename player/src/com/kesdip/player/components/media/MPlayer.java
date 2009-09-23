@@ -54,19 +54,14 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	private final String MPLAYER_EXE = System.getProperty("MPLAYER_EXE");
 
 	/**
-	 * The location of the TV-enabled MPlayer executable.
-	 */
-	private final String MPLAYER_TV_EXE = System.getProperty("MPLAYER_TV_EXE");
-
-	/**
 	 * Pattern for the video progress percent.
 	 */
 	private final Pattern VIDEO_POS_PATTERN = Pattern
 			.compile("ANS_percent_pos\\=(\\d+?)");
 
 	/**
-	 * The MPlayer instance command-line input. Never use this property
-	 * directly, as the process may be dead. Instead call
+	 * The MPlayer instance command-line input. Never use this property directly
+	 * to pass commands, as the process may be dead. Instead call
 	 * {@link #getMPlayerIn()}.
 	 */
 	private PrintStream mplayerIn = null;
@@ -75,6 +70,16 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	 * The configuration.
 	 */
 	private MPlayerConfiguration config = null;
+
+	/**
+	 * Is the player paused?
+	 */
+	private boolean paused = false;
+
+	/**
+	 * Is the player stopped?
+	 */
+	private boolean stopped = false;
 
 	/**
 	 * Private constructor.
@@ -116,7 +121,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 				logger.info("Creating player instance '"
 						+ config.getPlayerName() + '\'');
 			}
-			String cmdLine = createCommandLine();
+			String cmdLine = createCommandLine(config);
 
 			Process process = Runtime.getRuntime().exec(cmdLine);
 
@@ -135,36 +140,67 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	}
 
 	/**
+	 * Creates a temporary {@link MPlayer} instance. Used in the
+	 * "play scheduled media" use case.
+	 * 
+	 * @param videoConfig
+	 *            the configuration to use
+	 */
+	private final void createTempMPlayer(VideoConfiguration videoConfig)
+			throws IOException {
+		if (logger.isInfoEnabled()) {
+			logger.info("Creating temporary player instance '"
+					+ videoConfig.getPlayerName() + '\'');
+		}
+		String cmdLine = createCommandLine(videoConfig);
+
+		Process process = Runtime.getRuntime().exec(cmdLine);
+
+		ProcessExitDetector exitDetector = new ProcessExitDetector(process,
+				videoConfig.getPlayerName());
+		exitDetector.addProcessListener(new CronPlaybackProcessListener());
+		exitDetector.start();
+		new StreamLogger(videoConfig.getPlayerName(), process.getInputStream(),
+				Level.INFO).start();
+		new StreamLogger(videoConfig.getPlayerName(), process.getInputStream(),
+				Level.WARN).start();
+	}
+
+	/**
+	 * @param configuration
+	 *            the configuration to consider
 	 * @return String a command line created from the passed
 	 *         {@link MPlayerConfiguration}.
 	 */
-	final String createCommandLine() {
+	final String createCommandLine(MPlayerConfiguration configuration) {
 		StringBuilder cmd = new StringBuilder();
-		// different executable for TV
-		if (config instanceof VideoConfiguration) {
-			cmd.append(MPLAYER_EXE);
-		} else {
-			cmd.append(MPLAYER_TV_EXE);
-		}
+		// path to MPlayer
+		cmd.append(MPLAYER_EXE);
 		// always slave process
 		cmd.append(" -slave");
-		if (!config.isFullScreen()) {
-			// idle after finish; never for fullscreen
-			cmd.append(" -idle");
+		// reduce log output
+		cmd.append(" -quiet");
+		if (!configuration.isFullScreen()) {
+			// stay alive after playback finish; never for
+			// fullscreen/non-looping instance
+			if ((configuration instanceof VideoConfiguration)
+					&& ((VideoConfiguration) configuration).isLoop()) {
+				cmd.append(" -idle");
+			}
 			// stretch video/tv in window mode
 			cmd.append(" -nokeepaspect");
 		}
 		// fullscreen or native control with colorkey
-		if (!config.isFullScreen()) {
-			cmd.append(" -wid ").append(config.getWindowId());
+		if (!configuration.isFullScreen()) {
+			cmd.append(" -wid ").append(configuration.getWindowId());
 			cmd.append(" -colorkey ").append(
-					StringUtils.toHexString(config.getColorKey()));
+					StringUtils.toHexString(configuration.getColorKey()));
 		} else {
 			cmd.append(" -fs");
 		}
-		if (config instanceof VideoConfiguration) {
+		if (configuration instanceof VideoConfiguration) {
 			// add files to the queue, if any
-			VideoConfiguration video = (VideoConfiguration) config;
+			VideoConfiguration video = (VideoConfiguration) configuration;
 			// loop
 			if (video.isLoop()) {
 				cmd.append(" -loop 0");
@@ -174,11 +210,11 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 			} else {
 				cmd.append(" foo.avi");
 			}
-		} else if (config instanceof AnalogTVConfiguration) {
-			AnalogTVConfiguration analogTv = (AnalogTVConfiguration) config;
+		} else if (configuration instanceof AnalogTVConfiguration) {
+			AnalogTVConfiguration analogTv = (AnalogTVConfiguration) configuration;
 			cmd.append(" tv://").append(analogTv.getChannel());
-		} else if (config instanceof DVBTConfiguration) {
-			DVBTConfiguration dvbt = (DVBTConfiguration) config;
+		} else if (configuration instanceof DVBTConfiguration) {
+			DVBTConfiguration dvbt = (DVBTConfiguration) configuration;
 			cmd.append(" -dvbin file=\"").append(dvbt.getChannelsConfFile())
 					.append('"');
 			cmd.append(" dvb://\"").append(dvbt.getStreamName()).append('"');
@@ -209,7 +245,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	}
 
 	/**
-	 * Pause playback.
+	 * Pause/unpause playback.
 	 * 
 	 * @throws IllegalStateException
 	 *             if this is not a video player
@@ -223,56 +259,128 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 			PrintStream in = getMPlayerIn();
 			in.print("pause\n");
 			in.flush();
+			paused = !paused;
 		} catch (IOException e) {
 			logger.error("Error pausing player", e);
 		}
 	}
 
 	/**
-	 * Does not interrupt playback and adds a file to the player's internal
-	 * playlist.
+	 * Stops playback.
+	 * 
+	 * @throws IllegalStateException
+	 *             if this is not a video player
+	 */
+	public void stop() {
+		if (!(config instanceof VideoConfiguration)) {
+			throw new IllegalStateException(
+					"'stop' is only allowed for video playback");
+		}
+		try {
+			PrintStream in = getMPlayerIn();
+			in.print("stop\n");
+			in.flush();
+			stopped = true;
+		} catch (IOException e) {
+			logger.error("Error stopping player", e);
+		}
+	}
+
+	/**
+	 * Starts playback if the player was stopped, or goes to the next item in
+	 * the playlist if the player was playing.
+	 * 
+	 * @throws IllegalStateException
+	 *             if this is not a video player
+	 */
+	// public void play() {
+	// if (!(config instanceof VideoConfiguration)) {
+	// throw new IllegalStateException(
+	// "'play' is only allowed for video playback");
+	// }
+	// try {
+	// PrintStream in = getMPlayerIn();
+	// in.print("\n\n");
+	// in.flush();
+	// stopped = false;
+	// paused = false;
+	// } catch (IOException e) {
+	// logger.error("Error stopping player", e);
+	// }
+	// }
+	/**
+	 * Adds a file at the end of the player's internal playlist, without
+	 * iterrupting playback.
 	 * 
 	 * @param fileName
 	 *            full path to the file to add
 	 * @throws IllegalStateException
 	 *             if this is not a video player
 	 */
-	public void addFile(String fileName) {
-		if (!(config instanceof VideoConfiguration)) {
-			throw new IllegalStateException(
-					"'addFile' is only allowed for video playback");
-		}
-		try {
-			PrintStream in = getMPlayerIn();
-			in.print("loadfile \"" + fileName + "\" 1\n");
-			in.flush();
-		} catch (IOException e) {
-			logger.error("Error playing file", e);
-		}
-	}
-
+	// public void addFile(String fileName) {
+	// if (!(config instanceof VideoConfiguration)) {
+	// throw new IllegalStateException(
+	// "'addFile' is only allowed for video playback");
+	// }
+	// try {
+	// PrintStream in = getMPlayerIn();
+	// in.print("loadfile \"" + fileName + "\" 1\n");
+	// in.flush();
+	// } catch (IOException e) {
+	// logger.error("Error playing file", e);
+	// }
+	// }
 	/**
-	 * Interrupts playback, clears the player's internal playlist and plays the
-	 * file. If looping is not enabled, the player will show nothing upon
-	 * completion of playback.
+	 * Interrupts playback and plays the given file only once.
+	 * <p>
+	 * The player is terminated and a new, temporary player instance is created.
+	 * If the file is not fullscreen, then the new instance will re-use the same
+	 * native component as this one. Upon completion of the file's playback, a
+	 * new "normal" player is created again.
 	 * 
 	 * @param fileName
 	 *            full path to the file to play
+	 * @param fullScreen
+	 *            is the file fullscreen?
 	 * @throws IllegalStateException
 	 *             if this is not a video player
 	 */
-	public void playFile(String fileName) {
+	public void playFile(String fileName, boolean fullScreen) {
 		if (!(config instanceof VideoConfiguration)) {
 			throw new IllegalStateException(
 					"'playFile' is only allowed for video playback");
 		}
-		try {
-			PrintStream in = getMPlayerIn();
-			in.print("loadfile \"" + fileName + "\" 0\n");
-			in.flush();
-		} catch (IOException e) {
-			logger.error("Error playing file", e);
+		// TODO: Check with future versions of MPlayer if stop/start work as
+		// expected; terminate is overkill
+		terminate();
+		// create temp player instance
+		VideoConfiguration tempConfig = new VideoConfiguration();
+		tempConfig.setFullScreen(fullScreen);
+		tempConfig.setLoop(false);
+		if (!fullScreen) {
+			// re-use existing native component
+			tempConfig.setColorKey(config.getColorKey());
+			tempConfig.setWindowId(config.getWindowId());
 		}
+		tempConfig.setPlayerName(config.getPlayerName() + "_cron");
+		Playlist playlist = new Playlist("cron");
+		playlist.addFile(fileName);
+		tempConfig.addPlaylist(playlist);
+		try {
+			createTempMPlayer(tempConfig);
+		} catch (IOException e) {
+			logger.error("Error starting scheduled video", e);
+			// try to resume playback on error
+			pause();
+		}
+	}
+
+	/**
+	 * @return boolean <code>true</code> if playback has completed and/or the
+	 *         player process has terminated
+	 */
+	public boolean isPlaybackCompleted() {
+		return mplayerIn == null;
 	}
 
 	/**
@@ -341,7 +449,8 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	private final String createPlaylists(VideoConfiguration config) {
 		StringBuilder cmd = new StringBuilder();
 		for (Playlist playlist : config.getPlaylists()) {
-			cmd.append(' ').append(createPlaylist(playlist));
+			cmd.append(' ').append(
+					createPlaylist(config.getPlayerName(), playlist));
 		}
 		return cmd.toString();
 	}
@@ -350,16 +459,18 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	 * Creates a temporary playlist file (containing one media file per line)
 	 * with the contents of the given playlist.
 	 * 
+	 * @param name
+	 *            the name prefix of the playlist file
 	 * @param playlist
 	 *            the playlist to use
 	 * @return String the playlist string with all playback hints or an empty
 	 *         string in case of error
 	 */
-	private final String createPlaylist(Playlist playlist) {
+	private final String createPlaylist(String name, Playlist playlist) {
 		PrintStream out = null;
 		File file = null;
 		try {
-			file = FileUtils.createUniqueFile(config.getPlayerName(), true);
+			file = FileUtils.createUniqueFile(name, true);
 			out = new PrintStream(file);
 			String normalizedName = null;
 			for (String fileName : playlist.getFileList()) {
@@ -379,5 +490,44 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 			}
 		}
 		return "";
+	}
+
+	/**
+	 * @return the paused
+	 */
+	public boolean isPaused() {
+		return paused;
+	}
+
+	/**
+	 * @return the stopped
+	 */
+	public boolean isStopped() {
+		return stopped;
+	}
+
+	/**
+	 * Listener for cron playback exit events.
+	 * 
+	 * @author gerogias
+	 */
+	private final class CronPlaybackProcessListener implements
+			ProcessExitListener {
+
+		/**
+		 * Starts playback of the main MPlayer.
+		 * 
+		 * @see com.kesdip.common.util.process.ProcessExitListener#processFinished(java.lang.Process,
+		 *      java.lang.Object)
+		 */
+		@Override
+		public void processFinished(Process process, Object userObject) {
+			logger.warn("Player '" + userObject + "' finished");
+			try {
+				MPlayer.this.mplayerIn = MPlayer.this.getMPlayerIn();
+			} catch (Exception e) {
+				logger.error("Error re-creating player", e);
+			}
+		}
 	}
 }

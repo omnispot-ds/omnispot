@@ -21,11 +21,12 @@ import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
 import com.kesdip.player.helpers.ComponentJob;
+import com.kesdip.player.registry.ContentRegistry;
 
 /**
- * Abstract class that encapsulates the common functionality and state that
- * all components should have. In particular, it contains the location and size
- * of the component and its background color.
+ * Abstract class that encapsulates the common functionality and state that all
+ * components should have. In particular, it contains the location and size of
+ * the component and its background color.
  * 
  * @author Pafsanias Ftakas
  */
@@ -36,32 +37,32 @@ public abstract class AbstractComponent implements Component {
 	protected int height;
 	protected Color backgroundColor;
 	protected Player player;
-	protected String id; 
-	
+	protected String id;
+
 	public void setX(int x) {
 		this.x = x;
 	}
-	
+
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
 	public void setWidth(int width) {
 		this.width = width;
 	}
-	
+
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
-	
+
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	public void setLocked(boolean locked) {
 		// Only used in the designer.
 	}
@@ -81,14 +82,17 @@ public abstract class AbstractComponent implements Component {
 	public Set<Resource> gatherResources() {
 		return new HashSet<Resource>();
 	}
-	
+
 	/**
-	 * Helper method to schedule all its resources that have cron expressions with
-	 * the timing monitor.
-	 * @param timingMonitor The timing monitor to schedule jobs with.
-	 * @param resources The resources that potentially need to be scheduled.
-	 * @throws ParseException 
-	 * @throws SchedulerException 
+	 * Helper method to schedule all its resources that have cron expressions
+	 * with the timing monitor.
+	 * 
+	 * @param timingMonitor
+	 *            The timing monitor to schedule jobs with.
+	 * @param resources
+	 *            The resources that potentially need to be scheduled.
+	 * @throws ParseException
+	 * @throws SchedulerException
 	 */
 	protected void scheduleResources(TimingMonitor timingMonitor,
 			List<Resource> resources) throws ParseException, SchedulerException {
@@ -96,11 +100,11 @@ public abstract class AbstractComponent implements Component {
 			if (StringUtils.isEmpty(resource.getCronExpression())) {
 				continue;
 			}
-			
-			Trigger trigger = new CronTrigger(resource.getIdentifier() + "_trigger",
-					"component", resource.getCronExpression());
-			JobDetail jobDetail = new JobDetail(resource.getIdentifier() + "_job",
-					"component", ComponentJob.class);
+
+			Trigger trigger = new CronTrigger(resource.getIdentifier()
+					+ "_trigger", "component", resource.getCronExpression());
+			JobDetail jobDetail = new JobDetail(resource.getIdentifier()
+					+ "_job", "component", ComponentJob.class);
 			jobDetail.getJobDataMap().put("component", this);
 			jobDetail.getJobDataMap().put("resource", resource);
 			timingMonitor.scheduleJob(jobDetail, trigger);
@@ -114,10 +118,26 @@ public abstract class AbstractComponent implements Component {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
+	/**
+	 * Utility method to return the local path of a resource.
+	 * <p>
+	 * Uses {@link ContentRegistry#getResourcePath(Resource, boolean)}, with a
+	 * <code>true</code> argument.
+	 * </p>
+	 * 
+	 * @param resource
+	 * @return String
+	 */
+	protected String getResourcePath(Resource resource) {
+		ContentRegistry registry = ContentRegistry.getContentRegistry();
+		String filename = registry.getResourcePath(resource, true);
+		return filename;
+	}
 }

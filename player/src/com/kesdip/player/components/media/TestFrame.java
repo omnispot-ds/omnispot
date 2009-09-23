@@ -27,6 +27,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.kesdip.player.components.media.VideoConfiguration.Playlist;
+
 /**
  * @author gerogias
  * 
@@ -65,9 +67,9 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 
 	private final String MPLAYER_EXE = System.getProperty("MPLAYER_EXE");
 
-	private final String VIDEO1 = "C:/Documents and Settings/gerogias/Desktop/mail/Heineken - Walkin Fridge.wmv";
+	private final String VIDEO1 = "C:/Documents and Settings/gerogias/Desktop/mail/WhoSaysWomenCan_tPark.wmv";
 	
-	private final String VIDEO2 = "C:/Documents and Settings/gerogias/Desktop/mail/SRG9881.wmv";
+	private final String VIDEO2 = "C:/Documents and Settings/gerogias/Desktop/mail/chicken police (1).mpg";
 	
 	private final String VIDEO3 = "C:/Documents and Settings/gerogias/Desktop/mail/promenade(ch).wmv";
 	
@@ -180,7 +182,7 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 			}
 			try {
 				MPlayer player = (src.equals(play1_1Button) || src.equals(play1_2Button)) ? getEmbedded1MPlayer() : getEmbedded2MPlayer();
-				player.playFile(video);
+				player.playFile(video, true);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -252,8 +254,11 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 			config.setColorKey(Color.BLACK);
 			config.setWindowId(com.sun.jna.Native.getComponentID(canvas1));
 			config.setLoop(true);
-			config.addFile(VIDEO1);
-			config.addFile(VIDEO2);
+			Playlist playlist = new Playlist("test");
+			playlist.setFullScreen(false);
+			playlist.addFile(VIDEO1);
+			playlist.addFile(VIDEO2);
+			config.addPlaylist(playlist);
 			embedded1MPlayer = MPlayer.getInstance(config);
 		}
 		return embedded1MPlayer;
@@ -267,7 +272,8 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 			config.setWindowId(com.sun.jna.Native.getComponentID(canvas2));
 			config.setLoop(false);
 			embedded2MPlayer = MPlayer.getInstance(config);
-			embedded2MPlayer.playFile(VIDEO2);
+//			embedded2MPlayer.addFile(VIDEO2);
+//			embedded2MPlayer.play();
 		}
 		return embedded2MPlayer;
 	}
@@ -277,9 +283,11 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 			System.out.println("------Creating player 'fullScreen'");
 			VideoConfiguration config = new VideoConfiguration();
 			config.setPlayerName("fullScreen");
-			config.setFullScreen(true);
 			config.setLoop(false);
-			config.addFile(VIDEO3);
+			Playlist playlist = new Playlist("test");
+			playlist.setFullScreen(true);
+			playlist.addFile(VIDEO3);
+			config.addPlaylist(playlist);
 			fsMPlayer = MPlayer.getInstance(config);
 		}
 		return fsMPlayer;
@@ -293,7 +301,7 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 			config.setColorKey(Color.WHITE);
 			config.setWindowId(com.sun.jna.Native.getComponentID(canvas2));
 			config.setFullScreen(false);
-			config.setChannel(48);
+			config.setChannel(18);
 			tvMPlayer = MPlayer.getInstance(config);
 		}
 		return tvMPlayer;
