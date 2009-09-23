@@ -97,7 +97,8 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	 * @throws IOException
 	 *             on error creating the instance
 	 */
-	public static MPlayer getInstance(MPlayerConfiguration config) throws IOException {
+	public static MPlayer getInstance(MPlayerConfiguration config)
+			throws IOException {
 		if (config == null || !config.isValid()) {
 			throw new IllegalArgumentException(
 					"Configuration is null or invalid");
@@ -371,7 +372,13 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 		} catch (IOException e) {
 			logger.error("Error starting scheduled video", e);
 			// try to resume playback on error
-			pause();
+			try {
+				this.mplayerIn = MPlayer.this.getMPlayerIn();
+			} catch (IOException ex) {
+				logger
+						.error("Error resuming from a failed scheduled video",
+								ex);
+			}
 		}
 	}
 
