@@ -767,6 +767,7 @@ player/etc/yahoo.js -text
 player/shared.jars -text
 player/src-test/com/kesdip/player/component/test/FlashComponent.java -text
 player/src-test/com/kesdip/player/component/test/FlashTest.java -text
+player/src-test/com/kesdip/player/component/test/TestFrame.java -text
 player/src-test/com/kesdip/player/test/Test1.java -text
 player/src-test/com/kesdip/player/test/TestPlayer.java -text
 player/src-test/com/kesdip/player/test/appContext.xml -text
@@ -814,7 +815,6 @@ player/src/com/kesdip/player/components/media/FileVideo.java -text
 player/src/com/kesdip/player/components/media/MPlayer.java -text
 player/src/com/kesdip/player/components/media/MPlayerConfiguration.java -text
 player/src/com/kesdip/player/components/media/MPlayerEventListener.java -text
-player/src/com/kesdip/player/components/media/TestFrame.java -text
 player/src/com/kesdip/player/components/media/TunerVideo.java -text
 player/src/com/kesdip/player/components/media/VideoConfiguration.java -text
 player/src/com/kesdip/player/components/ticker/RefreshJob.java -text

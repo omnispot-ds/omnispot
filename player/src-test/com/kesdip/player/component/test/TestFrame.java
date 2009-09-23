@@ -7,7 +7,7 @@
  * @author <a href="mailto:sgerogia@gmail.com">Stelios Gerogiannakis</a>
  */
 
-package com.kesdip.player.components.media;
+package com.kesdip.player.component.test;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -27,6 +27,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.kesdip.player.components.media.AnalogTVConfiguration;
+import com.kesdip.player.components.media.MPlayer;
+import com.kesdip.player.components.media.MPlayerEventListener;
+import com.kesdip.player.components.media.VideoConfiguration;
 import com.kesdip.player.components.media.VideoConfiguration.Playlist;
 
 /**

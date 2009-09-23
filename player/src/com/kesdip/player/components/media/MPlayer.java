@@ -97,7 +97,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	 * @throws IOException
 	 *             on error creating the instance
 	 */
-	static MPlayer getInstance(MPlayerConfiguration config) throws IOException {
+	public static MPlayer getInstance(MPlayerConfiguration config) throws IOException {
 		if (config == null || !config.isValid()) {
 			throw new IllegalArgumentException(
 					"Configuration is null or invalid");
