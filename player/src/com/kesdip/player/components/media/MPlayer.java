@@ -254,7 +254,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	public void pause() {
 		if (!(config instanceof VideoConfiguration)) {
 			throw new IllegalStateException(
-					"'pause' is only allowed for video playback");
+					"'pause' is only allowed for a video file player");
 		}
 		try {
 			PrintStream in = getMPlayerIn();
@@ -275,7 +275,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	public void stop() {
 		if (!(config instanceof VideoConfiguration)) {
 			throw new IllegalStateException(
-					"'stop' is only allowed for video playback");
+					"'stop' is only allowed for a video file player");
 		}
 		try {
 			PrintStream in = getMPlayerIn();
@@ -297,7 +297,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	// public void play() {
 	// if (!(config instanceof VideoConfiguration)) {
 	// throw new IllegalStateException(
-	// "'play' is only allowed for video playback");
+	// "'play' is only allowed for a video file player");
 	// }
 	// try {
 	// PrintStream in = getMPlayerIn();
@@ -321,7 +321,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	// public void addFile(String fileName) {
 	// if (!(config instanceof VideoConfiguration)) {
 	// throw new IllegalStateException(
-	// "'addFile' is only allowed for video playback");
+	// "'addFile' is only allowed for a video file player");
 	// }
 	// try {
 	// PrintStream in = getMPlayerIn();
@@ -349,7 +349,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	public void playFile(String fileName, boolean fullScreen) {
 		if (!(config instanceof VideoConfiguration)) {
 			throw new IllegalStateException(
-					"'playFile' is only allowed for video playback");
+					"'playFile' is only allowed for a video file player");
 		}
 		// TODO: Check with future versions of MPlayer if stop/start work as
 		// expected; terminate is overkill
@@ -398,7 +398,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	public void pollProgress() {
 		if (!(config instanceof VideoConfiguration)) {
 			throw new IllegalStateException(
-					"'pollProgress' is only allowed for video playback");
+					"'pollProgress' is only allowed for a video file player");
 		}
 		try {
 			PrintStream in = getMPlayerIn();
