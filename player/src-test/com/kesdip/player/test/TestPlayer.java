@@ -30,6 +30,7 @@ public class TestPlayer extends Player {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.completeDeployment = true;
 	}
 	
 	/**
