@@ -6,7 +6,6 @@
 package com.kesdip.player.components.ticker;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +18,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerUtils;
 import org.quartz.impl.StdSchedulerFactory;
 
+import com.kesdip.player.helpers.SingleCharacterReader;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
@@ -53,11 +53,7 @@ public class RssTickerSource implements TickerSource {
 	
 	private String lastContent;
 	
-	//optimization logic
-	
-	int charsToDisplay = 100;
-	
-	TickerContentHandler contentHandler;
+	SingleCharacterReader charStream;
 	
 	public RssTickerSource() {
 		setRssUrl(null);
@@ -75,7 +71,7 @@ public class RssTickerSource implements TickerSource {
 	public void addTrailingChar() {
 		if (logger.isTraceEnabled())
 			logger.trace("addTrailingChar called");
-		sb.append(contentHandler.nextChunck());
+		sb.append(charStream.nextChar());
 	}
 
 	@Override
@@ -163,11 +159,11 @@ public class RssTickerSource implements TickerSource {
 			builder.append(itemSeparator != null ? itemSeparator : " ");
 		}
 		lastContent = builder.toString();
-		contentHandler = new TickerContentHandler();
+		charStream = new SingleCharacterReader(lastContent);
 		
 		if(sb == null){
 			sb = new StringBuilder();
-			sb.append(contentHandler.nextChunck());
+			sb.append(charStream.nextChar());
 		}		
 	}
 
@@ -191,47 +187,4 @@ public class RssTickerSource implements TickerSource {
 		this.refreshInterval = refreshInterval;
 	}
 	
-	private class TickerContentHandler {
-		
-		List<String> chuncksList;
-		int chuncksIndex = 0;
-		int numberOfChuncks = 0;
-		
-		public TickerContentHandler() {
-			sliceContent();
-		}
-		
-		private void sliceContent() {
-			System.out.println("-----------------------");
-			numberOfChuncks = lastContent.length()/charsToDisplay;
-			chuncksList = new ArrayList<String>();
-			for (int i = 1;i <= numberOfChuncks;i++) {
-				chuncksList.add(lastContent.substring((i-1)*charsToDisplay,i*charsToDisplay));
-			}
-			chuncksList.add(lastContent.substring(numberOfChuncks*charsToDisplay));
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("content length:" + lastContent.length());
-				logger.debug("chars to display: " + charsToDisplay);
-				logger.debug("number of chuncks: " + numberOfChuncks);
-				logger.debug("chuncks list contents : ");
-				int i = 0;
-				for (String chunck:chuncksList) {
-					logger.debug(i+": "+chunck);
-					i++;
-				}
-			}
-		}
-		
-		public String nextChunck() {
-			String retVal = chuncksList.get(chuncksIndex);
-			
-			if (chuncksIndex == chuncksList.size()) 
-				chuncksIndex = 0;
-			
-			chuncksIndex++;
-			
-			return retVal;
-		}
-	}
 }

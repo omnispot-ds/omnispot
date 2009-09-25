@@ -835,6 +835,7 @@ player/src/com/kesdip/player/constenum/TunerReceptionTypes.java -text
 player/src/com/kesdip/player/helpers/ComponentJob.java -text
 player/src/com/kesdip/player/helpers/ExitKeyListener.java -text
 player/src/com/kesdip/player/helpers/PlayerUtils.java -text
+player/src/com/kesdip/player/helpers/SingleCharacterReader.java -text
 player/src/com/kesdip/player/preview/PlayerPreview.java -text
 player/src/com/kesdip/player/registry/ContentRegistry.java -text
 player/src/com/kesdip/player/registry/ContentRegistryImpl.java -text
