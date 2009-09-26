@@ -27,16 +27,22 @@ public class SingleCharacterReader {
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("number of chars: " + chars);
+			StringBuilder sb = new StringBuilder();
+			for (String ch :charsList)
+				sb.append(ch);
+			
+			logger.debug(sb.toString());
+				
 		}
 	}
 
 	public String nextChar() {
 		String retVal = charsList.get(charsIndex);
-
+		charsIndex++;
 		if (charsIndex == charsList.size()) 
 			charsIndex = 0;
 
-		charsIndex++;
+		
 
 		return retVal;
 	}
