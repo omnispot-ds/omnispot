@@ -36,6 +36,10 @@ public class SingleCharacterReader {
 		}
 	}
 
+	/**
+	 * 
+	 * @return the next character (in a loop)
+	 */
 	public String nextChar() {
 		String retVal = charsList.get(charsIndex);
 		charsIndex++;

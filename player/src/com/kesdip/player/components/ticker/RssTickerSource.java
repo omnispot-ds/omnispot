@@ -120,6 +120,15 @@ public class RssTickerSource implements TickerSource {
 	void loadContent(){		
 		createFeed();
 		readFeed();
+		if (lastContent.length() == 0)
+			lastContent = "Feed not available..";
+		
+		charStream = new SingleCharacterReader(lastContent);
+		
+		if(sb == null){
+			sb = new StringBuilder();
+			sb.append(charStream.nextChar());
+		}	
 	}
 
 	private void createFeed() {
@@ -158,15 +167,6 @@ public class RssTickerSource implements TickerSource {
 		
 		lastContent = builder.toString();
 		
-		if (lastContent.length() == 0)
-			lastContent = "Feed not available..";
-		
-		charStream = new SingleCharacterReader(lastContent);
-		
-		if(sb == null){
-			sb = new StringBuilder();
-			sb.append(charStream.nextChar());
-		}		
 	}
 
 	public void setShowOnlyTitles(boolean showOnlyTitles) {
