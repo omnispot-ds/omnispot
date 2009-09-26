@@ -142,23 +142,25 @@ public class RssTickerSource implements TickerSource {
 		if (feed == null){
 			createFeed();
 		}
-		if (feed == null) {
-			
-			return;
-		}
-		List entries = feed.getEntries();
 		StringBuilder builder = new StringBuilder();
-		for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
-			SyndEntry syndEntry = (SyndEntry) iterator.next();
-
-			builder.append(syndEntry.getTitle());
-			if(!showOnlyTitles){
-				builder.append(afterTitle != null ? afterTitle : " ");
-				builder.append(syndEntry.getDescription().getValue());
+		if (feed != null) {
+			List entries = feed.getEntries();
+			for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
+				SyndEntry syndEntry = (SyndEntry) iterator.next();
+				builder.append(syndEntry.getTitle());
+				if(!showOnlyTitles){
+					builder.append(afterTitle != null ? afterTitle : " ");
+					builder.append(syndEntry.getDescription().getValue());
+				}
+				builder.append(itemSeparator != null ? itemSeparator : " ");
 			}
-			builder.append(itemSeparator != null ? itemSeparator : " ");
 		}
+		
 		lastContent = builder.toString();
+		
+		if (lastContent.length() == 0)
+			lastContent = "Feed not available..";
+		
 		charStream = new SingleCharacterReader(lastContent);
 		
 		if(sb == null){
