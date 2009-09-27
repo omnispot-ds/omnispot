@@ -32,7 +32,6 @@ public class SingleCharacterReader {
 				sb.append(ch);
 			
 			logger.debug(sb.toString());
-				
 		}
 	}
 
@@ -43,10 +42,9 @@ public class SingleCharacterReader {
 	public String nextChar() {
 		String retVal = charsList.get(charsIndex);
 		charsIndex++;
-		if (charsIndex == charsList.size()) 
+		if (charsIndex == charsList.size()) {
 			charsIndex = 0;
-
-		
+		}
 
 		return retVal;
 	}

@@ -353,6 +353,7 @@ public class Player implements Runnable {
 		backgroundFrame.setUndecorated(true);
 		backgroundFrame.setResizable(false);
 		backgroundFrame.addKeyListener(PlayerUtils.getExitKeyListener(this));
+		backgroundFrame.addMouseListener(PlayerUtils.getExitMouseListener(this));
 		backgroundFrame.setCursor(PlayerUtils.getNoCursor());
 
 		backgroundFrame.setLocation(0, 0);

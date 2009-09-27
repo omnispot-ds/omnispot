@@ -26,9 +26,15 @@ public class TunerVideo extends AbstractMPlayerVideo {
 	private int type;
 
 	/**
-	 * Analog channel to tune into.
+	 * Analog channel to tune into. Channels may be numbers or strings of type
+	 * <code>s40</code>, <code>e7</code>.
 	 */
-	private int channel;
+	private String channel;
+
+	/**
+	 * The audio device to use. Ignored if -1.
+	 */
+	private int audioDevice = -1;
 
 	/**
 	 * Is the playback fullscreen?
@@ -63,6 +69,10 @@ public class TunerVideo extends AbstractMPlayerVideo {
 					"The Tuner Video type must be either 1"
 							+ "(for analog) or 2 (for digital) reception.");
 		}
+		if (audioDevice < -1) {
+			throw new IllegalArgumentException(
+					"The audio device cannot be a negative number.");
+		}
 		this.type = type;
 	}
 
@@ -70,7 +80,7 @@ public class TunerVideo extends AbstractMPlayerVideo {
 	 * @param channel
 	 *            the analog channel
 	 */
-	public void setChannel(int channel) {
+	public void setChannel(String channel) {
 		this.channel = channel;
 	}
 
@@ -91,13 +101,22 @@ public class TunerVideo extends AbstractMPlayerVideo {
 		MPlayerConfiguration instance = null;
 		if (type == TunerReceptionTypes.ANALOG) {
 			instance = new AnalogTVConfiguration();
-			((AnalogTVConfiguration)instance).setChannel(channel);
+			((AnalogTVConfiguration) instance).setChannel(channel);
+			((AnalogTVConfiguration) instance).setAudioDevice(audioDevice);
 		} else {
 			// TODO Add support for DVB-T
 			instance = new DVBTConfiguration();
-			((DVBTConfiguration)instance).setChannelsConfFile(null);
-			((DVBTConfiguration)instance).setStreamName(null);
+			((DVBTConfiguration) instance).setChannelsConfFile(null);
+			((DVBTConfiguration) instance).setStreamName(null);
 		}
 		return instance;
+	}
+
+	/**
+	 * @param audioDevice
+	 *            the audioDevice to set
+	 */
+	public void setAudioDevice(int audioDevice) {
+		this.audioDevice = audioDevice;
 	}
 }

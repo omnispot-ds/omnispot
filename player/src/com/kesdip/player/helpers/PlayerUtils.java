@@ -25,6 +25,13 @@ public class PlayerUtils {
 
 	private static Cursor noCursor;
 
+	/**
+	 * Private constructor.
+	 */
+	private PlayerUtils() {
+		// do nothing
+	}
+
 	public static synchronized Cursor getNoCursor() {
 		if (noCursor == null) {
 			Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -37,6 +44,11 @@ public class PlayerUtils {
 	}
 
 	private static Map<Player, ExitKeyListener> exitKeyListenerMap;
+
+	/**
+	 * Map of window mouse listeners per player.
+	 */
+	private static Map<Player, ExitMouseListener> exitMouseListenerMap;
 
 	public static synchronized ExitKeyListener getExitKeyListener(Player player) {
 		if (exitKeyListenerMap == null) {
@@ -54,10 +66,32 @@ public class PlayerUtils {
 	}
 
 	/**
+	 * @param player
+	 *            for which to return a listener
+	 * @return WindowMouseListener the instance associated with this player
+	 */
+	public static synchronized ExitMouseListener getExitMouseListener(
+			Player player) {
+		if (exitMouseListenerMap == null) {
+			exitMouseListenerMap = new HashMap<Player, ExitMouseListener>();
+		}
+
+		ExitMouseListener listener = exitMouseListenerMap.get(player);
+
+		if (listener == null) {
+			listener = new ExitMouseListener(player);
+			exitMouseListenerMap.put(player, listener);
+		}
+
+		return listener;
+	}
+
+	/**
 	 * Check if the resource is marked as full-screen.
 	 * 
 	 * @param resource
 	 *            the resource to check
+	 * 
 	 * @return boolean the value of the attribute or <code>false</code> by
 	 *         default
 	 */

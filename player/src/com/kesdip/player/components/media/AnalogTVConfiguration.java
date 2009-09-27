@@ -23,14 +23,19 @@ public class AnalogTVConfiguration extends MPlayerConfiguration {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The channel number to show (1-12 for VHF, 21-99 for UHF).
+	 * The channel number to show. Can be a number (1-12 for VHF, 21-99 for UHF), or a string (like e7, s40).
 	 */
-	private int channel = 0;
+	private String channel = "0";
 
+	/**
+	 * The audio device id to use.
+	 */
+	private int audioDevice = -1;
+	
 	/**
 	 * @return the channel
 	 */
-	public int getChannel() {
+	public String getChannel() {
 		return channel;
 	}
 
@@ -47,7 +52,7 @@ public class AnalogTVConfiguration extends MPlayerConfiguration {
 	/**
 	 * @param channel the channel to set
 	 */
-	public void setChannel(int channel) {
+	public void setChannel(String channel) {
 		this.channel = channel;
 	}
 
@@ -73,10 +78,23 @@ public class AnalogTVConfiguration extends MPlayerConfiguration {
 		if (!res) {
 			return false;
 		}
-		if (channel < 1) {
-			return false;
-		}
 		return true;
+	}
+
+
+	/**
+	 * @return the audioDevice
+	 */
+	public int getAudioDevice() {
+		return audioDevice;
+	}
+
+
+	/**
+	 * @param audioDevice the audioDevice to set
+	 */
+	public void setAudioDevice(int audioDevice) {
+		this.audioDevice = audioDevice;
 	}
 	
 }

@@ -47,8 +47,9 @@ public class ExitKeyListener implements KeyListener {
 	public void keyReleased(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			player.stopPlaying();
-			if (player.getClass().getName().equals("com.kesdip.player.Player"))
+			if (player.getClass().getName().equals(Player.class.getName())) {
 				System.exit(0);
+			}
 		} else if (event.getKeyCode() == KeyEvent.VK_F10) {
 			try {
 				Robot robot = new Robot();

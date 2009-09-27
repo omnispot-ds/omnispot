@@ -54,6 +54,12 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	private final String MPLAYER_EXE = System.getProperty("MPLAYER_EXE");
 
 	/**
+	 * The character to surround file paths to prevent errors due to spaces. In
+	 * Windows it is double quote, in X systems a single quote.
+	 */
+	private final char FILE_PATH_CHAR = '\\' == File.separatorChar ? '"' : '\'';
+
+	/**
 	 * Pattern for the video progress percent.
 	 */
 	private final Pattern VIDEO_POS_PATTERN = Pattern
@@ -181,6 +187,8 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 		cmd.append(" -slave");
 		// reduce log output
 		cmd.append(" -quiet");
+		// do not capture mouse
+		cmd.append(" -nomouseinput");
 		if (!configuration.isFullScreen()) {
 			// stay alive after playback finish; never for
 			// fullscreen/non-looping instance
@@ -213,6 +221,10 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 			}
 		} else if (configuration instanceof AnalogTVConfiguration) {
 			AnalogTVConfiguration analogTv = (AnalogTVConfiguration) configuration;
+			// audio device has been defined
+			if (analogTv.getAudioDevice() != -1) {
+				cmd.append(" -tv adevice=").append(analogTv.getAudioDevice());
+			}
 			cmd.append(" tv://").append(analogTv.getChannel());
 		} else if (configuration instanceof DVBTConfiguration) {
 			DVBTConfiguration dvbt = (DVBTConfiguration) configuration;
@@ -485,8 +497,8 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 				out.print(normalizedName + "\n");
 			}
 			out.flush();
-			return "-playlist " + file.getCanonicalPath()
-					+ (playlist.isFullScreen() ? " -fs" : "");
+			return "-playlist " + FILE_PATH_CHAR + file.getCanonicalPath()
+					+ FILE_PATH_CHAR + (playlist.isFullScreen() ? " -fs" : "");
 		} catch (IOException ex) {
 			logger.error("Error creating playlist", ex);
 		} finally {
@@ -514,6 +526,17 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	}
 
 	/**
+	 * Last-resort method to cleanup MPlayer resources.
+	 * 
+	 * @see java.lang.Object#finalize()
+	 */
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		terminate();
+	}
+
+	/**
 	 * Listener for cron playback exit events.
 	 * 
 	 * @author gerogias
@@ -537,4 +560,5 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 			}
 		}
 	}
+
 }

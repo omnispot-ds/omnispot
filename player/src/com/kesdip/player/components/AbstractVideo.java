@@ -187,6 +187,7 @@ public abstract class AbstractVideo extends AbstractComponent {
 			canvas.setSize(new Dimension(width, height));
 			canvas.setPreferredSize(new Dimension(width, height));
 			canvas.addKeyListener(PlayerUtils.getExitKeyListener(player));
+			canvas.addMouseListener(PlayerUtils.getExitMouseListener(player));
 			canvas.setBackground(Color.BLACK);
 
 			parent.add(this);

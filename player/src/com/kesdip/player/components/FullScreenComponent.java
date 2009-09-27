@@ -59,6 +59,7 @@ public class FullScreenComponent extends AbstractComponent
 		frame.setIgnoreRepaint(true);
 		frame.setResizable(false);
 		frame.addKeyListener(PlayerUtils.getExitKeyListener(player));
+		frame.addMouseListener(PlayerUtils.getExitMouseListener(player));
 		frame.setCursor(PlayerUtils.getNoCursor());
 		frame.setBackground(Color.BLACK);
 		

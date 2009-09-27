@@ -60,6 +60,7 @@ public class RootContainer extends AbstractComponent {
 		frame.setUndecorated(true);
 		frame.setResizable(false);
 		frame.addKeyListener(PlayerUtils.getExitKeyListener(player));
+		frame.addMouseListener(PlayerUtils.getExitMouseListener(player));
 		frame.setCursor(PlayerUtils.getNoCursor());
 		
 		frame.setLocation(x, y);
@@ -77,8 +78,9 @@ public class RootContainer extends AbstractComponent {
 	
 	public void destroyWindowedResources() {
 		releaseResources();
-		if (frame == null)
+		if (frame == null) {
 			return; // Something went wrong during the initialization process...
+		}
 		
 		frame.setVisible(false);
 		frame.dispose();
@@ -100,9 +102,10 @@ public class RootContainer extends AbstractComponent {
 
 		// We should be working in normal (non-full-screen) mode. Make sure
 		// that is the case.
-		if (frame == null)
+		if (frame == null) {
 			throw new RuntimeException("Misconfiguration. Working in " +
 					"non-full-screen mode, but initialized incorrectly.");
+		}
 		
 		for (Component component : contents) {
 			component.init(this, timingMonitor, player);
@@ -116,19 +119,24 @@ public class RootContainer extends AbstractComponent {
 	@Override
 	public void add(Component component) throws ComponentException {
 		java.awt.Component windowComponent = component.getWindowComponent();
-		if (windowComponent == null)
+		if (windowComponent == null) {
 			return;
+		}
 		
 		if (frame == null) {
-			logger.info("Adding component at: (" + windowComponent.getX() +
+			if (logger.isInfoEnabled()) {
+				logger.info("Adding component at: (" + windowComponent.getX() +
 					", " + windowComponent.getY() + "), size: (" +
 					windowComponent.getWidth() + ", " + windowComponent.getHeight() + ")");
+			}
 			fullScreenFrame.add(windowComponent);
 		} else {
-			logger.info("Adding component at: (" + windowComponent.getX() +
+			if (logger.isInfoEnabled()) {
+				logger.info("Adding component at: (" + windowComponent.getX() +
 					", " + windowComponent.getY() + "), size: (" +
 					windowComponent.getWidth() + ", " + windowComponent.getHeight() +
 					") at depth: " + lastLayer);
+			}
 			frame.getLayeredPane().add(windowComponent, new Integer(lastLayer++));
 		}
 	}

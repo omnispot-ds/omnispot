@@ -286,9 +286,11 @@ public class TimingMonitor implements Runnable {
 				if (rs.getInt(1) == 0) {
 					// Deployment is complete. No pending resources exist for
 					// it.
-					logger.info("Startind deployment with ID: "
+					if (logger.isInfoEnabled()) {
+						logger.info("Startind deployment with ID: "
 							+ potentialDeploymentId + ", from path: "
 							+ potentialDeploymentPath);
+					}
 					try {
 						startDeployment(potentialDeploymentId,
 								potentialDeploymentPath);
@@ -315,6 +317,7 @@ public class TimingMonitor implements Runnable {
 				try {
 					c.close();
 				} catch (SQLException e) {
+					// do nothing
 				}
 		}
 	}
