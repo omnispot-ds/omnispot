@@ -759,8 +759,6 @@ player/appContext.xml -text
 player/appContextForFrames.xml -text
 player/appContextFullScreen.xml -text
 player/build.xml -text
-player/etc/comfyj.lic -text
-player/etc/jniwrap.lic -text
 player/etc/yahoo.groovy -text
 player/etc/yahoo.java -text
 player/etc/yahoo.js -text

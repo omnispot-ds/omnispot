@@ -65,9 +65,12 @@ public class FlashComponent extends AbstractComponent {
 			Player player) throws ComponentException {
 		setPlayer(player);
 		
+		logger.debug("Initializing OleFunctions");
 		OleFunctions.oleInitialize();
 		oleContainer.setBackground(Color.blue);
+		logger.debug("Creating OleObject");
 		createOleObject();
+		logger.debug("Showing OleObject");
 		showOleObject();
 		parent.add(this);
 		if (filename == null) {

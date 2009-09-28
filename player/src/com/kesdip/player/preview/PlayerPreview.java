@@ -41,6 +41,7 @@ public class PlayerPreview extends Player {
 	public void initialize() {
 		new Thread(this.monitor, "monitor").start();
 		this.completeDeployment = true;
+		this.stopRunning = new AtomicBoolean(false);
 	}
 	
 	public static void previewPlayer(String path, String vlcPath) throws Exception {

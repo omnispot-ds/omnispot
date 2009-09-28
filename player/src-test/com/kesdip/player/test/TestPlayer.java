@@ -1,24 +1,16 @@
 package com.kesdip.player.test;
 
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.kesdip.player.DeploymentContents;
-import com.kesdip.player.DeploymentLayout;
-import com.kesdip.player.DeploymentSettings;
 import com.kesdip.player.Player;
+import com.kesdip.player.TimingMonitor;
 
 public class TestPlayer extends Player {
 
-	private final String DEPLOYMENT_XML = "C:/Stelios/Development/Digital Signage/Scenarios/Metro 1/metro1.des.xml";
+	private final String DEPLOYMENT_XML = "C:/Stelios/Development/Digital Signage/Scenarios/Metro 2/metro2.des.xml";
 	
 	public TestPlayer() throws SchedulerException {
-		// do nothing
+		this.monitor = new TimingMonitor(this, true);
 	}
 	
 	@Override

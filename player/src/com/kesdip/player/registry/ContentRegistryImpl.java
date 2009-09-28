@@ -56,8 +56,9 @@ public class ContentRegistryImpl extends ContentRegistry {
 			ps.setString(2, StringUtils.extractCrc(resource.getChecksum()));
 			ResultSet rs = ps.executeQuery();
 
-			if (rs.next())
+			if (rs.next()) {
 				retVal = rs.getString(1);
+			}
 
 			rs.close();
 			ps.close();
@@ -66,18 +67,22 @@ public class ContentRegistryImpl extends ContentRegistry {
 
 			return retVal;
 		} catch (Exception e) {
-			logger.warn("Unable to query resource path: " + e.getMessage());
-			if (c != null)
+			logger.debug("Unable to query resource path: " + e.getMessage());
+			if (c != null) {
 				try {
 					c.rollback();
 				} catch (SQLException sqle) {
+					// do nothing
 				}
+			}
 		} finally {
-			if (c != null)
+			if (c != null) {
 				try {
 					c.close();
 				} catch (SQLException e) {
+					// do nothing
 				}
+			}
 		}
 
 		return null;

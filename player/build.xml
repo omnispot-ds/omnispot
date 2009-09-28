@@ -10,7 +10,7 @@
 	<property name="player.build.dir" location="${player.base.dir}/build" />
 	<property name="player.dist.dir" location="${player.base.dir}/dist" />
 	<property name="player.classes.dir" location="${player.build.dir}/classes" />
-	<property name="player.etc.dir" location="${player.base.dir}/etc" />
+	<property name="comfyj.license.dir" location="${etc.base.dir}/license/comfyj/runtime" />
 	
 
 	<property name="shared.jars.file" location="${player.base.dir}/shared.jars" />
@@ -42,15 +42,9 @@
 				<include name="**/*.xsd" />
 			</fileset>
 		</copy>
-		<copy todir="${player.build.dir}" flatten="true">
-			<fileset dir="${player.etc.dir}" >
-				<include name="**/*.*" />
-				<exclude name="**/*.lic" />
-			</fileset>
-		</copy>
 		<mkdir dir="${player.build.dir}/META-INF"/>
 		<copy todir="${player.build.dir}/META-INF" flatten="true">
-			<fileset dir="${player.etc.dir}" >
+			<fileset dir="${comfyj.license.dir}" >
 				<include name="**/*.lic" />
 			</fileset>
 		</copy>
