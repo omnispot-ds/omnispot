@@ -215,12 +215,13 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	}
 
 	private int getWeatherSourceType(String t) {
-		if (t.equals(URL_XML_WEATHER_TYPE))
+		if (t.equals(URL_XML_WEATHER_TYPE)) {
 			return 0;
-		else if (t.equals(RSS_WEATHER_TYPE))
+		} else if (t.equals(RSS_WEATHER_TYPE)) {
 			return 1;
-		else
-			throw new RuntimeException("Unknown weather source type.");		
+		} else {
+			throw new RuntimeException("Unknown weather source type.");
+		}
 	}
 
 	@Override
