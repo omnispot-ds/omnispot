@@ -39,10 +39,11 @@ public class SimpleContainer extends AbstractComponent {
 		
 		panel = new JPanel();
 		panel.setLocation(x, y);
-		if (backgroundColor != null)
+		if (backgroundColor != null) {
 			panel.setBackground(backgroundColor);
-		else
+		} else {
 			panel.setOpaque(false);
+		}
 		panel.setSize(new Dimension(width, height));
 		panel.setPreferredSize(new Dimension(width, height));
 		
@@ -56,8 +57,9 @@ public class SimpleContainer extends AbstractComponent {
 	@Override
 	public void add(Component component) throws ComponentException {
 		java.awt.Component windowComponent = component.getWindowComponent();
-		if (windowComponent == null)
+		if (windowComponent == null) {
 			return;
+		}
 		
 		panel.add(windowComponent);
 	}
