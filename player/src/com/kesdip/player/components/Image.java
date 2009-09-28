@@ -36,8 +36,9 @@ public class Image extends AbstractComponent implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (contents == null || contents.size() == 0)
+		if (contents == null || contents.size() == 0) {
 			throw new Exception("Contents property has not been set.");
+		}
 	}
 	
 	/* TRANSIENT STATE */
@@ -49,7 +50,9 @@ public class Image extends AbstractComponent implements InitializingBean {
 	private void loadImage() throws ComponentException {
 		ContentRegistry registry = ContentRegistry.getContentRegistry();
 		String imageFilename = registry.getResourcePath(contents.get(currentImageIndex), true);
-		logger.info("Loading image from file: " + imageFilename);
+		if (logger.isInfoEnabled()) {
+			logger.info("Loading image from file: " + imageFilename);
+		}
 		try {
 		    img = ImageIO.read(new File(imageFilename));
 		} catch (IOException e) {
@@ -72,8 +75,10 @@ public class Image extends AbstractComponent implements InitializingBean {
 		panel.setBackground(backgroundColor);
 		panel.setSize(new Dimension(width, height));
 		panel.setPreferredSize(new Dimension(width, height));
-		logger.info("About to add image at: (" + x + "," + y +
-				") with size: (" + width + "," + height + ")");
+		if (logger.isInfoEnabled()) {
+			logger.info("About to add image at: (" + x + "," + y +
+					") with size: (" + width + "," + height + ")");
+		}
 		parent.add(this);
 	}
 
@@ -89,12 +94,14 @@ public class Image extends AbstractComponent implements InitializingBean {
 
 	@Override
 	public void repaint() throws ComponentException {
-		if (duration == 0)
+		if (duration == 0) {
 			return;
+		}
 		
 		long currentTime = new Date().getTime();
-		if (currentTime - startTime < duration)
+		if (currentTime - startTime < duration * 1000) {
 			return; // Nothing to see here. Move along now.
+		}
 		
 		// If we reach this line, then we must move on to the next image.
 		currentImageIndex = (currentImageIndex + 1) % contents.size();

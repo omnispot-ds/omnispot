@@ -50,14 +50,18 @@ public class TimingMonitor implements Runnable {
 	 * 
 	 * @author Pafsanias Ftakas
 	 */
-	private class LayoutJob implements Job {
+	public static class LayoutJob implements Job {
 		@Override
 		public void execute(JobExecutionContext ctx)
 				throws JobExecutionException {
 			DeploymentLayout layout = (DeploymentLayout) ctx.getJobDetail()
 					.getJobDataMap().get("layout");
-			logger.info("Scheduler starting layout: " + layout.getName());
-			startLayout(layout);
+			TimingMonitor monitor = (TimingMonitor) ctx.getJobDetail()
+					.getJobDataMap().get("monitor");
+			if (logger.isInfoEnabled()) {
+				logger.info("Scheduler starting layout: " + layout.getName());
+			}
+			monitor.startLayout(layout);
 		}
 
 	}
@@ -66,7 +70,7 @@ public class TimingMonitor implements Runnable {
 	private Scheduler scheduler;
 	private long lastDeploymentID;
 	/**
-	 * Flag to notify the class it is in preview mode. 
+	 * Flag to notify the class it is in preview mode.
 	 */
 	private boolean previewMode = false;
 
@@ -89,18 +93,16 @@ public class TimingMonitor implements Runnable {
 		this.lastDeploymentID = -1;
 		this.previewMode = previewMode;
 	}
-	
+
 	/**
-	 * Initializing constructor.
-	 * Preview mode defaults to <code>false</code>.
+	 * Initializing constructor. Preview mode defaults to <code>false</code>.
 	 * 
 	 * @param player
 	 *            The player associated with this timing monitor.
 	 * @throws SchedulerException
 	 *             Iff something goes wrong starting the scheduler.
 	 */
-	public TimingMonitor(Player player)
-			throws SchedulerException {
+	public TimingMonitor(Player player) throws SchedulerException {
 		this.player = player;
 		this.scheduler = StdSchedulerFactory.getDefaultScheduler();
 		this.scheduler.start();
@@ -193,7 +195,7 @@ public class TimingMonitor implements Runnable {
 	 * @throws SchedulerException
 	 *             if Quartz jobs fail to schedule
 	 */
-	private void startDeployment(long id, String contextPath)
+	public void startDeployment(long id, String contextPath)
 			throws BeanInitializationException, IOException, ParseException,
 			SchedulerException {
 		ApplicationContext ctx = new FileSystemXmlApplicationContext(
@@ -223,6 +225,7 @@ public class TimingMonitor implements Runnable {
 			JobDetail jobDetail = new JobDetail(layout.getName() + "_job",
 					"layout", LayoutJob.class);
 			jobDetail.getJobDataMap().put("layout", layout);
+			jobDetail.getJobDataMap().put("monitor", this);
 			scheduler.scheduleJob(jobDetail, trigger);
 		}
 
@@ -288,8 +291,8 @@ public class TimingMonitor implements Runnable {
 					// it.
 					if (logger.isInfoEnabled()) {
 						logger.info("Startind deployment with ID: "
-							+ potentialDeploymentId + ", from path: "
-							+ potentialDeploymentPath);
+								+ potentialDeploymentId + ", from path: "
+								+ potentialDeploymentPath);
 					}
 					try {
 						startDeployment(potentialDeploymentId,

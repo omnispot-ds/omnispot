@@ -40,9 +40,7 @@ public class PlayerPreview extends Player {
 
 	public void initialize() {
 		new Thread(this.monitor, "monitor").start();
-		this.completeDeployment = false;
-		this.completeLayout = false;
-		this.stopRunning = new AtomicBoolean(false);
+		this.completeDeployment = true;
 	}
 	
 	public static void previewPlayer(String path, String vlcPath) throws Exception {
@@ -57,14 +55,16 @@ public class PlayerPreview extends Player {
 		preview.initialize();
 		preview.standaloneProcess = standalone;
 		
+		preview.monitor.startDeployment(-1, path);
+		
 		new Thread(preview).start();
 
-		ApplicationContext ctx = new FileSystemXmlApplicationContext(path);
-		DeploymentSettings deploymentSettings = (DeploymentSettings) ctx
-				.getBean("deploymentSettings");
-		DeploymentContents deploymentContents = (DeploymentContents) ctx
-				.getBean("deploymentContents");
-		preview.startDeployment(ctx, deploymentSettings, deploymentContents);
+//		ApplicationContext ctx = new FileSystemXmlApplicationContext(path);
+//		DeploymentSettings deploymentSettings = (DeploymentSettings) ctx
+//				.getBean("deploymentSettings");
+//		DeploymentContents deploymentContents = (DeploymentContents) ctx
+//				.getBean("deploymentContents");
+//		preview.startDeployment(ctx, deploymentSettings, deploymentContents);
 	}
 	
 	@Override
