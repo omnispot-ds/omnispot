@@ -185,8 +185,10 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 		cmd.append(MPLAYER_EXE);
 		// always slave process
 		cmd.append(" -slave");
-		// reduce log output
-		cmd.append(" -quiet");
+		// no log output
+		// TODO: why StreamLogger does not consume process output fast enough?
+		// we should have -quiet here...
+		cmd.append(" -really-quiet");
 		// do not capture mouse
 		cmd.append(" -nomouseinput");
 		if (!configuration.isFullScreen()) {
@@ -489,7 +491,8 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 		PrintStream out = null;
 		File file = null;
 		try {
-			file = FileUtils.createUniqueFile(name, true);
+			file = FileUtils.createUniqueFile(name + '_' + playlist.getName(),
+					true);
 			out = new PrintStream(file);
 			String normalizedName = null;
 			for (String fileName : playlist.getFileList()) {

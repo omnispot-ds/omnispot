@@ -155,7 +155,8 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 			boolean prevResFs = PlayerUtils.isResourceFullScreen(previousRes);
 			// change of flag -> new list
 			if (previousRes == null || resFs != prevResFs) {
-				String playlistId = super.id + '_' + count++;
+				String playlistId = (super.id != null ? super.id : "Playlist")
+						+ '_' + count++;
 				playlist = new Playlist(playlistId);
 				playlist.setFullScreen(resFs);
 				config.addPlaylist(playlist);
@@ -190,7 +191,8 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	}
 
 	/**
-	 * @param repeat the repeat to set
+	 * @param repeat
+	 *            the repeat to set
 	 */
 	public void setRepeat(boolean repeat) {
 		this.repeat = repeat;
@@ -204,7 +206,8 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	}
 
 	/**
-	 * @param contents the contents to set
+	 * @param contents
+	 *            the contents to set
 	 */
 	public void setContents(List<Resource> contents) {
 		this.contents = contents;

@@ -86,7 +86,8 @@ public class StreamLogger extends Thread {
 	public StreamLogger(String name, InputStream inputStream, Logger logger,
 			Level level) {
 		this.name = name;
-		input = new BufferedReader(new InputStreamReader(inputStream));
+		// buffer is large enough to prevent parent thread from blocking 
+		input = new BufferedReader(new InputStreamReader(inputStream), 256 * 1024);
 		this.logger = logger;
 		this.logLevel = level;
 	}

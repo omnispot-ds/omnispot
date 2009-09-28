@@ -7,7 +7,7 @@ import com.kesdip.player.TimingMonitor;
 
 public class TestPlayer extends Player {
 
-	private final String DEPLOYMENT_XML = "C:/Stelios/Development/Digital Signage/Scenarios/Metro 2/metro2.des.xml";
+	private final String DEPLOYMENT_XML = "C:/Stelios/Development/Digital Signage/Scenarios/Full-screen TV/fs-tv.des.xml";
 	
 	public TestPlayer() throws SchedulerException {
 		this.monitor = new TimingMonitor(this, true);

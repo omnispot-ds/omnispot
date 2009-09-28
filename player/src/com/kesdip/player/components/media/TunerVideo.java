@@ -48,7 +48,7 @@ public class TunerVideo extends AbstractMPlayerVideo {
 	protected MPlayerConfiguration getPlayerConfiguration() {
 		MPlayerConfiguration config = createConfiguration();
 		// common settings
-		config.setPlayerName(super.id != null ? super.id : "FileVideo");
+		config.setPlayerName(super.id != null ? super.id : "TunerVideo");
 		config.setColorKey(getWindowComponent().getBackground());
 		config.setFullScreen(fullScreen);
 		if (!fullScreen) {

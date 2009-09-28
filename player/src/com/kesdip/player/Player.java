@@ -331,6 +331,7 @@ public class Player implements Runnable {
 			} else {
 				for (RootContainer container : layout.getContentRoots()) {
 					container.destroyWindowedResources();
+					container.releaseResources();
 				}
 			}
 			// caused problems in deployment preview  
