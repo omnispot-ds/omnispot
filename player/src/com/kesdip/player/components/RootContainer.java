@@ -148,6 +148,7 @@ public class RootContainer extends AbstractComponent {
 
 	@Override
 	public void repaint() throws ComponentException {
+		frame.repaint();
 		for (Component component : contents) {
 			component.repaint();
 		}
@@ -187,6 +188,12 @@ public class RootContainer extends AbstractComponent {
 			retVal.addAll(component.gatherResources());
 		}
 		return retVal;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 
 }

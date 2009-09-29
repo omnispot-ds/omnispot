@@ -308,8 +308,10 @@ public class Player implements Runnable {
 					}
 				}
 				if (shouldBreak) {
-					logger.info("The current layout (" + layout.getName()
-							+ ") has completed. Moving on to the next one.");
+					if (logger.isInfoEnabled()) {
+						logger.info("The current layout (" + layout.getName()
+								+ ") has completed. Moving on to the next one.");
+					}
 					break;
 				}
 				if (stopRunning.get()) {
@@ -321,7 +323,9 @@ public class Player implements Runnable {
 		} catch (Exception e) {
 			logger.error("Error in the layout loop", e);
 		} finally {
-			logger.info("Completed layout: " + layout.getName() + ".");
+			if (logger.isInfoEnabled()) {
+				logger.info("Completed layout: " + layout.getName() + ".");
+			}
 			if (isFullScreen) {
 				for (RootContainer container : layout.getContentRoots()) {
 					container.releaseResources();

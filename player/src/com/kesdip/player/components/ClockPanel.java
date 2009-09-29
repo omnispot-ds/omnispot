@@ -234,9 +234,9 @@ public class ClockPanel extends JLayeredPane {
 	{
 		paramGraphics2D.drawImage(this.baseImage, null, 0, 0);
 
-		if (this.antialias)
+		if (this.antialias) {
 			paramGraphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		else {
+		} else {
 			paramGraphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		}
 

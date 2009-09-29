@@ -123,6 +123,7 @@ public abstract class AbstractMPlayerVideo extends AbstractComponent {
 		super.releaseResources();
 		if (mPlayer != null) {
 			mPlayer.terminate();
+			mPlayer = null;
 		}
 	}
 

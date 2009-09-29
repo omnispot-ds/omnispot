@@ -18,7 +18,6 @@ public class TestPlayer extends Player {
 		try {
 			super.initialize();
 		} catch (SchedulerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.completeDeployment = true;

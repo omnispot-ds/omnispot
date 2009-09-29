@@ -80,9 +80,11 @@ public class FullScreenComponent extends AbstractComponent
             if (modes[i].getWidth() == settings.getWidth() &&
             	modes[i].getHeight() == settings.getHeight() &&
             	modes[i].getBitDepth() == settings.getBitDepth()) {
-            	logger.info("Choosing display (" + modes[i].getWidth() + ", " +
-            			modes[i].getHeight() + ") and " + modes[i].getBitDepth() +
-            			" bit depth.");
+            	if (logger.isDebugEnabled()) {
+	            	logger.debug("Choosing display (" + modes[i].getWidth() + ", " +
+	            			modes[i].getHeight() + ") and " + modes[i].getBitDepth() +
+	            			" bit depth.");
+            	}
                 return modes[i];
             }
         }

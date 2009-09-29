@@ -213,8 +213,10 @@ public class Video extends AbstractVideo implements InitializingBean {
 		}
 
 		try {
-			logger.info("Starting scheduled video from resource: "
-					+ resource.getIdentifier());
+			if (logger.isInfoEnabled()) {
+				logger.info("Starting scheduled video from resource: "
+						+ resource.getIdentifier());
+			}
 			scheduledResource = true;
 			startVideo(resource);
 		} catch (Exception e) {

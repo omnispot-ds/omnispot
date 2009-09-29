@@ -54,7 +54,7 @@ public class FlashComponent extends AbstractComponent {
 
 	@Override
 	public java.awt.Component getWindowComponent() {
-		logger.info("getWindowComponent called");
+		logger.debug("getWindowComponent called");
 		oleContainer.setSize(width, height);
 		oleContainer.setLocation(new Point(x, y));
 		return oleContainer;

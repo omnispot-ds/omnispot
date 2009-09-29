@@ -69,8 +69,9 @@ public class RssTickerSource implements TickerSource {
 
 	@Override
 	public void addTrailingChar() {
-		if (logger.isTraceEnabled())
+		if (logger.isTraceEnabled()) {
 			logger.trace("addTrailingChar called");
+		}
 		sb.append(charStream.nextChar());
 	}
 

@@ -25,9 +25,11 @@ public class ImagePanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		logger.info("About to draw image on (" + getX() + "," + getY() + ") size (" +
-				getWidth() + "," + getHeight() + ")");
-		logger.info("Image dimensions are: (" + img.getWidth(null) + "," + img.getHeight(null) + ")");
+		if (logger.isTraceEnabled()) {
+			logger.trace("About to draw image on (" + getX() + "," + getY() + ") size (" +
+					getWidth() + "," + getHeight() + ")");
+			logger.trace("Image dimensions are: (" + img.getWidth(null) + "," + img.getHeight(null) + ")");
+		}
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
 	}
 
