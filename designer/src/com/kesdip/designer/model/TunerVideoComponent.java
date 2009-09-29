@@ -23,7 +23,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	private static final Image IMAGE_ICON = createImage("icons/wireless.png");
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final String AnalogVideoType = "Analog TV";
 	private static final String DigitalVideoType = "Digital TV";
 
@@ -43,23 +43,37 @@ public class TunerVideoComponent extends ComponentModelElement {
 	public static final String CHANNEL_PROP = "Tuner.ChannelProp";
 	/** Property ID to use for the input property value. */
 	public static final String INPUT_PROP = "Tuner.InputProp";
+	public static final String VIDEO_PROVIDER_PROP = "Video.VideoProvider";
+
+	private static final String STRING_VLC = "VLC";
+
+	private static final String STRING_MPLAYER = "MPlayer";
 
 	/* STATE */
 	private String type;
 	private String device;
 	private int channel;
 	private int input;
-	
+	private String provider;
+
 	public TunerVideoComponent() {
 		type = AnalogVideoType;
 		device = "";
 		channel = 0;
 		input = 0;
+		provider = STRING_MPLAYER;
 	}
-	
+
 	protected Element serialize(Document doc, boolean isPublish) {
 		Element videoElement = doc.createElement("bean");
-		videoElement.setAttribute("class", "com.kesdip.player.components.TunerVideo");
+
+		if (provider.equals(STRING_VLC))
+			videoElement
+			.setAttribute("class", "com.kesdip.player.components.TunerVideo");
+		else if (provider.equals(STRING_MPLAYER))
+			videoElement.
+			setAttribute("class", "com.kesdip.player.components.media.TunerVideo");
+
 		super.serialize(doc, videoElement);
 		DOMHelpers.addProperty(doc, videoElement, "type",
 				type.equals(AnalogVideoType) ? "1" : "2");
@@ -68,32 +82,41 @@ public class TunerVideoComponent extends ComponentModelElement {
 		DOMHelpers.addProperty(doc, videoElement, "input", String.valueOf(input));
 		return videoElement;
 	}
-	
+
 	protected void deserialize(Document doc, Node componentNode) {
 		String t = DOMHelpers.getSimpleProperty(componentNode, "type");
+		
+		String className = componentNode.getAttributes().getNamedItem("class").getNodeValue();
+		if (className.equals("com.kesdip.player.components.media.TunerVideo")) {
+			setPropertyValue(VIDEO_PROVIDER_PROP, getProviderType(STRING_MPLAYER));
+		} else if (className.equals("com.kesdip.player.components.TunerVideo")) {
+			setPropertyValue(VIDEO_PROVIDER_PROP, getProviderType(STRING_VLC));
+		}
 		setPropertyValue(TYPE_PROP, Integer.parseInt(t) - 1);
 		setPropertyValue(DEVICE_PROP, DOMHelpers.getSimpleProperty(componentNode, "device"));
 		setPropertyValue(CHANNEL_PROP, DOMHelpers.getSimpleProperty(componentNode, "channel"));
 		setPropertyValue(INPUT_PROP, DOMHelpers.getSimpleProperty(componentNode, "input"));
 		super.deserialize(doc, componentNode);
 	}
-	
+
 	public void save(IMemento memento) {
 		super.save(memento);
 		memento.putString(TAG_TUNER_TYPE, type);
 		memento.putString(TAG_DEVICE, device);
 		memento.putInteger(TAG_CHANNEL, channel);
 		memento.putInteger(TAG_INPUT, input);
+		memento.putString(TAG_TUNER_VIDEO_PROVIDER, provider);
 	}
-	
+
 	public void load(IMemento memento) {
 		super.load(memento);
 		type = memento.getString(TAG_TUNER_TYPE);
 		device = memento.getString(TAG_DEVICE);
 		channel = memento.getInteger(TAG_CHANNEL);
 		input = memento.getInteger(TAG_INPUT);
+		provider = memento.getString(TAG_TUNER_VIDEO_PROVIDER);
 	}
-	
+
 	@Override
 	void checkEquivalence(ComponentModelElement other) {
 		super.checkEquivalence(other);
@@ -102,8 +125,9 @@ public class TunerVideoComponent extends ComponentModelElement {
 		assert(device.equals(((TunerVideoComponent) other).device));
 		assert(channel == ((TunerVideoComponent) other).channel);
 		assert(input == ((TunerVideoComponent) other).input);
+		assert (provider.equals( ((TunerVideoComponent) other).provider));
 	}
-	
+
 	/*
 	 * Initializes the property descriptors array.
 	 * @see #getPropertyDescriptors()
@@ -111,12 +135,14 @@ public class TunerVideoComponent extends ComponentModelElement {
 	 * @see #setPropertyValue(Object, Object)
 	 */
 	static {
-		descriptors = new IPropertyDescriptor[] { 
+		descriptors = new IPropertyDescriptor[] {
+				new ComboBoxPropertyDescriptor(VIDEO_PROVIDER_PROP, "Provider",
+						new String[]{STRING_MPLAYER, STRING_VLC}),
 				new ComboBoxPropertyDescriptor(TYPE_PROP, "Type",
 						new String[] { AnalogVideoType, DigitalVideoType }),
-				new TextPropertyDescriptor(DEVICE_PROP, "Device"),
-				new TextPropertyDescriptor(CHANNEL_PROP, "Channel"),
-				new TextPropertyDescriptor(INPUT_PROP, "Input Pin")
+						new TextPropertyDescriptor(DEVICE_PROP, "Device"),
+						new TextPropertyDescriptor(CHANNEL_PROP, "Channel"),
+						new TextPropertyDescriptor(INPUT_PROP, "Input Pin")
 		};
 		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
@@ -176,6 +202,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 			return device;
 		else if (TYPE_PROP.equals(propertyId))
 			return getTunerType(type);
+		else if (VIDEO_PROVIDER_PROP.equals(propertyId))
+			return getProviderType(provider);
 		else
 			return super.getPropertyValue(propertyId);
 	}
@@ -204,14 +232,35 @@ public class TunerVideoComponent extends ComponentModelElement {
 			else
 				throw new RuntimeException("Unexpected tuner type.");
 			firePropertyChange(TYPE_PROP, oldValue, value);
+		}	else if (VIDEO_PROVIDER_PROP.equals(propertyId)) {
+				if (value == null)
+					value = 0;
+				int oldValue = getProviderType(provider);
+				int v = ((Integer) value).intValue();
+				if (v == 0)
+					provider = STRING_MPLAYER;
+				else if (v == 1)
+					provider = STRING_VLC;
+				else
+					throw new RuntimeException("Unexpected provider type.");
+				firePropertyChange(VIDEO_PROVIDER_PROP, oldValue, provider);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}
 
+	private int getProviderType(String t) {
+		if (t.equals(STRING_MPLAYER))
+			return 0;
+		else if (t.equals(STRING_VLC))
+			return 1;
+		else
+			throw new RuntimeException("Unknown provider type.");		
+	}
+	
 	public void relocateChildren(Point moveBy) {
 		// Intentionally empty. Component not a container.
 	}
-	
+
 	@Override
 	public ModelElement deepCopy() {
 		TunerVideoComponent retVal = new TunerVideoComponent();
@@ -220,6 +269,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		retVal.device = this.device;
 		retVal.channel = this.channel;
 		retVal.input = this.input;
+		retVal.provider = this.provider;
 		return retVal;
 	}
 
@@ -227,7 +277,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	public Image getIcon() {
 		return IMAGE_ICON;
 	}
-	
+
 	public String toString() {
 		return "TunerVideo: (" + type + "," + device + "," + channel + "," + input + ")";
 	}

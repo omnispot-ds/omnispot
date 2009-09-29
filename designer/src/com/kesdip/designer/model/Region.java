@@ -119,9 +119,11 @@ public class Region extends ComponentModelElement {
 										.equals(className)) {
 									component = new TickerComponent();
 								} else if ("com.kesdip.player.components.Video"
+										.equals(className) || "com.kesdip.player.components.media.FileVideo"
 										.equals(className)) {
 									component = new VideoComponent();
 								} else if ("com.kesdip.player.components.TunerVideo"
+										.equals(className)|| "com.kesdip.player.components.media.TunerVideo"
 										.equals(className)) {
 									component = new TunerVideoComponent();
 								} else if ("com.kesdip.player.components.Image"

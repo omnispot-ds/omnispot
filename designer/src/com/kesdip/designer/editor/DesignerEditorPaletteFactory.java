@@ -75,8 +75,8 @@ final class DesignerEditorPaletteFactory {
 		componentsDrawer.add(component);
 	
 		component = new CombinedTemplateCreationEntry(
-				"VLCVideo", 
-				"Create a VLC video", 
+				"Video", 
+				"Create a video", 
 				VideoComponent.class,
 				new SimpleFactory(VideoComponent.class), 
 				ImageDescriptor.createFromFile(Deployment.class, "icons/clapperboard.png"), 
