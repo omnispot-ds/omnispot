@@ -62,6 +62,9 @@ public class PreviewHandler extends AbstractHandler {
 			String vlcPath = Activator.getDefault().getPreferenceStore().getString(
 					PreferenceConstants.P_VLC_PATH);
 			
+			String mPlayerFile = Activator.getDefault().getPreferenceStore().getString(
+					PreferenceConstants.P_MPLAYER_FILE);
+
 			if (reason == null) {
 				String deploymentLocation = dei.getPath();
 				File tempDeploymentFile = null;
@@ -87,9 +90,9 @@ public class PreviewHandler extends AbstractHandler {
 						deploymentLocation = tempDeploymentFile.getAbsolutePath();
 					}
 					if (launchStandalone) {
-						PreviewLauncher.launchPreview(deploymentLocation, vlcPath);
+						PreviewLauncher.launchPreview(deploymentLocation, vlcPath, mPlayerFile);
 					} else {
-						PlayerPreview.previewPlayer(deploymentLocation, vlcPath);
+						PlayerPreview.previewPlayer(deploymentLocation, vlcPath, mPlayerFile);
 					}
 				} finally {
 					// TODO These had to be commented out for standalone player to work

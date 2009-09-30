@@ -16,6 +16,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
+import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StringUtils;
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
@@ -54,6 +55,8 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	@Override
 	protected MPlayerConfiguration getPlayerConfiguration() {
 		VideoConfiguration config = new VideoConfiguration();
+		config.setPlayerExecutable(FileUtils.getNativePathName(Player
+				.getMPlayerFile()));
 		config.setPlayerName(super.id != null ? super.id : "FileVideo");
 		config.setColorKey(getWindowComponent().getBackground());
 		config.setFullScreen(false);

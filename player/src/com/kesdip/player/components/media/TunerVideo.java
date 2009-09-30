@@ -9,6 +9,8 @@
 
 package com.kesdip.player.components.media;
 
+import com.kesdip.common.util.FileUtils;
+import com.kesdip.player.Player;
 import com.kesdip.player.constenum.TunerReceptionTypes;
 
 /**
@@ -51,6 +53,8 @@ public class TunerVideo extends AbstractMPlayerVideo {
 		config.setPlayerName(super.id != null ? super.id : "TunerVideo");
 		config.setColorKey(getWindowComponent().getBackground());
 		config.setFullScreen(fullScreen);
+		config.setPlayerExecutable(FileUtils.getNativePathName(Player
+				.getMPlayerFile()));
 		if (!fullScreen) {
 			config.setWindowId(com.sun.jna.Native
 					.getComponentID(getWindowComponent()));
@@ -119,4 +123,27 @@ public class TunerVideo extends AbstractMPlayerVideo {
 	public void setAudioDevice(int audioDevice) {
 		this.audioDevice = audioDevice;
 	}
+
+	// FIXME: the following are ignored, added because designer adds them
+
+	private String device = null;
+
+	private String input = null;
+
+	/**
+	 * @param device
+	 *            the device to set
+	 */
+	public void setDevice(String device) {
+		this.device = device;
+	}
+
+	/**
+	 * @param input
+	 *            the input to set
+	 */
+	public void setInput(String input) {
+		this.input = input;
+	}
+
 }

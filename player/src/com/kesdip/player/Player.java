@@ -23,6 +23,7 @@ import com.kesdip.player.components.ComponentException;
 import com.kesdip.player.components.FullScreenComponent;
 import com.kesdip.player.components.RootContainer;
 import com.kesdip.player.configure.DeploymentConfigurer;
+import com.kesdip.player.constenum.SystemPropertiesKeys;
 import com.kesdip.player.helpers.PlayerUtils;
 
 /**
@@ -106,11 +107,21 @@ public class Player implements Runnable {
 	}
 
 	public static String getVlcPath() {
-		String sysProp = System.getProperty("KESDIP_EPE_DESIGNER_VLC_PATH");
+		String sysProp = System
+				.getProperty(SystemPropertiesKeys.KESDIP_EPE_DESIGNER_VLC_PATH);
 		if (sysProp != null) {
 			return sysProp;
 		}
 		return props.getProperty("vlc_path");
+	}
+
+	public static String getMPlayerFile() {
+		String sysProp = System
+				.getProperty(SystemPropertiesKeys.KESDIP_EPE_DESIGNER_MPLAYER_FILE);
+		if (sysProp != null) {
+			return sysProp;
+		}
+		return props.getProperty("mplayer_file");
 	}
 
 	/**
@@ -309,8 +320,10 @@ public class Player implements Runnable {
 				}
 				if (shouldBreak) {
 					if (logger.isInfoEnabled()) {
-						logger.info("The current layout (" + layout.getName()
-								+ ") has completed. Moving on to the next one.");
+						logger
+								.info("The current layout ("
+										+ layout.getName()
+										+ ") has completed. Moving on to the next one.");
 					}
 					break;
 				}
@@ -338,7 +351,7 @@ public class Player implements Runnable {
 					container.releaseResources();
 				}
 			}
-			// caused problems in deployment preview  
+			// caused problems in deployment preview
 			// playerExited();
 		}
 	}
@@ -358,7 +371,8 @@ public class Player implements Runnable {
 		backgroundFrame.setUndecorated(true);
 		backgroundFrame.setResizable(false);
 		backgroundFrame.addKeyListener(PlayerUtils.getExitKeyListener(this));
-		backgroundFrame.addMouseListener(PlayerUtils.getExitMouseListener(this));
+		backgroundFrame
+				.addMouseListener(PlayerUtils.getExitMouseListener(this));
 		backgroundFrame.setCursor(PlayerUtils.getNoCursor());
 
 		backgroundFrame.setLocation(0, 0);
@@ -404,8 +418,7 @@ public class Player implements Runnable {
 			logger.info("Created background frame");
 
 			try {
-				DeploymentConfigurer configurer = new DeploymentConfigurer(
-						this);
+				DeploymentConfigurer configurer = new DeploymentConfigurer(this);
 				new Thread(configurer, "playerConfigurer").start();
 				logger.info("Created the configurer");
 			} catch (Exception e) {
@@ -471,7 +484,7 @@ public class Player implements Runnable {
 			logger.error("Error in the main Player method", e);
 			return;
 		}
-		
+
 	}
 
 	/**

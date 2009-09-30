@@ -61,6 +61,11 @@ public abstract class MPlayerConfiguration implements Serializable {
 	private String playerName = "mplayer";
 
 	/**
+	 * The absolute path to the player.
+	 */
+	private String playerExecutable = null;
+	
+	/**
 	 * The listeners for playbqack events.
 	 */
 	private List<MPlayerEventListener> listeners = new ArrayList<MPlayerEventListener>();
@@ -130,6 +135,7 @@ public abstract class MPlayerConfiguration implements Serializable {
 		clone.fullScreen = this.fullScreen;
 		clone.windowId = this.windowId;
 		clone.playerName = this.playerName;
+		clone.playerExecutable = this.playerExecutable;
 	}
 
 	/**
@@ -196,6 +202,20 @@ public abstract class MPlayerConfiguration implements Serializable {
 	 */
 	public List<MPlayerEventListener> getListeners() {
 		return listeners;
+	}
+
+	/**
+	 * @return the playerExecutable
+	 */
+	public String getPlayerExecutable() {
+		return playerExecutable;
+	}
+
+	/**
+	 * @param playerExecutable the playerExecutable to set
+	 */
+	public void setPlayerExecutable(String playerExecutable) {
+		this.playerExecutable = playerExecutable;
 	}
 
 }

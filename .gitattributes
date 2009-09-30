@@ -829,6 +829,7 @@ player/src/com/kesdip/player/components/weather/WeatherDataProcessor.java -text
 player/src/com/kesdip/player/components/weather/WeatherDataSource.java -text
 player/src/com/kesdip/player/configure/DeploymentConfigurer.java -text
 player/src/com/kesdip/player/constenum/ResourceAttributeKeys.java -text
+player/src/com/kesdip/player/constenum/SystemPropertiesKeys.java -text
 player/src/com/kesdip/player/constenum/TunerReceptionTypes.java -text
 player/src/com/kesdip/player/helpers/ComponentJob.java -text
 player/src/com/kesdip/player/helpers/ExitKeyListener.java -text

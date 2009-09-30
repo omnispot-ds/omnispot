@@ -1,8 +1,11 @@
 package com.kesdip.designer.preferences;
 
-import org.eclipse.jface.preference.*;
-import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.jface.preference.DirectoryFieldEditor;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
+
 import com.kesdip.designer.Activator;
 
 /**
@@ -39,6 +42,8 @@ public class DesignerPreferencePage
 	public void createFieldEditors() {
 		addField(new DirectoryFieldEditor(PreferenceConstants.P_VLC_PATH, 
 				"&VLC installation directory:", getFieldEditorParent()));
+		addField(new FileFieldEditor(PreferenceConstants.P_MPLAYER_FILE, 
+				"&MPlayer executable file:", getFieldEditorParent()));
 	}
 
 	/* (non-Javadoc)

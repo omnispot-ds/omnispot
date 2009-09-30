@@ -49,11 +49,6 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	private static final Logger logger = Logger.getLogger(MPlayer.class);
 
 	/**
-	 * The location of the normal MPlayer executable.
-	 */
-	private final String MPLAYER_EXE = System.getProperty("MPLAYER_EXE");
-
-	/**
 	 * The character to surround file paths to prevent errors due to spaces. In
 	 * Windows it is double quote, in X systems a single quote.
 	 */
@@ -182,7 +177,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	final String createCommandLine(MPlayerConfiguration configuration) {
 		StringBuilder cmd = new StringBuilder();
 		// path to MPlayer
-		cmd.append(MPLAYER_EXE);
+		cmd.append(config.getPlayerExecutable());
 		// always slave process
 		cmd.append(" -slave");
 		// no log output

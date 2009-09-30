@@ -343,6 +343,21 @@ public class FileUtils {
 	}
 
 	/**
+	 * Wrapper around {@link File#getAbsolutePath()}.
+	 * 
+	 * @param path
+	 *            the path to transform
+	 * @return String the path in it's native form or an empty string
+	 */
+	public static String getNativePathName(String path) {
+		if (StringUtils.isEmpty(path)) {
+			return "";
+		}
+		File file = new File(path);
+		return file.getAbsolutePath();
+	}
+
+	/**
 	 * A filter which accepts only files.
 	 * 
 	 * @author gerogias

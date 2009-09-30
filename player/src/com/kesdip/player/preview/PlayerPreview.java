@@ -3,7 +3,6 @@ package com.kesdip.player.preview;
 import java.io.File;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -17,11 +16,11 @@ import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StringUtils;
 import com.kesdip.player.DeploymentContents;
 import com.kesdip.player.DeploymentLayout;
-import com.kesdip.player.DeploymentSettings;
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.components.Resource;
 import com.kesdip.player.components.RootContainer;
+import com.kesdip.player.constenum.SystemPropertiesKeys;
 
 /**
  * Utility class which can launch a stand-alone player.
@@ -29,11 +28,11 @@ import com.kesdip.player.components.RootContainer;
  * @author gerogias
  */
 public class PlayerPreview extends Player {
-	
+
 	private static final Logger logger = Logger.getLogger(PlayerPreview.class);
-	
+
 	private boolean standaloneProcess = false;
-	
+
 	public PlayerPreview() throws SchedulerException {
 		this.monitor = new TimingMonitor(this, true);
 	}
@@ -43,31 +42,29 @@ public class PlayerPreview extends Player {
 		this.completeDeployment = true;
 		this.stopRunning = new AtomicBoolean(false);
 	}
-	
-	public static void previewPlayer(String path, String vlcPath) throws Exception {
-		previewPlayer(path, vlcPath, false);
+
+	public static void previewPlayer(String path, String vlcPath,
+			String mPlayerFile) throws Exception {
+		previewPlayer(path, vlcPath, mPlayerFile, false);
 	}
 
-	public static void previewPlayer(String path, String vlcPath, boolean standalone)
-			throws Exception {
-		System.setProperty("KESDIP_EPE_DESIGNER_VLC_PATH", vlcPath);
+	public static void previewPlayer(String path, String vlcPath,
+			String mPlayerFile, boolean standalone) throws Exception {
+		System.setProperty(SystemPropertiesKeys.KESDIP_EPE_DESIGNER_VLC_PATH,
+				vlcPath);
+		System.setProperty(
+				SystemPropertiesKeys.KESDIP_EPE_DESIGNER_MPLAYER_FILE,
+				mPlayerFile);
 
 		PlayerPreview preview = new PlayerPreview();
 		preview.initialize();
 		preview.standaloneProcess = standalone;
-		
-		preview.monitor.startDeployment(-1, path);
-		
-		new Thread(preview).start();
 
-//		ApplicationContext ctx = new FileSystemXmlApplicationContext(path);
-//		DeploymentSettings deploymentSettings = (DeploymentSettings) ctx
-//				.getBean("deploymentSettings");
-//		DeploymentContents deploymentContents = (DeploymentContents) ctx
-//				.getBean("deploymentContents");
-//		preview.startDeployment(ctx, deploymentSettings, deploymentContents);
+		preview.monitor.startDeployment(-1, path);
+
+		new Thread(preview).start();
 	}
-	
+
 	@Override
 	protected void playerExited() {
 		if (standaloneProcess) {
@@ -120,11 +117,13 @@ public class PlayerPreview extends Player {
 									+ "\n");
 							missingResourcesExist = true;
 						} else {
-							String fileCrc = String.valueOf(FileUtils.getCrc(f).getValue());
-							String resCrc = StringUtils.extractCrc(r.getChecksum());
+							String fileCrc = String.valueOf(FileUtils.getCrc(f)
+									.getValue());
+							String resCrc = StringUtils.extractCrc(r
+									.getChecksum());
 							if (!fileCrc.equals(resCrc)) {
-								corruptResources.append("\t" + r.getIdentifier()
-										+ "\n");
+								corruptResources.append("\t"
+										+ r.getIdentifier() + "\n");
 								corruptResourcesExist = true;
 							}
 						}
@@ -155,7 +154,7 @@ public class PlayerPreview extends Player {
 	 *            the arguments.
 	 */
 	public static void main(String[] args) {
-		if (args == null || args.length < 2) {
+		if (args == null || args.length < 3) {
 			showUsage();
 			return;
 		}
@@ -164,7 +163,7 @@ public class PlayerPreview extends Player {
 			return;
 		}
 		try {
-			previewPlayer(args[0], args[1], true);
+			previewPlayer(args[0], args[1], args[2], true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -176,10 +175,12 @@ public class PlayerPreview extends Player {
 	 */
 	private static final void showUsage() {
 		StringBuilder usage = new StringBuilder("Usage:\n");
-		usage.append("java ").append(PlayerPreview.class.getName()).append(" [XML] [VLC_HOME]\n");
+		usage.append("java ").append(PlayerPreview.class.getName()).append(
+				" [XML] [VLC_HOME] [MPLAYER_FILE]\n");
 		usage.append("\twhere\n");
 		usage.append("\tXML is the location of the content XML file\n");
-		usage.append("\tVLC_HOME is the location of the VLC installation");
+		usage.append("\tVLC_HOME is the location of the VLC installation\n");
+		usage.append("\tMPLAYER_FILE is the location of the MPlayer executable");
 		System.err.println(usage.toString());
 	}
 

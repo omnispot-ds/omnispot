@@ -90,12 +90,15 @@ public class PreviewLayoutHandler extends AbstractHandler {
 				String vlcPath = Activator.getDefault().getPreferenceStore().getString(
 						PreferenceConstants.P_VLC_PATH);
 				
+				String mPlayerPath = Activator.getDefault().getPreferenceStore().getString(
+						PreferenceConstants.P_MPLAYER_FILE);
+
 				if (reason == null) {
 					String deploymentLocation = tempFile.getAbsolutePath();
 					if (launchStandalone) {
-						PreviewLauncher.launchPreview(deploymentLocation, vlcPath);
+						PreviewLauncher.launchPreview(deploymentLocation, vlcPath, mPlayerPath);
 					} else {
-						PlayerPreview.previewPlayer(deploymentLocation, vlcPath);
+						PlayerPreview.previewPlayer(deploymentLocation, vlcPath, mPlayerPath);
 					}
 				}
 				else

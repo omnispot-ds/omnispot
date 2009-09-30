@@ -13,12 +13,15 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#initializeDefaultPreferences()
+	 * @seeorg.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#
+	 * initializeDefaultPreferences()
 	 */
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(PreferenceConstants.P_VLC_PATH,
 				"C:\\Program Files\\VideoLAN\\VLC");
+		store.setDefault(PreferenceConstants.P_MPLAYER_FILE,
+				"C:\\dbin\\MPlayer\\mplayer.exe");
 	}
 
 }
