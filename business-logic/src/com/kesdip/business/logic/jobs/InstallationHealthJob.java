@@ -46,7 +46,8 @@ public class InstallationHealthJob extends BaseLogic {
 
 	private final String SQL = "SELECT i.id, i.uuid, se.status_date \n"
 			+ "FROM Installation i INNER JOIN Status_Entry se \n"
-			+ "ON i.id = se.installation_id " + "WHERE se.status_date < ? "
+			+ "ON i.id = se.installation_id " 
+			+ "WHERE se.status_date < ? "
 			+ "AND i.status <> " + IInstallationStatus.MACHINE_DOWN
 			+ " " + "AND se.status_date >= ALL (SELECT s.status_date \n"
 			+ "FROM Status_Entry s \n" + "WHERE s.installation_id = i.id)";

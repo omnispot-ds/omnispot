@@ -214,7 +214,7 @@
 	<bean id="installationHealthLogic" 
 		parent="baseLogicBean"
 		class="com.kesdip.business.logic.jobs.InstallationHealthJob">
-		<property name="minutesInactive" value="5"/>
+		<property name="minutesInactive" value="2"/>
 	</bean>
 	
 	<!-- Old status entry cleanup logic -->
