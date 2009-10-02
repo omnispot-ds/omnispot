@@ -12,9 +12,16 @@ public class SingleCharacterReader {
 	List<String> charsList;
 	int charsIndex = 0;
 	int chars = 0;
+	boolean newcontent = false;
+	String newContent;
 
 	public SingleCharacterReader(String content) {
 		sliceToChars(content);
+	}
+
+	public void updateContent(String newContent) {
+		newcontent = true;
+		this.newContent = newContent;
 	}
 
 	private void sliceToChars(String content) {
@@ -30,7 +37,7 @@ public class SingleCharacterReader {
 			StringBuilder sb = new StringBuilder();
 			for (String ch :charsList)
 				sb.append(ch);
-			
+
 			logger.debug(sb.toString());
 		}
 	}
@@ -40,6 +47,12 @@ public class SingleCharacterReader {
 	 * @return the next character (in a loop)
 	 */
 	public String nextChar() {
+		if (newcontent && charsIndex == 0)
+		{
+			logger.debug("updating content...");
+			sliceToChars(newContent);
+			newcontent = false;
+		}	
 		String retVal = charsList.get(charsIndex);
 		charsIndex++;
 		if (charsIndex == charsList.size()) {

@@ -51,7 +51,7 @@ public class RssTickerSource implements TickerSource {
 	
 	private int refreshInterval;
 	
-	private String lastContent;
+	private String content;
 	
 	SingleCharacterReader charStream;
 	
@@ -101,7 +101,6 @@ public class RssTickerSource implements TickerSource {
                     RefreshJob.class);
 			
 			jobDetail.getJobDataMap().put("source", this);
-			
 			Trigger trigger = TriggerUtils.makeMinutelyTrigger(refreshInterval);
 			Calendar start = Calendar.getInstance();
 			start.add(Calendar.MINUTE, refreshInterval);
@@ -121,10 +120,15 @@ public class RssTickerSource implements TickerSource {
 	void loadContent(){		
 		createFeed();
 		readFeed();
-		if (lastContent.length() == 0)
-			lastContent = "Feed not available..";
+		if (content.length() == 0)
+			content = "Feed not available..";
 		
-		charStream = new SingleCharacterReader(lastContent);
+		if (charStream == null)
+			//first time called
+			charStream = new SingleCharacterReader(content);
+		else
+			//called by refreshJob
+			charStream.updateContent(content);
 		
 		if(sb == null){
 			sb = new StringBuilder();
@@ -166,7 +170,7 @@ public class RssTickerSource implements TickerSource {
 			}
 		}
 		
-		lastContent = builder.toString();
+		content = builder.toString();
 		
 	}
 
