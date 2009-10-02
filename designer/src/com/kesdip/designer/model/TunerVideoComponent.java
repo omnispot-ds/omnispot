@@ -16,6 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.kesdip.designer.properties.CheckboxPropertyDescriptor;
 import com.kesdip.designer.utils.DOMHelpers;
 
 public class TunerVideoComponent extends ComponentModelElement {
@@ -43,6 +44,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	public static final String CHANNEL_PROP = "Tuner.ChannelProp";
 	/** Property ID to use for the input property value. */
 	public static final String INPUT_PROP = "Tuner.InputProp";
+	public static final String FULL_SCREEN_PROP = "Tuner.FullScreen";
 	public static final String VIDEO_PROVIDER_PROP = "Video.VideoProvider";
 
 	private static final String STRING_VLC = "VLC";
@@ -55,6 +57,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	private int channel;
 	private int input;
 	private String provider;
+	private boolean fullScreen;
 
 	public TunerVideoComponent() {
 		type = AnalogVideoType;
@@ -62,6 +65,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		channel = 0;
 		input = 0;
 		provider = STRING_MPLAYER;
+		fullScreen = false;
 	}
 
 	protected Element serialize(Document doc, boolean isPublish) {
@@ -80,12 +84,13 @@ public class TunerVideoComponent extends ComponentModelElement {
 		DOMHelpers.addProperty(doc, videoElement, "device", device);
 		DOMHelpers.addProperty(doc, videoElement, "channel", String.valueOf(channel));
 		DOMHelpers.addProperty(doc, videoElement, "input", String.valueOf(input));
+		DOMHelpers.addProperty(doc, videoElement, "fullScreen", Boolean.toString(fullScreen));
 		return videoElement;
 	}
 
 	protected void deserialize(Document doc, Node componentNode) {
 		String t = DOMHelpers.getSimpleProperty(componentNode, "type");
-		
+
 		String className = componentNode.getAttributes().getNamedItem("class").getNodeValue();
 		if (className.equals("com.kesdip.player.components.media.TunerVideo")) {
 			setPropertyValue(VIDEO_PROVIDER_PROP, getProviderType(STRING_MPLAYER));
@@ -96,6 +101,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 		setPropertyValue(DEVICE_PROP, DOMHelpers.getSimpleProperty(componentNode, "device"));
 		setPropertyValue(CHANNEL_PROP, DOMHelpers.getSimpleProperty(componentNode, "channel"));
 		setPropertyValue(INPUT_PROP, DOMHelpers.getSimpleProperty(componentNode, "input"));
+		String fullScreen = DOMHelpers.getSimpleProperty(componentNode, "fullScreen");
+		setPropertyValue(FULL_SCREEN_PROP, fullScreen != null?fullScreen:"false");
 		super.deserialize(doc, componentNode);
 	}
 
@@ -106,6 +113,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		memento.putInteger(TAG_CHANNEL, channel);
 		memento.putInteger(TAG_INPUT, input);
 		memento.putString(TAG_TUNER_VIDEO_PROVIDER, provider);
+		memento.putBoolean(TAG_TUNER_FULL_SCREEN, fullScreen);
 	}
 
 	public void load(IMemento memento) {
@@ -115,6 +123,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		channel = memento.getInteger(TAG_CHANNEL);
 		input = memento.getInteger(TAG_INPUT);
 		provider = memento.getString(TAG_TUNER_VIDEO_PROVIDER);
+		fullScreen = memento.getBoolean(TAG_TUNER_FULL_SCREEN);
 	}
 
 	@Override
@@ -126,6 +135,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		assert(channel == ((TunerVideoComponent) other).channel);
 		assert(input == ((TunerVideoComponent) other).input);
 		assert (provider.equals( ((TunerVideoComponent) other).provider));
+		assert (fullScreen ==((TunerVideoComponent) other).fullScreen);
 	}
 
 	/*
@@ -138,11 +148,12 @@ public class TunerVideoComponent extends ComponentModelElement {
 		descriptors = new IPropertyDescriptor[] {
 				new ComboBoxPropertyDescriptor(VIDEO_PROVIDER_PROP, "Provider",
 						new String[]{STRING_MPLAYER, STRING_VLC}),
-				new ComboBoxPropertyDescriptor(TYPE_PROP, "Type",
-						new String[] { AnalogVideoType, DigitalVideoType }),
-						new TextPropertyDescriptor(DEVICE_PROP, "Device"),
-						new TextPropertyDescriptor(CHANNEL_PROP, "Channel"),
-						new TextPropertyDescriptor(INPUT_PROP, "Input Pin")
+						new ComboBoxPropertyDescriptor(TYPE_PROP, "Type",
+								new String[] { AnalogVideoType, DigitalVideoType }),
+								new TextPropertyDescriptor(DEVICE_PROP, "Device (VLC only)"),
+								new TextPropertyDescriptor(CHANNEL_PROP, "Channel"),
+								new TextPropertyDescriptor(INPUT_PROP, "Input Pin (VLC only)"),
+								new CheckboxPropertyDescriptor(FULL_SCREEN_PROP, "Full Screen")
 		};
 		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
@@ -204,6 +215,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 			return getTunerType(type);
 		else if (VIDEO_PROVIDER_PROP.equals(propertyId))
 			return getProviderType(provider);
+		else if (FULL_SCREEN_PROP.equals(propertyId))
+			return fullScreen;
 		else
 			return super.getPropertyValue(propertyId);
 	}
@@ -233,54 +246,67 @@ public class TunerVideoComponent extends ComponentModelElement {
 				throw new RuntimeException("Unexpected tuner type.");
 			firePropertyChange(TYPE_PROP, oldValue, value);
 		}	else if (VIDEO_PROVIDER_PROP.equals(propertyId)) {
-				if (value == null)
-					value = 0;
-				int oldValue = getProviderType(provider);
-				int v = ((Integer) value).intValue();
-				if (v == 0)
-					provider = STRING_MPLAYER;
-				else if (v == 1)
-					provider = STRING_VLC;
-				else
-					throw new RuntimeException("Unexpected provider type.");
-				firePropertyChange(VIDEO_PROVIDER_PROP, oldValue, provider);
-		} else
-			super.setPropertyValue(propertyId, value);
-	}
+			if (value == null)
+				value = 0;
+			int oldValue = getProviderType(provider);
+			int v = ((Integer) value).intValue();
+			if (v == 0)
+				provider = STRING_MPLAYER;
+			else if (v == 1)
+				provider = STRING_VLC;
+			else
+				throw new RuntimeException("Unexpected provider type.");
+			firePropertyChange(VIDEO_PROVIDER_PROP, oldValue, provider);
+		}	else if (FULL_SCREEN_PROP.equals(propertyId)) {
+				if (value instanceof String) {
+					// We are being deserialized
+					String oldValue = fullScreen ? "true" : "false";
+					fullScreen = value.equals("true");
+					firePropertyChange(FULL_SCREEN_PROP, oldValue, value);
+					return;
+				}
+				Boolean oldValue = fullScreen;
+				fullScreen = ((Boolean) value).booleanValue();
+				firePropertyChange(FULL_SCREEN_PROP, oldValue, fullScreen);
+			} else
 
-	private int getProviderType(String t) {
-		if (t.equals(STRING_MPLAYER))
-			return 0;
-		else if (t.equals(STRING_VLC))
-			return 1;
-		else
-			throw new RuntimeException("Unknown provider type.");		
-	}
-	
-	public void relocateChildren(Point moveBy) {
-		// Intentionally empty. Component not a container.
-	}
+				super.setPropertyValue(propertyId, value);
+		}
 
-	@Override
-	public ModelElement deepCopy() {
-		TunerVideoComponent retVal = new TunerVideoComponent();
-		retVal.deepCopy(this);
-		retVal.type = this.type;
-		retVal.device = this.device;
-		retVal.channel = this.channel;
-		retVal.input = this.input;
-		retVal.provider = this.provider;
-		return retVal;
+		private int getProviderType(String t) {
+			if (t.equals(STRING_MPLAYER))
+				return 0;
+			else if (t.equals(STRING_VLC))
+				return 1;
+			else
+				throw new RuntimeException("Unknown provider type.");		
+		}
+
+		public void relocateChildren(Point moveBy) {
+			// Intentionally empty. Component not a container.
+		}
+
+		@Override
+		public ModelElement deepCopy() {
+			TunerVideoComponent retVal = new TunerVideoComponent();
+			retVal.deepCopy(this);
+			retVal.type = this.type;
+			retVal.device = this.device;
+			retVal.channel = this.channel;
+			retVal.input = this.input;
+			retVal.provider = this.provider;
+			retVal.fullScreen = this.fullScreen;
+			return retVal;
+		}
+
+		@Override
+		public Image getIcon() {
+			return IMAGE_ICON;
+		}
+
+		public String toString() {
+			return "TunerVideo: (" + type + "," + device + "," + channel + "," + input + ")";
+		}
+
+
 	}
-
-	@Override
-	public Image getIcon() {
-		return IMAGE_ICON;
-	}
-
-	public String toString() {
-		return "TunerVideo: (" + type + "," + device + "," + channel + "," + input + ")";
-	}
-
-
-}

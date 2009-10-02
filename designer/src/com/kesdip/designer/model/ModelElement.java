@@ -80,7 +80,7 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_FULL_SCREEN = "FullScreen";
 	public static final String TAG_VIDEO_PROVIDER = "VideoProvider";
 	public static final String TAG_TUNER_VIDEO_PROVIDER = "VideoTunerProvider";
-	
+	public static final String TAG_TUNER_FULL_SCREEN = "TunerFullScreen";
 	public static final String PARENT_PROP = "ModelElement.Parent";
 	public static final String CHILD_MOVE_UP = "ModelElement.ChildMoveUp";
 	public static final String CHILD_MOVE_DOWN = "ModelElement.ChildMoveDown";
