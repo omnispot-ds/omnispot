@@ -133,4 +133,16 @@ public abstract class AbstractMPlayerVideo extends AbstractComponent {
 	public MPlayer getMPlayer() {
 		return mPlayer;
 	}
+	
+	//Irrelevant, exist here for matching the tuner video spring bean interface 
+	String device;
+	int input;
+	public void setDevice(String device) {
+		this.device = device;
+	}
+	public void setInput(int input) {
+		this.input = input;
+	}
+
+
 }
