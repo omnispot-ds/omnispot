@@ -187,6 +187,7 @@
 				name="properties" 
 				value="bootstrap.home,
 				vlc.home,
+				mplayer.file,
 				jdbc.driver.class,
 				admin.server.host,
 				admin.server.port" />
@@ -197,6 +198,7 @@
 				name="properties" 
 				value="bootstrap.home,
 				vlc.home,
+				mplayer.file,
 				jdbc.driver.class,
 				admin.server.host,
 				admin.server.port" />
@@ -339,6 +341,10 @@
 		<copy 
 			todir="${player.installer.dir}/vlc" 
 			file="${vlc.installer.path}"/>
+		<!-- Copy MPlayer -->
+		<copy 
+			todir="${player.installer.dir}/mplayer" 
+			file="${mplayer.installer.path}"/>
 		<!-- Copy the player/bootstrap files -->
 		<copy flatten="false" todir="${player.installer.dir}/player">
 			<!-- We are using bootstrap.home as we have already deployed there -->
@@ -378,6 +384,10 @@
 		<copy 
 			todir="${server.installer.dir}/vlc" 
 			file="${vlc.installer.path}"/>
+		<!-- Copy MPlayer -->
+		<copy 
+			todir="${server.installer.dir}/mplayer" 
+			file="${mplayer.installer.path}"/>
 		<!-- Copy Tomcat -->
 		<copy 
 			todir="${server.installer.dir}/tomcat" 
@@ -417,6 +427,14 @@
 			dir="${player.installer.dir}/player/conf" 
 			token="${vlc.home}" 
 			value="$VLC_INSTALL_PATH$">
+			<include name="player.properties"/>
+			<include name="bootstrap.properties"/>
+		</replace>
+		<!-- Replace previous mplayer.file in the conf files -->
+		<replace 
+			dir="${player.installer.dir}/player/conf" 
+			token="${mplayer.file}" 
+			value="$MPLAYER_HOME$/mplayer.exe">
 			<include name="player.properties"/>
 			<include name="bootstrap.properties"/>
 		</replace>

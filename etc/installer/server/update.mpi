@@ -81,7 +81,7 @@ InstallPassword
 {}
 
 InstallVersion
-1.1.0.0
+0.0.0.0
 
 Language,ca
 Yes
@@ -162,7 +162,7 @@ ProjectID
 BB8FBCB6-5BD1-4C12-9FF7-517ADBB04B0B
 
 ProjectVersion
-1.2.13.8
+1.2.12.0
 
 SaveOnlyToplevelDirs
 No
@@ -192,7 +192,7 @@ UpgradeApplicationID
 690A6BBE-0CF3-4899-BEE8-4179C959A3C1
 
 Version
-1.1
+X.X.X
 
 ViewReadme
 Yes
@@ -296,6 +296,7 @@ InstallComponent BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE -setup Install -type pane 
 InstallComponent 52055324-A30E-4200-AD67-AFF1CE1BF6D5 -setup Install -type pane -title {Copying Files} -component CopyFiles -active Yes -parent StandardInstall
 InstallComponent 119E15D2-F5D0-40AB-B42C-B28C827F1B85 -setup Install -type action -title {Disable Buttons} -component ModifyWidget -active Yes -parent 52055324-A30E-4200-AD67-AFF1CE1BF6D5
 InstallComponent 4F1B3F78-2A43-4C36-9E33-6815203A3100 -setup Install -type action -title {Execute Service Stop Actions} -component ExecuteAction -active Yes -parent 52055324-A30E-4200-AD67-AFF1CE1BF6D5
+InstallComponent 6A943549-0019-4388-9FCA-7FFD98AEAEC2 -setup Install -type action -title {Execute Delete Folders Actions} -component ExecuteAction -active Yes -parent 52055324-A30E-4200-AD67-AFF1CE1BF6D5
 InstallComponent 151EEB64-D0D4-4ACC-BDBA-9C4A29B617B1 -setup Install -type action -title {Execute Install Actions} -component ExecuteAction -active Yes -parent 52055324-A30E-4200-AD67-AFF1CE1BF6D5
 InstallComponent 85023F3C-997B-4F4A-9FCE-8279A88E7E18 -setup Install -type action -title {Execute Other Actions} -component ExecuteAction -active Yes -parent 52055324-A30E-4200-AD67-AFF1CE1BF6D5
 InstallComponent EA112014-BB71-4A11-90C8-175437D9F4F5 -setup Install -type action -title {Execute Service Startup Actions} -component ExecuteAction -active Yes -parent 52055324-A30E-4200-AD67-AFF1CE1BF6D5
@@ -351,6 +352,11 @@ InstallComponent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -setup Install -type actio
 Condition F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -active Yes -parent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -title {String Is Condition} -component StringIsCondition -TreeObject::id F4EF62D0-7DF5-4C43-B54C-AB6324CFB443
 InstallComponent 3BC307C6-8D24-46B9-9A3D-4E98937B4F74 -setup Install -type action -conditions 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -title {Uninstall Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition 431EE5AC-4222-44D4-B590-BBB7E4D12B65 -active Yes -parent 3BC307C6-8D24-46B9-9A3D-4E98937B4F74 -title {String Is Condition} -component StringIsCondition -TreeObject::id 431EE5AC-4222-44D4-B590-BBB7E4D12B65
+InstallComponent 0E423FBE-D4EA-4E50-B8C1-58D78301E360 -setup Install -type actiongroup -title {Delete Folders Actions} -alias {Delete Folders Actions} -active Yes -parent ActionGroupsInstall
+InstallComponent 97703135-61CD-4049-8183-1B833C700A40 -setup Install -type action -conditions 7C008233-386B-4311-88DE-4407CEE0EB2D -title {Delete Console Files} -component DeleteFile -command reorder -active Yes -parent 0E423FBE-D4EA-4E50-B8C1-58D78301E360
+Condition 7C008233-386B-4311-88DE-4407CEE0EB2D -active Yes -parent 97703135-61CD-4049-8183-1B833C700A40 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 7C008233-386B-4311-88DE-4407CEE0EB2D
+InstallComponent D6E1543C-010E-429C-9376-512F2DB4FB16 -setup Install -type action -conditions 5A7B54FA-99E9-4EFB-9B66-6575BB9FA3BD -title {Delete Designer Files} -component DeleteFile -command reorder -active Yes -parent 0E423FBE-D4EA-4E50-B8C1-58D78301E360
+Condition 5A7B54FA-99E9-4EFB-9B66-6575BB9FA3BD -active Yes -parent D6E1543C-010E-429C-9376-512F2DB4FB16 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 5A7B54FA-99E9-4EFB-9B66-6575BB9FA3BD
 InstallComponent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -setup Install -type actiongroup -conditions {3AE77692-FD01-45F9-A0AA-6DC5C1927E8A 0A5501A8-EB48-4EE5-B1E5-EB06F64E4C57} -title {Service Startup Actions} -command insert -alias {Service Startup Actions} -active Yes -parent ActionGroupsInstall
 Condition 3AE77692-FD01-45F9-A0AA-6DC5C1927E8A -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -title {Platform Condition} -component PlatformCondition -TreeObject::id 3AE77692-FD01-45F9-A0AA-6DC5C1927E8A
 Condition 0A5501A8-EB48-4EE5-B1E5-EB06F64E4C57 -active Yes -parent 4E1449F2-FFE8-4E5F-BA09-175552BC45AC -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 0A5501A8-EB48-4EE5-B1E5-EB06F64E4C57
@@ -360,17 +366,18 @@ InstallComponent 1BDA3598-BE4A-471C-8215-5339830972BE -setup Install -type actio
 InstallComponent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA -setup Install -type actiongroup -conditions 40991313-0B78-4789-A994-849B6DFA4CB7 -title {Service Stop Actions} -command insert -alias {Service Stop Actions} -active Yes -parent ActionGroupsInstall
 Condition 40991313-0B78-4789-A994-849B6DFA4CB7 -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 40991313-0B78-4789-A994-849B6DFA4CB7
 InstallComponent 88D2E7AA-A086-43F7-8720-2F9FA6316DD7 -setup Install -type action -title {Stop Tomcat Service} -component StopWindowsService -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA
+InstallComponent 432A0C3C-7A56-47E8-AE7D-0F97DB6D0A98 -setup Install -type action -title {Stop Tomcat 6 Service} -component StopWindowsService -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA
 InstallComponent 4D0DBB1B-B404-42AB-AE55-F90A5AE42742 -setup Install -type action -title {Stop Derby Service} -component StopWindowsService -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA
 InstallComponent 7C16F3CB-0AA7-4186-B91E-97E2B43C6C44 -setup Install -type action -title {Stop java Processes} -component ExecuteExternalProgram -active Yes -parent 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA
 InstallComponent 4DF4012A-14E0-4A98-9A10-67722E5A9A10 -setup Install -type actiongroup -title {Other Actions} -alias {Other Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 9394CA2C-4FAC-4C68-B4A1-9FE22AA70B18 -setup Install -type action -title {Execute "Prepare Designer Folder"} -component ExecuteAction -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 InstallComponent E7515EF1-0F1E-4694-84E3-6A9142F41B57 -setup Install -type action -conditions 28B63CF9-EB57-46B4-8590-AA474B3162E9 -title {Delete Console App Folder} -component DeleteFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 28B63CF9-EB57-46B4-8590-AA474B3162E9 -active Yes -parent E7515EF1-0F1E-4694-84E3-6A9142F41B57 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 28B63CF9-EB57-46B4-8590-AA474B3162E9
-InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -conditions A8DCF517-5E07-4847-94E3-4FEDB2892A92 -title {Copy Console WAR} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -setup Install -type action -conditions A8DCF517-5E07-4847-94E3-4FEDB2892A92 -title {Copy Console WAR} -component CopyFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition A8DCF517-5E07-4847-94E3-4FEDB2892A92 -active Yes -parent 97260C98-99ED-4EF9-952A-08EC1225A0E9 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A8DCF517-5E07-4847-94E3-4FEDB2892A92
 InstallComponent 6707EC69-3109-415E-918F-9FABB97AF228 -setup Install -type action -conditions 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4 -title {Copy Derby JARs} -component CopyFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4 -active Yes -parent 6707EC69-3109-415E-918F-9FABB97AF228 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 17BA5706-55DE-4AAF-B9A0-5FEC672B9CC4
-InstallComponent 295C93BA-A531-4E0D-BA6A-390E508BCB14 -setup Install -type actiongroup -conditions A3A4812B-615E-4E8C-B100-5509A8776105 -title {Prepare Designer Folder} -command insert -alias {Prepare Designer Folder} -active Yes -parent ActionGroupsInstall
+InstallComponent 295C93BA-A531-4E0D-BA6A-390E508BCB14 -setup Install -type actiongroup -conditions A3A4812B-615E-4E8C-B100-5509A8776105 -title {Prepare Designer Folder} -command reorder -alias {Prepare Designer Folder} -active Yes -parent ActionGroupsInstall
 Condition A3A4812B-615E-4E8C-B100-5509A8776105 -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A3A4812B-615E-4E8C-B100-5509A8776105
 InstallComponent E7A5FEB2-17D9-48C7-9B3E-23841EEA0F42 -setup Install -type action -title {Delete Designer Folder} -component DeleteFile -command reorder -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
 InstallComponent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -setup Install -type action -title {Unzip Designer} -component UnzipFile -command reorder -active Yes -parent 295C93BA-A531-4E0D-BA6A-390E508BCB14
@@ -501,6 +508,12 @@ ConsoleComponent
 
 0A6F6287-D55C-4CB7-BEC1-0722E7E37EDC,Alias
 {Setup Actions}
+
+0E423FBE-D4EA-4E50-B8C1-58D78301E360,Alias
+{Delete Folders Actions}
+
+0E423FBE-D4EA-4E50-B8C1-58D78301E360,Conditions
+{0 conditions}
 
 0EA22ABE-B025-4DBA-9EC7-C88F4249C0C1,Action
 {Uninstall Actions}
@@ -685,6 +698,15 @@ false
 431EE5AC-4222-44D4-B590-BBB7E4D12B65,String
 <%UpgradeInstall%>
 
+432A0C3C-7A56-47E8-AE7D-0F97DB6D0A98,Conditions
+{0 conditions}
+
+432A0C3C-7A56-47E8-AE7D-0F97DB6D0A98,IgnoreErrors
+Yes
+
+432A0C3C-7A56-47E8-AE7D-0F97DB6D0A98,ServiceName
+{Apache Tomcat 6}
+
 458538B7-F45F-4FDF-A70A-5D4F602770A9,Alias
 {Cancel Actions}
 
@@ -853,6 +875,12 @@ Typical
 591C457B-4E9D-487C-997C-1EC720730ECE,Message,subst
 1
 
+5A7B54FA-99E9-4EFB-9B66-6575BB9FA3BD,CheckCondition
+{Before Action is Executed}
+
+5A7B54FA-99E9-4EFB-9B66-6575BB9FA3BD,ObjectID
+DesignerComponent
+
 5B4ABC6A-F502-4214-8424-4CC69AB9D921,Conditions
 {0 conditions}
 
@@ -909,6 +937,12 @@ disabled
 
 67F64ED8-2FA1-4FD5-9E2E-A8489EC795AA,Conditions
 {1 condition}
+
+6A943549-0019-4388-9FCA-7FFD98AEAEC2,Action
+{Delete Folders Actions}
+
+6A943549-0019-4388-9FCA-7FFD98AEAEC2,Conditions
+{0 conditions}
 
 6B2DE117-92CC-463D-AD05-902AF4E6EEBF,Background
 white
@@ -1048,14 +1082,17 @@ Yes
 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8,ServiceName
 {Derby DB service}
 
+7C008233-386B-4311-88DE-4407CEE0EB2D,CheckCondition
+{Before Action is Executed}
+
+7C008233-386B-4311-88DE-4407CEE0EB2D,ObjectID
+ConsoleComponent
+
 7C16F3CB-0AA7-4186-B91E-97E2B43C6C44,Conditions
 {0 conditions}
 
 7C16F3CB-0AA7-4186-B91E-97E2B43C6C44,ProgramCommandLine
 {taskkill.exe /F /IM java.exe}
-
-7C16F3CB-0AA7-4186-B91E-97E2B43C6C44,WaitForProgram
-No
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,Conditions
 {1 condition}
@@ -1146,6 +1183,9 @@ false
 
 88D2E7AA-A086-43F7-8720-2F9FA6316DD7,Conditions
 {0 conditions}
+
+88D2E7AA-A086-43F7-8720-2F9FA6316DD7,IgnoreErrors
+Yes
 
 88D2E7AA-A086-43F7-8720-2F9FA6316DD7,ServiceName
 {Apache Tomcat}
@@ -1284,6 +1324,12 @@ EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A
 
 97260C98-99ED-4EF9-952A-08EC1225A0E9,Source
 <%InstallDir%>/admin-console/admin-console.war
+
+97703135-61CD-4049-8183-1B833C700A40,Conditions
+{1 condition}
+
+97703135-61CD-4049-8183-1B833C700A40,Files
+{<%InstallDir%>/admin-console/admin-console.war;<%InstallDir%>/apache-tomcat*;}
 
 980210F7-CC23-44E9-BB3B-D441CECCB850,CheckCondition
 {Before Action is Executed}
@@ -1582,6 +1628,12 @@ D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,Title,subst
 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,TrueValue
 No
 
+D6E1543C-010E-429C-9376-512F2DB4FB16,Conditions
+{1 condition}
+
+D6E1543C-010E-429C-9376-512F2DB4FB16,Files
+{<%InstallDir%>/designer;}
+
 D87D5E86-99E1-4C84-AF43-DFC7A3B9E865,Action
 {Service Startup Actions}
 
@@ -1750,168 +1802,6 @@ No
 FreeBSD-4-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
-FreeBSD-5-x86,Active
-No
-
-FreeBSD-5-x86,BuildSeparateArchives
-No
-
-FreeBSD-5-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-5-x86,DefaultFilePermission
-0755
-
-FreeBSD-5-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-5-x86,FallBackToConsole
-Yes
-
-FreeBSD-5-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-5-x86,InstallMode
-Standard
-
-FreeBSD-5-x86,InstallType
-Typical
-
-FreeBSD-5-x86,ProgramExecutable
-{}
-
-FreeBSD-5-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-5-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-5-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-5-x86,ProgramName
-{}
-
-FreeBSD-5-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-5-x86,PromptForRoot
-Yes
-
-FreeBSD-5-x86,RequireRoot
-No
-
-FreeBSD-5-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-6-x86,Active
-No
-
-FreeBSD-6-x86,BuildSeparateArchives
-No
-
-FreeBSD-6-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-6-x86,DefaultFilePermission
-0755
-
-FreeBSD-6-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-6-x86,FallBackToConsole
-Yes
-
-FreeBSD-6-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-6-x86,InstallMode
-Standard
-
-FreeBSD-6-x86,InstallType
-Typical
-
-FreeBSD-6-x86,ProgramExecutable
-{}
-
-FreeBSD-6-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-6-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-6-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-6-x86,ProgramName
-{}
-
-FreeBSD-6-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-6-x86,PromptForRoot
-Yes
-
-FreeBSD-6-x86,RequireRoot
-No
-
-FreeBSD-6-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-7-x86,Active
-No
-
-FreeBSD-7-x86,BuildSeparateArchives
-No
-
-FreeBSD-7-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-7-x86,DefaultFilePermission
-0755
-
-FreeBSD-7-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-7-x86,FallBackToConsole
-Yes
-
-FreeBSD-7-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-7-x86,InstallMode
-Standard
-
-FreeBSD-7-x86,InstallType
-Typical
-
-FreeBSD-7-x86,ProgramExecutable
-{}
-
-FreeBSD-7-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-7-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-7-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-7-x86,ProgramName
-{}
-
-FreeBSD-7-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-7-x86,PromptForRoot
-Yes
-
-FreeBSD-7-x86,RequireRoot
-No
-
-FreeBSD-7-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
 FreeBSD-x86,Active
 No
 
@@ -2074,60 +1964,6 @@ No
 Linux-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
-Linux-x86_64,Active
-No
-
-Linux-x86_64,BuildSeparateArchives
-No
-
-Linux-x86_64,DefaultDirectoryPermission
-0755
-
-Linux-x86_64,DefaultFilePermission
-0755
-
-Linux-x86_64,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-Linux-x86_64,FallBackToConsole
-Yes
-
-Linux-x86_64,InstallDir
-<%Home%>/<%ShortAppName%>
-
-Linux-x86_64,InstallMode
-Standard
-
-Linux-x86_64,InstallType
-Typical
-
-Linux-x86_64,ProgramExecutable
-{}
-
-Linux-x86_64,ProgramFolderAllUsers
-No
-
-Linux-x86_64,ProgramFolderName
-<%AppName%>
-
-Linux-x86_64,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-Linux-x86_64,ProgramName
-{}
-
-Linux-x86_64,ProgramReadme
-<%InstallDir%>/README.txt
-
-Linux-x86_64,PromptForRoot
-Yes
-
-Linux-x86_64,RequireRoot
-No
-
-Linux-x86_64,RootInstallDir
-/usr/local/<%ShortAppName%>
-
 Solaris-sparc,Active
 No
 
@@ -2180,60 +2016,6 @@ Solaris-sparc,RequireRoot
 No
 
 Solaris-sparc,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-Solaris-x86,Active
-No
-
-Solaris-x86,BuildSeparateArchives
-No
-
-Solaris-x86,DefaultDirectoryPermission
-0755
-
-Solaris-x86,DefaultFilePermission
-0755
-
-Solaris-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-Solaris-x86,FallBackToConsole
-Yes
-
-Solaris-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-Solaris-x86,InstallMode
-Standard
-
-Solaris-x86,InstallType
-Typical
-
-Solaris-x86,ProgramExecutable
-{}
-
-Solaris-x86,ProgramFolderAllUsers
-No
-
-Solaris-x86,ProgramFolderName
-<%AppName%>
-
-Solaris-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-Solaris-x86,ProgramName
-{}
-
-Solaris-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-Solaris-x86,PromptForRoot
-Yes
-
-Solaris-x86,RequireRoot
-No
-
-Solaris-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 TarArchive,Active

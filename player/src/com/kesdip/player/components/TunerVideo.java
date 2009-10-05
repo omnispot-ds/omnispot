@@ -99,7 +99,7 @@ public class TunerVideo extends AbstractVideo {
 		super.init(parent, timingMonitor, player);
 
 		try {
-			initVLC(false);
+			initVLC(isFullScreen());
 		} catch (Exception e) {
 			throw new ComponentException("Unable to initialize component", e);
 		}

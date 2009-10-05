@@ -21,7 +21,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(PreferenceConstants.P_VLC_PATH,
 				"C:\\Program Files\\VideoLAN\\VLC");
 		store.setDefault(PreferenceConstants.P_MPLAYER_FILE,
-				"C:\\dbin\\MPlayer\\mplayer.exe");
+				"C:\\Kesdipepe\\AdminServer\\MPlayer\\mplayer.exe");
 	}
 
 }

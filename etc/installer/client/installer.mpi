@@ -75,7 +75,7 @@ InstallPassword
 {}
 
 InstallVersion
-1.1.0.0
+0.0.0.0
 
 Language,ca
 Yes
@@ -153,7 +153,7 @@ ProjectID
 61ABE13A-8433-4667-AD29-3EB3574A568F
 
 ProjectVersion
-1.2.13.8
+1.2.12.0
 
 SaveOnlyToplevelDirs
 No
@@ -183,7 +183,7 @@ UpgradeApplicationID
 {}
 
 Version
-1.1
+X.X.X
 
 ViewReadme
 Yes
@@ -278,6 +278,8 @@ File ::ACA81998-C65E-4315-957D-AB9F3B423723 -name quartz-1.6.3.jar -parent E420E
 File ::958D4392-7177-4192-9BB7-FEE035E8B29A -name rome-1.0RC1.jar -parent E420E9A1-4889-4627-A60A-8BA62263F8F6
 File ::BD84B850-E23D-4C55-B3A4-219DBF82CDC1 -name spring.jar -parent E420E9A1-4889-4627-A60A-8BA62263F8F6
 File ::D60743BF-266E-46B5-B270-4BFDA50FE300 -name winpack-3.7.jar -parent E420E9A1-4889-4627-A60A-8BA62263F8F6
+File ::93947ACB-354F-4FBD-AEE6-14C5DA1F9B43 -name commons-lang.jar -parent E420E9A1-4889-4627-A60A-8BA62263F8F6
+File ::A9966EAD-2D3F-4C80-9373-8F0F95B4F03C -name spring-context.jar -parent E420E9A1-4889-4627-A60A-8BA62263F8F6
 File ::CB50847E-7402-4BDE-80E9-B3562BE29BA0 -type dir -name player -parent 13CE08AC-5002-45A5-850D-3E0CD0BA2F93
 File ::7945966C-EBC3-4203-87A0-B54538341963 -type dir -name service-wrapper -parent 13CE08AC-5002-45A5-850D-3E0CD0BA2F93
 File ::65A96504-536E-479C-B640-56CB00802879 -type dir -name bin -parent 7945966C-EBC3-4203-87A0-B54538341963
@@ -991,7 +993,7 @@ File ::2B416B4F-3205-418A-8BC6-2A5D6B7171A0 -name YST9 -parent 2DE01473-DDDA-48D
 File ::8CB14C7B-DD78-4D4B-8FB7-35A59B2ED8F0 -name YST9YDT -parent 2DE01473-DDDA-48D8-895D-C323CD877441
 FileGroup ::B831E5C5-30FE-4424-A2C5-CF191E5DD6D9 -setup Install -alias VLCFiles -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name VLC -parent FileGroups
 File ::2381A80F-8009-4A11-A304-D5E7924092F6 -type dir -name C:/workdir-ds/player/dist/installer/vlc -parent B831E5C5-30FE-4424-A2C5-CF191E5DD6D9
-File ::E33EB41D-3260-4B2E-8D2C-20ACE0AE9766 -name vlc-0.9.9-win32.exe -parent 2381A80F-8009-4A11-A304-D5E7924092F6
+File ::84D512FE-33E5-495E-8DC7-5396189C096C -name vlc-1.0.2-win32.exe -parent 2381A80F-8009-4A11-A304-D5E7924092F6
 FileGroup ::1AD4896A-F108-4BFE-A121-0A2B9C352749 -setup Install -alias PlayerFiles -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Player -parent FileGroups
 File ::DA22A94E-0A28-40C7-B10E-7E20C52E755D -type dir -name C:/workdir-ds/player/dist/installer/player -parent 1AD4896A-F108-4BFE-A121-0A2B9C352749
 File ::71A64C96-EAB1-4EC4-B00C-AADFD30174EB -type dir -name conf -active 0 -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
@@ -1035,6 +1037,7 @@ File ::C17952E8-741C-44B3-9C70-4528E8A4C103 -name comfyj-2.6.jar -parent E57AB74
 File ::68015EF1-E11A-435D-A284-DDFB61772155 -name commons-lang.jar -parent E57AB743-9D75-4C50-A9F5-7F4A798B658F
 File ::9F755C30-694C-4540-A1E9-B938308FAC07 -name jniwrap-3.7.2.jar -parent E57AB743-9D75-4C50-A9F5-7F4A798B658F
 File ::7C0275F4-72E4-42C8-8728-6A91BBF6EABA -name winpack-3.7.jar -parent E57AB743-9D75-4C50-A9F5-7F4A798B658F
+File ::D55D1CF5-8D2C-4AAA-AF87-C789272CA110 -name spring-context.jar -parent E57AB743-9D75-4C50-A9F5-7F4A798B658F
 File ::00A3D078-5A10-4478-8E4B-9BA3AA8D1A7D -type dir -name player -active 0 -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
 File ::F6374F08-EF52-4DB7-89FE-ABD20EB135CD -type dir -name service-wrapper -active 0 -parent DA22A94E-0A28-40C7-B10E-7E20C52E755D
 File ::BAC75889-BE61-43D6-9D07-2FD7587BEF32 -type dir -name bin -parent F6374F08-EF52-4DB7-89FE-ABD20EB135CD
@@ -1069,10 +1072,14 @@ File ::8A495B15-1B50-483B-BFD7-494CB24C4FF1 -name drop-bootstrap-database.sql -a
 File ::560CC655-88B8-4779-A4B2-32A7409D8B0D -name drop-database.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
 File ::34A456C7-0B50-4D7B-800A-FE244DBD5509 -name static-data.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
 File ::6EED4521-6154-4D05-A18D-BAEC6EB6F6A7 -name test-data.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
+FileGroup ::731ED89D-F977-4F8E-B3A9-F8E02037541C -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name MPlayer -parent FileGroups
+File ::72A2D7A9-F93A-47EE-A7E2-11D9376C62FF -type dir -name C:/workdir-ds/player/dist/installer/mplayer -parent 731ED89D-F977-4F8E-B3A9-F8E02037541C
+File ::9D50A701-C682-426E-ABC6-41588FDC5262 -name mplayer.zip -parent 72A2D7A9-F93A-47EE-A7E2-11D9376C62FF
 Component ::952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3 -setup Install -alias EngineComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name {Rendering Engine} -parent Components
 Component ::EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4 -setup Install -alias MonitorComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Monitor -parent Components
 Component ::773B2602-6F0C-4C59-A829-5512C4D8914D -setup Install -alias VLCComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name VLC -parent Components
 Component ::9EC9EA29-D379-4232-B8B7-11F019C5A6ED -setup Install -alias JREComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name JRE -parent Components
+Component ::EA594766-B1D3-42DA-836D-13A9EF9C2449 -setup Install -alias MPlayerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name MPlayer -parent Components
 SetupType ::210B766B-106B-43B9-954F-0099E94C11D2 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Typical -parent SetupTypes
 SetupType ::3C51262F-7577-4899-A92A-D3BFBAC91FBC -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Custom -parent SetupTypes
 
@@ -1164,9 +1171,11 @@ InstallComponent C704E0A4-91B1-4856-BBB4-F10A36F065EC -setup Install -type actio
 InstallComponent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE -setup Install -type actiongroup -title {Other Actions} -alias OtherActions -active Yes -parent ActionGroupsInstall
 InstallComponent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -setup Install -type action -conditions DE29D43F-1430-42E2-9EC2-FC765F2C936B -title {Add JRE To Path} -component AddDirectoryToPath -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition DE29D43F-1430-42E2-9EC2-FC765F2C936B -active Yes -parent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id DE29D43F-1430-42E2-9EC2-FC765F2C936B
-InstallComponent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -setup Install -type action -conditions 597B653B-99F7-422E-A2AE-E67F9E935359 -title {Install VLC} -component ExecuteExternalProgram -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -setup Install -type action -conditions 597B653B-99F7-422E-A2AE-E67F9E935359 -title {Install VLC} -component ExecuteExternalProgram -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 597B653B-99F7-422E-A2AE-E67F9E935359 -active Yes -parent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 597B653B-99F7-422E-A2AE-E67F9E935359
-InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type action -conditions 518CE47F-6CCA-4206-8681-11D59206B145 -title {Replace Values in CONF files} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent C5AF63FF-C52B-4E2C-842F-E3787E69D801 -setup Install -type action -conditions 191286AF-B18E-4B44-AA69-A23F58DEFF24 -title {Install MPlayer} -component UnzipFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+Condition 191286AF-B18E-4B44-AA69-A23F58DEFF24 -active Yes -parent C5AF63FF-C52B-4E2C-842F-E3787E69D801 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 191286AF-B18E-4B44-AA69-A23F58DEFF24
+InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type action -conditions 518CE47F-6CCA-4206-8681-11D59206B145 -title {Replace Values in CONF files} -component ReplaceTextInFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 518CE47F-6CCA-4206-8681-11D59206B145 -active Yes -parent EFF0FC5D-E676-4652-A183-A406FB21067D -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
 InstallComponent FFEA53D6-E1E7-46AC-9FA3-13235F247567 -setup Install -type action -title {Add VLC To Path} -component AddDirectoryToPath -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 InstallComponent 1786BE0E-4C0C-4B34-90B6-2D1C706A7268 -setup Install -type action -title {Copy Native libraries To ./lib} -component CopyFile -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
@@ -1208,6 +1217,7 @@ Condition F7273A5C-E5BE-4AC4-A97B-B0E6EDB372B1 -active Yes -parent 3A21A4E1-6E0E
 Condition 26FB6615-6EC1-4F27-A1EB-AA7809C0FC33 -active Yes -parent 3A21A4E1-6E0E-47EA-951F-1BFC6C470E2D -title {Ask Yes or No} -component AskYesOrNo -TreeObject::id 26FB6615-6EC1-4F27-A1EB-AA7809C0FC33
 InstallComponent BF8DB42A-11B6-4318-B16D-D61771E339F6 -setup Uninstall -type actiongroup -title {Uninstall Actions} -alias {Uninstall Actions} -active Yes -parent ActionGroupsUninstall
 InstallComponent 6EB75CC7-92F9-458C-AC32-00BDF75A7D15 -setup Uninstall -type action -title {Uninstall Selected Files} -component UninstallSelectedFiles -active Yes -parent BF8DB42A-11B6-4318-B16D-D61771E339F6
+InstallComponent F2E4904A-7DB0-426E-A3F5-E6569B36C0E5 -setup Uninstall -type action -title {Delete Folder} -component DeleteFile -active Yes -parent BF8DB42A-11B6-4318-B16D-D61771E339F6
 InstallComponent C38D0E99-0031-4AC6-A365-42A767D5B4D9 -setup Uninstall -type actiongroup -conditions 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10 -title {Uninstall Services Actions} -command insert -alias {Uninstall Services Actions} -active Yes -parent ActionGroupsUninstall
 Condition 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10 -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9 -title {Platform Condition} -component PlatformCondition -TreeObject::id 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10
 InstallComponent EE96A966-3C78-4B5F-B95E-10F0AE16B21B -setup Uninstall -type action -conditions 7EAE0CF0-84DB-4777-A1E3-0AF65D5A1FBC -title {Stop Bootstrap Service} -component StopWindowsService -command insert -alias {Stop Bootstrap Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
@@ -1218,6 +1228,7 @@ InstallComponent 51FBEC01-F58A-4B95-90D2-67F8CF46A00E -setup Uninstall -type act
 Condition 6413473F-965C-4719-8572-53ED1212F412 -active Yes -parent 51FBEC01-F58A-4B95-90D2-67F8CF46A00E -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 6413473F-965C-4719-8572-53ED1212F412
 InstallComponent 9A6B1CA0-407C-4014-9D0C-414D14DE71AC -setup Uninstall -type action -conditions D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF -title {Delete Derby Service} -component DeleteWindowsService -command insert -alias {Delete Derby Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
 Condition D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF -active Yes -parent 9A6B1CA0-407C-4014-9D0C-414D14DE71AC -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id D286F3E9-7E2F-4488-9BA2-2A6ED82C79BF
+InstallComponent 6277E55B-229A-4C1C-BDA3-8172E79C3DDC -setup Uninstall -type action -title {Kill java Processes} -component ExecuteExternalProgram -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
 InstallComponent 0D3BE045-E8AA-45B6-A106-45613F8610DB -setup Uninstall -type actiongroup -title {Uninstall Other Software} -alias {Uninstall Other Software} -active Yes -parent ActionGroupsUninstall
 InstallComponent A504F227-72DE-4366-86B4-9476AE7DD909 -setup Uninstall -type action -conditions BF3C2F06-1975-4212-ABAF-8538E2CD6D12 -title {Uninstall VLC} -component ExecuteExternalProgram -command insert -active Yes -parent 0D3BE045-E8AA-45B6-A106-45613F8610DB
 Condition BF3C2F06-1975-4212-ABAF-8538E2CD6D12 -active Yes -parent A504F227-72DE-4366-86B4-9476AE7DD909 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id BF3C2F06-1975-4212-ABAF-8538E2CD6D12
@@ -1342,6 +1353,12 @@ false
 18DC3036-ACC5-4B6C-B14F-3A5C24149323,Filename
 <%ProgramReadme%>
 
+191286AF-B18E-4B44-AA69-A23F58DEFF24,CheckCondition
+{Before Action is Executed}
+
+191286AF-B18E-4B44-AA69-A23F58DEFF24,ObjectID
+MPlayerComponent
+
 19FBC94B-58E3-498C-867B-1D8D8C478016,CheckCondition
 {Before Next Pane is Displayed}
 
@@ -1388,7 +1405,7 @@ Player
 {can create}
 
 210B766B-106B-43B9-954F-0099E94C11D2,Components
-{952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3 EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4 773B2602-6F0C-4C59-A829-5512C4D8914D 9EC9EA29-D379-4232-B8B7-11F019C5A6ED}
+{952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3 EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4 773B2602-6F0C-4C59-A829-5512C4D8914D 9EC9EA29-D379-4232-B8B7-11F019C5A6ED EA594766-B1D3-42DA-836D-13A9EF9C2449}
 
 210B766B-106B-43B9-954F-0099E94C11D2,Description,subst
 1
@@ -1529,7 +1546,7 @@ OtherActions
 {Ask the user if they want to proceed with the uninstall.}
 
 3C51262F-7577-4899-A92A-D3BFBAC91FBC,Components
-{952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3 EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4 773B2602-6F0C-4C59-A829-5512C4D8914D 9EC9EA29-D379-4232-B8B7-11F019C5A6ED}
+{952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3 EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4 773B2602-6F0C-4C59-A829-5512C4D8914D 9EC9EA29-D379-4232-B8B7-11F019C5A6ED EA594766-B1D3-42DA-836D-13A9EF9C2449}
 
 3C51262F-7577-4899-A92A-D3BFBAC91FBC,Description,subst
 1
@@ -1723,6 +1740,15 @@ Windows
 597B653B-99F7-422E-A2AE-E67F9E935359,ObjectID
 VLCComponent
 
+6277E55B-229A-4C1C-BDA3-8172E79C3DDC,Conditions
+{0 conditions}
+
+6277E55B-229A-4C1C-BDA3-8172E79C3DDC,IgnoreErrors
+Yes
+
+6277E55B-229A-4C1C-BDA3-8172E79C3DDC,ProgramCommandLine
+{taskkill.exe /F /IM java.exe}
+
 6413473F-965C-4719-8572-53ED1212F412,CheckCondition
 {Before Action is Executed}
 
@@ -1739,6 +1765,9 @@ VLCComponent
 {Service Installation Actions}
 
 6BD87EE5-BAB6-4779-8487-7F6820C9FE42,Conditions
+{0 conditions}
+
+6EB75CC7-92F9-458C-AC32-00BDF75A7D15,Conditions
 {0 conditions}
 
 6F1431B9-185E-489C-97CA-3766402D792B,ExitType
@@ -1764,6 +1793,12 @@ Finish
 
 71EE4261-B20C-4FA0-B025-F583F57DBE53,Message,subst
 1
+
+731ED89D-F977-4F8E-B3A9-F8E02037541C,Destination
+<%InstallDir%>
+
+731ED89D-F977-4F8E-B3A9-F8E02037541C,Name
+MPlayer
 
 73B30873-7AB4-4D67-BB07-BC7CD8B97BFB,Alias
 {Stop Derby Service}
@@ -1796,7 +1831,7 @@ No
 1
 
 773B2602-6F0C-4C59-A829-5512C4D8914D,FileGroups
-{5531C858-3982-4F4D-A3C0-B3CCB5F0B797 B831E5C5-30FE-4424-A2C5-CF191E5DD6D9}
+B831E5C5-30FE-4424-A2C5-CF191E5DD6D9
 
 773B2602-6F0C-4C59-A829-5512C4D8914D,Name
 VLC
@@ -2079,9 +2114,6 @@ A3C24BA1-479A-4FDB-8AF9-856867C05EB3,Caption,subst
 
 A3C24BA1-479A-4FDB-8AF9-856867C05EB3,Conditions
 {3 conditions}
-
-A3C24BA1-479A-4FDB-8AF9-856867C05EB3,Destination,subst
-1
 
 A3C24BA1-479A-4FDB-8AF9-856867C05EB3,DestinationLabel,subst
 0
@@ -2422,6 +2454,9 @@ BF7D5A8F-DA37-4719-B770-1D5147D37CED,Widget
 BF8DB42A-11B6-4318-B16D-D61771E339F6,Alias
 {Uninstall Actions}
 
+BF8DB42A-11B6-4318-B16D-D61771E339F6,Conditions
+{0 conditions}
+
 BFAD7812-3352-4E22-B813-0E9FF377FBAD,Alias
 PlayerIdWidget
 
@@ -2463,6 +2498,18 @@ C4F867E9-F818-462A-9812-8DFC1CDC9EB6,Action
 
 C4F867E9-F818-462A-9812-8DFC1CDC9EB6,Conditions
 {0 conditions}
+
+C5AF63FF-C52B-4E2C-842F-E3787E69D801,Conditions
+{1 condition}
+
+C5AF63FF-C52B-4E2C-842F-E3787E69D801,Destination
+<%InstallDir%>/mplayer
+
+C5AF63FF-C52B-4E2C-842F-E3787E69D801,StatusText,subst
+1
+
+C5AF63FF-C52B-4E2C-842F-E3787E69D801,ZipFile
+<%InstallDir%>/mplayer/mplayer.zip
 
 C704E0A4-91B1-4856-BBB4-F10A36F065EC,Conditions
 {0 conditions}
@@ -2704,6 +2751,24 @@ E1FE3413-7EBA-408A-92FF-A20D48BF07F6,Action
 E1FE3413-7EBA-408A-92FF-A20D48BF07F6,Conditions
 {0 conditions}
 
+EA594766-B1D3-42DA-836D-13A9EF9C2449,Alias
+MPlayerComponent
+
+EA594766-B1D3-42DA-836D-13A9EF9C2449,Checked
+No
+
+EA594766-B1D3-42DA-836D-13A9EF9C2449,Description,subst
+1
+
+EA594766-B1D3-42DA-836D-13A9EF9C2449,DisplayName,subst
+1
+
+EA594766-B1D3-42DA-836D-13A9EF9C2449,FileGroups
+731ED89D-F977-4F8E-B3A9-F8E02037541C
+
+EA594766-B1D3-42DA-836D-13A9EF9C2449,Name
+MPlayer
+
 EADF4784-A394-4A8B-B683-2F6FF24EE788,BackButton,subst
 1
 
@@ -2769,7 +2834,17 @@ EFF0FC5D-E676-4652-A183-A406FB21067D,StringMap
 $player.id$	<%PlayerId%>
 $VLC_INSTALL_PATH$	<%PROGRAM_FILES%>/VideoLan/VLC
 $SERVER_HOST$	<%ServerHost%>
-$SERVER_PORT$	<%ServerPort%>}
+$SERVER_PORT$	<%ServerPort%>
+$MPLAYER_HOME$	<%InstallDir%>/mplayer}
+
+F2E4904A-7DB0-426E-A3F5-E6569B36C0E5,Conditions
+{0 conditions}
+
+F2E4904A-7DB0-426E-A3F5-E6569B36C0E5,Files
+<%InstallDir%>
+
+F2E4904A-7DB0-426E-A3F5-E6569B36C0E5,IgnoreErrors
+Yes
 
 F63D1A4C-6D33-435C-945B-4CA8E94F1D2F,CheckCondition
 {Before Next Action is Executed}
@@ -2883,168 +2958,6 @@ FreeBSD-4-x86,RequireRoot
 No
 
 FreeBSD-4-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-5-x86,Active
-No
-
-FreeBSD-5-x86,BuildSeparateArchives
-No
-
-FreeBSD-5-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-5-x86,DefaultFilePermission
-0755
-
-FreeBSD-5-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-5-x86,FallBackToConsole
-Yes
-
-FreeBSD-5-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-5-x86,InstallMode
-Standard
-
-FreeBSD-5-x86,InstallType
-Typical
-
-FreeBSD-5-x86,ProgramExecutable
-{}
-
-FreeBSD-5-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-5-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-5-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-5-x86,ProgramName
-{}
-
-FreeBSD-5-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-5-x86,PromptForRoot
-Yes
-
-FreeBSD-5-x86,RequireRoot
-No
-
-FreeBSD-5-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-6-x86,Active
-No
-
-FreeBSD-6-x86,BuildSeparateArchives
-No
-
-FreeBSD-6-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-6-x86,DefaultFilePermission
-0755
-
-FreeBSD-6-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-6-x86,FallBackToConsole
-Yes
-
-FreeBSD-6-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-6-x86,InstallMode
-Standard
-
-FreeBSD-6-x86,InstallType
-Typical
-
-FreeBSD-6-x86,ProgramExecutable
-{}
-
-FreeBSD-6-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-6-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-6-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-6-x86,ProgramName
-{}
-
-FreeBSD-6-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-6-x86,PromptForRoot
-Yes
-
-FreeBSD-6-x86,RequireRoot
-No
-
-FreeBSD-6-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-7-x86,Active
-No
-
-FreeBSD-7-x86,BuildSeparateArchives
-No
-
-FreeBSD-7-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-7-x86,DefaultFilePermission
-0755
-
-FreeBSD-7-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-7-x86,FallBackToConsole
-Yes
-
-FreeBSD-7-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-7-x86,InstallMode
-Standard
-
-FreeBSD-7-x86,InstallType
-Typical
-
-FreeBSD-7-x86,ProgramExecutable
-{}
-
-FreeBSD-7-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-7-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-7-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-7-x86,ProgramName
-{}
-
-FreeBSD-7-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-7-x86,PromptForRoot
-Yes
-
-FreeBSD-7-x86,RequireRoot
-No
-
-FreeBSD-7-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 FreeBSD-x86,Active
@@ -3209,60 +3122,6 @@ No
 Linux-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
-Linux-x86_64,Active
-No
-
-Linux-x86_64,BuildSeparateArchives
-No
-
-Linux-x86_64,DefaultDirectoryPermission
-0755
-
-Linux-x86_64,DefaultFilePermission
-0755
-
-Linux-x86_64,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-Linux-x86_64,FallBackToConsole
-Yes
-
-Linux-x86_64,InstallDir
-<%Home%>/<%ShortAppName%>
-
-Linux-x86_64,InstallMode
-Standard
-
-Linux-x86_64,InstallType
-Typical
-
-Linux-x86_64,ProgramExecutable
-{}
-
-Linux-x86_64,ProgramFolderAllUsers
-No
-
-Linux-x86_64,ProgramFolderName
-<%AppName%>
-
-Linux-x86_64,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-Linux-x86_64,ProgramName
-{}
-
-Linux-x86_64,ProgramReadme
-<%InstallDir%>/README.txt
-
-Linux-x86_64,PromptForRoot
-Yes
-
-Linux-x86_64,RequireRoot
-No
-
-Linux-x86_64,RootInstallDir
-/usr/local/<%ShortAppName%>
-
 Solaris-sparc,Active
 No
 
@@ -3315,60 +3174,6 @@ Solaris-sparc,RequireRoot
 No
 
 Solaris-sparc,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-Solaris-x86,Active
-No
-
-Solaris-x86,BuildSeparateArchives
-No
-
-Solaris-x86,DefaultDirectoryPermission
-0755
-
-Solaris-x86,DefaultFilePermission
-0755
-
-Solaris-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-Solaris-x86,FallBackToConsole
-Yes
-
-Solaris-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-Solaris-x86,InstallMode
-Standard
-
-Solaris-x86,InstallType
-Typical
-
-Solaris-x86,ProgramExecutable
-{}
-
-Solaris-x86,ProgramFolderAllUsers
-No
-
-Solaris-x86,ProgramFolderName
-<%AppName%>
-
-Solaris-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-Solaris-x86,ProgramName
-{}
-
-Solaris-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-Solaris-x86,PromptForRoot
-Yes
-
-Solaris-x86,RequireRoot
-No
-
-Solaris-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 TarArchive,Active
@@ -3637,7 +3442,7 @@ D2E0DCF9-2A25-4358-B9B9-02066ACC8252,Text
 773B2602-6F0C-4C59-A829-5512C4D8914D,Description
 {VLC media player.
 Required for the correct playback and rendering of media files.
-Leave unselected only if you are certain that you have the proper version of VLC installed on your system.}
+Leave unselected only if you are certain that you have the proper version of VLC installed on your system or if you want to only use MPlayer.}
 
 81EA0567-FB85-4ECA-8A7A-455F2D264754,Message
 <%InstallationCompleteText%>
@@ -3737,6 +3542,11 @@ DB0C92E9-BE04-4A06-8FEE-E35B214D1049,Subtitle
 
 DB0C92E9-BE04-4A06-8FEE-E35B214D1049,Title
 {Player ID}
+
+EA594766-B1D3-42DA-836D-13A9EF9C2449,Description
+{MPlayer media player.
+Required for the correct playback and rendering of media files.
+Leave unselected if you are certain that you have the proper version of MPlayer installed on your system or if you want to use VLC exclusively.}
 
 EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4,Description
 {The background monitoring process.

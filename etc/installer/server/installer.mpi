@@ -81,7 +81,7 @@ InstallPassword
 {}
 
 InstallVersion
-1.1.0.0
+0.0.0.0
 
 Language,ca
 Yes
@@ -162,7 +162,7 @@ ProjectID
 BB8FBCB6-5BD1-4C12-9FF7-517ADBB04B0B
 
 ProjectVersion
-1.2.13.8
+1.2.12.0
 
 SaveOnlyToplevelDirs
 No
@@ -192,7 +192,7 @@ UpgradeApplicationID
 {}
 
 Version
-1.1
+X.X.X
 
 ViewReadme
 Yes
@@ -289,7 +289,7 @@ File ::0536390C-D236-4DC1-AC68-9B87940C4BD8 -name server.xml -parent 44B8E586-AE
 File ::7AF45777-7E1A-411A-9052-39ECA7052374 -name apache-tomcat-6.0.20.zip -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
 FileGroup ::1D4D862E-6A79-40E5-B04A-6DDF1556446B -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name VLC -parent FileGroups
 File ::58C187F1-9560-4996-A045-C9B01B2A46C2 -type dir -name C:/workdir-ds/designer.build/installer/vlc -parent 1D4D862E-6A79-40E5-B04A-6DDF1556446B
-File ::C7B46D96-85DF-4152-A4CB-5DEF90A29886 -name vlc-0.9.9-win32.exe -parent 58C187F1-9560-4996-A045-C9B01B2A46C2
+File ::62FA3C61-2217-4182-A0B1-BD774C04C268 -name vlc-1.0.2-win32.exe -parent 58C187F1-9560-4996-A045-C9B01B2A46C2
 FileGroup ::A4854D61-DC3F-44B0-AE3A-56408CA37ACF -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name JDK -parent FileGroups
 File ::CCE58DA9-3D46-48EB-BDEB-871E2406B39C -type dir -directory <%InstallDir%>/jdk -name C:/dbin/jdk1.6.0_11 -parent A4854D61-DC3F-44B0-AE3A-56408CA37ACF
 File ::C8D40315-433A-4728-9136-B385F6AAAA31 -name COPYRIGHT -parent CCE58DA9-3D46-48EB-BDEB-871E2406B39C
@@ -3486,11 +3486,14 @@ File ::3790DDA4-693F-46B7-87FB-0B6B1736AD8B -type dir -name server -parent F95D6
 File ::CAD3C2A5-6C64-4B28-8FFE-F8A88BD4DE5F -name Ebay.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
 File ::DFDE6D27-0AE9-4169-8797-94A0388679B6 -name ImageProvider.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
 File ::E4FD13FA-0193-452B-8A52-85C542947691 -name Main.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
-File ::AC49215B-3E1F-44DD-AAED-2EB4BAD45B87 -name src.zip -parent CCE58DA9-3D46-48EB-BDEB-871E2406B39C
+FileGroup ::4A468A65-5287-463E-9EA0-CB36B488F42C -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive} -name MPlayer -parent FileGroups
+File ::9B2BE802-8D94-4A6E-88A2-E94067ACA487 -type dir -name C:/workdir-ds/designer.build/installer/mplayer -parent 4A468A65-5287-463E-9EA0-CB36B488F42C
+File ::B9DEB3FF-7C00-47E5-8BEE-D4DBAE919835 -name mplayer.zip -parent 9B2BE802-8D94-4A6E-88A2-E94067ACA487
 Component ::91DD14D5-970E-40E3-A9B8-1D1E4B403333 -setup Install -alias DesignerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Designer -parent Components
 Component ::956841E0-D201-4941-A063-7949A26DFCBC -setup Install -alias ConsoleComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name {Administration Console} -parent Components
 Component ::7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E -setup Install -alias VLCComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name VLC -parent Components
 Component ::5D863203-4C89-4A75-B4AF-3EE1ED68CAAE -setup Install -alias JDKComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name JDK -parent Components
+Component ::8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5 -setup Install -alias MPlayerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name MPlayer -parent Components
 SetupType ::58542507-E2DE-4295-A41F-7958A9B30F4E -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Typical -parent SetupTypes
 SetupType ::12F58043-152A-48EC-ADEE-493EB682DEF7 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Custom -parent SetupTypes
 
@@ -3506,7 +3509,7 @@ InstallComponent C2127FC3-F33F-4A67-9480-D8774900E635 -setup Install -type actio
 InstallComponent BA1F223B-5B9F-49A9-A358-FC9056C21191 -setup Install -type pane -conditions 0C044F25-00ED-4FE3-8848-A55A0C2B76F6 -title {Choose Components} -component ChooseComponents -command insert -active Yes -parent StandardInstall
 Condition 0C044F25-00ED-4FE3-8848-A55A0C2B76F6 -active Yes -parent BA1F223B-5B9F-49A9-A358-FC9056C21191 -title {String Equal Condition} -component StringEqualCondition -TreeObject::id 0C044F25-00ED-4FE3-8848-A55A0C2B76F6
 InstallComponent 9FCAFE2A-20A3-478B-9C95-F7BB6BFD8987 -setup Install -type action -title {Populate Components} -component PopulateComponents -active Yes -parent BA1F223B-5B9F-49A9-A358-FC9056C21191
-InstallComponent 307EEF1C-9EDC-456D-BA85-9071734368B2 -setup Install -type pane -conditions {791E5CCA-69B4-4BBC-AB8B-A26427205D6D CA342975-903B-477D-BAD8-9E275A7B1874 819F4DA6-C5C1-4FFB-B960-696BC1E13F54 C3A467F8-021A-47E5-94CF-7DBFCD25F2C6 46A8A0F3-4157-4582-8BDE-71FEDD3337E3} -title {Define Server URL} -component CustomBlankPane2 -command insert -active Yes -parent StandardInstall
+InstallComponent 307EEF1C-9EDC-456D-BA85-9071734368B2 -setup Install -type pane -conditions {791E5CCA-69B4-4BBC-AB8B-A26427205D6D CA342975-903B-477D-BAD8-9E275A7B1874 819F4DA6-C5C1-4FFB-B960-696BC1E13F54 C3A467F8-021A-47E5-94CF-7DBFCD25F2C6 46A8A0F3-4157-4582-8BDE-71FEDD3337E3} -title {Define Server URL} -component CustomBlankPane2 -command reorder -active Yes -parent StandardInstall
 Condition 791E5CCA-69B4-4BBC-AB8B-A26427205D6D -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 791E5CCA-69B4-4BBC-AB8B-A26427205D6D
 Condition CA342975-903B-477D-BAD8-9E275A7B1874 -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2 -title {String Is Condition} -component StringIsCondition -TreeObject::id CA342975-903B-477D-BAD8-9E275A7B1874
 Condition 819F4DA6-C5C1-4FFB-B960-696BC1E13F54 -active Yes -parent 307EEF1C-9EDC-456D-BA85-9071734368B2 -title {String Match Condition} -component StringMatchCondition -TreeObject::id 819F4DA6-C5C1-4FFB-B960-696BC1E13F54
@@ -3606,15 +3609,17 @@ InstallComponent E20DEC68-27C1-40EC-9C98-86EA0E6A6347 -setup Install -type actio
 Condition 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5 -active Yes -parent E20DEC68-27C1-40EC-9C98-86EA0E6A6347 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5
 InstallComponent BCBDDA56-1C29-41AA-ADF5-5BF40579CF1B -setup Install -type action -conditions 5DC3C6F4-E42F-4EEF-8363-DA5CAD7FB782 -title {Add JAVA_HOME} -component AddEnvironmentVariable -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 5DC3C6F4-E42F-4EEF-8363-DA5CAD7FB782 -active Yes -parent BCBDDA56-1C29-41AA-ADF5-5BF40579CF1B -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id BBCCFABB-A74F-4E62-8F6A-967CBA611706
-InstallComponent 9434CE46-B0E6-4D49-B2B6-EB12B33448F9 -setup Install -type action -conditions C8B62529-316F-4D08-BD88-E2EF1302152E -title {Install VLC} -component ExecuteExternalProgram -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 9434CE46-B0E6-4D49-B2B6-EB12B33448F9 -setup Install -type action -conditions C8B62529-316F-4D08-BD88-E2EF1302152E -title {Install VLC} -component ExecuteExternalProgram -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition C8B62529-316F-4D08-BD88-E2EF1302152E -active Yes -parent 9434CE46-B0E6-4D49-B2B6-EB12B33448F9 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id C8B62529-316F-4D08-BD88-E2EF1302152E
+InstallComponent 343F5FC2-58BA-46D6-8D95-7E5907B37B68 -setup Install -type action -conditions A6EF52EA-3DBB-4190-A4D1-C8E2C2575BEE -title {Install MPlayer} -component UnzipFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+Condition A6EF52EA-3DBB-4190-A4D1-C8E2C2575BEE -active Yes -parent 343F5FC2-58BA-46D6-8D95-7E5907B37B68 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A6EF52EA-3DBB-4190-A4D1-C8E2C2575BEE
 InstallComponent 5D8B6BEB-E908-4F74-A258-7AFB378CF06E -setup Install -type action -conditions 58235BDA-C5D0-4095-808D-BED4D0761CC7 -title {Add VLC to Path} -component AddDirectoryToPath -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 58235BDA-C5D0-4095-808D-BED4D0761CC7 -active Yes -parent 5D8B6BEB-E908-4F74-A258-7AFB378CF06E -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 58235BDA-C5D0-4095-808D-BED4D0761CC7
 InstallComponent AFE07A91-6307-4033-BCC9-9B3F08E531CD -setup Install -type actiongroup -conditions A1B2985E-E2C4-4E15-8E5F-AB43A881217D -title {Unzip Player lib} -command insert -alias {Unzip Player lib} -active Yes -parent ActionGroupsInstall
 Condition A1B2985E-E2C4-4E15-8E5F-AB43A881217D -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A1B2985E-E2C4-4E15-8E5F-AB43A881217D
 InstallComponent 7ED3D725-E68D-454D-A592-AB2DCFA8E8C7 -setup Install -type action -title {Unzip preview.jar} -component UnzipFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent 11582766-7002-4CC3-BA8E-76E008BE32EE -setup Install -type action -title {Copy files into player lib folder} -component CopyFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
-InstallComponent E29D80BB-A432-4198-B966-4DC0BEF12407 -setup Install -type action -title {Copy jniwrap to VLC (PATH)} -component CopyFile -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
+InstallComponent 9FEC5706-7991-4F57-A0E9-91C03EB85CDB -setup Install -type action -title {Add designer To Path} -component AddDirectoryToPath -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent 0FB296FB-EF20-4B52-8575-7A4034738288 -setup Install -type action -title {Delete unneeded files} -component DeleteFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent 44B3D116-B024-4C1D-A840-B7A664BD799F -setup Install -type action -title {Add KESDIP_PLAYER_LIB} -component AddEnvironmentVariable -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent DC5DB553-26F4-436D-9D37-C5D42A34327C -setup Install -type actiongroup -conditions F763C9D6-885C-47E5-A1CE-1327217A4FD3 -title {Prepare Console} -command insert -alias {Prepare Console} -active Yes -parent ActionGroupsInstall
@@ -3671,13 +3676,18 @@ Condition 0A0CAF06-2168-4087-8763-4824DF508DE7 -active Yes -parent 7445C11C-4E1D
 InstallComponent 2244799C-A34C-41C5-9E70-11C661B94237 -setup Uninstall -type actiongroup -title {Uninstall Services} -alias {Uninstall Services} -active Yes -parent ActionGroupsUninstall
 InstallComponent 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A -setup Uninstall -type action -conditions 564865D7-306B-4E1D-A44E-5305C3616217 -title {Stop Derby Service} -component StopWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition 564865D7-306B-4E1D-A44E-5305C3616217 -active Yes -parent 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 564865D7-306B-4E1D-A44E-5305C3616217
-InstallComponent 90D3B0E7-4CA5-41AE-86B9-B994E8081B11 -setup Uninstall -type action -conditions EFBCF33B-16DA-420A-965B-0C7657F23BBD -title {Stop Tomcat Service} -component StopWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
+InstallComponent 90D3B0E7-4CA5-41AE-86B9-B994E8081B11 -setup Uninstall -type action -conditions EFBCF33B-16DA-420A-965B-0C7657F23BBD -title {Stop Tomcat 6 Service} -component StopWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition EFBCF33B-16DA-420A-965B-0C7657F23BBD -active Yes -parent 90D3B0E7-4CA5-41AE-86B9-B994E8081B11 -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id EFBCF33B-16DA-420A-965B-0C7657F23BBD
+InstallComponent F81BE467-F5EA-461B-B78D-FECF8634957C -setup Uninstall -type action -conditions 2A28A771-8407-46BC-AF3D-34EEAAF8BCB7 -title {Stop Tomcat Service} -component StopWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
+Condition 2A28A771-8407-46BC-AF3D-34EEAAF8BCB7 -active Yes -parent F81BE467-F5EA-461B-B78D-FECF8634957C -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id EFBCF33B-16DA-420A-965B-0C7657F23BBD
 InstallComponent 1DE208ED-4977-4D0E-B47D-E363B77BCD51 -setup Uninstall -type action -title Wait -component Wait -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 InstallComponent 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8 -setup Uninstall -type action -conditions C4C67009-A510-4567-978D-5A6847C64904 -title {Delete Derby Service} -component DeleteWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition C4C67009-A510-4567-978D-5A6847C64904 -active Yes -parent 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8 -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id C4C67009-A510-4567-978D-5A6847C64904
+InstallComponent 78E3A3D2-84D2-4D51-A5A9-B345D6F26E9C -setup Uninstall -type action -conditions 0E23F6DE-E269-4D65-9551-98D25CBEE6CD -title {Delete Tomcat 6 Service} -component DeleteWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
+Condition 0E23F6DE-E269-4D65-9551-98D25CBEE6CD -active Yes -parent 78E3A3D2-84D2-4D51-A5A9-B345D6F26E9C -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 6DFC651F-938F-4A3B-939F-3BCD98827EAE
 InstallComponent 0F5B788E-6859-429C-AD98-171611191CEC -setup Uninstall -type action -conditions 6DFC651F-938F-4A3B-939F-3BCD98827EAE -title {Delete Tomcat Service} -component DeleteWindowsService -command insert -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 Condition 6DFC651F-938F-4A3B-939F-3BCD98827EAE -active Yes -parent 0F5B788E-6859-429C-AD98-171611191CEC -title {Windows Service Test Condition} -component WindowsServiceTestCondition -TreeObject::id 6DFC651F-938F-4A3B-939F-3BCD98827EAE
+InstallComponent 2C833455-CEE9-4D38-B50F-55163848F083 -setup Uninstall -type action -title {Kill java Processes} -component ExecuteExternalProgram -active Yes -parent 2244799C-A34C-41C5-9E70-11C661B94237
 InstallComponent B0EBFCA3-5884-4981-B3F6-B06CD741C3A2 -setup Uninstall -type actiongroup -title {Uninstall Other Software} -alias {Uninstall Other Software} -active Yes -parent ActionGroupsUninstall
 InstallComponent 7D39D997-8A93-47DC-8F06-712B76FE1383 -setup Uninstall -type action -conditions 9E57807E-D837-42E3-8807-DD54AB955494 -title {Uninstall VLC} -component ExecuteExternalProgram -command insert -active Yes -parent B0EBFCA3-5884-4981-B3F6-B06CD741C3A2
 Condition 9E57807E-D837-42E3-8807-DD54AB955494 -active Yes -parent 7D39D997-8A93-47DC-8F06-712B76FE1383 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 9E57807E-D837-42E3-8807-DD54AB955494
@@ -3685,6 +3695,7 @@ InstallComponent E9D1BD54-B555-4879-982A-3B78A3128146 -setup Uninstall -type act
 InstallComponent 230500FE-D27B-453F-9672-155516D8BC8F -setup Uninstall -type action -title {Uninstall Selected Files} -component UninstallSelectedFiles -active Yes -parent E9D1BD54-B555-4879-982A-3B78A3128146
 InstallComponent 2DCDEE7F-B23B-4718-B130-6F667376D42C -setup Uninstall -type action -conditions B9AEC158-B17D-4F2C-A7A9-DF1F63806B04 -title {Delete Workspace} -component DeleteFile -command insert -active Yes -parent E9D1BD54-B555-4879-982A-3B78A3128146
 Condition B9AEC158-B17D-4F2C-A7A9-DF1F63806B04 -active Yes -parent 2DCDEE7F-B23B-4718-B130-6F667376D42C -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B9AEC158-B17D-4F2C-A7A9-DF1F63806B04
+InstallComponent CC499325-6638-4A9A-A5A3-299E470BC2D1 -setup Uninstall -type action -title {Delete Folder} -component DeleteFile -active Yes -parent E9D1BD54-B555-4879-982A-3B78A3128146
 InstallComponent CD3D3C02-B7BE-41A5-A98A-A65349DD0770 -setup Uninstall -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsUninstall
 InstallComponent 458538B7-F45F-4FDF-A70A-5D4F602770A9 -setup Uninstall -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroupsUninstall
 
@@ -3797,6 +3808,12 @@ Custom
 0C32EEB5-D395-4317-98FD-FABB93E52ACF,ObjectID
 ConsoleComponent
 
+0E23F6DE-E269-4D65-9551-98D25CBEE6CD,CheckCondition
+{Before Action is Executed}
+
+0E23F6DE-E269-4D65-9551-98D25CBEE6CD,ServiceName
+Tomcat6
+
 0EA22ABE-B025-4DBA-9EC7-C88F4249C0C1,Action
 {Uninstall Actions}
 
@@ -3810,7 +3827,7 @@ ConsoleComponent
 Yes
 
 0F5B788E-6859-429C-AD98-171611191CEC,ServiceName
-{Apache Tomcat 6}
+{Apache Tomcat}
 
 0FB296FB-EF20-4B52-8575-7A4034738288,Conditions
 {0 conditions}
@@ -3843,7 +3860,7 @@ disabled
 {0 conditions}
 
 12F58043-152A-48EC-ADEE-493EB682DEF7,Components
-{91DD14D5-970E-40E3-A9B8-1D1E4B403333 956841E0-D201-4941-A063-7949A26DFCBC 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE}
+{91DD14D5-970E-40E3-A9B8-1D1E4B403333 956841E0-D201-4941-A063-7949A26DFCBC 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5}
 
 12F58043-152A-48EC-ADEE-493EB682DEF7,Description,subst
 1
@@ -3986,6 +4003,12 @@ tomcat/apache-tomcat-6.0.18/bin/service.bat
 2A172A8A-60FF-49D7-BE13-CFD4900E3231,ZipFile
 <%InstallDir%>/tomcat/apache-tomcat-6.0.18.zip
 
+2A28A771-8407-46BC-AF3D-34EEAAF8BCB7,CheckCondition
+{Before Action is Executed}
+
+2A28A771-8407-46BC-AF3D-34EEAAF8BCB7,ServiceName
+Tomcat6
+
 2BF7FC5A-B8CA-4AE3-B449-F22241CA8824,Default
 Yes
 
@@ -4000,6 +4023,15 @@ false
 
 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2,String
 <%UpgradeInstall%>
+
+2C833455-CEE9-4D38-B50F-55163848F083,Conditions
+{0 conditions}
+
+2C833455-CEE9-4D38-B50F-55163848F083,IgnoreErrors
+Yes
+
+2C833455-CEE9-4D38-B50F-55163848F083,ProgramCommandLine
+{taskkill.exe /F /IM java.exe}
 
 2DCDEE7F-B23B-4718-B130-6F667376D42C,Conditions
 {1 condition}
@@ -4054,6 +4086,18 @@ Yes
 
 33EA4749-E978-429B-B43C-62D610FA2889,String
 <%ViewReadme%>
+
+343F5FC2-58BA-46D6-8D95-7E5907B37B68,Conditions
+{1 condition}
+
+343F5FC2-58BA-46D6-8D95-7E5907B37B68,Destination
+<%InstallDir%>/mplayer
+
+343F5FC2-58BA-46D6-8D95-7E5907B37B68,StatusText,subst
+1
+
+343F5FC2-58BA-46D6-8D95-7E5907B37B68,ZipFile
+<%InstallDir%>/mplayer/mplayer.zip
 
 3B0B7BCF-4F59-42E4-979B-BA52DFD6D32B,Action
 {Install Actions}
@@ -4131,7 +4175,7 @@ KESDIP_PLAYER_LIB
 {Before Next Pane is Displayed}
 
 46A8A0F3-4157-4582-8BDE-71FEDD3337E3,FailureMessage
-{Server Host name contains invalid characters.}
+{Server Host name is not valid. Make sure it does not contain upper-case or invalid characters.}
 
 46A8A0F3-4157-4582-8BDE-71FEDD3337E3,Pattern
 {[0-9a-z\-_.]*}
@@ -4150,6 +4194,12 @@ KESDIP_PLAYER_LIB
 
 49AE1D1A-330D-4E62-B63D-44DEFAAC9C0C,Filename
 <%ProgramExecutable%>
+
+4A468A65-5287-463E-9EA0-CB36B488F42C,Destination
+<%InstallDir%>
+
+4A468A65-5287-463E-9EA0-CB36B488F42C,Name
+MPlayer
 
 4BD4C141-8CC7-42EF-9A45-AA5C2CB3086C,Action
 {Other Actions}
@@ -4305,7 +4355,7 @@ disabled
 VLCComponent
 
 58542507-E2DE-4295-A41F-7958A9B30F4E,Components
-{91DD14D5-970E-40E3-A9B8-1D1E4B403333 956841E0-D201-4941-A063-7949A26DFCBC 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE}
+{91DD14D5-970E-40E3-A9B8-1D1E4B403333 956841E0-D201-4941-A063-7949A26DFCBC 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5}
 
 58542507-E2DE-4295-A41F-7958A9B30F4E,Description,subst
 1
@@ -4571,6 +4621,15 @@ ConsoleComponent
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,Title,subst
 1
 
+78E3A3D2-84D2-4D51-A5A9-B345D6F26E9C,Conditions
+{1 condition}
+
+78E3A3D2-84D2-4D51-A5A9-B345D6F26E9C,IgnoreErrors
+Yes
+
+78E3A3D2-84D2-4D51-A5A9-B345D6F26E9C,ServiceName
+{Apache Tomcat 6}
+
 791E5CCA-69B4-4BBC-AB8B-A26427205D6D,ObjectID
 ConsoleComponent
 
@@ -4736,6 +4795,24 @@ CreateQuickLaunchShortcut
 8A8D796C-8051-4B6A-806E-BCF876E668BE,Y
 200
 
+8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Alias
+MPlayerComponent
+
+8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Checked
+No
+
+8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Description,subst
+1
+
+8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,DisplayName,subst
+1
+
+8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,FileGroups
+4A468A65-5287-463E-9EA0-CB36B488F42C
+
+8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Name
+MPlayer
+
 8CE7CE78-5767-48CD-A1DF-F88296F80A3F,CheckCondition
 {Before Action is Executed}
 
@@ -4817,8 +4894,17 @@ Finish
 9434CE46-B0E6-4D49-B2B6-EB12B33448F9,Conditions
 {1 condition}
 
+9434CE46-B0E6-4D49-B2B6-EB12B33448F9,IncludeStderr
+Yes
+
 9434CE46-B0E6-4D49-B2B6-EB12B33448F9,ProgramCommandLine
 {vlc-0.9.9-win32.exe /S}
+
+9434CE46-B0E6-4D49-B2B6-EB12B33448F9,ProgressiveOutputWidget
+ProgressTextBox
+
+9434CE46-B0E6-4D49-B2B6-EB12B33448F9,ShowProgressiveOutput
+Yes
 
 9434CE46-B0E6-4D49-B2B6-EB12B33448F9,WorkingDirectory
 <%InstallDir%>/vlc
@@ -4913,6 +4999,18 @@ false
 9FCAFE2A-20A3-478B-9C95-F7BB6BFD8987,ExecuteAction
 {Before Pane is Displayed}
 
+9FEC5706-7991-4F57-A0E9-91C03EB85CDB,Conditions
+{0 conditions}
+
+9FEC5706-7991-4F57-A0E9-91C03EB85CDB,Directory
+<%InstallDir%>/designer
+
+9FEC5706-7991-4F57-A0E9-91C03EB85CDB,Level
+system
+
+9FEC5706-7991-4F57-A0E9-91C03EB85CDB,Location
+beginning
+
 A1B2985E-E2C4-4E15-8E5F-AB43A881217D,CheckCondition
 {Before Action is Executed}
 
@@ -4960,6 +5058,12 @@ A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,TargetFileName
 
 A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,WorkingDirectory
 <%InstallDir%>
+
+A6EF52EA-3DBB-4190-A4D1-C8E2C2575BEE,CheckCondition
+{Before Action is Executed}
+
+A6EF52EA-3DBB-4190-A4D1-C8E2C2575BEE,ObjectID
+MPlayerComponent
 
 A892A8DD-7E7E-4B7D-913C-DC73668E5B50,CheckCondition
 {Before Action is Executed}
@@ -5083,9 +5187,6 @@ B33CF277-A829-4756-91FD-AA4BABBCD46D,Caption,subst
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,Conditions
 {3 conditions}
-
-B33CF277-A829-4756-91FD-AA4BABBCD46D,Destination,subst
-1
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,DestinationLabel,subst
 0
@@ -5363,6 +5464,15 @@ CA342975-903B-477D-BAD8-9E275A7B1874,String
 CAD5A93E-2B6C-48D0-9734-A2C109D0C2AB,ExitType
 Finish
 
+CC499325-6638-4A9A-A5A3-299E470BC2D1,Conditions
+{0 conditions}
+
+CC499325-6638-4A9A-A5A3-299E470BC2D1,Files
+<%InstallDir%>
+
+CC499325-6638-4A9A-A5A3-299E470BC2D1,IgnoreErrors
+Yes
+
 CC6ED0F0-3C3F-4661-A4A1-B47D5454FF4C,CheckCondition
 {Before Action is Executed}
 
@@ -5431,15 +5541,6 @@ system
 
 E20DEC68-27C1-40EC-9C98-86EA0E6A6347,Location
 beginning
-
-E29D80BB-A432-4198-B966-4DC0BEF12407,Conditions
-{0 conditions}
-
-E29D80BB-A432-4198-B966-4DC0BEF12407,Destination
-<%PROGRAM_FILES%>/VideoLan/VLC
-
-E29D80BB-A432-4198-B966-4DC0BEF12407,Source
-<%InstallDir%>/designer/jniwrap.dll
 
 E58642FE-164B-41A8-8A16-CA671C540873,Alias
 {Cancel Actions}
@@ -5602,6 +5703,15 @@ F763C9D6-885C-47E5-A1CE-1327217A4FD3,CheckCondition
 F763C9D6-885C-47E5-A1CE-1327217A4FD3,ObjectID
 ConsoleComponent
 
+F81BE467-F5EA-461B-B78D-FECF8634957C,Conditions
+{1 condition}
+
+F81BE467-F5EA-461B-B78D-FECF8634957C,IgnoreErrors
+Yes
+
+F81BE467-F5EA-461B-B78D-FECF8634957C,ServiceName
+{Apache Tomcat}
+
 FreeBSD-4-x86,Active
 No
 
@@ -5654,168 +5764,6 @@ FreeBSD-4-x86,RequireRoot
 No
 
 FreeBSD-4-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-5-x86,Active
-No
-
-FreeBSD-5-x86,BuildSeparateArchives
-No
-
-FreeBSD-5-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-5-x86,DefaultFilePermission
-0755
-
-FreeBSD-5-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-5-x86,FallBackToConsole
-Yes
-
-FreeBSD-5-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-5-x86,InstallMode
-Standard
-
-FreeBSD-5-x86,InstallType
-Typical
-
-FreeBSD-5-x86,ProgramExecutable
-{}
-
-FreeBSD-5-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-5-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-5-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-5-x86,ProgramName
-{}
-
-FreeBSD-5-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-5-x86,PromptForRoot
-Yes
-
-FreeBSD-5-x86,RequireRoot
-No
-
-FreeBSD-5-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-6-x86,Active
-No
-
-FreeBSD-6-x86,BuildSeparateArchives
-No
-
-FreeBSD-6-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-6-x86,DefaultFilePermission
-0755
-
-FreeBSD-6-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-6-x86,FallBackToConsole
-Yes
-
-FreeBSD-6-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-6-x86,InstallMode
-Standard
-
-FreeBSD-6-x86,InstallType
-Typical
-
-FreeBSD-6-x86,ProgramExecutable
-{}
-
-FreeBSD-6-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-6-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-6-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-6-x86,ProgramName
-{}
-
-FreeBSD-6-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-6-x86,PromptForRoot
-Yes
-
-FreeBSD-6-x86,RequireRoot
-No
-
-FreeBSD-6-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-7-x86,Active
-No
-
-FreeBSD-7-x86,BuildSeparateArchives
-No
-
-FreeBSD-7-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-7-x86,DefaultFilePermission
-0755
-
-FreeBSD-7-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-7-x86,FallBackToConsole
-Yes
-
-FreeBSD-7-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-7-x86,InstallMode
-Standard
-
-FreeBSD-7-x86,InstallType
-Typical
-
-FreeBSD-7-x86,ProgramExecutable
-{}
-
-FreeBSD-7-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-7-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-7-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-7-x86,ProgramName
-{}
-
-FreeBSD-7-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-7-x86,PromptForRoot
-Yes
-
-FreeBSD-7-x86,RequireRoot
-No
-
-FreeBSD-7-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 FreeBSD-x86,Active
@@ -5980,60 +5928,6 @@ No
 Linux-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
-Linux-x86_64,Active
-No
-
-Linux-x86_64,BuildSeparateArchives
-No
-
-Linux-x86_64,DefaultDirectoryPermission
-0755
-
-Linux-x86_64,DefaultFilePermission
-0755
-
-Linux-x86_64,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-Linux-x86_64,FallBackToConsole
-Yes
-
-Linux-x86_64,InstallDir
-<%Home%>/<%ShortAppName%>
-
-Linux-x86_64,InstallMode
-Standard
-
-Linux-x86_64,InstallType
-Typical
-
-Linux-x86_64,ProgramExecutable
-{}
-
-Linux-x86_64,ProgramFolderAllUsers
-No
-
-Linux-x86_64,ProgramFolderName
-<%AppName%>
-
-Linux-x86_64,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-Linux-x86_64,ProgramName
-{}
-
-Linux-x86_64,ProgramReadme
-<%InstallDir%>/README.txt
-
-Linux-x86_64,PromptForRoot
-Yes
-
-Linux-x86_64,RequireRoot
-No
-
-Linux-x86_64,RootInstallDir
-/usr/local/<%ShortAppName%>
-
 Solaris-sparc,Active
 No
 
@@ -6086,60 +5980,6 @@ Solaris-sparc,RequireRoot
 No
 
 Solaris-sparc,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-Solaris-x86,Active
-No
-
-Solaris-x86,BuildSeparateArchives
-No
-
-Solaris-x86,DefaultDirectoryPermission
-0755
-
-Solaris-x86,DefaultFilePermission
-0755
-
-Solaris-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-Solaris-x86,FallBackToConsole
-Yes
-
-Solaris-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-Solaris-x86,InstallMode
-Standard
-
-Solaris-x86,InstallType
-Typical
-
-Solaris-x86,ProgramExecutable
-{}
-
-Solaris-x86,ProgramFolderAllUsers
-No
-
-Solaris-x86,ProgramFolderName
-<%AppName%>
-
-Solaris-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-Solaris-x86,ProgramName
-{}
-
-Solaris-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-Solaris-x86,PromptForRoot
-Yes
-
-Solaris-x86,RequireRoot
-No
-
-Solaris-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 TarArchive,Active
@@ -6403,10 +6243,15 @@ Leave unselected only if you are certain that you have a JRE 1.6+ installed on y
 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E,Description
 {VLC media player.
 Required for the correct playback and rendering of media files.
-Leave unselected only if you are certain that you have the proper version of VLC installed on your system.}
+Leave unselected only if you are certain that you have the proper version of VLC installed on your system or if you want to only use MPlayer.}
 
 8A8D796C-8051-4B6A-806E-BCF876E668BE,Text
 <%CreateQuickLaunchShortcutText%>
+
+8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Description
+{MPlayer media player.
+Required for the correct playback and rendering of media files.
+Leave unselected if you are certain that you have the proper version of MPlayer installed on your system or if you want to use VLC exclusively.}
 
 91DD14D5-970E-40E3-A9B8-1D1E4B403333,Description
 {Content designer.

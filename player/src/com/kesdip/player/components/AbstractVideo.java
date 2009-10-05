@@ -388,4 +388,11 @@ public abstract class AbstractVideo extends AbstractComponent {
 			assertOnException("addResourceToPlaylist.libvlc_playlist_add");
 		}
 	}
+
+	/**
+	 * @param fullScreen the fullScreen to set
+	 */
+	public void setFullScreen(boolean fullScreen) {
+		this.fullScreen = fullScreen;
+	}
 }

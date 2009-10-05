@@ -234,9 +234,14 @@
 
 		<replace 
 			file="${installer.file}" 
-			token="v.0.0.0" 
-			value="${version}"/>
+			token="0.0.0.0" 
+			value="${version}.0"/>
 
+		<replace 
+			file="${installer.file}" 
+			token="X.X.X" 
+			value="${version}"/>
+		
 		<exec 
 			dir="${destdir}" 
 			executable="${installjammer.home}/installjammer.exe">

@@ -141,7 +141,7 @@ public class PlayerPreview extends Player {
 
 			return retVal.length() == 0 ? null : retVal;
 		} catch (BeansException be) {
-			return "Error while trying to load the load the player components: "
+			return "Error while trying to load the player components: "
 					+ be.getRootCause().getMessage();
 		}
 	}
