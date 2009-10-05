@@ -111,6 +111,9 @@ public class RestartPlayerMessage extends Message {
 			playerOutputLoggingThread.stopRunning();
 			playerErrorLoggingThread.stopRunning();
 		}
+		
+		// kill all orphan MPlayers
+		ProcessUtils.killAll("mplayer.exe");
 
 		// Set up the command line
 		List<String> cmdArray = new ArrayList<String>();
@@ -134,7 +137,7 @@ public class RestartPlayerMessage extends Message {
 		}
 
 		// See Bugzilla#9 for the following line
-		// ProcessUtils.killAll("explorer.exe");
+//		 ProcessUtils.killAll("explorer.exe");
 
 		playerProcess = Runtime.getRuntime().exec(
 				cmdArray.toArray(new String[cmdArray.size()]), null,

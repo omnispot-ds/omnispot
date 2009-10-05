@@ -175,6 +175,10 @@ public class ActionLogic extends BaseLogic {
 			// parameters first, if any
 			if (!object.getAction().getParameters().isEmpty()) {
 				for (Parameter parameter : object.getAction().getParameters()) {
+					// ignore parameters w/o a name, they are unused placeholders
+					if (StringUtils.isEmpty(parameter.getName())) {
+						continue;
+					}
 					parameter.setId(null);
 					parameter.setId((Long) getHibernateTemplate().save(
 							parameter));

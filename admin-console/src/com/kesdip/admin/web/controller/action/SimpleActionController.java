@@ -103,9 +103,9 @@ public class SimpleActionController extends BaseFormController {
 		}
 
 		bean.setAction(new Action());
-		// we need this trick to "fool" the Set
+		// we need this trick to "fool" the Set and accept values
 		Parameter temp = new Parameter();
-		temp.setId(1L);
+		temp.setId(-1L);
 		bean.getAction().getParameters().add(temp);
 
 		String customerId = req.getParameter("customer.id");

@@ -37,8 +37,9 @@ public class PreviewLauncher {
 		String envJavaHome = System.getenv("JAVA_HOME");
 
 		if (envPlayerLib == null || envJavaHome == null) {
-			throw new IllegalStateException(
-					"KESDIP_PLAYER_LIB and/or JAVA_HOME environment variables have not been set");
+			throw new IllegalStateException("KESDIP_PLAYER_LIB: "
+					+ envPlayerLib + ". JAVA_HOME: " + envJavaHome
+					+ ". Both environment variables need to be set");
 		}
 
 		String name = "Preview Player";

@@ -114,7 +114,7 @@ public abstract class BaseFormController extends SimpleFormController implements
 	public ModelAndView handleErrors(HttpServletRequest req,
 			HttpServletResponse res, Throwable t) throws Exception {
 
-		logger.error(t);
+		logger.error("Error handling request", t);
 		if (t instanceof ServletRequestBindingException) {
 			ServletRequestBindingException srbe = (ServletRequestBindingException) t;
 			BindException be = (BindException) srbe.getRootCause();
@@ -133,7 +133,7 @@ public abstract class BaseFormController extends SimpleFormController implements
 			mv.addAllObjects(bindException.getModel());
 			return mv;
 		} else {
-			BindException be = new BindException(getCommand(req),
+			BindException be = new BindException(formBackingObject(req),
 					getCommandName());
 			be.reject("some.code", t.getClass().getName() + ":"
 					+ t.getMessage());
