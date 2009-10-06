@@ -71,7 +71,8 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_WEATHER_URL = "WeatherUrl";
 	public static final String TAG_WEATHER_RSS = "WeatherRss";
 	public static final String TAG_WEATHER_SCRIPT = "WeatherScript";
-	public static final String TAG_DEVICE = "Device";
+	public static final String TAG_VIDEO_DEVICE = "VideoDevice";
+	public static final String TAG_AUDIO_DEVICE = "AudioDevice";
 	public static final String TAG_CHANNEL = "Channel";
 	public static final String TAG_INPUT = "Input";
 	public static final String TAG_TUNER_TYPE = "TunerType";
@@ -145,8 +146,9 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	 */
 	@Override
 	public Object getPropertyValue(Object id) {
-		if (PARENT_PROP.equals(id))
+		if (PARENT_PROP.equals(id)) {
 			return getParent();
+		}
 		return null;
 	}
 
@@ -155,8 +157,9 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	 */
 	@Override
 	public boolean isPropertySet(Object id) {
-		if (PARENT_PROP.equals(id))
+		if (PARENT_PROP.equals(id)) {
 			return true;
+		}
 		return false;
 	}
 
@@ -165,8 +168,9 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	 */
 	@Override
 	public void resetPropertyValue(Object id) {
-		if (PARENT_PROP.equals(id))
+		if (PARENT_PROP.equals(id)) {
 			setParent(null);
+		}
 	}
 
 	/**
@@ -236,15 +240,18 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	protected org.eclipse.swt.graphics.Font assureFontExists(Font sourceFont) {
 		FontData[] fontDataArray = Display.getDefault().getFontList(
 				sourceFont.getFamily(), true);
-		if (fontDataArray.length == 0)
+		if (fontDataArray.length == 0) {
 			return null;
+		}
 		FontData retVal = fontDataArray[0];
 		retVal.setName(sourceFont.getFamily());
 		int style = Font.PLAIN;
-		if ((sourceFont.getStyle() & SWT.BOLD) != 0)
+		if ((sourceFont.getStyle() & SWT.BOLD) != 0) {
 			style |= Font.BOLD;
-		if ((sourceFont.getStyle() & SWT.ITALIC) != 0)
+		}
+		if ((sourceFont.getStyle() & SWT.ITALIC) != 0) {
 			style |= Font.ITALIC;
+		}
 		retVal.setStyle(style);
 		retVal.setHeight(sourceFont.getSize());
 		return new org.eclipse.swt.graphics.Font(Display.getCurrent(), retVal);

@@ -17,6 +17,7 @@ import com.kesdip.player.constenum.TunerReceptionTypes;
  * Displays video from the TV tuner (analog or DVB-T) using {@link MPlayer}.
  * 
  * TODO DVB-T not supported for now
+ * TODO Analog TV has no sound support
  * 
  * @author gerogias
  */
@@ -126,16 +127,16 @@ public class TunerVideo extends AbstractMPlayerVideo {
 
 	// FIXME: the following are ignored, added because designer adds them
 
-	private String device = null;
+	private String videoDevice = null;
 
 	private String input = null;
 
 	/**
-	 * @param device
+	 * @param videoDevice
 	 *            the device to set
 	 */
-	public void setDevice(String device) {
-		this.device = device;
+	public void setVideoDevice(String videoDevice) {
+		this.videoDevice = videoDevice;
 	}
 
 	/**

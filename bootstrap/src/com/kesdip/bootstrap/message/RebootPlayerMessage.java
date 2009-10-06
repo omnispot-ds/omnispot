@@ -2,6 +2,8 @@ package com.kesdip.bootstrap.message;
 
 import org.apache.log4j.Logger;
 
+import com.kesdip.common.util.ProcessUtils;
+
 /**
  * Encapsulates the handling of a reboot player message from the server.
  * 
@@ -26,13 +28,7 @@ public class RebootPlayerMessage extends Message {
 	public void process() throws Exception {
 		logger.info("Shuting down now!");
 		
-		String[] cmdArray = new String[4];
-		cmdArray[0] = "shutdown";
-		cmdArray[1] = "/r";
-		cmdArray[2] = "/t";
-		cmdArray[3] = "0";
-		
-		Runtime.getRuntime().exec(cmdArray, null, null);
+		ProcessUtils.restartSystem();
 	}
 
 	@Override

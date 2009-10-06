@@ -63,9 +63,10 @@ public class Video extends AbstractVideo implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (contents == null || contents.size() == 0)
+		if (contents == null || contents.size() == 0) {
 			throw new Exception("Video component must have a non-empty "
 					+ "contents property.");
+		}
 	}
 
 	/* TRANSIENT STATE */

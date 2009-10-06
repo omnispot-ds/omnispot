@@ -10,12 +10,19 @@ import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.constenum.TunerReceptionTypes;
 
+/**
+ * Configures the VLC instance to playback analog TV.
+ * 
+ * @author gerogias
+ * @see http://wiki.videolan.org/VLC_command-line_help
+ */
 public class TunerVideo extends AbstractVideo {
 	private static final Logger logger = Logger.getLogger(TunerVideo.class);
 
 	/* SPRING STATE */
 	private int type;
-	private String device;
+	private String videoDevice;
+	private String audioDevice;
 	private int channel;
 	private int input;
 
@@ -29,8 +36,12 @@ public class TunerVideo extends AbstractVideo {
 		this.type = type;
 	}
 
-	public void setDevice(String device) {
-		this.device = device;
+	public void setVideoDevice(String videoDevice) {
+		this.videoDevice = videoDevice;
+	}
+
+	public void setAudioDevice(String audioDevice) {
+		this.audioDevice = audioDevice;
 	}
 
 	public void setChannel(int channel) {
@@ -62,29 +73,50 @@ public class TunerVideo extends AbstractVideo {
 		// no overlays
 		args.add("--no-overlay");
 		// path to plugins folder
-		args.add("--plugin-path=" + pluginsPath.getAbsolutePath());
+		args.add("--plugin-path=\"" + pluginsPath.getAbsolutePath() + '"');
 		// full-screen mode
 		args.add(fullscreen ? "--fullscreen" : "--no-fullscreen");
 		if (type == TunerReceptionTypes.ANALOG) {
 			args.add("dshow://");
-			args.add(":dshow-vdev=" + device);
+			// 200ms content caching
 			args.add(":dshow-caching=200");
+			// video device name
+			args.add(":dshow-vdev=\"" + videoDevice + '"');
+			// audio device name
+			args.add(":dshow-adev=\"" + audioDevice + '"');
+			// tuner channel (UHF, VHF)
 			args.add(":dshow-tuner-channel=" + channel);
-			// antenna
+			// default country
+			args.add(":dshow-tuner-country=0");
+			// antenna tuner input
 			args.add(":dshow-tuner-input=2");
-			args.add(":dshow-video-input=" + input);
-			// TV
+			// h/w-specific video input
+			args.add(":show-video-input=" + input);
+			// select TV tuner
 			args.add(":dshow-amtuner-mode=1");
+			
+//			args.add("--dshow-chroma=YUY2"); 
+//			args.add("--dshow-size=\"100x100\"");
+			// suppress config dialog boxes
+			args.add(":no-dshow-config");
+			args.add(":no-dshow-tuner");
 		} else {
 			args.add("dvb-t://");
 			args.add(":dvb-frequency=" + channel);
 			// in Greece it is always 8
-			// TODO make editable for other countries 
+			// TODO make editable for other countries
 			args.add(":dvb-bandwidth=8");
 			args.add("--program=" + input);
 		}
 		// set instance flag
 		this.fullScreen = fullscreen;
+		if (logger.isDebugEnabled()) {
+			StringBuilder cmd = new StringBuilder();
+			for (String item : args) {
+				cmd.append(item).append(' ');
+			}
+			logger.debug("VLC command line: " + cmd);
+		}
 		// init native component
 		String[] ma = args.toArray(new String[args.size()]);
 		libvlc_instance_t = libVlc.libvlc_new(ma.length, ma, exception);

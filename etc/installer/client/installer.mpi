@@ -1171,11 +1171,11 @@ InstallComponent C704E0A4-91B1-4856-BBB4-F10A36F065EC -setup Install -type actio
 InstallComponent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE -setup Install -type actiongroup -title {Other Actions} -alias OtherActions -active Yes -parent ActionGroupsInstall
 InstallComponent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -setup Install -type action -conditions DE29D43F-1430-42E2-9EC2-FC765F2C936B -title {Add JRE To Path} -component AddDirectoryToPath -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition DE29D43F-1430-42E2-9EC2-FC765F2C936B -active Yes -parent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id DE29D43F-1430-42E2-9EC2-FC765F2C936B
-InstallComponent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -setup Install -type action -conditions 597B653B-99F7-422E-A2AE-E67F9E935359 -title {Install VLC} -component ExecuteExternalProgram -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -setup Install -type action -conditions 597B653B-99F7-422E-A2AE-E67F9E935359 -title {Install VLC} -component ExecuteExternalProgram -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 597B653B-99F7-422E-A2AE-E67F9E935359 -active Yes -parent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 597B653B-99F7-422E-A2AE-E67F9E935359
-InstallComponent C5AF63FF-C52B-4E2C-842F-E3787E69D801 -setup Install -type action -conditions 191286AF-B18E-4B44-AA69-A23F58DEFF24 -title {Install MPlayer} -component UnzipFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent C5AF63FF-C52B-4E2C-842F-E3787E69D801 -setup Install -type action -conditions 191286AF-B18E-4B44-AA69-A23F58DEFF24 -title {Install MPlayer} -component UnzipFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 191286AF-B18E-4B44-AA69-A23F58DEFF24 -active Yes -parent C5AF63FF-C52B-4E2C-842F-E3787E69D801 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 191286AF-B18E-4B44-AA69-A23F58DEFF24
-InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type action -conditions 518CE47F-6CCA-4206-8681-11D59206B145 -title {Replace Values in CONF files} -component ReplaceTextInFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type action -conditions 518CE47F-6CCA-4206-8681-11D59206B145 -title {Replace Values in CONF files} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 518CE47F-6CCA-4206-8681-11D59206B145 -active Yes -parent EFF0FC5D-E676-4652-A183-A406FB21067D -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
 InstallComponent FFEA53D6-E1E7-46AC-9FA3-13235F247567 -setup Install -type action -title {Add VLC To Path} -component AddDirectoryToPath -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 InstallComponent 1786BE0E-4C0C-4B34-90B6-2D1C706A7268 -setup Install -type action -title {Copy Native libraries To ./lib} -component CopyFile -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
@@ -1217,7 +1217,6 @@ Condition F7273A5C-E5BE-4AC4-A97B-B0E6EDB372B1 -active Yes -parent 3A21A4E1-6E0E
 Condition 26FB6615-6EC1-4F27-A1EB-AA7809C0FC33 -active Yes -parent 3A21A4E1-6E0E-47EA-951F-1BFC6C470E2D -title {Ask Yes or No} -component AskYesOrNo -TreeObject::id 26FB6615-6EC1-4F27-A1EB-AA7809C0FC33
 InstallComponent BF8DB42A-11B6-4318-B16D-D61771E339F6 -setup Uninstall -type actiongroup -title {Uninstall Actions} -alias {Uninstall Actions} -active Yes -parent ActionGroupsUninstall
 InstallComponent 6EB75CC7-92F9-458C-AC32-00BDF75A7D15 -setup Uninstall -type action -title {Uninstall Selected Files} -component UninstallSelectedFiles -active Yes -parent BF8DB42A-11B6-4318-B16D-D61771E339F6
-InstallComponent F2E4904A-7DB0-426E-A3F5-E6569B36C0E5 -setup Uninstall -type action -title {Delete Folder} -component DeleteFile -active Yes -parent BF8DB42A-11B6-4318-B16D-D61771E339F6
 InstallComponent C38D0E99-0031-4AC6-A365-42A767D5B4D9 -setup Uninstall -type actiongroup -conditions 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10 -title {Uninstall Services Actions} -command insert -alias {Uninstall Services Actions} -active Yes -parent ActionGroupsUninstall
 Condition 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10 -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9 -title {Platform Condition} -component PlatformCondition -TreeObject::id 2359F6C2-4520-4C32-BB7C-19BB2A1B6D10
 InstallComponent EE96A966-3C78-4B5F-B95E-10F0AE16B21B -setup Uninstall -type action -conditions 7EAE0CF0-84DB-4777-A1E3-0AF65D5A1FBC -title {Stop Bootstrap Service} -component StopWindowsService -command insert -alias {Stop Bootstrap Service} -active Yes -parent C38D0E99-0031-4AC6-A365-42A767D5B4D9
@@ -2836,15 +2835,6 @@ $VLC_INSTALL_PATH$	<%PROGRAM_FILES%>/VideoLan/VLC
 $SERVER_HOST$	<%ServerHost%>
 $SERVER_PORT$	<%ServerPort%>
 $MPLAYER_HOME$	<%InstallDir%>/mplayer}
-
-F2E4904A-7DB0-426E-A3F5-E6569B36C0E5,Conditions
-{0 conditions}
-
-F2E4904A-7DB0-426E-A3F5-E6569B36C0E5,Files
-<%InstallDir%>
-
-F2E4904A-7DB0-426E-A3F5-E6569B36C0E5,IgnoreErrors
-Yes
 
 F63D1A4C-6D33-435C-945B-4CA8E94F1D2F,CheckCondition
 {Before Next Action is Executed}

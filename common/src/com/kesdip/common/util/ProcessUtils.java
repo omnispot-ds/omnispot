@@ -13,16 +13,17 @@ import com.sun.jna.Pointer;
 
 public class ProcessUtils {
 	private static final Logger logger = Logger.getLogger(ProcessUtils.class);
-	
+
 	public interface Kernel32 extends com.sun.jna.examples.win32.Kernel32 {
 		/** The INSTANCE. */
-		Kernel32	INSTANCE	= (Kernel32) Native.loadLibrary("kernel32", Kernel32.class);
+		Kernel32 INSTANCE = (Kernel32) Native.loadLibrary("kernel32",
+				Kernel32.class);
 
 		/*
 		 * HANDLE WINAPI OpenProcess( DWORD dwDesiredAccess, BOOL
 		 * bInheritHandle, DWORD dwProcessId );
 		 */
-		
+
 		/**
 		 * Open process.
 		 * 
@@ -35,23 +36,24 @@ public class ProcessUtils {
 		 * 
 		 * @return the pointer
 		 */
-		Pointer OpenProcess(int dwDesiredAccess, boolean bInheritHandle, int dwProcessId);
+		Pointer OpenProcess(int dwDesiredAccess, boolean bInheritHandle,
+				int dwProcessId);
 
 		/** The PROCES s_ terminate. */
-		int	PROCESS_TERMINATE			= 1;
+		int PROCESS_TERMINATE = 1;
 
 		/** The PROCES s_ quer y_ information. */
-		int	PROCESS_QUERY_INFORMATION	= 1024;
+		int PROCESS_QUERY_INFORMATION = 1024;
 
 		/** The STANDAR d_ right s_ required. */
-		int	STANDARD_RIGHTS_REQUIRED	= 0xF0000;
+		int STANDARD_RIGHTS_REQUIRED = 0xF0000;
 
 		/** The SYNCHRONIZE. */
-		int	SYNCHRONIZE					= 0x100000;
+		int SYNCHRONIZE = 0x100000;
 
 		/** The PROCES s_ al l_ access. */
-		int	PROCESS_ALL_ACCESS			= STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0xFFF;
-		
+		int PROCESS_ALL_ACCESS = STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0xFFF;
+
 		/*
 		 * BOOL WINAPI TerminateProcess( HANDLE hProcess, UINT uExitCode );
 		 */
@@ -71,7 +73,7 @@ public class ProcessUtils {
 		/*
 		 * BOOL WINAPI CloseHandle( HANDLE hObject );
 		 */
-		
+
 		/**
 		 * Close handle.
 		 * 
@@ -83,23 +85,27 @@ public class ProcessUtils {
 		public boolean CloseHandle(Pointer hObject);
 
 	}
-	
+
 	/**
 	 * Kill a particular process.
 	 * 
-	 * @param pid The PID of the process to kill.
-	 * @param code The exit code of the process.
+	 * @param pid
+	 *            The PID of the process to kill.
+	 * @param code
+	 *            The exit code of the process.
 	 * @return True iff the process was killed successfully.
 	 */
-	public static boolean kill(int pid, int code)
-	{
-		if (pid <= 0)
+	public static boolean kill(int pid, int code) {
+		if (pid <= 0) {
 			return false;
-		Pointer hProcess = Kernel32.INSTANCE.OpenProcess(Kernel32.PROCESS_TERMINATE, false, pid);
+		}
+		Pointer hProcess = Kernel32.INSTANCE.OpenProcess(
+				Kernel32.PROCESS_TERMINATE, false, pid);
 		boolean result = Kernel32.INSTANCE.TerminateProcess(hProcess, code);
 		Thread.yield();
-		if (!result)
-			System.out.println("kill failed: " + pid);
+		if (!result) {
+			logger.warn("Kill failed: " + pid);
+		}
 		Kernel32.INSTANCE.CloseHandle(hProcess);
 		return result;
 	}
@@ -110,23 +116,25 @@ public class ProcessUtils {
 	 * system which is true for all Windows OS, apart from the Home Editions.
 	 * 
 	 * @return A Set of ProcessInfo objects.
-	 * @throws IOException Iff something goes wrong.
+	 * @throws IOException
+	 *             Iff something goes wrong.
 	 */
 	public static Set<ProcessInfo> getAllProcesses() throws IOException {
 		Set<ProcessInfo> retVal = new HashSet<ProcessInfo>();
 		String line;
 		Process p = Runtime.getRuntime().exec("tasklist.exe /fo csv /nh");
-		BufferedReader input = new BufferedReader(
-				new InputStreamReader(p.getInputStream()));
+		BufferedReader input = new BufferedReader(new InputStreamReader(p
+				.getInputStream()));
 		while ((line = input.readLine()) != null) {
-		    if (!line.trim().equals("")) {
-		    	// get the process name
-		    	line = line.substring(1);
-		    	String executable = line.substring(0, line.indexOf('"'));
-		    	String remainder = line.substring(line.indexOf('"') + 3);
-		    	long pid = Long.parseLong(remainder.substring(0, remainder.indexOf('"')));
-		    	retVal.add(new ProcessInfo(pid, executable));
-		    }
+			if (!line.trim().equals("")) {
+				// get the process name
+				line = line.substring(1);
+				String executable = line.substring(0, line.indexOf('"'));
+				String remainder = line.substring(line.indexOf('"') + 3);
+				long pid = Long.parseLong(remainder.substring(0, remainder
+						.indexOf('"')));
+				retVal.add(new ProcessInfo(pid, executable));
+			}
 		}
 		input.close();
 
@@ -137,48 +145,65 @@ public class ProcessUtils {
 	 * Kill all processes that are running the executable that is given as an
 	 * argument.
 	 * 
-	 * @param executableName The executable that all processes to be killed
-	 * are running.
+	 * @param executableName
+	 *            The executable that all processes to be killed are running.
 	 * @return True iff all processes running the specified executable are
-	 * killed successfully.
-	 * @throws IOException Iff something goes wrong.
+	 *         killed successfully.
+	 * @throws IOException
+	 *             Iff something goes wrong.
 	 */
 	public static boolean killAll(String executableName) {
 		/*
-		 * Alternative way to kill processes. Unfortunately windows restarts
-		 * the explorer process, so this is not 100% what we wanted. Opt out
-		 * for usage of the taskkill.exe utility to do the same thing.
+		 * Alternative way to kill processes. Unfortunately windows restarts the
+		 * explorer process, so this is not 100% what we wanted. Opt out for
+		 * usage of the taskkill.exe utility to do the same thing.
 		 */
-//		Set<ProcessInfo> processes = getAllProcesses();
-//
-//		Set<Integer> toKillPids = new HashSet<Integer>();
-//		for (ProcessInfo pi : processes) {
-//			if (pi.getExecutable().equals(executableName))
-//				toKillPids.add((int) pi.getPid());
-//		}
-//		
-//		boolean retVal = true;
-//		for (Integer pid : toKillPids) {
-//			if (!kill(pid, 0)) {
-//				logger.info("Unable to kill notepad process");
-//				retVal = false;
-//			}
-//		}
-//	
-//		return retVal;
+		// Set<ProcessInfo> processes = getAllProcesses();
+		//
+		// Set<Integer> toKillPids = new HashSet<Integer>();
+		// for (ProcessInfo pi : processes) {
+		// if (pi.getExecutable().equals(executableName))
+		// toKillPids.add((int) pi.getPid());
+		// }
+		//		
+		// boolean retVal = true;
+		// for (Integer pid : toKillPids) {
+		// if (!kill(pid, 0)) {
+		// logger.info("Unable to kill notepad process");
+		// retVal = false;
+		// }
+		// }
+		//	
+		// return retVal;
 		String[] cmdArray = new String[4];
 		cmdArray[0] = "taskkill.exe";
 		cmdArray[1] = "/F";
 		cmdArray[2] = "/IM";
 		cmdArray[3] = executableName;
-		
+
 		try {
 			Runtime.getRuntime().exec(cmdArray);
-			
+
 			return true;
 		} catch (Exception e) {
 			logger.error("Unable to stop executable: " + executableName, e);
 			return false;
 		}
+	}
+
+	/**
+	 * Force the machine to restart.
+	 * 
+	 * @throws IOException
+	 *             on error
+	 */
+	public static void restartSystem() throws IOException {
+		String[] cmdArray = new String[4];
+		cmdArray[0] = "shutdown";
+		cmdArray[1] = "/r";
+		cmdArray[2] = "/t";
+		cmdArray[3] = "0";
+
+		Runtime.getRuntime().exec(cmdArray, null, null);
 	}
 }

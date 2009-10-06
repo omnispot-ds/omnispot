@@ -119,7 +119,7 @@ public abstract class AbstractVideo extends AbstractComponent {
 		// no overlays
 		args.add("--no-overlay");
 		// path to plugins folder
-		args.add("--plugin-path=" + pluginsPath.getAbsolutePath());
+		args.add("--plugin-path=\"" + pluginsPath.getAbsolutePath() + '"');
 		// full-screen mode
 		args.add(fullscreen ? "--fullscreen" : "--no-fullscreen");
 		// init native component
