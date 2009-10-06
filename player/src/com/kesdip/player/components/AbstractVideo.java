@@ -15,6 +15,7 @@ import org.videolan.jvlc.internal.LibVlc.LibVlcLogIterator;
 import org.videolan.jvlc.internal.LibVlc.libvlc_exception_t;
 import org.videolan.jvlc.internal.LibVlc.libvlc_log_message_t;
 
+import com.kesdip.common.util.ProcessUtils;
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
@@ -290,6 +291,7 @@ public abstract class AbstractVideo extends AbstractComponent {
 		if (libVlc == null) {
 			return;
 		}
+		stopPlayer();
 		try {
 			// close the log
 			// FIXME Commented out because it kills the JVM
@@ -302,7 +304,8 @@ public abstract class AbstractVideo extends AbstractComponent {
 			logger.error("Unable to release resources. Possible memory leak.",
 					e);
 		}
-		stopPlayer();
+		// last resort clean-up, just in case
+		ProcessUtils.killAll("vlc.exe");
 	}
 
 	/**

@@ -112,16 +112,17 @@ public class RestartPlayerMessage extends Message {
 			playerErrorLoggingThread.stopRunning();
 		}
 		
-		// kill all orphan MPlayers
+		// kill all orphan media players
 		ProcessUtils.killAll("mplayer.exe");
+		ProcessUtils.killAll("vlc.exe");
 
 		// Set up the command line
 		List<String> cmdArray = new ArrayList<String>();
 		cmdArray.add("java");
 		// the following 2 are to enable debug
-//		cmdArray.add("-Xdebug");
-//		cmdArray
-//				.add("-Xrunjdwp:transport=dt_socket,server=y,address=12999,suspend=n");
+		cmdArray.add("-Xdebug");
+		cmdArray
+				.add("-Xrunjdwp:transport=dt_socket,server=y,address=12999,suspend=n");
 		cmdArray.add("-cp");
 		cmdArray.add(Config.getSingleton().getPlayerClasspath());
 		cmdArray.add(Config.getSingleton().getPlayerMainClass());

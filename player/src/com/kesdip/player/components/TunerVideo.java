@@ -105,7 +105,9 @@ public class TunerVideo extends AbstractVideo {
 		// no overlays (native accel.)
 		args.add("--no-overlay");
 		// full-screen mode
-		args.add(fullscreen ? "--fullscreen" : "--no-fullscreen");
+		if (fullscreen) {
+			args.add("--fullscreen");
+		}
 		// path to plugins folder
 		args.add("--plugin-path=" + pluginsPath.getAbsolutePath());
 		if (logger.isDebugEnabled()) {
