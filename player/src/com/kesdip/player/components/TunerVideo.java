@@ -62,28 +62,14 @@ public class TunerVideo extends AbstractVideo {
 		File pluginsPath = new File(Player.getVlcPath() + File.separator
 				+ "plugins");
 		List<String> args = new ArrayList<String>();
-		// detailed logging
-		if (logger.isTraceEnabled()) {
-			args.add("-vvv");
-		}
-		// no annoying video title
-		args.add("--no-video-title-show");
-		// force aspect ratio so that there are no black borders
-		args.add("--aspect-ratio=" + width + ":" + height);
-		// no overlays
-		args.add("--no-overlay");
-		// path to plugins folder
-		args.add("--plugin-path=\"" + pluginsPath.getAbsolutePath() + '"');
-		// full-screen mode
-		args.add(fullscreen ? "--fullscreen" : "--no-fullscreen");
 		if (type == TunerReceptionTypes.ANALOG) {
 			args.add("dshow://");
 			// 200ms content caching
 			args.add(":dshow-caching=200");
 			// video device name
-			args.add(":dshow-vdev=\"" + videoDevice + '"');
+			args.add(":dshow-vdev=" + videoDevice);
 			// audio device name
-			args.add(":dshow-adev=\"" + audioDevice + '"');
+			args.add(":dshow-adev=" + audioDevice);
 			// tuner channel (UHF, VHF)
 			args.add(":dshow-tuner-channel=" + channel);
 			// default country
@@ -94,9 +80,6 @@ public class TunerVideo extends AbstractVideo {
 			args.add(":show-video-input=" + input);
 			// select TV tuner
 			args.add(":dshow-amtuner-mode=1");
-			
-//			args.add("--dshow-chroma=YUY2"); 
-//			args.add("--dshow-size=\"100x100\"");
 			// suppress config dialog boxes
 			args.add(":no-dshow-config");
 			args.add(":no-dshow-tuner");
@@ -108,8 +91,23 @@ public class TunerVideo extends AbstractVideo {
 			args.add(":dvb-bandwidth=8");
 			args.add("--program=" + input);
 		}
-		// set instance flag
-		this.fullScreen = fullscreen;
+		// detailed logging
+//		if (logger.isTraceEnabled()) {
+			args.add("--verbose=2");
+//		}
+		// no annoying video title
+		args.add("--no-video-title-show");
+		// force aspect ratio so that there are no black borders
+		// only when not fullscreen
+		if (!fullscreen) {
+			args.add("--aspect-ratio=" + width + ":" + height);
+		}
+		// no overlays (native accel.)
+		args.add("--no-overlay");
+		// full-screen mode
+		args.add(fullscreen ? "--fullscreen" : "--no-fullscreen");
+		// path to plugins folder
+		args.add("--plugin-path=" + pluginsPath.getAbsolutePath());
 		if (logger.isDebugEnabled()) {
 			StringBuilder cmd = new StringBuilder();
 			for (String item : args) {
