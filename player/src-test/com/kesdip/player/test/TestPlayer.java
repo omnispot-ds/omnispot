@@ -7,7 +7,7 @@ import com.kesdip.player.TimingMonitor;
 
 public class TestPlayer extends Player {
 
-	private final String DEPLOYMENT_XML = "C:/documents and settings/gerogias/desktop/test.des.xml";
+	private final String DEPLOYMENT_XML = "C:/documents and settings/gerogias/desktop/ticker.des.xml";
 	
 	public TestPlayer() throws SchedulerException {
 		this.monitor = new TimingMonitor(this, true);

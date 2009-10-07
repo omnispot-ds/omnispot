@@ -43,7 +43,7 @@ public class PreviewLauncher {
 		}
 
 		String name = "Preview Player";
-		String cmdLine = new File(envJavaHome + "/bin/java.exe")
+		String cmdLine = new File(envJavaHome + "/bin/javaw.exe")
 				.getCanonicalPath();
 
 		StringBuilder classpath = new StringBuilder(envPlayerLib);

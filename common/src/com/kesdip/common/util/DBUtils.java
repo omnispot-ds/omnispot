@@ -55,8 +55,9 @@ public class DBUtils {
 	 *             iff something goes wrong.
 	 */
 	public static void setupDriver(String jdbcUrl) throws Exception {
-		if (driverSetup)
+		if (driverSetup) {
 			return;
+		}
 
 		//
 		// First, we'll need a ObjectPool that serves as the
@@ -108,6 +109,20 @@ public class DBUtils {
 				+ "at jdbc:apache:commons:dbcp:local");
 
 		driverSetup = true;
+
+		// get the 1st connection to initialize whatever was left to initialize
+		Connection c = null;
+		try {
+			c = getConnection();
+		} catch (Exception e) {
+			logger.error("Error initializing connection", e);
+		} finally {
+			try {
+				c.close();
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
 	}
 
 	/**

@@ -118,7 +118,7 @@ public class RestartPlayerMessage extends Message {
 
 		// Set up the command line
 		List<String> cmdArray = new ArrayList<String>();
-		cmdArray.add("java");
+		cmdArray.add("javaw");
 		// the following 2 are to enable debug
 		cmdArray.add("-Xdebug");
 		cmdArray
