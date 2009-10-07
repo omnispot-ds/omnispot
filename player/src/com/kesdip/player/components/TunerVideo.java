@@ -92,9 +92,9 @@ public class TunerVideo extends AbstractVideo {
 			args.add("--program=" + input);
 		}
 		// detailed logging
-//		if (logger.isTraceEnabled()) {
+		if (logger.isTraceEnabled()) {
 			args.add("--verbose=2");
-//		}
+		}
 		// no annoying video title
 		args.add("--no-video-title-show");
 		// force aspect ratio so that there are no black borders

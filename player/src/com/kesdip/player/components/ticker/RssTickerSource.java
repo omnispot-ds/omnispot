@@ -120,16 +120,16 @@ public class RssTickerSource implements TickerSource {
 	void loadContent(){		
 		createFeed();
 		readFeed();
-		if (content.length() == 0)
+		if (content.length() == 0) {
 			content = "Feed not available..";
-		
-		if (charStream == null)
+		}
+		if (charStream == null) {
 			//first time called
 			charStream = new SingleCharacterReader(content);
-		else
+		} else {
 			//called by refreshJob
 			charStream.updateContent(content);
-		
+		}
 		if(sb == null){
 			sb = new StringBuilder();
 			sb.append(charStream.nextChar());
