@@ -82,8 +82,9 @@ public class RssTickerSource implements TickerSource {
 
 	@Override
 	public String getCurrentContent() {
-		if (sb == null)
+		if (sb == null) {
 			reset();
+		}
 		
 		return sb.toString();
 	}

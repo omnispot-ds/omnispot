@@ -63,6 +63,7 @@ public class TickerPanel extends JPanel {
 
 	/**
 	 * Width of 5 'm' letters, used as a comparison value.
+	 * Initialized when we have a Graphics available.
 	 */
 	private int fiveEmWidth = Integer.MIN_VALUE;
 

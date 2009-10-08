@@ -120,9 +120,9 @@ public class RestartPlayerMessage extends Message {
 		List<String> cmdArray = new ArrayList<String>();
 		cmdArray.add("javaw");
 		// the following 2 are to enable debug
-		cmdArray.add("-Xdebug");
-		cmdArray
-				.add("-Xrunjdwp:transport=dt_socket,server=y,address=12999,suspend=n");
+//		cmdArray.add("-Xdebug");
+//		cmdArray
+//				.add("-Xrunjdwp:transport=dt_socket,server=y,address=12999,suspend=n");
 		cmdArray.add("-cp");
 		cmdArray.add(Config.getSingleton().getPlayerClasspath());
 		cmdArray.add(Config.getSingleton().getPlayerMainClass());
@@ -138,7 +138,7 @@ public class RestartPlayerMessage extends Message {
 		}
 
 		// See Bugzilla#9 for the following line
-		// ProcessUtils.killAll("explorer.exe");
+		ProcessUtils.killAll("explorer.exe");
 
 		playerProcess = Runtime.getRuntime().exec(
 				cmdArray.toArray(new String[cmdArray.size()]), null,
