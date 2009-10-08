@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
+//import com.kesdip.common.util.ui.RepaintWorker;
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
@@ -32,6 +34,11 @@ public class SimpleContainer extends AbstractComponent {
 	/* TRANSIENT STATE */
 	private JPanel panel;
 	
+	/**
+	 * The repaint worker.
+	 */
+//	private RepaintWorker repaintWorker = null;
+	
 	@Override
 	public void init(Component parent, TimingMonitor timingMonitor,
 			Player player) throws ComponentException {
@@ -50,7 +57,9 @@ public class SimpleContainer extends AbstractComponent {
 		for (Component component : contents) {
 			component.init(this, timingMonitor, player);
 		}
-
+		
+//		repaintWorker = new RepaintWorker(panel);
+		
 		parent.add(this);
 	}
 
@@ -74,6 +83,7 @@ public class SimpleContainer extends AbstractComponent {
 		for (Component component : contents) {
 			component.repaint();
 		}
+		panel.repaint();
 	}
 
 	@Override

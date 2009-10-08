@@ -108,6 +108,7 @@ public class Image extends AbstractComponent implements InitializingBean {
 		loadImage();
 		panel.setImage(img);
 		startTime = new Date().getTime();
+		panel.repaint();
 	}
 
 	@Override

@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
  * 
  * @author gerogias
  */
-public class RepaintWorker implements Runnable {
+public class RepaintWorker1 implements Runnable {
 
 	/**
 	 * The component.
@@ -32,7 +32,7 @@ public class RepaintWorker implements Runnable {
 	 * @param component
 	 *            the component to handle
 	 */
-	public RepaintWorker(Component c) {
+	public RepaintWorker1(Component c) {
 		this.component = c;
 	}
 
@@ -41,6 +41,7 @@ public class RepaintWorker implements Runnable {
 	 */
 	@Override
 	public void run() {
+		component.requestFocus();
 		component.repaint();
 	}
 

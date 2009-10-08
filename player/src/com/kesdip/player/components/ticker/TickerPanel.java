@@ -20,7 +20,7 @@ import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
-import com.kesdip.common.util.ui.RepaintWorker;
+//import com.kesdip.common.util.ui.RepaintWorker;
 
 /**
  * A panel that displays a ticker. It is associated with a ticker source. The
@@ -54,7 +54,7 @@ public class TickerPanel extends JPanel {
 	/**
 	 * The repaint utility class.
 	 */
-	private RepaintWorker repaintWorker = null;
+//	private RepaintWorker repaintWorker = null;
 
 	/**
 	 * The panel's bounds, used for repainting.
@@ -77,7 +77,7 @@ public class TickerPanel extends JPanel {
 		this.width = width;
 		this.height = height;
 		this.oldTotalElapsedTime = 0;
-		this.repaintWorker = new RepaintWorker(this);
+//		this.repaintWorker = new RepaintWorker(this);
 		panelBounds = new Rectangle(getX(), getY(), width, height);
 	}
 
@@ -201,6 +201,7 @@ public class TickerPanel extends JPanel {
 			logger.trace("New currentXPos: " + currentXPos);
 		}
 		oldTotalElapsedTime = currentTime;
-		SwingUtilities.invokeLater(repaintWorker);
+		repaint();
+//		SwingUtilities.invokeLater(repaintWorker);
 	}
 }

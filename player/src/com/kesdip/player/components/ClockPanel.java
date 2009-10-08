@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
-import com.kesdip.common.util.ui.RepaintWorker;
+//import com.kesdip.common.util.ui.RepaintWorker;
 
 @SuppressWarnings("serial")
 public class ClockPanel extends JLayeredPane {
@@ -64,22 +64,15 @@ public class ClockPanel extends JLayeredPane {
 	};
 
 	/**
-	 * Clock face repaint class.
-	 */
-	private RepaintWorker clockWorker = null;
-
-	/**
 	 * Clock fingers repaint class.
 	 */
-	private RepaintWorker fingersWorker = null;
+//	private RepaintWorker fingersWorker = null;
 
 	public ClockPanel() {
 		logger.debug("ClockPanel Constructor called!");
 		fingersPanel.setOpaque(false);
 		add(clockPanel, 0);
 		add(fingersPanel, 1);
-		clockWorker = new RepaintWorker(clockPanel);
-		fingersWorker = new RepaintWorker(fingersPanel);
 	}
 
 	public Dimension getPreferredSize() {
@@ -124,10 +117,10 @@ public class ClockPanel extends JLayeredPane {
 	}
 
 	protected void refresh() {
-		// if (!clockPainted) {
-		clockPanel.repaint();
-		clockPainted = true;
-		// }
+		if (!clockPainted) {
+			clockPanel.repaint();
+			clockPainted = true;
+		 }
 		moveToFront(fingersPanel);
 		fingersPanel.repaint();
 	}

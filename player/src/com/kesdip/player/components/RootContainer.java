@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
+//import com.kesdip.common.util.ui.RepaintWorker;
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
@@ -51,6 +53,11 @@ public class RootContainer extends AbstractComponent {
 	protected JFrame frame;
 	protected int lastLayer;
 
+	/**
+	 * Frame repaint worker.
+	 */
+//	private RepaintWorker repaintWorker = null;
+	
 	public void createFullScreenResources() {
 		// Intentionally left empty
 	}
@@ -67,6 +74,8 @@ public class RootContainer extends AbstractComponent {
 		frame.setPreferredSize(new Dimension(width, height));
 		lastLayer = 0;
 		
+//		repaintWorker = new RepaintWorker(frame);
+		
 		if (isTransparent) {
 			System.setProperty("sun.java2d.noddraw", "true");
 			WindowUtils.setWindowTransparent(frame, true);
@@ -79,12 +88,14 @@ public class RootContainer extends AbstractComponent {
 	public void destroyWindowedResources() {
 		releaseResources();
 		if (frame == null) {
-			return; // Something went wrong during the initialization process...
+			// Something went wrong during the initialization process...
+			return; 
 		}
 		
 		frame.setVisible(false);
 		frame.dispose();
 		frame = null;
+//		repaintWorker = null;
 	}
 
 	@Override
@@ -148,10 +159,10 @@ public class RootContainer extends AbstractComponent {
 
 	@Override
 	public void repaint() throws ComponentException {
-		frame.repaint();
 		for (Component component : contents) {
 			component.repaint();
 		}
+		frame.repaint();
 	}
 
 	@Override
