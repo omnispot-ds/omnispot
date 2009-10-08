@@ -408,6 +408,7 @@ common/src/com/kesdip/common/util/propertyeditor/ColorEditor.java -text
 common/src/com/kesdip/common/util/propertyeditor/DateEditor.java -text
 common/src/com/kesdip/common/util/propertyeditor/DateTimeEditor.java -text
 common/src/com/kesdip/common/util/propertyeditor/FileArrayEditor.java -text
+common/src/com/kesdip/common/util/ui/RepaintWorker.java -text
 demos/AdPlayerDemo/.classpath -text
 demos/AdPlayerDemo/.project -text
 demos/AdPlayerDemo/README.txt -text

@@ -20,6 +20,8 @@ import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
+import com.kesdip.common.util.ui.RepaintWorker;
+
 /**
  * A panel that displays a ticker. It is associated with a ticker source. The
  * rest of the properties have to do with the look and feel of the ticker (font,
@@ -60,9 +62,9 @@ public class TickerPanel extends JPanel {
 	private Rectangle panelBounds = null;
 
 	/**
-	 * Width of 2 'm' letters, used as a comparison value.
+	 * Width of 5 'm' letters, used as a comparison value.
 	 */
-	private int twoEmWidth = Integer.MIN_VALUE;
+	private int fiveEmWidth = Integer.MIN_VALUE;
 
 	public TickerPanel(Font font, Color fgColor, double speed,
 			TickerSource source, int width, int height) {
@@ -74,7 +76,7 @@ public class TickerPanel extends JPanel {
 		this.width = width;
 		this.height = height;
 		this.oldTotalElapsedTime = 0;
-		this.repaintWorker = new RepaintWorker();
+		this.repaintWorker = new RepaintWorker(this);
 		panelBounds = new Rectangle(getX(), getY(), width, height);
 	}
 
@@ -99,8 +101,8 @@ public class TickerPanel extends JPanel {
 		super.paintComponent(g);
 
 		// initialize emWidth
-		if (twoEmWidth == Integer.MIN_VALUE) {
-			twoEmWidth = -2 * g.getFontMetrics().charWidth('m');
+		if (fiveEmWidth == Integer.MIN_VALUE) {
+			fiveEmWidth = -5 * g.getFontMetrics().charWidth('m');
 		}
 
 		Color originalColor = g.getColor();
@@ -115,7 +117,8 @@ public class TickerPanel extends JPanel {
 			currentYPos = (height + g.getFontMetrics().getHeight()) / 2
 					- g.getFontMetrics().getDescent();
 			positionInitialized.set(true);
-		} else {
+			// sanity check for null
+		} else if (oldContent != null) {
 			// Draw the fade out image in the old location.
 			Graphics2D gFade = (Graphics2D) g.create();
 			AlphaComposite newComposite = AlphaComposite.getInstance(
@@ -165,53 +168,38 @@ public class TickerPanel extends JPanel {
 		oldTotalElapsedTime = System.currentTimeMillis();
 	}
 
+	/**
+	 * Move the ticker along calculating the new text position and forcing a
+	 * repaint. The inputs are:
+	 * <ul>
+	 * <li>sleep: the number of milliseconds that the since we last painted the
+	 * ticker.
+	 * </li>
+	 * <li>speed: the number of pixels per second that the ticker should move
+	 * along.
+	 * </li>
+	 * </ul>
+	 * The formula is: -1.0 * (sleep / 1000.0) * speed;
+	 */
 	public void timingEvent() {
 		long currentTime = System.currentTimeMillis();
 
-		// Now move the ticker along
-		// The inputs are:
-		// sleep -> the number of milliseconds that the since we last painted
-		// the ticker.
-		// speed -> the number of pixels per second that the ticker should move
-		// along.
-		// The formula is:
-		// -1.0 * (sleep / 1000.0) * speed;
 		double sleep = currentTime - oldTotalElapsedTime;
 		if (logger.isTraceEnabled()) {
 			logger.trace("The time lapse since we last repainted the "
 					+ "ticker is: " + sleep + "ms");
 		}
 		currentXPos += (-1.0 * (sleep / 1000.0) * speed);
-		// sanity check: if currentXPos is larger than 2 em, set it to zero
+		// sanity check: if currentXPos is larger than 5 em, set it to zero
 		// m is the widest letter, so a value larger than this means that
 		// something is wrong
-		if (currentXPos <= twoEmWidth) {
+		if (currentXPos <= fiveEmWidth) {
 			currentXPos = 0;
 		}
 		if (logger.isTraceEnabled()) {
 			logger.trace("New currentXPos: " + currentXPos);
 		}
 		oldTotalElapsedTime = currentTime;
-		if (logger.isTraceEnabled()) {
-			logger.trace("Repainting " + panelBounds.toString());
-		}
 		SwingUtilities.invokeLater(repaintWorker);
-	}
-
-	/**
-	 * A simple class to repaint the panel in a thread-like context.
-	 * 
-	 * @author gerogias
-	 */
-	private class RepaintWorker implements Runnable {
-
-		/**
-		 * Calls <code>repaint()</code>.
-		 * 
-		 * @see java.lang.Runnable#run()
-		 */
-		public void run() {
-			TickerPanel.this.repaint();
-		}
 	}
 }

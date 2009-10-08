@@ -27,3 +27,4 @@ etc/lib/derby/derbyclient.jar
 
 etc/lib/sun/examples.jar
 etc/lib/sun/rome-1.0RC1.jar
+etc/lib/sun/jna.jar

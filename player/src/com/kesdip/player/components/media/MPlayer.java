@@ -204,6 +204,8 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 		} else {
 			cmd.append(" -fs");
 		}
+		// no DirectX acceleration (Bug#126)
+		cmd.append(" -vo directx:noaccel");
 		if (configuration instanceof VideoConfiguration) {
 			// add files to the queue, if any
 			VideoConfiguration video = (VideoConfiguration) configuration;
