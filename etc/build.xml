@@ -495,18 +495,31 @@
 			token="${derby.home}" 
 			value="$INSTALL_PATH$"/>
 		<!-- Replace base paths and server host/port in console-config -->
-		<replace 
+		<replaceregexp 
 			file="${server.installer.dir}/admin-console/console-settings.xml" 
-			token="c:/tmp/console" 
-			value="$INSTALL_PATH$"/>
-		<replace 
+			match="ps-root-folder.+?ps-root-folder" 
+			replace="ps-root-folder&gt;$INSTALL_PATH$/print-screens/&lt;/ps-root-folder"
+			flags="i"/>
+		<replaceregexp 
 			file="${server.installer.dir}/admin-console/console-settings.xml" 
-			token="localhost" 
-			value="$HOST$"/>
-		<replace 
+			match="content-root-folder.+?content-root-folder" 
+			replace="content-root-folder&gt;$INSTALL_PATH$/content/&lt;/content-root-folder"
+			flags="i"/>
+		<replaceregexp 
 			file="${server.installer.dir}/admin-console/console-settings.xml" 
-			token="8080" 
-			value="$PORT$"/>
+			match="temp-folder.+?temp-folder" 
+			replace="temp-folder&gt;$INSTALL_PATH$/temp-files&lt;/temp-folder"
+			flags="i"/>
+		<replaceregexp 
+			file="${server.installer.dir}/admin-console/console-settings.xml" 
+			match="host.+?host" 
+			replace="host&gt;$HOST$&lt;/host"
+			flags="i"/>
+		<replaceregexp 
+			file="${server.installer.dir}/admin-console/console-settings.xml" 
+			match="port.+?port" 
+			replace="port&gt;$PORT$&lt;/port"
+			flags="i"/>
 		<!-- Replace all absolute base dirs with current base dir in installer file -->
 		<replace 
 			file="${server.installer.dir}/installer.mpi" 
