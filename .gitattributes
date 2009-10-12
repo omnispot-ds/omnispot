@@ -459,7 +459,9 @@ designer-preview/.settings/org.eclipse.jdt.core.prefs -text
 designer-preview/META-INF/MANIFEST.MF -text
 designer-preview/build.properties -text
 designer-preview/src/com/kesdip/player/preview/Activator.java -text
+designer-preview/src/comfyj.lic -text
 designer-preview/src/jniwrap.dll -text
+designer-preview/src/jniwrap.lic -text
 designer-preview/src/log4j.properties -text
 designer-test/.classpath -text
 designer-test/.project -text
@@ -698,10 +700,10 @@ etc/lib/hibernate/hibernate3.jar -text
 etc/lib/hibernate/jta.jar -text
 etc/lib/j2ee/api.jar -text
 etc/lib/jdom/jdom.jar -text
-etc/lib/jniwrap/comfyj-2.6.jar -text
-etc/lib/jniwrap/jniwrap-3.7.2.jar -text
+etc/lib/jniwrap/comfyj-2.7.jar -text
+etc/lib/jniwrap/jniwrap-3.8.jar -text
 etc/lib/jniwrap/jniwrap.dll -text
-etc/lib/jniwrap/winpack-3.7.jar -text
+etc/lib/jniwrap/winpack-3.8.jar -text
 etc/lib/jstl/jstl-1.1.0.jar -text
 etc/lib/jstl/standard.jar -text
 etc/lib/junit/junit-4.3.1.jar -text

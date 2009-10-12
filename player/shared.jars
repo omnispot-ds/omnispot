@@ -16,9 +16,9 @@ etc/lib/spring/spring.jar
 
 etc/lib/dom4j/dom4j-1.6.1.jar
 
-etc/lib/jniwrap/jniwrap-3.7.2.jar
-etc/lib/jniwrap/winpack-3.7.jar
-etc/lib/jniwrap/comfyj-2.6.jar
+etc/lib/jniwrap/jniwrap-3.8.jar
+etc/lib/jniwrap/winpack-3.8.jar
+etc/lib/jniwrap/comfyj-2.7.jar
 
 etc/lib/quartz/quartz-1.6.3.jar
 

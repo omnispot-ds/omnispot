@@ -23,14 +23,14 @@
 	<property name="bootstrap.build.file" location="${bootstrap.base.dir}/build.xml"/>
 	<property name="bootstrap.dist.file" location="${bootstrap.base.dir}/dist/bootstrap.jar"/>
 	
-	<!-- Explicitly values instead of locations, because InstallJammer does not work -->
+	<!-- Explicitly "values" instead of "locations", because InstallJammer does not work -->
 	<property name="player.base.dir" value="${project.base.dir}/player"/>
 	<property name="player.src.dir" value="${player.base.dir}/src"/>
 	<property name="player.build.file" value="${player.base.dir}/build.xml"/>
 	<property name="player.dist.dir" value="${player.base.dir}/dist" />
 	<property name="player.dist.file" value="${player.dist.dir}/player.jar"/>
 	<property name="player.installer.dir" value="${player.dist.dir}/installer" />
-
+	
 	<property name="admin-console.base.dir" location="${project.base.dir}/admin-console"/>
 	<property name="admin-console.build.file" location="${admin-console.base.dir}/build.xml"/>
 	<property name="admin-console.dist.file" location="${admin-console.base.dir}/dist/admin-console.war"/>
@@ -58,9 +58,11 @@
 	<property name="server.installer.dir"
 		value="${project.base.dir}/designer.build/installer"/>
 	
-	
 	<property name="preview.lib.dir" location="${project.base.dir}/com.kesdip.designer.preview/lib"/>
+	<property name="preview.src.dir" location="${project.base.dir}/com.kesdip.designer.preview/src"/>
+	
 	<property name="designer.lib.dir" location="${project.base.dir}/com.kesdip.designer/lib"/>
+	<property name="comfyj.license.dir" location="${etc.base.dir}/license/comfyj/runtime" />
 	
 	
 	<import file="${etc.ant.scripts.dir}/common-targets.xml"/>
@@ -113,13 +115,19 @@
 			target="clean" inheritrefs="true"/>
 	</target>
 		
-	<target name="copy.jars.to.designer" depends="build.player,build.common"
-		description="Copy the jars from etc/lib and project distributables to com.kesdip.designer.preview/lib and com.kesdip.designer/lib">
+	<target name="copy.files.to.designer" depends="build.player,build.common"
+		description="Copy the necessary files from project distributables to com.kesdip.designer.preview/lib and com.kesdip.designer/lib">
 		<copy todir="${preview.lib.dir}" flatten="true">
 			<fileset dir="${etc.base.dir}/.." includesfile="${player.base.dir}/shared.jars"/>
 		</copy>
 		<copy todir="${preview.lib.dir}" file="${common.dist.file}"/>
 		<copy todir="${preview.lib.dir}" file="${player.dist.file}"/>
+		<copy todir="${preview.src.dir}" file="${etc.lib.dir}/jniwrap/jniwrap.dll"/>
+		<copy todir="${preview.src.dir}">
+			<fileset dir="${comfyj.license.dir}">
+				<include name="*.lic"/>
+			</fileset>
+		</copy>	
 		
 		<copy todir="${designer.lib.dir}" file="${common.dist.file}"/>
 		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/quartz/quartz-1.6.3.jar"/>
@@ -271,7 +279,7 @@
 	<target name="dist.player" depends="build.common, build.player"
 		description="Creates player.jar"/>
 	
-	<target name="dist.designer" depends="copy.jars.to.designer"
+	<target name="dist.designer" depends="copy.files.to.designer"
 		description="Creates the designer distributable">
 		<ant antfile="${designer.build.file}" dir="${designer.build.dir}" inheritrefs="true"/>
 	</target>
@@ -357,6 +365,15 @@
 		<copy flatten="false" todir="${player.installer.dir}/player/sample">
 			<fileset dir="${etc.base.dir}/content/sample1">
 				<include name="**/*.*"/>
+			</fileset>
+		</copy>
+		<!-- Copy ComfyJ DLL and licenses -->
+		<copy todir="${player.installer.dir}/player/conf">
+			<fileset dir="${comfyj.license.dir}">
+				<include name="*.lic"/>
+			</fileset>
+			<fileset dir="${etc.lib.dir}/jniwrap">
+				<include name="*.dll"/>
 			</fileset>
 		</copy>
 	</target>
