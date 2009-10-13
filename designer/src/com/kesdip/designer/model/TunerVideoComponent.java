@@ -45,8 +45,12 @@ public class TunerVideoComponent extends ComponentModelElement {
 	public static final String AUDIO_DEVICE_PROP = "Tuner.AudioDeviceProp";
 	/** Property ID to use for the channel property value. */
 	public static final String CHANNEL_PROP = "Tuner.ChannelProp";
-	/** Property ID to use for the input property value. */
-	public static final String INPUT_PROP = "Tuner.InputProp";
+	/** Property ID to use for the country property value. */
+	public static final String COUNTRY_PROP = "Tuner.CountryProp";
+	/** Property ID to use for the video input property value. */
+	public static final String VIDEO_INPUT_PROP = "Tuner.VideoInputProp";
+	/** Property ID to use for the audio input property value. */
+	public static final String AUDIO_INPUT_PROP = "Tuner.AudioInputProp";
 	public static final String FULL_SCREEN_PROP = "Tuner.FullScreen";
 	public static final String VIDEO_PROVIDER_PROP = "Video.VideoProvider";
 
@@ -58,8 +62,10 @@ public class TunerVideoComponent extends ComponentModelElement {
 	private String type;
 	private String videoDevice;
 	private String audioDevice;
-	private int channel;
-	private int input;
+	private String channel;
+	private String country;
+	private int videoInput;
+	private int audioInput;
 	private String provider;
 	private boolean fullScreen;
 
@@ -67,8 +73,10 @@ public class TunerVideoComponent extends ComponentModelElement {
 		type = AnalogVideoType;
 		videoDevice = "";
 		audioDevice = "";
-		channel = 0;
-		input = 0;
+		channel = "0";
+		country = "30";
+		videoInput = 0;
+		audioInput = 0;
 		provider = STRING_MPLAYER;
 		fullScreen = false;
 	}
@@ -89,10 +97,12 @@ public class TunerVideoComponent extends ComponentModelElement {
 				.equals(AnalogVideoType) ? "1" : "2");
 		DOMHelpers.addProperty(doc, videoElement, "videoDevice", videoDevice);
 		DOMHelpers.addProperty(doc, videoElement, "audioDevice", audioDevice);
-		DOMHelpers.addProperty(doc, videoElement, "channel", String
-				.valueOf(channel));
-		DOMHelpers.addProperty(doc, videoElement, "input", String
-				.valueOf(input));
+		DOMHelpers.addProperty(doc, videoElement, "channel", channel);
+		DOMHelpers.addProperty(doc, videoElement, "country", country);
+		DOMHelpers.addProperty(doc, videoElement, "videoInput", String
+				.valueOf(videoInput));
+		DOMHelpers.addProperty(doc, videoElement, "audioInput", String
+				.valueOf(audioInput));
 		DOMHelpers.addProperty(doc, videoElement, "fullScreen", Boolean
 				.toString(fullScreen));
 		return videoElement;
@@ -116,11 +126,15 @@ public class TunerVideoComponent extends ComponentModelElement {
 				componentNode, "audioDevice"));
 		setPropertyValue(CHANNEL_PROP, DOMHelpers.getSimpleProperty(
 				componentNode, "channel"));
-		setPropertyValue(INPUT_PROP, DOMHelpers.getSimpleProperty(
-				componentNode, "input"));
-		String fullScreen = DOMHelpers.getSimpleProperty(componentNode,
+		setPropertyValue(COUNTRY_PROP, DOMHelpers.getSimpleProperty(
+				componentNode, "country"));
+		setPropertyValue(VIDEO_INPUT_PROP, DOMHelpers.getSimpleProperty(
+				componentNode, "videoInput"));
+		setPropertyValue(AUDIO_INPUT_PROP, DOMHelpers.getSimpleProperty(
+				componentNode, "audioInput"));
+		String fullScreenStr = DOMHelpers.getSimpleProperty(componentNode,
 				"fullScreen");
-		setPropertyValue(FULL_SCREEN_PROP, fullScreen != null ? fullScreen
+		setPropertyValue(FULL_SCREEN_PROP, fullScreenStr != null ? fullScreen
 				: "false");
 		super.deserialize(doc, componentNode);
 	}
@@ -130,8 +144,10 @@ public class TunerVideoComponent extends ComponentModelElement {
 		memento.putString(TAG_TUNER_TYPE, type);
 		memento.putString(TAG_VIDEO_DEVICE, videoDevice);
 		memento.putString(TAG_AUDIO_DEVICE, audioDevice);
-		memento.putInteger(TAG_CHANNEL, channel);
-		memento.putInteger(TAG_INPUT, input);
+		memento.putString(TAG_CHANNEL, channel);
+		memento.putString(TAG_COUNTRY, country);
+		memento.putInteger(TAG_VIDEO_INPUT, videoInput);
+		memento.putInteger(TAG_AUDIO_INPUT, audioInput);
 		memento.putString(TAG_TUNER_VIDEO_PROVIDER, provider);
 		memento.putBoolean(TAG_TUNER_FULL_SCREEN, fullScreen);
 	}
@@ -141,8 +157,10 @@ public class TunerVideoComponent extends ComponentModelElement {
 		type = memento.getString(TAG_TUNER_TYPE);
 		videoDevice = memento.getString(TAG_VIDEO_DEVICE);
 		audioDevice = memento.getString(TAG_AUDIO_DEVICE);
-		channel = memento.getInteger(TAG_CHANNEL);
-		input = memento.getInteger(TAG_INPUT);
+		channel = memento.getString(TAG_CHANNEL);
+		country = memento.getString(TAG_COUNTRY);
+		videoInput = memento.getInteger(TAG_VIDEO_INPUT);
+		audioInput = memento.getInteger(TAG_AUDIO_INPUT);
 		provider = memento.getString(TAG_TUNER_VIDEO_PROVIDER);
 		fullScreen = memento.getBoolean(TAG_TUNER_FULL_SCREEN);
 	}
@@ -154,8 +172,10 @@ public class TunerVideoComponent extends ComponentModelElement {
 		assert (type.equals(((TunerVideoComponent) other).type));
 		assert (videoDevice.equals(((TunerVideoComponent) other).videoDevice));
 		assert (audioDevice.equals(((TunerVideoComponent) other).audioDevice));
-		assert (channel == ((TunerVideoComponent) other).channel);
-		assert (input == ((TunerVideoComponent) other).input);
+		assert (channel.equals(((TunerVideoComponent) other).channel));
+		assert (country.equals(((TunerVideoComponent) other).country));
+		assert (videoInput == ((TunerVideoComponent) other).videoInput);
+		assert (audioInput == ((TunerVideoComponent) other).audioInput);
 		assert (provider.equals(((TunerVideoComponent) other).provider));
 		assert (fullScreen == ((TunerVideoComponent) other).fullScreen);
 	}
@@ -177,16 +197,22 @@ public class TunerVideoComponent extends ComponentModelElement {
 						AnalogVideoType, DigitalVideoType }),
 				new CheckboxPropertyDescriptor(FULL_SCREEN_PROP, "Full Screen"),
 				new TextPropertyDescriptor(CHANNEL_PROP, "Channel"),
+				new TextPropertyDescriptor(COUNTRY_PROP, "Country code"),
 				new TextPropertyDescriptor(VIDEO_DEVICE_PROP,
 						"Video Device (VLC only)"),
 				new TextPropertyDescriptor(AUDIO_DEVICE_PROP,
 						"Audio Device (VLC only)"),
-				new TextPropertyDescriptor(INPUT_PROP, "Input Pin (VLC only)") };
+				new TextPropertyDescriptor(VIDEO_INPUT_PROP,
+						"Video Input Pin (VLC only)"),
+				new TextPropertyDescriptor(AUDIO_INPUT_PROP,
+						"Audio Input Pin (VLC only)"), };
 		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
 			((PropertyDescriptor) descriptors[i]).setCategory("Behaviour");
 			if (CHANNEL_PROP.equals(descriptors[i].getId())
-					|| INPUT_PROP.equals(descriptors[i].getId())) {
+					|| COUNTRY_PROP.equals(descriptors[i].getId())
+					|| VIDEO_INPUT_PROP.equals(descriptors[i].getId())
+					|| AUDIO_INPUT_PROP.equals(descriptors[i].getId())) {
 				((PropertyDescriptor) descriptors[i])
 						.setValidator(new ICellEditorValidator() {
 							public String isValid(Object value) {
@@ -236,10 +262,14 @@ public class TunerVideoComponent extends ComponentModelElement {
 
 	@Override
 	public Object getPropertyValue(Object propertyId) {
-		if (CHANNEL_PROP.equals(propertyId)) {
-			return String.valueOf(channel);
-		} else if (INPUT_PROP.equals(propertyId)) {
-			return String.valueOf(input);
+		if (COUNTRY_PROP.equals(propertyId)) {
+			return country;
+		} else if (CHANNEL_PROP.equals(propertyId)) {
+			return channel;
+		} else if (VIDEO_INPUT_PROP.equals(propertyId)) {
+			return String.valueOf(videoInput);
+		} else if (AUDIO_INPUT_PROP.equals(propertyId)) {
+			return String.valueOf(audioInput);
 		} else if (VIDEO_DEVICE_PROP.equals(propertyId)) {
 			return videoDevice;
 		} else if (AUDIO_DEVICE_PROP.equals(propertyId)) {
@@ -257,14 +287,22 @@ public class TunerVideoComponent extends ComponentModelElement {
 
 	@Override
 	public void setPropertyValue(Object propertyId, Object value) {
-		if (CHANNEL_PROP.equals(propertyId)) {
-			String oldValue = String.valueOf(channel);
-			channel = Integer.parseInt((String) value);
+		if (COUNTRY_PROP.equals(propertyId)) {
+			String oldValue = country;
+			country = (String) value;
+			firePropertyChange(COUNTRY_PROP, oldValue, value);
+		} else if (CHANNEL_PROP.equals(propertyId)) {
+			String oldValue = channel;
+			channel = (String) value;
 			firePropertyChange(CHANNEL_PROP, oldValue, value);
-		} else if (INPUT_PROP.equals(propertyId)) {
-			String oldValue = String.valueOf(input);
-			input = Integer.parseInt((String) value);
-			firePropertyChange(INPUT_PROP, oldValue, value);
+		} else if (VIDEO_INPUT_PROP.equals(propertyId)) {
+			String oldValue = String.valueOf(videoInput);
+			videoInput = Integer.parseInt((String) value);
+			firePropertyChange(VIDEO_INPUT_PROP, oldValue, value);
+		} else if (AUDIO_INPUT_PROP.equals(propertyId)) {
+			String oldValue = String.valueOf(audioInput);
+			audioInput = Integer.parseInt((String) value);
+			firePropertyChange(AUDIO_INPUT_PROP, oldValue, value);
 		} else if (VIDEO_DEVICE_PROP.equals(propertyId)) {
 			String oldValue = videoDevice;
 			videoDevice = (String) value;
@@ -336,7 +374,9 @@ public class TunerVideoComponent extends ComponentModelElement {
 		retVal.videoDevice = this.videoDevice;
 		retVal.audioDevice = this.audioDevice;
 		retVal.channel = this.channel;
-		retVal.input = this.input;
+		retVal.country = this.country;
+		retVal.videoInput = this.videoInput;
+		retVal.audioInput = this.audioInput;
 		retVal.provider = this.provider;
 		retVal.fullScreen = this.fullScreen;
 		return retVal;
@@ -349,7 +389,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 
 	public String toString() {
 		return "TunerVideo: (" + type + "," + videoDevice + "," + audioDevice
-				+ "," + channel + "," + input + ")";
+				+ "," + channel + "," + videoInput + "," + audioInput + ")";
 	}
 
 }

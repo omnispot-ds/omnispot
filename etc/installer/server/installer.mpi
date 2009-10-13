@@ -238,6 +238,11 @@ File ::01A7F2A5-F770-4E95-A828-6FD0D69DD8BC -name C:/workdir-ds/designer.build/i
 File ::8BFBB49A-870E-4C12-A60A-007A553361B2 -type dir -name C:/workdir-ds/designer.build/installer/docs -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
 File ::29AC3250-1E00-4A36-8747-E19600DAD035 -name Readme.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
 File ::DABE059B-7E56-405B-9CA3-68995A73EC61 -name License.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
+File ::352EA41C-DB96-422A-832A-30AA759D056C -type dir -name C:/workdir-ds/designer.build/installer/etc -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
+File ::5BEE753C-74AB-463C-BF31-F7EB3B77DD00 -name 30_tv_channels.reg -parent 352EA41C-DB96-422A-832A-30AA759D056C
+File ::01EB668A-94B2-420D-BC10-0F02D71EECCA -name comfyj.lic -parent 352EA41C-DB96-422A-832A-30AA759D056C
+File ::E85A029D-A9AD-4CED-A529-22C3577CAB8E -name jniwrap.dll -parent 352EA41C-DB96-422A-832A-30AA759D056C
+File ::687DF383-D295-488A-BA69-7D2AF92341D0 -name jniwrap.lic -parent 352EA41C-DB96-422A-832A-30AA759D056C
 FileGroup ::EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name AdminConsole -parent FileGroups
 File ::DC155905-FC87-4BCA-8D98-2186C4ADFF2D -type dir -name C:/workdir-ds/designer.build/installer/admin-console -parent EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A
 File ::C07B7139-7CA4-45B2-AAC4-0A226E1FA12E -name admin-console.war -parent DC155905-FC87-4BCA-8D98-2186C4ADFF2D
@@ -3603,7 +3608,7 @@ Condition 0C32EEB5-D395-4317-98FD-FABB93E52ACF -active Yes -parent 1BDA3598-BE4A
 InstallComponent 4DF4012A-14E0-4A98-9A10-67722E5A9A10 -setup Install -type actiongroup -title {Other Actions} -alias {Other Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -setup Install -type action -conditions 833C9A62-0AD5-4536-92EA-15C1843CD84A -title {Unzip Designer} -component UnzipFile -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 833C9A62-0AD5-4536-92EA-15C1843CD84A -active Yes -parent 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 833C9A62-0AD5-4536-92EA-15C1843CD84A
-InstallComponent 877CA9EB-6711-42D1-9D9F-DADE3A43F41E -setup Install -type action -title {Execute "Unzip Player lib"} -component ExecuteAction -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+InstallComponent 877CA9EB-6711-42D1-9D9F-DADE3A43F41E -setup Install -type action -title {Execute "Prepare Player lib"} -component ExecuteAction -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 InstallComponent 99801702-EFE4-4F84-B7DC-9147B50932FD -setup Install -type action -title {Execute "Prepare Console"} -component ExecuteAction -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 InstallComponent E20DEC68-27C1-40EC-9C98-86EA0E6A6347 -setup Install -type action -conditions 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5 -title {Add JDK to Path} -component AddDirectoryToPath -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5 -active Yes -parent E20DEC68-27C1-40EC-9C98-86EA0E6A6347 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5
@@ -3615,12 +3620,14 @@ InstallComponent 343F5FC2-58BA-46D6-8D95-7E5907B37B68 -setup Install -type actio
 Condition A6EF52EA-3DBB-4190-A4D1-C8E2C2575BEE -active Yes -parent 343F5FC2-58BA-46D6-8D95-7E5907B37B68 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A6EF52EA-3DBB-4190-A4D1-C8E2C2575BEE
 InstallComponent 5D8B6BEB-E908-4F74-A258-7AFB378CF06E -setup Install -type action -conditions 58235BDA-C5D0-4095-808D-BED4D0761CC7 -title {Add VLC to Path} -component AddDirectoryToPath -command insert -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
 Condition 58235BDA-C5D0-4095-808D-BED4D0761CC7 -active Yes -parent 5D8B6BEB-E908-4F74-A258-7AFB378CF06E -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 58235BDA-C5D0-4095-808D-BED4D0761CC7
-InstallComponent AFE07A91-6307-4033-BCC9-9B3F08E531CD -setup Install -type actiongroup -conditions A1B2985E-E2C4-4E15-8E5F-AB43A881217D -title {Unzip Player lib} -command insert -alias {Unzip Player lib} -active Yes -parent ActionGroupsInstall
+InstallComponent A3979E56-06CA-4FBA-8F3C-12C26E84615A -setup Install -type action -conditions 41F79CF9-DB4E-4B21-8335-8B683DC626FC -title {Import Greek channel frequencies} -component ImportWindowsRegistryFile -command reorder -active Yes -parent 4DF4012A-14E0-4A98-9A10-67722E5A9A10
+Condition 41F79CF9-DB4E-4B21-8335-8B683DC626FC -active Yes -parent A3979E56-06CA-4FBA-8F3C-12C26E84615A -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 41F79CF9-DB4E-4B21-8335-8B683DC626FC
+InstallComponent AFE07A91-6307-4033-BCC9-9B3F08E531CD -setup Install -type actiongroup -conditions A1B2985E-E2C4-4E15-8E5F-AB43A881217D -title {Prepare Player lib} -command insert -alias {Prepare Player lib} -active Yes -parent ActionGroupsInstall
 Condition A1B2985E-E2C4-4E15-8E5F-AB43A881217D -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id A1B2985E-E2C4-4E15-8E5F-AB43A881217D
-InstallComponent 7ED3D725-E68D-454D-A592-AB2DCFA8E8C7 -setup Install -type action -title {Unzip preview.jar} -component UnzipFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
-InstallComponent 11582766-7002-4CC3-BA8E-76E008BE32EE -setup Install -type action -title {Copy files into player lib folder} -component CopyFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
-InstallComponent 9FEC5706-7991-4F57-A0E9-91C03EB85CDB -setup Install -type action -title {Add designer To Path} -component AddDirectoryToPath -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
-InstallComponent 0FB296FB-EF20-4B52-8575-7A4034738288 -setup Install -type action -title {Delete unneeded files} -component DeleteFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
+InstallComponent 73634E37-3AA2-454B-9FA6-E1B6DABE478D -setup Install -type action -title {Unzip preview.jar} -component UnzipFile -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
+InstallComponent 11582766-7002-4CC3-BA8E-76E008BE32EE -setup Install -type action -title {Copy files into designer lib folder} -component CopyFile -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
+InstallComponent 393869C3-7D10-4384-A834-896F5D08BECF -setup Install -type action -title {Delete Unecessary Files} -component DeleteFile -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
+InstallComponent 9FEC5706-7991-4F57-A0E9-91C03EB85CDB -setup Install -type action -title {Add designer/lib To Path} -component AddDirectoryToPath -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent 44B3D116-B024-4C1D-A840-B7A664BD799F -setup Install -type action -title {Add KESDIP_PLAYER_LIB} -component AddEnvironmentVariable -command reorder -active Yes -parent AFE07A91-6307-4033-BCC9-9B3F08E531CD
 InstallComponent DC5DB553-26F4-436D-9D37-C5D42A34327C -setup Install -type actiongroup -conditions F763C9D6-885C-47E5-A1CE-1327217A4FD3 -title {Prepare Console} -command insert -alias {Prepare Console} -active Yes -parent ActionGroupsInstall
 Condition F763C9D6-885C-47E5-A1CE-1327217A4FD3 -active Yes -parent DC5DB553-26F4-436D-9D37-C5D42A34327C -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id F763C9D6-885C-47E5-A1CE-1327217A4FD3
@@ -3830,12 +3837,6 @@ Yes
 0F5B788E-6859-429C-AD98-171611191CEC,ServiceName
 {Apache Tomcat}
 
-0FB296FB-EF20-4B52-8575-7A4034738288,Conditions
-{0 conditions}
-
-0FB296FB-EF20-4B52-8575-7A4034738288,Files
-{<%InstallDir%>/designer/com;<%InstallDir%>/designer/META-INF;<%InstallDir%>/designer/jniwrap.dll;<%InstallDir%>/designer/log4j.properties}
-
 11582766-7002-4CC3-BA8E-76E008BE32EE,Conditions
 {0 conditions}
 
@@ -3843,7 +3844,7 @@ Yes
 <%InstallDir%>/designer/lib
 
 11582766-7002-4CC3-BA8E-76E008BE32EE,Source
-{<%InstallDir%>/designer/jniwrap.dll;<%InstallDir%>/designer/log4j.properties}
+{<%InstallDir%>/etc/jniwrap.dll;<%InstallDir%>/designer/log4j.properties;<%InstallDir%>/etc/jniwrap.lic;<%InstallDir%>/etc/comfyj.lic}
 
 119E15D2-F5D0-40AB-B42C-B28C827F1B85,ExecuteAction
 {Before Pane is Displayed}
@@ -4100,6 +4101,12 @@ Yes
 343F5FC2-58BA-46D6-8D95-7E5907B37B68,ZipFile
 <%InstallDir%>/mplayer/mplayer.zip
 
+393869C3-7D10-4384-A834-896F5D08BECF,Conditions
+{0 conditions}
+
+393869C3-7D10-4384-A834-896F5D08BECF,Files
+{<%InstallDir%>/designer/com;<%InstallDir%>/designer/META-INF}
+
 3B0B7BCF-4F59-42E4-979B-BA52DFD6D32B,Action
 {Install Actions}
 
@@ -4135,6 +4142,12 @@ Yes
 
 3F0DD56E-0453-496A-BFA4-7A0753E8038A,Name
 Designer
+
+41F79CF9-DB4E-4B21-8335-8B683DC626FC,CheckCondition
+{Before Action is Executed}
+
+41F79CF9-DB4E-4B21-8335-8B683DC626FC,ObjectID
+DesignerComponent
 
 42D9AC66-4712-485E-843D-7BDD9C2E4EB4,Conditions
 {0 conditions}
@@ -4565,6 +4578,18 @@ Tomcat6
 73056760-6A40-46AF-9C49-A93C4FC21A36,Conditions
 {0 conditions}
 
+73634E37-3AA2-454B-9FA6-E1B6DABE478D,Conditions
+{0 conditions}
+
+73634E37-3AA2-454B-9FA6-E1B6DABE478D,Destination
+<%InstallDir%>/designer
+
+73634E37-3AA2-454B-9FA6-E1B6DABE478D,StatusText,subst
+1
+
+73634E37-3AA2-454B-9FA6-E1B6DABE478D,ZipFile
+<%InstallDir%>/designer/plugins/com.kesdip.designer.preview_1.0.0.jar
+
 7445C11C-4E1D-4992-858D-9931391E456B,Comment
 {Ask the user if they want to proceed with the uninstall.}
 
@@ -4688,18 +4713,6 @@ No
 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E,Name
 VLC
 
-7ED3D725-E68D-454D-A592-AB2DCFA8E8C7,Conditions
-{0 conditions}
-
-7ED3D725-E68D-454D-A592-AB2DCFA8E8C7,Destination
-<%InstallDir%>/designer
-
-7ED3D725-E68D-454D-A592-AB2DCFA8E8C7,StatusText,subst
-1
-
-7ED3D725-E68D-454D-A592-AB2DCFA8E8C7,ZipFile
-<%InstallDir%>/designer/plugins/com.kesdip.designer.preview_1.0.0.jar
-
 809EC975-DD69-4885-835E-40F878975B9A,Comment
 {Ask the user if they want to proceed with the install.}
 
@@ -4761,7 +4774,7 @@ false
 DesignerComponent
 
 877CA9EB-6711-42D1-9D9F-DADE3A43F41E,Action
-{Unzip Player lib}
+{Prepare Player lib}
 
 877CA9EB-6711-42D1-9D9F-DADE3A43F41E,Conditions
 {0 conditions}
@@ -5013,7 +5026,7 @@ false
 {0 conditions}
 
 9FEC5706-7991-4F57-A0E9-91C03EB85CDB,Directory
-<%InstallDir%>/designer
+<%InstallDir%>/designer/lib
 
 9FEC5706-7991-4F57-A0E9-91C03EB85CDB,Level
 system
@@ -5044,6 +5057,12 @@ A1E46153-1E9D-48D9-853B-41260853F7C1,X
 
 A1E46153-1E9D-48D9-853B-41260853F7C1,Y
 180
+
+A3979E56-06CA-4FBA-8F3C-12C26E84615A,Conditions
+{1 condition}
+
+A3979E56-06CA-4FBA-8F3C-12C26E84615A,RegistryFile
+<%InstallDir%>/etc/30_tv_channels.reg
 
 A4854D61-DC3F-44B0-AE3A-56408CA37ACF,Destination
 <%InstallDir%>
@@ -5094,7 +5113,7 @@ A9241784-86EB-44A1-A56B-29ABF9D12B33,Widget
 {Next Button}
 
 AFE07A91-6307-4033-BCC9-9B3F08E531CD,Alias
-{Unzip Player lib}
+{Prepare Player lib}
 
 AFE07A91-6307-4033-BCC9-9B3F08E531CD,Conditions
 {1 condition}

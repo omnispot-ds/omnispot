@@ -122,12 +122,6 @@
 		</copy>
 		<copy todir="${preview.lib.dir}" file="${common.dist.file}"/>
 		<copy todir="${preview.lib.dir}" file="${player.dist.file}"/>
-		<copy todir="${preview.src.dir}" file="${etc.lib.dir}/jniwrap/jniwrap.dll"/>
-		<copy todir="${preview.src.dir}">
-			<fileset dir="${comfyj.license.dir}">
-				<include name="*.lic"/>
-			</fileset>
-		</copy>	
 		
 		<copy todir="${designer.lib.dir}" file="${common.dist.file}"/>
 		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/quartz/quartz-1.6.3.jar"/>
@@ -426,6 +420,15 @@
 			todir="${server.installer.dir}/db">
 			<fileset dir="${derby.home}">
 				<include name="**/*.*"/>
+			</fileset>
+		</copy>
+		<!-- Copy ComfyJ DLL and licenses -->
+		<copy todir="${server.installer.dir}/etc" flatten="true">
+			<fileset dir="${comfyj.license.dir}">
+				<include name="*.lic"/>
+			</fileset>
+			<fileset dir="${etc.lib.dir}/jniwrap">
+				<include name="*.dll"/>
 			</fileset>
 		</copy>
 	</target>

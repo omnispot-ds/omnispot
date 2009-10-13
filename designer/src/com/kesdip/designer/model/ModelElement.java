@@ -74,7 +74,9 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String TAG_VIDEO_DEVICE = "VideoDevice";
 	public static final String TAG_AUDIO_DEVICE = "AudioDevice";
 	public static final String TAG_CHANNEL = "Channel";
-	public static final String TAG_INPUT = "Input";
+	public static final String TAG_COUNTRY = "Country";
+	public static final String TAG_VIDEO_INPUT = "VideoInput";
+	public static final String TAG_AUDIO_INPUT = "AudioInput";
 	public static final String TAG_TUNER_TYPE = "TunerType";
 	public static final String TAG_GRID = "Grid";
 	public static final String TAG_SNAP_GEOM = "SnapGeometry";

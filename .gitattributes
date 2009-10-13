@@ -459,9 +459,6 @@ designer-preview/.settings/org.eclipse.jdt.core.prefs -text
 designer-preview/META-INF/MANIFEST.MF -text
 designer-preview/build.properties -text
 designer-preview/src/com/kesdip/player/preview/Activator.java -text
-designer-preview/src/comfyj.lic -text
-designer-preview/src/jniwrap.dll -text
-designer-preview/src/jniwrap.lic -text
 designer-preview/src/log4j.properties -text
 designer-test/.classpath -text
 designer-test/.project -text
@@ -663,11 +660,13 @@ etc/content/sample1/digital.wmv -text
 etc/content/sample1/sample.des.xml -text
 etc/installer/client/docs/Licence.txt -text
 etc/installer/client/docs/Readme.txt -text
+etc/installer/client/etc/30_tv_channels.reg -text
 etc/installer/client/installer.mpi -text
 etc/installer/client/silent.bat -text
 etc/installer/client/update.mpi -text
 etc/installer/server/docs/License.txt -text
 etc/installer/server/docs/Readme.txt -text
+etc/installer/server/etc/30_tv_channels.reg -text
 etc/installer/server/installer.mpi -text
 etc/installer/server/update.mpi -text
 etc/installer/third-party/MPlayer.zip -text

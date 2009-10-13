@@ -15,6 +15,7 @@ import com.kesdip.player.constenum.TunerReceptionTypes;
  * 
  * @author gerogias
  * @see http://wiki.videolan.org/VLC_command-line_help
+ * @see http://www.insomnia.gr/forum/showthread.php?t=253158
  */
 public class TunerVideo extends AbstractVideo {
 	private static final Logger logger = Logger.getLogger(TunerVideo.class);
@@ -23,8 +24,10 @@ public class TunerVideo extends AbstractVideo {
 	private int type;
 	private String videoDevice;
 	private String audioDevice;
-	private int channel;
-	private int input;
+	private String channel;
+	private String country;
+	private int videoInput;
+	private int audioInput;
 
 	public void setType(int type) {
 		if (type != TunerReceptionTypes.ANALOG
@@ -44,12 +47,12 @@ public class TunerVideo extends AbstractVideo {
 		this.audioDevice = audioDevice;
 	}
 
-	public void setChannel(int channel) {
+	public void setChannel(String channel) {
 		this.channel = channel;
 	}
 
-	public void setInput(int input) {
-		this.input = input;
+	public void setVideoInput(int input) {
+		this.videoInput = input;
 	}
 
 	/**
@@ -73,11 +76,13 @@ public class TunerVideo extends AbstractVideo {
 			// tuner channel (UHF, VHF)
 			args.add(":dshow-tuner-channel=" + channel);
 			// country code (1 or 2 digits as calling code: 30=greece, 0=default)
-			args.add(":dshow-tuner-country=30");
+			args.add(":dshow-tuner-country=" + country);
 			// antenna tuner input (0=default, 1=cable, 2=antenna)
 			args.add(":dshow-tuner-input=2");
 			// h/w-specific video input
-			args.add(":dshow-video-input=" + input);
+			args.add(":dshow-video-input=" + videoInput);
+			// h/w-specific audio input
+			args.add(":dshow-audio-input=" + audioInput);
 			// select TV tuner (0=Default, 1=TV, 2=FM radio, 
 			// 4=AM radio, 8=DSS)
 			args.add(":dshow-amtuner-mode=1");
@@ -90,7 +95,7 @@ public class TunerVideo extends AbstractVideo {
 			// in Greece it is always 8
 			// TODO make editable for other countries
 			args.add(":dvb-bandwidth=8");
-			args.add("--program=" + input);
+			args.add("--program=" + videoInput);
 		}
 		// detailed logging
 		if (logger.isTraceEnabled()) {
@@ -137,5 +142,19 @@ public class TunerVideo extends AbstractVideo {
 		} catch (Exception e) {
 			throw new ComponentException("Unable to initialize component", e);
 		}
+	}
+
+	/**
+	 * @param country the country to set
+	 */
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	/**
+	 * @param audioInput the audioInput to set
+	 */
+	public void setAudioInput(int audioInput) {
+		this.audioInput = audioInput;
 	}
 }

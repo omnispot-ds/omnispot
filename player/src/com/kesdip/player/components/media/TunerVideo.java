@@ -20,6 +20,7 @@ import com.kesdip.player.constenum.TunerReceptionTypes;
  * TODO Analog TV has no sound support
  * 
  * @author gerogias
+ * @see http://www.insomnia.gr/forum/showthread.php?t=253158
  */
 public class TunerVideo extends AbstractMPlayerVideo {
 
@@ -33,6 +34,12 @@ public class TunerVideo extends AbstractMPlayerVideo {
 	 * <code>s40</code>, <code>e7</code>.
 	 */
 	private String channel;
+
+	/**
+	 * Country code, used when mapping channels to frequencies. 
+	 * A 1 to 3 digit code, same as the international dialing number (e.g. 30 for Greece).
+	 */
+	private String country;
 
 	/**
 	 * The audio device to use. Ignored if -1.
@@ -129,8 +136,10 @@ public class TunerVideo extends AbstractMPlayerVideo {
 
 	private String videoDevice = null;
 
-	private String input = null;
+	private int videoInput = 0;
 
+	private int audioInput = 0;
+	
 	/**
 	 * @param videoDevice
 	 *            the device to set
@@ -143,8 +152,22 @@ public class TunerVideo extends AbstractMPlayerVideo {
 	 * @param input
 	 *            the input to set
 	 */
-	public void setInput(String input) {
-		this.input = input;
+	public void setVideoInput(int input) {
+		this.videoInput = input;
+	}
+
+	/**
+	 * @param country the country to set
+	 */
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	/**
+	 * @param audioInput the audioInput to set
+	 */
+	public void setAudioInput(int audioInput) {
+		this.audioInput = audioInput;
 	}
 
 }

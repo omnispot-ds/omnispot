@@ -1072,6 +1072,8 @@ File ::8A495B15-1B50-483B-BFD7-494CB24C4FF1 -name drop-bootstrap-database.sql -a
 File ::560CC655-88B8-4779-A4B2-32A7409D8B0D -name drop-database.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
 File ::34A456C7-0B50-4D7B-800A-FE244DBD5509 -name static-data.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
 File ::6EED4521-6154-4D05-A18D-BAEC6EB6F6A7 -name test-data.sql -active 0 -parent 9ECEE8F0-88E0-4FCE-AA6C-699B78497F10
+File ::1F4D9DAF-4666-4CA9-8B9B-45BDDF689DA5 -type dir -name C:/workdir-ds/player/dist/installer/etc -parent 1AD4896A-F108-4BFE-A121-0A2B9C352749
+File ::7CE33B1E-EFFD-45E3-96BE-4146CD8FABFC -name 30_tv_channels.reg -parent 1F4D9DAF-4666-4CA9-8B9B-45BDDF689DA5
 FileGroup ::731ED89D-F977-4F8E-B3A9-F8E02037541C -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name MPlayer -parent FileGroups
 File ::72A2D7A9-F93A-47EE-A7E2-11D9376C62FF -type dir -name C:/workdir-ds/player/dist/installer/mplayer -parent 731ED89D-F977-4F8E-B3A9-F8E02037541C
 File ::9D50A701-C682-426E-ABC6-41588FDC5262 -name mplayer.zip -parent 72A2D7A9-F93A-47EE-A7E2-11D9376C62FF
@@ -1160,7 +1162,7 @@ InstallComponent 3C642D39-1C6B-4A82-A0A0-0D77CA0E0D60 -setup Install -type actio
 Condition A5F4461B-43AF-440E-B9C3-AF823B7E9E8B -active Yes -parent 3C642D39-1C6B-4A82-A0A0-0D77CA0E0D60 -title {String Is Condition} -component StringIsCondition -TreeObject::id A5F4461B-43AF-440E-B9C3-AF823B7E9E8B
 InstallComponent 149FDCA2-2928-4140-A3D8-79357F5888C9 -setup Install -type action -conditions B1A62C4C-A819-4718-9EA2-5D0E5BD006EB -title {Uninstall Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent 341A26EB-E98F-4896-BA42-436D31F2AF0F
 Condition B1A62C4C-A819-4718-9EA2-5D0E5BD006EB -active Yes -parent 149FDCA2-2928-4140-A3D8-79357F5888C9 -title {String Is Condition} -component StringIsCondition -TreeObject::id B1A62C4C-A819-4718-9EA2-5D0E5BD006EB
-InstallComponent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -setup Install -type actiongroup -conditions {4273646A-7505-4F3E-B2D6-40F7B06AE591 050D899D-B5A2-4BC8-BF3A-119FE556F871} -title {Service Installation Actions} -command insert -alias {Service Installation Actions} -active Yes -parent ActionGroupsInstall
+InstallComponent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -setup Install -type actiongroup -conditions {4273646A-7505-4F3E-B2D6-40F7B06AE591 050D899D-B5A2-4BC8-BF3A-119FE556F871} -title {Service Installation Actions} -command reorder -alias {Service Installation Actions} -active Yes -parent ActionGroupsInstall
 Condition 4273646A-7505-4F3E-B2D6-40F7B06AE591 -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -title {Platform Condition} -component PlatformCondition -TreeObject::id 4273646A-7505-4F3E-B2D6-40F7B06AE591
 Condition 050D899D-B5A2-4BC8-BF3A-119FE556F871 -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 050D899D-B5A2-4BC8-BF3A-119FE556F871
 InstallComponent E1B6961B-96D2-4B25-8FB4-72CCE7B08179 -setup Install -type action -title {Install Derby Service} -component CreateWindowsService -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
@@ -1175,11 +1177,13 @@ InstallComponent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -setup Install -type actio
 Condition 597B653B-99F7-422E-A2AE-E67F9E935359 -active Yes -parent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 597B653B-99F7-422E-A2AE-E67F9E935359
 InstallComponent C5AF63FF-C52B-4E2C-842F-E3787E69D801 -setup Install -type action -conditions 191286AF-B18E-4B44-AA69-A23F58DEFF24 -title {Install MPlayer} -component UnzipFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 191286AF-B18E-4B44-AA69-A23F58DEFF24 -active Yes -parent C5AF63FF-C52B-4E2C-842F-E3787E69D801 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 191286AF-B18E-4B44-AA69-A23F58DEFF24
-InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type action -conditions 518CE47F-6CCA-4206-8681-11D59206B145 -title {Replace Values in CONF files} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type action -conditions 518CE47F-6CCA-4206-8681-11D59206B145 -title {Replace Values in CONF files} -component ReplaceTextInFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 518CE47F-6CCA-4206-8681-11D59206B145 -active Yes -parent EFF0FC5D-E676-4652-A183-A406FB21067D -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
 InstallComponent FFEA53D6-E1E7-46AC-9FA3-13235F247567 -setup Install -type action -title {Add VLC To Path} -component AddDirectoryToPath -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
-InstallComponent BB74BF46-C94E-453A-AECC-2C84202339C6 -setup Install -type action -conditions FB70E133-5BC9-48B3-8384-D43C322C5452 -title {Replace Backslashes} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent BB74BF46-C94E-453A-AECC-2C84202339C6 -setup Install -type action -conditions FB70E133-5BC9-48B3-8384-D43C322C5452 -title {Replace Backslashes} -component ReplaceTextInFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition FB70E133-5BC9-48B3-8384-D43C322C5452 -active Yes -parent BB74BF46-C94E-453A-AECC-2C84202339C6 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
+InstallComponent 27703263-DA7A-4E91-8FE2-3D954BB874EB -setup Install -type action -conditions B53CB608-6B98-4D17-AAE6-DDE04C1B56C7 -title {Import Greek channel frequencies} -component ImportWindowsRegistryFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+Condition B53CB608-6B98-4D17-AAE6-DDE04C1B56C7 -active Yes -parent 27703263-DA7A-4E91-8FE2-3D954BB874EB -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B53CB608-6B98-4D17-AAE6-DDE04C1B56C7
 InstallComponent A5116484-B4F7-4431-917E-051A5043C4AD -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -setup Install -type action -conditions {D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F 9C0AA0DC-3F85-49F3-8A73-5BF2CB014636 18DC3036-ACC5-4B6C-B14F-3A5C24149323} -title {View Readme Window} -component TextWindow -command insert -active Yes -parent A5116484-B4F7-4431-917E-051A5043C4AD
 Condition D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F -active Yes -parent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -title {String Is Condition} -component StringIsCondition -TreeObject::id D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F
@@ -1486,6 +1490,12 @@ No
 
 2761CDBD-E843-4253-B9EB-6C62ED5BD258,String
 <%InstallDir%>
+
+27703263-DA7A-4E91-8FE2-3D954BB874EB,Conditions
+{1 condition}
+
+27703263-DA7A-4E91-8FE2-3D954BB874EB,RegistryFile
+<%InstallDir%>/etc/30_tv_channels.reg
 
 2BB0A756-FC8A-4650-A2A0-643124847170,Conditions
 {0 conditions}
@@ -2365,6 +2375,12 @@ false
 
 B1A62C4C-A819-4718-9EA2-5D0E5BD006EB,String
 <%UpgradeInstall%>
+
+B53CB608-6B98-4D17-AAE6-DDE04C1B56C7,CheckCondition
+{Before Action is Executed}
+
+B53CB608-6B98-4D17-AAE6-DDE04C1B56C7,ObjectID
+PlayerComponent
 
 B831E5C5-30FE-4424-A2C5-CF191E5DD6D9,Alias
 VLCFiles
