@@ -50,7 +50,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 
 	/**
 	 * The character to surround file paths to prevent errors due to spaces. In
-	 * Windows it is double quote, in X systems a single quote.
+	 * Windows it is a double quote, in *X systems a single quote.
 	 */
 	private final char FILE_PATH_CHAR = '\\' == File.separatorChar ? '"' : '\'';
 

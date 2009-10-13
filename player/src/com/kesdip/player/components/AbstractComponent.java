@@ -38,7 +38,15 @@ public abstract class AbstractComponent implements Component {
 	protected Color backgroundColor;
 	protected Player player;
 	protected String id;
+	
+	public int getX() {
+		return x;
+	}
 
+	public int getY() {
+		return y;
+	}
+	
 	public void setX(int x) {
 		this.x = x;
 	}
@@ -140,4 +148,5 @@ public abstract class AbstractComponent implements Component {
 		String filename = registry.getResourcePath(resource, true);
 		return filename;
 	}
+
 }

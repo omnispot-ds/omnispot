@@ -55,6 +55,9 @@ public class SimpleContainer extends AbstractComponent {
 		panel.setPreferredSize(new Dimension(width, height));
 		
 		for (Component component : contents) {
+			component.setX(component.getX() - x);
+			component.setY(component.getY() - y);
+
 			component.init(this, timingMonitor, player);
 		}
 		

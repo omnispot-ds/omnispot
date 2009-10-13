@@ -119,6 +119,9 @@ public class RootContainer extends AbstractComponent {
 		}
 		
 		for (Component component : contents) {
+			component.setX(component.getX() - x);
+			component.setY(component.getY() - y);
+
 			component.init(this, timingMonitor, player);
 		}
 

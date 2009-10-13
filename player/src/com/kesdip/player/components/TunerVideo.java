@@ -64,25 +64,26 @@ public class TunerVideo extends AbstractVideo {
 		List<String> args = new ArrayList<String>();
 		if (type == TunerReceptionTypes.ANALOG) {
 			args.add("dshow://");
-			// 200ms content caching
-			args.add(":dshow-caching=200");
+			// 200ms content caching + opening quote
+			args.add("\":dshow-caching=200");
 			// video device name
 			args.add(":dshow-vdev=" + videoDevice);
 			// audio device name
 			args.add(":dshow-adev=" + audioDevice);
 			// tuner channel (UHF, VHF)
 			args.add(":dshow-tuner-channel=" + channel);
-			// default country
-			args.add(":dshow-tuner-country=0");
-			// antenna tuner input
+			// country code (1 or 2 digits as calling code: 30=greece, 0=default)
+			args.add(":dshow-tuner-country=30");
+			// antenna tuner input (0=default, 1=cable, 2=antenna)
 			args.add(":dshow-tuner-input=2");
 			// h/w-specific video input
-			args.add(":show-video-input=" + input);
-			// select TV tuner
+			args.add(":dshow-video-input=" + input);
+			// select TV tuner (0=Default, 1=TV, 2=FM radio, 
+			// 4=AM radio, 8=DSS)
 			args.add(":dshow-amtuner-mode=1");
-			// suppress config dialog boxes
+			// suppress config dialog boxes + closing quote
 			args.add(":no-dshow-config");
-			args.add(":no-dshow-tuner");
+			args.add(":no-dshow-tuner\"");
 		} else {
 			args.add("dvb-t://");
 			args.add(":dvb-frequency=" + channel);
@@ -102,11 +103,12 @@ public class TunerVideo extends AbstractVideo {
 		if (!fullscreen) {
 			args.add("--aspect-ratio=" + width + ":" + height);
 		}
-		// no overlays (native accel.)
-		args.add("--no-overlay");
 		// full-screen mode
 		if (fullscreen) {
 			args.add("--fullscreen");
+		} else {
+			// no overlays (no native accel.)
+			args.add("--no-overlay");
 		}
 		// path to plugins folder
 		args.add("--plugin-path=" + pluginsPath.getAbsolutePath());
