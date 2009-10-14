@@ -59,6 +59,11 @@ public class StreamLogger extends Thread {
 	private String name = null;
 
 	/**
+	 * Flag used in the pollin loop.
+	 */
+	private boolean running = true;
+	
+	/**
 	 * Listeners for read lines.
 	 */
 	private List<ProcessOutputListener> listeners = new ArrayList<ProcessOutputListener>();
@@ -152,18 +157,31 @@ public class StreamLogger extends Thread {
 	public void run() {
 		try {
 			String line = null;
-			// read line by line
-			while ((line = input.readLine()) != null) {
-				if (logger.isEnabledFor(logLevel)) {
-					logger.log(logLevel, name + ": " + line);
-				}
-				if (!listeners.isEmpty()) {
-					notifyListeners(line);
+			while (isRunning()) {
+				// read line by line
+				line = input.readLine();
+				if (line == null) {
+					stopRunning();
+				} else {
+					if (logger.isEnabledFor(logLevel)) {
+						logger.log(logLevel, name + ": " + line);
+					}
+					if (!listeners.isEmpty()) {
+						notifyListeners(line);
+					}
 				}
 			}
 		} catch (IOException ioe) {
 			defaultLogger.error("Error reading line", ioe);
 		}
+	}
+
+	public synchronized void stopRunning() {
+		this.running = false;
+	}
+
+	public synchronized boolean isRunning() {
+		return running;
 	}
 
 	/**

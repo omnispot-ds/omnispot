@@ -5,16 +5,16 @@
  */
 package com.kesdip.bootstrap.message;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.Config;
 import com.kesdip.common.util.ProcessUtils;
+import com.kesdip.common.util.process.StreamLogger;
 
 /**
  * Encapsulates the handling of a restart player message from the server.
@@ -27,8 +27,8 @@ public class RestartPlayerMessage extends Message {
 
 	private String actionId;
 	private static Process playerProcess;
-	private static LoggerThread playerOutputLoggingThread;
-	private static LoggerThread playerErrorLoggingThread;
+	private StreamLogger playerOut;
+	private StreamLogger playerErr;
 
 	@Override
 	public String getActionId() {
@@ -37,50 +37,6 @@ public class RestartPlayerMessage extends Message {
 
 	public RestartPlayerMessage(String actionId) {
 		this.actionId = actionId;
-	}
-
-	/**
-	 * Helper class to log the process output to the loggers of this class.
-	 * 
-	 * @author Pafsanias Ftakas
-	 */
-	private class LoggerThread extends Thread {
-		private BufferedReader reader;
-		private boolean running;
-
-		private LoggerThread(String output, BufferedReader reader) {
-			super(output);
-
-			this.reader = reader;
-			this.running = true;
-		}
-
-		public synchronized void stopRunning() {
-			this.running = false;
-		}
-
-		public synchronized boolean isRunning() {
-			return running;
-		}
-
-		@Override
-		public void run() {
-			while (isRunning()) {
-				try {
-					String line = reader.readLine();
-					if (line == null) {
-						// The player has probably died...
-						stopRunning();
-					}
-					if (logger.isDebugEnabled()) {
-						logger.debug(line);
-					}
-				} catch (Throwable t) {
-					logger.error("Exception while logging player "
-							+ "process output.", t);
-				}
-			}
-		}
 	}
 
 	/**
@@ -110,12 +66,10 @@ public class RestartPlayerMessage extends Message {
 
 		// Destroy the old player process if it exists.
 		if (playerProcess != null) {
-			// TODO Stelio o PlayerProcessHelper frontizei transparently gia to destroy. Koita ton private constructor tou.
-			//playerProcess.destroy();
-			playerOutputLoggingThread.stopRunning();
-			playerErrorLoggingThread.stopRunning();
+			playerOut.stopRunning();
+			playerErr.stopRunning();
 		}
-		
+
 		// kill all orphan media players
 		ProcessUtils.killAll("mplayer.exe");
 		ProcessUtils.killAll("vlc.exe");
@@ -126,9 +80,9 @@ public class RestartPlayerMessage extends Message {
 		// TODO Stelio to executable to pusharei o PlayerProcessHelper
 		//cmdArray.add("javaw");
 		// the following 2 are to enable debug
-//		cmdArray.add("-Xdebug");
-//		cmdArray
-//				.add("-Xrunjdwp:transport=dt_socket,server=y,address=12999,suspend=n");
+		// cmdArray.add("-Xdebug");
+		// cmdArray
+		// .add("-Xrunjdwp:transport=dt_socket,server=y,address=12999,suspend=n");
 		cmdArray.add("-cp");
 		cmdArray.add(Config.getSingleton().getPlayerClasspath());
 		cmdArray.add(Config.getSingleton().getPlayerMainClass());
@@ -153,14 +107,16 @@ public class RestartPlayerMessage extends Message {
 		//		cmdArray.toArray(new String[cmdArray.size()]), null,
 		//		new File(workingDir));
 
-		playerOutputLoggingThread = new LoggerThread("Player Output",
-				new BufferedReader(new InputStreamReader(playerProcess
-						.getInputStream())));
-		playerOutputLoggingThread.start();
-		playerErrorLoggingThread = new LoggerThread("Player Error",
-				new BufferedReader(new InputStreamReader(playerProcess
-						.getErrorStream())));
-		playerErrorLoggingThread.start();
+		playerProcess = Runtime.getRuntime().exec(
+				cmdArray.toArray(new String[cmdArray.size()]), null,
+				new File(workingDir));
+
+		playerOut = new StreamLogger("Player Output", playerProcess
+				.getInputStream(), Level.INFO);
+		playerOut.start();
+		playerErr = new StreamLogger("Player Error", playerProcess
+				.getErrorStream(), Level.ERROR);
+		playerErr.start();
 	}
 
 	public String toMessageString() {
