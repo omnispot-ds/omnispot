@@ -155,28 +155,6 @@ public class ProcessUtils {
 	 *             Iff something goes wrong.
 	 */
 	public static boolean killAll(String executableName) {
-		/*
-		 * Alternative way to kill processes. Unfortunately windows restarts the
-		 * explorer process, so this is not 100% what we wanted. Opt out for
-		 * usage of the taskkill.exe utility to do the same thing.
-		 */
-		// Set<ProcessInfo> processes = getAllProcesses();
-		//
-		// Set<Integer> toKillPids = new HashSet<Integer>();
-		// for (ProcessInfo pi : processes) {
-		// if (pi.getExecutable().equals(executableName))
-		// toKillPids.add((int) pi.getPid());
-		// }
-		//		
-		// boolean retVal = true;
-		// for (Integer pid : toKillPids) {
-		// if (!kill(pid, 0)) {
-		// logger.info("Unable to kill notepad process");
-		// retVal = false;
-		// }
-		// }
-		//	
-		// return retVal;
 		String[] cmdArray = new String[4];
 		cmdArray[0] = "taskkill.exe";
 		cmdArray[1] = "/F";
@@ -184,8 +162,7 @@ public class ProcessUtils {
 		cmdArray[3] = executableName;
 		
 		try {
-			// TODO Stelio prokeimenoun na pai3ei h logiki tou PlayerProcessHelper prepei h 
-			// killAll na einai blocking. H tsapa tou giou
+			// This must be a blocking call for PlayerProcessHelper to work
 			Process process = Runtime.getRuntime().exec(cmdArray);
 			process.waitFor();
 			return true;

@@ -332,8 +332,7 @@ public class CronDialog extends Dialog implements ISelectionChangedListener {
 	
 	@Override
 	public void selectionChanged(SelectionChangedEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		// empty method body
 	}
 	
 	
