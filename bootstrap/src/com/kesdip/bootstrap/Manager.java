@@ -8,6 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.kesdip.bootstrap.communication.ProtocolHandler;
+import com.kesdip.bootstrap.message.PlayerProcessHelper;
 import com.kesdip.business.util.schema.SchemaUpdater;
 
 /**
@@ -124,6 +125,11 @@ public class Manager extends Thread {
 						if (new Date().getTime() - firstExceptionTimeStamp < 1800 * 1000) {
 							logger
 									.error("Exception count equal to 5 in lees than half an hour. Restarting...");
+							
+							// TODO Stelio auto edw mallon einai redundant, afou tha tre3ei to shutdown hook tou 
+							// PlayerProcessHelper. To afinw se sena...
+							PlayerProcessHelper.getInstance().killAllPlayers();
+							
 							// windows will restart it hopefully...
 							System.exit(0);
 						} else {

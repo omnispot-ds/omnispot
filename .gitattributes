@@ -240,6 +240,7 @@ bootstrap/.classpath -text
 bootstrap/.project -text
 bootstrap/build.xml -text
 bootstrap/shared.jars -text
+bootstrap/src-test/com/kesdip/bootstrap/DummyMain.java -text
 bootstrap/src-test/com/kesdip/bootstrap/DummyPlayer.java -text
 bootstrap/src-test/com/kesdip/bootstrap/KillExplorerTest.java -text
 bootstrap/src-test/com/kesdip/bootstrap/MessagePumpTest.java -text
@@ -261,6 +262,7 @@ bootstrap/src/com/kesdip/bootstrap/message/ContinuationMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/DeployMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/IMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
+bootstrap/src/com/kesdip/bootstrap/message/PlayerProcessHelper.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RebootPlayerMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/ReconfigureMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text

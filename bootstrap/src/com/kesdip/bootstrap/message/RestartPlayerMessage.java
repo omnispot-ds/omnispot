@@ -89,6 +89,8 @@ public class RestartPlayerMessage extends Message {
 	 * @return True iff the player is still alive.
 	 */
 	public static boolean isPlayerProcessAlive() {
+		return PlayerProcessHelper.getInstance().isPlayerRunning();
+		/* TODO Stelio svista ama den ta theloume
 		try {
 			if (playerProcess == null) {
 				throw new IllegalStateException("Player process is null!?!?");
@@ -100,6 +102,7 @@ public class RestartPlayerMessage extends Message {
 		} catch (IllegalThreadStateException itse) {
 			return true;
 		}
+		*/
 	}
 
 	public void process() throws Exception {
@@ -107,7 +110,8 @@ public class RestartPlayerMessage extends Message {
 
 		// Destroy the old player process if it exists.
 		if (playerProcess != null) {
-			playerProcess.destroy();
+			// TODO Stelio o PlayerProcessHelper frontizei transparently gia to destroy. Koita ton private constructor tou.
+			//playerProcess.destroy();
 			playerOutputLoggingThread.stopRunning();
 			playerErrorLoggingThread.stopRunning();
 		}
@@ -118,7 +122,9 @@ public class RestartPlayerMessage extends Message {
 
 		// Set up the command line
 		List<String> cmdArray = new ArrayList<String>();
-		cmdArray.add("javaw");
+		
+		// TODO Stelio to executable to pusharei o PlayerProcessHelper
+		//cmdArray.add("javaw");
 		// the following 2 are to enable debug
 //		cmdArray.add("-Xdebug");
 //		cmdArray
@@ -139,10 +145,13 @@ public class RestartPlayerMessage extends Message {
 
 		// See Bugzilla#9 for the following line
 		ProcessUtils.killAll("explorer.exe");
-
-		playerProcess = Runtime.getRuntime().exec(
-				cmdArray.toArray(new String[cmdArray.size()]), null,
-				new File(workingDir));
+		
+		playerProcess = PlayerProcessHelper.getInstance()
+			.startPlayer(cmdArray.toArray(new String[cmdArray.size()]), null, new File(workingDir));
+		
+		//playerProcess = Runtime.getRuntime().exec(
+		//		cmdArray.toArray(new String[cmdArray.size()]), null,
+		//		new File(workingDir));
 
 		playerOutputLoggingThread = new LoggerThread("Player Output",
 				new BufferedReader(new InputStreamReader(playerProcess

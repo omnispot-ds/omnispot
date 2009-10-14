@@ -3,6 +3,7 @@ package com.kesdip.common.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
+import com.sun.jna.examples.win32.W32API;
 
 public class ProcessUtils {
 	private static final Logger logger = Logger.getLogger(ProcessUtils.class);
@@ -73,7 +75,7 @@ public class ProcessUtils {
 		/*
 		 * BOOL WINAPI CloseHandle( HANDLE hObject );
 		 */
-
+		
 		/**
 		 * Close handle.
 		 * 
@@ -85,7 +87,7 @@ public class ProcessUtils {
 		public boolean CloseHandle(Pointer hObject);
 
 	}
-
+	
 	/**
 	 * Kill a particular process.
 	 * 
@@ -180,17 +182,19 @@ public class ProcessUtils {
 		cmdArray[1] = "/F";
 		cmdArray[2] = "/IM";
 		cmdArray[3] = executableName;
-
+		
 		try {
-			Runtime.getRuntime().exec(cmdArray);
-
+			// TODO Stelio prokeimenoun na pai3ei h logiki tou PlayerProcessHelper prepei h 
+			// killAll na einai blocking. H tsapa tou giou
+			Process process = Runtime.getRuntime().exec(cmdArray);
+			process.waitFor();
 			return true;
 		} catch (Exception e) {
 			logger.error("Unable to stop executable: " + executableName, e);
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Force the machine to restart.
 	 * 
@@ -206,4 +210,33 @@ public class ProcessUtils {
 
 		Runtime.getRuntime().exec(cmdArray, null, null);
 	}
+	
+	/**
+	 * Retrieves the pid of the given java.lang.Process (which will definitely be ProcessImpl)
+	 * 
+	 * @param process
+	 * @return the pid
+	 */
+	public static int getPid(Process process) {
+		long lngHandle;
+		try {
+			Field field = process.getClass().getDeclaredField("handle");
+			field.setAccessible(true);
+			lngHandle = field.getLong(process);
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
+		
+		W32API.HANDLE handle = new W32API.HANDLE();
+		handle.setPointer(Pointer.createConstant(lngHandle));
+		int pid = Kernel32.INSTANCE.GetProcessId(handle);
+		return pid;
+	}
+	
+	
+	public static boolean isProcessRunning(int pid) {
+		Pointer hProcess = Kernel32.INSTANCE.OpenProcess(Kernel32.PROCESS_TERMINATE, false, pid);
+		return hProcess != null;
+	}
+	
 }

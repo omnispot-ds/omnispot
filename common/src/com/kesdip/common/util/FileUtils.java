@@ -12,9 +12,11 @@ package com.kesdip.common.util;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.util.Random;
 import java.util.zip.CRC32;
 
@@ -356,6 +358,31 @@ public class FileUtils {
 		File file = new File(path);
 		return file.getAbsolutePath();
 	}
+	
+	/**
+	 * Simple file copy method utilizing nio.
+	 * @param in
+	 * @param out
+	 * @throws IOException
+	 */
+	public static void copyFile(File in, File out) throws IOException {
+		FileChannel inChannel = new FileInputStream(in).getChannel();
+		FileChannel outChannel = new FileOutputStream(out).getChannel();
+		try {
+			// magic number for Windows, 64Mb - 32Kb)
+			int maxCount = (64 * 1024 * 1024) - (32 * 1024);
+			long size = inChannel.size();
+			long position = 0;
+			while (position < size) 
+				position += inChannel.transferTo(position, maxCount, outChannel);
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if (inChannel != null) inChannel.close();
+			if (outChannel != null) outChannel.close();
+    }
+}
+
 
 	/**
 	 * A filter which accepts only files.
