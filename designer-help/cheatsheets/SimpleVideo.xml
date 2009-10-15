@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet
+      title="Create a simple video deployment">
+   <intro>
+      <description>
+         This cheap sheet will allow the creation of a simple video deployment containing a full screen video using the <b>Ke.S.Di.P. E.P.E. Designer</b>.
+      </description>
+   </intro>
+   <item
+         title="Create a new deployment">
+      <description>
+         Open the <b>File &gt; New... </b> file menu item. Select the <b>Designer &gt; Designer Editor File</b> wizard, and follow the instructions to create a new deployment file with a resolution of 800x600.
+
+The new deployment will open in the deployment editor. This is a multi page editor. There are tabs at the bottom of the editor that allow you to move between the various pages of the editor. The first page displays a list of layouts specified for the deployment. There is a separate page for each layout with the graphical contents of that layout.
+      </description>
+      <command
+            required="false"
+            serialization="org.eclipse.ui.newWizard"/>
+   </item>
+   <item
+         title="Move to the layout tab">
+      <description>
+         Select the first layout tab from the multi page editor.
+
+You should see the empty layout. At the right hand side of the layout editor, there should be the palette (a list of components that you can drop onto the layout canvas). If the palette is minimized (it appears as a thin line right at the right-most edge), click on it to maximize it.
+      </description>
+   </item>
+   <item
+         title="Add a region">
+      <description>
+         Drag-n-drop a region from the palette to the graphical editor.
+
+You should see a blue square at the point where you droped the region. The square will be selected and its properties will be visible in the Property Sheet at the bottom of the window.
+      </description>
+   </item>
+   <item
+         title="Maximize the region">
+      <description>
+         Right click on the region and choose <b>Maximize</b>.
+
+The region should now start at (0,0) and have a width of 800 and a height of 600 (the size that you established during the creation of the deployment).
+      </description>
+   </item>
+   <item
+         title="Add a video">
+      <description>
+         Drag-n-drop a VLCVideo component from the palette to the region (notice that component can only be droped on top of regions and regions can only be droped on the layout canvas).
+
+The new video component should appear on the canvas.
+      </description>
+   </item>
+   <item
+         title="Maximize the video">
+      <description>
+         Right click on the video and choose <b>Maximize</b>.
+
+The video should now start at (0,0) and have a width of 800 and a height of 600 (the size that its parent region).
+      </description>
+   </item>
+   <item
+         title="Add a video resource">
+      <description>
+         Select the video component. With the video component selected, click on the <b>Videos</b> property on the Property Sheet view. Notice the little button with the ellipses that appears when you click on the Videos property value. Click on that button to bring up the resource list editor dialog. Click the <b>Add</b> button to add a new resource. A new row will be added to the list of resources. Click on the table on top of the resource column for the newly added row and click on the button with the ellipses that will appear there. A File Selection dialog will open. Choose a valid video file and click <b>OK</b>. Click <b>OK</b> on the resource list editor dialog.
+      </description>
+   </item>
+   <item
+         title="Save">
+      <description>
+         Type <b>Ctrl+s</b>, or click on <b>File &gt; Save</b> to save the deployment.
+      </description>
+      <command
+            required="false"
+            serialization="org.eclipse.ui.file.save"/>
+   </item>
+   <item
+         title="Preview the layout">
+      <description>
+         Click the <b>Tools &gt; Preview Layout</b> menu item. You can now preview how your video would look in the player.
+      </description>
+   </item>
+</cheatsheet>
