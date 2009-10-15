@@ -12,3 +12,4 @@ business-logic/dist
 common/bin
 common/build
 common/dist
+designer-preview/lib/*.jar
