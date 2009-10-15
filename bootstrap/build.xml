@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Digital Signage bootstrap project" basedir=".">
+	<description>Build file for the bootstrap code</description>
+
+	<import file="${etc.ant.scripts.dir}/common-targets.xml" />
+
+	<property name="bootstrap.base.dir" location="." />
+
+	<property name="bootstrap.build.dir" location="${bootstrap.base.dir}/build" />
+	<property name="bootstrap.dist.dir" location="${bootstrap.base.dir}/dist" />
+	<property name="bootstrap.classes.dir" location="${bootstrap.build.dir}/classes" />
+
+	<property name="shared.jars.file" location="${bootstrap.base.dir}/shared.jars" />
+
+	<target name="bootstrap.init">
+		<echo level="info">Initializing...</echo>
+		<uptodate property="compile.notRequired" targetfile="${bootstrap.dist.file}">
+			<srcfiles dir="${bootstrap.src.dir}" includes="**/*" />
+		</uptodate>
+		<echo level="info">Compile not required ${compile.notRequired}</echo>
+	</target>
+
+	<target name="bootstrap.compile" description="compile the logic classes" 
+		depends="bootstrap.init" 
+		unless="compile.notRequired">
+		<echo level="info">Compiling sources...</echo>
+		<delete dir="${bootstrap.classes.dir}" failonerror="false" />
+		<mkdir dir="${bootstrap.classes.dir}" />
+		<javac destdir="${bootstrap.classes.dir}" debug="true" encoding="UTF-8">
+			<src path="${bootstrap.src.dir}" />
+			<classpath>
+				<fileset dir="${project.base.dir}" includesfile="${shared.jars.file}" />
+				<fileset file="${common.dist.file}"/>
+				<fileset file="${player.dist.file}"/>
+			</classpath>
+		</javac>
+		<copy todir="${bootstrap.classes.dir}">
+			<fileset dir="${bootstrap.src.dir}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<include name="**/*.xsd" />
+				<include name="**/*.sql" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="bootstrap.dist" description="create the common JAR file" 
+		depends="bootstrap.init" unless="build.notRequired">
+		<echo level="info">Creating distribution</echo>
+		<copy todir="${bootstrap.build.dir}">
+			<fileset dir="${bootstrap.build.dir}/classes" />
+		</copy>
+
+		<mkdir dir="${bootstrap.dist.dir}" />
+
+		<antcall target="zz.create.simple.jar">
+			<param name="base.dir" value="${bootstrap.build.dir}" />
+			<param name="dest.file" value="${bootstrap.dist.file}" />
+			<param name="fileset.file" value="${shared.jars.file}" />
+			<param name="lib.base.dir" value="${project.base.dir}" />
+			<param name="exclude.patterns" value="classes/**" />
+		</antcall>
+
+	</target>
+
+	<target name="bootstrap.clean">
+		<echo level="info">Cleaning files and directories</echo>
+ 		<delete dir="${bootstrap.build.dir}" failonerror="false"/>
+ 		<delete dir="${bootstrap.dist.dir}" failonerror="false"/>
+	    <mkdir dir="${bootstrap.build.dir}"/>
+ 		<mkdir dir="${bootstrap.dist.dir}"/>
+	</target>
+	
+	<target name="bootstrap.all" depends="bootstrap.init,bootstrap.compile,bootstrap.dist,bootstrap.clean" />
+</project>
