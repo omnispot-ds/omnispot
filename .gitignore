@@ -6,3 +6,6 @@ admin-console/dist
 bootstrap/bin
 bootstrap/build
 bootstrap/dist
+common/bin
+common/build
+common/dist
