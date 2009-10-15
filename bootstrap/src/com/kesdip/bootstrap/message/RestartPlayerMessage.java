@@ -46,19 +46,6 @@ public class RestartPlayerMessage extends Message {
 	 */
 	public static boolean isPlayerProcessAlive() {
 		return PlayerProcessHelper.getInstance().isPlayerRunning();
-		/* TODO Stelio svista ama den ta theloume
-		try {
-			if (playerProcess == null) {
-				throw new IllegalStateException("Player process is null!?!?");
-			}
-			int exitValue = playerProcess.exitValue();
-			logger.info("The player process has exited with status: "
-					+ exitValue);
-			return false;
-		} catch (IllegalThreadStateException itse) {
-			return true;
-		}
-		*/
 	}
 
 	public void process() throws Exception {
@@ -66,8 +53,7 @@ public class RestartPlayerMessage extends Message {
 
 		// Destroy the old player process if it exists.
 		if (playerProcess != null) {
-			playerOut.stopRunning();
-			playerErr.stopRunning();
+			stopLoggers();
 		}
 
 		// kill all orphan media players
@@ -76,9 +62,7 @@ public class RestartPlayerMessage extends Message {
 
 		// Set up the command line
 		List<String> cmdArray = new ArrayList<String>();
-		
-		// TODO Stelio to executable to pusharei o PlayerProcessHelper
-		//cmdArray.add("javaw");
+
 		// the following 2 are to enable debug
 		// cmdArray.add("-Xdebug");
 		// cmdArray
@@ -99,15 +83,8 @@ public class RestartPlayerMessage extends Message {
 
 		// See Bugzilla#9 for the following line
 		ProcessUtils.killAll("explorer.exe");
-		
-		playerProcess = PlayerProcessHelper.getInstance()
-			.startPlayer(cmdArray.toArray(new String[cmdArray.size()]), null, new File(workingDir));
-		
-		//playerProcess = Runtime.getRuntime().exec(
-		//		cmdArray.toArray(new String[cmdArray.size()]), null,
-		//		new File(workingDir));
 
-		playerProcess = Runtime.getRuntime().exec(
+		playerProcess = PlayerProcessHelper.getInstance().startPlayer(
 				cmdArray.toArray(new String[cmdArray.size()]), null,
 				new File(workingDir));
 
@@ -128,5 +105,17 @@ public class RestartPlayerMessage extends Message {
 	 */
 	public static Process getPlayerProcess() {
 		return playerProcess;
+	}
+
+	/**
+	 * Stop the logger threads.
+	 */
+	private final void stopLoggers() {
+		if (playerErr != null) {
+			playerErr.stopRunning();
+		}
+		if (playerOut != null) {
+			playerOut.stopRunning();
+		}
 	}
 }

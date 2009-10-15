@@ -126,10 +126,6 @@ public class Manager extends Thread {
 							logger
 									.error("Exception count equal to 5 in lees than half an hour. Restarting...");
 							
-							// TODO Stelio auto edw mallon einai redundant, afou tha tre3ei to shutdown hook tou 
-							// PlayerProcessHelper. To afinw se sena...
-							PlayerProcessHelper.getInstance().killAllPlayers();
-							
 							// windows will restart it hopefully...
 							System.exit(0);
 						} else {
