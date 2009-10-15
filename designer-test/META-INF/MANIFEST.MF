@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test Plug-in
+Bundle-SymbolicName: com.kesdip.designer.test
+Bundle-Version: 1.0.0
+Bundle-Activator: com.kesdip.designer.test.Activator
+Bundle-Vendor: Ke.S.Di.P. E.P.E.
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.kesdip.designer,
+ org.junit4
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
