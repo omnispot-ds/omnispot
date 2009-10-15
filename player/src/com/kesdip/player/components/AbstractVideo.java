@@ -42,6 +42,10 @@ public abstract class AbstractVideo extends AbstractComponent {
 	 * Mutex for VLC initialization.
 	 */
 	private Object mutex = new Object();
+	/**
+	 * The VLC executable name.
+	 */
+	public final String VLC_EXE_NAME = "vlc.exe";
 	
 	/* TRANSIENT STATE */
 	protected LibVlc libVlc;

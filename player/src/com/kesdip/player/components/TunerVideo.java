@@ -1,6 +1,7 @@
 package com.kesdip.player.components;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,16 +67,16 @@ public class TunerVideo extends AbstractVideo {
 				+ "plugins");
 		List<String> args = new ArrayList<String>();
 		if (type == TunerReceptionTypes.ANALOG) {
-			args.add("dshow://");
 			// 200ms content caching + opening quote
-			args.add("\":dshow-caching=200");
+			args.add(":dshow-caching=200");
 			// video device name
 			args.add(":dshow-vdev=" + videoDevice);
 			// audio device name
 			args.add(":dshow-adev=" + audioDevice);
 			// tuner channel (UHF, VHF)
 			args.add(":dshow-tuner-channel=" + channel);
-			// country code (1 or 2 digits as calling code: 30=greece, 0=default)
+			// country code (1 or 2 digits as calling code: 30=greece,
+			// 0=default)
 			args.add(":dshow-tuner-country=" + country);
 			// antenna tuner input (0=default, 1=cable, 2=antenna)
 			args.add(":dshow-tuner-input=2");
@@ -83,12 +84,12 @@ public class TunerVideo extends AbstractVideo {
 			args.add(":dshow-video-input=" + videoInput);
 			// h/w-specific audio input
 			args.add(":dshow-audio-input=" + audioInput);
-			// select TV tuner (0=Default, 1=TV, 2=FM radio, 
+			// select TV tuner (0=Default, 1=TV, 2=FM radio,
 			// 4=AM radio, 8=DSS)
 			args.add(":dshow-amtuner-mode=1");
 			// suppress config dialog boxes + closing quote
 			args.add(":no-dshow-config");
-			args.add(":no-dshow-tuner\"");
+			args.add(":no-dshow-tuner");
 		} else {
 			args.add("dvb-t://");
 			args.add(":dvb-frequency=" + channel);
@@ -124,6 +125,8 @@ public class TunerVideo extends AbstractVideo {
 			}
 			logger.debug("VLC command line: " + cmd);
 		}
+		// disgusting hack: start VLC stand-alone before going embedded
+		launchStandaloneVlc();
 		// init native component
 		String[] ma = args.toArray(new String[args.size()]);
 		libvlc_instance_t = libVlc.libvlc_new(ma.length, ma, exception);
@@ -145,14 +148,35 @@ public class TunerVideo extends AbstractVideo {
 	}
 
 	/**
-	 * @param country the country to set
+	 * Start a minimized and muted stand-alone instance of VLC and then kill it.
+	 * Absolutely no f@#$ing idea why this is needed!
+	 * @throws IOException
+	 *             on error
+	 */
+	private final void launchStandaloneVlc()
+			throws IOException {
+		Process vlcProcess = Runtime.getRuntime().exec(VLC_EXE_NAME,
+				null, new File(Player.getVlcPath()));
+		// wait 0,3 seconds
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException ie) {
+			// do nothing
+		}
+		vlcProcess.destroy();
+	}
+
+	/**
+	 * @param country
+	 *            the country to set
 	 */
 	public void setCountry(String country) {
 		this.country = country;
 	}
 
 	/**
-	 * @param audioInput the audioInput to set
+	 * @param audioInput
+	 *            the audioInput to set
 	 */
 	public void setAudioInput(int audioInput) {
 		this.audioInput = audioInput;
