@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates><template id="org.eclipse.jdt.ui.text.codetemplates.constructorcomment" name="constructorcomment" description="Comment for created constructors" context="constructorcomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * ${tags}
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.gettercomment" name="gettercomment" description="Comment for getter method" context="gettercomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * @return the ${bare_field_name}
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.overridecomment" name="overridecomment" description="Comment for overriding methods" context="overridecomment_context" enabled="true" deleted="false" autoinsert="false">/** 
+ * ${see_to_overridden}
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment" description="Comment for created Java files" context="filecomment_context" enabled="true" deleted="false" autoinsert="false">/*
+ * Disclaimer:
+ * Copyright 2008 - Panou E.P.E &amp; Stelios Gerogiannakis - All rights reserved.
+ * eof Disclaimer
+ * 
+ * Date: ${date}
+ * @author &lt;a href="mailto:sgerogia@gmail.com"&gt;Stelios Gerogiannakis&lt;/a&gt;
+ */
+</template><template id="org.eclipse.jdt.ui.text.codetemplates.settercomment" name="settercomment" description="Comment for setter method" context="settercomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * @param ${param} the ${bare_field_name} to set
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.delegatecomment" name="delegatecomment" description="Comment for delegate methods" context="delegatecomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * ${tags}
+ * ${see_to_target}
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.fieldcomment" name="fieldcomment" description="Comment for fields" context="fieldcomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * 
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.methodcomment" name="methodcomment" description="Comment for non-overriding methods" context="methodcomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * ${tags}
+ */</template><template id="org.eclipse.jdt.ui.text.codetemplates.typecomment" name="typecomment" description="Comment for created types" context="typecomment_context" enabled="true" deleted="false" autoinsert="true">/**
+ * @author ${user}
+ *
+ * ${tags}
+ */</template></templates>
