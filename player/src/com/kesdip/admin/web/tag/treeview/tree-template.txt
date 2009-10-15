@@ -1,0 +1,16 @@
+
+<div id="{0}" class="tree"></div>
+
+<script type="text/javascript">
+	function _{0}_initialize() '{'
+		var _{0} = new YAHOO.widget.TreeView("{0}"); 
+		_{0}.setExpandAnim(YAHOO.widget.TVAnim.FADE_IN);
+		_{0}.setCollapseAnim(YAHOO.widget.TVAnim.FADE_OUT);
+
+		var {0}_root = _{0}.getRoot(); 
+		{1}
+		
+		_{0}.draw();
+	'}'
+	YAHOO.util.Event.addListener(window, "load", _{0}_initialize);	
+</script>

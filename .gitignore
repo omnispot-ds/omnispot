@@ -1,0 +1,5 @@
+player/WebRoot/WEB-INF/classes/com
+player/WebRoot/WEB-INF/classes/log4j.properties
+player/WebRoot/WEB-INF/classes/messages.properties
+player/build
+player/dist
