@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.kesdip.business.domain.generated.Customer"
+		table="CUSTOMER" lazy="true">
+		<meta attribute="class-description">
+			Domain object for the 'Customer' entity. Auto-generated
+			code. &lt;strong&gt;Do not modify manually.&lt;/strong&gt;
+			@author gerogias
+		</meta>
+		<meta attribute="implement-equals">true</meta>
+
+		<id name="id" column="ID" type="java.lang.Long">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Primary, surrogate key.
+			</meta>
+			<generator class="increment" />
+		</id>
+
+		<property name="name" column="NAME" type="java.lang.String"
+			length="50" not-null="true">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The name of the customer.
+			</meta>
+		</property>
+
+        <property name="comments" column="COMMENTS" type="java.lang.String" 
+        	length="512">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		Comments for this customer.
+        	</meta>
+        </property>
+
+		<property name="active" column="ACTIVE" type="boolean"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				If the customer is active or not.
+			</meta>
+		</property>
+
+		<set name="sites" table="SITE" cascade="none"
+			lazy="false" inverse="true">
+			<meta attribute="field-description">
+				The installation sites of this customer.
+			</meta>
+			<key column="CUSTOMER_ID" />
+			<one-to-many
+				class="com.kesdip.business.domain.generated.Site"/>
+		</set>
+
+		<set name="groups" table="INST_GROUP" cascade="none"
+			lazy="false" inverse="true">
+			<meta attribute="field-description">
+				The groups of this customer.
+			</meta>
+			<key column="CUSTOMER_ID" />
+			<one-to-many
+				class="com.kesdip.business.domain.generated.InstallationGroup"/>
+		</set>
+
+		<set name="users" table="USERS" cascade="none"
+			lazy="false" inverse="true">
+			<meta attribute="field-description">
+				The users affiliated to this customer.
+			</meta>
+			<key column="CUSTOMER_ID" />
+			<one-to-many
+				class="com.kesdip.business.domain.generated.User"/>
+		</set>
+
+	</class>
+
+</hibernate-mapping>

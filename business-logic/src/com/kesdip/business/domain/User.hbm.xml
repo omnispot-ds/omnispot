@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.kesdip.business.domain.generated.User"
+		table="USERS" lazy="true">
+		<meta attribute="class-description">
+			Domain object for the 'User' entity. Auto-generated code.
+			&lt;strong&gt;Do not modify manually.&lt;/strong&gt; @author
+			gerogias
+		</meta>
+		<meta attribute="implement-equals">true</meta>
+
+		<id name="username" column="USERNAME" type="java.lang.String"
+			length="50">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Primary, natural key.
+			</meta>
+		</id>
+
+		<property name="password" column="PASSWORD"
+			type="java.lang.String" length="50" not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Tha user's password.
+			</meta>
+		</property>
+
+		<property name="firstName" column="FIRST_NAME"
+			type="java.lang.String" length="50" not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Tha user's first name.
+			</meta>
+		</property>
+
+		<property name="lastName" column="LAST_NAME"
+			type="java.lang.String" length="50" not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Tha user's last name.
+			</meta>
+		</property>
+
+        <many-to-one
+        	name="affiliation"
+        	class="com.kesdip.business.domain.generated.Customer" 
+        	column="CUSTOMER_ID" cascade="none" not-null="false" lazy="false">
+        	<meta attribute="field-description">The associated customer, if any.</meta>
+        </many-to-one >
+
+		<set name="rights" table="USER_RIGHTS" cascade="none"
+			lazy="false">
+			<meta attribute="field-description">
+				The rights of this user.
+			</meta>
+			<key column="USERNAME" />
+			<many-to-many
+				class="com.kesdip.business.domain.generated.AccessRight"
+				column="ROLE_NAME" />
+		</set>
+
+		<set name="accessibleInstallations" cascade="all">
+			<meta attribute="field-description">
+				The acessible installations for this user.
+			</meta>
+			<key column="USERNAME" />
+			<one-to-many
+				class="com.kesdip.business.domain.generated.AccessControl" />
+		</set>
+
+	</class>
+
+</hibernate-mapping>
