@@ -153,7 +153,7 @@ ProjectID
 61ABE13A-8433-4667-AD29-3EB3574A568F
 
 ProjectVersion
-1.2.13.8
+1.2.12.0
 
 SaveOnlyToplevelDirs
 No
@@ -1162,7 +1162,7 @@ InstallComponent 3C642D39-1C6B-4A82-A0A0-0D77CA0E0D60 -setup Install -type actio
 Condition A5F4461B-43AF-440E-B9C3-AF823B7E9E8B -active Yes -parent 3C642D39-1C6B-4A82-A0A0-0D77CA0E0D60 -title {String Is Condition} -component StringIsCondition -TreeObject::id A5F4461B-43AF-440E-B9C3-AF823B7E9E8B
 InstallComponent 149FDCA2-2928-4140-A3D8-79357F5888C9 -setup Install -type action -conditions B1A62C4C-A819-4718-9EA2-5D0E5BD006EB -title {Uninstall Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent 341A26EB-E98F-4896-BA42-436D31F2AF0F
 Condition B1A62C4C-A819-4718-9EA2-5D0E5BD006EB -active Yes -parent 149FDCA2-2928-4140-A3D8-79357F5888C9 -title {String Is Condition} -component StringIsCondition -TreeObject::id B1A62C4C-A819-4718-9EA2-5D0E5BD006EB
-InstallComponent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -setup Install -type actiongroup -conditions {4273646A-7505-4F3E-B2D6-40F7B06AE591 050D899D-B5A2-4BC8-BF3A-119FE556F871} -title {Service Installation Actions} -command reorder -alias {Service Installation Actions} -active Yes -parent ActionGroupsInstall
+InstallComponent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -setup Install -type actiongroup -conditions {4273646A-7505-4F3E-B2D6-40F7B06AE591 050D899D-B5A2-4BC8-BF3A-119FE556F871} -title {Service Installation Actions} -command insert -alias {Service Installation Actions} -active Yes -parent ActionGroupsInstall
 Condition 4273646A-7505-4F3E-B2D6-40F7B06AE591 -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -title {Platform Condition} -component PlatformCondition -TreeObject::id 4273646A-7505-4F3E-B2D6-40F7B06AE591
 Condition 050D899D-B5A2-4BC8-BF3A-119FE556F871 -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 050D899D-B5A2-4BC8-BF3A-119FE556F871
 InstallComponent E1B6961B-96D2-4B25-8FB4-72CCE7B08179 -setup Install -type action -title {Install Derby Service} -component CreateWindowsService -active Yes -parent EF22811D-2A17-4D23-856E-8D60E5A6AE00
@@ -1173,16 +1173,18 @@ InstallComponent C704E0A4-91B1-4856-BBB4-F10A36F065EC -setup Install -type actio
 InstallComponent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE -setup Install -type actiongroup -title {Other Actions} -alias OtherActions -active Yes -parent ActionGroupsInstall
 InstallComponent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -setup Install -type action -conditions DE29D43F-1430-42E2-9EC2-FC765F2C936B -title {Add JRE To Path} -component AddDirectoryToPath -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition DE29D43F-1430-42E2-9EC2-FC765F2C936B -active Yes -parent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id DE29D43F-1430-42E2-9EC2-FC765F2C936B
+InstallComponent 95C47875-0160-4F44-A270-4234F2BF0A54 -setup Install -type action -conditions B3F96ED3-241C-41FD-A0B3-979BC6695382 -title {Add JAVA_HOME} -component AddEnvironmentVariable -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+Condition B3F96ED3-241C-41FD-A0B3-979BC6695382 -active Yes -parent 95C47875-0160-4F44-A270-4234F2BF0A54 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B3F96ED3-241C-41FD-A0B3-979BC6695382
 InstallComponent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -setup Install -type action -conditions 597B653B-99F7-422E-A2AE-E67F9E935359 -title {Install VLC} -component ExecuteExternalProgram -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 597B653B-99F7-422E-A2AE-E67F9E935359 -active Yes -parent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 597B653B-99F7-422E-A2AE-E67F9E935359
 InstallComponent C5AF63FF-C52B-4E2C-842F-E3787E69D801 -setup Install -type action -conditions 191286AF-B18E-4B44-AA69-A23F58DEFF24 -title {Install MPlayer} -component UnzipFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 191286AF-B18E-4B44-AA69-A23F58DEFF24 -active Yes -parent C5AF63FF-C52B-4E2C-842F-E3787E69D801 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 191286AF-B18E-4B44-AA69-A23F58DEFF24
-InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type action -conditions 518CE47F-6CCA-4206-8681-11D59206B145 -title {Replace Values in CONF files} -component ReplaceTextInFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent EFF0FC5D-E676-4652-A183-A406FB21067D -setup Install -type action -conditions 518CE47F-6CCA-4206-8681-11D59206B145 -title {Replace Values in CONF files} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 518CE47F-6CCA-4206-8681-11D59206B145 -active Yes -parent EFF0FC5D-E676-4652-A183-A406FB21067D -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
 InstallComponent FFEA53D6-E1E7-46AC-9FA3-13235F247567 -setup Install -type action -title {Add VLC To Path} -component AddDirectoryToPath -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
-InstallComponent BB74BF46-C94E-453A-AECC-2C84202339C6 -setup Install -type action -conditions FB70E133-5BC9-48B3-8384-D43C322C5452 -title {Replace Backslashes} -component ReplaceTextInFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent BB74BF46-C94E-453A-AECC-2C84202339C6 -setup Install -type action -conditions FB70E133-5BC9-48B3-8384-D43C322C5452 -title {Replace Backslashes} -component ReplaceTextInFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition FB70E133-5BC9-48B3-8384-D43C322C5452 -active Yes -parent BB74BF46-C94E-453A-AECC-2C84202339C6 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 132E59EE-E6A9-4EF9-8B14-2EE6F47256A6
-InstallComponent 27703263-DA7A-4E91-8FE2-3D954BB874EB -setup Install -type action -conditions B53CB608-6B98-4D17-AAE6-DDE04C1B56C7 -title {Import Greek channel frequencies} -component ImportWindowsRegistryFile -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent 27703263-DA7A-4E91-8FE2-3D954BB874EB -setup Install -type action -conditions B53CB608-6B98-4D17-AAE6-DDE04C1B56C7 -title {Import Greek channel frequencies} -component ImportWindowsRegistryFile -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition B53CB608-6B98-4D17-AAE6-DDE04C1B56C7 -active Yes -parent 27703263-DA7A-4E91-8FE2-3D954BB874EB -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B53CB608-6B98-4D17-AAE6-DDE04C1B56C7
 InstallComponent A5116484-B4F7-4431-917E-051A5043C4AD -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 7124E6B0-57D0-4441-8CAC-E40FDE79D65C -setup Install -type action -conditions {D88E2A7C-0E4C-4E72-ACE4-E15283A7A72F 9C0AA0DC-3F85-49F3-8A73-5BF2CB014636 18DC3036-ACC5-4B6C-B14F-3A5C24149323} -title {View Readme Window} -component TextWindow -command insert -active Yes -parent A5116484-B4F7-4431-917E-051A5043C4AD
@@ -1977,6 +1979,21 @@ EngineComponent
 952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3,RequiredComponent
 Yes
 
+95C47875-0160-4F44-A270-4234F2BF0A54,Conditions
+{1 condition}
+
+95C47875-0160-4F44-A270-4234F2BF0A54,Level
+system
+
+95C47875-0160-4F44-A270-4234F2BF0A54,RestoreOnUninstall
+Yes
+
+95C47875-0160-4F44-A270-4234F2BF0A54,Value
+{<%InstallDir%>\jre}
+
+95C47875-0160-4F44-A270-4234F2BF0A54,Variable
+JAVA_HOME
+
 9668C529-4FAC-48CF-9C3B-D3B6D559934D,Alias
 ServerPortWidget
 
@@ -2111,9 +2128,6 @@ A3C24BA1-479A-4FDB-8AF9-856867C05EB3,Caption,subst
 
 A3C24BA1-479A-4FDB-8AF9-856867C05EB3,Conditions
 {3 conditions}
-
-A3C24BA1-479A-4FDB-8AF9-856867C05EB3,Destination,subst
-1
 
 A3C24BA1-479A-4FDB-8AF9-856867C05EB3,DestinationLabel,subst
 0
@@ -2375,6 +2389,12 @@ false
 
 B1A62C4C-A819-4718-9EA2-5D0E5BD006EB,String
 <%UpgradeInstall%>
+
+B3F96ED3-241C-41FD-A0B3-979BC6695382,CheckCondition
+{Before Action is Executed}
+
+B3F96ED3-241C-41FD-A0B3-979BC6695382,ObjectID
+JREComponent
 
 B53CB608-6B98-4D17-AAE6-DDE04C1B56C7,CheckCondition
 {Before Action is Executed}
@@ -2975,168 +2995,6 @@ No
 FreeBSD-4-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
-FreeBSD-5-x86,Active
-No
-
-FreeBSD-5-x86,BuildSeparateArchives
-No
-
-FreeBSD-5-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-5-x86,DefaultFilePermission
-0755
-
-FreeBSD-5-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-5-x86,FallBackToConsole
-Yes
-
-FreeBSD-5-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-5-x86,InstallMode
-Standard
-
-FreeBSD-5-x86,InstallType
-Typical
-
-FreeBSD-5-x86,ProgramExecutable
-{}
-
-FreeBSD-5-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-5-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-5-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-5-x86,ProgramName
-{}
-
-FreeBSD-5-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-5-x86,PromptForRoot
-Yes
-
-FreeBSD-5-x86,RequireRoot
-No
-
-FreeBSD-5-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-6-x86,Active
-No
-
-FreeBSD-6-x86,BuildSeparateArchives
-No
-
-FreeBSD-6-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-6-x86,DefaultFilePermission
-0755
-
-FreeBSD-6-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-6-x86,FallBackToConsole
-Yes
-
-FreeBSD-6-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-6-x86,InstallMode
-Standard
-
-FreeBSD-6-x86,InstallType
-Typical
-
-FreeBSD-6-x86,ProgramExecutable
-{}
-
-FreeBSD-6-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-6-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-6-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-6-x86,ProgramName
-{}
-
-FreeBSD-6-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-6-x86,PromptForRoot
-Yes
-
-FreeBSD-6-x86,RequireRoot
-No
-
-FreeBSD-6-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-FreeBSD-7-x86,Active
-No
-
-FreeBSD-7-x86,BuildSeparateArchives
-No
-
-FreeBSD-7-x86,DefaultDirectoryPermission
-0755
-
-FreeBSD-7-x86,DefaultFilePermission
-0755
-
-FreeBSD-7-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-FreeBSD-7-x86,FallBackToConsole
-Yes
-
-FreeBSD-7-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-FreeBSD-7-x86,InstallMode
-Standard
-
-FreeBSD-7-x86,InstallType
-Typical
-
-FreeBSD-7-x86,ProgramExecutable
-{}
-
-FreeBSD-7-x86,ProgramFolderAllUsers
-No
-
-FreeBSD-7-x86,ProgramFolderName
-<%AppName%>
-
-FreeBSD-7-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-FreeBSD-7-x86,ProgramName
-{}
-
-FreeBSD-7-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-FreeBSD-7-x86,PromptForRoot
-Yes
-
-FreeBSD-7-x86,RequireRoot
-No
-
-FreeBSD-7-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
-
 FreeBSD-x86,Active
 No
 
@@ -3299,60 +3157,6 @@ No
 Linux-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
-Linux-x86_64,Active
-No
-
-Linux-x86_64,BuildSeparateArchives
-No
-
-Linux-x86_64,DefaultDirectoryPermission
-0755
-
-Linux-x86_64,DefaultFilePermission
-0755
-
-Linux-x86_64,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-Linux-x86_64,FallBackToConsole
-Yes
-
-Linux-x86_64,InstallDir
-<%Home%>/<%ShortAppName%>
-
-Linux-x86_64,InstallMode
-Standard
-
-Linux-x86_64,InstallType
-Typical
-
-Linux-x86_64,ProgramExecutable
-{}
-
-Linux-x86_64,ProgramFolderAllUsers
-No
-
-Linux-x86_64,ProgramFolderName
-<%AppName%>
-
-Linux-x86_64,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-Linux-x86_64,ProgramName
-{}
-
-Linux-x86_64,ProgramReadme
-<%InstallDir%>/README.txt
-
-Linux-x86_64,PromptForRoot
-Yes
-
-Linux-x86_64,RequireRoot
-No
-
-Linux-x86_64,RootInstallDir
-/usr/local/<%ShortAppName%>
-
 Solaris-sparc,Active
 No
 
@@ -3405,60 +3209,6 @@ Solaris-sparc,RequireRoot
 No
 
 Solaris-sparc,RootInstallDir
-/usr/local/<%ShortAppName%>
-
-Solaris-x86,Active
-No
-
-Solaris-x86,BuildSeparateArchives
-No
-
-Solaris-x86,DefaultDirectoryPermission
-0755
-
-Solaris-x86,DefaultFilePermission
-0755
-
-Solaris-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
-
-Solaris-x86,FallBackToConsole
-Yes
-
-Solaris-x86,InstallDir
-<%Home%>/<%ShortAppName%>
-
-Solaris-x86,InstallMode
-Standard
-
-Solaris-x86,InstallType
-Typical
-
-Solaris-x86,ProgramExecutable
-{}
-
-Solaris-x86,ProgramFolderAllUsers
-No
-
-Solaris-x86,ProgramFolderName
-<%AppName%>
-
-Solaris-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
-
-Solaris-x86,ProgramName
-{}
-
-Solaris-x86,ProgramReadme
-<%InstallDir%>/README.txt
-
-Solaris-x86,PromptForRoot
-Yes
-
-Solaris-x86,RequireRoot
-No
-
-Solaris-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 TarArchive,Active

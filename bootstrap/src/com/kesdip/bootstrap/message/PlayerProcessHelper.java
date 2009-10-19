@@ -121,6 +121,14 @@ public class PlayerProcessHelper extends Thread {
 			cmdArray[i + 1] = args[i];
 		}
 
+		if (logger.isDebugEnabled()) {
+			StringBuilder cmdLine = new StringBuilder();
+			for (String token : cmdArray) {
+				cmdLine.append(token).append(' ');
+			}
+			logger.debug("Player command line: " + cmdLine);
+		}
+
 		// launch the player process
 		playerProcess = Runtime.getRuntime().exec(cmdArray, envp, dir);
 		if (logger.isInfoEnabled()) {

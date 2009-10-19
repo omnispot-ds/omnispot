@@ -115,7 +115,7 @@ public class ServerSettings extends ComponentSettings {
 	 */
 	public String getPrintScreenBaseUrl() {
 		if (printScreenBaseUrl == null) {
-			printScreenBaseUrl = "http://" + host + ":" + port + printScreenBase;
+			printScreenBaseUrl = printScreenBase;
 		}
 		return printScreenBaseUrl;
 	}
