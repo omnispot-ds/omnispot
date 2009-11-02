@@ -55,6 +55,11 @@
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/content/*</url-pattern>
+    </filter-mapping>
+
 	<listener>
   		<listener-class>com.kesdip.admin.web.listener.SettingsLoadingContextListener</listener-class>
 	</listener>
