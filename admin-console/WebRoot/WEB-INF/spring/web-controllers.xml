@@ -7,8 +7,8 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		
-		<!-- 1 Gb -->
-		<property name="maxUploadSize" value="1073741824" />
+		<!-- 5 Gb -->
+		<property name="maxUploadSize" value="5368709120" />
 	</bean>
 
 	<bean id="baseFormController" abstract="true">
