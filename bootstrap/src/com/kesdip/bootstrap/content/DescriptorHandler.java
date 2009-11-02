@@ -56,8 +56,10 @@ public class DescriptorHandler implements ContentHandler {
 
 	public void run() {
 		try {
-			logger.info("Starting download of deployment descriptor: "
-					+ descriptorUrl);
+			if (logger.isInfoEnabled()) {
+				logger.info("Starting download of deployment descriptor: "
+						+ descriptorUrl);
+			}
 
 			// Download the deployment descriptor.
 			URL descriptor = new URL(StringUtils.encodeFileName(descriptorUrl));
@@ -100,8 +102,10 @@ public class DescriptorHandler implements ContentHandler {
 					resourceSet.addAll(root.gatherResources());
 
 					for (Resource resource : root.gatherResources()) {
-						logger.info("Found resource: "
-								+ resource.getIdentifier());
+						if (logger.isInfoEnabled()) {
+							logger.info("Found resource: "
+									+ resource.getIdentifier());
+						}
 					}
 				}
 			}
@@ -137,10 +141,13 @@ public class DescriptorHandler implements ContentHandler {
 					ps.close();
 
 					for (Resource resource : resourceSet) {
-						ps = c.prepareStatement("SELECT ID FROM RESOURCE "
-								+ "WHERE URL=? AND CRC=? AND SIZE=DOWNLOADED_BYTES");
+						ps = c
+								.prepareStatement("SELECT ID FROM RESOURCE "
+										+ "WHERE URL=? AND CRC=? AND SIZE=DOWNLOADED_BYTES");
 						ps.setString(1, resource.getIdentifier());
-						ps.setString(2, resource.getChecksum());
+						// Bug-128: Use the proper part of the composite checksum 
+						ps.setString(2, StringUtils.extractCrc(resource
+								.getChecksum()));
 						rs = ps.executeQuery();
 
 						boolean resourceExists = false;
@@ -155,9 +162,12 @@ public class DescriptorHandler implements ContentHandler {
 						ps.close();
 
 						if (resourceExists) {
-							logger.info("Resource " + resource.getIdentifier()
-									+ " with CRC " + resource.getChecksum()
-									+ " already exists.");
+							if (logger.isInfoEnabled()) {
+								logger.info("Resource "
+										+ resource.getIdentifier()
+										+ " with CRC " + resource.getChecksum()
+										+ " already exists.");
+							}
 						} else {
 							String checksum = StringUtils.extractCrc(resource
 									.getChecksum());
@@ -222,8 +232,9 @@ public class DescriptorHandler implements ContentHandler {
 			logger.error("Throwable while retrieving descriptor: "
 					+ descriptorUrl, t);
 		}
-
-		logger.info("Completed task for: " + toMessageString());
+		if (logger.isInfoEnabled()) {
+			logger.info("Completed task for: " + toMessageString());
+		}
 	}
 
 }
