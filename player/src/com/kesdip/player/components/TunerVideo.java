@@ -67,6 +67,7 @@ public class TunerVideo extends AbstractVideo {
 				+ "plugins");
 		List<String> args = new ArrayList<String>();
 		if (type == TunerReceptionTypes.ANALOG) {
+			args.add("dshow://");
 			// 200ms content caching + opening quote
 			args.add(":dshow-caching=200");
 			// video device name
