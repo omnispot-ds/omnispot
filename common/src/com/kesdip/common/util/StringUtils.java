@@ -138,7 +138,19 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
 			str.append('0');
 		}
 		str.append(Integer.toHexString(color.getBlue()));
-		
+
 		return str.toString();
+	}
+
+	/**
+	 * Trims a string, if not <code>null</code>.
+	 * 
+	 * @param value
+	 *            the value to trim
+	 * @return String the trimmed value or <code>null</code> if the value was
+	 *         <code>null</code>
+	 */
+	public static final String trim(String value) {
+		return value != null ? value.trim() : null;
 	}
 }

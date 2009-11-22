@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.kesdip.common.util.StringUtils;
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.constenum.TunerReceptionTypes;
@@ -71,14 +72,14 @@ public class TunerVideo extends AbstractVideo {
 			// 200ms content caching + opening quote
 			args.add(":dshow-caching=200");
 			// video device name
-			args.add(":dshow-vdev=" + videoDevice);
+			args.add(":dshow-vdev=" + StringUtils.trim(videoDevice));
 			// audio device name
-			args.add(":dshow-adev=" + audioDevice);
+			args.add(":dshow-adev=" + StringUtils.trim(audioDevice));
 			// tuner channel (UHF, VHF)
-			args.add(":dshow-tuner-channel=" + channel);
+			args.add(":dshow-tuner-channel=" + StringUtils.trim(channel));
 			// country code (1 or 2 digits as calling code: 30=greece,
 			// 0=default)
-			args.add(":dshow-tuner-country=" + country);
+			args.add(":dshow-tuner-country=" + StringUtils.trim(country));
 			// antenna tuner input (0=default, 1=cable, 2=antenna)
 			args.add(":dshow-tuner-input=2");
 			// h/w-specific video input
@@ -93,7 +94,7 @@ public class TunerVideo extends AbstractVideo {
 			args.add(":no-dshow-tuner");
 		} else {
 			args.add("dvb-t://");
-			args.add(":dvb-frequency=" + channel);
+			args.add(":dvb-frequency=" + StringUtils.trim(channel));
 			// in Greece it is always 8
 			// TODO make editable for other countries
 			args.add(":dvb-bandwidth=8");
