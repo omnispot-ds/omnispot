@@ -173,12 +173,13 @@ public class TimingHandler implements ContentHandler {
 
 					if (retries >= Config.getSingleton()
 							.getResourceRetryLimit()) {
-						logger
+						if (logger.isInfoEnabled()) {
+							logger
 								.info("Retry limit has been reached for resource "
 										+ "with ID: "
 										+ handler.getResourceId()
 										+ ". Giving up.");
-
+						}
 						ps = c.prepareStatement("DELETE FROM PENDING "
 								+ "WHERE DEPLOYMENT_ID=? AND RESOURCE_ID=?");
 						ps.setLong(1, handler.getDeploymentId());
@@ -197,16 +198,18 @@ public class TimingHandler implements ContentHandler {
 						ps.setInt(1, retries + 1);
 						ps.setLong(2, handler.getResourceId());
 						int modifiedRows = ps.executeUpdate();
-						if (modifiedRows != 1)
+						if (modifiedRows != 1) {
 							throw new Exception(
 									"Trying to update the number "
 											+ "of retries in the resource table touched "
 											+ modifiedRows + " rows.");
+						}
 						ps.close();
-
-						logger.info("Retry #" + (retries + 1)
-								+ " for resource with ID: "
-								+ handler.getResourceId() + ".");
+						if (logger.isInfoEnabled()) {
+							logger.info("Retry #" + (retries + 1)
+									+ " for resource with ID: "
+									+ handler.getResourceId() + ".");
+						}
 
 						ContentRetriever.getSingleton().addTask(handler);
 					}

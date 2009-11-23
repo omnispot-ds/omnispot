@@ -320,7 +320,7 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 	}
 
 	/**
-	 * @return int always 50
+	 * @return int always 30
 	 * @see com.kesdip.common.util.StreamCopyListener#getByteBufferCount()
 	 */
 	@Override

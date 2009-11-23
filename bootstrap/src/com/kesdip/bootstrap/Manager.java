@@ -124,7 +124,7 @@ public class Manager extends Thread {
 					if (exceptioncount == 5) {
 						if (new Date().getTime() - firstExceptionTimeStamp < 1800 * 1000) {
 							logger
-									.error("Exception count equal to 5 in lees than half an hour. Restarting...");
+									.error("Exception count equal to 5 in less than half an hour. Restarting...");
 							
 							// windows will restart it hopefully...
 							System.exit(0);

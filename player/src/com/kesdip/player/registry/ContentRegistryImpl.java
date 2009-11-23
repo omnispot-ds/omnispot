@@ -48,10 +48,12 @@ public class ContentRegistryImpl extends ContentRegistry {
 			c = DBUtils.getConnection();
 
 			String retVal = null;
-
+			// select the right resource, as there may be 
+			// multiple, half-downloaded versions 
 			PreparedStatement ps = c
 					.prepareStatement("SELECT FILENAME FROM RESOURCE "
-							+ "WHERE URL=? AND CRC=? AND FILENAME != ''");
+							+ "WHERE URL=? AND CRC=? AND FILENAME != '' " 
+							+ "AND SIZE=DOWNLOADED_BYTES");
 			ps.setString(1, resource.getIdentifier());
 			ps.setString(2, StringUtils.extractCrc(resource.getChecksum()));
 			ResultSet rs = ps.executeQuery();
