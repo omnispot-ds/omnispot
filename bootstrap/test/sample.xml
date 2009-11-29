@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+	<bean id="deploymentSettings" class="com.kesdip.player.DeploymentSettings">
+		<property name="width" value="1280"/>
+		<property name="height" value="800"/>
+		<property name="bitDepth" value="32"/>
+		<property name="id" value="{GUID}"/>
+		<property name="startTime">
+			<bean class="java.util.Date">
+				<constructor-arg type="long" value="1228470622628"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="frameA" class="com.kesdip.player.components.RootContainer">
+		<property name="x" value="0"/>
+		<property name="y" value="0"/>
+		<property name="width" value="1280"/>
+		<property name="height" value="800"/>
+		<property name="backgroundColor">
+			<bean class="java.awt.Color">
+				<constructor-arg type="int" value="0"/>
+				<constructor-arg type="int" value="0"/>
+				<constructor-arg type="int" value="0"/>
+			</bean>
+		</property>
+		<property name="isTransparent" value="false"/>
+		<property name="contents">
+			<list>
+				<bean class="com.kesdip.player.components.Video">
+					<property name="x" value="0"/>
+					<property name="y" value="0"/>
+					<property name="width" value="1280"/>
+					<property name="height" value="800"/>
+					<property name="content">
+						<list>
+							<!--bean class="com.kesdip.player.components.Resource">
+								<property name="identifier" value="http://www.koutra.com/robots.txt"/>
+								<property name="checksum" value="3656307869"/>
+							</bean>
+							<bean class="com.kesdip.player.components.Resource">
+								<property name="identifier" value="http://www.koutra.com/index.html"/>
+								<property name="checksum" value="3656307869"/>
+							</bean-->
+							<bean class="com.kesdip.player.components.Resource">
+								<property name="identifier" value="file:///C:/test/ad.mp4"/>
+								<property name="checksum" value="1818024839"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="frameB" class="com.kesdip.player.components.RootContainer">
+		<property name="x" value="0"/>
+		<property name="y" value="720"/>
+		<property name="width" value="1280"/>
+		<property name="height" value="80"/>
+		<property name="isTransparent" value="true"/>
+		<property name="contents">
+			<list>
+				<bean class="com.kesdip.player.components.Ticker">
+					<property name="x" value="0"/>
+					<property name="y" value="0"/>
+					<property name="width" value="1280"/>
+					<property name="height" value="80"/>
+					<!--property name="backgroundColor">
+						<bean class="java.awt.Color">
+							<constructor-arg type="int" value="0"/>
+							<constructor-arg type="int" value="128"/>
+							<constructor-arg type="int" value="0"/>
+						</bean>
+					</property-->
+					<property name="font">
+						<bean class="java.awt.Font">
+							<constructor-arg type="java.lang.String" value="Arial"/>
+							<constructor-arg type="int" value="1"/>
+							<constructor-arg type="int" value="36"/>
+						</bean>
+					</property>
+					<property name="foregroundColor">
+						<bean class="java.awt.Color">
+							<constructor-arg type="int" value="255"/>
+							<constructor-arg type="int" value="255"/>
+							<constructor-arg type="int" value="255"/>
+						</bean>
+					</property>
+					<property name="source">
+						<bean class="com.kesdip.player.components.ticker.StringTickerSource">
+							<property name="src" value="This is a test! "/>
+						</bean>
+					</property>
+					<property name="speed" value="2.0"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="frameC" class="com.kesdip.player.components.RootContainer">
+		<property name="x" value="0"/>
+		<property name="y" value="0"/>
+		<property name="width" value="327"/>
+		<property name="height" value="215"/>
+		<property name="isTransparent" value="false"/>
+		<property name="contents">
+			<list>
+				<bean class="com.kesdip.player.components.Image">
+					<property name="x" value="0"/>
+					<property name="y" value="0"/>
+					<property name="width" value="327"/>
+					<property name="height" value="215"/>
+					<property name="image">
+						<bean class="com.kesdip.player.components.Resource">
+							<property name="identifier" value="file:///C:/test/bld.jpg"/>
+							<property name="checksum" value="405415918"/>
+						</bean>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="deploymentContents" class="com.kesdip.player.DeploymentContents">
+		<property name="layouts">
+			<list>
+				<bean class="com.kesdip.player.DeploymentLayout">
+					<property name="name" value="layout1"/>
+					<!--property name="cronExpression" value="0 0 12 * * ?"/>
+					<property name="duration" value="600"/-->
+					<property name="contentRoots">
+						<list>
+							<ref bean="frameA" />
+							<ref bean="frameB" />
+							<ref bean="frameC" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
