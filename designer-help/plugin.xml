@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml">
+      </toc>
+      <toc
+            file="testToc.xml"
+            primary="true">
+      </toc>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="com.kesdip.designer.help.category800400647"
+            name="Ke.S.Di.P. E.P.E. Designer">
+      </category>
+      <cheatsheet
+            category="com.kesdip.designer.help.category800400647"
+            composite="false"
+            contentFile="$nl$/cheatsheets/SimpleVideo.xml"
+            id="com.kesdip.designer.help.cheatsheet904719255"
+            name="Create a simple video deployment">
+         <description>
+            A simple video deployment
+         </description>
+      </cheatsheet>
+      <cheatsheet
+            category="com.kesdip.designer.help.category800400647"
+            composite="false"
+            contentFile="$nl$/cheatsheets/VideoWithAlphaBlendTicker.xml"
+            id="com.kesdip.designer.help.cheatsheet541797334"
+            name="Create a simple video with ticker deployment">
+         <description>
+            A video deployment with an alpha blended ticker scrolling over it.
+         </description>
+      </cheatsheet>
+   </extension>
+
+</plugin>
