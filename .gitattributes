@@ -417,3 +417,10 @@ designer-build/build.xml -text
 designer-feature/.project -text
 designer-feature/build.properties -text
 designer-feature/feature.xml -text
+designer-preview/.classpath -text
+designer-preview/.project -text
+designer-preview/.settings/org.eclipse.jdt.core.prefs -text
+designer-preview/META-INF/MANIFEST.MF -text
+designer-preview/build.properties -text
+designer-preview/src/com/kesdip/player/preview/Activator.java -text
+designer-preview/src/log4j.properties -text
