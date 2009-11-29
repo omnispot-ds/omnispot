@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Admin Console WAR" basedir=".">
+	<description>Build file for the Panou Monitor WAR application</description>
+
+	<import file="${etc.ant.scripts.dir}/common-targets.xml"/>
+	
+	<property name="admin-console.src.dir" location="${admin-console.base.dir}/src"/>
+	<property name="admin-console.build.dir" location="${admin-console.base.dir}/build"/>
+	<property name="admin-console.dist.dir" location="${admin-console.base.dir}/dist"/>
+	<property name="admin-console.content.dir" location="${admin-console.base.dir}/WebRoot"/>
+	<property name="admin-console.lib.dir" location="${admin-console.content.dir}/WEB-INF/lib"/>
+	<property name="admin-console.classes.dir" location="${admin-console.build.dir}/classes"/>
+	
+	<property name="included.jars.file" value="${admin-console.base.dir}/included.jars"/>
+	<property name="shared.jars.file" value="${admin-console.base.dir}/shared.jars"/>
+	
+	<target name="admin-console.init">
+		<echo level="info">Initializing...</echo>
+		<mkdir dir="${admin-console.build.dir}/classes"/>
+	</target>
+	
+	<target name="admin-console.compile" description="compile the war classes" >
+		<echo level="info">Compiling sources...</echo>
+    	<javac srcdir="${admin-console.src.dir}" destdir="${admin-console.classes.dir}" debug="true" encoding="UTF-8">
+    		<classpath>
+    			<fileset dir="${common.base.dir}/dist">
+    				<include name="**/*.jar"/>
+    			</fileset>
+    			<fileset dir="${project.base.dir}" includesfile="${included.jars.file}"/>
+    			<fileset dir="${project.base.dir}" includesfile="${shared.jars.file}"/>
+    		</classpath>
+    	</javac>
+		<copy todir="${admin-console.classes.dir}">
+			<fileset dir="${admin-console.src.dir}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<include name="**/*.xsd" />
+				<include name="**/*.txt" />
+				<include name="**/*.jpg" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpeg" />
+				<include name="**/*.sql" />
+			</fileset>
+		</copy>
+ 	</target>
+ 	
+ 	<target name="admin-console.dist" description="create the war file">
+ 		<echo level="info">Creating distribution</echo>
+ 		<copy todir="${admin-console.build.dir}">
+ 			<fileset dir="${admin-console.content.dir}">
+ 				<include name="**/*.html"/>
+ 				<include name="**/*.xml"/>
+ 				<include name="**/*.jsp"/>
+ 				<include name="**/*.jspf"/>
+ 				<include name="**/*.properties"/>
+ 				<include name="**/*.css"/>
+ 				<include name="**/*.jpg"/>
+ 				<include name="**/*.png"/>
+ 				<include name="**/*.js"/>
+ 				<include name="**/*.jar"/>
+ 				<include name="**/*.dtd"/>
+ 				<include name="**/*.tld"/>
+ 				<include name="**/*.xsd"/>
+ 				<include name="**/*.gif"/>
+ 				<include name="META-INF/*.*"/>
+ 				<exclude name="CVS/**"/>
+ 				<exclude name="SVN/**"/>
+ 				<exclude name="WEB-INF/classes/**"/>
+ 			</fileset>
+ 		</copy>
+ 		<copy todir="${admin-console.build.dir}/WEB-INF/classes">
+ 			<fileset dir="${admin-console.classes.dir}">
+ 				<include name="**/*.*"/>
+ 			</fileset>
+ 		</copy>
+ 		<mkdir dir="${admin-console.dist.dir}"/>
+ 		<antcall target="zz.create.war">
+ 			<param name="base.dir" value="${admin-console.build.dir}"/>
+ 			<param name="dest.file" value="${admin-console.dist.file}"/>
+ 			<param name="fileset.file" value="${included.jars.file}"/>
+ 			<param name="lib.base.dir" value="${project.base.dir}"/>
+ 			<param name="exclude.patterns" value="classes/**"/>
+ 		</antcall>
+ 	</target>
+ 	
+ 	<target name="admin-console.clean">
+ 		<echo level="info">Cleaning files and directories</echo>
+ 		<delete dir="${admin-console.build.dir}" failonerror="false"/>
+ 		<delete dir="${admin-console.dist.dir}" failonerror="false"/>
+	    <mkdir dir="${admin-console.build.dir}"/>
+ 		<mkdir dir="${admin-console.dist.dir}"/>
+ 	</target>
+
+</project>

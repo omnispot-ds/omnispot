@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>controls</short-name>
+	<uri>http://www.kesdip.com/admin-console/taglib</uri>
+	<display-name>Admin console tag library</display-name>
+	<description>Custom tags for the Admin console</description>
+
+	<tag>
+		<name>treeView</name>
+		<tag-class>
+			com.kesdip.admin.web.tag.treeview.TreeViewTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Creates a tree view from a graph of
+			&lt;code&gt;com.kesdip.admin.util.treeview.TreeNode&lt;/code&gt;
+			objects.
+
+			The tag assumes the existence of a Spring context and a bean
+			with id "treeViewGenerationBean", and type
+			&lt;code&gt;com.kesdip.admin.util.treeview.TreeViewGenerationBean&lt;/code&gt;.
+			The identified getter is invoked to retrieve the graph. For
+			each node type, the specified CSS class is used, along with
+			the action link. If a node is selected, its branch is
+			expanded. When a node is clicked, the resulting URL is of
+			the form
+			&lt;code&gt;SERVER_URL&lt;/code&gt;/[nodeType].do?id=[nodeId],
+			where nodeType if the type of the node in camel-case and
+			nodeId the node's primary key.
+
+			While creating the tree, it searches for a request attribute
+			named "currentObject". If it is found, it compares the class
+			name and id with the tree nodes. If there is a match, the
+			node is expanded.
+		</description>
+
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				The unique id of the control. It should not be the same
+				as any other tree tag or the results will be erratic.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>beanProperty</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				The property corresponging to the JavaBean getter of the
+				target tree generation class.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>nodeTypes</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				A bar-separated list of the node types and their CSS
+				class for each node status. The list is of the form
+				TypeX,status1:cssX1[,status2:classX2]|TypeY,statusA:classY1[,statusB:classY2]|...
+				The first name in each part is the type name. The rest
+				are name-value pairs of node statuses and CSS statuses.
+				If there is only one status, it becomes the default. If
+				the tag needs to render a node with a status which does
+				not exist in the list, it picks one at random.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>renderDisabled</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				If disabled nodes are rendered (false, by default)
+			</description>
+		</attribute>
+
+	</tag>
+
+	<tag>
+		<name>optionList</name>
+		<tag-class>
+			com.kesdip.admin.web.tag.list.OptionListTag
+		</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			Creates a list of options elements from a list of objects.
+			The tag is meant to be included inside a &lt;select&gt;
+			element.
+
+			The tag assumes the existence of a Spring context and a bean
+			with id "optionListGenerationBean", and type
+			&lt;code&gt;gr.panouepe.monitor.util.list.OptionListGenerationBean&lt;/code&gt;.
+			The identified getter is invoked to retrieve the list of
+			objects. In each object, the identified getters are called
+			for the value and label of the option element.
+		</description>
+
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				The unique id of the control. It should not be the same
+				as any other tree tag or the results will be erratic.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>beanProperty</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				The property corresponging to the JavaBean getter of the
+				target list generation class.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>valueProperty</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				The property with the value. It must have a proper
+				getter.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>labelProperty</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				The property with the label. It must have a proper
+				getter.
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>isUserInRole</name>
+		<tag-class>
+			com.kesdip.admin.web.tag.security.IsUserInRoleTag
+		</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			Conditionally renders its contents based on the roles the
+			logged in user has. The tag has the ability to check a set
+			of roles in conjuction (all) or disjunction (oneOf). Exactly
+			one of the 2 properties must be set. They both accept a
+			comma-separated list of role names.
+		</description>
+
+		<attribute>
+			<name>all</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				A comma-separated list of role names.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>oneOf</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				A comma-separated list of role names.
+			</description>
+		</attribute>
+	</tag>
+</taglib>
+
+
+
