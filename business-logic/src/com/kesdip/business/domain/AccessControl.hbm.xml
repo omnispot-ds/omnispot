@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.kesdip.business.domain.generated.AccessControl"
+		table="ACC_CONTROL" lazy="true">
+		<meta attribute="class-description">
+			Domain object for the 'AccessControl' entity. Auto-generated code.
+			&lt;strong&gt;Do not modify manually.&lt;/strong&gt; @author
+			gerogias
+		</meta>
+		<meta attribute="implement-equals">true</meta>
+
+		<id name="id" column="ID" type="java.lang.Long">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Primary, surrogate key.
+			</meta>
+			<generator class="increment" />
+		</id>
+
+		<property name="type" column="ACC_TYPE" type="short"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Tha type of the ACL.
+			</meta>
+		</property>
+
+		<many-to-one name="user"
+			class="com.kesdip.business.domain.generated.User"
+			column="USERNAME" not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">The parent user.</meta>
+		</many-to-one>
+
+		<many-to-one name="installation"
+			class="com.kesdip.business.domain.generated.Installation"
+			column="INSTALLATION_ID" not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">The installation.</meta>
+		</many-to-one>
+	</class>
+
+</hibernate-mapping>
