@@ -1,0 +1,12 @@
+etc/lib/log4j/log4j-1.2.14.jar
+
+etc/lib/apache-commons/commons-dbcp-1.2.2.jar
+etc/lib/apache-commons/commons-pool-1.4.jar
+etc/lib/apache-commons/commons-lang.jar
+etc/lib/apache-commons/commons-beanutils-1.7.0.jar
+
+etc/lib/sun/jna.jar
+etc/lib/sun/examples.jar
+
+etc/lib/spring/spring.jar
+etc/lib/spring/spring-context.jar
