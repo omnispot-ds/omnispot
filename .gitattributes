@@ -337,3 +337,15 @@ designer-help/plugin.xml -text
 designer-help/src/com/kesdip/designer/help/Activator.java -text
 designer-help/testToc.xml -text
 designer-help/toc.xml -text
+designer-test/.classpath -text
+designer-test/.project -text
+designer-test/.settings/org.eclipse.jdt.core.prefs -text
+designer-test/META-INF/MANIFEST.MF -text
+designer-test/build.properties -text
+designer-test/resources/Bakunin_Nadar.jpg -text
+designer-test/resources/hot_potato.jpg -text
+designer-test/resources/kallisti.jpg -text
+designer-test/resources/leverage.jpg -text
+designer-test/resources/rasputin22.jpg -text
+designer-test/src/com/kesdip/designer/test/Activator.java -text
+designer-test/src/com/kesdip/designer/test/SerializationTest.java -text
