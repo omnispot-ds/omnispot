@@ -1,0 +1,14 @@
+// Give Wrapper classes full permissions
+grant codeBase "file:../lib/wrapper.jar" {
+        permission java.security.AllPermission;
+};
+
+grant codeBase "file:../../lib/derby.jar" {
+        permission java.io.FilePermission
+"derby.log", "read,write,delete";
+}; 
+
+grant codeBase "file:../../lib/derbynet.jar" {
+				permission java.net.SocketPermission
+"127.0.0.1", "connect,resolve,accept";
+}; 
