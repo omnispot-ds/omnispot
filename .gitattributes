@@ -414,3 +414,6 @@ common/src/com/kesdip/common/util/ui/RepaintWorker1.java -text
 designer-build/.project -text
 designer-build/build.properties -text
 designer-build/build.xml -text
+designer-feature/.project -text
+designer-feature/build.properties -text
+designer-feature/feature.xml -text
