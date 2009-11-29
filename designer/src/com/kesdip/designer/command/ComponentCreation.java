@@ -32,11 +32,15 @@ public class ComponentCreation extends Command {
 	}
 
 	/**
-	 * Can execute if all the necessary information has been provided. 
+	 * Can execute if all the necessary information has been provided.
+	 * Cannot execute if both are of the same class and the element 
+	 * already has a parent. 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
-		return element != null && parent != null && bounds != null;
+		return element != null && parent != null && bounds != null 
+			&& !element.getClass().equals(parent.getClass())
+			&& element.getParent() == null;
 	}
 
 	/* (non-Javadoc)

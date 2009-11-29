@@ -12,11 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
-//import com.kesdip.common.util.ui.RepaintWorker;
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
@@ -80,6 +78,7 @@ public class RootContainer extends AbstractComponent {
 			System.setProperty("sun.java2d.noddraw", "true");
 			WindowUtils.setWindowTransparent(frame, true);
 			frame.setIgnoreRepaint(true);
+			frame.getContentPane().setLayout(null);
 		} else {
 			frame.getContentPane().setBackground(backgroundColor);
 		}
@@ -151,7 +150,12 @@ public class RootContainer extends AbstractComponent {
 					windowComponent.getWidth() + ", " + windowComponent.getHeight() +
 					") at depth: " + lastLayer);
 			}
-			frame.getLayeredPane().add(windowComponent, new Integer(lastLayer++));
+			// transparency only works with a contentPane
+			if (isTransparent) {
+				frame.getContentPane().add(windowComponent);
+			} else {
+				frame.getLayeredPane().add(windowComponent, new Integer(lastLayer++));
+			}
 		}
 	}
 

@@ -88,7 +88,6 @@ public class FlashComponent extends AbstractComponent {
 			logger.info("doing OleVerb.SHOW for the first time");
 			showOleObject();
 			showing = true;
-			oleContainer.getParent().requestFocus();
 		}
 	}
 	
