@@ -9,6 +9,7 @@ bootstrap/dist
 common/bin
 common/build
 common/dist
+designer-preview/lib/*.jar
 player/ad.mp4
 player/bin
 player/bld.jpg
