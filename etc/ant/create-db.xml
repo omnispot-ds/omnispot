@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Creates the database" default="" basedir=".">
+
+	<import file="${etc.ant.scripts.dir}/common-targets.xml"/>
+	
+	<target name="drop.database">
+		<echo level="info">Dropping database...</echo>
+		<antcall target="zz.execute.sql.file">
+			<param name="onerror" value="continue"/>
+			<param name="sql.file" value="${etc.sql.scripts.dir}/drop-database.sql"/>
+			<param name="jdbc.driver" value="${jdbc.driver.class}"/>
+			<param name="jdbc.url" value="${jdbc.url}"/>
+			<param name="jdbc.username" value="${db.user.name}"/>
+			<param name="jdbc.password" value="${db.user.password}"/>
+		</antcall>
+
+	</target>
+	
+	<target name="create.database">
+		<echo level="info">Creating database...</echo>
+		<antcall target="zz.execute.sql.file">
+			<param name="onerror" value="abort"/>
+			<param name="sql.file" value="${etc.sql.scripts.dir}/create-database.sql"/>
+			<param name="jdbc.driver" value="${jdbc.driver.class}"/>
+			<param name="jdbc.url" value="${jdbc.url}"/>
+			<param name="jdbc.username" value="${db.user.name}"/>
+			<param name="jdbc.password" value="${db.user.password}"/>
+		</antcall>
+	</target>
+	
+	<target name="populate.database">
+		<echo level="info">Populating database...</echo>
+		<echo level="info">Static data...</echo>
+		<antcall target="zz.execute.sql.file">
+			<param name="onerror" value="abort"/>
+			<param name="sql.file" value="${etc.sql.scripts.dir}/static-data.sql"/>
+			<param name="jdbc.driver" value="${jdbc.driver.class}"/>
+			<param name="jdbc.url" value="${jdbc.url}"/>
+			<param name="jdbc.username" value="${db.user.name}"/>
+			<param name="jdbc.password" value="${db.user.password}"/>
+		</antcall>
+		<echo level="info">Test data...</echo>
+		<antcall target="zz.execute.sql.file">
+			<param name="onerror" value="abort"/>
+			<param name="sql.file" value="${etc.sql.scripts.dir}/test-data.sql"/>
+			<param name="jdbc.driver" value="${jdbc.driver.class}"/>
+			<param name="jdbc.url" value="${jdbc.url}"/>
+			<param name="jdbc.username" value="${db.user.name}"/>
+			<param name="jdbc.password" value="${db.user.password}"/>
+		</antcall>
+	</target>
+</project>
