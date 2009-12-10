@@ -173,7 +173,8 @@ public class ProcessUtils {
 	}
 	
 	/**
-	 * Force the machine to restart.
+	 * Force the machine to restart in 10 secs.
+	 * This time is left to make sure there is time for any cleanup necessary.
 	 * 
 	 * @throws IOException
 	 *             on error
@@ -183,7 +184,7 @@ public class ProcessUtils {
 		cmdArray[0] = "shutdown";
 		cmdArray[1] = "/r";
 		cmdArray[2] = "/t";
-		cmdArray[3] = "0";
+		cmdArray[3] = "10";
 
 		Runtime.getRuntime().exec(cmdArray, null, null);
 	}

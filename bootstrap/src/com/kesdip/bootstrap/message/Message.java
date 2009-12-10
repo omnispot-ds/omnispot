@@ -26,8 +26,8 @@ public abstract class Message implements IMessage {
 		if (getActionId() == null) {
 			return;
 		}
-		// messages not handled in the pump thread
-		if (isHandledInPumpThread() || status == IActionStatusEnum.OK) {
+		// messages with OK status not handled in the pump thread
+		if (!isOKHandledInPumpThread() && status == IActionStatusEnum.OK) {
 			return;
 		}
 
@@ -95,11 +95,13 @@ public abstract class Message implements IMessage {
 	public abstract String getActionId();
 
 	/**
-	 * Signals whether the message is handled inside the pump thread or not.
+	 * Signals whether the OK status update is handled inside the pump thread or not.
+	 * In some messages taking a lot of time to complete (e.g. {@link DeployMessage}), the 
+	 * message must not be handled as OK inside the oump, but at a later time. 
 	 * 
 	 * @return <code>true</code> by default
 	 */
-	protected boolean isHandledInPumpThread() {
+	protected boolean isOKHandledInPumpThread() {
 		return true;
 	}
 

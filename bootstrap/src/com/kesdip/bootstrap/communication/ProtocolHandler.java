@@ -172,7 +172,9 @@ public class ProtocolHandler {
 		}
 
 		if (!serializedActions.equals(IActionParamsEnum.NO_ACTIONS)) {
-			logger.debug("actions received from server: " + serializedActions);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Actions received from server: " + serializedActions);
+			}
 			Action[] actions = actionHandler.deserialize(serializedActions);
 			// must store them and add the necessary messages if required
 			for (Action action : actions) {

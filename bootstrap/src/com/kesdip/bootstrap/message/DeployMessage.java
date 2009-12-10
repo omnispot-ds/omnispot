@@ -135,10 +135,10 @@ public class DeployMessage extends Message {
 	 * thread.
 	 * 
 	 * @return always <code>false</code>
-	 * @see com.kesdip.bootstrap.message.Message#isHandledInPumpThread()
+	 * @see com.kesdip.bootstrap.message.Message#isOKHandledInPumpThread()
 	 */
 	@Override
-	protected boolean isHandledInPumpThread() {
+	protected boolean isOKHandledInPumpThread() {
 		return false;
 	}
 
