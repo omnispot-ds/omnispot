@@ -28,6 +28,7 @@ import com.kesdip.business.constenum.IMessageParamsEnum;
 import com.kesdip.business.domain.generated.Action;
 import com.kesdip.business.logic.InstallationLogic;
 import com.kesdip.business.logic.LogicFactory;
+import com.kesdip.common.util.StringUtils;
 
 public class ServerProtocolHandler {
 
@@ -102,6 +103,7 @@ public class ServerProtocolHandler {
 				} else if (l.size() == 1) {
 					Action dbAction = l.get(0);
 					dbAction.setStatus(action.getStatus());
+					dbAction.setMessage(StringUtils.convertFromActionMessage(action.getMessage()));
 					getHibernateTemplate().update(dbAction);
 				}
 			}
