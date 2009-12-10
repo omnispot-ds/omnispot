@@ -12,8 +12,10 @@ package com.kesdip.common.util;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
@@ -358,9 +360,10 @@ public class FileUtils {
 		File file = new File(path);
 		return file.getAbsolutePath();
 	}
-	
+
 	/**
 	 * Simple file copy method utilizing nio.
+	 * 
 	 * @param in
 	 * @param out
 	 * @throws IOException
@@ -373,16 +376,109 @@ public class FileUtils {
 			int maxCount = (64 * 1024 * 1024) - (32 * 1024);
 			long size = inChannel.size();
 			long position = 0;
-			while (position < size) 
-				position += inChannel.transferTo(position, maxCount, outChannel);
+			while (position < size)
+				position += inChannel
+						.transferTo(position, maxCount, outChannel);
 		} catch (IOException e) {
 			throw e;
 		} finally {
-			if (inChannel != null) inChannel.close();
-			if (outChannel != null) outChannel.close();
-    }
-}
+			if (inChannel != null)
+				inChannel.close();
+			if (outChannel != null)
+				outChannel.close();
+		}
+	}
 
+	/**
+	 * Implementation of the "tail -n" functionality. Based on code found <a
+	 * href="http://crawler.archive.org/xref-test/org/archive/crawler/util/LogReader.html#762"
+	 * >here</a>
+	 * 
+	 * @param file
+	 *            the file to read from. It will be opened in read mode
+	 * @param lines
+	 *            the number of lines to read
+	 * @return String the actual text read
+	 * @throws IOException
+	 *             on error
+	 */
+	public static String tail(File file, int lines) throws IOException {
+		int BUFFERSIZE = 2048;
+		long pos = 0;
+		long endPos = 0;
+		long lastPos = 0;
+		int numOfLines = 0;
+		byte[] buffer = new byte[BUFFERSIZE];
+		StringBuilder sb = new StringBuilder();
+		RandomAccessFile raf = null;
+		try {
+			raf = new RandomAccessFile(file, "r");
+			endPos = raf.length();
+			lastPos = endPos;
+
+			// Check for non-empty file
+			// Check for newline at EOF
+			if (endPos > 0) {
+				byte[] oneByte = new byte[1];
+				raf.seek(endPos - 1);
+				raf.read(oneByte);
+				if ((char) oneByte[0] != '\n') {
+					numOfLines++;
+				}
+			}
+
+			do {
+				// seek back BUFFERSIZE bytes
+				// if length of the file if less then BUFFERSIZE start from BOF
+				pos = 0;
+				if ((lastPos - BUFFERSIZE) > 0) {
+					pos = lastPos - BUFFERSIZE;
+				}
+				raf.seek(pos);
+				// If less then BUFFERSIZE available read the remaining bytes
+				if ((lastPos - pos) < BUFFERSIZE) {
+					int remainer = (int) (lastPos - pos);
+					buffer = new byte[remainer];
+				}
+				raf.readFully(buffer);
+				// in the buffer seek back for newlines
+				for (int i = buffer.length - 1; i >= 0; i--) {
+					if ((char) buffer[i] == '\n') {
+						numOfLines++;
+						// break if we have last n lines
+						if (numOfLines > lines) {
+							pos += (i + 1);
+							break;
+						}
+					}
+				}
+				// reset last position
+				lastPos = pos;
+			} while ((numOfLines <= lines) && (pos != 0));
+
+			// print last n lines starting from last position
+			for (pos = lastPos; pos < endPos; pos += buffer.length) {
+				raf.seek(pos);
+				if ((endPos - pos) < BUFFERSIZE) {
+					int remainer = (int) (endPos - pos);
+					buffer = new byte[remainer];
+				}
+				raf.readFully(buffer);
+				sb.append(new String(buffer));
+			}
+		} catch (FileNotFoundException e) {
+			sb = null;
+		} catch (IOException e) {
+			logger.error("Error reading tail from file", e);
+		} finally {
+			try {
+				raf.close();
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+		return sb.toString();
+	}
 
 	/**
 	 * A filter which accepts only files.

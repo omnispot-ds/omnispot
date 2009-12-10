@@ -123,6 +123,8 @@ public abstract class AbstractVideo extends AbstractComponent {
 		args.add("--aspect-ratio=" + width + ":" + height);
 		// no overlays
 		args.add("--no-overlay");
+		// no mouse pointer, hide after 1 msec
+		args.add("--mouse-hide-timeout=1");
 		// path to plugins folder
 		args.add("--plugin-path=" + pluginsPath.getAbsolutePath());
 		// full-screen mode

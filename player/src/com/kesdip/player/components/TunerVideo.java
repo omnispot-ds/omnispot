@@ -104,6 +104,8 @@ public class TunerVideo extends AbstractVideo {
 		if (logger.isTraceEnabled()) {
 			args.add("--verbose=2");
 		}
+		// no mouse pointer, hide after 1 msec
+		args.add("--mouse-hide-timeout=1");
 		// no annoying video title
 		args.add("--no-video-title-show");
 		// force aspect ratio so that there are no black borders

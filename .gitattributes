@@ -234,6 +234,7 @@ admin-console/src/com/kesdip/admin/web/util/SpringViewResolver.java -text
 admin-console/src/com/kesdip/admin/web/util/resources/defaultPrintScreen.jpg -text
 admin-console/src/com/kesdip/admin/web/util/schema/1.0.sql -text
 admin-console/src/com/kesdip/admin/web/util/schema/1.1.sql -text
+admin-console/src/com/kesdip/admin/web/util/schema/1.2.sql -text
 admin-console/src/log4j.properties -text
 admin-console/src/messages.properties -text
 bootstrap/.classpath -text
@@ -260,6 +261,7 @@ bootstrap/src/com/kesdip/bootstrap/content/TimingHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/derby/LaunchDerby.java -text
 bootstrap/src/com/kesdip/bootstrap/message/ContinuationMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/DeployMessage.java -text
+bootstrap/src/com/kesdip/bootstrap/message/FetchLogsMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/IMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/Message.java -text
 bootstrap/src/com/kesdip/bootstrap/message/PlayerProcessHelper.java -text
@@ -268,6 +270,7 @@ bootstrap/src/com/kesdip/bootstrap/message/ReconfigureMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/message/RestartPlayerMessage.java -text
 bootstrap/src/com/kesdip/bootstrap/schema/1.0.sql -text
 bootstrap/src/com/kesdip/bootstrap/schema/1.1.sql -text
+bootstrap/src/com/kesdip/bootstrap/schema/1.2.sql -text
 bootstrap/src/log4j.properties -text
 bootstrap/test/bootstrap.properties -text
 bootstrap/test/sample.xml -text
@@ -381,7 +384,10 @@ common/src-test/com/kesdip/common/configure/resources/TestBean.java -text
 common/src-test/com/kesdip/common/configure/resources/applicationContextBeanSetter.xml -text
 common/src-test/com/kesdip/common/test/BaseSpringTest.java -text
 common/src-test/com/kesdip/common/test/BaseTest.java -text
+common/src-test/com/kesdip/common/util/FileUtilsTest.java -text
 common/src-test/com/kesdip/common/util/propertyeditor/ColorEditorTest.java -text
+common/src-test/com/kesdip/common/util/resources/test1.txt -text
+common/src-test/com/kesdip/common/util/resources/test2.txt -text
 common/src/META-INF/MANIFEST.MF -text
 common/src/com/kesdip/common/configure/ApplicationContextBeanSetter.java -text
 common/src/com/kesdip/common/configure/BeanSetter.java -text

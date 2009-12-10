@@ -20,6 +20,7 @@ import com.kesdip.bootstrap.Config;
 import com.kesdip.bootstrap.Manager;
 import com.kesdip.bootstrap.Screen;
 import com.kesdip.bootstrap.message.DeployMessage;
+import com.kesdip.bootstrap.message.FetchLogsMessage;
 import com.kesdip.bootstrap.message.Message;
 import com.kesdip.bootstrap.message.RebootPlayerMessage;
 import com.kesdip.bootstrap.message.ReconfigureMessage;
@@ -215,6 +216,9 @@ public class ProtocolHandler {
 					logger.info("Adding new reconfigure message");
 					message = new ReconfigureMessage(action.getActionId(),
 							manager, RestartPlayerMessage.getPlayerProcess());
+				} else if (action.getType() == IActionTypesEnum.FETCH_LOGS) {
+					logger.info("Adding new fetch logs message");
+					message = new FetchLogsMessage(action.getActionId());
 				}
 				// add to the pump
 				if (message != null) {

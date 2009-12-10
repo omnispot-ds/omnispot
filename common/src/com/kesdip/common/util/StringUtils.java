@@ -21,6 +21,17 @@ import java.net.URLEncoder;
 public class StringUtils extends org.apache.commons.lang.StringUtils {
 
 	/**
+	 * Delimiter for action message lines.
+	 */
+	private static final String ACTION_MESSAGE_DELIM = "=-=-=";
+
+	/**
+	 * The system's line separator.
+	 */
+	private final static String LINE_SEPARATOR = System
+			.getProperty("line.separator");
+
+	/**
 	 * Checks if the given string starts with a protocol identifier. The
 	 * recognized protocols are:
 	 * <ul>
@@ -152,5 +163,39 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
 	 */
 	public static final String trim(String value) {
 		return value != null ? value.trim() : null;
+	}
+
+	/**
+	 * Replaces all occurrences of newlines with the char sequence
+	 * {@link #ACTION_MESSAGE_DELIM}. Required to have the message all in one
+	 * line.
+	 * 
+	 * @param message
+	 *            message to process
+	 * @return String the converted string or an empty string
+	 */
+	public static final String convertToActionMessage(String message) {
+		if (isEmpty(message)) {
+			return "";
+		}
+		// go for both Windows and Unix newlines
+		String msg = message.replace("\r\n", ACTION_MESSAGE_DELIM);
+		return msg.replace("\n", ACTION_MESSAGE_DELIM);
+	}
+
+	/**
+	 * Does the reverse of {@link #convertToActionMessage(String)}, replacing
+	 * all occurrences of {@link #ACTION_MESSAGE_DELIM} with the platform's line
+	 * separator.
+	 * 
+	 * @param message
+	 *            to process
+	 * @return String the converted string or an empty string
+	 */
+	public static final String convertFromActionMessage(String message) {
+		if (isEmpty(message)) {
+			return "";
+		}
+		return message.replace(ACTION_MESSAGE_DELIM, LINE_SEPARATOR);
 	}
 }
