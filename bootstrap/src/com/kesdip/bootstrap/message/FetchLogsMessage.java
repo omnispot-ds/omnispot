@@ -84,7 +84,7 @@ public class FetchLogsMessage extends Message {
 			c = DBUtils.getConnection();
 
 			PreparedStatement ps = c
-					.prepareStatement("UPDATE ACTION SET MESSAGE=? DEPLOYMENT WHERE ACTION_ID=?");
+					.prepareStatement("UPDATE ACTION SET MESSAGE=? WHERE ACTION_ID=?");
 			ps.setString(1, lines);
 			ps.setString(2, getActionId());
 			ps.executeUpdate();

@@ -38,7 +38,7 @@ public class Manager extends Thread {
 	/**
 	 * The list of supported bootstrap schema versions.
 	 */
-	private final String[] VERSIONS = { "1.0", "1.1" };
+	private final String[] VERSIONS = { "1.0", "1.1", "1.2" };
 
 	private boolean run = true;
 
