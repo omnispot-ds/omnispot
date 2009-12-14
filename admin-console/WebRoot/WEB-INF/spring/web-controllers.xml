@@ -59,6 +59,7 @@
 				/secure/installation/delete.do*			= deleteInstallationController
 				/secure/installation/edit.do*			= editInstallationController
 				/secure/installation/view-actions.do*	= viewActionsController
+				/secure/installation/view-log.do*		= viewLogController
 
 				/secure/installationGroup/create.do*	= createGroupController
 				/secure/installationGroup/view.do*		= viewGroupController
@@ -363,6 +364,15 @@
 				<entry key="installation" value="/secure/installation/view-actions.tiles"/>
 			</map>
 		</property>
+		<property name="commandClass"
+			value="com.kesdip.business.beans.ActionQueryBean" />
+	</bean>
+
+	<!-- Controller for Log viewing -->
+	<bean id="viewLogController" parent="baseFormController"
+		class="com.kesdip.admin.web.controller.installation.ViewLogController">
+		<property name="formView" value="/secure/installation/view-log.tiles" />
+		<property name="successView" value="/secure/home.do" />
 		<property name="commandClass"
 			value="com.kesdip.business.beans.ActionQueryBean" />
 	</bean>

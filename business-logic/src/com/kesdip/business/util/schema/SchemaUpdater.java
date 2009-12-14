@@ -142,6 +142,12 @@ public class SchemaUpdater {
 				} catch (Exception e) {
 					logger.fatal("Failed while executing " + knownVersion
 							+ ".sql", e);
+					if (e instanceof SQLException) {
+						SQLException nextEx = (SQLException)e;
+						while ((nextEx = nextEx.getNextException()) != null) {
+							logger.fatal("Next exception", nextEx);
+						}
+					}
 					try {
 						logger.info("About to roll-back changes");
 						connection.rollback();

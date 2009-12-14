@@ -103,13 +103,15 @@
 				class="com.kesdip.business.domain.generated.StatusEntry" />
 		</set>
 
-		<set name="pendingActions" cascade="all" lazy="true" inverse="true">
+		<set name="pendingActions" cascade="all" lazy="true" inverse="true"
+			order-by="DATE_ADDED desc">
 			<meta attribute="field-description">
 				The pending actions for this installation.
 			</meta>
 			<key column="INSTALLATION_ID" />
 			<one-to-many
 				class="com.kesdip.business.domain.generated.Action" />
+				
 		</set>
 
 		<set name="deployments" table="INST_DEPLOYMENT" cascade="none"

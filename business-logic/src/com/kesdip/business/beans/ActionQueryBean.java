@@ -23,8 +23,8 @@ import com.kesdip.business.domain.generated.Installation;
 /**
  * Used to query a set of actions for a particular target object.
  * <p>
- * Contains the {@link Action}s for the given target object organized per
- * action type, status and {@link Installation}.
+ * Contains the {@link Action}s for the given target object organized per action
+ * type, status and {@link Installation}.
  * </p>
  * <p>
  * The bean's structure allows the following enumerations in a UI
@@ -33,15 +33,17 @@ import com.kesdip.business.domain.generated.Installation;
  * for each action type<br/>
  * for each installation<br/>
  * type all Actions  
- * </code>
- * </li>
+ * </code></li>
  * <li><code>perTypeAndStatus:<br/>
  * for each action type<br/>
  * for each Action.status && Action.dateAdded<br/>
  * type all Installations  
- * </code>
- * </li>
+ * </code></li>
  * </ol>
+ * </p>
+ * <p>
+ * It also allows the display of the latest "Fetch Log" action item with a
+ * non-null message.
  * </p>
  * 
  * @see IActionTypesEnum
@@ -53,7 +55,7 @@ public class ActionQueryBean extends BaseMultitargetBean {
 	/**
 	 * Serialization version.
 	 */
-	private final static long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Actions per type and status.
@@ -65,6 +67,11 @@ public class ActionQueryBean extends BaseMultitargetBean {
 	 */
 	private Map<Short, List<InstallationActionListBean>> perTypeAndInstallation = null;
 
+	/**
+	 * The latest log action.
+	 */
+	private Action logAction = null;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -324,6 +331,20 @@ public class ActionQueryBean extends BaseMultitargetBean {
 	 */
 	public Map<Short, List<ActionInstallationListBean>> getPerTypeAndStatus() {
 		return perTypeAndStatus;
+	}
+
+	/**
+	 * @return the logAction
+	 */
+	public Action getLogAction() {
+		return logAction;
+	}
+
+	/**
+	 * @param logAction the logAction to set
+	 */
+	public void setLogAction(Action logAction) {
+		this.logAction = logAction;
 	}
 
 }

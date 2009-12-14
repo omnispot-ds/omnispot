@@ -17,6 +17,7 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -175,7 +176,8 @@ public class ActionLogic extends BaseLogic {
 			// parameters first, if any
 			if (!object.getAction().getParameters().isEmpty()) {
 				for (Parameter parameter : object.getAction().getParameters()) {
-					// ignore parameters w/o a name, they are unused placeholders
+					// ignore parameters w/o a name, they are unused
+					// placeholders
 					if (StringUtils.isEmpty(parameter.getName())) {
 						continue;
 					}
@@ -214,6 +216,36 @@ public class ActionLogic extends BaseLogic {
 		for (Installation installation : installations) {
 			// add to maps as appropriate
 			bean.addInstallation(installation);
+		}
+		return bean;
+	}
+
+	/**
+	 * Returns the latest "Fetch Log" with a log entry for the installation
+	 * identified by the bean. If there is no such entry, the bean has a
+	 * <code>null</code> log value.
+	 * 
+	 * @param bean
+	 *            the query bean
+	 * @return ActionQueryBean the populated bean
+	 * @throws ValidationException
+	 *             on validation error
+	 */
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
+	public ActionQueryBean getLogEntry(ActionQueryBean bean)
+			throws ValidationException {
+		validate(bean, "logEntry");
+		bean.setEntityName(getEntityName(bean));
+		List<Action> fetchLogActions = getHibernateTemplate().find(
+				"select a from " + Action.class.getName() + " a"
+						+ " where a.type=" + IActionTypesEnum.FETCH_LOGS
+						+ " and a.message is not null"
+						+ " and a.installation=? "
+						+ " order by a.dateAdded desc", bean.getInstallation());
+		// get the first one, i.e. the latest
+		if (!fetchLogActions.isEmpty()) {
+			bean.setLogAction(fetchLogActions.get(0));
 		}
 		return bean;
 	}

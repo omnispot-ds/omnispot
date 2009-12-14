@@ -20,6 +20,11 @@
 			 <li class="selected_tab">
 				<fmt:message bundle="${msg}" key="installation.tab.actions"/>
 			</li>
+			 <li>
+			 	<a href="${pageContext.request.contextPath}/secure/installation/view-log.do?installation.id=${param['installation.id']}">
+					<fmt:message bundle="${msg}" key="installation.tab.log"/>
+				</a>
+			</li>
 		</ul>
 	</div>
 
@@ -36,11 +41,11 @@
 		</div>
 
 		<c:if test="${empty dataObject.perTypeAndStatus}">
-			<li class="maxWidth">
+			<span class="maxWidth">
 				<span class="description">
 					<fmt:message bundle="${msg}" key="action.noActions" />
 				</span>
-			</li>
+			</span>
 		</c:if>
 
 		<c:forEach items="${dataObject.perTypeAndStatus}" var="mapEntry">

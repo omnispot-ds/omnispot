@@ -5,8 +5,10 @@
  */
 package com.kesdip.player;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Robot;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
@@ -373,7 +375,15 @@ public class Player implements Runnable {
 		backgroundFrame.addKeyListener(PlayerUtils.getExitKeyListener(this));
 		backgroundFrame
 				.addMouseListener(PlayerUtils.getExitMouseListener(this));
+		// hide the cursor and put it in the lower right corner
+		// even if it becomes visible again, it will be out of sight
 		backgroundFrame.setCursor(PlayerUtils.getNoCursor());
+		try {
+			Robot robot = new Robot();
+			robot.mouseMove(settings.getWidth(), settings.getHeight());
+		} catch (AWTException e) {
+			logger.error("Error trying to move mouse off-screen", e);
+		}
 
 		backgroundFrame.setLocation(0, 0);
 		backgroundFrame.setPreferredSize(new Dimension(settings.getWidth(),

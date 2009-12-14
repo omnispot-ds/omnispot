@@ -20,6 +20,11 @@
 					<fmt:message bundle="${msg}" key="installation.tab.actions"/>
 				</a>
 			</li>
+			 <li>
+			 	<a href="${pageContext.request.contextPath}/secure/installation/view-log.do?installation.id=${dataObject.id}">
+					<fmt:message bundle="${msg}" key="installation.tab.log"/>
+				</a>
+			</li>
 		</ul>
 	</div>
 

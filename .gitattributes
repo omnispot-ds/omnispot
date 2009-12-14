@@ -31,6 +31,7 @@ admin-console/WebRoot/WEB-INF/tiles/home/user-body.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installation/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installation/edit.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installation/view-actions.jsp -text
+admin-console/WebRoot/WEB-INF/tiles/installation/view-log.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installation/view.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/create.jsp -text
 admin-console/WebRoot/WEB-INF/tiles/installationGroup/edit.jsp -text
@@ -205,6 +206,7 @@ admin-console/src/com/kesdip/admin/web/controller/installation/CreateController.
 admin-console/src/com/kesdip/admin/web/controller/installation/DeleteController.java -text
 admin-console/src/com/kesdip/admin/web/controller/installation/EditController.java -text
 admin-console/src/com/kesdip/admin/web/controller/installation/ViewController.java -text
+admin-console/src/com/kesdip/admin/web/controller/installation/ViewLogController.java -text
 admin-console/src/com/kesdip/admin/web/controller/login/LoginController.java -text
 admin-console/src/com/kesdip/admin/web/controller/printscreens/ViewPrintScreenController.java -text
 admin-console/src/com/kesdip/admin/web/controller/search/QuickSearchController.java -text
