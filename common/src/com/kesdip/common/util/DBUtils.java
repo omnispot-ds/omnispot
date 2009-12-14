@@ -24,6 +24,11 @@ import org.apache.commons.pool.ObjectPool;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
 
+/**
+ * Wrapper around common DB operations.
+ * 
+ * @author gerogias
+ */
 public class DBUtils {
 	private static final Logger logger = Logger.getLogger(DBUtils.class);
 
@@ -37,9 +42,10 @@ public class DBUtils {
 	 *             iff something goes wrong.
 	 */
 	public static Connection getConnection() throws Exception {
-		if (!driverSetup)
+		if (!driverSetup) {
 			throw new Exception(
 					"Driver has not been set up with a call to setupDriver().");
+		}
 
 		return DriverManager.getConnection("jdbc:apache:commons:dbcp:local");
 	}

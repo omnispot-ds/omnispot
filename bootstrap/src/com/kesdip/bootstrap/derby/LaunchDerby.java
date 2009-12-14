@@ -19,8 +19,6 @@ import org.apache.derby.drda.NetworkServerControl;
 import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.Config;
-import com.kesdip.common.util.DBUtils;
-import com.kesdip.common.util.StreamUtils;
 
 /**
  * Utility class to launch the Derby server.
@@ -41,7 +39,7 @@ public class LaunchDerby {
 	 */
 	public static void main(String args[]) {
 
-		Config config = Config.getSingleton();
+		Config config = Config.getSingleton(false);
 		String serverName = config.getDbHost();
 		String port = config.getDbPort();
 		String databaseLocation = config.getDbLocation();

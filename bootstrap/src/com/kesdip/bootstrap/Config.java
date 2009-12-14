@@ -40,33 +40,57 @@ public class Config {
 	}
 
 	/**
-	 * The configuratino singleton object.
+	 * The configuration singleton object.
 	 */
-	private static Config singleton = new Config();
+	private static Config singleton = null;
 
 	/**
-	 * Accessor to the configuration singleton object.
+	 * Accessor to the configuration singleton object. Same as calling
+	 * {@link #getSingleton(boolean)} with a <code>true</code> argument.
 	 * 
 	 * @return The singleton Config instance.
 	 */
 	public static Config getSingleton() {
+		if (singleton == null) {
+			singleton = getSingleton(true);
+		}
+		return singleton;
+	}
+
+	/**
+	 * Initialize the singleton object with or without calling
+	 * {@link DBUtils#setupDriver(String)}. This is useful when launching the DB
+	 * process. If the calling code calls the method for the first time with a
+	 * <code>false</code> argument, it should take special care to call
+	 * {@link DBUtils#setupDriver(String)} at some point.
+	 * 
+	 * @param setupDriver
+	 *            if <code>true</code>, will setup the driver as well
+	 * @return Config the singleton
+	 */
+	public static Config getSingleton(boolean initDriver) {
+		if (singleton == null) {
+			singleton = new Config(initDriver);
+		}
 		return singleton;
 	}
 
 	/**
 	 * Private initializing constructor. Loads a driver class if it has been
-	 * set, and sets the connection pool up with the driver manager using the
-	 * appropriate JDBC URL.
+	 * set. If the parameter is <code>true</code>, sets the connection pool up
+	 * with the driver manager using the appropriate JDBC URL.
 	 */
-	private Config() {
+	private Config(boolean setupDriver) {
 		try {
 			String driverClass = getDriverClass();
-			if ("_NOT_SET_".equals(driverClass))
+			if ("_NOT_SET_".equals(driverClass)) {
 				return;
+			}
 
 			Class.forName(getDriverClass());
-
-			DBUtils.setupDriver(getJDBCUrl());
+			if (setupDriver) {
+				DBUtils.setupDriver(getJDBCUrl());
+			}
 		} catch (Exception e) {
 			logger.error("Unable to setup connection pooling", e);
 		}
