@@ -12,7 +12,6 @@ business-logic/dist
 common/bin
 common/build
 common/dist
-demos/AdPlayerDemo/ad.mp4
 designer-preview/lib/*.jar
 player/ad.mp4
 player/bin
