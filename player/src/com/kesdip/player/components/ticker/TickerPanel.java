@@ -42,6 +42,13 @@ public class TickerPanel extends JPanel {
 	protected int width;
 	protected int height;
 
+	private AlphaComposite alphaComposite = null;
+	
+	/**
+	 * A flag to speed up log checks.
+	 */
+	private boolean loggingEnabled = false;
+	
 	/* TRANSIENT RUN-TIME STATE */
 	private AtomicBoolean positionInitialized = new AtomicBoolean(false);
 	private double currentXPos;
@@ -79,6 +86,10 @@ public class TickerPanel extends JPanel {
 		this.oldTotalElapsedTime = 0;
 //		this.repaintWorker = new RepaintWorker(this);
 		panelBounds = new Rectangle(getX(), getY(), width, height);
+		alphaComposite = AlphaComposite.getInstance(
+				AlphaComposite.SRC_OVER, (float) 0.3);
+		loggingEnabled = logger.isTraceEnabled();
+		
 	}
 
 	private String getTickerContent(Graphics g) {
@@ -95,11 +106,11 @@ public class TickerPanel extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		if (logger.isTraceEnabled()) {
+		if (loggingEnabled) {
 			logger.trace("TickerPanel.paintComponent() called");
 		}
 
-		super.paintComponent(g);
+//		super.paintComponent(g);
 
 		// initialize emWidth
 		if (fiveEmWidth == Integer.MIN_VALUE) {
@@ -122,16 +133,14 @@ public class TickerPanel extends JPanel {
 		} else if (oldContent != null) {
 			// Draw the fade out image in the old location.
 			Graphics2D gFade = (Graphics2D) g.create();
-			AlphaComposite newComposite = AlphaComposite.getInstance(
-					AlphaComposite.SRC_OVER, (float) 0.3);
-			gFade.setComposite(newComposite);
+			gFade.setComposite(alphaComposite);
 			gFade.drawString(oldContent, ((int) oldXPos), oldYPos);
 			gFade.dispose();
 		}
 
 		// Now write the content
 		String content = getTickerContent(g);
-		if (logger.isTraceEnabled()) {
+		if (loggingEnabled) {
 			logger.trace("(" + ((int) Math.round(currentXPos)) + ", "
 					+ currentYPos + "): '" + content + "'");
 		}
@@ -142,12 +151,11 @@ public class TickerPanel extends JPanel {
 		oldYPos = currentYPos;
 
 		// If we have moved far enough along the edge that the leading character
-		// is
-		// no longer visible, drop the leading character.
+		// is no longer visible, drop the leading character.
 		int firstCharWidth = g.getFontMetrics().charWidth(content.charAt(0));
 		if (firstCharWidth < Math.abs(currentXPos)) {
 			source.dropLeadingChar();
-			currentXPos = currentXPos + ((double) firstCharWidth);
+			currentXPos = currentXPos + firstCharWidth;
 		}
 
 		// Reset the original state
@@ -186,7 +194,7 @@ public class TickerPanel extends JPanel {
 		long currentTime = System.currentTimeMillis();
 
 		double sleep = currentTime - oldTotalElapsedTime;
-		if (logger.isTraceEnabled()) {
+		if (loggingEnabled) {
 			logger.trace("The time lapse since we last repainted the "
 					+ "ticker is: " + sleep + "ms");
 		}
@@ -197,11 +205,10 @@ public class TickerPanel extends JPanel {
 		if (currentXPos <= fiveEmWidth) {
 			currentXPos = 0;
 		}
-		if (logger.isTraceEnabled()) {
+		if (loggingEnabled) {
 			logger.trace("New currentXPos: " + currentXPos);
 		}
 		oldTotalElapsedTime = currentTime;
 		repaint();
-//		SwingUtilities.invokeLater(repaintWorker);
 	}
 }

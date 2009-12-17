@@ -19,6 +19,9 @@ import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
 import com.kesdip.player.helpers.PlayerUtils;
+import com.sun.jna.Native;
+import com.sun.jna.Platform;
+import com.sun.jna.examples.CLibrary;
 import com.sun.jna.examples.WindowUtils;
 
 /**
@@ -30,22 +33,31 @@ import com.sun.jna.examples.WindowUtils;
  */
 public class RootContainer extends AbstractComponent {
 	private static final Logger logger = Logger.getLogger(RootContainer.class);
-	
+
 	protected String name;
 	protected List<Component> contents;
 	protected boolean isTransparent;
-	
+
+	/**
+	 * According to JNA documentation this accelerates things.
+	 */
+	static {
+		Native.loadLibrary((Platform.isWindows() ? "msvcrt" : "c"),
+				CLibrary.class);
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public void setContents(List<Component> contents) {
 		this.contents = contents;
 	}
-	
+
 	public void setIsTransparent(boolean isTransparent) {
 		this.isTransparent = isTransparent;
 	}
-	
+
 	/* TRANSIENT STATE */
 	protected Frame fullScreenFrame;
 	protected JFrame frame;
@@ -54,8 +66,7 @@ public class RootContainer extends AbstractComponent {
 	/**
 	 * Frame repaint worker.
 	 */
-//	private RepaintWorker repaintWorker = null;
-	
+	// private RepaintWorker repaintWorker = null;
 	public void createFullScreenResources() {
 		// Intentionally left empty
 	}
@@ -67,13 +78,13 @@ public class RootContainer extends AbstractComponent {
 		frame.addKeyListener(PlayerUtils.getExitKeyListener(player));
 		frame.addMouseListener(PlayerUtils.getExitMouseListener(player));
 		frame.setCursor(PlayerUtils.getNoCursor());
-		
+
 		frame.setLocation(x, y);
 		frame.setPreferredSize(new Dimension(width, height));
 		lastLayer = 0;
-		
-//		repaintWorker = new RepaintWorker(frame);
-		
+
+		// repaintWorker = new RepaintWorker(frame);
+
 		if (isTransparent) {
 			System.setProperty("sun.java2d.noddraw", "true");
 			WindowUtils.setWindowTransparent(frame, true);
@@ -83,25 +94,25 @@ public class RootContainer extends AbstractComponent {
 			frame.getContentPane().setBackground(backgroundColor);
 		}
 	}
-	
+
 	public void destroyWindowedResources() {
 		releaseResources();
 		if (frame == null) {
 			// Something went wrong during the initialization process...
-			return; 
+			return;
 		}
-		
+
 		frame.setVisible(false);
 		frame.dispose();
 		frame = null;
-//		repaintWorker = null;
+		// repaintWorker = null;
 	}
 
 	@Override
 	public void init(Component parent, TimingMonitor timingMonitor,
 			Player player) throws ComponentException {
 		setPlayer(player);
-		
+
 		if (parent != null) {
 			fullScreenFrame = (Frame) parent.getWindowComponent();
 			for (Component component : contents) {
@@ -113,10 +124,10 @@ public class RootContainer extends AbstractComponent {
 		// We should be working in normal (non-full-screen) mode. Make sure
 		// that is the case.
 		if (frame == null) {
-			throw new RuntimeException("Misconfiguration. Working in " +
-					"non-full-screen mode, but initialized incorrectly.");
+			throw new RuntimeException("Misconfiguration. Working in "
+					+ "non-full-screen mode, but initialized incorrectly.");
 		}
-		
+
 		for (Component component : contents) {
 			component.setX(component.getX() - x);
 			component.setY(component.getY() - y);
@@ -135,26 +146,29 @@ public class RootContainer extends AbstractComponent {
 		if (windowComponent == null) {
 			return;
 		}
-		
+
 		if (frame == null) {
 			if (logger.isInfoEnabled()) {
-				logger.info("Adding component at: (" + windowComponent.getX() +
-					", " + windowComponent.getY() + "), size: (" +
-					windowComponent.getWidth() + ", " + windowComponent.getHeight() + ")");
+				logger.info("Adding component at: (" + windowComponent.getX()
+						+ ", " + windowComponent.getY() + "), size: ("
+						+ windowComponent.getWidth() + ", "
+						+ windowComponent.getHeight() + ")");
 			}
 			fullScreenFrame.add(windowComponent);
 		} else {
 			if (logger.isInfoEnabled()) {
-				logger.info("Adding component at: (" + windowComponent.getX() +
-					", " + windowComponent.getY() + "), size: (" +
-					windowComponent.getWidth() + ", " + windowComponent.getHeight() +
-					") at depth: " + lastLayer);
+				logger.info("Adding component at: (" + windowComponent.getX()
+						+ ", " + windowComponent.getY() + "), size: ("
+						+ windowComponent.getWidth() + ", "
+						+ windowComponent.getHeight() + ") at depth: "
+						+ lastLayer);
 			}
 			// transparency only works with a contentPane
 			if (isTransparent) {
 				frame.getContentPane().add(windowComponent);
 			} else {
-				frame.getLayeredPane().add(windowComponent, new Integer(lastLayer++));
+				frame.getLayeredPane().add(windowComponent,
+						new Integer(lastLayer++));
 			}
 		}
 	}
@@ -184,11 +198,11 @@ public class RootContainer extends AbstractComponent {
 				// Do nothing
 				break;
 			default:
-				throw new RuntimeException("Unexpected completion " +
-						"state: " + component.isComplete());
+				throw new RuntimeException("Unexpected completion " + "state: "
+						+ component.isComplete());
 			}
 		}
-		
+
 		return CompletionStatus.DONT_CARE;
 	}
 
@@ -198,7 +212,7 @@ public class RootContainer extends AbstractComponent {
 			component.releaseResources();
 		}
 	}
-	
+
 	@Override
 	public Set<Resource> gatherResources() {
 		HashSet<Resource> retVal = new HashSet<Resource>();
@@ -207,6 +221,7 @@ public class RootContainer extends AbstractComponent {
 		}
 		return retVal;
 	}
+
 	/**
 	 * @return the name
 	 */
