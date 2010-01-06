@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Designer Plug-in
 Bundle-SymbolicName: com.kesdip.designer; singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.5
 Bundle-Activator: com.kesdip.designer.Activator
-Bundle-Vendor: Ke.S.Di.P. E.P.E.
+Bundle-Vendor: OmniSpot E.P.E.
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.ui,
