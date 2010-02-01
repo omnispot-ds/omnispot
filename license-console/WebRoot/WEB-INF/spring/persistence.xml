@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+	<bean id="licenseConsoleDS"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/licenseConsoleDS" />
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="licenseConsoleDS" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="licenseConsoleSF"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="licenseConsoleDS" />
+		<property name="mappingResources">
+			<list>
+				<value>com/kesdip/business/domain/license/Customer.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.DerbyDialect
+				hibernate.show_sql=false 
+				hibernate.hbm2ddl.auto=none
+			</value>
+		</property>
+	</bean>
+	
+	<bean
+		id="hibernateTemplate"
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<constructor-arg>
+			<ref bean="licenseConsoleSF" />
+		</constructor-arg>
+	</bean>
+	
+</beans>

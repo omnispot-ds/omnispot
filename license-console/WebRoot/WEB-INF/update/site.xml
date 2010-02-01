@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site
+      mirrorsURL="http://localhost:8080/update-console/update/mirrors.xml">
+   <description url="http://localhost:8080/update-console/update">
+      The basic update site URL
+   </description>
+   <feature url="features/com.kesdip.designer.feature_1.1.5.jar" id="com.kesdip.designer.feature" version="1.1.5" os="win32" ws="win32" arch="x86">
+      <category name="Omni-Spot Designer"/>
+   </feature>
+   <feature url="features/com.kesdip.designer.feature_1.1.5.1.jar" id="com.kesdip.designer.feature" version="1.1.5.1">
+      <category name="Omni-Spot Designer"/>
+   </feature>
+   <category-def name="Omni-Spot Designer" label="Omni-Spot Designer"/>
+</site>

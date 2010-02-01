@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The contents of this file will be loaded for each web application -->
+<Context debug="1" reloadable="true" path="/license-console">
+
+	<ResourceLink 
+		name="jdbc/licenseConsoleDS" 
+		global="jdbc/licenseConsoleDS"
+		type="javax.sql.Datasource" />
+
+</Context>

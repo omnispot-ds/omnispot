@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<display-name>UpdateConsole</display-name>
+
+	<resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/licenseConsoleDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/application-context.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>
+			com.kesdip.license.web.listener.SchemaUpdateContextListener</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>UpdateServlet</servlet-name>
+		<servlet-class>com.kesdip.license.web.servlet.UpdateServlet</servlet-class>
+		<init-param>
+			<param-name>updateSiteRoot</param-name>
+			<param-value>/WEB-INF/update</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>UpdateServlet</servlet-name>
+		<url-pattern>/update/*</url-pattern>
+	</servlet-mapping>
+
+	<security-role>
+		<role-name>SUPPORTED_CLIENT</role-name>
+	</security-role>
+
+	<security-constraint>
+		<display-name>Update_Site_Constraint</display-name>
+		<web-resource-collection>
+			<web-resource-name>Update_Site</web-resource-name>
+			<description></description>
+			<url-pattern>/update/*</url-pattern>
+			<http-method>POST</http-method>
+			<http-method>GET</http-method>
+			<http-method>HEAD</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>SUPPORTED_CLIENT</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>Update Site Realm</realm-name>
+	</login-config>
+</web-app>

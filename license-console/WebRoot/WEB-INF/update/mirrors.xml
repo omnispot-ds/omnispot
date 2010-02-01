@@ -1,0 +1,5 @@
+<mirrors>
+	<mirror 
+		url="http://localhost:8080/update-console/update" 
+		label="Recommended mirror: http://www.kesdip.com" />
+</mirrors>

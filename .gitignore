@@ -14,6 +14,7 @@ common/build
 common/dist
 demos/AdPlayerDemo/ad.mp4
 designer-preview/lib/*.jar
+license-console/dist
 player/ad.mp4
 player/bin
 player/bld.jpg
