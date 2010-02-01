@@ -110,7 +110,7 @@ public class TickerPanel extends JPanel {
 			logger.trace("TickerPanel.paintComponent() called");
 		}
 
-//		super.paintComponent(g);
+		super.paintComponent(g);
 
 		// initialize emWidth
 		if (fiveEmWidth == Integer.MIN_VALUE) {
