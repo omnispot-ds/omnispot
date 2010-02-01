@@ -959,8 +959,21 @@ div.thumbnail-area {
 .thumbnail {
 	position: relative;
 	display: inline;
-	z-index: 0;
+	z-index: 1;
 }
+
+.thumbnail-warning {
+	border-color: yellow;
+	border-width: 2px;
+	border-style: solid;
+}
+
+.thumbnail-error {
+	border-color: red;
+	border-width: 2px;
+	border-style: solid;
+}
+
 
 .thumbnail:hover {
 	background-color: transparent;
@@ -998,6 +1011,7 @@ div.thumbnail-area {
 	height: 480px;
 	border-width: 0px;
 	padding: 2px;
+	z-index: 50;
 }
 
 .thumbnail:hover span {
