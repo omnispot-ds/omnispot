@@ -49,8 +49,6 @@
 			<fileset dir="${common.build.dir}/classes" />
 		</copy>
 
-		<!-- antcall target="process.hibernate.cfg" inheritall="true" / -->
-
 		<mkdir dir="${common.dist.dir}" />
 
 		<antcall target="zz.create.simple.jar">
@@ -70,58 +68,6 @@
 	    <mkdir dir="${common.build.dir}"/>
  		<mkdir dir="${common.dist.dir}"/>
 	</target>
-
-
-	<target name="process.hibernate.cfg">
-
-		<property name="hibernate.file" location="${common.build.dir}/inactive_hibernate.cfg.xml" />
-
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[<!-- DEVELOPMENT SETTINGS -->]]></replacetoken>
-			<replacevalue>
-				<![CDATA[<!-- DEVELOPMENT SETTINGS ]]>
-			</replacevalue>
-		</replace>
-
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[<!-- EOF DEVELOPMENT SETTINGS -->]]></replacetoken>
-			<replacevalue>
-				<![CDATA[ EOF DEVELOPMENT SETTINGS -->]]></replacevalue>
-		</replace>
-
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[<!-- PRODUCTION SETTINGS]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[<!-- PRODUCTION SETTINGS -->]]></replacevalue>
-		</replace>
-
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[EOF PRODUCTION SETTINGS -->]]></replacetoken>
-			<replacevalue>
-				<![CDATA[<!-- EOF PRODUCTION SETTINGS -->]]></replacevalue>
-		</replace>
-
-		<antcall target="zz.replace.properties">
-			<param name="file" value="${common.build.dir}/inactive_hibernate.cfg.xml" />
-			<param name="properties" value="jdbc.driver.class, jdbc.url, db.user.name, db.user.password" />
-		</antcall>
-
-		<!-- Fix ampersands in driver URL -->
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[&]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[&amp;]]>
-			</replacevalue>
-		</replace>
-	</target>
-
 
 	<target name="generate.domain.objects">
 		<antcall target="zz.generate.domain.objects">
