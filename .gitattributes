@@ -4,6 +4,7 @@ admin-console/.mymetadata -text
 admin-console/.project -text
 admin-console/.settings/org.eclipse.wst.validation.prefs -text
 admin-console/WebRoot/META-INF/MANIFEST.MF -text
+admin-console/WebRoot/META-INF/context.xml -text
 admin-console/WebRoot/WEB-INF/spring/action-beans.xml -text
 admin-console/WebRoot/WEB-INF/spring/application-context.xml -text
 admin-console/WebRoot/WEB-INF/spring/persistence.xml -text

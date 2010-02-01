@@ -16,7 +16,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kesdip.admin.web.controller.BaseFormController;
-import com.kesdip.business.domain.generated.Customer;
+import com.kesdip.business.domain.admin.generated.Customer;
 import com.kesdip.business.exception.ValidationException;
 import com.kesdip.business.logic.CustomerLogic;
 

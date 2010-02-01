@@ -66,8 +66,8 @@
 				<c:if test="${status.count % 4 != 0}">
 					<span class="thumbnail-spacer">&nbsp;</span>
 				</c:if>		
-				<c:if test="${status.last == true || (status.count % 4 == 0)}">
-					<span>
+				<c:if test="${status.last == true || (status.count % 5 == 0)}">
+					</span>
 				</c:if>
 			</c:forEach>			
 		</div>

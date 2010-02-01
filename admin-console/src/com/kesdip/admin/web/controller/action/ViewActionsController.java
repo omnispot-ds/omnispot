@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.kesdip.admin.web.controller.BaseFormController;
 import com.kesdip.business.beans.ActionQueryBean;
-import com.kesdip.business.domain.generated.Customer;
-import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.business.domain.generated.InstallationGroup;
-import com.kesdip.business.domain.generated.Site;
+import com.kesdip.business.domain.admin.generated.Customer;
+import com.kesdip.business.domain.admin.generated.Installation;
+import com.kesdip.business.domain.admin.generated.InstallationGroup;
+import com.kesdip.business.domain.admin.generated.Site;
 import com.kesdip.business.logic.ActionLogic;
 import com.kesdip.common.util.StringUtils;
 

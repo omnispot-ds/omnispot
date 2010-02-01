@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kesdip.business.domain.generated.Site;
+import com.kesdip.business.domain.admin.generated.Site;
 import com.kesdip.business.exception.ValidationException;
 import com.kesdip.business.logic.SiteLogic;
 

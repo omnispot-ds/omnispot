@@ -239,7 +239,8 @@
 	</bean>
 
 	<!-- ==== QUARTZ-related ==== -->
-	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" 
+		destroy-method="destroy">
 	    <property name="triggers">
 	        <list>
 	            <ref bean="installationHealthTrigger" />

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The contents of this file will be loaded for each web application -->
+<Context debug="1" reloadable="true" path="/admin-console" 
+	antiJARLocking="true" antiResourceLocking="true">
+
+ 	<Realm className="org.apache.catalina.realm.DataSourceRealm" 
+		debug="99"
+		dataSourceName="jdbc/adminConsoleDS"
+		userTable="users" 
+		userNameCol="username" 
+		userCredCol="password"
+		userRoleTable="user_rights" 
+		roleNameCol="role_name"
+		resourceName="AdminConsoleRealm"/>
+
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+	<ResourceLink 
+		name="jdbc/adminConsoleDS" 
+		global="jdbc/adminConsoleDS"
+		type="javax.sql.Datasource" />
+
+</Context>

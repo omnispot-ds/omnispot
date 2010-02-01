@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.kesdip.admin.web.controller.BaseFormController;
 import com.kesdip.business.beans.ActionQueryBean;
-import com.kesdip.business.domain.generated.Installation;
+import com.kesdip.business.domain.admin.generated.Installation;
 import com.kesdip.business.logic.ActionLogic;
 
 /**

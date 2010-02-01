@@ -82,7 +82,7 @@
 		<property name="formView" value="/login.tiles" />
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.User" />
+			value="com.kesdip.business.domain.admin.generated.User" />
 	</bean>
 
 	<!-- Home page controlle -->
@@ -112,7 +112,7 @@
 		<property name="formView" value="/secure/user/create.tiles" />
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.User" />
+			value="com.kesdip.business.domain.admin.generated.User" />
 	</bean>
 
 	<!-- Controller for User viewing -->
@@ -121,7 +121,7 @@
 		<property name="formView" value="/secure/user/view.tiles" />
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.User" />
+			value="com.kesdip.business.domain.admin.generated.User" />
 	</bean>
 
 	<!-- Controller for User deletion -->
@@ -130,7 +130,7 @@
 		<property name="formView" value="/secure/user/view.tiles" />
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.User" />
+			value="com.kesdip.business.domain.admin.generated.User" />
 	</bean>
 
 	<!-- Controller for User edition -->
@@ -139,7 +139,7 @@
 		<property name="formView" value="/secure/user/edit.tiles" />
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.User" />
+			value="com.kesdip.business.domain.admin.generated.User" />
 	</bean>
 
 	<!-- =================== QUICK SEARCH ==================== -->
@@ -166,7 +166,7 @@
 		<property name="formView" value="/secure/customer/create.tiles" />
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Customer" />
+			value="com.kesdip.business.domain.admin.generated.Customer" />
 	</bean>
 
 	<!-- Controller for Customer viewing -->
@@ -175,7 +175,7 @@
 		<property name="formView" value="/secure/customer/view.tiles" />
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Customer" />
+			value="com.kesdip.business.domain.admin.generated.Customer" />
 	</bean>
 
 	<!-- Controller for Customer deletion -->
@@ -184,7 +184,7 @@
 		<property name="formView" value="/secure/customer/view.tiles" />
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Customer" />
+			value="com.kesdip.business.domain.admin.generated.Customer" />
 	</bean>
 
 	<!-- Controller for Customer edition -->
@@ -193,7 +193,7 @@
 		<property name="formView" value="/secure/customer/edit.tiles" />
 		<property name="successView" value="/secure/user-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Customer" />
+			value="com.kesdip.business.domain.admin.generated.Customer" />
 	</bean>
 	
 	<!-- =================== SITE CONTROLLERS ==================== -->
@@ -203,7 +203,7 @@
 		<property name="formView" value="/secure/site/create.tiles" />
 		<property name="successView" value="/secure/home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Site" />
+			value="com.kesdip.business.domain.admin.generated.Site" />
 	</bean>
 	
 	<!-- Controller for Site viewing -->
@@ -212,7 +212,7 @@
 		<property name="formView" value="/secure/site/view.tiles" />
 		<property name="successView" value="/secure/home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Site" />
+			value="com.kesdip.business.domain.admin.generated.Site" />
 	</bean>
 	
 	<!-- Controller for Site deletion -->
@@ -221,7 +221,7 @@
 		<property name="formView" value="/secure/site/view.tiles" />
 		<property name="successView" value="/secure/home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Site" />
+			value="com.kesdip.business.domain.admin.generated.Site" />
 	</bean>
 
 	<!-- Controller for Site edition -->
@@ -230,7 +230,7 @@
 		<property name="formView" value="/secure/site/edit.tiles" />
 		<property name="successView" value="/secure/home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Site" />
+			value="com.kesdip.business.domain.admin.generated.Site" />
 	</bean>
 	
 	<!-- =================== INSTALLATION CONTROLLERS ==================== -->
@@ -240,7 +240,7 @@
 		<property name="formView" value="/secure/installation/create.tiles" />
 		<property name="successView" value="/secure/home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Installation" />
+			value="com.kesdip.business.domain.admin.generated.Installation" />
 	</bean>
 	
 	<!-- Controller for Installation viewing -->
@@ -249,7 +249,7 @@
 		<property name="formView" value="/secure/installation/view.tiles" />
 		<property name="successView" value="/secure/home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Installation" />
+			value="com.kesdip.business.domain.admin.generated.Installation" />
 	</bean>
 	
 	<!-- Controller for Installation deletion -->
@@ -258,7 +258,7 @@
 		<property name="formView" value="/secure/installation/view.tiles" />
 		<property name="successView" value="/secure/home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Installation" />
+			value="com.kesdip.business.domain.admin.generated.Installation" />
 	</bean>
 
 	<!-- Controller for Installation edition -->
@@ -267,7 +267,7 @@
 		<property name="formView" value="/secure/installation/edit.tiles" />
 		<property name="successView" value="/secure/home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.Installation" />
+			value="com.kesdip.business.domain.admin.generated.Installation" />
 	</bean>
 
 	<!-- =================== GROUP CONTROLLERS ==================== -->
@@ -277,7 +277,7 @@
 		<property name="formView" value="/secure/installationGroup/create.tiles" />
 		<property name="successView" value="/secure/group-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.InstallationGroup" />
+			value="com.kesdip.business.domain.admin.generated.InstallationGroup" />
 	</bean>
 	<!-- Controller for Group viewing -->
 	<bean id="viewGroupController" parent="baseFormController"
@@ -285,7 +285,7 @@
 		<property name="formView" value="/secure/installationGroup/view.tiles" />
 		<property name="successView" value="/secure/group-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.InstallationGroup" />
+			value="com.kesdip.business.domain.admin.generated.InstallationGroup" />
 	</bean>
 	<!-- Controller for Group deletion -->
 	<bean id="deleteGroupController" parent="baseFormController"
@@ -293,7 +293,7 @@
 		<property name="formView" value="/secure/installationGroup/view.tiles" />
 		<property name="successView" value="/secure/group-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.InstallationGroup" />
+			value="com.kesdip.business.domain.admin.generated.InstallationGroup" />
 	</bean>
 	<!-- Controller for Group edition -->
 	<bean id="editGroupController" parent="baseFormController"
@@ -301,7 +301,7 @@
 		<property name="formView" value="/secure/installationGroup/edit.tiles" />
 		<property name="successView" value="/secure/group-home.do" />
 		<property name="commandClass"
-			value="com.kesdip.business.domain.generated.InstallationGroup" />
+			value="com.kesdip.business.domain.admin.generated.InstallationGroup" />
 	</bean>
 	
 	<!-- =================== ACTION CONTROLLERS ==================== -->

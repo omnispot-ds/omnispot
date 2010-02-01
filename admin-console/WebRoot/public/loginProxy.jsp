@@ -26,5 +26,10 @@
 			<input type="hidden" name="j_password"
 				value="${requestScope.password}" />
 		</form>
+		<div id="footer">
+			<fmt:message bundle="${msg}" key="version"/> -
+			<fmt:message bundle="${msg}" key="footer.copyright"/><br/>
+			<fmt:message bundle="${msg}" key="footer.development"/>
+		</div>		
 	</body>
 </html>

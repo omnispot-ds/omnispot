@@ -63,17 +63,17 @@
 						class="com.kesdip.common.util.propertyeditor.ColorEditor"
 						parent="baseTypeEditor" scope="singleton" />
 				</entry>
-				<entry key="com.kesdip.business.domain.generated.AccessRight">
+				<entry key="com.kesdip.business.domain.admin.generated.AccessRight">
 					<bean
 						class="com.kesdip.business.util.propertyeditor.AccessRightEditor"
 						parent="baseDbEditor" scope="singleton" />
 				</entry>
-				<entry key="com.kesdip.business.domain.generated.Installation">
+				<entry key="com.kesdip.business.domain.admin.generated.Installation">
 					<bean
 						class="com.kesdip.business.util.propertyeditor.InstallationEditor"
 						parent="baseDbEditor" scope="singleton" />
 				</entry>
-				<entry key="com.kesdip.business.domain.generated.Customer">
+				<entry key="com.kesdip.business.domain.admin.generated.Customer">
 					<bean
 						class="com.kesdip.business.util.propertyeditor.CustomerEditor"
 						parent="baseDbEditor" scope="singleton" />

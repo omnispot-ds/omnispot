@@ -6,6 +6,7 @@
 <fmt:setBundle basename="messages" scope="application" var="msg"/>
 
 <div id="footer">
+	<fmt:message bundle="${msg}" key="version"/> -
 	<fmt:message bundle="${msg}" key="footer.copyright"/><br/>
 	<fmt:message bundle="${msg}" key="footer.development"/>
 </div>

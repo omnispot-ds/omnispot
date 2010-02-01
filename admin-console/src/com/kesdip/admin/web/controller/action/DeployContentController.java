@@ -17,12 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kesdip.admin.web.controller.BaseFormController;
 import com.kesdip.business.beans.ContentDeploymentBean;
-import com.kesdip.business.domain.generated.Content;
-import com.kesdip.business.domain.generated.Customer;
-import com.kesdip.business.domain.generated.Deployment;
-import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.business.domain.generated.InstallationGroup;
-import com.kesdip.business.domain.generated.Site;
+import com.kesdip.business.domain.admin.generated.Content;
+import com.kesdip.business.domain.admin.generated.Customer;
+import com.kesdip.business.domain.admin.generated.Deployment;
+import com.kesdip.business.domain.admin.generated.Installation;
+import com.kesdip.business.domain.admin.generated.InstallationGroup;
+import com.kesdip.business.domain.admin.generated.Site;
 import com.kesdip.business.exception.ValidationException;
 import com.kesdip.business.logic.ActionLogic;
 import com.kesdip.business.logic.CustomerLogic;

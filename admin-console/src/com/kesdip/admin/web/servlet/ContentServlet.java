@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 import com.kesdip.business.config.ApplicationSettings;
 import com.kesdip.business.config.FileStorageSettings;
-import com.kesdip.business.domain.generated.Content;
+import com.kesdip.business.domain.admin.generated.Content;
 import com.kesdip.business.logic.ContentLogic;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StreamUtils;

@@ -12,7 +12,7 @@ package com.kesdip.admin.web.controller.site;
 import javax.servlet.http.HttpServletRequest;
 
 import com.kesdip.admin.web.controller.BaseFormController;
-import com.kesdip.business.domain.generated.Site;
+import com.kesdip.business.domain.admin.generated.Site;
 import com.kesdip.business.logic.SiteLogic;
 
 /**

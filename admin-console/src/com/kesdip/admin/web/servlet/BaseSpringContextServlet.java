@@ -49,13 +49,24 @@ public abstract class BaseSpringContextServlet extends HttpServlet {
 	/**
 	 * Utility method to check if a player exists.
 	 * 
-	 * @param playerUuid 
+	 * @param playerUuid
 	 * @return
 	 */
 	final boolean isPlayerAuthenticated(String playerUuid) {
 		InstallationLogic logic = (InstallationLogic) getSpringContext()
 				.getBean("installationLogic");
 		return logic.getInstallationByUuid(playerUuid) != null;
+	}
+
+	/**
+	 * Release the Spring context.
+	 * 
+	 * @see javax.servlet.GenericServlet#destroy()
+	 */
+	@Override
+	public final void destroy() {
+		super.destroy();
+		springContext.close();
 	}
 
 }

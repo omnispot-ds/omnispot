@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="Admin Console WAR" basedir=".">
-	<description>Build file for the Panou Monitor WAR application</description>
+	<description>Build file for the Admin Console WAR application</description>
 
 	<import file="${etc.ant.scripts.dir}/common-targets.xml"/>
 	
