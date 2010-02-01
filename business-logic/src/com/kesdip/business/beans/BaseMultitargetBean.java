@@ -11,10 +11,10 @@ package com.kesdip.business.beans;
 
 import java.io.Serializable;
 
-import com.kesdip.business.domain.generated.Customer;
-import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.business.domain.generated.InstallationGroup;
-import com.kesdip.business.domain.generated.Site;
+import com.kesdip.business.domain.admin.generated.Customer;
+import com.kesdip.business.domain.admin.generated.Installation;
+import com.kesdip.business.domain.admin.generated.InstallationGroup;
+import com.kesdip.business.domain.admin.generated.Site;
 
 /**
  * Base class for all beans who wish to be able to refer to more than one

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+
+		<!-- PRODUCTION SETTINGS -->
+		<property name="connection.datasource">
+			java:/comp/env/jdbc/monitorDS
+		</property>
+		<property name="current_session_context_class">thread</property>
+		<!-- EOF PRODUCTION SETTINGS -->
+
+		<!-- DEVELOPMENT SETTINGS 
+			<property name="connection.driver_class">
+			org.apache.derby.jdbc.ClientDriver
+			</property>
+			<property name="connection.url">
+			jdbc:derby://localhost:1527/c:/dbin/derbydb/data/monitor;create=false;user=monitor;password=monitor
+			</property>
+			<property name="connection.username">monitor</property>
+			<property name="connection.password">monitor</property>
+			<property name="connection.pool_size">5</property>
+			<property name="current_session_context_class">thread</property>
+			EOF DEVELOPMENT SETTINGS -->
+
+		<property name="dialect">
+			org.hibernate.dialect.DerbyDialect
+		</property>
+		<property name="show_sql">false</property>
+		<property name="hbm2ddl.auto">none</property>
+
+		<mapping
+			resource="com/kesdip/business/domain/admin/AccessControl.hbm.xml" />
+		<mapping
+			resource="com/kesdip/business/domain/admin/AccessRight.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/admin/Content.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/admin/Customer.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/admin/Deployment.hbm.xml" />
+		<mapping
+			resource="com/kesdip/business/domain/admin/Installation.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/admin/User.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/admin/Action.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/admin/Parameter.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/admin/StatusEntry.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/admin/Site.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/admin/InstallationGroup.hbm.xml" />
+	</session-factory>
+
+</hibernate-configuration>
+

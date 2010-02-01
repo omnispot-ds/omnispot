@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.kesdip.business.domain.license.generated.Customer"
+		table="CUSTOMER" lazy="true">
+		<meta attribute="class-description">
+			Domain object for the 'Customer' entity.
+			Auto-generated
+			code. &lt;strong&gt;Do not modify manually.&lt;/strong&gt;
+			@author gerogias
+		</meta>
+		<meta attribute="implement-equals">true</meta>
+
+		<id name="id" column="ID" type="java.lang.Long">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				Primary, surrogate key.
+			</meta>
+			<generator class="increment" />
+		</id>
+
+		<property name="name" column="NAME" type="java.lang.String"
+			length="50" not-null="true">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The name of the customer.
+			</meta>
+		</property>
+
+		<property name="uuid" column="UUID" type="java.lang.String"
+			length="50" not-null="true">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The UUID of the customer. Used in all communication from the installations.
+			</meta>
+		</property>
+
+        <property name="comments" column="COMMENTS" type="java.lang.String" 
+        	length="512">
+        	<meta attribute="use-in-tostring">true</meta>
+        	<meta attribute="field-description">
+        		Comments for this customer.
+        	</meta>
+        </property>
+
+		<property name="active" column="ACTIVE" type="boolean"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				If the customer is active or not.
+			</meta>
+		</property>
+
+		<property name="adminLicensesPurchased" column="ADMIN_LICENSES_PURCHASED" type="int"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				How many admin console licenses have been purchased.
+			</meta>
+		</property>
+		
+		<property name="playerLicensesPurchased" column="PLAYER_LICENSES_PURCHASED" type="int"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				How many player licenses have been purchased.
+			</meta>
+		</property>
+
+		<property name="supportExpiryDate" column="SUPPORT_EXPIRY_DATE" type="java.util.Date"
+			not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The date when the current support contract, including updates, ends.
+			</meta>
+		</property>
+
+	</class>
+
+</hibernate-mapping>

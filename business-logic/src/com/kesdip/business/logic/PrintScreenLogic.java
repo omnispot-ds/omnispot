@@ -20,7 +20,7 @@ import com.kesdip.business.beans.PrintScreen;
 import com.kesdip.business.beans.ViewPrintScreenBean;
 import com.kesdip.business.config.ApplicationSettings;
 import com.kesdip.business.config.FileStorageSettings;
-import com.kesdip.business.domain.generated.Installation;
+import com.kesdip.business.domain.admin.generated.Installation;
 
 /**
  * Printscreen-related logic.

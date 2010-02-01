@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kesdip.business.domain.generated.Customer;
-import com.kesdip.business.domain.generated.InstallationGroup;
+import com.kesdip.business.domain.admin.generated.Customer;
+import com.kesdip.business.domain.admin.generated.InstallationGroup;
 import com.kesdip.business.exception.ValidationException;
 
 /**

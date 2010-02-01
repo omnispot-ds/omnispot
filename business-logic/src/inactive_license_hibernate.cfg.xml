@@ -31,21 +31,7 @@
 		<property name="show_sql">false</property>
 		<property name="hbm2ddl.auto">none</property>
 
-		<mapping
-			resource="com/kesdip/business/domain/AccessControl.hbm.xml" />
-		<mapping
-			resource="com/kesdip/business/domain/AccessRight.hbm.xml" />
-		<mapping resource="com/kesdip/business/domain/Content.hbm.xml" />
-		<mapping resource="com/kesdip/business/domain/Customer.hbm.xml" />
-		<mapping resource="com/kesdip/business/domain/Deployment.hbm.xml" />
-		<mapping
-			resource="com/kesdip/business/domain/Installation.hbm.xml" />
-		<mapping resource="com/kesdip/business/domain/User.hbm.xml" />
-		<mapping resource="com/kesdip/business/domain/Action.hbm.xml" />
-		<mapping resource="com/kesdip/business/domain/Parameter.hbm.xml" />
-		<mapping resource="com/kesdip/business/domain/StatusEntry.hbm.xml" />
-		<mapping resource="com/kesdip/business/domain/Site.hbm.xml" />
-		<mapping resource="com/kesdip/business/domain/InstallationGroup.hbm.xml" />
+		<mapping resource="com/kesdip/business/domain/license/Customer.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>

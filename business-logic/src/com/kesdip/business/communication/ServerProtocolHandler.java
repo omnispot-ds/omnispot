@@ -25,7 +25,7 @@ import com.kesdip.business.constenum.IActionParamsEnum;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IInstallationStatus;
 import com.kesdip.business.constenum.IMessageParamsEnum;
-import com.kesdip.business.domain.generated.Action;
+import com.kesdip.business.domain.admin.generated.Action;
 import com.kesdip.business.logic.InstallationLogic;
 import com.kesdip.business.logic.LogicFactory;
 import com.kesdip.common.util.StringUtils;

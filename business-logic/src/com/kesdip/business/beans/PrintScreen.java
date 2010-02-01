@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.kesdip.business.domain.generated.Installation;
+import com.kesdip.business.domain.admin.generated.Installation;
 import com.kesdip.common.util.DateUtils;
 
 /**

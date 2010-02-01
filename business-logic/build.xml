@@ -49,8 +49,6 @@
 			<fileset dir="${logic.build.dir}/classes" />
 		</copy>
 
-		<!-- antcall target="process.hibernate.cfg" inheritall="true" / -->
-
 		<mkdir dir="${logic.dist.dir}" />
 
 		<antcall target="zz.create.simple.jar">
@@ -72,81 +70,53 @@
 	</target>
 
 
-	<target name="process.hibernate.cfg">
-
-		<property name="hibernate.file" location="${logic.build.dir}/inactive_hibernate.cfg.xml" />
-
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[<!-- DEVELOPMENT SETTINGS -->]]></replacetoken>
-			<replacevalue>
-				<![CDATA[<!-- DEVELOPMENT SETTINGS ]]>
-			</replacevalue>
-		</replace>
-
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[<!-- EOF DEVELOPMENT SETTINGS -->]]></replacetoken>
-			<replacevalue>
-				<![CDATA[ EOF DEVELOPMENT SETTINGS -->]]></replacevalue>
-		</replace>
-
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[<!-- PRODUCTION SETTINGS]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[<!-- PRODUCTION SETTINGS -->]]></replacevalue>
-		</replace>
-
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[EOF PRODUCTION SETTINGS -->]]></replacetoken>
-			<replacevalue>
-				<![CDATA[<!-- EOF PRODUCTION SETTINGS -->]]></replacevalue>
-		</replace>
-
-		<antcall target="zz.replace.properties">
-			<param name="file" value="${logic.build.dir}/inactive_hibernate.cfg.xml" />
-			<param name="properties" value="jdbc.driver.class, jdbc.url, db.user.name, db.user.password" />
-		</antcall>
-
-		<!-- Fix ampersands in driver URL -->
-		<replace file="${hibernate.file}">
-			<replacetoken>
-				<![CDATA[&]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[&amp;]]>
-			</replacevalue>
-		</replace>
-	</target>
-
-
 	<target name="generate.domain.objects">
-		<echo level="info">Generating Java code...</echo>
+		<echo level="info">Generating Admin Java code...</echo>
 		<antcall target="zz.generate.domain.objects">
 			<param name="hbm.base.dir" value="${logic.src.dir}" />
-			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml" />
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_admin_hibernate.cfg.xml" />
 			<param name="dest.dir" value="${logic.src.dir}" />
 		</antcall>
 		
-		<echo level="info">Generating drop DDL...</echo>
+		<echo level="info">Generating License Java code...</echo>
+		<antcall target="zz.generate.domain.objects">
+			<param name="hbm.base.dir" value="${logic.src.dir}" />
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_license_hibernate.cfg.xml" />
+			<param name="dest.dir" value="${logic.src.dir}" />
+		</antcall>
+
+		<echo level="info">Generating Admin drop DDL...</echo>
 		<antcall target="zz.generate.schema.ddl">
 			<param name="hbm.base.dir" value="${logic.src.dir}"/>
-			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml"/>
-			<param name="dest.file" value="${etc.sql.scripts.dir}/drop-database.sql"/>
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_admin_hibernate.cfg.xml"/>
+			<param name="dest.file" value="${etc.sql.scripts.dir}/drop-admin-database.sql"/>
 			<param name="create.stmts" value="no"/>
 		</antcall>
 		
-		<echo level="info">Generating create DDL...</echo>
+		<echo level="info">Generating License drop DDL...</echo>
 		<antcall target="zz.generate.schema.ddl">
 			<param name="hbm.base.dir" value="${logic.src.dir}"/>
-			<param name="cfg.xml" value="${logic.src.dir}/inactive_hibernate.cfg.xml"/>
-			<param name="dest.file" value="${etc.sql.scripts.dir}/create-database.sql"/>
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_license_hibernate.cfg.xml"/>
+			<param name="dest.file" value="${etc.sql.scripts.dir}/drop-license-database.sql"/>
+			<param name="create.stmts" value="no"/>
+		</antcall>
+
+		<echo level="info">Generating Admin create DDL...</echo>
+		<antcall target="zz.generate.schema.ddl">
+			<param name="hbm.base.dir" value="${logic.src.dir}"/>
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_admin_hibernate.cfg.xml"/>
+			<param name="dest.file" value="${etc.sql.scripts.dir}/create-admin-database.sql"/>
 			<param name="create.stmts" value="yes"/>
 		</antcall>
 		
+		<echo level="info">Generating License create DDL...</echo>
+		<antcall target="zz.generate.schema.ddl">
+			<param name="hbm.base.dir" value="${logic.src.dir}"/>
+			<param name="cfg.xml" value="${logic.src.dir}/inactive_license_hibernate.cfg.xml"/>
+			<param name="dest.file" value="${etc.sql.scripts.dir}/create-license-database.sql"/>
+			<param name="create.stmts" value="yes"/>
+		</antcall>
+
 	</target>
 
 	<target name="logic.all" depends="logic.init,logic.compile,logic.dist,logic.clean" />

@@ -3,10 +3,10 @@
 
 <hibernate-mapping>
 
-	<class name="com.kesdip.business.domain.generated.StatusEntry"
-		table="STATUS_ENTRY" lazy="true">
+	<class name="com.kesdip.business.domain.admin.generated.AccessControl"
+		table="ACC_CONTROL" lazy="true">
 		<meta attribute="class-description">
-			Domain object for the 'Parameter' entity. Auto-generated code.
+			Domain object for the 'AccessControl' entity. Auto-generated code.
 			&lt;strong&gt;Do not modify manually.&lt;/strong&gt; @author
 			gerogias
 		</meta>
@@ -21,29 +21,27 @@
 			<generator class="increment" />
 		</id>
 
-		<property name="timestamp" column="STATUS_DATE" type="java.util.Date"
-			not-null="true">
+		<property name="type" column="ACC_TYPE" type="short"
+			not-null="true" lazy="false">
 			<meta attribute="use-in-tostring">true</meta>
 			<meta attribute="field-description">
-				The timestamp of the event.
+				Tha type of the ACL.
 			</meta>
 		</property>
 
-		<property name="status" column="STATUS" type="short"
-			not-null="true">
+		<many-to-one name="user"
+			class="com.kesdip.business.domain.admin.generated.User"
+			column="USERNAME" not-null="true" lazy="false">
 			<meta attribute="use-in-tostring">true</meta>
-			<meta attribute="field-description">
-				The value of the parameter.
-			</meta>
-		</property>
-
-		<many-to-one name="installation"
-			class="com.kesdip.business.domain.generated.Installation"
-			column="INSTALLATION_ID" not-null="true" lazy="false">
-			<meta attribute="use-in-tostring">true</meta>
-			<meta attribute="field-description">The parent installation.</meta>
+			<meta attribute="field-description">The parent user.</meta>
 		</many-to-one>
 
+		<many-to-one name="installation"
+			class="com.kesdip.business.domain.admin.generated.Installation"
+			column="INSTALLATION_ID" not-null="true" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">The installation.</meta>
+		</many-to-one>
 	</class>
 
 </hibernate-mapping>

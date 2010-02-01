@@ -13,8 +13,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.kesdip.business.domain.generated.AccessRight;
-import com.kesdip.business.domain.generated.User;
+import com.kesdip.business.domain.admin.generated.AccessRight;
+import com.kesdip.business.domain.admin.generated.User;
 import com.kesdip.business.validation.BaseValidator;
 
 /**

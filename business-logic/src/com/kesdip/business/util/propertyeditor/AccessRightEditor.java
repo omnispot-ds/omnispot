@@ -13,7 +13,7 @@ import javax.management.relation.Role;
 
 import org.apache.log4j.Logger;
 
-import com.kesdip.business.domain.generated.AccessRight;
+import com.kesdip.business.domain.admin.generated.AccessRight;
 
 /**
  * Resolves a name to a {@link Role}.

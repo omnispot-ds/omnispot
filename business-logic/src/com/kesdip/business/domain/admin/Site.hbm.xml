@@ -3,7 +3,7 @@
 
 <hibernate-mapping>
 
-	<class name="com.kesdip.business.domain.generated.Site"
+	<class name="com.kesdip.business.domain.admin.generated.Site"
 		table="SITE" lazy="true">
 		<meta attribute="class-description">
 			Domain object for the 'Site' entity. Auto-generated
@@ -46,7 +46,7 @@
 		</property>
 
 		<many-to-one name="customer"
-			class="com.kesdip.business.domain.generated.Customer"
+			class="com.kesdip.business.domain.admin.generated.Customer"
 			column="CUSTOMER_ID" not-null="true" lazy="false">
 			<meta attribute="use-in-tostring">true</meta>
 			<meta attribute="field-description">The parent customer.</meta>
@@ -59,7 +59,7 @@
 			</meta>
 			<key column="SITE_ID" />
 			<one-to-many
-				class="com.kesdip.business.domain.generated.Installation"/>
+				class="com.kesdip.business.domain.admin.generated.Installation"/>
 		</set>
 		
 		<property name="currentStatus" type="java.lang.Short" lazy="false"

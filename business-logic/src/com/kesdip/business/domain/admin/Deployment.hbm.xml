@@ -3,7 +3,7 @@
 
 <hibernate-mapping>
 
-	<class name="com.kesdip.business.domain.generated.Deployment"
+	<class name="com.kesdip.business.domain.admin.generated.Deployment"
 		table="DEPLOYMENT" lazy="true">
 		<meta attribute="class-description">
 			Domain object for the 'Deployment' entity. Auto-generated
@@ -76,7 +76,7 @@
 			</meta>
 			<key column="DEPLOYMENT_ID" />
 			<many-to-many
-				class="com.kesdip.business.domain.generated.Content"
+				class="com.kesdip.business.domain.admin.generated.Content"
 				column="CONTENT_ID" />
 		</set>
 
@@ -87,7 +87,7 @@
 			</meta>
 			<key column="DEPLOYMENT_ID" />
 			<many-to-many
-				class="com.kesdip.business.domain.generated.Installation"
+				class="com.kesdip.business.domain.admin.generated.Installation"
 				column="INSTALLATION_ID" />
 		</set>
 

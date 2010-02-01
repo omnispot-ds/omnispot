@@ -18,9 +18,9 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.beans.ListItemBean;
-import com.kesdip.business.domain.generated.AccessRight;
-import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.business.domain.generated.User;
+import com.kesdip.business.domain.admin.generated.AccessRight;
+import com.kesdip.business.domain.admin.generated.Installation;
+import com.kesdip.business.domain.admin.generated.User;
 import com.kesdip.business.logic.BaseLogic;
 
 /**

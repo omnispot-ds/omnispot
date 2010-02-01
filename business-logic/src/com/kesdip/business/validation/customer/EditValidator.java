@@ -11,7 +11,7 @@ package com.kesdip.business.validation.customer;
 
 import org.apache.log4j.Logger;
 
-import com.kesdip.business.domain.generated.Customer;
+import com.kesdip.business.domain.admin.generated.Customer;
 import com.kesdip.business.util.Errors;
 import com.kesdip.business.validation.BaseValidator;
 

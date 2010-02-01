@@ -1,5 +1,5 @@
-package com.kesdip.business.domain.generated;
-// Generated 13 Ιουλ 2009 7:41:20 μμ by Hibernate Tools 3.2.0.b9
+package com.kesdip.business.domain.admin.generated;
+// Generated 11 Ιαν 2010 11:43:04 μμ by Hibernate Tools 3.2.0.b9
 
 
 import java.util.Date;

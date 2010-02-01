@@ -18,11 +18,11 @@ import org.apache.log4j.Logger;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.kesdip.business.constenum.IInstallationStatus;
-import com.kesdip.business.domain.generated.Customer;
-import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.business.domain.generated.InstallationGroup;
-import com.kesdip.business.domain.generated.Site;
-import com.kesdip.business.domain.generated.User;
+import com.kesdip.business.domain.admin.generated.Customer;
+import com.kesdip.business.domain.admin.generated.Installation;
+import com.kesdip.business.domain.admin.generated.InstallationGroup;
+import com.kesdip.business.domain.admin.generated.Site;
+import com.kesdip.business.domain.admin.generated.User;
 import com.kesdip.common.util.BeanUtils;
 
 /**

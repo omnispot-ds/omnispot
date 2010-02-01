@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kesdip.business.domain.generated.Content;
+import com.kesdip.business.domain.admin.generated.Content;
 
 /**
  * Content-related logic.

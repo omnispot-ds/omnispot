@@ -3,7 +3,7 @@
 
 <hibernate-mapping>
 
-	<class name="com.kesdip.business.domain.generated.Parameter"
+	<class name="com.kesdip.business.domain.admin.generated.Parameter"
 		table="PARAMETER" lazy="true">
 		<meta attribute="class-description">
 			Domain object for the 'Parameter' entity. Auto-generated code.

@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.kesdip.business.domain.generated.Action;
-import com.kesdip.business.domain.generated.Parameter;
+import com.kesdip.business.domain.admin.generated.Action;
+import com.kesdip.business.domain.admin.generated.Parameter;
 
 /**
  * Responsible for action serialization into the Kesdip message format.

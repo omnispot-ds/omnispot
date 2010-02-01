@@ -3,7 +3,7 @@
 
 <hibernate-mapping>
 
-	<class name="com.kesdip.business.domain.generated.Installation"
+	<class name="com.kesdip.business.domain.admin.generated.Installation"
 		table="INSTALLATION" lazy="true">
 		<meta attribute="class-description">
 			Domain object for the 'Installation' entity. Auto-generated code.
@@ -91,7 +91,7 @@
 			</meta>
 			<key column="INSTALLATION_ID" />
 			<one-to-many
-				class="com.kesdip.business.domain.generated.AccessControl" />
+				class="com.kesdip.business.domain.admin.generated.AccessControl" />
 		</set>
 
 		<set name="statusHistory" cascade="all" lazy="true" inverse="true">
@@ -100,7 +100,7 @@
 			</meta>
 			<key column="INSTALLATION_ID" />
 			<one-to-many
-				class="com.kesdip.business.domain.generated.StatusEntry" />
+				class="com.kesdip.business.domain.admin.generated.StatusEntry" />
 		</set>
 
 		<set name="pendingActions" cascade="all" lazy="true" inverse="true"
@@ -110,7 +110,7 @@
 			</meta>
 			<key column="INSTALLATION_ID" />
 			<one-to-many
-				class="com.kesdip.business.domain.generated.Action" />
+				class="com.kesdip.business.domain.admin.generated.Action" />
 				
 		</set>
 
@@ -121,12 +121,12 @@
 			</meta>
 			<key column="INSTALLATION_ID" />
 			<many-to-many
-				class="com.kesdip.business.domain.generated.Deployment"
+				class="com.kesdip.business.domain.admin.generated.Deployment"
 				column="DEPLOYMENT_ID" />
 		</set>
 
 		<many-to-one name="site"
-			class="com.kesdip.business.domain.generated.Site"
+			class="com.kesdip.business.domain.admin.generated.Site"
 			column="SITE_ID" not-null="true" lazy="false">
 			<meta attribute="use-in-tostring">true</meta>
 			<meta attribute="field-description">The parent site.</meta>
@@ -139,7 +139,7 @@
 			</meta>
 			<key column="INSTALLATION_ID" />
 			<many-to-many
-				class="com.kesdip.business.domain.generated.InstallationGroup"
+				class="com.kesdip.business.domain.admin.generated.InstallationGroup"
 				column="GROUP_ID"/>
 		</set>
 

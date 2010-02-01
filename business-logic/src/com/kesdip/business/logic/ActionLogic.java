@@ -7,7 +7,7 @@
  * @author <a href="mailto:sgerogia@gmail.com">Stelios Gerogiannakis</a>
  */
 
-package com.kesdip.business.logic;
+package com.kesdip.business.logic; 
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -40,13 +40,13 @@ import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IActionTypesEnum;
 import com.kesdip.business.constenum.IFileNamesEnum;
 import com.kesdip.business.constenum.IMediaCopyPolicyEnum;
-import com.kesdip.business.domain.generated.Action;
-import com.kesdip.business.domain.generated.Customer;
-import com.kesdip.business.domain.generated.Deployment;
-import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.business.domain.generated.InstallationGroup;
-import com.kesdip.business.domain.generated.Parameter;
-import com.kesdip.business.domain.generated.Site;
+import com.kesdip.business.domain.admin.generated.Action;
+import com.kesdip.business.domain.admin.generated.Customer;
+import com.kesdip.business.domain.admin.generated.Deployment;
+import com.kesdip.business.domain.admin.generated.Installation;
+import com.kesdip.business.domain.admin.generated.InstallationGroup;
+import com.kesdip.business.domain.admin.generated.Parameter;
+import com.kesdip.business.domain.admin.generated.Site;
 import com.kesdip.business.exception.ValidationException;
 import com.kesdip.common.exception.GenericSystemException;
 import com.kesdip.common.util.DateUtils;

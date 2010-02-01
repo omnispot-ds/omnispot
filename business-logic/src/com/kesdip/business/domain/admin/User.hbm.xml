@@ -3,7 +3,7 @@
 
 <hibernate-mapping>
 
-	<class name="com.kesdip.business.domain.generated.User"
+	<class name="com.kesdip.business.domain.admin.generated.User"
 		table="USERS" lazy="true">
 		<meta attribute="class-description">
 			Domain object for the 'User' entity. Auto-generated code.
@@ -47,7 +47,7 @@
 
         <many-to-one
         	name="affiliation"
-        	class="com.kesdip.business.domain.generated.Customer" 
+        	class="com.kesdip.business.domain.admin.generated.Customer" 
         	column="CUSTOMER_ID" cascade="none" not-null="false" lazy="false">
         	<meta attribute="field-description">The associated customer, if any.</meta>
         </many-to-one >
@@ -59,7 +59,7 @@
 			</meta>
 			<key column="USERNAME" />
 			<many-to-many
-				class="com.kesdip.business.domain.generated.AccessRight"
+				class="com.kesdip.business.domain.admin.generated.AccessRight"
 				column="ROLE_NAME" />
 		</set>
 
@@ -69,7 +69,7 @@
 			</meta>
 			<key column="USERNAME" />
 			<one-to-many
-				class="com.kesdip.business.domain.generated.AccessControl" />
+				class="com.kesdip.business.domain.admin.generated.AccessControl" />
 		</set>
 
 	</class>

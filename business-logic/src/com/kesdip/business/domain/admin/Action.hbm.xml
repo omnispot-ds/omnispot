@@ -3,7 +3,7 @@
 
 <hibernate-mapping>
 
-	<class name="com.kesdip.business.domain.generated.Action"
+	<class name="com.kesdip.business.domain.admin.generated.Action"
 		table="ACTION" lazy="true">
 		<meta attribute="class-description">
 			Domain object for the 'Action' entity. Auto-generated
@@ -88,11 +88,11 @@
 			<meta attribute="use-in-tostring">true</meta>
 			<key column="ACTION_ID" />
 			<one-to-many
-				class="com.kesdip.business.domain.generated.Parameter"/>
+				class="com.kesdip.business.domain.admin.generated.Parameter"/>
 		</set>
 
 		<many-to-one name="installation"
-			class="com.kesdip.business.domain.generated.Installation"
+			class="com.kesdip.business.domain.admin.generated.Installation"
 			column="INSTALLATION_ID" not-null="false" lazy="false">
 			<meta attribute="use-in-tostring">true</meta>
 			<meta attribute="field-description">The installation this action belongs to.</meta>

@@ -21,11 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.beans.ViewPrintScreenBean;
 import com.kesdip.business.constenum.IInstallationStatus;
-import com.kesdip.business.domain.generated.Customer;
-import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.business.domain.generated.InstallationGroup;
-import com.kesdip.business.domain.generated.Site;
-import com.kesdip.business.domain.generated.StatusEntry;
+import com.kesdip.business.domain.admin.generated.Customer;
+import com.kesdip.business.domain.admin.generated.Installation;
+import com.kesdip.business.domain.admin.generated.InstallationGroup;
+import com.kesdip.business.domain.admin.generated.Site;
+import com.kesdip.business.domain.admin.generated.StatusEntry;
 import com.kesdip.business.exception.ValidationException;
 import com.kesdip.common.util.DateUtils;
 

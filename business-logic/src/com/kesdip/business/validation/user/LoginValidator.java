@@ -9,7 +9,7 @@
 
 package com.kesdip.business.validation.user;
 
-import com.kesdip.business.domain.generated.User;
+import com.kesdip.business.domain.admin.generated.User;
 import com.kesdip.business.util.Errors;
 
 /**

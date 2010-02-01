@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kesdip.business.constenum.IInstallationStatus;
-import com.kesdip.business.domain.generated.Installation;
-import com.kesdip.business.domain.generated.StatusEntry;
+import com.kesdip.business.domain.admin.generated.Installation;
+import com.kesdip.business.domain.admin.generated.StatusEntry;
 import com.kesdip.business.logic.BaseLogic;
 import com.kesdip.business.logic.InstallationLogic;
 import com.kesdip.common.util.DateUtils;

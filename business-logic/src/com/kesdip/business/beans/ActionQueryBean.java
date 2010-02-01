@@ -17,8 +17,8 @@ import java.util.Map;
 
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IActionTypesEnum;
-import com.kesdip.business.domain.generated.Action;
-import com.kesdip.business.domain.generated.Installation;
+import com.kesdip.business.domain.admin.generated.Action;
+import com.kesdip.business.domain.admin.generated.Installation;
 
 /**
  * Used to query a set of actions for a particular target object.

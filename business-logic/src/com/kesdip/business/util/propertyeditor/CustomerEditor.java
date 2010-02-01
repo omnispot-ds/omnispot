@@ -11,7 +11,7 @@ package com.kesdip.business.util.propertyeditor;
 
 import org.apache.log4j.Logger;
 
-import com.kesdip.business.domain.generated.Customer;
+import com.kesdip.business.domain.admin.generated.Customer;
 
 /**
  * Resolves a string id to a {@link Customer}.

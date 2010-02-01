@@ -11,7 +11,7 @@ package com.kesdip.business.validation.action;
 
 import com.kesdip.business.beans.ActionBean;
 import com.kesdip.business.constenum.IActionTypesEnum;
-import com.kesdip.business.domain.generated.Parameter;
+import com.kesdip.business.domain.admin.generated.Parameter;
 import com.kesdip.business.util.Errors;
 import com.kesdip.business.validation.BaseValidator;
 import com.kesdip.common.util.StringUtils;

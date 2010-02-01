@@ -3,7 +3,7 @@
 
 <hibernate-mapping>
 
-	<class name="com.kesdip.business.domain.generated.AccessRight"
+	<class name="com.kesdip.business.domain.admin.generated.AccessRight"
 		table="ACCESS_RIGHT" lazy="true">
 		<meta attribute="class-description">
 			Domain object for the 'AccessRight' entity. Auto-generated code.
@@ -27,7 +27,7 @@
 			</meta>
 			<key column="RIGHT_NAME" />
 			<many-to-many
-				class="com.kesdip.business.domain.generated.User" 
+				class="com.kesdip.business.domain.admin.generated.User" 
 				column="USERNAME"/>
 		</set>
 -->

@@ -9,7 +9,7 @@
 
 package com.kesdip.business.beans;
 
-import com.kesdip.business.domain.generated.Action;
+import com.kesdip.business.domain.admin.generated.Action;
 
 /**
  * DTO encapsulating an action towards a player (start, stop, reboot, fetch
