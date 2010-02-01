@@ -17,8 +17,8 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.kesdip.bootstrap.Manager;
 import com.kesdip.business.constenum.IClientReconfigureComponentsEnum;
-import com.kesdip.business.domain.generated.Action;
-import com.kesdip.business.domain.generated.Parameter;
+import com.kesdip.business.domain.admin.generated.Action;
+import com.kesdip.business.domain.admin.generated.Parameter;
 import com.kesdip.common.configure.ApplicationContextBeanSetter;
 import com.kesdip.common.configure.BeanSetter;
 import com.kesdip.common.exception.FieldSetException;

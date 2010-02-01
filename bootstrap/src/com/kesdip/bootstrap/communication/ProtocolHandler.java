@@ -30,8 +30,8 @@ import com.kesdip.business.constenum.IActionParamsEnum;
 import com.kesdip.business.constenum.IActionStatusEnum;
 import com.kesdip.business.constenum.IActionTypesEnum;
 import com.kesdip.business.constenum.IMessageParamsEnum;
-import com.kesdip.business.domain.generated.Action;
-import com.kesdip.business.domain.generated.Parameter;
+import com.kesdip.business.domain.admin.generated.Action;
+import com.kesdip.business.domain.admin.generated.Parameter;
 
 /**
  * Handles client-to-server communication.
