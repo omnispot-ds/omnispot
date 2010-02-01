@@ -54,7 +54,18 @@
 				<c:if test="${status.first == true || (status.count % 5 == 0)}">
 					<span class="thumbnail-group">
 				</c:if>
-				<a class="thumbnail" 
+				<c:choose>
+					<c:when test="${ps.installation.currentStatus == -1}">
+						<c:set scope="page" var="thumbnailClass" value="thumbnail thumbnail-warning"/>
+					</c:when>
+					<c:when test="${ps.installation.currentStatus == -2}">
+						<c:set scope="page" var="thumbnailClass" value="thumbnail thumbnail-error"/>
+					</c:when>
+					<c:otherwise>
+						<c:set scope="page" var="thumbnailClass" value="thumbnail"/>
+					</c:otherwise>
+				</c:choose>
+				<a class='<c:out value="${pageScope.thumbnailClass}"/>' 
 					href="${pageContext.request.contextPath}/secure/installation/view.do?id=${ps.installation.id}"><img 
 						class="thumb" src="${ps.fileUrl}" id="${ps.installation.uuid}" 
 						alt="${ps.installation.uuid} - ${ps.fileDateString}" 
@@ -66,7 +77,7 @@
 				<c:if test="${status.count % 4 != 0}">
 					<span class="thumbnail-spacer">&nbsp;</span>
 				</c:if>		
-				<c:if test="${status.last == true || (status.count % 5 == 0)}">
+				<c:if test="${status.last == true || (status.count % 4 == 0)}">
 					</span>
 				</c:if>
 			</c:forEach>			

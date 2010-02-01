@@ -174,8 +174,18 @@
 				</td>
 				<td>
 					<div class="readonly_value">
-						<a class="thumbnail" 
-							href="#"><img 
+						<c:choose>
+							<c:when test="${dataObject.currentStatus == -1}">
+								<c:set scope="page" var="thumbnailClass" value="thumbnail thumbnail-warning"/>
+							</c:when>
+							<c:when test="${dataObject.currentStatus == -2}">
+								<c:set scope="page" var="thumbnailClass" value="thumbnail thumbnail-error"/>
+							</c:when>
+							<c:otherwise>
+								<c:set scope="page" var="thumbnailClass" value="thumbnail"/>
+							</c:otherwise>
+						</c:choose>
+						<a class='<c:out value="${pageScope.thumbnailClass}"/>' href="#"><img 
 								class="thumb" src="${dataObject.printScreen.fileUrl}" id="${dataObject.uuid}" 
 								alt="${dataObject.printScreen.fileDateString}" 
 								title="${dataObject.printScreen.fileDateString}"/><span><label 
