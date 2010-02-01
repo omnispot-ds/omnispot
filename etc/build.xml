@@ -35,6 +35,10 @@
 	<property name="admin-console.build.file" location="${admin-console.base.dir}/build.xml"/>
 	<property name="admin-console.dist.file" location="${admin-console.base.dir}/dist/admin-console.war"/>
 	
+	<property name="license-console.base.dir" location="${project.base.dir}/license-console"/>
+	<property name="license-console.build.file" location="${license-console.base.dir}/build.xml"/>
+	<property name="license-console.dist.file" location="${license-console.base.dir}/dist/license-console.war"/>
+
 	<property name="etc.base.dir" location="${project.base.dir}/etc"/>
 	<property name="etc.ant.scripts.dir" location="${etc.base.dir}/ant"/>
 	<property name="etc.db.create.file" location="${etc.ant.scripts.dir}/create-db.xml"/>
@@ -104,9 +108,16 @@
 		<ant antfile="${admin-console.build.file}" target="admin-console.dist" inheritrefs="true"/>
 	</target>
 	
+	<target name="build.license-console" depends="build.common, build.logic">
+		<ant antfile="${license-console.build.file}" target="license-console.init" inheritrefs="true"/>
+		<ant antfile="${license-console.build.file}" target="license-console.compile" inheritrefs="true"/>
+		<ant antfile="${license-console.build.file}" target="license-console.dist" inheritrefs="true"/>
+	</target>
+
 	<target name="clean" 
 		description="Cleans project directories">
 		<ant antfile="${admin-console.build.file}" target="admin-console.clean" inheritrefs="true"/>
+		<ant antfile="${license-console.build.file}" target="license-console.clean" inheritrefs="true"/>
 		<ant antfile="${bootstrap.build.file}" target="bootstrap.clean" inheritrefs="true"/>
 		<ant antfile="${player.build.file}" target="player.clean" inheritrefs="true"/>
 		<ant antfile="${common.build.file}" target="common.clean" inheritrefs="true"/>
@@ -115,7 +126,7 @@
 			target="clean" inheritrefs="true"/>
 	</target>
 		
-	<target name="copy.files.to.designer" depends="build.player,build.common"
+	<target name="copy.files.to.designer" depends="build.player,build.common,build.admin-console"
 		description="Copy the necessary files from project distributables to com.kesdip.designer.preview/lib and com.kesdip.designer/lib">
 		<copy todir="${preview.lib.dir}" flatten="true">
 			<fileset dir="${etc.base.dir}/.." includesfile="${player.base.dir}/shared.jars"/>
@@ -126,6 +137,11 @@
 		<copy todir="${designer.lib.dir}" file="${common.dist.file}"/>
 		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/quartz/quartz-1.6.3.jar"/>
 		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/log4j/log4j-1.2.14.jar"/>
+		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/apache-commons/commons-httpclient-3.1.jar"/>
+		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/apache-commons/commons-lang.jar"/>
+		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/apache-commons/commons-logging-1.0.4.jar"/>
+		<copy todir="${designer.lib.dir}" file="${etc.lib.dir}/apache-commons/commons-codec-1.3.jar"/>
+		<copy todir="${designer.lib.dir}" file="${admin-console.dist.file}"/>
 	</target>
 	
 	<target name="recreate.database" 
@@ -145,6 +161,11 @@
 		<copy tofile="${tomcat.home}/webapps/admin-console.war" file="${admin-console.dist.file}" overwrite="true"/>
 	</target>
 	
+	<target name="dist.license-console" depends="build.license-console"
+		description="Creates license-console.war and copies to Tomcat">
+		<copy tofile="${tomcat.home}/webapps/license-console.war" file="${license-console.dist.file}" overwrite="true"/>
+	</target>
+
 	<target name="dist.bootstrap" depends="build.common, build.bootstrap"
 		description="Creates the bootstrap.jar and dependencies, copies them along with the service wrapper components">
 		<delete dir="${bootstrap.home}" failonerror="false"/>
@@ -405,7 +426,7 @@
 			file="${tomcat.installer.path}"/>
 		<!-- Copy Tomcat config files -->
 		<copy todir="${server.installer.dir}/tomcat">
-			<fileset dir="${etc.base.dir}/tomcat" includes="*.xml"/>
+			<fileset dir="${etc.base.dir}/tomcat/admin-console" includes="*.xml"/>
 		</copy>
 		<!-- Copy the admin console WAR -->
 		<copy 

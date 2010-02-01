@@ -123,28 +123,7 @@
        -->
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true" xmlNamespaceAware="false" xmlValidation="false">
 
-			
-	 	<Realm className="org.apache.catalina.realm.DataSourceRealm" 
-			debug="99"
-			dataSourceName="jdbc/adminConsoleDS"
-			userTable="users" 
-			userNameCol="username" 
-			userCredCol="password"
-			userRoleTable="user_rights" 
-			roleNameCol="role_name"
-			resourceName="AdminConsoleRealm"/>
-     
       </Host>
-      
-		<Realm className="org.apache.catalina.realm.DataSourceRealm" 
-			debug="99"
-			dataSourceName="jdbc/adminConsoleDS"
-			userTable="users" 
-			userNameCol="username" 
-			userCredCol="password"
-			userRoleTable="user_rights" 
-			roleNameCol="role_name"
-			resourceName="AdminConsoleRealm"/>
      
     </Engine>
   </Service>
