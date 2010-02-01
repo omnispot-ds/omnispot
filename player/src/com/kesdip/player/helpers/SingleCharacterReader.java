@@ -1,6 +1,5 @@
 package com.kesdip.player.helpers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -14,6 +13,8 @@ public class SingleCharacterReader {
 	int chars = 0;
 	boolean newcontent = false;
 	String newContent;
+	
+	char[] characters;
 
 	public SingleCharacterReader(String content) {
 		sliceToChars(content);
@@ -25,13 +26,9 @@ public class SingleCharacterReader {
 	}
 
 	private void sliceToChars(String content) {
-		chars = content.length();
-		charsList = new ArrayList<String>();
-		for (int i = 1;i <= chars;i++) {
-			charsList.add(content.substring((i-1),i));
-		}
-		charsList.add(content.substring(chars));
-
+		
+		characters = content.toCharArray();
+		
 		if (logger.isDebugEnabled()) {
 			logger.debug("number of chars: " + chars);
 			StringBuilder sb = new StringBuilder();
@@ -49,13 +46,16 @@ public class SingleCharacterReader {
 	public String nextChar() {
 		if (newcontent && charsIndex == 0)
 		{
-			logger.debug("updating content...");
+			if (logger.isDebugEnabled())
+				logger.debug("updating content...");
+			
 			sliceToChars(newContent);
 			newcontent = false;
 		}	
-		String retVal = charsList.get(charsIndex);
+		String retVal = new String (new char[]{characters[charsIndex]});;
+		
 		charsIndex++;
-		if (charsIndex == charsList.size()) {
+		if (charsIndex == characters.length) {
 			charsIndex = 0;
 		}
 
