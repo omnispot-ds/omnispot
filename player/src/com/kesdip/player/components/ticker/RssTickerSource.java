@@ -5,6 +5,12 @@
  */
 package com.kesdip.player.components.ticker;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -26,46 +32,36 @@ import com.sun.syndication.io.XmlReader;
 
 public class RssTickerSource implements TickerSource {
 	private static final Logger logger = Logger.getLogger(RssTickerSource.class);
-	
+
 	/**
 	 * a default string appearing between title and description
 	 */
 	private static final String DEFAULT_AFTER_TITLE = ": ";
-	
+
 	/**
 	 * a default string appearing between items
 	 */
 	private static final String DEFAULT_ITEM_SEPARATOR = " - ";
-	
+
+	File feedBackup;
+
 	private String rssUrl;
 
 	private StringBuilder sb;
-	
-	private SyndFeed feed;
-	
-	private boolean showOnlyTitles;
-	
-	private String afterTitle = DEFAULT_AFTER_TITLE;
-	
-	private String itemSeparator = DEFAULT_ITEM_SEPARATOR;
-	
-	private int refreshInterval;
-	
-	private String content;
-	
-	SingleCharacterReader charStream;
-	
-	public RssTickerSource() {
-		setRssUrl(null);
-	}
 
-	public RssTickerSource(String rssUrl) {
-		setRssUrl(rssUrl);
-	}
-	
-	public void setRssUrl(String rssUrl) {
-		this.rssUrl = rssUrl;
-	}
+	private SyndFeed feed;
+
+	private boolean showOnlyTitles;
+
+	private String afterTitle = DEFAULT_AFTER_TITLE;
+
+	private String itemSeparator = DEFAULT_ITEM_SEPARATOR;
+
+	private int refreshInterval;
+
+	private String content = "";
+
+	SingleCharacterReader charStream;
 
 	@Override
 	public void addTrailingChar() {
@@ -85,22 +81,29 @@ public class RssTickerSource implements TickerSource {
 		if (sb == null) {
 			reset();
 		}
-		
+
 		return sb.toString();
 	}
 
 	@Override
 	public void reset() {
+		if (feedBackup == null)
+			feedBackup = new File(
+					System.getProperty("user.home") +
+					File.separator +
+					rssUrl.replaceAll("/", "").replaceAll(":", "") +
+					".rss"
+			);
 		loadContent();
 		try {
 			Scheduler sched = new StdSchedulerFactory().getScheduler();
 
 			sched.start();
-			
+
 			JobDetail jobDetail = new JobDetail("refreshJob",
-                    null,
-                    RefreshJob.class);
-			
+					null,
+					RefreshJob.class);
+
 			jobDetail.getJobDataMap().put("source", this);
 			Trigger trigger = TriggerUtils.makeMinutelyTrigger(refreshInterval);
 			Calendar start = Calendar.getInstance();
@@ -109,21 +112,18 @@ public class RssTickerSource implements TickerSource {
 			trigger.setName("aTrigger");
 
 			sched.scheduleJob(jobDetail, trigger);
-			
+
 		} catch (SchedulerException e) {
 			logger.error("Unable to schedule refresh job", e);
 		}
 	}
-	
+
 	/**
 	 * Loads content from the specified rss source
 	 */
 	void loadContent(){		
-		createFeed();
 		readFeed();
-		if (content.length() == 0) {
-			content = "Feed not available..";
-		}
+
 		if (charStream == null) {
 			//first time called
 			charStream = new SingleCharacterReader(content);
@@ -146,7 +146,7 @@ public class RssTickerSource implements TickerSource {
 			logger.error("Unable to create feed.", e);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void readFeed() {
 		if (logger.isTraceEnabled()) {
@@ -169,10 +169,69 @@ public class RssTickerSource implements TickerSource {
 				}
 				builder.append(itemSeparator != null ? itemSeparator : " ");
 			}
+			content = builder.toString();
 		}
-		
-		content = builder.toString();
-		
+
+		if (content.length() == 0) {
+			readFromBackUp(feedBackup);
+		} else {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					backUp();
+				}
+			})
+			.start();
+		}
+	}
+
+	private void backUp() {
+		boolean fileCreated = false;
+		try {
+			if (!feedBackup.exists()) {
+				fileCreated = feedBackup.createNewFile();
+				if (!fileCreated) {
+					logger.error("Cannot create rss file");
+					return;
+				}
+			} 
+			if (System.currentTimeMillis() - feedBackup.lastModified() < 1000l && 
+					!fileCreated){
+				logger.error("rss file currently modified?!another rssticker with the same url?" +
+						"backing off..");
+				return;//back off
+			}
+			if (!feedBackup.canWrite()) {
+				logger.error("cannot write to rss file!");
+				return;//back off
+			}
+			BufferedWriter out = new BufferedWriter(new FileWriter(feedBackup));
+			out.write(content.toString());
+			out.close();
+
+		} catch (IOException e) {
+			logger.error("Cannot write to rss file",e);
+		}
+	}
+
+	private void readFromBackUp(File file) {
+		logger.warn("Feed not available..");
+		try {
+			StringBuffer fileData = new StringBuffer(1000);
+			BufferedReader reader = new BufferedReader(
+					new FileReader(file));
+			char[] buf = new char[1024];
+			int numRead=0;
+			while((numRead=reader.read(buf)) != -1){
+				String readData = String.valueOf(buf, 0, numRead);
+				fileData.append(readData);
+				buf = new char[1024];
+			}
+			reader.close();
+			content =  fileData.toString();
+		} catch (IOException e){
+			logger.error("Cannot read from rss file",e);
+		}
 	}
 
 	public void setShowOnlyTitles(boolean showOnlyTitles) {
@@ -194,5 +253,8 @@ public class RssTickerSource implements TickerSource {
 	public void setRefreshInterval(int refreshInterval) {
 		this.refreshInterval = refreshInterval;
 	}
-	
+
+	public void setRssUrl(String rssUrl) {
+		this.rssUrl = rssUrl;
+	}
 }
