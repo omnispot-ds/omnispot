@@ -5,20 +5,21 @@
       version="1.1.5"
       provider-name="OmniSpot E.P.E.">
 
-   <description url="http://www.example.com/description">
+   <description url="http://www.kesdip.com/description">
       [Enter Feature Description here.]
    </description>
 
-   <copyright url="http://www.example.com/copyright">
+   <copyright url="http://www.kesdip.com/copyright">
       [Enter Copyright Description here.]
    </copyright>
 
-   <license url="http://www.example.com/license">
+   <license url="http://www.kesdip.com/license">
       [Enter License Description here.]
    </license>
 
    <url>
-      <update label="Omni-Spot Update Site" url="http://www.kesdip.com/update-console/update/"/>
+      <update label="Omni-Spot Update Site" url="http://localhost:8080/license-console/update"/>
+      <discovery label="Omni-Spot information site" url="http://www.omni-spot.com"/>
    </url>
 
    <requires>
@@ -608,6 +609,13 @@
 
    <plugin
          id="org.eclipse.core.filebuffers"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.ui.net"
          download-size="0"
          install-size="0"
          version="0.0.0"
