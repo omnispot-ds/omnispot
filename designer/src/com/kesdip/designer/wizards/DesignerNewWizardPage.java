@@ -143,7 +143,7 @@ public class DesignerNewWizardPage extends WizardPage {
 		FileDialog dialog = new FileDialog(
 				getShell(), SWT.SAVE | SWT.APPLICATION_MODAL);
 		dialog.setText("Choose File");
-		dialog.setFilterNames(new String[] { "Ke.S.Di.P. E.P.E. Designer Files", "All files (*.*)" });
+		dialog.setFilterNames(new String[] { "Omni-Spot Designer Files", "All files (*.*)" });
 		dialog.setFilterExtensions(new String[] { "*.des.xml", "*.*" });
 		fileText.setText(dialog.open());
 	}

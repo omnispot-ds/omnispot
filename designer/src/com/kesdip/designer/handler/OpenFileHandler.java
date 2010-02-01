@@ -24,7 +24,7 @@ public class OpenFileHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		FileDialog dialog = new FileDialog(
 				HandlerUtil.getActiveShell(event), SWT.OPEN | SWT.APPLICATION_MODAL);
-		dialog.setFilterNames(new String[] { "Ke.S.Di.P. E.P.E. Designer Files", "All files (*.*)" });
+		dialog.setFilterNames(new String[] { "Omni-Spot Designer Files", "All files (*.*)" });
 		dialog.setFilterExtensions(new String[] { "*.des.xml", "*.*" });
 		String path = dialog.open();
 		DesignerLog.logInfo("User entered path: " + path);
@@ -49,7 +49,7 @@ public class OpenFileHandler extends AbstractHandler {
 			DesignerLog.logError("Unable to open editor for: " + path, e);
 			MessageDialog.openError(HandlerUtil.getActiveShell(event),
 					"Designer file format error", "Unable to load file: " + path +
-					". This is probably not a Ke.S.Di.P. E.P.E. Designer file. Please " +
+					". This is probably not an Omni-Spot Designer file. Please " +
 					"check the error log for more details.");
 		}
 		return null;

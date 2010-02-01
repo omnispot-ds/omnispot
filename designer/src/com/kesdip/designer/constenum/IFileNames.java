@@ -20,4 +20,19 @@ public interface IFileNames {
 	 * The deployment file name, when serialized as part of a publish action.
 	 */
 	String DEPLOYMENT_XML = "deployment.xml";
+
+	/**
+	 * The file containing installed plugin versions in the current directory.
+	 */
+	String VERSIONS_TXT = "versions.txt";
+	
+	/**
+	 * Location of the admin console WAR in the classpath.
+	 */
+	String ADMIN_CONSOLE_WAR = "/lib/admin-console.war";
+	
+	/**
+	 * Manager info file.
+	 */
+	String MANAGER_INFO = "manager.info";
 }

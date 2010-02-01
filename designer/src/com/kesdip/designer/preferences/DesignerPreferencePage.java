@@ -29,7 +29,7 @@ public class DesignerPreferencePage
 	public DesignerPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("The preferences used to control Ke.S.Di.P. E.P.E. " +
+		setDescription("The preferences used to control Omni-Spot " +
 				"Designer behaviour.");
 	}
 	

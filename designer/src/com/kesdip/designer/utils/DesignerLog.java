@@ -10,6 +10,10 @@ public class DesignerLog {
 		log(IStatus.INFO, IStatus.OK, message, null);
 	}
 	
+	public static void logError(String message) {
+		log(IStatus.ERROR, IStatus.OK, message, null);
+	}
+
 	public static void logError(Throwable throwable) {
 		logError("Unexpected Exception", throwable);
 	}

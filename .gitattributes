@@ -573,6 +573,7 @@ designer/src/com/kesdip/designer/handler/PreviewLauncher.java -text
 designer/src/com/kesdip/designer/handler/PreviewLayoutHandler.java -text
 designer/src/com/kesdip/designer/handler/PublishHandler.java -text
 designer/src/com/kesdip/designer/handler/ShowViewHandler.java -text
+designer/src/com/kesdip/designer/handler/UpdateSoftwareHandler.java -text
 designer/src/com/kesdip/designer/model/ClockComponent.java -text
 designer/src/com/kesdip/designer/model/ComponentModelElement.java -text
 designer/src/com/kesdip/designer/model/Deployment.java -text
@@ -662,6 +663,12 @@ designer/src/com/kesdip/designer/properties/VideoResourceCellModifier.java -text
 designer/src/com/kesdip/designer/properties/VideoResourceListCellEditor.java -text
 designer/src/com/kesdip/designer/properties/VideoResourceListDialog.java -text
 designer/src/com/kesdip/designer/template/TemplateManager.java -text
+designer/src/com/kesdip/designer/update/AdminConsoleUpdateCompletionAction.java -text
+designer/src/com/kesdip/designer/update/AdminConsoleUpdateJob.java -text
+designer/src/com/kesdip/designer/update/SoftwareUpdateJobListener.java -text
+designer/src/com/kesdip/designer/update/UpdateJobRunner.java -text
+designer/src/com/kesdip/designer/update/VersionUpdateChecker.java -text
+designer/src/com/kesdip/designer/update/VersionsFileUtil.java -text
 designer/src/com/kesdip/designer/utils/DOMHelpers.java -text
 designer/src/com/kesdip/designer/utils/DesignerLog.java -text
 designer/src/com/kesdip/designer/utils/FontKludge.java -text

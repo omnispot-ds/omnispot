@@ -24,14 +24,14 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="com.kesdip.designer.application"
-            name="Ke.S.Di.P. E.P.E. Designer">
+            name="Omni-Spot Designer">
          <property
                name="windowImages"
                value="icons/display.png,icons/display_large.png">
          </property>
          <property
                name="appName"
-               value="Ke.S.Di.P. E.P.E. Designer">
+               value="Omni-Spot Designer">
          </property>
          <property
                name="aboutImage"
@@ -39,7 +39,7 @@
          </property>
          <property
                name="aboutText"
-               value="Ke.S.Di.P. E.P.E. Designer Copyright 2009 Ke.S.Di.P. E.P.E.">
+               value="Omni-Spot Designer (v.1.1.5), Copyright 2009-2010">
          </property>
       </product>
    </extension>
@@ -126,6 +126,12 @@
             description="Publish current deplyment"
             id="com.kesdip.designer.PublishCommand"
             name="Publish">
+      </command>
+      <command
+            defaultHandler="com.kesdip.designer.handler.UpdateSoftwareHandler"
+            description="Update Software"
+            id="com.kesdip.designer.UpdateSoftwareCommand"
+            name="Update">
       </command>
    </extension>
    <extension
@@ -260,11 +266,6 @@
                id="com.kesdip.designer.HelpMenu"
                label="Help">
             <command
-                  commandId="org.eclipse.ui.help.aboutAction"
-                  label="About Designer"
-                  style="push">
-            </command>
-            <command
                   commandId="org.eclipse.ui.help.helpContents"
                   label="Contents"
                   style="push">
@@ -272,6 +273,25 @@
             <command
                   commandId="org.eclipse.ui.cheatsheets.openCheatSheet"
                   label="Open Cheat Sheet..."
+                  style="push">
+            </command>
+            <separator
+                  name="com.kesdip.designer.HelpSeparator1"
+                  visible="true">
+            </separator>
+            <groupMarker name="additions" />
+            <command
+                  commandId="com.kesdip.designer.UpdateSoftwareCommand"
+                  label="Update Software..."
+                  style="push">
+            </command>
+            <separator
+                  name="com.kesdip.designer.HelpSeparator2"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.eclipse.ui.help.aboutAction"
+                  label="About Designer"
                   style="push">
             </command>
          </menu>

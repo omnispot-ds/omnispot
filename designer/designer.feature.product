@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Ke.S.Di.P. E.P.E. Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.0.0" useFeatures="true">
+<product name="Omni-Spot Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.1.0" useFeatures="true">
 
    <aboutInfo>
       <image path="/com.kesdip.designer/splash.png"/>
       <text>
-         Ke.S.Di.P. E.P.E. Designer Copyright 2009 Ke.S.Di.P. E.P.E.
+         Omni-Spot Designer (v.1.1.5) 
+Copyright 2009-2010
       </text>
    </aboutInfo>
 
@@ -32,6 +33,7 @@
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
