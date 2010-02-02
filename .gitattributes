@@ -189,6 +189,7 @@ admin-console/WebRoot/resources/js/yui/yahoo/yahoo.js -text
 admin-console/build.xml -text
 admin-console/included.jars -text
 admin-console/shared.jars -text
+admin-console/src/com/kesdip/admin/web/Version.java -text
 admin-console/src/com/kesdip/admin/web/constenum/IObjectKeysEnum.java -text
 admin-console/src/com/kesdip/admin/web/controller/BaseFormController.java -text
 admin-console/src/com/kesdip/admin/web/controller/action/DeployContentController.java -text
@@ -255,6 +256,7 @@ bootstrap/src/com/kesdip/bootstrap/Config.java -text
 bootstrap/src/com/kesdip/bootstrap/Manager.java -text
 bootstrap/src/com/kesdip/bootstrap/MessagePump.java -text
 bootstrap/src/com/kesdip/bootstrap/Screen.java -text
+bootstrap/src/com/kesdip/bootstrap/Version.java -text
 bootstrap/src/com/kesdip/bootstrap/communication/ProtocolHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/content/ContentHandler.java -text
 bootstrap/src/com/kesdip/bootstrap/content/ContentRetriever.java -text

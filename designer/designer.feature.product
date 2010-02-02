@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Omni-Spot Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.1.0" useFeatures="true">
+<product name="Omni-Spot Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.1.5" useFeatures="true">
 
    <aboutInfo>
       <image path="/com.kesdip.designer/splash.png"/>
@@ -42,7 +42,7 @@ Copyright 2009-2010
    </plugins>
 
    <features>
-      <feature id="com.kesdip.designer.feature" version="1.0.0"/>
+      <feature id="com.kesdip.designer.feature" version="1.1.5"/>
    </features>
 
 </product>

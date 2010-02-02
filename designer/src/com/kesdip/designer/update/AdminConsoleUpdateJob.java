@@ -29,6 +29,7 @@ import com.kesdip.common.util.tomcat.ApplicationInfo;
 import com.kesdip.common.util.tomcat.ManagerWrapper;
 import com.kesdip.common.util.tomcat.ProxyInfo;
 import com.kesdip.common.util.tomcat.TomcatManagerInfo;
+import com.kesdip.designer.Activator;
 import com.kesdip.designer.constenum.IFileNames;
 import com.kesdip.designer.utils.DesignerLog;
 
@@ -67,6 +68,11 @@ public class AdminConsoleUpdateJob implements IRunnableWithProgress {
 	private static final String ADMIN_CONSOLE_PATH = "/admin-console";
 
 	/**
+	 * The new version.
+	 */
+	private String newVersion = null;
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @param completedAction
@@ -82,6 +88,7 @@ public class AdminConsoleUpdateJob implements IRunnableWithProgress {
 		this.completionAction = completedAction;
 		appInfo = new ApplicationInfo(ADMIN_CONSOLE_PATH, newVersion,
 				previousVersion);
+		this.newVersion = newVersion;
 	}
 
 	public void run(IProgressMonitor monitor) {
@@ -117,6 +124,9 @@ public class AdminConsoleUpdateJob implements IRunnableWithProgress {
 			deployAdminConsole(mgrInfo, proxyInfo, warStream);
 			// set the completion task to be ok
 			completionAction.setOk(true);
+			// update the versions file
+			VersionsFileUtil.appendVersion(Activator.PLUGIN_ID + '_'
+					+ newVersion);
 		} catch (Exception e) {
 			DesignerLog.logError(e);
 			// if the work failed then set the completion
