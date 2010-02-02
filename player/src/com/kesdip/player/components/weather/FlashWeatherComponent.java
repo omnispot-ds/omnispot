@@ -18,7 +18,15 @@ public class FlashWeatherComponent extends FlashComponent implements Initializin
 	
 	private final static Logger logger = Logger.getLogger(FlashWeatherComponent.class);
 	
+	public final static WeatherData WEATHERDATA_SCRIPT_PUSH = new WeatherData();
+	
 	private WeatherDataSource weatherDataSource;
+	
+	private static FlashWeatherComponent singleton;
+	
+	public static FlashWeatherComponent getInstance() {
+		return singleton;
+	}
 	
 	public WeatherDataSource getWeatherDataSource() {
 		return weatherDataSource;
@@ -30,6 +38,12 @@ public class FlashWeatherComponent extends FlashComponent implements Initializin
 
 	public FlashWeatherComponent() {
 		super();
+		singleton = this;
+	}
+	
+	@Override
+	protected void initInvocationProxy() {
+		invocationProxy = new InvocationProxy();
 	}
 	
     private int count;
@@ -38,7 +52,7 @@ public class FlashWeatherComponent extends FlashComponent implements Initializin
     public void repaint() throws ComponentException {
     	super.repaint();
     	if (count++ == 10) {
-    		doInvoke("setWeatherData", new Object[] { weatherDataSource.getProcessedWeatherData() });
+    		setWeatherData(weatherDataSource.getProcessedWeatherData());
     	}
     }
 
@@ -48,14 +62,26 @@ public class FlashWeatherComponent extends FlashComponent implements Initializin
 	}
 	
 	public void setWeatherData(WeatherData weatherData) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("date", weatherData.date);
-		map.put("imageUrl", weatherData.imageUrl);
-		map.put("location", weatherData.location);
-		map.put("otherData", weatherData.otherData);
-		map.put("temperature", weatherData.temperature);
+		if (weatherData == WEATHERDATA_SCRIPT_PUSH)
+			return;
+		doInvoke("setWeatherData", weatherData);
+	}
+	
+	public void setWeatherData(Map<String, ?> weatherData) {
+		doInvoke("setWeatherData", weatherData);
+	}
+	
+	private void setWeatherDataPrivate(Map<String, ?> weatherData) {
+		if (weatherData == null)
+			return;
+		//Map<String, String> map = new HashMap<String, String>();
+		//map.put("date", weatherData.date);
+		//map.put("imageUrl", weatherData.imageUrl);
+		//map.put("location", weatherData.location);
+		//map.put("otherData", weatherData.otherData);
+		//map.put("temperature", weatherData.temperature);
 		
-		String s = ExternalInterfaceSerializer.encodeInvoke("setData", new Object[]{map});
+		String s = ExternalInterfaceSerializer.encodeInvoke("setWeatherData", new Object[]{weatherData});
 		flash.callFunction(new BStr(s));
 	}
 
@@ -65,6 +91,12 @@ public class FlashWeatherComponent extends FlashComponent implements Initializin
 		retVal.add(source);
 		retVal.addAll(weatherDataSource.gatherResources());
 		return retVal;
+	}
+	
+	protected class InvocationProxy extends FlashComponent.InvocationProxy {
+		public void setWeatherData(Map<String, ?> weatherData) {
+			FlashWeatherComponent.this.setWeatherDataPrivate(weatherData);
+		}
 	}
 
 }

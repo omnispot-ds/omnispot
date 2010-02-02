@@ -2,15 +2,17 @@ package com.kesdip.player.components;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import com.jniwrapper.win32.automation.Automation;
 import com.jniwrapper.win32.automation.OleContainer;
 import com.jniwrapper.win32.automation.OleMessageLoop;
-import com.jniwrapper.win32.automation.types.BStr;
 import com.jniwrapper.win32.com.types.ClsCtx;
 import com.jniwrapper.win32.ole.IOleObject;
 import com.jniwrapper.win32.ole.OleFunctions;
@@ -22,19 +24,28 @@ import com.kesdip.player.components.flash.shockwaveflashobjects.IShockwaveFlash;
 import com.kesdip.player.components.flash.shockwaveflashobjects.ShockwaveFlash;
 import com.kesdip.player.registry.ContentRegistry;
 
-public class FlashComponent extends AbstractComponent {
+/**
+ * 
+ * <p>
+ * The class runs an endless loop, polling the standard in, as long as the
+ * {@link Player} itself is running. The class reads lines of the form
+ * <code>expression=value</code> from the standard in and updates the currently
+ * playing deployment.
+ * </p>
+ * 
+ * @author gerogias
+ */
+public abstract class FlashComponent extends AbstractComponent {
 	
 	private final static Logger logger = Logger.getLogger(FlashComponent.class);
-	
-	protected OleContainer oleContainer = new OleContainer();
 
-	protected IShockwaveFlash flash;
-	
 	protected Resource source;
 	
-	public void setSource(Resource source) {
-		this.source = source;
-	}
+	protected OleContainer oleContainer;
+	protected IShockwaveFlash flash;
+	protected Automation automation;
+	
+	protected InvocationProxy invocationProxy;
 	
 	/**
 	 * This is only to be used for testing purposes. Not intended to be part of the
@@ -42,7 +53,39 @@ public class FlashComponent extends AbstractComponent {
 	 * we can control its deployment.
 	 */
 	protected String filename = null;
+	private boolean showing;
 	
+
+	public FlashComponent() {
+		super();
+		initInvocationProxy();
+	}
+	
+	public void setSource(Resource source) {
+		this.source = source;
+	}
+	
+	protected void afterInit() {
+		if (filename == null) {
+			ContentRegistry registry = ContentRegistry.getContentRegistry();
+			filename = registry.getResourcePath(source, true);
+		}
+		openFile(filename);
+	}
+
+	protected void beforeInit() {}
+	
+	public Set<Resource> gatherResources() {
+		HashSet<Resource> retVal = new HashSet<Resource>();
+		retVal.add(source);
+		return retVal;
+	}
+    
+	
+	protected void initInvocationProxy() {
+		invocationProxy = new InvocationProxy();
+	}
+
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
@@ -54,108 +97,128 @@ public class FlashComponent extends AbstractComponent {
 
 	@Override
 	public java.awt.Component getWindowComponent() {
-		logger.debug("getWindowComponent called");
 		oleContainer.setSize(width, height);
 		oleContainer.setLocation(new Point(x, y));
 		return oleContainer;
 	}
 
 	@Override
-	public void init(Component parent, TimingMonitor timingMonitor,
-			Player player) throws ComponentException {
+	public synchronized void init(Component parent, TimingMonitor timingMonitor, Player player)
+			throws ComponentException {
 		setPlayer(player);
-		
-		logger.debug("Initializing OleFunctions");
+		beforeInit();
 		OleFunctions.oleInitialize();
-		oleContainer.setBackground(Color.blue);
-		logger.debug("Creating OleObject");
 		createOleObject();
-		logger.debug("Showing OleObject");
+		oleContainer.setBackground(Color.blue);
+		final Player cPlayer = this.player;
+		oleContainer.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if (arg0.getKeyChar() == KeyEvent.VK_ESCAPE) {
+					cPlayer.stopPlaying();
+				}
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+			@Override
+			public void keyPressed(KeyEvent arg0) {}
+		
+		});
+		
 		showOleObject();
 		parent.add(this);
-		if (filename == null) {
-			ContentRegistry registry = ContentRegistry.getContentRegistry();
-			filename = registry.getResourcePath(source, true);
-		}
-		doOpen(filename);
+		afterInit();
 	}
 	
-	private boolean showing;
+	@Override
+	public void releaseResources() {
+		logger.info("destroying OleObject");
+		destroyOleObject();
+		super.releaseResources();
+	}
 
 	@Override
-	public void repaint() throws ComponentException {
+	public synchronized void repaint() throws ComponentException {
 		if (!showing) {
 			logger.info("doing OleVerb.SHOW for the first time");
 			showOleObject();
 			showing = true;
 		}
 	}
+
+	private synchronized void createOleObject() {
+		oleContainer = new OleContainer();
+		flash = ShockwaveFlash.create(ClsCtx.INPROC_SERVER);
+		IOleObject oleObject = new IOleObjectImpl(flash);
+		automation = new Automation(oleObject);
+		oleContainer.insertObject(oleObject);
+	}
+
+	private synchronized void showOleObject() {
+		oleContainer.doVerb(OleVerbs.SHOW);
+	}
+
+	// TODO Not sure why this throws NPE
+	public void destroyOleObject() {
+		try {
+			oleContainer.destroyObject();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	protected void doInvoke(String methodName, Object... args) {
+		doInvoke(invocationProxy, methodName, args);
+	}
+
+	/**
+	 * ActiveX calls should be made by the thread that created the control. OleMessageLoop serves this purpose
+	 * with its invokeMethod callback mechanism.
+	 * 
+	 * @param context
+	 * @param methodName
+	 * @param args
+	 */
+	protected void doInvoke(Object context, String methodName, Object[] args) {
+		try {
+	    	OleMessageLoop.invokeMethod(context, methodName, args);
+	    } catch (Exception ex) {
+	    	logger.error("Error", ex);
+	    	throw new RuntimeException(ex);
+	    }
+	}
+
+	public void openFile(String filename) {
+	   	doInvoke("openFile", filename);
+	}
+
+	protected void openFilePrivate(String filename) {
+		System.out.println(invocationProxy.getClass().toString());
+		File file = new File(filename);
 	
-	@Override
-	public void releaseResources() {
-		super.releaseResources();
-		logger.info("destroying OleObject");
-		destroyOleObject();
+	    if (!file.exists()) {
+	    	throw new RuntimeException("Couldn't find file with movie: " + filename);
+	    }
+	    
+	    automation.setProperty("Movie", filename);
 	}
 	
-    private void createOleObject() {
-    	IShockwaveFlash flash = ShockwaveFlash.create(ClsCtx.INPROC_SERVER);
-    	IOleObject oleObject = new IOleObjectImpl(flash);
-    	this.flash = flash;
-    	oleContainer.insertObject(oleObject);
-    }
-    
-    private void showOleObject() {
-    	oleContainer.doVerb(OleVerbs.SHOW);
-    }
-    
-    private void destroyOleObject() {
-    	oleContainer.destroyObject();
-    }
-    
-    protected void doInvoke(String methodName, Object... args) {
-    	doInvoke(this, methodName, args);
-    }
-    
-    /**
-     * ActiveX calls should be made by the thread that created the control. OleMessageLoop serves this purpose
-     * with its invokeMethod callback mechanism.
-     * @param context
-     * @param methodName
-     * @param args
-     */
-    protected void doInvoke(Object context, String methodName, Object[] args) {
-    	try {
-        	OleMessageLoop.invokeMethod(context, methodName, args);
-        } catch (Exception ex) {
-        	logger.error("Error", ex);
-        	throw new RuntimeException(ex);
-        }
-    }
-    
-    private void doOpen(String filename) {
-       	doInvoke(this, "openFile", new Object[] { filename });
-    }
-    
-    public void openFile(String filename) {
-    	
-    	File file = new File(filename);
-
-        if (!file.exists()) {
-        	throw new RuntimeException("Couldn't find file with movie: " + filename);
-        }
-        
-        // load movie
-        flash.setMovie(new BStr(filename));
-        flash.play();
-
-    }
-
-	
-	@Override
-	public Set<Resource> gatherResources() {
-		HashSet<Resource> retVal = new HashSet<Resource>();
-		retVal.add(source);
-		return retVal;
+	/**
+	 * All ActiveX calls should be made through OleMessageLoop.invokeMethod(). The context argument passed to this
+	 * method however needs to expose the method to be called as public. This would mean that the interface of our class
+	 * should contain two versions of the same method. One to pass the invocation to OleMessageLoop, and one to be invoked
+	 * by OleMessageLoop and do the actual work. For the sake of a simpler class interface, the method that does the actual
+	 * work is declared as private, and our InvocationProxy (to which this private method is accessible) is passed to 
+	 * OleMessageLoop as the context of the method call.
+	 * 
+	 * @author n.giamouris
+	 *
+	 */
+	protected class InvocationProxy {
+		public void openFile(String filename) {
+			FlashComponent.this.openFilePrivate(filename);
+		}
 	}
+
 }

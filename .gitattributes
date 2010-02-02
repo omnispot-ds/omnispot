@@ -686,6 +686,7 @@ etc/lib/derby/derby.jar -text
 etc/lib/derby/derbyclient.jar -text
 etc/lib/derby/derbynet.jar -text
 etc/lib/dom4j/dom4j-1.6.1.jar -text
+etc/lib/dom4j/jaxen-1.1.1.jar -text
 etc/lib/hibernate-tools/freemarker.jar -text
 etc/lib/hibernate-tools/hibernate-tools.jar -text
 etc/lib/hibernate/antlr-2.7.6.jar -text
@@ -761,6 +762,8 @@ player/appContext.xml -text
 player/appContextForFrames.xml -text
 player/appContextFullScreen.xml -text
 player/build.xml -text
+player/etc/Weather.xml -text
+player/etc/WeatherWidget.swf -text
 player/etc/yahoo.groovy -text
 player/etc/yahoo.java -text
 player/etc/yahoo.js -text
@@ -824,7 +827,10 @@ player/src/com/kesdip/player/components/ticker/TickerPanel.java -text
 player/src/com/kesdip/player/components/ticker/TickerSource.java -text
 player/src/com/kesdip/player/components/weather/FlashWeatherComponent.java -text
 player/src/com/kesdip/player/components/weather/RssWeatherSource.java -text
+player/src/com/kesdip/player/components/weather/ScriptUtils.java -text
+player/src/com/kesdip/player/components/weather/ScriptedPushingDataSource.java -text
 player/src/com/kesdip/player/components/weather/ScriptingDataProcessor.java -text
+player/src/com/kesdip/player/components/weather/ScriptingHelper.java -text
 player/src/com/kesdip/player/components/weather/URLXmlSource.java -text
 player/src/com/kesdip/player/components/weather/WeatherData.java -text
 player/src/com/kesdip/player/components/weather/WeatherDataProcessor.java -text
