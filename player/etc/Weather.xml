@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <forecasts>
 	<gid id="263000">
 		<PointName><![CDATA[Δομοκός]]></PointName>
@@ -14,9 +14,36 @@
 			<windDirection><![CDATA[ΒΑ]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Ασθενές χιονόνερο ή χιόνι]]></PointDesc><icon><![CDATA[19]]></icon><minHum><![CDATA[99 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[0 C]]></minTemp><maxTemp><![CDATA[2 C]]></maxTemp><Wind><![CDATA[12 kph]]></Wind><windDirection><![CDATA[Δ-ΝΔ]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Ασθενές χιονόνερο ή χιόνι]]></PointDesc><icon><![CDATA[19]]></icon><minHum><![CDATA[93 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[2 C]]></minTemp><maxTemp><![CDATA[7 C]]></maxTemp><Wind><![CDATA[13 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Πιθανή βροχή ή χιονόνερο]]></PointDesc><icon><![CDATA[12]]></icon><minHum><![CDATA[81 %]]></minHum><maxHum><![CDATA[96 %]]></maxHum><minTemp><![CDATA[4 C]]></minTemp><maxTemp><![CDATA[9 C]]></maxTemp><Wind><![CDATA[16 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Ασθενές χιονόνερο ή χιόνι]]></PointDesc>
+				<icon><![CDATA[19]]></icon>
+				<minHum><![CDATA[99 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[0 C]]></minTemp>
+				<maxTemp><![CDATA[2 C]]></maxTemp>
+				<Wind><![CDATA[12 kph]]></Wind>
+				<windDirection><![CDATA[Δ-ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Ασθενές χιονόνερο ή χιόνι]]></PointDesc>
+				<icon><![CDATA[19]]></icon>
+				<minHum><![CDATA[93 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[2 C]]></minTemp>
+				<maxTemp><![CDATA[7 C]]></maxTemp>
+				<Wind><![CDATA[13 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Πιθανή βροχή ή χιονόνερο]]></PointDesc>
+				<icon><![CDATA[12]]></icon>
+				<minHum><![CDATA[81 %]]></minHum>
+				<maxHum><![CDATA[96 %]]></maxHum>
+				<minTemp><![CDATA[4 C]]></minTemp>
+				<maxTemp><![CDATA[9 C]]></maxTemp>
+				<Wind><![CDATA[16 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 	<gid id="262462">
@@ -33,9 +60,36 @@
 			<windDirection><![CDATA[Β-ΒΑ]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Ασθενές χιονόνερο ή χιόνι]]></PointDesc><icon><![CDATA[19]]></icon><minHum><![CDATA[98 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[2 C]]></minTemp><maxTemp><![CDATA[4 C]]></maxTemp><Wind><![CDATA[10 kph]]></Wind><windDirection><![CDATA[Δ-ΝΔ]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Πιθανή βροχή ή χιονόνερο]]></PointDesc><icon><![CDATA[12]]></icon><minHum><![CDATA[89 %]]></minHum><maxHum><![CDATA[98 %]]></maxHum><minTemp><![CDATA[3 C]]></minTemp><maxTemp><![CDATA[10 C]]></maxTemp><Wind><![CDATA[12 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[6]]></icon><minHum><![CDATA[76 %]]></minHum><maxHum><![CDATA[96 %]]></maxHum><minTemp><![CDATA[4 C]]></minTemp><maxTemp><![CDATA[13 C]]></maxTemp><Wind><![CDATA[15 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Ασθενές χιονόνερο ή χιόνι]]></PointDesc>
+				<icon><![CDATA[19]]></icon>
+				<minHum><![CDATA[98 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[2 C]]></minTemp>
+				<maxTemp><![CDATA[4 C]]></maxTemp>
+				<Wind><![CDATA[10 kph]]></Wind>
+				<windDirection><![CDATA[Δ-ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Πιθανή βροχή ή χιονόνερο]]></PointDesc>
+				<icon><![CDATA[12]]></icon>
+				<minHum><![CDATA[89 %]]></minHum>
+				<maxHum><![CDATA[98 %]]></maxHum>
+				<minTemp><![CDATA[3 C]]></minTemp>
+				<maxTemp><![CDATA[10 C]]></maxTemp>
+				<Wind><![CDATA[12 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[6]]></icon>
+				<minHum><![CDATA[76 %]]></minHum>
+				<maxHum><![CDATA[96 %]]></maxHum>
+				<minTemp><![CDATA[4 C]]></minTemp>
+				<maxTemp><![CDATA[13 C]]></maxTemp>
+				<Wind><![CDATA[15 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 	<gid id="258576">
@@ -52,9 +106,36 @@
 			<windDirection><![CDATA[-]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc><icon><![CDATA[13]]></icon><minHum><![CDATA[98 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[4 C]]></minTemp><maxTemp><![CDATA[5 C]]></maxTemp><Wind><![CDATA[8 kph]]></Wind><windDirection><![CDATA[Β]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[31]]></icon><minHum><![CDATA[87 %]]></minHum><maxHum><![CDATA[98 %]]></maxHum><minTemp><![CDATA[4 C]]></minTemp><maxTemp><![CDATA[11 C]]></maxTemp><Wind><![CDATA[10 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[6]]></icon><minHum><![CDATA[74 %]]></minHum><maxHum><![CDATA[96 %]]></maxHum><minTemp><![CDATA[6 C]]></minTemp><maxTemp><![CDATA[14 C]]></maxTemp><Wind><![CDATA[15 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc>
+				<icon><![CDATA[13]]></icon>
+				<minHum><![CDATA[98 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[4 C]]></minTemp>
+				<maxTemp><![CDATA[5 C]]></maxTemp>
+				<Wind><![CDATA[8 kph]]></Wind>
+				<windDirection><![CDATA[Β]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[31]]></icon>
+				<minHum><![CDATA[87 %]]></minHum>
+				<maxHum><![CDATA[98 %]]></maxHum>
+				<minTemp><![CDATA[4 C]]></minTemp>
+				<maxTemp><![CDATA[11 C]]></maxTemp>
+				<Wind><![CDATA[10 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[6]]></icon>
+				<minHum><![CDATA[74 %]]></minHum>
+				<maxHum><![CDATA[96 %]]></maxHum>
+				<minTemp><![CDATA[6 C]]></minTemp>
+				<maxTemp><![CDATA[14 C]]></maxTemp>
+				<Wind><![CDATA[15 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 	<gid id="736108">
@@ -71,9 +152,36 @@
 			<windDirection><![CDATA[-]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Ασθενές χιονόνερο ή χιόνι]]></PointDesc><icon><![CDATA[19]]></icon><minHum><![CDATA[82 %]]></minHum><maxHum><![CDATA[97 %]]></maxHum><minTemp><![CDATA[1 C]]></minTemp><maxTemp><![CDATA[5 C]]></maxTemp><Wind><![CDATA[7 kph]]></Wind><windDirection><![CDATA[Ν]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc><icon><![CDATA[13]]></icon><minHum><![CDATA[84 %]]></minHum><maxHum><![CDATA[97 %]]></maxHum><minTemp><![CDATA[3 C]]></minTemp><maxTemp><![CDATA[9 C]]></maxTemp><Wind><![CDATA[10 kph]]></Wind><windDirection><![CDATA[Β-ΒΔ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[6]]></icon><minHum><![CDATA[91 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[6 C]]></minTemp><maxTemp><![CDATA[12 C]]></maxTemp><Wind><![CDATA[8 kph]]></Wind><windDirection><![CDATA[Α]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Ασθενές χιονόνερο ή χιόνι]]></PointDesc>
+				<icon><![CDATA[19]]></icon>
+				<minHum><![CDATA[82 %]]></minHum>
+				<maxHum><![CDATA[97 %]]></maxHum>
+				<minTemp><![CDATA[1 C]]></minTemp>
+				<maxTemp><![CDATA[5 C]]></maxTemp>
+				<Wind><![CDATA[7 kph]]></Wind>
+				<windDirection><![CDATA[Ν]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc>
+				<icon><![CDATA[13]]></icon>
+				<minHum><![CDATA[84 %]]></minHum>
+				<maxHum><![CDATA[97 %]]></maxHum>
+				<minTemp><![CDATA[3 C]]></minTemp>
+				<maxTemp><![CDATA[9 C]]></maxTemp>
+				<Wind><![CDATA[10 kph]]></Wind>
+				<windDirection><![CDATA[Β-ΒΔ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[6]]></icon>
+				<minHum><![CDATA[91 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[6 C]]></minTemp>
+				<maxTemp><![CDATA[12 C]]></maxTemp>
+				<Wind><![CDATA[8 kph]]></Wind>
+				<windDirection><![CDATA[Α]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 	<gid id="736364">
@@ -90,9 +198,36 @@
 			<windDirection><![CDATA[ΒΑ]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Πιθανό χιονόνερο ή χιόνι]]></PointDesc><icon><![CDATA[18]]></icon><minHum><![CDATA[75 %]]></minHum><maxHum><![CDATA[96 %]]></maxHum><minTemp><![CDATA[0 C]]></minTemp><maxTemp><![CDATA[5 C]]></maxTemp><Wind><![CDATA[8 kph]]></Wind><windDirection><![CDATA[Β]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[6]]></icon><minHum><![CDATA[74 %]]></minHum><maxHum><![CDATA[93 %]]></maxHum><minTemp><![CDATA[5 C]]></minTemp><maxTemp><![CDATA[9 C]]></maxTemp><Wind><![CDATA[11 kph]]></Wind><windDirection><![CDATA[ΒΔ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[6]]></icon><minHum><![CDATA[81 %]]></minHum><maxHum><![CDATA[97 %]]></maxHum><minTemp><![CDATA[7 C]]></minTemp><maxTemp><![CDATA[12 C]]></maxTemp><Wind><![CDATA[11 kph]]></Wind><windDirection><![CDATA[Α-ΒΑ]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Πιθανό χιονόνερο ή χιόνι]]></PointDesc>
+				<icon><![CDATA[18]]></icon>
+				<minHum><![CDATA[75 %]]></minHum>
+				<maxHum><![CDATA[96 %]]></maxHum>
+				<minTemp><![CDATA[0 C]]></minTemp>
+				<maxTemp><![CDATA[5 C]]></maxTemp>
+				<Wind><![CDATA[8 kph]]></Wind>
+				<windDirection><![CDATA[Β]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[6]]></icon>
+				<minHum><![CDATA[74 %]]></minHum>
+				<maxHum><![CDATA[93 %]]></maxHum>
+				<minTemp><![CDATA[5 C]]></minTemp>
+				<maxTemp><![CDATA[9 C]]></maxTemp>
+				<Wind><![CDATA[11 kph]]></Wind>
+				<windDirection><![CDATA[ΒΔ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[6]]></icon>
+				<minHum><![CDATA[81 %]]></minHum>
+				<maxHum><![CDATA[97 %]]></maxHum>
+				<minTemp><![CDATA[7 C]]></minTemp>
+				<maxTemp><![CDATA[12 C]]></maxTemp>
+				<Wind><![CDATA[11 kph]]></Wind>
+				<windDirection><![CDATA[Α-ΒΑ]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 	<gid id="258620">
@@ -109,9 +244,36 @@
 			<windDirection><![CDATA[ΒΑ]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[6]]></icon><minHum><![CDATA[99 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[4 C]]></minTemp><maxTemp><![CDATA[6 C]]></maxTemp><Wind><![CDATA[14 kph]]></Wind><windDirection><![CDATA[Δ-ΝΔ]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[6]]></icon><minHum><![CDATA[93 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[6 C]]></minTemp><maxTemp><![CDATA[11 C]]></maxTemp><Wind><![CDATA[15 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[6]]></icon><minHum><![CDATA[80 %]]></minHum><maxHum><![CDATA[95 %]]></maxHum><minTemp><![CDATA[8 C]]></minTemp><maxTemp><![CDATA[13 C]]></maxTemp><Wind><![CDATA[17 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[6]]></icon>
+				<minHum><![CDATA[99 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[4 C]]></minTemp>
+				<maxTemp><![CDATA[6 C]]></maxTemp>
+				<Wind><![CDATA[14 kph]]></Wind>
+				<windDirection><![CDATA[Δ-ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[6]]></icon>
+				<minHum><![CDATA[93 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[6 C]]></minTemp>
+				<maxTemp><![CDATA[11 C]]></maxTemp>
+				<Wind><![CDATA[15 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[6]]></icon>
+				<minHum><![CDATA[80 %]]></minHum>
+				<maxHum><![CDATA[95 %]]></maxHum>
+				<minTemp><![CDATA[8 C]]></minTemp>
+				<maxTemp><![CDATA[13 C]]></maxTemp>
+				<Wind><![CDATA[17 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 	<gid id="733840">
@@ -128,9 +290,36 @@
 			<windDirection><![CDATA[ΒΑ]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Πιθανή βροχή ή χιονόνερο]]></PointDesc><icon><![CDATA[12]]></icon><minHum><![CDATA[74 %]]></minHum><maxHum><![CDATA[95 %]]></maxHum><minTemp><![CDATA[1 C]]></minTemp><maxTemp><![CDATA[6 C]]></maxTemp><Wind><![CDATA[11 kph]]></Wind><windDirection><![CDATA[Β-ΒΑ]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[31]]></icon><minHum><![CDATA[71 %]]></minHum><maxHum><![CDATA[93 %]]></maxHum><minTemp><![CDATA[6 C]]></minTemp><maxTemp><![CDATA[10 C]]></maxTemp><Wind><![CDATA[16 kph]]></Wind><windDirection><![CDATA[Α-ΒΑ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Πιθανή βροχή]]></PointDesc><icon><![CDATA[5]]></icon><minHum><![CDATA[75 %]]></minHum><maxHum><![CDATA[95 %]]></maxHum><minTemp><![CDATA[6 C]]></minTemp><maxTemp><![CDATA[14 C]]></maxTemp><Wind><![CDATA[22 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Πιθανή βροχή ή χιονόνερο]]></PointDesc>
+				<icon><![CDATA[12]]></icon>
+				<minHum><![CDATA[74 %]]></minHum>
+				<maxHum><![CDATA[95 %]]></maxHum>
+				<minTemp><![CDATA[1 C]]></minTemp>
+				<maxTemp><![CDATA[6 C]]></maxTemp>
+				<Wind><![CDATA[11 kph]]></Wind>
+				<windDirection><![CDATA[Β-ΒΑ]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[31]]></icon>
+				<minHum><![CDATA[71 %]]></minHum>
+				<maxHum><![CDATA[93 %]]></maxHum>
+				<minTemp><![CDATA[6 C]]></minTemp>
+				<maxTemp><![CDATA[10 C]]></maxTemp>
+				<Wind><![CDATA[16 kph]]></Wind>
+				<windDirection><![CDATA[Α-ΒΑ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Πιθανή βροχή]]></PointDesc>
+				<icon><![CDATA[5]]></icon>
+				<minHum><![CDATA[75 %]]></minHum>
+				<maxHum><![CDATA[95 %]]></maxHum>
+				<minTemp><![CDATA[6 C]]></minTemp>
+				<maxTemp><![CDATA[14 C]]></maxTemp>
+				<Wind><![CDATA[22 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 	<gid id="734426">
@@ -147,9 +336,36 @@
 			<windDirection><![CDATA[Ν-ΝΑ]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Χιόνι]]></PointDesc><icon><![CDATA[26]]></icon><minHum><![CDATA[96 %]]></minHum><maxHum><![CDATA[98 %]]></maxHum><minTemp><![CDATA[-1 C]]></minTemp><maxTemp><![CDATA[3 C]]></maxTemp><Wind><![CDATA[10 kph]]></Wind><windDirection><![CDATA[Ν-ΝΔ]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc><icon><![CDATA[13]]></icon><minHum><![CDATA[97 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[2 C]]></minTemp><maxTemp><![CDATA[4 C]]></maxTemp><Wind><![CDATA[11 kph]]></Wind><windDirection><![CDATA[Ν-ΝΔ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc><icon><![CDATA[13]]></icon><minHum><![CDATA[99 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[3 C]]></minTemp><maxTemp><![CDATA[4 C]]></maxTemp><Wind><![CDATA[13 kph]]></Wind><windDirection><![CDATA[Ν-ΝΔ]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Χιόνι]]></PointDesc>
+				<icon><![CDATA[26]]></icon>
+				<minHum><![CDATA[96 %]]></minHum>
+				<maxHum><![CDATA[98 %]]></maxHum>
+				<minTemp><![CDATA[-1 C]]></minTemp>
+				<maxTemp><![CDATA[3 C]]></maxTemp>
+				<Wind><![CDATA[10 kph]]></Wind>
+				<windDirection><![CDATA[Ν-ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc>
+				<icon><![CDATA[13]]></icon>
+				<minHum><![CDATA[97 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[2 C]]></minTemp>
+				<maxTemp><![CDATA[4 C]]></maxTemp>
+				<Wind><![CDATA[11 kph]]></Wind>
+				<windDirection><![CDATA[Ν-ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc>
+				<icon><![CDATA[13]]></icon>
+				<minHum><![CDATA[99 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[3 C]]></minTemp>
+				<maxTemp><![CDATA[4 C]]></maxTemp>
+				<Wind><![CDATA[13 kph]]></Wind>
+				<windDirection><![CDATA[Ν-ΝΔ]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 	<gid id="736929">
@@ -166,9 +382,36 @@
 			<windDirection><![CDATA[-]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Χιόνι]]></PointDesc><icon><![CDATA[26]]></icon><minHum><![CDATA[92 %]]></minHum><maxHum><![CDATA[98 %]]></maxHum><minTemp><![CDATA[0 C]]></minTemp><maxTemp><![CDATA[3 C]]></maxTemp><Wind><![CDATA[8 kph]]></Wind><windDirection><![CDATA[Β]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc><icon><![CDATA[13]]></icon><minHum><![CDATA[95 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[2 C]]></minTemp><maxTemp><![CDATA[4 C]]></maxTemp><Wind><![CDATA[8 kph]]></Wind><windDirection><![CDATA[Δ-ΝΔ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[6]]></icon><minHum><![CDATA[98 %]]></minHum><maxHum><![CDATA[99 %]]></maxHum><minTemp><![CDATA[3 C]]></minTemp><maxTemp><![CDATA[7 C]]></maxTemp><Wind><![CDATA[8 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Χιόνι]]></PointDesc>
+				<icon><![CDATA[26]]></icon>
+				<minHum><![CDATA[92 %]]></minHum>
+				<maxHum><![CDATA[98 %]]></maxHum>
+				<minTemp><![CDATA[0 C]]></minTemp>
+				<maxTemp><![CDATA[3 C]]></maxTemp>
+				<Wind><![CDATA[8 kph]]></Wind>
+				<windDirection><![CDATA[Β]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή ή χιονόνερο]]></PointDesc>
+				<icon><![CDATA[13]]></icon>
+				<minHum><![CDATA[95 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[2 C]]></minTemp>
+				<maxTemp><![CDATA[4 C]]></maxTemp>
+				<Wind><![CDATA[8 kph]]></Wind>
+				<windDirection><![CDATA[Δ-ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[6]]></icon>
+				<minHum><![CDATA[98 %]]></minHum>
+				<maxHum><![CDATA[99 %]]></maxHum>
+				<minTemp><![CDATA[3 C]]></minTemp>
+				<maxTemp><![CDATA[7 C]]></maxTemp>
+				<Wind><![CDATA[8 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 	<gid id="264371">
@@ -185,9 +428,36 @@
 			<windDirection><![CDATA[-]]></windDirection>
 		</Current>
 		<Summary>
-			<date><![CDATA[Σήμερα]]><PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc><icon><![CDATA[31]]></icon><minHum><![CDATA[86 %]]></minHum><maxHum><![CDATA[95 %]]></maxHum><minTemp><![CDATA[6 C]]></minTemp><maxTemp><![CDATA[10 C]]></maxTemp><Wind><![CDATA[17 kph]]></Wind><windDirection><![CDATA[Β]]></windDirection></date>
-			<date><![CDATA[29/1/2010]]><PointDesc><![CDATA[Συννεφιά]]></PointDesc><icon><![CDATA[4]]></icon><minHum><![CDATA[65 %]]></minHum><maxHum><![CDATA[85 %]]></maxHum><minTemp><![CDATA[8 C]]></minTemp><maxTemp><![CDATA[15 C]]></maxTemp><Wind><![CDATA[22 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
-			<date><![CDATA[30/1/2010]]><PointDesc><![CDATA[Αρκετά σύννεφα]]></PointDesc><icon><![CDATA[3]]></icon><minHum><![CDATA[59 %]]></minHum><maxHum><![CDATA[83 %]]></maxHum><minTemp><![CDATA[9 C]]></minTemp><maxTemp><![CDATA[16 C]]></maxTemp><Wind><![CDATA[23 kph]]></Wind><windDirection><![CDATA[ΝΔ]]></windDirection></date>
+			<date><![CDATA[Σήμερα]]>
+				<PointDesc><![CDATA[Ασθενής βροχή]]></PointDesc>
+				<icon><![CDATA[31]]></icon>
+				<minHum><![CDATA[86 %]]></minHum>
+				<maxHum><![CDATA[95 %]]></maxHum>
+				<minTemp><![CDATA[6 C]]></minTemp>
+				<maxTemp><![CDATA[10 C]]></maxTemp>
+				<Wind><![CDATA[17 kph]]></Wind>
+				<windDirection><![CDATA[Β]]></windDirection>
+			</date>
+			<date><![CDATA[29/1/2010]]>
+				<PointDesc><![CDATA[Συννεφιά]]></PointDesc>
+				<icon><![CDATA[4]]></icon>
+				<minHum><![CDATA[65 %]]></minHum>
+				<maxHum><![CDATA[85 %]]></maxHum>
+				<minTemp><![CDATA[8 C]]></minTemp>
+				<maxTemp><![CDATA[15 C]]></maxTemp>
+				<Wind><![CDATA[22 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
+			<date><![CDATA[30/1/2010]]>
+				<PointDesc><![CDATA[Αρκετά σύννεφα]]></PointDesc>
+				<icon><![CDATA[3]]></icon>
+				<minHum><![CDATA[59 %]]></minHum>
+				<maxHum><![CDATA[83 %]]></maxHum>
+				<minTemp><![CDATA[9 C]]></minTemp>
+				<maxTemp><![CDATA[16 C]]></maxTemp>
+				<Wind><![CDATA[23 kph]]></Wind>
+				<windDirection><![CDATA[ΝΔ]]></windDirection>
+			</date>
 		</Summary>
 	</gid>
 </forecasts>

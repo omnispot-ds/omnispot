@@ -764,6 +764,7 @@ player/appContextFullScreen.xml -text
 player/build.xml -text
 player/etc/Weather.xml -text
 player/etc/WeatherWidget.swf -text
+player/etc/weather.js -text
 player/etc/yahoo.groovy -text
 player/etc/yahoo.java -text
 player/etc/yahoo.js -text
