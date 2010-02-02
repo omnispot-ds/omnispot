@@ -1,23 +1,13 @@
 package com.kesdip.player.components.weather;
 
-import java.io.File;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
-import org.apache.log4j.Logger;
-
 import com.kesdip.player.components.Resource;
-import com.kesdip.player.registry.ContentRegistry;
 
-public class ScriptingDataProcessor extends WeatherDataProcessor {
+public class ScriptedPushingDataSource extends WeatherDataSource {
 	
 	private Resource scriptFile;
 	
@@ -32,10 +22,6 @@ public class ScriptingDataProcessor extends WeatherDataProcessor {
 		helper.setScriptFile(scriptFile);
 	}
 	
-	public ScriptingDataProcessor() {
-		super();
-	}
-
 	@Override
 	public Set<Resource> gatherResources() {
 		HashSet<Resource> retVal = new HashSet<Resource>();
@@ -44,9 +30,15 @@ public class ScriptingDataProcessor extends WeatherDataProcessor {
 	}
 
 	@Override
-	public WeatherData process(Object sourceData) {
-		Map<String, Object> context = new HashMap<String, Object>();
-		context.put("sourceData", sourceData);
-		return (WeatherData) helper.process(context);
+	public Object getWeatherData() {
+		return FlashWeatherComponent.WEATHERDATA_SCRIPT_PUSH;
 	}
+	
+	@Override
+	public WeatherData getProcessedWeatherData() {
+		Map<String, Object> context = new HashMap<String, Object>();
+		helper.process(context);
+		return FlashWeatherComponent.WEATHERDATA_SCRIPT_PUSH;
+	}
+
 }

@@ -39,6 +39,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	public static final String TYPE_PROP = "Weather.WeatherSourceTypeProp";
 	public static final String URL_XML_WEATHER_TYPE = "URL XML Weather Source Type";
 	public static final String RSS_WEATHER_TYPE = "RSS Weather Source Type";
+	public static final String SCRIPTED_PUSH_WEATHER_TYPE = "Scripted Push Weather Source Type";
 	/** Property ID to use for the xml property value. */
 	public static final String RSS_PROP = "Weather.WeatherRSSProp";
 	/** Property ID to use for the url property value. */
@@ -55,7 +56,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 	
 	public FlashWeatherComponent() {
 		source = "";
-		type = URL_XML_WEATHER_TYPE;
+		type = SCRIPTED_PUSH_WEATHER_TYPE;
 		url = "";
 		rss = "";
 		scriptFile = "";
@@ -71,24 +72,39 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		Element weatherSourcePropElement = DOMHelpers.addProperty(
 				doc, tickerElement, "weatherDataSource");
 		Element weatherSourceElement = doc.createElement("bean");
+		
+		boolean legacyAddWeatherDataProcessor = true;
 		if (type.equals(URL_XML_WEATHER_TYPE)) {
 			weatherSourceElement.setAttribute(
 					"class", "com.kesdip.player.components.weather.URLXmlSource");
 			DOMHelpers.addProperty(doc, weatherSourceElement, "url", url);
-		} else { /* assuming type is RSS_WEATHER_TYPE */
+		} else if (type.equals(RSS_WEATHER_TYPE)){ /* assuming type is RSS_WEATHER_TYPE */
 			weatherSourceElement.setAttribute(
 					"class", "com.kesdip.player.components.weather.RssWeatherSource");
 			DOMHelpers.addProperty(doc, weatherSourceElement, "rssUrl", rss);
+		} else if (type.equals(SCRIPTED_PUSH_WEATHER_TYPE)) {
+			legacyAddWeatherDataProcessor = false;
+			weatherSourceElement.setAttribute(
+					"class", "com.kesdip.player.components.weather.ScriptedPushDataSource");
+			Element scriptFilePropElement = DOMHelpers.addProperty(doc, weatherSourceElement, "scriptFile");
+			Resource resource = new Resource(scriptFile, "");
+			Element resourceElement = resource.serialize(doc, isPublish);
+			scriptFilePropElement.appendChild(resourceElement);
 		}
+		
 		weatherSourcePropElement.appendChild(weatherSourceElement);
-		Element processorPropElement = DOMHelpers.addProperty(doc, weatherSourceElement, "weatherDataProcessor");
-		Element processorElement = doc.createElement("bean");
-		processorElement.setAttribute("class", "com.kesdip.player.components.weather.ScriptingDataProcessor");
-		processorPropElement.appendChild(processorElement);
-		Element scriptFilePropElement = DOMHelpers.addProperty(doc, processorElement, "scriptFile");
-		Resource resource = new Resource(scriptFile, "");
-		Element resourceElement = resource.serialize(doc, isPublish);
-		scriptFilePropElement.appendChild(resourceElement);
+		
+		if (legacyAddWeatherDataProcessor) {
+			Element processorPropElement = DOMHelpers.addProperty(doc, weatherSourceElement, "weatherDataProcessor");
+			Element processorElement = doc.createElement("bean");
+			processorElement.setAttribute("class", "com.kesdip.player.components.weather.ScriptingDataProcessor");
+			processorPropElement.appendChild(processorElement);
+			Element scriptFilePropElement = DOMHelpers.addProperty(doc, processorElement, "scriptFile");
+			Resource resource = new Resource(scriptFile, "");
+			Element resourceElement = resource.serialize(doc, isPublish);
+			scriptFilePropElement.appendChild(resourceElement);
+		}
+		
 		return tickerElement;
 	}
 	
@@ -185,7 +201,7 @@ public class FlashWeatherComponent extends ComponentModelElement {
 		descriptors = new IPropertyDescriptor[] {
 				new FileChooserPropertyDescriptor(SOURCE_PROP, "Source"),
 				new ComboBoxPropertyDescriptor(TYPE_PROP, "Weather Source Type",
-						new String[] { URL_XML_WEATHER_TYPE, RSS_WEATHER_TYPE }),
+						new String[] { SCRIPTED_PUSH_WEATHER_TYPE, URL_XML_WEATHER_TYPE, RSS_WEATHER_TYPE }),
 				new TextPropertyDescriptor(URL_PROP, "XML URL"),
 				new TextPropertyDescriptor(RSS_PROP, "RSS URL"),
 				new FileChooserPropertyDescriptor(SCRIPT_FILE_PROP, "Script File")
@@ -219,6 +235,8 @@ public class FlashWeatherComponent extends ComponentModelElement {
 			return 0;
 		} else if (t.equals(RSS_WEATHER_TYPE)) {
 			return 1;
+		} else if (t.equals(SCRIPTED_PUSH_WEATHER_TYPE)) {
+			return 2;
 		} else {
 			throw new RuntimeException("Unknown weather source type.");
 		}
@@ -265,6 +283,8 @@ public class FlashWeatherComponent extends ComponentModelElement {
 				type = URL_XML_WEATHER_TYPE;
 			else if (v == 1)
 				type = RSS_WEATHER_TYPE;
+			else if (v == 2)
+				type = SCRIPTED_PUSH_WEATHER_TYPE;
 			else
 				throw new RuntimeException("Unexpected weather source type.");
 			firePropertyChange(TYPE_PROP, oldValue, value);

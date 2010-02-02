@@ -13,13 +13,15 @@ public class URLXmlSource extends WeatherDataSource {
 	@Override
 	public Object getWeatherData() {
 		try {
-			URLConnection conn = new URL("http://weather.yahooapis.com/forecastrss?p=GRXX0004&u=c").openConnection();
+			URLConnection conn = new URL(url).openConnection();
 			SAXReader sax = new SAXReader();
 			Document doc = sax.read(conn.getInputStream());
 			return doc.getRootElement();
 			//BufferedReader in = new BufferedReader(new InputStreamReader());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		} finally {
+			return null;
 		}
 	}
 

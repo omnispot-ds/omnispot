@@ -54,6 +54,8 @@ public class FlashComponent extends JFrame {
 		createMenu();
 		setFrameProperties();
 	}
+	
+	
 
 	/**
 	 * Creates embedded object.
