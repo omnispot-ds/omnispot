@@ -97,7 +97,7 @@ public abstract class FlashComponent extends AbstractComponent {
 
 	@Override
 	public java.awt.Component getWindowComponent() {
-		oleContainer.setSize(width, height);
+		//oleContainer.setSize(width, height);
 		oleContainer.setLocation(new Point(x, y));
 		return oleContainer;
 	}
@@ -149,6 +149,7 @@ public abstract class FlashComponent extends AbstractComponent {
 
 	private synchronized void createOleObject() {
 		oleContainer = new OleContainer();
+		oleContainer.setSize(width, height);
 		flash = ShockwaveFlash.create(ClsCtx.INPROC_SERVER);
 		IOleObject oleObject = new IOleObjectImpl(flash);
 		automation = new Automation(oleObject);
