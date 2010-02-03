@@ -126,6 +126,7 @@ public class SerializationTest extends TestCase {
 		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
 		l.add(r);
 		
+		/*
 		FlashWeatherComponent w = new FlashWeatherComponent();
 		r.setPropertyValue(FlashWeatherComponent.URL_PROP, "resources/rasputin22.jpg");
 		r.setPropertyValue(ComponentModelElement.XPOS_PROP, "0");
@@ -133,6 +134,7 @@ public class SerializationTest extends TestCase {
 		r.setPropertyValue(ComponentModelElement.WIDTH_PROP, "800");
 		r.setPropertyValue(ComponentModelElement.HEIGHT_PROP, "600");
 		r.add(w);
+		*/
 
 		return retVal;
 	}

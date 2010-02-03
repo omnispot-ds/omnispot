@@ -913,7 +913,6 @@ player/shared.jars -text
 player/src-test/com/kesdip/player/component/test/FlashComponent.java -text
 player/src-test/com/kesdip/player/component/test/FlashTest.java -text
 player/src-test/com/kesdip/player/component/test/TestFrame.java -text
-player/src-test/com/kesdip/player/test/Test1.java -text
 player/src-test/com/kesdip/player/test/TestPlayer.java -text
 player/src-test/com/kesdip/player/test/appContext.xml -text
 player/src/com/kesdip/player/DeploymentContents.java -text
@@ -968,12 +967,9 @@ player/src/com/kesdip/player/components/ticker/StringTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/TickerPanel.java -text
 player/src/com/kesdip/player/components/ticker/TickerSource.java -text
 player/src/com/kesdip/player/components/weather/FlashWeatherComponent.java -text
-player/src/com/kesdip/player/components/weather/RssWeatherSource.java -text
 player/src/com/kesdip/player/components/weather/ScriptUtils.java -text
 player/src/com/kesdip/player/components/weather/ScriptedPushingDataSource.java -text
-player/src/com/kesdip/player/components/weather/ScriptingDataProcessor.java -text
 player/src/com/kesdip/player/components/weather/ScriptingHelper.java -text
-player/src/com/kesdip/player/components/weather/URLXmlSource.java -text
 player/src/com/kesdip/player/components/weather/WeatherData.java -text
 player/src/com/kesdip/player/components/weather/WeatherDataProcessor.java -text
 player/src/com/kesdip/player/components/weather/WeatherDataSource.java -text
