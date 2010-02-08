@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -13,12 +14,15 @@ import java.util.zip.ZipOutputStream;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.progress.IProgressService;
 
 import com.kesdip.designer.constenum.IFileNames;
 import com.kesdip.designer.editor.DeploymentEditor;
@@ -49,6 +53,8 @@ public class PublishHandler extends AbstractHandler {
 		return !de.isDirty();
 	}
 
+	private boolean mustAbort;
+
 	/**
 	 * Publish a deployment into a ZIP archive along with all dependent
 	 * resources.
@@ -70,16 +76,29 @@ public class PublishHandler extends AbstractHandler {
 			if (!(editor instanceof DeploymentEditor))
 				return false;
 			DeploymentEditor de = (DeploymentEditor) editor;
-			DeploymentEditorInput dei = (DeploymentEditorInput) de
+			final DeploymentEditorInput dei = (DeploymentEditorInput) de
 					.getEditorInput();
-
-			String reason = PlayerPreview.canPreview(dei.getPath());
-			if (reason != null) {
-				MessageDialog.openError(HandlerUtil.getActiveShell(event),
-						"Unable to export deployment", reason);
+			final ExecutionEvent theEvent = event;
+		
+			mustAbort = false;
+		
+			IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
+			progressService.busyCursorWhile(new IRunnableWithProgress() {
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException,
+						InterruptedException {
+					String reason = PlayerPreview.canPreview(dei.getPath());
+					if (reason != null) {
+						MessageDialog.openError(HandlerUtil.getActiveShell(theEvent),
+								"Unable to export deployment", reason);
+						mustAbort = true;
+					}
+				}
+			});
+		
+			if (mustAbort)
 				return null;
-			}
-
+		
 			FileDialog dialog = new FileDialog(HandlerUtil
 					.getActiveShell(event), SWT.SAVE | SWT.APPLICATION_MODAL);
 			dialog.setText("Choose an export destination");
@@ -87,30 +106,40 @@ public class PublishHandler extends AbstractHandler {
 					.setFilterNames(new String[] { "ZIP Files",
 							"All files (*.*)" });
 			dialog.setFilterExtensions(new String[] { "*.zip", "*.*" });
-			String path = dialog.open();
+			final String path = dialog.open();
 			DesignerLog.logInfo("User entered path: " + path);
-
-			ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(
-					new FileOutputStream(path)));
-			// set the proper XML file name
-			ZipEntry entry = new ZipEntry(IFileNames.DEPLOYMENT_XML);
-			zos.putNextEntry(entry);
-			dei.getDeployment().serialize(zos, true);
-			Set<String> resourcePaths = PlayerPreview.getResourcePaths(dei
-					.getPath());
-			for (String resourcePath : resourcePaths) {
-				File f = new File(resourcePath);
-				entry = new ZipEntry(f.getName());
-				zos.putNextEntry(entry);
-				InputStream is = new BufferedInputStream(new FileInputStream(f));
-				byte[] buffer = new byte[8 * 1024];
-				int count;
-				while ((count = is.read(buffer)) != -1) {
-					zos.write(buffer, 0, count);
+		
+			progressService.busyCursorWhile(new IRunnableWithProgress() {
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException,
+						InterruptedException {
+					try {
+						ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(
+								new FileOutputStream(path)));
+						// set the proper XML file name
+						ZipEntry entry = new ZipEntry(IFileNames.DEPLOYMENT_XML);
+						zos.putNextEntry(entry);
+						dei.getDeployment().serialize(zos, true);
+						Set<String> resourcePaths = PlayerPreview.getResourcePaths(dei
+								.getPath());
+						for (String resourcePath : resourcePaths) {
+							File f = new File(resourcePath);
+							entry = new ZipEntry(f.getName());
+							zos.putNextEntry(entry);
+							InputStream is = new BufferedInputStream(new FileInputStream(f));
+							byte[] buffer = new byte[8 * 1024];
+							int count;
+							while ((count = is.read(buffer)) != -1) {
+								zos.write(buffer, 0, count);
+							}
+							is.close();
+						}
+						zos.close();
+					} catch (Exception e) {
+						throw new InvocationTargetException(e);
+					}
 				}
-				is.close();
-			}
-			zos.close();
+			});
 		} catch (Exception e) {
 			DesignerLog.logError("Unable to export deployment for publishing",
 					e);
