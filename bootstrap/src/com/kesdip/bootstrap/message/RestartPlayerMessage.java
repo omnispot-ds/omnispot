@@ -67,6 +67,8 @@ public class RestartPlayerMessage extends Message {
 		// cmdArray.add("-Xdebug");
 		// cmdArray
 		// .add("-Xrunjdwp:transport=dt_socket,server=y,address=12999,suspend=n");
+		cmdArray.add("-Xms32m");
+		cmdArray.add("-Xmx128m");
 		cmdArray.add("-cp");
 		cmdArray.add(Config.getSingleton().getPlayerClasspath());
 		cmdArray.add(Config.getSingleton().getPlayerMainClass());
@@ -83,7 +85,8 @@ public class RestartPlayerMessage extends Message {
 
 		// See Bugzilla#9 for the following line
 		ProcessUtils.killAll("explorer.exe");
-
+		// kill any remaining players
+		PlayerProcessHelper.getInstance().killAllPlayers();
 		playerProcess = PlayerProcessHelper.getInstance().startPlayer(
 				cmdArray.toArray(new String[cmdArray.size()]), null,
 				new File(workingDir));

@@ -3,13 +3,13 @@ AllowLanguageSelection
 No
 
 AppName
-{Kesdipepe Designer & AdminConsole}
+{OmniSpot Designer & AdminConsole}
 
 ApplicationID
 690A6BBE-0CF3-4899-BEE8-4179C959A3C1
 
 ApplicationURL
-www.kesdipepe.gr
+www.omni-spot.com
 
 AutoRefreshFiles
 Yes
@@ -27,7 +27,7 @@ CommandLineFailureAction
 {Fail (recommended)}
 
 Company
-{Dyfio E.P.E.}
+{OmniSpot E.P.E.}
 
 CompressionLevel
 8
@@ -36,7 +36,7 @@ CompressionMethod
 zlib
 
 Copyright
-{(c) Dyfio E.P.E. 2008-2009}
+{(c) OmniSpot E.P.E. 2008-2010}
 
 CreateDesktopShortcut
 Yes
@@ -129,7 +129,7 @@ LaunchApplication
 Yes
 
 PackageDescription
-{Kesdipepe Designer & AdminConsole Installer}
+{OmniSpot Designer & AdminConsole Installer}
 
 PackageLicense
 {Please, review the End-User License Agreement}
@@ -141,7 +141,7 @@ PackageName
 <%ShortAppName%>
 
 PackagePackager
-{Dyfio E.P.E.}
+{OmniSpot E.P.E.}
 
 PackageRelease
 <%PatchVersion%>
@@ -3587,7 +3587,7 @@ InstallComponent 8232165B-CE87-438C-9D88-6CEF7AFC120C -setup Install -type actio
 Condition 53529148-6CE2-432A-B1C0-36BF557419F7 -active Yes -parent 8232165B-CE87-438C-9D88-6CEF7AFC120C -title {String Is Condition} -component StringIsCondition -TreeObject::id 53529148-6CE2-432A-B1C0-36BF557419F7
 InstallComponent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -setup Install -type action -conditions F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -title {Windows Uninstall Registry} -component AddWindowsUninstallEntry -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -active Yes -parent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -title {String Is Condition} -component StringIsCondition -TreeObject::id F4EF62D0-7DF5-4C43-B54C-AB6324CFB443
-InstallComponent 6DC01586-C6BC-4452-83CA-AE711249BE6A -setup Install -type action -conditions {2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 76EED346-2AAE-4254-86AF-DEBEE4B79A09} -title {Admin Console Shortcut (localhost)} -component InstallProgramFolderShortcut -command reorder -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
+InstallComponent 6DC01586-C6BC-4452-83CA-AE711249BE6A -setup Install -type action -conditions {2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 76EED346-2AAE-4254-86AF-DEBEE4B79A09} -title {Admin Console Shortcut (localhost)} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 -active Yes -parent 6DC01586-C6BC-4452-83CA-AE711249BE6A -title {String Is Condition} -component StringIsCondition -TreeObject::id 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2
 Condition 76EED346-2AAE-4254-86AF-DEBEE4B79A09 -active Yes -parent 6DC01586-C6BC-4452-83CA-AE711249BE6A -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 76EED346-2AAE-4254-86AF-DEBEE4B79A09
 InstallComponent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -setup Install -type action -conditions {A892A8DD-7E7E-4B7D-913C-DC73668E5B50 2F400726-BFE7-4D3A-B39B-1E7470ACA671} -title {Designer Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
@@ -4120,7 +4120,7 @@ Yes
 <%ShortAppName%>-uninstall
 
 3BC307C6-8D24-46B9-9A3D-4E98937B4F74,ShortcutName
-{Uninstall Kesdipepe server components}
+{Uninstall OmniSpot server components}
 
 3BC307C6-8D24-46B9-9A3D-4E98937B4F74,TargetFileName
 <%Uninstaller%>
@@ -4238,6 +4238,9 @@ false
 
 4CA187F9-3D13-4573-9618-5F60075E9847,Caption,subst
 1
+
+4CA187F9-3D13-4573-9618-5F60075E9847,Conditions
+{1 condition}
 
 4CA187F9-3D13-4573-9618-5F60075E9847,Message,subst
 1
@@ -4726,7 +4729,7 @@ VLC
 1
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,Caption,subst
-1
+0
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,Conditions
 {0 conditions}
@@ -4757,6 +4760,9 @@ false
 
 81C1F403-57F6-45DE-803B-CF69742DF6F3,String
 <%InstallStopped%>
+
+8232165B-CE87-438C-9D88-6CEF7AFC120C,Conditions
+{1 condition}
 
 8298698B-A157-413E-ADE4-89747145C604,Action
 {Uninstall Services}
@@ -4853,6 +4859,9 @@ Yes
 
 8E8AD2F5-7FD6-4751-90B1-12DF70B20F86,Filename
 <%ProgramExecutable%>
+
+8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C,Conditions
+{1 condition}
 
 90C214F0-87DD-4B24-AC1E-5EFCCE4357AD,CheckCondition
 {Before Action is Executed}
@@ -5080,7 +5089,7 @@ A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,Conditions
 {2 conditions}
 
 A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,ShortcutName
-{Kesdipepe Designer}
+{OmniSpot Designer}
 
 A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,TargetFileName
 <%ProgramExecutable%>
@@ -5180,6 +5189,9 @@ B0EBFCA3-5884-4981-B3F6-B06CD741C3A2,Conditions
 
 B15CAD54-78BC-49DD-A057-2CC01952E36D,Alias
 {Install Actions}
+
+B15CAD54-78BC-49DD-A057-2CC01952E36D,Conditions
+{0 conditions}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message,subst
 1
@@ -5312,6 +5324,9 @@ BA6E0F93-C95F-46C0-84B3-16A172FF56E7,X
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,Y
 180
+
+BC0B4927-0E94-4E7E-8AF2-FB629D012332,Conditions
+{0 conditions}
 
 BCBDDA56-1C29-41AA-ADF5-5BF40579CF1B,Conditions
 {1 condition}
@@ -5448,6 +5463,9 @@ C8AC78C7-EF0E-4928-BF34-5626698F41A1,CancelButton,subst
 C8AC78C7-EF0E-4928-BF34-5626698F41A1,Caption,subst
 1
 
+C8AC78C7-EF0E-4928-BF34-5626698F41A1,Conditions
+{0 conditions}
+
 C8AC78C7-EF0E-4928-BF34-5626698F41A1,Message,subst
 1
 
@@ -5573,6 +5591,12 @@ beginning
 
 E58642FE-164B-41A8-8A16-CA671C540873,Alias
 {Cancel Actions}
+
+E58642FE-164B-41A8-8A16-CA671C540873,Conditions
+{0 conditions}
+
+E6F52B60-2690-4977-BEE4-ED363700F73C,Conditions
+{0 conditions}
 
 E764C0CE-1ABB-4FDF-BF8F-35D3695916D6,Conditions
 {0 conditions}
@@ -6090,7 +6114,7 @@ Windows,IncludeTWAPI
 Yes
 
 Windows,InstallDir
-c:/Kesdipepe/<%ShortAppName%>
+c:/OmniSpot/<%ShortAppName%>
 
 Windows,InstallMode
 Standard
@@ -6273,6 +6297,12 @@ Leave unselected only if you are certain that you have a JRE 1.6+ installed on y
 {VLC media player.
 Required for the correct playback and rendering of media files.
 Leave unselected only if you are certain that you have the proper version of VLC installed on your system or if you want to only use MPlayer.}
+
+8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,Caption
+{OmniSpot Wizard Complete}
+
+8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,Message
+{The OmniSpot Wizard has successfully installed <%AppName%>.   Click Finish to exit the wizard.}
 
 8A8D796C-8051-4B6A-806E-BCF876E668BE,Text
 <%CreateQuickLaunchShortcutText%>

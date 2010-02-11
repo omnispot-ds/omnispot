@@ -1,14 +1,11 @@
 package com.kesdip.bootstrap;
 
-import java.util.Date;
-
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.kesdip.bootstrap.communication.ProtocolHandler;
-import com.kesdip.bootstrap.message.PlayerProcessHelper;
 import com.kesdip.business.util.schema.SchemaUpdater;
 
 /**
@@ -105,8 +102,8 @@ public class Manager extends Thread {
 	public void run() {
 		init();
 
-		int exceptioncount = 0;
-		long firstExceptionTimeStamp = 0;
+//		int exceptioncount = 0;
+//		long firstExceptionTimeStamp = 0;
 		while (run) {
 			try {
 				Thread.sleep(communicationInterval);
@@ -117,22 +114,22 @@ public class Manager extends Thread {
 					comm.performRequest();
 				} catch (Exception e) {
 					logger.error(e);
-					exceptioncount++;
-					if (firstExceptionTimeStamp == 0) {
-						firstExceptionTimeStamp = new Date().getTime();
-					}
-					if (exceptioncount == 5) {
-						if (new Date().getTime() - firstExceptionTimeStamp < 1800 * 1000) {
-							logger
-									.error("Exception count equal to 5 in less than half an hour. Restarting...");
-							
-							// windows will restart it hopefully...
-							System.exit(0);
-						} else {
-							exceptioncount = 0;
-							firstExceptionTimeStamp = 0;
-						}
-					}
+//					exceptioncount++;
+//					if (firstExceptionTimeStamp == 0) {
+//						firstExceptionTimeStamp = new Date().getTime();
+//					}
+//					if (exceptioncount == 5) {
+//						if (new Date().getTime() - firstExceptionTimeStamp < 1800 * 1000) {
+//							logger
+//									.error("Exception count equal to 5 in less than half an hour. Restarting...");
+//							
+//							// windows will restart it hopefully...
+//							System.exit(0);
+//						} else {
+//							exceptioncount = 0;
+//							firstExceptionTimeStamp = 0;
+//						}
+//					}
 					logger.info("Continuing operation...");
 				}
 			} catch (InterruptedException ie) {

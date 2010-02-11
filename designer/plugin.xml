@@ -24,14 +24,14 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="com.kesdip.designer.application"
-            name="Ke.S.Di.P. E.P.E. Designer">
+            name="OmniSpot Designer">
          <property
                name="windowImages"
                value="icons/display.png,icons/display_large.png">
          </property>
          <property
                name="appName"
-               value="Ke.S.Di.P. E.P.E. Designer">
+               value="OmniSpot Designer">
          </property>
          <property
                name="aboutImage"
@@ -39,7 +39,7 @@
          </property>
          <property
                name="aboutText"
-               value="Ke.S.Di.P. E.P.E. Designer Copyright 2009 Ke.S.Di.P. E.P.E.">
+               value="OmniSpot Designer Copyright 2008-2010 OmniSpot E.P.E.">
          </property>
       </product>
    </extension>

@@ -162,7 +162,6 @@ public class ProcessUtils {
 		cmdArray[3] = executableName;
 		
 		try {
-			// This must be a blocking call for PlayerProcessHelper to work
 			Process process = Runtime.getRuntime().exec(cmdArray);
 			process.waitFor();
 			return true;

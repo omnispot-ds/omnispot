@@ -13,6 +13,9 @@ common/bin
 common/build
 common/dist
 designer-preview/lib/*.jar
+designer/lib/*.jar
+designer/lib/*.war
+etc/old-installer
 player/ad.mp4
 player/bin
 player/bld.jpg

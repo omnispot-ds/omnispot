@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Ke.S.Di.P. E.P.E. Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.0.0" useFeatures="true">
+<product name="OmniSpot Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.0.0" useFeatures="true">
 
    <aboutInfo>
       <image path="/com.kesdip.designer/splash.png"/>
       <text>
-         Ke.S.Di.P. E.P.E. Designer Copyright 2009 Ke.S.Di.P. E.P.E.
+         OmniSpot Designer Copyright 2008-2010 OmniSpot E.P.E.
       </text>
    </aboutInfo>
 

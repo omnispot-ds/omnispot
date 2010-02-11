@@ -34,7 +34,7 @@ public class PlayerProcessHelper extends Thread {
 	private Process playerProcess;
 
 	private PlayerProcessHelper() {
-		killAllPlayers();
+
 		String envJavaHome = System.getenv("JAVA_HOME");
 		javaHome = new File(envJavaHome);
 		playerJava = new File(javaHome, "bin/" + PLAYER_EXE);

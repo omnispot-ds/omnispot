@@ -52,7 +52,8 @@ public class ScriptingHelper {
 				int numRead = in.read(buf);
 				scriptTxt = String.valueOf(buf, 0, numRead);
 				String fileExtension = file.getName().substring(file.getName().lastIndexOf('.') + 1);
-				engine = sem.getEngineByExtension(fileExtension);
+				// we cannot count on an extension, they are not maintained upon deployment
+				engine = sem.getEngineByName("JavaScript");
 				if (engine == null) {
 					throw new RuntimeException("No scripting engine could be resolved for script extension ." + fileExtension);
 				}
