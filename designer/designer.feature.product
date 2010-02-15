@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="OmniSpot Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.0.0" useFeatures="true">
+<product name="OmniSpot Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.0.0" useFeatures="true"
+includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.kesdip.designer/splash.png"/>
