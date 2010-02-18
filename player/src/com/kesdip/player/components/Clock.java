@@ -2,9 +2,11 @@ package com.kesdip.player.components;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.util.GregorianCalendar;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
@@ -14,7 +16,7 @@ import com.kesdip.player.TimingMonitor;
 /**
  * Clock component.
  * 
- * @author gerogias
+ * @author gkorilas
  */
 public class Clock extends AbstractComponent implements Runnable {
 	/**
@@ -27,13 +29,47 @@ public class Clock extends AbstractComponent implements Runnable {
 	private Color bgColor;
 	private String image;
 
-	/**
-	 * Default constructor.
-	 */
-	public Clock() {
-		// do nothing
-	}
+	private JPanel fingersPanel = null;
+	private JPanel clockPanel;
 	
+	protected Font font;
+	protected Color foregroundColor;
+	
+	public Font getFont() {
+		return font;
+	}
+
+	public void setFont(Font font) {
+		this.font = font;
+	}
+
+	public Color getForegroundColor() {
+		return foregroundColor;
+	}
+
+	public void setForegroundColor(Color foregroundColor) {
+		this.foregroundColor = foregroundColor;
+	}
+
+	private String dateFormat;
+
+	public String getDateFormat() {
+		return dateFormat;
+	}
+
+	public void setDateFormat(String dateFormat) {
+		this.dateFormat = dateFormat;
+	}
+
+	private boolean digital = true;
+	
+	public boolean isDigital() {
+		return digital;
+	}
+
+	public void setDigital(boolean digital) {
+		this.digital = digital;
+	}
 	public String getImage() {
 		return image;
 	}
@@ -63,6 +99,8 @@ public class Clock extends AbstractComponent implements Runnable {
 
 	private String size;
 
+	private boolean clockPainted;
+
 	public String getSize() {
 		return size;
 	}
@@ -83,7 +121,7 @@ public class Clock extends AbstractComponent implements Runnable {
 					panel.setTimeSeconds(k);
 
 					panel.setTimeMillis(0);
-					panel.refresh();
+					refresh();
 				}
 				Thread.sleep(250L);
 			} catch (Exception localException) {
@@ -107,14 +145,26 @@ public class Clock extends AbstractComponent implements Runnable {
 	public void init(Component parent, TimingMonitor timingMonitor,
 			Player player) throws ComponentException {
 		logger.debug("clock init called!");
+		clockPanel = isDigital()?new DigitalClockPanel():new AnalogClockFacePanel();
+		if (isDigital()) {
+			((DigitalClockPanel)clockPanel).setDateFormat(getDateFormat());
+			((DigitalClockPanel)clockPanel).setFont(getFont());
+			((DigitalClockPanel)clockPanel).setForegroundColor(getForegroundColor());
+			
+		}
+		panel.add(clockPanel, 0);
+
+		if (!isDigital()) {
+			fingersPanel = new AnalogClockFingersPanel();
+			fingersPanel.setOpaque(false);
+			panel.add(fingersPanel, 1);
+		}
 		panel.setPrefX(200);
 		panel.setPrefY(200);
 
 		panel.setFaceDark(new Color(10, 20, 21));
 		panel.setFaceLight(new Color(181, 196, 215));
 		panel.setFaceText(new Color(240, 228, 230));
-
-		this.keepOnLooping = true;
 
 		// inherit component size and location
 		handleSizes();
@@ -123,7 +173,8 @@ public class Clock extends AbstractComponent implements Runnable {
 		panel.setBackground(getBgColor());
 
 		panel.setSizeStuff(width, height);
-
+		
+		this.keepOnLooping = true;
 		parent.add(this);
 		logger.info("Adding clock");
 		localThread = new Thread(this);
@@ -137,26 +188,28 @@ public class Clock extends AbstractComponent implements Runnable {
 		} else {
 			panel.setOpaque(false);
 		}
-		panel.setSize(new Dimension(width, height));
+		panel.setSize(width, height);
 		panel.setPreferredSize(new Dimension(width, height));
 
 		// panel.clockPanel.setLocation(x, y);
 		if (backgroundColor != null) {
-			panel.getClockPanel().setBackground(backgroundColor);
+			clockPanel.setBackground(backgroundColor);
 		} else {
-			panel.getClockPanel().setOpaque(false);
+			clockPanel.setOpaque(false);
 		}
-		panel.getClockPanel().setSize(new Dimension(width, height));
-		panel.getClockPanel().setPreferredSize(new Dimension(width, height));
+		clockPanel.setSize(new Dimension(width, height));
+		clockPanel.setPreferredSize(new Dimension(width, height));
 
-		// panel.fingersPanel.setLocation(x, y);
-		if (backgroundColor != null) {
-			panel.getFingersPanel().setBackground(backgroundColor);
-		} else {
-			panel.getFingersPanel().setOpaque(false);
+		if (!isDigital()) {
+			//panel.getFingersPanel().setLocation(x, y);
+			if (backgroundColor != null) {
+				fingersPanel.setBackground(backgroundColor);
+			} else {
+				fingersPanel.setOpaque(false);
+			}
+			fingersPanel.setSize(new Dimension(width, height));
+			fingersPanel.setPreferredSize(new Dimension(width, height));
 		}
-		panel.getFingersPanel().setSize(new Dimension(width, height));
-		panel.getFingersPanel().setPreferredSize(new Dimension(width, height));
 	}
 
 	@Override
@@ -169,5 +222,16 @@ public class Clock extends AbstractComponent implements Runnable {
 	@Override
 	public void releaseResources() {
 		keepOnLooping = false;
+	}
+	
+	protected void refresh() {
+		if (!clockPainted) {
+			clockPanel.repaint();
+			clockPainted = true;
+		}
+		if (!isDigital()) {
+			panel.moveToFront(fingersPanel);
+			fingersPanel.repaint();
+		}
 	}
 }

@@ -87,7 +87,8 @@ public abstract class ModelElement implements IPropertySource, Serializable {
 	public static final String PARENT_PROP = "ModelElement.Parent";
 	public static final String CHILD_MOVE_UP = "ModelElement.ChildMoveUp";
 	public static final String CHILD_MOVE_DOWN = "ModelElement.ChildMoveDown";
-
+	public static final String TAG_CLOCK_TYPE = "ClockType";
+	public static final String TAG_CLOCK_DATE_FORMAT = "ClockDateFormat";
 	/** An empty property descriptor. */
 	private static final IPropertyDescriptor[] EMPTY_ARRAY = new IPropertyDescriptor[0];
 
