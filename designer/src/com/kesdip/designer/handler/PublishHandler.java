@@ -1,11 +1,9 @@
 package com.kesdip.designer.handler;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.zip.ZipEntry;
@@ -24,6 +22,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.progress.IProgressService;
 
+import com.kesdip.common.util.StreamUtils;
 import com.kesdip.designer.constenum.IFileNames;
 import com.kesdip.designer.editor.DeploymentEditor;
 import com.kesdip.designer.utils.DesignerLog;
@@ -116,6 +115,8 @@ public class PublishHandler extends AbstractHandler {
 					try {
 						ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(
 								new FileOutputStream(path)));
+						// Bug#139: no compression to increase speed
+						zos.setLevel(ZipOutputStream.STORED);
 						// set the proper XML file name
 						ZipEntry entry = new ZipEntry(IFileNames.DEPLOYMENT_XML);
 						zos.putNextEntry(entry);
@@ -126,13 +127,17 @@ public class PublishHandler extends AbstractHandler {
 							File f = new File(resourcePath);
 							entry = new ZipEntry(f.getName());
 							zos.putNextEntry(entry);
-							InputStream is = new BufferedInputStream(new FileInputStream(f));
-							byte[] buffer = new byte[8 * 1024];
-							int count;
-							while ((count = is.read(buffer)) != -1) {
-								zos.write(buffer, 0, count);
+							FileInputStream fis = null;
+							try {
+								fis = new FileInputStream(f);
+								StreamUtils.copyStream(fis, zos);
+							} finally {
+								try {
+									fis.close();
+								} catch (Exception e) {
+									// do nothing
+								}
 							}
-							is.close();
 						}
 						zos.close();
 					} catch (Exception e) {

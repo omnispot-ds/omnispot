@@ -38,6 +38,10 @@
 		derby.drda.startNetworkServer="true"
 		derby.drda.host="0.0.0.0"
 		derby.storage.pageCacheSize="10000"
+		testWhileIdle="true"
+		testOnBorrow ="true"
+		testOnReturn="true"
+		validationQuery="values(1)"
 		/>
 
   </GlobalNamingResources>

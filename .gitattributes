@@ -278,6 +278,9 @@ bootstrap/test/bootstrap.properties -text
 bootstrap/test/sample.xml -text
 business-logic/.classpath -text
 business-logic/.project -text
+business-logic/.settings/org.eclipse.jdt.core.prefs -text
+business-logic/.settings/org.eclipse.wst.common.component -text
+business-logic/.settings/org.eclipse.wst.common.project.facet.core.xml -text
 business-logic/build.xml -text
 business-logic/shared.jars -text
 business-logic/src/META-INF/MANIFEST.MF -text

@@ -92,10 +92,11 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 			// compute it a-posteriori as this may be a resumed download
 			CRC32 resourceCRC = FileUtils.getCrc(newResource);
 			long v = Long.parseLong(crc);
-			if (v != resourceCRC.getValue())
-				throw new Exception("Downloaded resource CRC ("
-						+ resourceCRC.getValue() + ") does not match resource "
-						+ "specified CRC (" + v + ").");
+			if (v != resourceCRC.getValue()) {
+				throw new Exception("Resource '"
+						+ newResource.getAbsolutePath() + "'. Expected CRC ("
+						+ resourceCRC.getValue() + "), actual CRC (" + v + ").");
+			}
 
 			Connection c = null;
 			try {
@@ -117,7 +118,8 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 
 				rs.close();
 				ps.close();
-				// TODO Now that filename is saved immediately, should we remove this?
+				// TODO Now that filename is saved immediately, should we remove
+				// this?
 				if (updateResource) {
 					ps = c.prepareStatement("DELETE FROM PENDING "
 							+ "WHERE DEPLOYMENT_ID=? AND RESOURCE_ID=?");

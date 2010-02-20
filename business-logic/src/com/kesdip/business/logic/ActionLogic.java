@@ -80,7 +80,6 @@ public class ActionLogic extends BaseLogic {
 	 * @throws ValidationException
 	 *             on validation error
 	 */
-	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public Deployment deployContent(ContentDeploymentBean object)
 			throws ValidationException {
 
@@ -101,15 +100,34 @@ public class ActionLogic extends BaseLogic {
 			logger.error("Error opening XML file", e);
 			throw new GenericSystemException("Error opening XML file", e);
 		}
+		Set<Installation> installations = getInstallations(object);
 		// add the deployments in the DB
+		Deployment deployment = addDeploymentsInDb(processedFile,
+				installations, object.getName());
+		return deployment;
+	}
+
+	/**
+	 * Create the deployment entry in the DB.
+	 * 
+	 * @param processedFile
+	 *            the file
+	 * @param installations
+	 *            the set of relevant installations
+	 * @param deploymentName
+	 *            the name
+	 * @return Deployment the created deployment
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED, timeout = 120)
+	private Deployment addDeploymentsInDb(ProcessedXmlFile processedFile,
+			Set<Installation> installations, String deploymentName) {
 		Deployment deployment = null;
 		try {
 			logger.debug("Creating deployment in the DB");
-			Set<Installation> installations = getInstallations(object);
 			String contentBase = ApplicationSettings.getInstance()
 					.getServerSettings().getContentBaseUrl();
 			deployment = new Deployment();
-			deployment.setName(object.getName());
+			deployment.setName(deploymentName);
 			deployment
 					.setCrc(String.valueOf(processedFile.getCrc().getValue()));
 			deployment.setLocalFile(processedFile.getXmlFile()
