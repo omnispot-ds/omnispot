@@ -100,7 +100,7 @@ public class RssTickerSource implements TickerSource {
 
 			sched.start();
 
-			JobDetail jobDetail = new JobDetail("refreshJob",
+			JobDetail jobDetail = new JobDetail("refreshJob"+this.toString(),
 					null,
 					RefreshJob.class);
 
@@ -109,9 +109,11 @@ public class RssTickerSource implements TickerSource {
 			Calendar start = Calendar.getInstance();
 			start.add(Calendar.MINUTE, refreshInterval);
 			trigger.setStartTime(start.getTime());
-			trigger.setName("aTrigger");
+			trigger.setName("aTrigger"+this.toString());
 
 			sched.scheduleJob(jobDetail, trigger);
+			if (logger.isDebugEnabled())
+				logger.debug("Refresh job scheduled!");
 
 		} catch (SchedulerException e) {
 			logger.error("Unable to schedule refresh job", e);
