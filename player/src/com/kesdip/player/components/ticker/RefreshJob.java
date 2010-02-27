@@ -20,7 +20,7 @@ public class RefreshJob implements Job {
 
 		RssTickerSource source = (RssTickerSource) dataMap.get("source");
 
-		source.loadContent();
+		source.updateContent();
 
 	}
 
