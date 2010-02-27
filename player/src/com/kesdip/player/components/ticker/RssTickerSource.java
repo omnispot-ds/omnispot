@@ -65,9 +65,6 @@ public class RssTickerSource implements TickerSource {
 
 	@Override
 	public void addTrailingChar() {
-		if (logger.isTraceEnabled()) {
-			logger.trace("addTrailingChar called");
-		}
 		sb.append(charStream.nextChar());
 	}
 
@@ -120,10 +117,17 @@ public class RssTickerSource implements TickerSource {
 		}
 	}
 
+	boolean contentUpdate;
+	public void updateContent() {
+		contentUpdate = true;
+		loadContent();
+		contentUpdate=false;
+	}
+	
 	/**
 	 * Loads content from the specified rss source
 	 */
-	void loadContent(){		
+	void loadContent(){	
 		readFeed();
 
 		if (charStream == null) {
@@ -148,6 +152,7 @@ public class RssTickerSource implements TickerSource {
 			logger.error("Unable to create feed.", e);
 		}
 	}
+	
 
 	@SuppressWarnings("unchecked")
 	private void readFeed() {
@@ -156,7 +161,7 @@ public class RssTickerSource implements TickerSource {
 					" (" + (showOnlyTitles ? "true" : "false") + ")");
 		}
 		logger.info("readFeed() called");
-		if (feed == null){
+		if (contentUpdate){
 			createFeed();
 		}
 		StringBuilder builder = new StringBuilder();
