@@ -11,6 +11,7 @@ package com.kesdip.business.logic;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -53,6 +54,7 @@ import com.kesdip.common.util.DateUtils;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StreamUtils;
 import com.kesdip.common.util.StringUtils;
+import com.kesdip.player.preview.PlayerPreview;
 
 /**
  * Action-related logic.
@@ -90,8 +92,28 @@ public class ActionLogic extends BaseLogic {
 		try {
 			// process the file
 			if ("xml".equalsIgnoreCase(suffix)) {
-				processedFile = handleXml(object.getContentFile()
-						.getInputStream(), object.getContentFile()
+				// copy media files
+				InputStream currentMediaStream = null;
+				InputStream xmlStream = object.getContentFile().getInputStream();
+				try {
+					Set<String> resourcePaths = PlayerPreview
+							.getResourcePaths(xmlStream);
+					for (String path : resourcePaths) {
+						currentMediaStream = new FileInputStream(path);
+						handleMedia(currentMediaStream, path, StreamUtils.getCrc(
+								new File(path)).getValue(), object.getPolicy());
+						StreamUtils.close(currentMediaStream);
+					}
+					xmlStream.reset();
+				} finally {
+					// just in case of exception
+					StreamUtils.close(currentMediaStream);
+				}
+				
+				// pre-process resource paths inside the XML
+				ByteArrayInputStream bais = new ByteArrayInputStream(
+						processDeploymentXml(xmlStream));
+				processedFile = handleXml(bais, object.getContentFile()
 						.getOriginalFilename());
 			} else {
 				processedFile = handleZip(object);
@@ -319,7 +341,8 @@ public class ActionLogic extends BaseLogic {
 	 * @return ProcessedXmlFile the results of processing the XML
 	 */
 	private final ProcessedXmlFile handleXml(InputStream xmlStream,
-			String originalFileName) {
+			String originalFileName)
+			throws IOException {
 		File contentFolder = new File(ApplicationSettings.getInstance()
 				.getFileStorageSettings().getContentFolder());
 		String uniqueName = FileUtils.getUniqueFileName(originalFileName);
@@ -333,6 +356,7 @@ public class ActionLogic extends BaseLogic {
 		} finally {
 			StreamUtils.close(xmlStream);
 		}
+
 		return new ProcessedXmlFile(destContent, crc, uniqueName);
 	}
 
@@ -361,10 +385,12 @@ public class ActionLogic extends BaseLogic {
 						.getName())) {
 					ByteArrayInputStream bais = new ByteArrayInputStream(
 							processDeploymentXml(input));
+					// do not process resources, policy ignored
 					deploymentXml = handleXml(bais,
 							IFileNamesEnum.DEPLOYMENT_XML);
 				} else {
-					handleMedia(input, zipEntry, object.getPolicy());
+					handleMedia(input, zipEntry.getName(), zipEntry.getCrc(),
+							object.getPolicy());
 				}
 				input.closeEntry();
 			}
@@ -380,18 +406,20 @@ public class ActionLogic extends BaseLogic {
 	 * 
 	 * @param input
 	 *            the media file stream
-	 * @param zipEntry
-	 *            the ZIP entry, may contain path info
+	 * @param originalFilename
+	 *            the original media file name
+	 * @param mediaCrc
+	 *            the media CRC
 	 * @param policy
 	 *            the overwrite policy
 	 * @see IMediaCopyPolicyEnum
 	 */
-	private final void handleMedia(InputStream input, ZipEntry zipEntry,
-			int policy) {
+	private final void handleMedia(InputStream input, String originalFilename,
+			long mediaCrc, int policy) {
 
 		File contentFolder = new File(ApplicationSettings.getInstance()
 				.getFileStorageSettings().getContentFolder());
-		String filename = FileUtils.getName(zipEntry.getName());
+		String filename = FileUtils.getName(originalFilename);
 		File destFile = new File(contentFolder, filename);
 
 		if (!destFile.exists()
@@ -403,7 +431,7 @@ public class ActionLogic extends BaseLogic {
 		} else {
 			// check CRC
 			CRC32 crc = StreamUtils.getCrc(destFile);
-			if (crc.getValue() != zipEntry.getCrc()) {
+			if (crc.getValue() != mediaCrc) {
 				StreamUtils.copyToFile(input, destFile);
 			}
 		}

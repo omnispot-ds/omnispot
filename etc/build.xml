@@ -80,7 +80,7 @@
 		<ant antfile="${common.build.file}" target="common.dist" inheritrefs="true"/>
 	</target>
 
-	<target name="build.logic" depends="build.common">
+	<target name="build.logic" depends="build.common, build.player">
 		<ant antfile="${logic.build.file}" target="logic.init" inheritrefs="true"/>
 		<ant antfile="${logic.build.file}" target="logic.compile" inheritrefs="true"/>
 		<ant antfile="${logic.build.file}" target="logic.dist" inheritrefs="true"/>

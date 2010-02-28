@@ -78,26 +78,36 @@ public class PublishHandler extends AbstractHandler {
 			final DeploymentEditorInput dei = (DeploymentEditorInput) de
 					.getEditorInput();
 			final ExecutionEvent theEvent = event;
-		
+
 			mustAbort = false;
-		
-			IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
+
+			IProgressService progressService = PlatformUI.getWorkbench()
+					.getProgressService();
 			progressService.busyCursorWhile(new IRunnableWithProgress() {
 				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException,
-						InterruptedException {
-					String reason = PlayerPreview.canPreview(dei.getPath());
-					if (reason != null) {
-						MessageDialog.openError(HandlerUtil.getActiveShell(theEvent),
-								"Unable to export deployment", reason);
-						mustAbort = true;
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
+					try {
+						String reason = PlayerPreview.canPreview(dei.getPath());
+						if (reason != null) {
+							MessageDialog.openError(HandlerUtil
+									.getActiveShell(theEvent),
+									"Unable to export deployment", reason);
+							mustAbort = true;
+						}
+					} catch (Exception e) {
+						MessageDialog.openError(HandlerUtil
+								.getActiveShell(theEvent),
+								"Unable to export deployment", e.getClass()
+										.getName()
+										+ ": " + e.getMessage());
 					}
 				}
 			});
-		
+
 			if (mustAbort)
 				return null;
-		
+
 			FileDialog dialog = new FileDialog(HandlerUtil
 					.getActiveShell(event), SWT.SAVE | SWT.APPLICATION_MODAL);
 			dialog.setText("Choose an export destination");
@@ -107,22 +117,23 @@ public class PublishHandler extends AbstractHandler {
 			dialog.setFilterExtensions(new String[] { "*.zip", "*.*" });
 			final String path = dialog.open();
 			DesignerLog.logInfo("User entered path: " + path);
-		
+
 			progressService.busyCursorWhile(new IRunnableWithProgress() {
 				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException,
-						InterruptedException {
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
 					try {
-						ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(
-								new FileOutputStream(path)));
+						ZipOutputStream zos = new ZipOutputStream(
+								new BufferedOutputStream(new FileOutputStream(
+										path)));
 						// Bug#139: no compression to increase speed
 						zos.setLevel(ZipOutputStream.STORED);
 						// set the proper XML file name
 						ZipEntry entry = new ZipEntry(IFileNames.DEPLOYMENT_XML);
 						zos.putNextEntry(entry);
 						dei.getDeployment().serialize(zos, true);
-						Set<String> resourcePaths = PlayerPreview.getResourcePaths(dei
-								.getPath());
+						Set<String> resourcePaths = PlayerPreview
+								.getResourcePaths(dei.getPath());
 						for (String resourcePath : resourcePaths) {
 							File f = new File(resourcePath);
 							entry = new ZipEntry(f.getName());

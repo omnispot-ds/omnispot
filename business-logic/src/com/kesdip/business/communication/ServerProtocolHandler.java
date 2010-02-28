@@ -66,19 +66,12 @@ public class ServerProtocolHandler {
 				.equalsIgnoreCase(playerProcAlive) ? IInstallationStatus.OK
 				: IInstallationStatus.PLAYER_DOWN);
 
+		// handle incoming screenshot and log IP (Bug#143)
 		if (req.getAttribute(IMessageParamsEnum.SCREENSHOT) != null) {
-			FileStorageSettings settings = ApplicationSettings.getInstance()
-					.getFileStorageSettings();
-			FileItem fileitem = (FileItem) req
-					.getAttribute(IMessageParamsEnum.SCREENSHOT);
-			String destPath = settings.getPrintScreenFolder() + File.separator
-					+ installationId;
-			File destFile = new File(destPath.trim(), settings
-					.getPrintScreenName());
-			destFile.getParentFile().mkdirs();
-			fileitem.write(destFile);
-			// Bug#36: Explicitly set lastModified date
-			destFile.setLastModified(System.currentTimeMillis());
+			handleScreenshot((FileItem) req
+					.getAttribute(IMessageParamsEnum.SCREENSHOT),
+					installationId);
+			logic.updateInstallationIP(installationId, req.getRemoteAddr());
 		}
 		if (logger.isDebugEnabled()) {
 			logger.debug("Received: InstallationId: " + installationId
@@ -89,26 +82,29 @@ public class ServerProtocolHandler {
 			Action[] actions = actionHandler.deserialize(serializedActions);
 			// now update the admin-console db
 			for (Action action : actions) {
-				//avoid setting back to scheduled actions that have not changed state in client
+				// avoid setting back to scheduled actions that have not changed
+				// state in client
 				if (action.getStatus() == IActionStatusEnum.SCHEDULED) {
 					continue;
 				}
-				
+
 				List<Action> l = getHibernateTemplate().find(
 						"from " + Action.class.getName()
 								+ " a where a.actionId = ? ",
 						new Object[] { action.getActionId() });
 				if (l.size() > 1) {
-					throw new IllegalStateException("Duplicate actionIds found!?!?");
+					throw new IllegalStateException(
+							"Duplicate actionIds found!?!?");
 				} else if (l.size() == 1) {
 					Action dbAction = l.get(0);
 					dbAction.setStatus(action.getStatus());
-					dbAction.setMessage(StringUtils.convertFromActionMessage(action.getMessage()));
+					dbAction.setMessage(StringUtils
+							.convertFromActionMessage(action.getMessage()));
 					getHibernateTemplate().update(dbAction);
 				}
 			}
 
-			logger.debug("Received actions updated! ");
+			logger.debug("Received actions updated!");
 		}
 		sendResponse(resp, installationId);
 
@@ -134,7 +130,8 @@ public class ServerProtocolHandler {
 			serializedActions = actionHandler.serialize(actions
 					.toArray(new Action[0]));
 			if (logger.isInfoEnabled()) {
-				logger.info("Actions found and will be sent to installation with id "
+				logger
+						.info("Actions found and will be sent to installation with id "
 								+ actions.get(0).getInstallation().getName()
 								+ ". Actions: " + serializedActions);
 			}
@@ -254,5 +251,28 @@ public class ServerProtocolHandler {
 	 */
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
+	}
+
+	/**
+	 * Store the uploaded screenshot to the appropriate location.
+	 * 
+	 * @param screenshot
+	 *            the file
+	 * @param installationId
+	 *            the current instalaltion id
+	 * @throws Exception
+	 *             on error
+	 */
+	private void handleScreenshot(FileItem screenshot, String installationId)
+			throws Exception {
+		FileStorageSettings settings = ApplicationSettings.getInstance()
+				.getFileStorageSettings();
+		String destPath = settings.getPrintScreenFolder() + File.separator
+				+ installationId;
+		File destFile = new File(destPath.trim(), settings.getPrintScreenName());
+		destFile.getParentFile().mkdirs();
+		screenshot.write(destFile);
+		// Bug#36: Explicitly set lastModified date
+		destFile.setLastModified(System.currentTimeMillis());
 	}
 }

@@ -134,7 +134,7 @@ public class ContentServlet extends BaseSpringContextServlet {
 		try {
 			fileName = FileUtils.getName(URLDecoder.decode(pathInfo, "UTF-8"));
 		} catch (UnsupportedEncodingException uee) {
-
+			// do nothing
 		}
 		File targetFile = new File(storageSettings.getContentFolder(), fileName);
 		return targetFile.isFile() ? targetFile : null;

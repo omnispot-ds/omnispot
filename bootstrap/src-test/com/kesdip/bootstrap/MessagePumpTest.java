@@ -5,8 +5,6 @@
  */
 package com.kesdip.bootstrap;
 
-import junit.framework.TestCase;
-
 import com.kesdip.bootstrap.message.DeployMessage;
 import com.kesdip.common.test.BaseTest;
 

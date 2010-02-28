@@ -1,6 +1,9 @@
 package com.kesdip.player.preview;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,8 +12,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
 import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.core.io.InputStreamResource;
 
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StringUtils;
@@ -73,10 +77,19 @@ public class PlayerPreview extends Player {
 		}
 	}
 
-	public static Set<String> getResourcePaths(String path) {
+	public static Set<String> getResourcePaths(String path)
+			throws FileNotFoundException {
+
+		return getResourcePaths(new FileInputStream(new File(path)));
+	}
+
+	public static Set<String> getResourcePaths(InputStream xmlStream) {
 		Set<String> retVal = new HashSet<String>();
-		ApplicationContext ctx = new FileSystemXmlApplicationContext(path);
-		DeploymentContents deploymentContents = (DeploymentContents) ctx
+		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+		XmlBeanDefinitionReader beanReader = new XmlBeanDefinitionReader(beanFactory);
+		beanReader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_NONE);
+		beanReader.loadBeanDefinitions(new InputStreamResource(xmlStream));
+		DeploymentContents deploymentContents = (DeploymentContents) beanFactory
 				.getBean("deploymentContents");
 		List<DeploymentLayout> layouts = deploymentContents.getLayouts();
 		for (DeploymentLayout layout : layouts) {
@@ -92,10 +105,18 @@ public class PlayerPreview extends Player {
 		return retVal;
 	}
 
-	public static String canPreview(String path) {
+	public static String canPreview(String path) throws FileNotFoundException {
+
+		return canPreview(new FileInputStream(new File(path)));
+	}
+
+	public static String canPreview(InputStream xmlStream) {
 		try {
-			ApplicationContext ctx = new FileSystemXmlApplicationContext(path);
-			DeploymentContents deploymentContents = (DeploymentContents) ctx
+			DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+			XmlBeanDefinitionReader beanReader = new XmlBeanDefinitionReader(beanFactory);
+			beanReader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_NONE);
+			beanReader.loadBeanDefinitions(new InputStreamResource(xmlStream));
+			DeploymentContents deploymentContents = (DeploymentContents) beanFactory
 					.getBean("deploymentContents");
 			StringBuilder missingResources = new StringBuilder(
 					"There are missing resources. "
@@ -180,7 +201,8 @@ public class PlayerPreview extends Player {
 		usage.append("\twhere\n");
 		usage.append("\tXML is the location of the content XML file\n");
 		usage.append("\tVLC_HOME is the location of the VLC installation\n");
-		usage.append("\tMPLAYER_FILE is the location of the MPlayer executable");
+		usage
+				.append("\tMPLAYER_FILE is the location of the MPlayer executable");
 		System.err.println(usage.toString());
 	}
 

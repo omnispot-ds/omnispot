@@ -5,6 +5,7 @@
 	<projects>
 		<project>business-logic</project>
 		<project>common</project>
+		<project>player</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

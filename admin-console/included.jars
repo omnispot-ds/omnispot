@@ -1,5 +1,6 @@
 common/dist/common.jar
 business-logic/dist/logic.jar
+bootstrap/dist/bootstrap.jar
 
 etc/lib/log4j/log4j-1.2.14.jar
 
