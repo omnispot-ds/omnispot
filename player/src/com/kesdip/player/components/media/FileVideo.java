@@ -145,7 +145,7 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	 *            the configuration object to populate
 	 */
 	protected void preparePlaylists(VideoConfiguration config) {
-		logger.trace("Preparing playlists");
+		logger.info("Preparing playlists");
 		Resource previousRes = null;
 		Playlist playlist = null;
 		int count = 1;
@@ -163,6 +163,9 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 				playlist = new Playlist(playlistId);
 				playlist.setFullScreen(resFs);
 				config.addPlaylist(playlist);
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("Adding video to playlist: " + res.getIdentifier());
 			}
 			playlist.addFile(getResourcePath(res));
 			previousRes = res;
