@@ -49,12 +49,13 @@ import com.kesdip.business.domain.generated.InstallationGroup;
 import com.kesdip.business.domain.generated.Parameter;
 import com.kesdip.business.domain.generated.Site;
 import com.kesdip.business.exception.ValidationException;
+import com.kesdip.business.exception.XmlParsingException;
+import com.kesdip.business.util.deployment.DeploymentResourceGatherer;
 import com.kesdip.common.exception.GenericSystemException;
 import com.kesdip.common.util.DateUtils;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StreamUtils;
 import com.kesdip.common.util.StringUtils;
-import com.kesdip.player.preview.PlayerPreview;
 
 /**
  * Action-related logic.
@@ -94,14 +95,15 @@ public class ActionLogic extends BaseLogic {
 			if ("xml".equalsIgnoreCase(suffix)) {
 				// copy media files
 				InputStream currentMediaStream = null;
-				InputStream xmlStream = object.getContentFile().getInputStream();
+				InputStream xmlStream = object.getContentFile()
+						.getInputStream();
 				try {
-					Set<String> resourcePaths = PlayerPreview
-							.getResourcePaths(xmlStream);
+					Set<String> resourcePaths = getResourcePaths(xmlStream);
 					for (String path : resourcePaths) {
 						currentMediaStream = new FileInputStream(path);
-						handleMedia(currentMediaStream, path, StreamUtils.getCrc(
-								new File(path)).getValue(), object.getPolicy());
+						handleMedia(currentMediaStream, path, StreamUtils
+								.getCrc(new File(path)).getValue(), object
+								.getPolicy());
 						StreamUtils.close(currentMediaStream);
 					}
 					xmlStream.reset();
@@ -109,7 +111,7 @@ public class ActionLogic extends BaseLogic {
 					// just in case of exception
 					StreamUtils.close(currentMediaStream);
 				}
-				
+
 				// pre-process resource paths inside the XML
 				ByteArrayInputStream bais = new ByteArrayInputStream(
 						processDeploymentXml(xmlStream));
@@ -118,7 +120,7 @@ public class ActionLogic extends BaseLogic {
 			} else {
 				processedFile = handleZip(object);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("Error opening XML file", e);
 			throw new GenericSystemException("Error opening XML file", e);
 		}
@@ -341,8 +343,7 @@ public class ActionLogic extends BaseLogic {
 	 * @return ProcessedXmlFile the results of processing the XML
 	 */
 	private final ProcessedXmlFile handleXml(InputStream xmlStream,
-			String originalFileName)
-			throws IOException {
+			String originalFileName) throws IOException {
 		File contentFolder = new File(ApplicationSettings.getInstance()
 				.getFileStorageSettings().getContentFolder());
 		String uniqueName = FileUtils.getUniqueFileName(originalFileName);
@@ -476,6 +477,20 @@ public class ActionLogic extends BaseLogic {
 		}
 		matcher.appendTail(newXml);
 		return newXml.toString().getBytes("UTF-8");
+	}
+
+	/**
+	 * Process a deployment XML to gather its resources.
+	 * 
+	 * @param xmlStream
+	 *            the XML
+	 * @return Set the located resources
+	 */
+	final Set<String> getResourcePaths(InputStream xmlStream)
+			throws XmlParsingException {
+		DeploymentResourceGatherer resourceGatherer = new DeploymentResourceGatherer(
+				xmlStream);
+		return resourceGatherer.getResources();
 	}
 
 	/**

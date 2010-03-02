@@ -98,7 +98,7 @@
 		<ant antfile="${player.build.file}" target="player.dist" inheritrefs="true"/>
 	</target>
 
-	<target name="build.admin-console" depends="build.common, build.logic">
+	<target name="build.admin-console" depends="build.common, build.logic, build.bootstrap">
 		<ant antfile="${admin-console.build.file}" target="admin-console.init" inheritrefs="true"/>
 		<ant antfile="${admin-console.build.file}" target="admin-console.compile" inheritrefs="true"/>
 		<ant antfile="${admin-console.build.file}" target="admin-console.dist" inheritrefs="true"/>

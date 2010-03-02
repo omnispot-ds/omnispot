@@ -117,7 +117,7 @@ public class RssTickerSource implements TickerSource {
 		}
 	}
 
-	boolean contentUpdate;
+	boolean contentUpdate = true;
 	public void updateContent() {
 		contentUpdate = true;
 		loadContent();

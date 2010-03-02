@@ -293,6 +293,9 @@ business-logic/.settings/org.eclipse.wst.common.component -text
 business-logic/.settings/org.eclipse.wst.common.project.facet.core.xml -text
 business-logic/build.xml -text
 business-logic/shared.jars -text
+business-logic/src-test/com/kesdip/business/util/deployment/DeploymentResourceGathererTest.java -text
+business-logic/src-test/com/kesdip/business/util/deployment/test1.des.xml -text
+business-logic/src-test/com/kesdip/business/util/deployment/test2.des.xml -text
 business-logic/src/META-INF/MANIFEST.MF -text
 business-logic/src/com/kesdip/business/beans/ActionBean.java -text
 business-logic/src/com/kesdip/business/beans/ActionQueryBean.java -text
@@ -345,6 +348,7 @@ business-logic/src/com/kesdip/business/domain/generated/User.java -text
 business-logic/src/com/kesdip/business/exception/InvalidEntityIdentifierException.java -text
 business-logic/src/com/kesdip/business/exception/SchemaUpdateFailedException.java -text
 business-logic/src/com/kesdip/business/exception/ValidationException.java -text
+business-logic/src/com/kesdip/business/exception/XmlParsingException.java -text
 business-logic/src/com/kesdip/business/logic/ActionLogic.java -text
 business-logic/src/com/kesdip/business/logic/BaseLogic.java -text
 business-logic/src/com/kesdip/business/logic/ContentLogic.java -text
@@ -360,6 +364,7 @@ business-logic/src/com/kesdip/business/logic/jobs/InstallationHealthJob.java -te
 business-logic/src/com/kesdip/business/logic/jobs/StatusEntryCleanupJob.java -text
 business-logic/src/com/kesdip/business/util/Error.java -text
 business-logic/src/com/kesdip/business/util/Errors.java -text
+business-logic/src/com/kesdip/business/util/deployment/DeploymentResourceGatherer.java -text
 business-logic/src/com/kesdip/business/util/list/OptionListGenerator.java -text
 business-logic/src/com/kesdip/business/util/propertyeditor/AccessRightEditor.java -text
 business-logic/src/com/kesdip/business/util/propertyeditor/BaseDBTypeEditor.java -text
