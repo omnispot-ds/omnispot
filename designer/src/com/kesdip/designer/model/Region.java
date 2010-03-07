@@ -129,7 +129,7 @@ public class Region extends ComponentModelElement {
 								} else if ("com.kesdip.player.components.Image"
 										.equals(className)) {
 									component = new ImageComponent();
-								} else if ("com.kesdip.player.components.Clock"
+								} else if ("com.kesdip.player.components.clock.Clock"
 										.equals(className)) {
 									component = new ClockComponent();
 								} else if ("com.kesdip.player.components.FlashComponent"

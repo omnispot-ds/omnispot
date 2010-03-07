@@ -804,14 +804,8 @@ player/src/com/kesdip/player/component/flash/ExternalInterfaceCall.java -text
 player/src/com/kesdip/player/component/flash/ExternalInterfaceSerializer.java -text
 player/src/com/kesdip/player/components/AbstractComponent.java -text
 player/src/com/kesdip/player/components/AbstractVideo.java -text
-player/src/com/kesdip/player/components/AnalogClockFacePanel.java -text
-player/src/com/kesdip/player/components/AnalogClockFingersPanel.java -text
-player/src/com/kesdip/player/components/AnalogClockPanel.java -text
-player/src/com/kesdip/player/components/Clock.java -text
-player/src/com/kesdip/player/components/ClockPanel.java -text
 player/src/com/kesdip/player/components/Component.java -text
 player/src/com/kesdip/player/components/ComponentException.java -text
-player/src/com/kesdip/player/components/DigitalClockPanel.java -text
 player/src/com/kesdip/player/components/FlashComponent.java -text
 player/src/com/kesdip/player/components/FullScreenComponent.java -text
 player/src/com/kesdip/player/components/Image.java -text
@@ -821,6 +815,12 @@ player/src/com/kesdip/player/components/SimpleContainer.java -text
 player/src/com/kesdip/player/components/Ticker.java -text
 player/src/com/kesdip/player/components/TunerVideo.java -text
 player/src/com/kesdip/player/components/Video.java -text
+player/src/com/kesdip/player/components/clock/AnalogClockFacePanel.java -text
+player/src/com/kesdip/player/components/clock/AnalogClockFingersPanel.java -text
+player/src/com/kesdip/player/components/clock/AnalogClockPanel.java -text
+player/src/com/kesdip/player/components/clock/Clock.java -text
+player/src/com/kesdip/player/components/clock/ClockPanel.java -text
+player/src/com/kesdip/player/components/clock/DigitalClockPanel.java -text
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/FlashObjectInterface.java -text
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/FlashProp.java -text
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/IFlashFactory.java -text
