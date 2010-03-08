@@ -106,12 +106,12 @@ public class ActionLogic extends BaseLogic {
 								.getPolicy());
 						StreamUtils.close(currentMediaStream);
 					}
-					xmlStream.reset();
 				} finally {
+					StreamUtils.close(xmlStream);
 					// just in case of exception
 					StreamUtils.close(currentMediaStream);
 				}
-
+				xmlStream = object.getContentFile().getInputStream();
 				// pre-process resource paths inside the XML
 				ByteArrayInputStream bais = new ByteArrayInputStream(
 						processDeploymentXml(xmlStream));
