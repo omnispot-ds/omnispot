@@ -40,7 +40,7 @@ import com.kesdip.common.util.DateUtils;
  * 
  * @author Pafsanias Ftakas
  */
-public class TimingHandler implements ContentHandler {
+public class TimingHandler extends ContentHandler {
 
 	/**
 	 * 2 mins in seconds.
@@ -52,11 +52,18 @@ public class TimingHandler implements ContentHandler {
 	 */
 	private static final Logger logger = Logger.getLogger(TimingHandler.class);
 
+	/**
+	 * Default Constructor.
+	 */
+	public TimingHandler() {
+		super("TimingHandler");
+	}
+
 	public String toMessageString() {
 		return "[TimingHandler]";
 	}
 
-	public void run() {
+	protected void contentHandlingLogic() {
 		try {
 			try {
 				String sleepPeriod = Config.getSingleton()
@@ -82,7 +89,7 @@ public class TimingHandler implements ContentHandler {
 								+ "WHERE FILENAME='' AND FAILED_RESOURCE='N'");
 				ResultSet rs = ps.executeQuery();
 
-				Set<Long> failedDeployments = new HashSet<Long>();
+				Map<Long, String> failedDeployments = new HashMap<Long, String>();
 				Map<Long, String> retryDeployments = new HashMap<Long, String>();
 				Map<Long, String> retryCRC = new HashMap<Long, String>();
 				Map<Long, Integer> retryCounts = new HashMap<Long, Integer>();
@@ -95,8 +102,9 @@ public class TimingHandler implements ContentHandler {
 
 					if (retries >= Config.getSingleton()
 							.getResourceRetryLimit()) {
-						failedDeployments.add(id);
-					} else {
+						failedDeployments.put(id, url);
+					// Bug#140: Make sure it is not already downloaded	
+					} else if (!ContentRetriever.getSingleton().isHandlerActive(url)) {
 						retryDeployments.put(id, url);
 						retryCRC.put(id, crc);
 						retryCounts.put(id, retries);
@@ -106,9 +114,9 @@ public class TimingHandler implements ContentHandler {
 				rs.close();
 				ps.close();
 
-				for (Long id : failedDeployments) {
+				for (Long id : failedDeployments.keySet()) {
 					logger.error("Retry limit has been reached for "
-							+ "deployment with ID: " + id + ". Giving up.");
+							+ "deployment with URL: " + failedDeployments.get(id) + ". Giving up.");
 
 					ps = c.prepareStatement("UPDATE DEPLOYMENT "
 							+ "SET FAILED_RESOURCE='Y' WHERE ID=?");
@@ -135,7 +143,7 @@ public class TimingHandler implements ContentHandler {
 					ps.close();
 					if (logger.isInfoEnabled()) {
 						logger.info("Retry #" + (retries + 1)
-								+ " for deployment with ID: " + id + ".");
+								+ " for deployment with url: " + url + ".");
 					}
 
 					ContentRetriever.getSingleton().addTask(
@@ -158,8 +166,12 @@ public class TimingHandler implements ContentHandler {
 					Timestamp lastUpdate = rs.getTimestamp(5);
 					long id = rs.getLong(6);
 					long resourceId = rs.getLong(7);
+					// Bug#140: Check last and if it is still active do not
+					// consider as pending
 					if (DateUtils.difference(new Date(lastUpdate.getTime()),
-							new Date(), Calendar.SECOND) >= TWO_MINS) {
+							new Date(), Calendar.SECOND) >= TWO_MINS
+							&& !ContentRetriever.getSingleton().isHandlerActive(
+									url)) {
 						pendingMap.put(new ResourceHandler(url, crc, id,
 								resourceId, downloadedBytes), retries);
 					}
@@ -175,10 +187,10 @@ public class TimingHandler implements ContentHandler {
 							.getResourceRetryLimit()) {
 						if (logger.isInfoEnabled()) {
 							logger
-								.info("Retry limit has been reached for resource "
-										+ "with ID: "
-										+ handler.getResourceId()
-										+ ". Giving up.");
+									.info("Retry limit has been reached for resource "
+											+ "with URL: "
+											+ handler.getResourceUrl()
+											+ ". Giving up.");
 						}
 						ps = c.prepareStatement("DELETE FROM PENDING "
 								+ "WHERE DEPLOYMENT_ID=? AND RESOURCE_ID=?");

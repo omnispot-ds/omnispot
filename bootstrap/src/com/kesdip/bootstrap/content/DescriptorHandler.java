@@ -38,7 +38,7 @@ import com.kesdip.player.components.RootContainer;
  * 
  * @author Pafsanias Ftakas
  */
-public class DescriptorHandler implements ContentHandler {
+public class DescriptorHandler extends ContentHandler {
 	private static final Logger logger = Logger
 			.getLogger(DescriptorHandler.class);
 
@@ -46,6 +46,7 @@ public class DescriptorHandler implements ContentHandler {
 	private long crc;
 
 	public DescriptorHandler(String descriptorUrl, long crc) {
+		super(descriptorUrl);
 		this.descriptorUrl = descriptorUrl;
 		this.crc = crc;
 	}
@@ -54,7 +55,10 @@ public class DescriptorHandler implements ContentHandler {
 		return "[DescriptorHandler:" + descriptorUrl + ", " + crc + "]";
 	}
 
-	public void run() {
+	protected void contentHandlingLogic() {
+		
+		FileOutputStream os = null;
+		InputStream is = null;
 		try {
 			if (logger.isInfoEnabled()) {
 				logger.info("Starting download of deployment descriptor: "
@@ -76,12 +80,10 @@ public class DescriptorHandler implements ContentHandler {
 						+ newDeploymentUUID + "_" + counter + ".xml");
 				counter++;
 			} while (!newDeployment.createNewFile());
-			FileOutputStream os = new FileOutputStream(newDeployment);
-			InputStream is = descriptor.openStream();
+			os = new FileOutputStream(newDeployment);
+			is = descriptor.openStream();
 			CRC32 resourceCRC = new CRC32();
 			StreamUtils.copyStream(is, os, resourceCRC);
-			os.close();
-			is.close();
 
 			// Check the CRC
 			if (crc != resourceCRC.getValue()) {
@@ -215,18 +217,26 @@ public class DescriptorHandler implements ContentHandler {
 
 				c.commit();
 			} catch (Exception e) {
-				if (c != null)
+				if (c != null) {
 					try {
 						c.rollback();
 					} catch (SQLException sqle) {
+						// do nothing
 					}
+				}
 				throw e;
 			} finally {
-				if (c != null)
+				if (c != null) {
 					try {
 						c.close();
 					} catch (SQLException e) {
+						// do nothing
 					}
+				}
+				StreamUtils.close(is);
+				is = null;
+				StreamUtils.close(os);
+				os = null;
 			}
 		} catch (Throwable t) {
 			logger.error("Throwable while retrieving descriptor: "
