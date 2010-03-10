@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.quartz.CronTrigger;
@@ -263,8 +265,10 @@ public class TimingMonitor implements Runnable {
 			ps.setTimestamp(1, new Timestamp(new Date().getTime()));
 			ResultSet rs = ps.executeQuery();
 
+			List<PotentialDeployment> potentialDeployments = new ArrayList<PotentialDeployment>();
 			long potentialDeploymentId = -1;
 			String potentialDeploymentPath = "";
+			// FIXME Iterate all ids and populate the list
 			if (rs.next()) {
 				// The first row is the latest deployment (potentially)
 				potentialDeploymentId = rs.getLong(1);
@@ -273,7 +277,7 @@ public class TimingMonitor implements Runnable {
 
 			rs.close();
 			ps.close();
-
+			// FIXME If still pending, fall-back to the previous deployment
 			if (potentialDeploymentId != -1
 					&& lastDeploymentID != potentialDeploymentId) {
 				ps = c.prepareStatement("SELECT COUNT(*) FROM PENDING "
@@ -372,4 +376,34 @@ public class TimingMonitor implements Runnable {
 		}
 	}
 
+	/**
+	 * A simple class wrapping a deployment's id and file path.
+	 * 
+	 * @author gerogias
+	 */
+	private static class PotentialDeployment {
+
+		private long id = -1;
+		private String path = null;
+
+		public PotentialDeployment(long id, String path) {
+			this.id = id;
+			this.path = path;
+		}
+
+		/**
+		 * @return the id
+		 */
+		public long getId() {
+			return id;
+		}
+
+		/**
+		 * @return the path
+		 */
+		public String getPath() {
+			return path;
+		}
+
+	}
 }
