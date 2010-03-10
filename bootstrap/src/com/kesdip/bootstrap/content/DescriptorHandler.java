@@ -135,8 +135,7 @@ public class DescriptorHandler extends ContentHandler {
 					ps = c
 							.prepareStatement("UPDATE DEPLOYMENT SET FILENAME=?, DEPLOY_DATE=? WHERE ID=?");
 					ps.setString(1, newDeployment.getPath());
-					ps.setTimestamp(2, new Timestamp(settings.getStartTime()
-							.getTime()));
+					ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 					ps.setLong(3, id);
 
 					ps.executeUpdate();
