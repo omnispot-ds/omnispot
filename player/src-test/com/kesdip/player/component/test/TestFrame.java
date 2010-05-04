@@ -80,6 +80,8 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 	private final String CHANNEL = "48";
 
 	private final String CHANNELS_CONF = "C:/dbin/MPlayer-tv-directx/channels.conf";
+	
+	private final String PLAYER_EXE = "c:/dbin/mplayer/mplayer.exe";
 
 	private TestFrame() {
 		setTitle("MPlayer test");
@@ -259,6 +261,7 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 	private MPlayer getEmbedded1MPlayer() throws IOException {
 		if (embedded1MPlayer == null) {
 			VideoConfiguration config = new VideoConfiguration();
+			config.setPlayerExecutable(PLAYER_EXE);
 			config.setPlayerName("embedded1");
 			config.setColorKey(Color.BLACK);
 			config.setWindowId(com.sun.jna.Native.getComponentID(canvas1));
@@ -276,6 +279,7 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 	private MPlayer getEmbedded2MPlayer() throws IOException {
 		if (embedded2MPlayer == null) {
 			VideoConfiguration config = new VideoConfiguration();
+			config.setPlayerExecutable(PLAYER_EXE);
 			config.setPlayerName("embedded2");
 			config.setColorKey(Color.WHITE);
 			config.setWindowId(com.sun.jna.Native.getComponentID(canvas2));
@@ -291,6 +295,7 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 		if (fsMPlayer == null) {
 			System.out.println("------Creating player 'fullScreen'");
 			VideoConfiguration config = new VideoConfiguration();
+			config.setPlayerExecutable(PLAYER_EXE);
 			config.setPlayerName("fullScreen");
 			config.setLoop(false);
 			Playlist playlist = new Playlist("test");
@@ -306,6 +311,7 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 		if (tvMPlayer == null) {
 			System.out.println("------Creating player 'tv'");
 			AnalogTVConfiguration config = new AnalogTVConfiguration();
+			config.setPlayerExecutable(PLAYER_EXE);
 			config.setPlayerName("tv");
 			config.setColorKey(Color.WHITE);
 			config.setWindowId(com.sun.jna.Native.getComponentID(canvas2));

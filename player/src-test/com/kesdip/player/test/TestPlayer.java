@@ -7,7 +7,7 @@ import com.kesdip.player.TimingMonitor;
 
 public class TestPlayer extends Player {
 
-	private final String DEPLOYMENT_XML = "Z:/sample content/flash1/test3.des.xml";
+	private final String DEPLOYMENT_XML = "C:/Documents and Settings/gerogias/Desktop/test.des.xml";
 	
 	public TestPlayer() throws SchedulerException {
 		this.monitor = new TimingMonitor(this, true);

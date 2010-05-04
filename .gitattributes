@@ -912,7 +912,10 @@ player/etc/yahoo.js -text
 player/shared.jars -text
 player/src-test/com/kesdip/player/component/test/FlashComponent.java -text
 player/src-test/com/kesdip/player/component/test/FlashTest.java -text
+player/src-test/com/kesdip/player/component/test/TestFlashFrame.java -text
 player/src-test/com/kesdip/player/component/test/TestFrame.java -text
+player/src-test/com/kesdip/player/test/DisplayModes.java -text
+player/src-test/com/kesdip/player/test/Test1.java -text
 player/src-test/com/kesdip/player/test/TestPlayer.java -text
 player/src-test/com/kesdip/player/test/appContext.xml -text
 player/src/com/kesdip/player/DeploymentContents.java -text
