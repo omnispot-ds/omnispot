@@ -5,9 +5,11 @@
  */
 package com.kesdip.player.components.ticker;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -212,8 +214,8 @@ public class RssTickerSource implements TickerSource {
 				logger.error("cannot write to rss file!");
 				return;//back off
 			}
-			BufferedWriter out = new BufferedWriter(new FileWriter(feedBackup));
-			out.write(content.toString());
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(feedBackup));
+			out.write(content.getBytes());
 			out.close();
 
 		} catch (IOException e) {
