@@ -1,4 +1,4 @@
-package com.kesdip.player.components;
+package com.kesdip.player.components.clock;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

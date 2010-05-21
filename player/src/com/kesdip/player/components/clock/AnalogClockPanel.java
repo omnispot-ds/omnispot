@@ -1,4 +1,4 @@
-package com.kesdip.player.components;
+package com.kesdip.player.components.clock;
 
 import javax.swing.JPanel;
 

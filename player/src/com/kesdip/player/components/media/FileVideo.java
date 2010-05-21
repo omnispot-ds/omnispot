@@ -25,6 +25,7 @@ import com.kesdip.player.components.Component;
 import com.kesdip.player.components.ComponentException;
 import com.kesdip.player.components.Resource;
 import com.kesdip.player.components.media.VideoConfiguration.Playlist;
+import com.kesdip.player.constenum.VideoQualityTypes;
 import com.kesdip.player.helpers.PlayerUtils;
 
 /**
@@ -50,6 +51,11 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	private boolean repeat = false;
 
 	/**
+	 * Play content in high/normal quality.
+	 */
+	private String quality = VideoQualityTypes.NORMAL;
+	
+	/**
 	 * @see com.kesdip.player.components.media.AbstractMPlayerVideo#getPlayerConfiguration()
 	 */
 	@Override
@@ -63,6 +69,7 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 		config.setLoop(repeat);
 		config.setWindowId(com.sun.jna.Native
 				.getComponentID(getWindowComponent()));
+		config.setQuality(quality);
 		// split resources into playlists
 		preparePlaylists(config);
 		return config;
@@ -145,7 +152,7 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	 *            the configuration object to populate
 	 */
 	protected void preparePlaylists(VideoConfiguration config) {
-		logger.trace("Preparing playlists");
+		logger.info("Preparing playlists");
 		Resource previousRes = null;
 		Playlist playlist = null;
 		int count = 1;
@@ -163,6 +170,9 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 				playlist = new Playlist(playlistId);
 				playlist.setFullScreen(resFs);
 				config.addPlaylist(playlist);
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("Adding video to playlist: " + res.getIdentifier());
 			}
 			playlist.addFile(getResourcePath(res));
 			previousRes = res;
@@ -214,6 +224,20 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	 */
 	public void setContents(List<Resource> contents) {
 		this.contents = contents;
+	}
+
+	/**
+	 * @return the quality
+	 */
+	public String getQuality() {
+		return quality;
+	}
+
+	/**
+	 * @param quality the quality to set
+	 */
+	public void setQuality(String quality) {
+		this.quality = quality;
 	}
 
 }

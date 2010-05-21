@@ -1,4 +1,4 @@
-package com.kesdip.player.components;
+package com.kesdip.player.components.clock;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,6 +12,9 @@ import org.apache.log4j.Logger;
 
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
+import com.kesdip.player.components.AbstractComponent;
+import com.kesdip.player.components.Component;
+import com.kesdip.player.components.ComponentException;
 
 /**
  * Clock component.

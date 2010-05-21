@@ -35,53 +35,53 @@ import com.kesdip.player.registry.ContentRegistry;
  * 
  * @author gerogias
  */
-public abstract class FlashComponent extends AbstractComponent {
-	
+public class FlashComponent extends AbstractComponent {
+
 	private final static Logger logger = Logger.getLogger(FlashComponent.class);
 
 	protected Resource source;
-	
+
 	protected OleContainer oleContainer;
 	protected IShockwaveFlash flash;
 	protected Automation automation;
-	
+
 	protected InvocationProxy invocationProxy;
-	
+
 	/**
-	 * This is only to be used for testing purposes. Not intended to be part of the
-	 * spring configuration, as we are supposed to use a resource flash object, so that
-	 * we can control its deployment.
+	 * This is only to be used for testing purposes. Not intended to be part of
+	 * the spring configuration, as we are supposed to use a resource flash
+	 * object, so that we can control its deployment.
 	 */
 	protected String filename = null;
 	private boolean showing;
-	
 
 	public FlashComponent() {
 		super();
 		initInvocationProxy();
 	}
-	
+
 	public void setSource(Resource source) {
 		this.source = source;
 	}
-	
+
 	protected void afterInit() {
 		if (filename == null) {
 			ContentRegistry registry = ContentRegistry.getContentRegistry();
 			filename = registry.getResourcePath(source, true);
 		}
 		openFile(filename);
+
 	}
 
-	protected void beforeInit() {}
-	
+	protected void beforeInit() {
+	}
+
 	public Set<Resource> gatherResources() {
 		HashSet<Resource> retVal = new HashSet<Resource>();
 		retVal.add(source);
 		return retVal;
 	}
-    
-	
+
 	protected void initInvocationProxy() {
 		invocationProxy = new InvocationProxy();
 	}
@@ -97,13 +97,13 @@ public abstract class FlashComponent extends AbstractComponent {
 
 	@Override
 	public java.awt.Component getWindowComponent() {
-		//oleContainer.setSize(width, height);
 		oleContainer.setLocation(new Point(x, y));
 		return oleContainer;
 	}
 
 	@Override
-	public synchronized void init(Component parent, TimingMonitor timingMonitor, Player player)
+	public synchronized void init(Component parent,
+			TimingMonitor timingMonitor, Player player)
 			throws ComponentException {
 		setPlayer(player);
 		beforeInit();
@@ -118,26 +118,32 @@ public abstract class FlashComponent extends AbstractComponent {
 					cPlayer.stopPlaying();
 				}
 			}
-			
+
 			@Override
-			public void keyReleased(KeyEvent arg0) {}
+			public void keyReleased(KeyEvent arg0) {
+			}
+
 			@Override
-			public void keyPressed(KeyEvent arg0) {}
-		
+			public void keyPressed(KeyEvent arg0) {
+			}
+
 		});
-		
+
 		showOleObject();
-		parent.add(this);
+		// this check facilitates unit-testing
+		if (parent != null) {
+			parent.add(this);
+		}
 		afterInit();
 	}
-	
+
 	@Override
 	public void releaseResources() {
 		logger.info("destroying OleObject");
 		destroyOleObject();
 		super.releaseResources();
 	}
-
+	
 	@Override
 	public synchronized void repaint() throws ComponentException {
 		if (!showing) {
@@ -165,7 +171,7 @@ public abstract class FlashComponent extends AbstractComponent {
 		try {
 			oleContainer.destroyObject();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.warn(ex);
 		}
 	}
 
@@ -174,8 +180,9 @@ public abstract class FlashComponent extends AbstractComponent {
 	}
 
 	/**
-	 * ActiveX calls should be made by the thread that created the control. OleMessageLoop serves this purpose
-	 * with its invokeMethod callback mechanism.
+	 * ActiveX calls should be made by the thread that created the control.
+	 * OleMessageLoop serves this purpose with its invokeMethod callback
+	 * mechanism.
 	 * 
 	 * @param context
 	 * @param methodName
@@ -183,42 +190,69 @@ public abstract class FlashComponent extends AbstractComponent {
 	 */
 	protected void doInvoke(Object context, String methodName, Object[] args) {
 		try {
-	    	OleMessageLoop.invokeMethod(context, methodName, args);
-	    } catch (Exception ex) {
-	    	logger.error("Error", ex);
-	    	throw new RuntimeException(ex);
-	    }
+			OleMessageLoop.invokeMethod(context, methodName, args);
+		} catch (Exception ex) {
+			logger.error("Error", ex);
+			throw new RuntimeException(ex);
+		}
 	}
 
-	public void openFile(String filename) {
-	   	doInvoke("openFile", filename);
+	private void openFile(String filename) {
+		doInvoke("loadFile", filename, 0);
+		// doInvoke("openFile", filename);
 	}
 
 	protected void openFilePrivate(String filename) {
-		System.out.println(invocationProxy.getClass().toString());
+		if (logger.isDebugEnabled()) {
+			logger.debug("Proxy class: "
+					+ invocationProxy.getClass().toString());
+		}
 		File file = new File(filename);
-	
-	    if (!file.exists()) {
-	    	throw new RuntimeException("Couldn't find file with movie: " + filename);
-	    }
-	    
-	    automation.setProperty("Movie", filename);
+
+		if (!file.exists()) {
+			throw new RuntimeException("Couldn't find file with movie: "
+					+ filename);
+		}
+
+		automation.setProperty("Movie", filename);
 	}
-	
+
+	protected void loadFilePrivate(String filename, int layer) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Proxy class: "
+					+ invocationProxy.getClass().toString());
+		}
+		File file = new File(filename);
+
+		if (!file.exists()) {
+			throw new RuntimeException("Couldn't find file with movie: "
+					+ filename);
+		}
+
+		automation.invoke("LoadMovie", new Object[] { filename, layer });
+	}
+
 	/**
-	 * All ActiveX calls should be made through OleMessageLoop.invokeMethod(). The context argument passed to this
-	 * method however needs to expose the method to be called as public. This would mean that the interface of our class
-	 * should contain two versions of the same method. One to pass the invocation to OleMessageLoop, and one to be invoked
-	 * by OleMessageLoop and do the actual work. For the sake of a simpler class interface, the method that does the actual
-	 * work is declared as private, and our InvocationProxy (to which this private method is accessible) is passed to 
-	 * OleMessageLoop as the context of the method call.
+	 * All ActiveX calls should be made through OleMessageLoop.invokeMethod().
+	 * The context argument passed to this method however needs to expose the
+	 * method to be called as public. This would mean that the interface of our
+	 * class should contain two versions of the same method. One to pass the
+	 * invocation to OleMessageLoop, and one to be invoked by OleMessageLoop and
+	 * do the actual work. For the sake of a simpler class interface, the method
+	 * that does the actual work is declared as private, and our InvocationProxy
+	 * (to which this private method is accessible) is passed to OleMessageLoop
+	 * as the context of the method call.
 	 * 
 	 * @author n.giamouris
-	 *
+	 * 
 	 */
 	protected class InvocationProxy {
 		public void openFile(String filename) {
 			FlashComponent.this.openFilePrivate(filename);
+		}
+
+		public void loadFile(String filename, Integer layer) {
+			FlashComponent.this.loadFilePrivate(filename, layer);
 		}
 	}
 

@@ -25,6 +25,7 @@ import com.kesdip.common.util.process.ProcessExitListener;
 import com.kesdip.common.util.process.ProcessOutputListener;
 import com.kesdip.common.util.process.StreamLogger;
 import com.kesdip.player.components.media.VideoConfiguration.Playlist;
+import com.kesdip.player.constenum.VideoQualityTypes;
 
 /**
  * Wrapper around a single MPlayer instance.
@@ -204,8 +205,13 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 		} else {
 			cmd.append(" -fs");
 		}
-		// no DirectX acceleration (Bug#126)
-		cmd.append(" -vo directx:noaccel");
+		// no DirectX acceleration by default (Bug#126, Bug#145)
+		if ((configuration instanceof VideoConfiguration)
+				&& VideoQualityTypes.NORMAL
+						.equalsIgnoreCase(((VideoConfiguration) configuration)
+								.getQuality())) {
+			cmd.append(" -vo directx:noaccel");
+		}
 		if (configuration instanceof VideoConfiguration) {
 			// add files to the queue, if any
 			VideoConfiguration video = (VideoConfiguration) configuration;

@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.kesdip.player.constenum.VideoQualityTypes;
+
 /**
  * Configuration settings for a video rendering {@link MPlayer}.
  * 
@@ -39,6 +41,11 @@ public class VideoConfiguration extends MPlayerConfiguration {
 	 */
 	private boolean loop = false;
 
+	/**
+	 * Play content in high quality?
+	 */
+	private String quality = VideoQualityTypes.NORMAL;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -88,6 +95,7 @@ public class VideoConfiguration extends MPlayerConfiguration {
 		updateClone(config);
 		config.loop = this.loop;
 		config.playlists.putAll(this.playlists);
+		config.quality = this.quality;
 		return config;
 	}
 
@@ -210,5 +218,19 @@ public class VideoConfiguration extends MPlayerConfiguration {
 			String[] files = new String[fileList.size()];
 			return fileList.toArray(files);
 		}
+	}
+
+	/**
+	 * @return the quality
+	 */
+	public String getQuality() {
+		return quality;
+	}
+
+	/**
+	 * @param quality the quality to set
+	 */
+	public void setQuality(String quality) {
+		this.quality = quality;
 	}
 }

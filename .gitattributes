@@ -918,6 +918,8 @@ player/.classpath -text
 player/.project -text
 player/.settings/org.codehaus.groovy.eclipse.preferences.prefs -text
 player/.settings/org.eclipse.jdt.core.prefs -text
+player/.settings/org.eclipse.wst.common.component -text
+player/.settings/org.eclipse.wst.common.project.facet.core.xml -text
 player/appContext.xml -text
 player/appContextForFrames.xml -text
 player/appContextFullScreen.xml -text
@@ -934,9 +936,9 @@ player/src-test/com/kesdip/player/component/test/FlashTest.java -text
 player/src-test/com/kesdip/player/component/test/TestFlashFrame.java -text
 player/src-test/com/kesdip/player/component/test/TestFrame.java -text
 player/src-test/com/kesdip/player/test/DisplayModes.java -text
-player/src-test/com/kesdip/player/test/Test1.java -text
 player/src-test/com/kesdip/player/test/TestPlayer.java -text
 player/src-test/com/kesdip/player/test/appContext.xml -text
+player/src/META-INF/MANIFEST.MF -text
 player/src/com/kesdip/player/DeploymentContents.java -text
 player/src/com/kesdip/player/DeploymentLayout.java -text
 player/src/com/kesdip/player/DeploymentSettings.java -text
@@ -946,11 +948,6 @@ player/src/com/kesdip/player/component/flash/ExternalInterfaceCall.java -text
 player/src/com/kesdip/player/component/flash/ExternalInterfaceSerializer.java -text
 player/src/com/kesdip/player/components/AbstractComponent.java -text
 player/src/com/kesdip/player/components/AbstractVideo.java -text
-player/src/com/kesdip/player/components/AnalogClockFacePanel.java -text
-player/src/com/kesdip/player/components/AnalogClockFingersPanel.java -text
-player/src/com/kesdip/player/components/AnalogClockPanel.java -text
-player/src/com/kesdip/player/components/Clock.java -text
-player/src/com/kesdip/player/components/ClockPanel.java -text
 player/src/com/kesdip/player/components/Component.java -text
 player/src/com/kesdip/player/components/ComponentException.java -text
 player/src/com/kesdip/player/components/DigitalClockPanel.java -text
@@ -963,6 +960,12 @@ player/src/com/kesdip/player/components/SimpleContainer.java -text
 player/src/com/kesdip/player/components/Ticker.java -text
 player/src/com/kesdip/player/components/TunerVideo.java -text
 player/src/com/kesdip/player/components/Video.java -text
+player/src/com/kesdip/player/components/clock/AnalogClockFacePanel.java -text
+player/src/com/kesdip/player/components/clock/AnalogClockFingersPanel.java -text
+player/src/com/kesdip/player/components/clock/AnalogClockPanel.java -text
+player/src/com/kesdip/player/components/clock/Clock.java -text
+player/src/com/kesdip/player/components/clock/ClockPanel.java -text
+player/src/com/kesdip/player/components/clock/DigitalClockPanel.java -text
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/FlashObjectInterface.java -text
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/FlashProp.java -text
 player/src/com/kesdip/player/components/flash/shockwaveflashobjects/IFlashFactory.java -text
@@ -1003,6 +1006,7 @@ player/src/com/kesdip/player/configure/DeploymentConfigurer.java -text
 player/src/com/kesdip/player/constenum/ResourceAttributeKeys.java -text
 player/src/com/kesdip/player/constenum/SystemPropertiesKeys.java -text
 player/src/com/kesdip/player/constenum/TunerReceptionTypes.java -text
+player/src/com/kesdip/player/constenum/VideoQualityTypes.java -text
 player/src/com/kesdip/player/helpers/ComponentJob.java -text
 player/src/com/kesdip/player/helpers/ExitKeyListener.java -text
 player/src/com/kesdip/player/helpers/ExitMouseListener.java -text
