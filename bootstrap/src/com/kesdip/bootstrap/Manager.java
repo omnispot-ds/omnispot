@@ -1,14 +1,11 @@
 package com.kesdip.bootstrap;
 
-import java.util.Date;
-
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.kesdip.bootstrap.communication.ProtocolHandler;
-import com.kesdip.bootstrap.message.PlayerProcessHelper;
 import com.kesdip.business.util.schema.SchemaUpdater;
 
 /**
@@ -105,8 +102,8 @@ public class Manager extends Thread {
 	public void run() {
 		init();
 
-		int exceptioncount = 0;
-		long firstExceptionTimeStamp = 0;
+//		int exceptioncount = 0;
+//		long firstExceptionTimeStamp = 0;
 		while (run) {
 			try {
 				Thread.sleep(communicationInterval);

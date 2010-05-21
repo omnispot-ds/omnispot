@@ -32,7 +32,10 @@ import com.kesdip.common.util.StringUtils;
  * 
  * @author Pafsanias Ftakas
  */
-public class ResourceHandler implements ContentHandler, StreamCopyListener {
+public class ResourceHandler extends ContentHandler implements StreamCopyListener {
+	/**
+	 * The logger.
+	 */
 	private static final Logger logger = Logger
 			.getLogger(ResourceHandler.class);
 
@@ -44,6 +47,7 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 
 	public ResourceHandler(String resourceUrl, String crc, long deployment_id,
 			long resource_id, long startByteIndex) {
+		super(resourceUrl);
 		this.resourceUrl = resourceUrl;
 		this.crc = crc;
 		this.deployment_id = deployment_id;
@@ -64,7 +68,7 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 				+ deployment_id + "," + resource_id + "]";
 	}
 
-	public void run() {
+	protected void contentHandlingLogic() {
 		InputStream is = null;
 		RandomAccessFile os = null;
 		try {
@@ -92,10 +96,11 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 			// compute it a-posteriori as this may be a resumed download
 			CRC32 resourceCRC = FileUtils.getCrc(newResource);
 			long v = Long.parseLong(crc);
-			if (v != resourceCRC.getValue())
-				throw new Exception("Downloaded resource CRC ("
-						+ resourceCRC.getValue() + ") does not match resource "
-						+ "specified CRC (" + v + ").");
+			if (v != resourceCRC.getValue()) {
+				throw new Exception("Resource '"
+						+ newResource.getAbsolutePath() + "'. Expected CRC ("
+						+ resourceCRC.getValue() + "), actual CRC (" + v + ").");
+			}
 
 			Connection c = null;
 			try {
@@ -117,7 +122,8 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 
 				rs.close();
 				ps.close();
-				// TODO Now that filename is saved immediately, should we remove this?
+				// TODO Now that filename is saved immediately, should we remove
+				// this?
 				if (updateResource) {
 					ps = c.prepareStatement("DELETE FROM PENDING "
 							+ "WHERE DEPLOYMENT_ID=? AND RESOURCE_ID=?");
@@ -141,16 +147,10 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 				} catch (Exception e) {
 					// do nothing
 				}
-				try {
-					is.close();
-				} catch (Exception e) {
-					// do nothing
-				}
-				try {
-					os.close();
-				} catch (Exception e) {
-					// do nothing
-				}
+				StreamUtils.close(is);
+				is = null;
+				StreamUtils.close(os);
+				os = null;
 			}
 		} catch (Throwable t) {
 			logger.error("Throwable while retrieving resource: " + resourceUrl,
@@ -326,5 +326,12 @@ public class ResourceHandler implements ContentHandler, StreamCopyListener {
 	@Override
 	public int getByteBufferCount() {
 		return 30;
+	}
+
+	/**
+	 * @return the resourceUrl
+	 */
+	public String getResourceUrl() {
+		return resourceUrl;
 	}
 }
