@@ -6,7 +6,7 @@ create table CUSTOMER (ID bigint not null, NAME varchar(50) not null, COMMENTS v
 create table DEPLOYMENT (ID bigint not null, URL varchar(512) not null, NAME varchar(50) not null, CRC varchar(128), LOCAL_FILE varchar(512), STATUS smallint not null, RETRIES integer not null, primary key (ID));
 create table DEPL_CONTENT (CONTENT_ID bigint not null, DEPLOYMENT_ID bigint not null, primary key (DEPLOYMENT_ID, CONTENT_ID));
 create table GRP_INSTALLATION (INSTALLATION_ID bigint not null, GROUP_ID bigint not null, primary key (GROUP_ID, INSTALLATION_ID));
-create table INSTALLATION (ID bigint not null, NAME varchar(50) not null, UUID varchar(100) not null, SCR_TYPE varchar(50), COMMENTS varchar(512), ACTIVE smallint not null, STATUS smallint not null, SITE_ID bigint not null, primary key (ID));
+create table INSTALLATION (ID bigint not null, NAME varchar(50) not null, UUID varchar(100) not null, LAST_KNOWN_IP varchar(20), SCR_TYPE varchar(50), COMMENTS varchar(512), ACTIVE smallint not null, STATUS smallint not null, SITE_ID bigint not null, primary key (ID));
 create table INST_DEPLOYMENT (DEPLOYMENT_ID bigint not null, INSTALLATION_ID bigint not null, primary key (INSTALLATION_ID, DEPLOYMENT_ID));
 create table INST_GROUP (ID bigint not null, NAME varchar(50) not null, COMMENTS varchar(512), CUSTOMER_ID bigint not null, primary key (ID));
 create table PARAMETER (ID bigint not null, NAME varchar(512) not null, PARAM_VALUE varchar(512) not null, ACTION_ID bigint, primary key (ID));

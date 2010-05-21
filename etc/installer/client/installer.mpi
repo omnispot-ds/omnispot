@@ -3,13 +3,13 @@ AllowLanguageSelection
 No
 
 AppName
-{Kesdipepe Player}
+{OmniSpot Player}
 
 ApplicationID
 6451766E-A779-4C5A-8463-120FE9338635
 
 ApplicationURL
-www.kesdipepe.gr
+www.omni-spot.com
 
 AutoRefreshFiles
 Yes
@@ -27,7 +27,7 @@ CommandLineFailureAction
 {Fail (recommended)}
 
 Company
-{Dyfio E.P.E.}
+{OmniSpot E.P.E.}
 
 CompressionLevel
 8
@@ -36,7 +36,7 @@ CompressionMethod
 zlib
 
 Copyright
-{(c) Dyfio E.P.E. 2008-2009}
+{(c) OmniSpot E.P.E. 2008-2010}
 
 DefaultDirectoryLocation
 {}
@@ -120,7 +120,7 @@ LastIgnoreFiles
 {}
 
 PackageDescription
-{Kesdipepe Player Installer}
+{OmniSpot Player Installer}
 
 PackageLicense
 {Please, view the End-User License Agreement}
@@ -132,7 +132,7 @@ PackageName
 <%ShortAppName%>
 
 PackagePackager
-{Dyfio E.P.E.}
+{OmniSpot E.P.E.}
 
 PackageRelease
 <%PatchVersion%>
@@ -1173,7 +1173,7 @@ InstallComponent C704E0A4-91B1-4856-BBB4-F10A36F065EC -setup Install -type actio
 InstallComponent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE -setup Install -type actiongroup -title {Other Actions} -alias OtherActions -active Yes -parent ActionGroupsInstall
 InstallComponent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -setup Install -type action -conditions DE29D43F-1430-42E2-9EC2-FC765F2C936B -title {Add JRE To Path} -component AddDirectoryToPath -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition DE29D43F-1430-42E2-9EC2-FC765F2C936B -active Yes -parent 2F1B18E1-B59C-4BD1-9924-F256682361A1 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id DE29D43F-1430-42E2-9EC2-FC765F2C936B
-InstallComponent 95C47875-0160-4F44-A270-4234F2BF0A54 -setup Install -type action -conditions B3F96ED3-241C-41FD-A0B3-979BC6695382 -title {Add JAVA_HOME} -component AddEnvironmentVariable -command reorder -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
+InstallComponent 95C47875-0160-4F44-A270-4234F2BF0A54 -setup Install -type action -conditions B3F96ED3-241C-41FD-A0B3-979BC6695382 -title {Add JAVA_HOME} -component AddEnvironmentVariable -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition B3F96ED3-241C-41FD-A0B3-979BC6695382 -active Yes -parent 95C47875-0160-4F44-A270-4234F2BF0A54 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id B3F96ED3-241C-41FD-A0B3-979BC6695382
 InstallComponent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -setup Install -type action -conditions 597B653B-99F7-422E-A2AE-E67F9E935359 -title {Install VLC} -component ExecuteExternalProgram -command insert -active Yes -parent 351C1140-FBBE-4F5D-AC9A-36A6BC7E9BCE
 Condition 597B653B-99F7-422E-A2AE-E67F9E935359 -active Yes -parent CB1809C7-BDC4-4420-B82B-D34F2F13F525 -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 597B653B-99F7-422E-A2AE-E67F9E935359
@@ -1246,6 +1246,9 @@ array set Properties {
 
 02297B69-64CD-45E7-8800-FD886F4F9D9E,Action
 {Install Actions}
+
+02297B69-64CD-45E7-8800-FD886F4F9D9E,Conditions
+{0 conditions}
 
 025D0EB2-CD67-439B-8567-45CA04D2A847,ExitType
 Finish
@@ -1526,6 +1529,9 @@ beginning
 317300BC-26D3-4602-92B2-058CA02074D6,Alias
 {Setup Actions}
 
+317300BC-26D3-4602-92B2-058CA02074D6,Conditions
+{0 conditions}
+
 341A26EB-E98F-4896-BA42-436D31F2AF0F,Alias
 {Install Actions}
 
@@ -1766,6 +1772,9 @@ Yes
 673A59FF-5C93-4B4F-9239-42D8EB4D771F,Script
 {[llength [SetupTypes children]] > 1}
 
+695F475E-7DED-430F-8EC1-856D1C69DE27,Conditions
+{1 condition}
+
 6BD87EE5-BAB6-4779-8487-7F6820C9FE42,Action
 {Service Installation Actions}
 
@@ -1795,6 +1804,9 @@ Finish
 
 7124E6B0-57D0-4441-8CAC-E40FDE79D65C,Title,subst
 1
+
+71EE4261-B20C-4FA0-B025-F583F57DBE53,Conditions
+{0 conditions}
 
 71EE4261-B20C-4FA0-B025-F583F57DBE53,Message,subst
 1
@@ -1903,6 +1915,9 @@ ViewReadme
 
 83B2A98A-7DDE-49C6-BA31-50C834CF4471,Alias
 {Startup Actions}
+
+83B2A98A-7DDE-49C6-BA31-50C834CF4471,Conditions
+{0 conditions}
 
 83EC4A09-9DB8-41FD-97C8-AD89860A73A0,FailureFocus
 PlayerIdWidget
@@ -2047,6 +2062,9 @@ Yes
 
 9C0AA0DC-3F85-49F3-8A73-5BF2CB014636,String
 <%ViewReadme%>
+
+9D3E977F-1A86-4A3D-A6CB-80245C25D18F,Conditions
+{1 condition}
 
 9D3E977F-1A86-4A3D-A6CB-80245C25D18F,Prompt
 <%ConsoleSelectDestinationText%>
@@ -2543,6 +2561,9 @@ C704E0A4-91B1-4856-BBB4-F10A36F065EC,Conditions
 C704E0A4-91B1-4856-BBB4-F10A36F065EC,ServiceName
 {Bootstrap app service}
 
+C7423F71-CF36-4F56-B08C-526EF040ACCD,Conditions
+{0 conditions}
+
 C7423F71-CF36-4F56-B08C-526EF040ACCD,Default
 Yes
 
@@ -2568,7 +2589,7 @@ CB1809C7-BDC4-4420-B82B-D34F2F13F525,IncludeStderr
 Yes
 
 CB1809C7-BDC4-4420-B82B-D34F2F13F525,ProgramCommandLine
-{vlc-0.9.9-win32.exe /S}
+{vlc-1.0.2-win32.exe /S}
 
 CB1809C7-BDC4-4420-B82B-D34F2F13F525,ProgressiveOutputWidget
 ProgressTextBox
@@ -2677,6 +2698,9 @@ D80CF8D1-F088-43A5-A499-B0FB268C6D26,CancelButton,subst
 
 D80CF8D1-F088-43A5-A499-B0FB268C6D26,Caption,subst
 1
+
+D80CF8D1-F088-43A5-A499-B0FB268C6D26,Conditions
+{0 conditions}
 
 D80CF8D1-F088-43A5-A499-B0FB268C6D26,FileLabel,subst
 1
@@ -2812,6 +2836,9 @@ EADF4784-A394-4A8B-B683-2F6FF24EE788,CancelButton,subst
 
 EADF4784-A394-4A8B-B683-2F6FF24EE788,Caption,subst
 1
+
+EADF4784-A394-4A8B-B683-2F6FF24EE788,Conditions
+{0 conditions}
 
 EADF4784-A394-4A8B-B683-2F6FF24EE788,Message,subst
 1
@@ -3290,7 +3317,7 @@ Windows,IncludeTWAPI
 Yes
 
 Windows,InstallDir
-c:/Kesdipepe/<%ShortAppName%>
+c:/OmniSpot/<%ShortAppName%>
 
 Windows,InstallMode
 Standard
@@ -3302,7 +3329,7 @@ Windows,LastRequireAdministrator
 Yes
 
 Windows,ProgramExecutable
-<%InstallDir%>/KesdiPlayer.exe
+<%InstallDir%>/OmniSpotPlayer.exe
 
 Windows,ProgramFolderAllUsers
 Yes
@@ -3492,7 +3519,7 @@ Leave unselected only if you are certain that you have the proper version of VLC
 <%UninstallCompleteText%>
 
 952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3,Description
-{The Kesdipepe player rendering engine.
+{The OmniSpot player rendering engine.
 Required component.}
 
 9668C529-4FAC-48CF-9C3B-D3B6D559934D,Text
@@ -3527,7 +3554,7 @@ A4693B13-D07D-4F9B-A75D-E7698F9F3657,Title
 {Admin Console URL}
 
 AF19736B-27BC-4493-88EB-939C747A8D5B,Caption
-{Kesdipepe Player Wizard Complete}
+{OmniSpot Player Wizard Complete}
 
 AF19736B-27BC-4493-88EB-939C747A8D5B,Message
 {The Installation Wizard has successfully installed <%AppName%>. 
@@ -3582,6 +3609,12 @@ EA594766-B1D3-42DA-836D-13A9EF9C2449,Description
 {MPlayer media player.
 Required for the correct playback and rendering of media files.
 Leave unselected if you are certain that you have the proper version of MPlayer installed on your system or if you want to use VLC exclusively.}
+
+EADF4784-A394-4A8B-B683-2F6FF24EE788,Caption
+{OmniSpot Wizard Complete}
+
+EADF4784-A394-4A8B-B683-2F6FF24EE788,Message
+{The OmniSpot Wizard has successfully installed <%AppName%>.   Click Finish to exit the wizard.}
 
 EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4,Description
 {The background monitoring process.

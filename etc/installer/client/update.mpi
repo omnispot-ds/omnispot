@@ -3,13 +3,13 @@ AllowLanguageSelection
 No
 
 AppName
-{Kesdipepe Player}
+{OmniSpot Player}
 
 ApplicationID
 84C1788E-A779-4C5A-8463-120FE9338734
 
 ApplicationURL
-www.kesdipepe.gr
+www.omni-spot.com
 
 AutoRefreshFiles
 Yes
@@ -27,7 +27,7 @@ CommandLineFailureAction
 {Fail (recommended)}
 
 Company
-{Dyfio E.P.E.}
+{OmniSpot E.P.E.}
 
 CompressionLevel
 8
@@ -36,7 +36,7 @@ CompressionMethod
 zlib
 
 Copyright
-{(c) Dyfio E.P.E. 2008-2009}
+{(c) OmniSpot E.P.E. 2008-2010}
 
 DefaultDirectoryLocation
 {}
@@ -120,7 +120,7 @@ LastIgnoreFiles
 {}
 
 PackageDescription
-{Kesdipepe Player Updater}
+{OmniSpot Player Updater}
 
 PackageLicense
 {Please, review the End-User License Agreement}
@@ -1011,6 +1011,9 @@ ViewReadme
 83B2A98A-7DDE-49C6-BA31-50C834CF4471,Alias
 {Startup Actions}
 
+83B2A98A-7DDE-49C6-BA31-50C834CF4471,Conditions
+{0 conditions}
+
 847E4D2B-1B9F-45F2-BBBA-C090606F4EC0,CheckCondition
 {Before Action is Executed}
 
@@ -1422,6 +1425,9 @@ D80CF8D1-F088-43A5-A499-B0FB268C6D26,CancelButton,subst
 D80CF8D1-F088-43A5-A499-B0FB268C6D26,Caption,subst
 1
 
+D80CF8D1-F088-43A5-A499-B0FB268C6D26,Conditions
+{0 conditions}
+
 D80CF8D1-F088-43A5-A499-B0FB268C6D26,FileLabel,subst
 1
 
@@ -1496,6 +1502,9 @@ EADF4784-A394-4A8B-B683-2F6FF24EE788,CancelButton,subst
 
 EADF4784-A394-4A8B-B683-2F6FF24EE788,Caption,subst
 1
+
+EADF4784-A394-4A8B-B683-2F6FF24EE788,Conditions
+{0 conditions}
 
 EADF4784-A394-4A8B-B683-2F6FF24EE788,Message,subst
 1
@@ -1936,7 +1945,7 @@ Windows,IncludeTWAPI
 Yes
 
 Windows,InstallDir
-{c:\Kesdipepe\<%ShortAppName%>}
+{c:\OmniSpot\<%ShortAppName%>}
 
 Windows,InstallMode
 Standard
@@ -1948,7 +1957,7 @@ Windows,LastRequireAdministrator
 Yes
 
 Windows,ProgramExecutable
-<%InstallDir%>/KesdiPlayer.exe
+<%InstallDir%>/OmniSpotPlayer.exe
 
 Windows,ProgramFolderAllUsers
 Yes
@@ -2114,11 +2123,11 @@ Click Next to continue or Cancel to exit Setup.}
 <%UninstallCompleteText%>
 
 952BF30B-EBE7-4376-BD28-D6C7C6EE5CC3,Description
-{The Kesdipepe player rendering engine.
+{The OmniSpot player rendering engine.
 Required component.}
 
 AF19736B-27BC-4493-88EB-939C747A8D5B,Caption
-{Kesdipepe Player Update Complete}
+{OmniSpot Player Update Complete}
 
 AF19736B-27BC-4493-88EB-939C747A8D5B,Message
 {The Installation Wizard has successfully updated <%AppName%>. 
@@ -2139,6 +2148,12 @@ CCC59E78-62AE-4BA4-9B8E-0A9AED27839F,Text
 
 Setup Type:
             <%InstallType%>}
+
+EADF4784-A394-4A8B-B683-2F6FF24EE788,Caption
+{OmniSpot Wizard Complete}
+
+EADF4784-A394-4A8B-B683-2F6FF24EE788,Message
+{The OmniSpot Wizard has successfully installed <%AppName%>.   Click Finish to exit the wizard.}
 
 EF408F8B-9690-4B54-ACCF-9FEEB1F4A5C4,Description
 {The background monitoring process.

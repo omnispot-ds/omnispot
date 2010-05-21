@@ -17,6 +17,7 @@ demos/AdPlayerDemo/ad.mp4
 designer-preview/lib/*.jar
 designer/lib/*.jar
 designer/lib/*.war
+etc/old-installer
 license-console/dist
 player/ad.mp4
 player/bin

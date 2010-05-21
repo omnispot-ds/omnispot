@@ -1,18 +1,18 @@
 array set info {
 AllowLanguageSelection
-No
+{No}
 
 AppName
-{Kesdipepe Designer & AdminConsole}
+{OmniSpot Designer & AdminConsole}
 
 ApplicationID
-690A6BBE-0CF3-4899-BEE8-4179C959A3C1
+{690A6BBE-0CF3-4899-BEE8-4179C959A3C1}
 
 ApplicationURL
-www.kesdipepe.gr
+{www.omni-spot.com}
 
 AutoRefreshFiles
-Yes
+{Yes}
 
 BuildFailureAction
 {Fail (recommended)}
@@ -21,49 +21,49 @@ CancelledInstallAction
 {Rollback and Stop}
 
 CleanupCancelledInstall
-Yes
+{Yes}
 
 CommandLineFailureAction
 {Fail (recommended)}
 
 Company
-{Dyfio E.P.E.}
+{OmniSpot E.P.E.}
 
 CompressionLevel
-8
+{8}
 
 CompressionMethod
-zlib
+{zlib}
 
 Copyright
-{(c) Dyfio E.P.E. 2008-2009}
+{(c) OmniSpot E.P.E. 2008-2010}
 
 CreateDesktopShortcut
-Yes
+{Yes}
 
 CreateQuickLaunchShortcut
-Yes
+{Yes}
 
 DefaultDirectoryLocation
 {}
 
 DefaultLanguage
-English
+{English}
 
 DefaultToSystemLanguage
-Yes
+{Yes}
 
 EnableResponseFiles
-Yes
+{Yes}
 
 Ext
-.exe
+{.exe}
 
 ExtractSolidArchivesOnStartup
-No
+{No}
 
 Icon
-Modern/Small/SetupModernSmall01.gif
+{Modern/Small/SetupModernSmall01.gif}
 
 IgnoreDirectories
 {}
@@ -72,52 +72,55 @@ IgnoreFiles
 {}
 
 Image
-Modern/SetupModern01.gif
+{Modern/SetupModern01.gif}
 
 IncludeDebugging
-Yes
+{Yes}
 
 InstallPassword
 {}
 
 InstallVersion
-0.0.0.0
+{0.0.0.0}
 
 Language,ca
-Yes
+{Yes}
+
+Language,cs
+{Yes}
 
 Language,de
-No
+{No}
 
 Language,en
-Yes
+{Yes}
 
 Language,es
-No
+{No}
 
 Language,fr
-No
+{No}
 
 Language,hu
-No
+{No}
 
 Language,it
-No
+{No}
 
 Language,lt
-Yes
+{Yes}
 
 Language,nl
-No
+{No}
 
 Language,pl
-No
+{No}
 
 Language,pt_br
-No
+{No}
 
 Language,ru
-No
+{No}
 
 LastIgnoreDirectories
 {}
@@ -126,10 +129,10 @@ LastIgnoreFiles
 {}
 
 LaunchApplication
-Yes
+{Yes}
 
 PackageDescription
-{Kesdipepe Designer & AdminConsole Installer}
+{OmniSpot Designer & AdminConsole Installer}
 
 PackageLicense
 {Please, review the End-User License Agreement}
@@ -138,70 +141,70 @@ PackageMaintainer
 {}
 
 PackageName
-<%ShortAppName%>
+{<%ShortAppName%>}
 
 PackagePackager
-{Dyfio E.P.E.}
+{OmniSpot E.P.E.}
 
 PackageRelease
-<%PatchVersion%>
+{<%PatchVersion%>}
 
 PackageSummary
 {}
 
 PackageVersion
-<%MajorVersion%>.<%MinorVersion%>
+{<%MajorVersion%>.<%MinorVersion%>}
 
 PreserveFileAttributes
-No
+{No}
 
 PreserveFilePermissions
-Yes
+{Yes}
 
 ProjectID
-BB8FBCB6-5BD1-4C12-9FF7-517ADBB04B0B
+{BB8FBCB6-5BD1-4C12-9FF7-517ADBB04B0B}
 
 ProjectVersion
-1.2.12.0
+{1.2.14.1}
 
 SaveOnlyToplevelDirs
-No
+{No}
 
 ScriptExt
-.bat
+{.bat}
 
 ShortAppName
-AdminServer
+{AdminServer}
 
 SkipUnusedFileGroups
-Yes
+{Yes}
 
 SystemLanguage
-el_gr
+{el_gr}
 
 Theme
-Modern_Wizard
+{Modern_Wizard}
 
 ThemeDir
-Modern_Wizard
+{Modern_Wizard}
 
 ThemeVersion
-1
+{1}
 
 UpgradeApplicationID
 {}
 
 Version
-X.X.X
+{X.X.X}
 
 ViewReadme
-Yes
+{Yes}
 
 WizardHeight
-365
+{365}
 
 WizardWidth
-500
+{500}
 
 }
 
@@ -233,7 +236,7 @@ test
 {Testing Switch Yes No {} {run uninstaller without uninstalling any files}}
 
 }
-FileGroup ::3F0DD56E-0453-496A-BFA4-7A0753E8038A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Designer -parent FileGroups
+FileGroup ::3F0DD56E-0453-496A-BFA4-7A0753E8038A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Designer -parent FileGroups
 File ::01A7F2A5-F770-4E95-A828-6FD0D69DD8BC -name C:/workdir-ds/designer.build/installer/designer/DesignerBuild-win32.win32.x86.zip -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
 File ::8BFBB49A-870E-4C12-A60A-007A553361B2 -type dir -name C:/workdir-ds/designer.build/installer/docs -parent 3F0DD56E-0453-496A-BFA4-7A0753E8038A
 File ::29AC3250-1E00-4A36-8747-E19600DAD035 -name Readme.txt -parent 8BFBB49A-870E-4C12-A60A-007A553361B2
@@ -243,7 +246,7 @@ File ::5BEE753C-74AB-463C-BF31-F7EB3B77DD00 -name 30_tv_channels.reg -parent 352
 File ::01EB668A-94B2-420D-BC10-0F02D71EECCA -name comfyj.lic -parent 352EA41C-DB96-422A-832A-30AA759D056C
 File ::E85A029D-A9AD-4CED-A529-22C3577CAB8E -name jniwrap.dll -parent 352EA41C-DB96-422A-832A-30AA759D056C
 File ::687DF383-D295-488A-BA69-7D2AF92341D0 -name jniwrap.lic -parent 352EA41C-DB96-422A-832A-30AA759D056C
-FileGroup ::EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name AdminConsole -parent FileGroups
+FileGroup ::EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name AdminConsole -parent FileGroups
 File ::DC155905-FC87-4BCA-8D98-2186C4ADFF2D -type dir -name C:/workdir-ds/designer.build/installer/admin-console -parent EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A
 File ::C07B7139-7CA4-45B2-AAC4-0A226E1FA12E -name admin-console.war -parent DC155905-FC87-4BCA-8D98-2186C4ADFF2D
 File ::911EF695-5180-4522-BFE9-F0BFEE5B7951 -name console-settings.xml -parent DC155905-FC87-4BCA-8D98-2186C4ADFF2D
@@ -286,16 +289,14 @@ File ::D61FCE9A-AC29-44EB-A04E-E028B6EE01D3 -name derby.policy -parent 0806B212-
 File ::058E4B30-58D1-4B12-882F-DAC13280DD7A -type dir -name lib -parent E26F252B-0EFE-4FC5-85B1-E9F69DA9CEB5
 File ::706B79AE-777C-4D11-99C3-4D9BD7CB9C63 -name wrapper.dll -parent 058E4B30-58D1-4B12-882F-DAC13280DD7A
 File ::72586512-371F-442E-81C5-7332D2767F2B -name wrapper.jar -parent 058E4B30-58D1-4B12-882F-DAC13280DD7A
-FileGroup ::62E1C143-0C6B-453A-BD7B-7B2CB2FB586E -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Tomcat -parent FileGroups
+FileGroup ::62E1C143-0C6B-453A-BD7B-7B2CB2FB586E -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Tomcat -parent FileGroups
 File ::44B8E586-AECD-47BA-A9CD-DC4B46CF3710 -type dir -name C:/workdir-ds/designer.build/installer/tomcat -parent 62E1C143-0C6B-453A-BD7B-7B2CB2FB586E
-File ::4814E1EF-E29F-42CC-87AC-3FD7616A7DC0 -name apache-tomcat-6.0.18.zip -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
-File ::8F4BC925-E7D9-42AB-B30A-94EE56A5132E -name context.xml -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
 File ::0536390C-D236-4DC1-AC68-9B87940C4BD8 -name server.xml -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
 File ::7AF45777-7E1A-411A-9052-39ECA7052374 -name apache-tomcat-6.0.20.zip -parent 44B8E586-AECD-47BA-A9CD-DC4B46CF3710
-FileGroup ::1D4D862E-6A79-40E5-B04A-6DDF1556446B -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name VLC -parent FileGroups
+FileGroup ::1D4D862E-6A79-40E5-B04A-6DDF1556446B -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name VLC -parent FileGroups
 File ::58C187F1-9560-4996-A045-C9B01B2A46C2 -type dir -name C:/workdir-ds/designer.build/installer/vlc -parent 1D4D862E-6A79-40E5-B04A-6DDF1556446B
 File ::62FA3C61-2217-4182-A0B1-BD774C04C268 -name vlc-1.0.2-win32.exe -parent 58C187F1-9560-4996-A045-C9B01B2A46C2
-FileGroup ::A4854D61-DC3F-44B0-AE3A-56408CA37ACF -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name JDK -parent FileGroups
+FileGroup ::A4854D61-DC3F-44B0-AE3A-56408CA37ACF -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name JDK -parent FileGroups
 File ::CCE58DA9-3D46-48EB-BDEB-871E2406B39C -type dir -directory <%InstallDir%>/jdk -name C:/dbin/jdk1.6.0_11 -parent A4854D61-DC3F-44B0-AE3A-56408CA37ACF
 File ::C8D40315-433A-4728-9136-B385F6AAAA31 -name COPYRIGHT -parent CCE58DA9-3D46-48EB-BDEB-871E2406B39C
 File ::C47E943B-9517-41D6-8D65-6422FBEE899E -name LICENSE -parent CCE58DA9-3D46-48EB-BDEB-871E2406B39C
@@ -3491,16 +3492,16 @@ File ::3790DDA4-693F-46B7-87FB-0B6B1736AD8B -type dir -name server -parent F95D6
 File ::CAD3C2A5-6C64-4B28-8FFE-F8A88BD4DE5F -name Ebay.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
 File ::DFDE6D27-0AE9-4169-8797-94A0388679B6 -name ImageProvider.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
 File ::E4FD13FA-0193-452B-8A52-85C542947691 -name Main.java -parent 3790DDA4-693F-46B7-87FB-0B6B1736AD8B
-FileGroup ::4A468A65-5287-463E-9EA0-CB36B488F42C -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name MPlayer -parent FileGroups
+FileGroup ::4A468A65-5287-463E-9EA0-CB36B488F42C -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name MPlayer -parent FileGroups
 File ::9B2BE802-8D94-4A6E-88A2-E94067ACA487 -type dir -name C:/workdir-ds/designer.build/installer/mplayer -parent 4A468A65-5287-463E-9EA0-CB36B488F42C
 File ::B9DEB3FF-7C00-47E5-8BEE-D4DBAE919835 -name mplayer.zip -parent 9B2BE802-8D94-4A6E-88A2-E94067ACA487
-Component ::91DD14D5-970E-40E3-A9B8-1D1E4B403333 -setup Install -alias DesignerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Designer -parent Components
-Component ::956841E0-D201-4941-A063-7949A26DFCBC -setup Install -alias ConsoleComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name {Administration Console} -parent Components
-Component ::7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E -setup Install -alias VLCComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name VLC -parent Components
-Component ::5D863203-4C89-4A75-B4AF-3EE1ED68CAAE -setup Install -alias JDKComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name JDK -parent Components
-Component ::8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5 -setup Install -alias MPlayerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name MPlayer -parent Components
-SetupType ::58542507-E2DE-4295-A41F-7958A9B30F4E -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Typical -parent SetupTypes
-SetupType ::12F58043-152A-48EC-ADEE-493EB682DEF7 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Custom -parent SetupTypes
+Component ::91DD14D5-970E-40E3-A9B8-1D1E4B403333 -setup Install -alias DesignerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Designer -parent Components
+Component ::956841E0-D201-4941-A063-7949A26DFCBC -setup Install -alias ConsoleComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name {Administration Console} -parent Components
+Component ::7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E -setup Install -alias VLCComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name VLC -parent Components
+Component ::5D863203-4C89-4A75-B4AF-3EE1ED68CAAE -setup Install -alias JDKComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name JDK -parent Components
+Component ::8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5 -setup Install -alias MPlayerComponent -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name MPlayer -parent Components
+SetupType ::58542507-E2DE-4295-A41F-7958A9B30F4E -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Typical -parent SetupTypes
+SetupType ::12F58043-152A-48EC-ADEE-493EB682DEF7 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86 FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Custom -parent SetupTypes
 
 InstallComponent 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494 -setup Install -type pane -title {Welcome Screen} -component Welcome -active Yes -parent StandardInstall
 InstallComponent B33CF277-A829-4756-91FD-AA4BABBCD46D -setup Install -type pane -conditions {5AD13D75-7B8E-4B81-A8ED-3010DA7603A6 1DAC68B7-6DD9-4B5A-BDFA-07A73AA72E15 ED884CD7-2182-4A27-9B5F-75ADF9EB1F1C} -title {Select Destination} -component SelectDestination -command insert -active Yes -parent StandardInstall
@@ -3587,7 +3588,7 @@ InstallComponent 8232165B-CE87-438C-9D88-6CEF7AFC120C -setup Install -type actio
 Condition 53529148-6CE2-432A-B1C0-36BF557419F7 -active Yes -parent 8232165B-CE87-438C-9D88-6CEF7AFC120C -title {String Is Condition} -component StringIsCondition -TreeObject::id 53529148-6CE2-432A-B1C0-36BF557419F7
 InstallComponent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -setup Install -type action -conditions F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -title {Windows Uninstall Registry} -component AddWindowsUninstallEntry -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition F4EF62D0-7DF5-4C43-B54C-AB6324CFB443 -active Yes -parent 8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C -title {String Is Condition} -component StringIsCondition -TreeObject::id F4EF62D0-7DF5-4C43-B54C-AB6324CFB443
-InstallComponent 6DC01586-C6BC-4452-83CA-AE711249BE6A -setup Install -type action -conditions {2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 76EED346-2AAE-4254-86AF-DEBEE4B79A09} -title {Admin Console Shortcut (localhost)} -component InstallProgramFolderShortcut -command reorder -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
+InstallComponent 6DC01586-C6BC-4452-83CA-AE711249BE6A -setup Install -type action -conditions {2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 76EED346-2AAE-4254-86AF-DEBEE4B79A09} -title {Admin Console Shortcut (localhost)} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
 Condition 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2 -active Yes -parent 6DC01586-C6BC-4452-83CA-AE711249BE6A -title {String Is Condition} -component StringIsCondition -TreeObject::id 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2
 Condition 76EED346-2AAE-4254-86AF-DEBEE4B79A09 -active Yes -parent 6DC01586-C6BC-4452-83CA-AE711249BE6A -title {Object Test Condition} -component ObjectTestCondition -TreeObject::id 76EED346-2AAE-4254-86AF-DEBEE4B79A09
 InstallComponent A5D3F148-5989-44DB-A895-9EE6B4E5F4EC -setup Install -type action -conditions {A892A8DD-7E7E-4B7D-913C-DC73668E5B50 2F400726-BFE7-4D3A-B39B-1E7470ACA671} -title {Designer Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent B15CAD54-78BC-49DD-A057-2CC01952E36D
@@ -3712,115 +3713,115 @@ array set Properties {
 {2 conditions}
 
 059F69E7-77AE-4559-9F5F-1A44EE0B281C,ShortcutName
-<%AppName%>
+{<%AppName%>}
 
 059F69E7-77AE-4559-9F5F-1A44EE0B281C,TargetFileName
-<%InstallDir%>/designer/launcher.exe
+{<%InstallDir%>/designer/launcher.exe}
 
 059F69E7-77AE-4559-9F5F-1A44EE0B281C,WorkingDirectory
-<%InstallDir%>/designer
+{<%InstallDir%>/designer}
 
 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494,BackButton,subst
-1
+{1}
 
 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494,CancelButton,subst
-1
+{1}
 
 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494,Caption,subst
-1
+{1}
 
 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494,Conditions
 {0 conditions}
 
 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494,Message,subst
-1
+{1}
 
 069EF9C8-0DEC-4512-B77E-0CBAFE3D5494,NextButton,subst
-1
+{1}
 
 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3,AddToUninstall
-No
+{No}
 
 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3,Conditions
 {1 condition}
 
 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3,Destination
-<%InstallDir%>
+{<%InstallDir%>}
 
 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3,StatusText,subst
-1
+{1}
 
 07A5902C-F6D5-42AE-9F5E-3CF522CEC9E3,ZipFile
-<%InstallDir%>/DesignerBuild-win32.win32.x86.zip
+{<%InstallDir%>/DesignerBuild-win32.win32.x86.zip}
 
 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5,CheckCondition
 {Before Action is Executed}
 
 0A046ABC-1B6D-458A-AFA9-F66907C2B4F5,ObjectID
-JDKComponent
+{JDKComponent}
 
 0A0CAF06-2168-4087-8763-4824DF508DE7,CheckCondition
 {Before Action is Executed}
 
 0A0CAF06-2168-4087-8763-4824DF508DE7,Message,subst
-1
+{1}
 
 0A0CAF06-2168-4087-8763-4824DF508DE7,Title,subst
-1
+{1}
 
 0A0CAF06-2168-4087-8763-4824DF508DE7,TrueValue
-No
+{No}
 
 0A6F6287-D55C-4CB7-BEC1-0722E7E37EDC,Alias
 {Setup Actions}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Alias
-ServerPortWidget
+{ServerPortWidget}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Conditions
 {0 conditions}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Text,subst
-1
+{1}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Type
-entry
+{entry}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,ValidateEntryOn
-FocusOut
+{FocusOut}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Value
-80
+{80}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,VirtualText
-ServerPort
+{ServerPort}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Width
-400
+{400}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,X
-16
+{16}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Y
-180
+{180}
 
 0C044F25-00ED-4FE3-8848-A55A0C2B76F6,String1
-<%InstallType%>
+{<%InstallType%>}
 
 0C044F25-00ED-4FE3-8848-A55A0C2B76F6,String2
-Custom
+{Custom}
 
 0C32EEB5-D395-4317-98FD-FABB93E52ACF,CheckCondition
 {Before Action is Executed}
 
 0C32EEB5-D395-4317-98FD-FABB93E52ACF,ObjectID
-ConsoleComponent
+{ConsoleComponent}
 
 0E23F6DE-E269-4D65-9551-98D25CBEE6CD,CheckCondition
 {Before Action is Executed}
 
 0E23F6DE-E269-4D65-9551-98D25CBEE6CD,ServiceName
-Tomcat6
+{Tomcat6}
 
 0EA22ABE-B025-4DBA-9EC7-C88F4249C0C1,Action
 {Uninstall Actions}
@@ -3832,7 +3833,7 @@ Tomcat6
 {1 condition}
 
 0F5B788E-6859-429C-AD98-171611191CEC,IgnoreErrors
-Yes
+{Yes}
 
 0F5B788E-6859-429C-AD98-171611191CEC,ServiceName
 {Apache Tomcat}
@@ -3841,7 +3842,7 @@ Yes
 {0 conditions}
 
 11582766-7002-4CC3-BA8E-76E008BE32EE,Destination
-<%InstallDir%>/designer/lib
+{<%InstallDir%>/designer/lib}
 
 11582766-7002-4CC3-BA8E-76E008BE32EE,Source
 {<%InstallDir%>/etc/jniwrap.dll;<%InstallDir%>/designer/log4j.properties;<%InstallDir%>/etc/jniwrap.lic;<%InstallDir%>/etc/comfyj.lic}
@@ -3850,7 +3851,7 @@ Yes
 {Before Pane is Displayed}
 
 119E15D2-F5D0-40AB-B42C-B28C827F1B85,State
-disabled
+{disabled}
 
 119E15D2-F5D0-40AB-B42C-B28C827F1B85,Widget
 {Back Button;Next Button}
@@ -3865,34 +3866,34 @@ disabled
 {91DD14D5-970E-40E3-A9B8-1D1E4B403333 956841E0-D201-4941-A063-7949A26DFCBC 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5}
 
 12F58043-152A-48EC-ADEE-493EB682DEF7,Description,subst
-1
+{1}
 
 12F58043-152A-48EC-ADEE-493EB682DEF7,DisplayName,subst
-1
+{1}
 
 12F58043-152A-48EC-ADEE-493EB682DEF7,Name
-Custom
+{Custom}
 
 13227838-365D-43DE-819A-AF5929D0BEF8,Background
-white
+{white}
 
 13227838-365D-43DE-819A-AF5929D0BEF8,Conditions
 {3 conditions}
 
 13227838-365D-43DE-819A-AF5929D0BEF8,Text,subst
-1
+{1}
 
 13227838-365D-43DE-819A-AF5929D0BEF8,Type
-checkbutton
+{checkbutton}
 
 13227838-365D-43DE-819A-AF5929D0BEF8,VirtualText
-CreateQuickLaunchShortcut
+{CreateQuickLaunchShortcut}
 
 13227838-365D-43DE-819A-AF5929D0BEF8,X
-185
+{185}
 
 13227838-365D-43DE-819A-AF5929D0BEF8,Y
-200
+{200}
 
 151EEB64-D0D4-4ACC-BDBA-9C4A29B617B1,Action
 {Install Actions}
@@ -3904,40 +3905,40 @@ CreateQuickLaunchShortcut
 {Apache Tomcat 6}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Caption,subst
-1
+{1}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,CloseButton,subst
-1
+{1}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Conditions
 {3 conditions}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Message,subst
-1
+{1}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,TextFile
-<%ProgramReadme%>
+{<%ProgramReadme%>}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Title,subst
-1
+{1}
 
 1D4D862E-6A79-40E5-B04A-6DDF1556446B,Destination
-<%InstallDir%>
+{<%InstallDir%>}
 
 1D4D862E-6A79-40E5-B04A-6DDF1556446B,FileSize
-16742799
+{16742799}
 
 1D4D862E-6A79-40E5-B04A-6DDF1556446B,Name
-VLC
+{VLC}
 
 1DAC68B7-6DD9-4B5A-BDFA-07A73AA72E15,CheckCondition
 {Before Next Pane is Displayed}
 
 1DAC68B7-6DD9-4B5A-BDFA-07A73AA72E15,FailureMessage
-<%DirectoryPermissionText%>
+{<%DirectoryPermissionText%>}
 
 1DAC68B7-6DD9-4B5A-BDFA-07A73AA72E15,Filename
-<%InstallDir%>
+{<%InstallDir%>}
 
 1DAC68B7-6DD9-4B5A-BDFA-07A73AA72E15,Permission
 {can create}
@@ -3946,16 +3947,16 @@ VLC
 {0 conditions}
 
 1DE208ED-4977-4D0E-B47D-E363B77BCD51,WaitTime
-20000
+{20000}
 
 20BE6D1C-AC10-4F04-A706-4A9184AF6E27,Comment
 {Don't display this pane in an upgrade install}
 
 20BE6D1C-AC10-4F04-A706-4A9184AF6E27,Operator
-false
+{false}
 
 20BE6D1C-AC10-4F04-A706-4A9184AF6E27,String
-<%UpgradeInstall%>
+{<%UpgradeInstall%>}
 
 20CEE5CB-B252-44F1-AFAB-939C096DB89E,Action
 {Service Installation Actions}
@@ -3982,13 +3983,13 @@ false
 {Before Action is Executed}
 
 24B8A472-3661-47F9-9F93-FDC99CE5B3D4,ObjectID
-ConsoleComponent
+{ConsoleComponent}
 
 24E354C6-9547-408C-B63D-C52FA29DC539,Conditions
 {0 conditions}
 
 24E354C6-9547-408C-B63D-C52FA29DC539,Files
-tomcat/apache-tomcat-6.0.18/bin/service.bat
+{tomcat/apache-tomcat-6.0.18/bin/service.bat}
 
 24E354C6-9547-408C-B63D-C52FA29DC539,StringMap
 {"--StopMode jvm"	"--StopMode jvm --Startup auto"}
@@ -3997,40 +3998,40 @@ tomcat/apache-tomcat-6.0.18/bin/service.bat
 {0 conditions}
 
 2A172A8A-60FF-49D7-BE13-CFD4900E3231,Destination
-<%InstallDir%>/tomcat
+{<%InstallDir%>/tomcat}
 
 2A172A8A-60FF-49D7-BE13-CFD4900E3231,StatusText,subst
-1
+{1}
 
 2A172A8A-60FF-49D7-BE13-CFD4900E3231,ZipFile
-<%InstallDir%>/tomcat/apache-tomcat-6.0.18.zip
+{<%InstallDir%>/tomcat/apache-tomcat-6.0.18.zip}
 
 2A28A771-8407-46BC-AF3D-34EEAAF8BCB7,CheckCondition
 {Before Action is Executed}
 
 2A28A771-8407-46BC-AF3D-34EEAAF8BCB7,ServiceName
-Tomcat6
+{Tomcat6}
 
 2BF7FC5A-B8CA-4AE3-B449-F22241CA8824,Default
-Yes
+{Yes}
 
 2BF7FC5A-B8CA-4AE3-B449-F22241CA8824,Prompt
-<%InstallStartupText%>
+{<%InstallStartupText%>}
 
 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2,CheckCondition
 {Before Action is Executed}
 
 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2,Operator
-false
+{false}
 
 2C06BD02-2CD9-46D1-8ADE-7DFEB6FDB7E2,String
-<%UpgradeInstall%>
+{<%UpgradeInstall%>}
 
 2C833455-CEE9-4D38-B50F-55163848F083,Conditions
 {0 conditions}
 
 2C833455-CEE9-4D38-B50F-55163848F083,IgnoreErrors
-Yes
+{Yes}
 
 2C833455-CEE9-4D38-B50F-55163848F083,ProgramCommandLine
 {taskkill.exe /F /IM javaw.exe}
@@ -4039,16 +4040,16 @@ Yes
 {1 condition}
 
 2DCDEE7F-B23B-4718-B130-6F667376D42C,Files
-<%Home%>/workspace
+{<%Home%>/workspace}
 
 2DCDEE7F-B23B-4718-B130-6F667376D42C,IgnoreErrors
-Yes
+{Yes}
 
 2F400726-BFE7-4D3A-B39B-1E7470ACA671,CheckCondition
 {Before Action is Executed}
 
 2F400726-BFE7-4D3A-B39B-1E7470ACA671,ObjectID
-DesignerComponent
+{DesignerComponent}
 
 2FAB1DA8-9C66-42D6-A956-E20110953073,Action
 {Uninstall Services}
@@ -4057,49 +4058,49 @@ DesignerComponent
 {0 conditions}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,Active
-Yes
+{Yes}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,BackButton,subst
-1
+{1}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,CancelButton,subst
-1
+{1}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,Caption,subst
-1
+{1}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,Conditions
 {5 conditions}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,Message,subst
-1
+{1}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,NextButton,subst
-1
+{1}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,Subtitle,subst
-1
+{1}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,Title,subst
-1
+{1}
 
 33EA4749-E978-429B-B43C-62D610FA2889,CheckCondition
 {Before Action is Executed}
 
 33EA4749-E978-429B-B43C-62D610FA2889,String
-<%ViewReadme%>
+{<%ViewReadme%>}
 
 343F5FC2-58BA-46D6-8D95-7E5907B37B68,Conditions
 {1 condition}
 
 343F5FC2-58BA-46D6-8D95-7E5907B37B68,Destination
-<%InstallDir%>/mplayer
+{<%InstallDir%>/mplayer}
 
 343F5FC2-58BA-46D6-8D95-7E5907B37B68,StatusText,subst
-1
+{1}
 
 343F5FC2-58BA-46D6-8D95-7E5907B37B68,ZipFile
-<%InstallDir%>/mplayer/mplayer.zip
+{<%InstallDir%>/mplayer/mplayer.zip}
 
 393869C3-7D10-4384-A834-896F5D08BECF,Conditions
 {0 conditions}
@@ -4117,37 +4118,37 @@ Yes
 {1 condition}
 
 3BC307C6-8D24-46B9-9A3D-4E98937B4F74,FileName
-<%ShortAppName%>-uninstall
+{<%ShortAppName%>-uninstall}
 
 3BC307C6-8D24-46B9-9A3D-4E98937B4F74,ShortcutName
-{Uninstall Kesdipepe server components}
+{Uninstall OmniSpot server components}
 
 3BC307C6-8D24-46B9-9A3D-4E98937B4F74,TargetFileName
-<%Uninstaller%>
+{<%Uninstaller%>}
 
 3BC307C6-8D24-46B9-9A3D-4E98937B4F74,WorkingDirectory
-<%InstallDir%>
+{<%InstallDir%>}
 
 3EE5341B-6140-4D5E-B16F-6DA753F95871,CheckCondition
 {Before Action is Executed}
 
 3EE5341B-6140-4D5E-B16F-6DA753F95871,Filename
-<%ProgramExecutable%>
+{<%ProgramExecutable%>}
 
 3F0DD56E-0453-496A-BFA4-7A0753E8038A,Destination
-<%InstallDir%>
+{<%InstallDir%>}
 
 3F0DD56E-0453-496A-BFA4-7A0753E8038A,FileSize
-37168106
+{37168106}
 
 3F0DD56E-0453-496A-BFA4-7A0753E8038A,Name
-Designer
+{Designer}
 
 41F79CF9-DB4E-4B21-8335-8B683DC626FC,CheckCondition
 {Before Action is Executed}
 
 41F79CF9-DB4E-4B21-8335-8B683DC626FC,ObjectID
-DesignerComponent
+{DesignerComponent}
 
 42D9AC66-4712-485E-843D-7BDD9C2E4EB4,Conditions
 {0 conditions}
@@ -4162,25 +4163,25 @@ DesignerComponent
 {Before Action is Executed}
 
 431EE5AC-4222-44D4-B590-BBB7E4D12B65,Operator
-false
+{false}
 
 431EE5AC-4222-44D4-B590-BBB7E4D12B65,String
-<%UpgradeInstall%>
+{<%UpgradeInstall%>}
 
 44B3D116-B024-4C1D-A840-B7A664BD799F,Conditions
 {0 conditions}
 
 44B3D116-B024-4C1D-A840-B7A664BD799F,Level
-system
+{system}
 
 44B3D116-B024-4C1D-A840-B7A664BD799F,RestoreOnUninstall
-Yes
+{Yes}
 
 44B3D116-B024-4C1D-A840-B7A664BD799F,Value
 {<%InstallDir%>\designer\lib}
 
 44B3D116-B024-4C1D-A840-B7A664BD799F,Variable
-KESDIP_PLAYER_LIB
+{KESDIP_PLAYER_LIB}
 
 458538B7-F45F-4FDF-A70A-5D4F602770A9,Alias
 {Cancel Actions}
@@ -4195,25 +4196,25 @@ KESDIP_PLAYER_LIB
 {[0-9a-z\-_.]*}
 
 46A8A0F3-4157-4582-8BDE-71FEDD3337E3,String
-<%ServerHost%>
+{<%ServerHost%>}
 
 493C7428-DFC5-43B5-A621-5D45413EA60A,CheckCondition
 {Before Action is Executed}
 
 493C7428-DFC5-43B5-A621-5D45413EA60A,Filename
-<%ProgramReadme%>
+{<%ProgramReadme%>}
 
 49AE1D1A-330D-4E62-B63D-44DEFAAC9C0C,CheckCondition
 {Before Action is Executed}
 
 49AE1D1A-330D-4E62-B63D-44DEFAAC9C0C,Filename
-<%ProgramExecutable%>
+{<%ProgramExecutable%>}
 
 4A468A65-5287-463E-9EA0-CB36B488F42C,Destination
-<%InstallDir%>
+{<%InstallDir%>}
 
 4A468A65-5287-463E-9EA0-CB36B488F42C,Name
-MPlayer
+{MPlayer}
 
 4BD4C141-8CC7-42EF-9A45-AA5C2CB3086C,Action
 {Other Actions}
@@ -4225,34 +4226,37 @@ MPlayer
 {Before Action is Executed}
 
 4C77CE19-8641-4C4E-8A1D-E23861EF897E,Operator
-false
+{false}
 
 4C77CE19-8641-4C4E-8A1D-E23861EF897E,String
-<%InstallStopped%>
+{<%InstallStopped%>}
 
 4CA187F9-3D13-4573-9618-5F60075E9847,BackButton,subst
-1
+{1}
 
 4CA187F9-3D13-4573-9618-5F60075E9847,CancelButton,subst
-1
+{1}
 
 4CA187F9-3D13-4573-9618-5F60075E9847,Caption,subst
-1
+{1}
+
+4CA187F9-3D13-4573-9618-5F60075E9847,Conditions
+{1 condition}
 
 4CA187F9-3D13-4573-9618-5F60075E9847,Message,subst
-1
+{1}
 
 4CA187F9-3D13-4573-9618-5F60075E9847,NextButton,subst
-1
+{1}
 
 4CA187F9-3D13-4573-9618-5F60075E9847,Subtitle,subst
-1
+{1}
 
 4CA187F9-3D13-4573-9618-5F60075E9847,Text,subst
-1
+{1}
 
 4CA187F9-3D13-4573-9618-5F60075E9847,Title,subst
-1
+{1}
 
 4DF4012A-14E0-4A98-9A10-67722E5A9A10,Alias
 {Other Actions}
@@ -4270,82 +4274,82 @@ false
 {Before Action is Executed}
 
 5099D52E-649D-46D0-AF05-CCF26F453EEF,Filename
-<%InstallDir%>/designer/launcher.exe
+{<%InstallDir%>/designer/launcher.exe}
 
 51358825-952C-4447-B65E-E810873C6D6A,String
-<%ErrorsOccurred%>
+{<%ErrorsOccurred%>}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,BackButton,subst
-1
+{1}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,CancelButton,subst
-1
+{1}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,Caption,subst
-1
+{1}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,Conditions
 {0 conditions}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,FileLabel,subst
-1
+{1}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,Message,subst
-1
+{1}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,NextButton,subst
-1
+{1}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,ProgressValue,subst
-1
+{1}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,Subtitle,subst
-1
+{1}
 
 52055324-A30E-4200-AD67-AFF1CE1BF6D5,Title,subst
-1
+{1}
 
 53529148-6CE2-432A-B1C0-36BF557419F7,CheckCondition
 {Before Action is Executed}
 
 53529148-6CE2-432A-B1C0-36BF557419F7,Operator
-false
+{false}
 
 53529148-6CE2-432A-B1C0-36BF557419F7,String
-<%UpgradeInstall%>
+{<%UpgradeInstall%>}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,BackButton,subst
-1
+{1}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,CancelButton,subst
-1
+{1}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,Caption,subst
-1
+{1}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,Conditions
 {0 conditions}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,FileValue,subst
-1
+{1}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,Message,subst
-1
+{1}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,NextButton,subst
-1
+{1}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,ProgressValue,subst
-1
+{1}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,Subtitle,subst
-1
+{1}
 
 53B34C95-8AB3-424C-87DA-843EA2CD3F71,Title,subst
-1
+{1}
 
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message,subst
-1
+{1}
 
 564865D7-306B-4E1D-A44E-5305C3616217,CheckCondition
 {Before Action is Executed}
@@ -4357,7 +4361,7 @@ false
 {0 conditions}
 
 57EAF5AE-BEDC-4E19-9ACD-4CB566CC8988,State
-disabled
+{disabled}
 
 57EAF5AE-BEDC-4E19-9ACD-4CB566CC8988,Widget
 {Next Button}
@@ -4366,22 +4370,22 @@ disabled
 {Before Action is Executed}
 
 58235BDA-C5D0-4095-808D-BED4D0761CC7,ObjectID
-VLCComponent
+{VLCComponent}
 
 58542507-E2DE-4295-A41F-7958A9B30F4E,Components
 {91DD14D5-970E-40E3-A9B8-1D1E4B403333 956841E0-D201-4941-A063-7949A26DFCBC 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5}
 
 58542507-E2DE-4295-A41F-7958A9B30F4E,Description,subst
-1
+{1}
 
 58542507-E2DE-4295-A41F-7958A9B30F4E,DisplayName,subst
-1
+{1}
 
 58542507-E2DE-4295-A41F-7958A9B30F4E,Name
-Typical
+{Typical}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message,subst
-1
+{1}
 
 5AD13D75-7B8E-4B81-A8ED-3010DA7603A6,Comment
 {Do not display this pane if this is an upgrade install unless there is more than one installation present}
@@ -4396,79 +4400,79 @@ Typical
 {Before Pane is Displayed}
 
 5B4ABC6A-F502-4214-8424-4CC69AB9D921,State
-disabled
+{disabled}
 
 5B4ABC6A-F502-4214-8424-4CC69AB9D921,Widget
 {NextButton; CancelButton}
 
 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE,Alias
-JDKComponent
+{JDKComponent}
 
 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE,Checked
-No
+{No}
 
 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE,Description,subst
-1
+{1}
 
 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE,DisplayName,subst
-1
+{1}
 
 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE,FileGroups
-A4854D61-DC3F-44B0-AE3A-56408CA37ACF
+{A4854D61-DC3F-44B0-AE3A-56408CA37ACF}
 
 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE,Name
-JDK
+{JDK}
 
 5D8B6BEB-E908-4F74-A258-7AFB378CF06E,Conditions
 {1 condition}
 
 5D8B6BEB-E908-4F74-A258-7AFB378CF06E,Directory
-<%PROGRAM_FILES%>/VideoLan/VLC
+{<%PROGRAM_FILES%>/VideoLan/VLC}
 
 5D8B6BEB-E908-4F74-A258-7AFB378CF06E,Level
-system
+{system}
 
 5D8B6BEB-E908-4F74-A258-7AFB378CF06E,Location
-beginning
+{beginning}
 
 5DC3C6F4-E42F-4EEF-8363-DA5CAD7FB782,CheckCondition
 {Before Action is Executed}
 
 5DC3C6F4-E42F-4EEF-8363-DA5CAD7FB782,ObjectID
-JDKComponent
+{JDKComponent}
 
 5E2EB3FB-10C7-4425-A9C7-CD3728C4E7BB,CheckCondition
 {Before Action is Executed}
 
 5E2EB3FB-10C7-4425-A9C7-CD3728C4E7BB,String
-<%GuiMode%>
+{<%GuiMode%>}
 
 5E8E763B-98F6-4DD5-989E-EA3FDA484467,ExitType
-Finish
+{Finish}
 
 5E8FD0F6-FC47-462A-B6EF-8D07A1361086,Conditions
 {0 conditions}
 
 5E8FD0F6-FC47-462A-B6EF-8D07A1361086,Files
-tomcat/server.xml
+{tomcat/server.xml}
 
 5E8FD0F6-FC47-462A-B6EF-8D07A1361086,StringMap
 {8080	<%ServerPort%>}
 
 6248D2BA-F081-4B5F-8035-5D8776FE8590,Default
-Yes
+{Yes}
 
 6248D2BA-F081-4B5F-8035-5D8776FE8590,Prompt
-<%UninstallStartupText%>
+{<%UninstallStartupText%>}
 
 62E1C143-0C6B-453A-BD7B-7B2CB2FB586E,Destination
-<%InstallDir%>
+{<%InstallDir%>}
 
 62E1C143-0C6B-453A-BD7B-7B2CB2FB586E,FileSize
-5715364
+{5715364}
 
 62E1C143-0C6B-453A-BD7B-7B2CB2FB586E,Name
-Tomcat
+{Tomcat}
 
 63492674-1EB3-4E7F-8A74-CBFCD5B4AE40,Alias
 {Finish Actions}
@@ -4480,7 +4484,7 @@ Tomcat
 {0 conditions}
 
 6707EC69-3109-415E-918F-9FABB97AF228,Destination
-<%InstallDir%>/tomcat/apache-tomcat-6.0.18/lib
+{<%InstallDir%>/tomcat/apache-tomcat-6.0.18/lib}
 
 6707EC69-3109-415E-918F-9FABB97AF228,Source
 {<%InstallDir%>/db/lib/derbyclient.jar;<%InstallDir%>/db/lib/derbynet.jar}
@@ -4489,46 +4493,46 @@ Tomcat
 {Before Pane is Displayed}
 
 67AEEDC0-A89F-4ECF-A945-BAD39A9534F0,State
-disabled
+{disabled}
 
 67AEEDC0-A89F-4ECF-A945-BAD39A9534F0,Widget
 {Back Button;Next Button}
 
 6B2DE117-92CC-463D-AD05-902AF4E6EEBF,Background
-white
+{white}
 
 6B2DE117-92CC-463D-AD05-902AF4E6EEBF,Text,subst
-1
+{1}
 
 6B2DE117-92CC-463D-AD05-902AF4E6EEBF,Type
-checkbutton
+{checkbutton}
 
 6B2DE117-92CC-463D-AD05-902AF4E6EEBF,VirtualText
-ViewReadme
+{ViewReadme}
 
 6B2DE117-92CC-463D-AD05-902AF4E6EEBF,X
-185
+{185}
 
 6B2DE117-92CC-463D-AD05-902AF4E6EEBF,Y
-140
+{140}
 
 6CC43A3D-AB2A-4986-9329-89A78CD7C28B,Background
-white
+{white}
 
 6CC43A3D-AB2A-4986-9329-89A78CD7C28B,Text,subst
-1
+{1}
 
 6CC43A3D-AB2A-4986-9329-89A78CD7C28B,Type
-checkbutton
+{checkbutton}
 
 6CC43A3D-AB2A-4986-9329-89A78CD7C28B,VirtualText
-LaunchApplication
+{LaunchApplication}
 
 6CC43A3D-AB2A-4986-9329-89A78CD7C28B,X
-185
+{185}
 
 6CC43A3D-AB2A-4986-9329-89A78CD7C28B,Y
-160
+{160}
 
 6D292CE1-BC68-4D1C-A153-7A7575A502D2,Action
 {Service Installation Actions}
@@ -4537,16 +4541,16 @@ LaunchApplication
 {0 conditions}
 
 6D9671A9-D1C2-4BC8-8D0E-EF5608379769,Platform
-Windows
+{Windows}
 
 6DA46015-9F36-49E6-9E17-43445A8A8B8D,CheckCondition
 {Before Action is Executed}
 
 6DA46015-9F36-49E6-9E17-43445A8A8B8D,Operator
-false
+{false}
 
 6DA46015-9F36-49E6-9E17-43445A8A8B8D,String
-<%InstallStopped%>
+{<%InstallStopped%>}
 
 6DC01586-C6BC-4452-83CA-AE711249BE6A,Conditions
 {2 conditions}
@@ -4555,22 +4559,22 @@ false
 {Admin Console}
 
 6DC01586-C6BC-4452-83CA-AE711249BE6A,ShortcutType
-Link
+{Link}
 
 6DC01586-C6BC-4452-83CA-AE711249BE6A,TargetFileName
-http://localhost:<%ServerPort%>/admin-console
+{http://localhost:<%ServerPort%>/admin-console}
 
 6DFC651F-938F-4A3B-939F-3BCD98827EAE,CheckCondition
 {Before Action is Executed}
 
 6DFC651F-938F-4A3B-939F-3BCD98827EAE,ServiceName
-Tomcat6
+{Tomcat6}
 
 6FF60F37-A6BE-4B2C-BA3B-070AE21A1D4E,CheckCondition
 {Before Action is Executed}
 
 6FF60F37-A6BE-4B2C-BA3B-070AE21A1D4E,String
-<%GuiMode%>
+{<%GuiMode%>}
 
 73056760-6A40-46AF-9C49-A93C4FC21A36,Action
 {Uninstall Other Software}
@@ -4582,13 +4586,13 @@ Tomcat6
 {0 conditions}
 
 73634E37-3AA2-454B-9FA6-E1B6DABE478D,Destination
-<%InstallDir%>/designer
+{<%InstallDir%>/designer}
 
 73634E37-3AA2-454B-9FA6-E1B6DABE478D,StatusText,subst
-1
+{1}
 
 73634E37-3AA2-454B-9FA6-E1B6DABE478D,ZipFile
-<%InstallDir%>/designer/plugins/com.kesdip.designer.preview_1.0.0.jar
+{<%InstallDir%>/designer/plugins/com.kesdip.designer.preview_1.0.0.jar}
 
 7445C11C-4E1D-4992-858D-9931391E456B,Comment
 {Ask the user if they want to proceed with the uninstall.}
@@ -4597,73 +4601,73 @@ Tomcat6
 {Before Action is Executed}
 
 76EED346-2AAE-4254-86AF-DEBEE4B79A09,ObjectID
-ConsoleComponent
+{ConsoleComponent}
 
 77CE0CD4-B23C-4B8D-BA3F-3C923C4CC14F,Conditions
 {2 conditions}
 
 77CE0CD4-B23C-4B8D-BA3F-3C923C4CC14F,ShortcutDirectory
-<%QUICK_LAUNCH%>
+{<%QUICK_LAUNCH%>}
 
 77CE0CD4-B23C-4B8D-BA3F-3C923C4CC14F,ShortcutName
-<%AppName%>
+{<%AppName%>}
 
 77CE0CD4-B23C-4B8D-BA3F-3C923C4CC14F,TargetFileName
-<%InstallDir%>/designer/launcher.exe
+{<%InstallDir%>/designer/launcher.exe}
 
 77CE0CD4-B23C-4B8D-BA3F-3C923C4CC14F,WorkingDirectory
-<%InstallDir%>/designer
+{<%InstallDir%>/designer}
 
 77EFEA90-46E7-444D-A1A6-9766D07333B3,CheckCondition
 {Before Action is Executed}
 
 77EFEA90-46E7-444D-A1A6-9766D07333B3,Filename
-<%ProgramReadme%>
+{<%ProgramReadme%>}
 
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,BackButton,subst
-1
+{1}
 
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,CancelButton,subst
-1
+{1}
 
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,Caption,subst
-1
+{1}
 
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,FileLabel,subst
-1
+{1}
 
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,Message,subst
-1
+{1}
 
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,NextButton,subst
-1
+{1}
 
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,ProgressValue,subst
-1
+{1}
 
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,Subtitle,subst
-1
+{1}
 
 78A2F54F-F9E1-4DC9-A9B6-AC35C42827ED,Title,subst
-1
+{1}
 
 78E3A3D2-84D2-4D51-A5A9-B345D6F26E9C,Conditions
 {1 condition}
 
 78E3A3D2-84D2-4D51-A5A9-B345D6F26E9C,IgnoreErrors
-Yes
+{Yes}
 
 78E3A3D2-84D2-4D51-A5A9-B345D6F26E9C,ServiceName
 {Apache Tomcat 6}
 
 791E5CCA-69B4-4BBC-AB8B-A26427205D6D,ObjectID
-ConsoleComponent
+{ConsoleComponent}
 
 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8,Conditions
 {1 condition}
 
 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8,IgnoreErrors
-Yes
+{Yes}
 
 79A75BB1-3F57-4B6F-9285-1ABCBAF56ED8,ServiceName
 {Derby DB service}
@@ -4672,7 +4676,7 @@ Yes
 {Before Action is Executed}
 
 7B4978F5-464B-434B-8077-40F74ED598A6,Filename
-<%InstallDir%>/designer/launcher.exe
+{<%InstallDir%>/designer/launcher.exe}
 
 7B6EC3B1-2878-4829-8BD7-9D1B462C094F,Comment
 {Only display this pane if we have more than one Setup Type}
@@ -4684,34 +4688,34 @@ Yes
 {1 condition}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,IgnoreErrors
-Yes
+{Yes}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,ProgramCommandLine
 {uninstall.exe /mode silent}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,WaitForProgram
-No
+{No}
 
 7D39D997-8A93-47DC-8F06-712B76FE1383,WorkingDirectory
-<%PROGRAM_FILES%>/VideoLan/VLC
+{<%PROGRAM_FILES%>/VideoLan/VLC}
 
 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E,Alias
-VLCComponent
+{VLCComponent}
 
 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E,Checked
-No
+{No}
 
 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E,Description,subst
-1
+{1}
 
 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E,DisplayName,subst
-1
+{1}
 
 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E,FileGroups
-1D4D862E-6A79-40E5-B04A-6DDF1556446B
+{1D4D862E-6A79-40E5-B04A-6DDF1556446B}
 
 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E,Name
-VLC
+{VLC}
 
 809EC975-DD69-4885-835E-40F878975B9A,Comment
 {Ask the user if they want to proceed with the install.}
@@ -4720,22 +4724,22 @@ VLC
 {2 conditions}
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,BackButton,subst
-1
+{1}
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,CancelButton,subst
-1
+{1}
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,Caption,subst
-1
+{0}
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,Conditions
 {0 conditions}
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,Message,subst
-1
+{1}
 
 8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,NextButton,subst
-1
+{1}
 
 819F4DA6-C5C1-4FFB-B960-696BC1E13F54,CheckCondition
 {Before Next Pane is Displayed}
@@ -4747,16 +4751,19 @@ VLC
 {[0-9]*}
 
 819F4DA6-C5C1-4FFB-B960-696BC1E13F54,String
-<%ServerPort%>
+{<%ServerPort%>}
 
 81C1F403-57F6-45DE-803B-CF69742DF6F3,CheckCondition
 {Before Action is Executed}
 
 81C1F403-57F6-45DE-803B-CF69742DF6F3,Operator
-false
+{false}
 
 81C1F403-57F6-45DE-803B-CF69742DF6F3,String
-<%InstallStopped%>
+{<%InstallStopped%>}
+
+8232165B-CE87-438C-9D88-6CEF7AFC120C,Conditions
+{1 condition}
 
 8298698B-A157-413E-ADE4-89747145C604,Action
 {Uninstall Services}
@@ -4771,7 +4778,7 @@ false
 {Before Action is Executed}
 
 833C9A62-0AD5-4536-92EA-15C1843CD84A,ObjectID
-DesignerComponent
+{DesignerComponent}
 
 877CA9EB-6711-42D1-9D9F-DADE3A43F41E,Action
 {Prepare Player lib}
@@ -4783,64 +4790,64 @@ DesignerComponent
 {Before Action is Executed}
 
 899E81AF-42AB-497B-9329-BAE76B0637EB,Filename
-<%ProgramExecutable%>
+{<%ProgramExecutable%>}
 
 8A53C66A-05F9-4D1F-A87B-A1E2BC27363C,CheckCondition
 {Before Action is Executed}
 
 8A53C66A-05F9-4D1F-A87B-A1E2BC27363C,String
-<%CreateDesktopShortcut%>
+{<%CreateDesktopShortcut%>}
 
 8A8D796C-8051-4B6A-806E-BCF876E668BE,Background
-white
+{white}
 
 8A8D796C-8051-4B6A-806E-BCF876E668BE,Text,subst
-1
+{1}
 
 8A8D796C-8051-4B6A-806E-BCF876E668BE,Type
-checkbutton
+{checkbutton}
 
 8A8D796C-8051-4B6A-806E-BCF876E668BE,VirtualText
-CreateQuickLaunchShortcut
+{CreateQuickLaunchShortcut}
 
 8A8D796C-8051-4B6A-806E-BCF876E668BE,X
-185
+{185}
 
 8A8D796C-8051-4B6A-806E-BCF876E668BE,Y
-200
+{200}
 
 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Alias
-MPlayerComponent
+{MPlayerComponent}
 
 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Checked
-No
+{No}
 
 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Description,subst
-1
+{1}
 
 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,DisplayName,subst
-1
+{1}
 
 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,FileGroups
-4A468A65-5287-463E-9EA0-CB36B488F42C
+{4A468A65-5287-463E-9EA0-CB36B488F42C}
 
 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Name
-MPlayer
+{MPlayer}
 
 8CE7CE78-5767-48CD-A1DF-F88296F80A3F,CheckCondition
 {Before Action is Executed}
 
 8CE7CE78-5767-48CD-A1DF-F88296F80A3F,Operator
-false
+{false}
 
 8CE7CE78-5767-48CD-A1DF-F88296F80A3F,String
-<%Answer%>
+{<%Answer%>}
 
 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A,Conditions
 {1 condition}
 
 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A,IgnoreErrors
-Yes
+{Yes}
 
 8D594E0E-73FF-4CCD-A9D9-73AE38D4B66A,ServiceName
 {Derby DB service}
@@ -4852,85 +4859,88 @@ Yes
 {Before Action is Executed}
 
 8E8AD2F5-7FD6-4751-90B1-12DF70B20F86,Filename
-<%ProgramExecutable%>
+{<%ProgramExecutable%>}
+
+8EC9C965-DBCD-49E0-A6FF-F7E5FD46C73C,Conditions
+{1 condition}
 
 90C214F0-87DD-4B24-AC1E-5EFCCE4357AD,CheckCondition
 {Before Action is Executed}
 
 90C214F0-87DD-4B24-AC1E-5EFCCE4357AD,Operator
-false
+{false}
 
 90C214F0-87DD-4B24-AC1E-5EFCCE4357AD,String
-<%InstallStopped%>
+{<%InstallStopped%>}
 
 90D3B0E7-4CA5-41AE-86B9-B994E8081B11,Conditions
 {1 condition}
 
 90D3B0E7-4CA5-41AE-86B9-B994E8081B11,IgnoreErrors
-Yes
+{Yes}
 
 90D3B0E7-4CA5-41AE-86B9-B994E8081B11,ServiceName
 {Apache Tomcat 6}
 
 91893656-ADC4-408D-8D82-5527CCD34052,BackButton,subst
-1
+{1}
 
 91893656-ADC4-408D-8D82-5527CCD34052,CancelButton,subst
-1
+{1}
 
 91893656-ADC4-408D-8D82-5527CCD34052,Caption,subst
-1
+{1}
 
 91893656-ADC4-408D-8D82-5527CCD34052,Message,subst
-1
+{1}
 
 91893656-ADC4-408D-8D82-5527CCD34052,NextButton,subst
-1
+{1}
 
 91DD14D5-970E-40E3-A9B8-1D1E4B403333,Alias
-DesignerComponent
+{DesignerComponent}
 
 91DD14D5-970E-40E3-A9B8-1D1E4B403333,Description,subst
-1
+{1}
 
 91DD14D5-970E-40E3-A9B8-1D1E4B403333,DisplayName,subst
-1
+{1}
 
 91DD14D5-970E-40E3-A9B8-1D1E4B403333,FileGroups
-3F0DD56E-0453-496A-BFA4-7A0753E8038A
+{3F0DD56E-0453-496A-BFA4-7A0753E8038A}
 
 91DD14D5-970E-40E3-A9B8-1D1E4B403333,Name
-Designer
+{Designer}
 
 93A14173-1B0F-468C-953E-A6BACBE36523,ExitType
-Finish
+{Finish}
 
 9434CE46-B0E6-4D49-B2B6-EB12B33448F9,Conditions
 {1 condition}
 
 9434CE46-B0E6-4D49-B2B6-EB12B33448F9,IncludeStderr
-Yes
+{Yes}
 
 9434CE46-B0E6-4D49-B2B6-EB12B33448F9,ProgramCommandLine
-{vlc-0.9.9-win32.exe /S}
+{vlc-1.0.2-win32.exe /S}
 
 9434CE46-B0E6-4D49-B2B6-EB12B33448F9,ProgressiveOutputWidget
-ProgressTextBox
+{ProgressTextBox}
 
 9434CE46-B0E6-4D49-B2B6-EB12B33448F9,ShowProgressiveOutput
-Yes
+{Yes}
 
 9434CE46-B0E6-4D49-B2B6-EB12B33448F9,WorkingDirectory
-<%InstallDir%>/vlc
+{<%InstallDir%>/vlc}
 
 956841E0-D201-4941-A063-7949A26DFCBC,Alias
-ConsoleComponent
+{ConsoleComponent}
 
 956841E0-D201-4941-A063-7949A26DFCBC,Description,subst
-1
+{1}
 
 956841E0-D201-4941-A063-7949A26DFCBC,DisplayName,subst
-1
+{1}
 
 956841E0-D201-4941-A063-7949A26DFCBC,FileGroups
 {EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A 62E1C143-0C6B-453A-BD7B-7B2CB2FB586E}
@@ -4948,7 +4958,7 @@ ConsoleComponent
 {0 conditions}
 
 964A3468-CCC7-4304-B6A3-FB999FDD2FD5,IgnoreErrors
-Yes
+{Yes}
 
 964A3468-CCC7-4304-B6A3-FB999FDD2FD5,ProgramCommandLine
 {taskkill.exe /F /IM java.exe}
@@ -4957,37 +4967,37 @@ Yes
 {0 conditions}
 
 97260C98-99ED-4EF9-952A-08EC1225A0E9,Destination
-<%InstallDir%>/tomcat/apache-tomcat-6.0.18/webapps
+{<%InstallDir%>/tomcat/apache-tomcat-6.0.18/webapps}
 
 97260C98-99ED-4EF9-952A-08EC1225A0E9,Source
-<%InstallDir%>/admin-console/admin-console.war
+{<%InstallDir%>/admin-console/admin-console.war}
 
 9854CE5C-C2DC-4021-99AC-4F6692364FFA,Background
-white
+{white}
 
 9854CE5C-C2DC-4021-99AC-4F6692364FFA,Conditions
 {2 conditions}
 
 9854CE5C-C2DC-4021-99AC-4F6692364FFA,Text,subst
-1
+{1}
 
 9854CE5C-C2DC-4021-99AC-4F6692364FFA,Type
-checkbutton
+{checkbutton}
 
 9854CE5C-C2DC-4021-99AC-4F6692364FFA,VirtualText
-ViewReadme
+{ViewReadme}
 
 9854CE5C-C2DC-4021-99AC-4F6692364FFA,X
-185
+{185}
 
 9854CE5C-C2DC-4021-99AC-4F6692364FFA,Y
-140
+{140}
 
 993EC00E-108E-4D70-A245-5C83CE3204E1,CheckCondition
 {Before Action is Executed}
 
 993EC00E-108E-4D70-A245-5C83CE3204E1,ObjectID
-ConsoleComponent
+{ConsoleComponent}
 
 99801702-EFE4-4F84-B7DC-9147B50932FD,Action
 {Prepare Console}
@@ -4999,10 +5009,10 @@ ConsoleComponent
 {Before Action is Executed}
 
 9BC72422-8149-4183-969E-93D0CD01233B,Operator
-false
+{false}
 
 9BC72422-8149-4183-969E-93D0CD01233B,String
-<%InstallStopped%>
+{<%InstallStopped%>}
 
 9BDA8E51-642E-4A5D-85CF-C71C03E2142F,Action
 {Other Actions}
@@ -5017,7 +5027,7 @@ false
 {Before Action is Executed}
 
 9E57807E-D837-42E3-8807-DD54AB955494,Filename
-<%InstallDir%>/vlc
+{<%InstallDir%>/vlc}
 
 9FCAFE2A-20A3-478B-9C95-F7BB6BFD8987,ExecuteAction
 {Before Pane is Displayed}
@@ -5026,52 +5036,52 @@ false
 {0 conditions}
 
 9FEC5706-7991-4F57-A0E9-91C03EB85CDB,Directory
-<%InstallDir%>/designer/lib
+{<%InstallDir%>/designer/lib}
 
 9FEC5706-7991-4F57-A0E9-91C03EB85CDB,Level
-system
+{system}
 
 9FEC5706-7991-4F57-A0E9-91C03EB85CDB,Location
-beginning
+{beginning}
 
 A1B2985E-E2C4-4E15-8E5F-AB43A881217D,CheckCondition
 {Before Action is Executed}
 
 A1B2985E-E2C4-4E15-8E5F-AB43A881217D,ObjectID
-DesignerComponent
+{DesignerComponent}
 
 A1E46153-1E9D-48D9-853B-41260853F7C1,Background
-white
+{white}
 
 A1E46153-1E9D-48D9-853B-41260853F7C1,Text,subst
-1
+{1}
 
 A1E46153-1E9D-48D9-853B-41260853F7C1,Type
-checkbutton
+{checkbutton}
 
 A1E46153-1E9D-48D9-853B-41260853F7C1,VirtualText
-CreateDesktopShortcut
+{CreateDesktopShortcut}
 
 A1E46153-1E9D-48D9-853B-41260853F7C1,X
-185
+{185}
 
 A1E46153-1E9D-48D9-853B-41260853F7C1,Y
-180
+{180}
 
 A3979E56-06CA-4FBA-8F3C-12C26E84615A,Conditions
 {1 condition}
 
 A3979E56-06CA-4FBA-8F3C-12C26E84615A,RegistryFile
-<%InstallDir%>/etc/30_tv_channels.reg
+{<%InstallDir%>/etc/30_tv_channels.reg}
 
 A4854D61-DC3F-44B0-AE3A-56408CA37ACF,Destination
-<%InstallDir%>
+{<%InstallDir%>}
 
 A4854D61-DC3F-44B0-AE3A-56408CA37ACF,FileSize
-174208222
+{174208222}
 
 A4854D61-DC3F-44B0-AE3A-56408CA37ACF,Name
-JDK
+{JDK}
 
 A55F4F98-7E82-4DDE-A7DA-1E5DDC5DDF80,Alias
 {Setup Actions}
@@ -5080,34 +5090,34 @@ A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,Conditions
 {2 conditions}
 
 A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,ShortcutName
-{Kesdipepe Designer}
+{OmniSpot Designer}
 
 A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,TargetFileName
-<%ProgramExecutable%>
+{<%ProgramExecutable%>}
 
 A5D3F148-5989-44DB-A895-9EE6B4E5F4EC,WorkingDirectory
-<%InstallDir%>
+{<%InstallDir%>}
 
 A6EF52EA-3DBB-4190-A4D1-C8E2C2575BEE,CheckCondition
 {Before Action is Executed}
 
 A6EF52EA-3DBB-4190-A4D1-C8E2C2575BEE,ObjectID
-MPlayerComponent
+{MPlayerComponent}
 
 A892A8DD-7E7E-4B7D-913C-DC73668E5B50,CheckCondition
 {Before Action is Executed}
 
 A892A8DD-7E7E-4B7D-913C-DC73668E5B50,Operator
-false
+{false}
 
 A892A8DD-7E7E-4B7D-913C-DC73668E5B50,String
-<%UpgradeInstall%>
+{<%UpgradeInstall%>}
 
 A9241784-86EB-44A1-A56B-29ABF9D12B33,Conditions
 {0 conditions}
 
 A9241784-86EB-44A1-A56B-29ABF9D12B33,State
-normal
+{normal}
 
 A9241784-86EB-44A1-A56B-29ABF9D12B33,Widget
 {Next Button}
@@ -5119,58 +5129,58 @@ AFE07A91-6307-4033-BCC9-9B3F08E531CD,Conditions
 {1 condition}
 
 AIX-ppc,Active
-No
+{No}
 
 AIX-ppc,BuildSeparateArchives
-No
+{No}
 
 AIX-ppc,DefaultDirectoryPermission
-0755
+{0755}
 
 AIX-ppc,DefaultFilePermission
-0755
+{0755}
 
 AIX-ppc,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
 
 AIX-ppc,FallBackToConsole
-Yes
+{Yes}
 
 AIX-ppc,InstallDir
-<%Home%>/<%ShortAppName%>
+{<%Home%>/<%ShortAppName%>}
 
 AIX-ppc,InstallMode
-Standard
+{Standard}
 
 AIX-ppc,InstallType
-Typical
+{Typical}
 
 AIX-ppc,ProgramExecutable
 {}
 
 AIX-ppc,ProgramFolderAllUsers
-No
+{No}
 
 AIX-ppc,ProgramFolderName
-<%AppName%>
+{<%AppName%>}
 
 AIX-ppc,ProgramLicense
-<%InstallDir%>/LICENSE.txt
+{<%InstallDir%>/LICENSE.txt}
 
 AIX-ppc,ProgramName
 {}
 
 AIX-ppc,ProgramReadme
-<%InstallDir%>/README.txt
+{<%InstallDir%>/README.txt}
 
 AIX-ppc,PromptForRoot
-Yes
+{Yes}
 
 AIX-ppc,RequireRoot
-No
+{No}
 
 AIX-ppc,RootInstallDir
-/usr/local/<%ShortAppName%>
+{/usr/local/<%ShortAppName%>}
 
 B0EBFCA3-5884-4981-B3F6-B06CD741C3A2,Alias
 {Uninstall Other Software}
@@ -5181,14 +5191,17 @@ B0EBFCA3-5884-4981-B3F6-B06CD741C3A2,Conditions
 B15CAD54-78BC-49DD-A057-2CC01952E36D,Alias
 {Install Actions}
 
+B15CAD54-78BC-49DD-A057-2CC01952E36D,Conditions
+{0 conditions}
+
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message,subst
-1
+{1}
 
 B229B89B-1DCC-4C9D-8837-51AA5A29E7DE,Conditions
 {0 conditions}
 
 B229B89B-1DCC-4C9D-8837-51AA5A29E7DE,Files
-tomcat/apache-tomcat-6.0.18/bin/service.bat
+{tomcat/apache-tomcat-6.0.18/bin/service.bat}
 
 B229B89B-1DCC-4C9D-8837-51AA5A29E7DE,StringMap
 {-Djava.io.tmpdir	-Dconsole-settings=<%InstallDir%>/admin-console/console-settings.xml;-Djava.io.tmpdir}
@@ -5200,37 +5213,40 @@ B2D6182E-2892-4C80-89B8-A0A993B3ED23,Conditions
 {0 conditions}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,BackButton,subst
-1
+{1}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,BrowseButton,subst
-1
+{1}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,BrowseText,subst
-1
+{1}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,CancelButton,subst
-1
+{1}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,Caption,subst
-1
+{1}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,Conditions
 {3 conditions}
 
+B33CF277-A829-4756-91FD-AA4BABBCD46D,Destination,subst
+{1}
+
 B33CF277-A829-4756-91FD-AA4BABBCD46D,DestinationLabel,subst
-0
+{0}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,Message,subst
-1
+{1}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,NextButton,subst
-1
+{1}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,Subtitle,subst
-1
+{1}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,Title,subst
-1
+{1}
 
 B3C8333B-B01B-42ED-BF68-27AEE53DA909,Action
 {Uninstall Actions}
@@ -5239,7 +5255,7 @@ B3C8333B-B01B-42ED-BF68-27AEE53DA909,Conditions
 {0 conditions}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message,subst
-1
+{1}
 
 B9285021-9ADA-444F-9BCD-ABAAE8100FE4,Conditions
 {1 condition}
@@ -5251,154 +5267,157 @@ B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB,CheckCondition
 {Before Action is Executed}
 
 B9373FA6-7A63-4F4C-9A71-3EDF46CD5CBB,ObjectID
-ConsoleComponent
+{ConsoleComponent}
 
 B9AEC158-B17D-4F2C-A7A9-DF1F63806B04,CheckCondition
 {Before Action is Executed}
 
 B9AEC158-B17D-4F2C-A7A9-DF1F63806B04,ObjectID
-DesignerComponent
+{DesignerComponent}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,Active
-Yes
+{Yes}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,BackButton,subst
-1
+{1}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,CancelButton,subst
-1
+{1}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,Caption,subst
-1
+{1}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,Conditions
 {1 condition}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,DescriptionLabel,subst
-0
+{0}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,Message,subst
-1
+{1}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,NextButton,subst
-1
+{1}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,Subtitle,subst
-1
+{1}
 
 BA1F223B-5B9F-49A9-A358-FC9056C21191,Title,subst
-1
+{1}
 
 BA208DC1-0E03-47D2-8DA4-6FDCDDC25ED3,ExitType
-Finish
+{Finish}
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,Background
-white
+{white}
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,Conditions
 {2 conditions}
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,Text,subst
-1
+{1}
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,Type
-checkbutton
+{checkbutton}
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,VirtualText
-CreateDesktopShortcut
+{CreateDesktopShortcut}
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,X
-185
+{185}
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,Y
-180
+{180}
+
+BC0B4927-0E94-4E7E-8AF2-FB629D012332,Conditions
+{0 conditions}
 
 BCBDDA56-1C29-41AA-ADF5-5BF40579CF1B,Conditions
 {1 condition}
 
 BCBDDA56-1C29-41AA-ADF5-5BF40579CF1B,Level
-system
+{system}
 
 BCBDDA56-1C29-41AA-ADF5-5BF40579CF1B,RestoreOnUninstall
-Yes
+{Yes}
 
 BCBDDA56-1C29-41AA-ADF5-5BF40579CF1B,Value
 {<%InstallDir%>\jdk}
 
 BCBDDA56-1C29-41AA-ADF5-5BF40579CF1B,Variable
-JAVA_HOME
+{JAVA_HOME}
 
 BDC3D4E1-917E-410E-A133-165BE1A64A75,CheckCondition
 {Before Action is Executed}
 
 BDC3D4E1-917E-410E-A133-165BE1A64A75,Filename
-<%ProgramExecutable%>
+{<%ProgramExecutable%>}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,Alias
-ServerAddressWidget
+{ServerAddressWidget}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,Conditions
 {0 conditions}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,Text,subst
-1
+{1}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,Type
-entry
+{entry}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,ValidateEntryOn
-FocusOut
+{FocusOut}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,Value
-server.host.domain
+{server.host.domain}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,VirtualText
-ServerHost
+{ServerHost}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,Width
-400
+{400}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,X
-16
+{16}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,Y
-130
+{130}
 
 BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE,Conditions
 {0 conditions}
 
 BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE,Destination
-<%InstallDir%>/tomcat/apache-tomcat-6.0.18/conf
+{<%InstallDir%>/tomcat/apache-tomcat-6.0.18/conf}
 
 BE909270-1A78-4D4C-B32B-E6A1A2AAD0AE,Source
-{<%InstallDir%>/tomcat/server.xml;<%InstallDir%>/tomcat/context.xml}
+{<%InstallDir%>/tomcat/server.xml}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,BackButton,subst
-1
+{1}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,CancelButton,subst
-1
+{1}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Caption,subst
-1
+{1}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Conditions
 {0 conditions}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Message,subst
-1
+{1}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,NextButton,subst
-1
+{1}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Subtitle,subst
-1
+{1}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Text,subst
-1
+{1}
 
 BEA3A2A6-8FF5-4B45-9D11-92ECFBFFF8BE,Title,subst
-1
+{1}
 
 C2127FC3-F33F-4A67-9480-D8774900E635,Conditions
 {0 conditions}
@@ -5416,7 +5435,7 @@ C3A467F8-021A-47E5-94CF-7DBFCD25F2C6,Operator
 {not empty}
 
 C3A467F8-021A-47E5-94CF-7DBFCD25F2C6,String
-<%ServerPort%>
+{<%ServerPort%>}
 
 C4C67009-A510-4567-978D-5A6847C64904,CheckCondition
 {Before Action is Executed}
@@ -5428,52 +5447,55 @@ C72B7377-0CB8-46EA-BF96-191A81261703,CheckCondition
 {Before Action is Executed}
 
 C72B7377-0CB8-46EA-BF96-191A81261703,Platform
-Windows
+{Windows}
 
 C74A328F-436B-4C69-B9F5-91A25A835514,CheckCondition
 {Before Action is Executed}
 
 C74A328F-436B-4C69-B9F5-91A25A835514,Operator
-false
+{false}
 
 C74A328F-436B-4C69-B9F5-91A25A835514,String
-<%InstallStopped%>
+{<%InstallStopped%>}
 
 C8AC78C7-EF0E-4928-BF34-5626698F41A1,BackButton,subst
-1
+{1}
 
 C8AC78C7-EF0E-4928-BF34-5626698F41A1,CancelButton,subst
-1
+{1}
 
 C8AC78C7-EF0E-4928-BF34-5626698F41A1,Caption,subst
-1
+{1}
+
+C8AC78C7-EF0E-4928-BF34-5626698F41A1,Conditions
+{0 conditions}
 
 C8AC78C7-EF0E-4928-BF34-5626698F41A1,Message,subst
-1
+{1}
 
 C8AC78C7-EF0E-4928-BF34-5626698F41A1,NextButton,subst
-1
+{1}
 
 C8B62529-316F-4D08-BD88-E2EF1302152E,CheckCondition
 {Before Action is Executed}
 
 C8B62529-316F-4D08-BD88-E2EF1302152E,ObjectID
-VLCComponent
+{VLCComponent}
 
 C992FE9F-4298-47C6-9FE0-8B78033C1B70,CheckCondition
 {Before Action is Executed}
 
 C992FE9F-4298-47C6-9FE0-8B78033C1B70,String
-<%CreateQuickLaunchShortcut%>
+{<%CreateQuickLaunchShortcut%>}
 
 C9A6E452-D92E-4A60-A7F7-F2AA9D12347D,CheckCondition
 {Before Next Action is Executed}
 
 C9A6E452-D92E-4A60-A7F7-F2AA9D12347D,FailureMessage
-<%DirectoryPermissionText%>
+{<%DirectoryPermissionText%>}
 
 C9A6E452-D92E-4A60-A7F7-F2AA9D12347D,Filename
-<%InstallDir%>
+{<%InstallDir%>}
 
 C9A6E452-D92E-4A60-A7F7-F2AA9D12347D,Permission
 {can create}
@@ -5488,28 +5510,28 @@ CA342975-903B-477D-BAD8-9E275A7B1874,Operator
 {not empty}
 
 CA342975-903B-477D-BAD8-9E275A7B1874,String
-<%ServerHost%>
+{<%ServerHost%>}
 
 CAD5A93E-2B6C-48D0-9734-A2C109D0C2AB,ExitType
-Finish
+{Finish}
 
 CC499325-6638-4A9A-A5A3-299E470BC2D1,Conditions
 {0 conditions}
 
 CC499325-6638-4A9A-A5A3-299E470BC2D1,Files
-<%InstallDir%>
+{<%InstallDir%>}
 
 CC499325-6638-4A9A-A5A3-299E470BC2D1,IgnoreErrors
-Yes
+{Yes}
 
 CC6ED0F0-3C3F-4661-A4A1-B47D5454FF4C,CheckCondition
 {Before Action is Executed}
 
 CC6ED0F0-3C3F-4661-A4A1-B47D5454FF4C,Operator
-false
+{false}
 
 CC6ED0F0-3C3F-4661-A4A1-B47D5454FF4C,String
-<%InstallStopped%>
+{<%InstallStopped%>}
 
 CD3D3C02-B7BE-41A5-A98A-A65349DD0770,Alias
 {Finish Actions}
@@ -5518,19 +5540,19 @@ D255D60D-1052-4636-AEE0-1DF612C37630,CheckCondition
 {Before Action is Executed}
 
 D255D60D-1052-4636-AEE0-1DF612C37630,String
-<%GuiMode%>
+{<%GuiMode%>}
 
 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,CheckCondition
 {Before Action is Executed}
 
 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,Message,subst
-1
+{1}
 
 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,Title,subst
-1
+{1}
 
 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,TrueValue
-No
+{No}
 
 D64655B5-89A0-411D-AE56-807FBF5C87A8,Conditions
 {1 condition}
@@ -5539,7 +5561,7 @@ D64655B5-89A0-411D-AE56-807FBF5C87A8,ProgramCommandLine
 {service.bat install}
 
 D64655B5-89A0-411D-AE56-807FBF5C87A8,WorkingDirectory
-<%InstallDir%>/tomcat/apache-tomcat-6.0.18/bin
+{<%InstallDir%>/tomcat/apache-tomcat-6.0.18/bin}
 
 DC5DB553-26F4-436D-9D37-C5D42A34327C,Alias
 {Prepare Console}
@@ -5563,16 +5585,22 @@ E20DEC68-27C1-40EC-9C98-86EA0E6A6347,Conditions
 {1 condition}
 
 E20DEC68-27C1-40EC-9C98-86EA0E6A6347,Directory
-<%InstallDir%>/jdk/bin
+{<%InstallDir%>/jdk/bin}
 
 E20DEC68-27C1-40EC-9C98-86EA0E6A6347,Level
-system
+{system}
 
 E20DEC68-27C1-40EC-9C98-86EA0E6A6347,Location
-beginning
+{beginning}
 
 E58642FE-164B-41A8-8A16-CA671C540873,Alias
 {Cancel Actions}
+
+E58642FE-164B-41A8-8A16-CA671C540873,Conditions
+{0 conditions}
+
+E6F52B60-2690-4977-BEE4-ED363700F73C,Conditions
+{0 conditions}
 
 E764C0CE-1ABB-4FDF-BF8F-35D3695916D6,Conditions
 {0 conditions}
@@ -5590,7 +5618,7 @@ E919759A-797B-46B5-90FB-543695B55482,Conditions
 {0 conditions}
 
 E919759A-797B-46B5-90FB-543695B55482,WaitTime
-20000
+{20000}
 
 E9D1BD54-B555-4879-982A-3B78A3128146,Alias
 {Uninstall Actions}
@@ -5599,40 +5627,40 @@ E9D1BD54-B555-4879-982A-3B78A3128146,Conditions
 {0 conditions}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,Active
-Yes
+{Yes}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,BackButton,subst
-1
+{1}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,CancelButton,subst
-1
+{1}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,Caption,subst
-1
+{1}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,Conditions
 {2 conditions}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,DescriptionLabel,subst
-0
+{0}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,Message,subst
-1
+{1}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,NextButton,subst
-1
+{1}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,Subtitle,subst
-1
+{1}
 
 EB39DE65-DEB7-479B-BF8D-882DDDA04229,Title,subst
-1
+{1}
 
 EB4DC0EC-EB45-41AF-8C82-43F08A0AE41B,CheckCondition
 {Before Action is Executed}
 
 EB4DC0EC-EB45-41AF-8C82-43F08A0AE41B,Filename
-<%ProgramReadme%>
+{<%ProgramReadme%>}
 
 ED884CD7-2182-4A27-9B5F-75ADF9EB1F1C,FailureMessage
 {The Destination Folder cannot contain spaces.}
@@ -5644,82 +5672,82 @@ ED884CD7-2182-4A27-9B5F-75ADF9EB1F1C,Pattern
 {*\ *}
 
 ED884CD7-2182-4A27-9B5F-75ADF9EB1F1C,String
-<%InstallDir%>
+{<%InstallDir%>}
 
 EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A,Destination
-<%InstallDir%>
+{<%InstallDir%>}
 
 EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A,FileSize
-10092262
+{10092262}
 
 EEDE6537-84D9-4AA1-A0DD-2D1AA48CBC1A,Name
-AdminConsole
+{AdminConsole}
 
 EF993EA7-4C82-4A8E-8583-1FAC884A3B8C,Active
-Yes
+{Yes}
 
 EF993EA7-4C82-4A8E-8583-1FAC884A3B8C,BackButton,subst
-1
+{1}
 
 EF993EA7-4C82-4A8E-8583-1FAC884A3B8C,Buttons
-Next
+{Next}
 
 EF993EA7-4C82-4A8E-8583-1FAC884A3B8C,CancelButton,subst
-1
+{1}
 
 EF993EA7-4C82-4A8E-8583-1FAC884A3B8C,Caption,subst
-1
+{1}
 
 EF993EA7-4C82-4A8E-8583-1FAC884A3B8C,Conditions
 {1 condition}
 
 EF993EA7-4C82-4A8E-8583-1FAC884A3B8C,Message,subst
-1
+{1}
 
 EF993EA7-4C82-4A8E-8583-1FAC884A3B8C,NextButton,subst
-1
+{1}
 
 EFBCF33B-16DA-420A-965B-0C7657F23BBD,CheckCondition
 {Before Action is Executed}
 
 EFBCF33B-16DA-420A-965B-0C7657F23BBD,ServiceName
-Tomcat6
+{Tomcat6}
 
 F1B917EA-0EAA-48D1-8CBD-B76315688441,Prompt
-<%ConsoleSelectDestinationText%>
+{<%ConsoleSelectDestinationText%>}
 
 F1B917EA-0EAA-48D1-8CBD-B76315688441,VirtualText
-InstallDir
+{InstallDir}
 
 F1CBC4E3-5B35-440C-9D0C-508D5ADB1AAB,CheckCondition
 {Before Action is Executed}
 
 F1CBC4E3-5B35-440C-9D0C-508D5ADB1AAB,Platform
-Windows
+{Windows}
 
 F24D702B-F9FC-4BB7-B09F-853651399B7F,CheckCondition
 {Before Action is Executed}
 
 F24D702B-F9FC-4BB7-B09F-853651399B7F,Operator
-false
+{false}
 
 F24D702B-F9FC-4BB7-B09F-853651399B7F,String
-<%Answer%>
+{<%Answer%>}
 
 F4EF62D0-7DF5-4C43-B54C-AB6324CFB443,CheckCondition
 {Before Action is Executed}
 
 F4EF62D0-7DF5-4C43-B54C-AB6324CFB443,Operator
-false
+{false}
 
 F4EF62D0-7DF5-4C43-B54C-AB6324CFB443,String
-<%UpgradeInstall%>
+{<%UpgradeInstall%>}
 
 F5A99211-2206-4E08-BEB0-51C153CD0B8C,Conditions
 {0 conditions}
 
 F5A99211-2206-4E08-BEB0-51C153CD0B8C,Files
-admin-console/console-settings.xml
+{admin-console/console-settings.xml}
 
 F5A99211-2206-4E08-BEB0-51C153CD0B8C,StringMap
 {$INSTALL_PATH$	<%InstallDir%>
@@ -5730,463 +5758,733 @@ F763C9D6-885C-47E5-A1CE-1327217A4FD3,CheckCondition
 {Before Action is Executed}
 
 F763C9D6-885C-47E5-A1CE-1327217A4FD3,ObjectID
-ConsoleComponent
+{ConsoleComponent}
 
 F81BE467-F5EA-461B-B78D-FECF8634957C,Conditions
 {1 condition}
 
 F81BE467-F5EA-461B-B78D-FECF8634957C,IgnoreErrors
-Yes
+{Yes}
 
 F81BE467-F5EA-461B-B78D-FECF8634957C,ServiceName
 {Apache Tomcat}
 
 FreeBSD-4-x86,Active
-No
+{No}
 
 FreeBSD-4-x86,BuildSeparateArchives
-No
+{No}
 
 FreeBSD-4-x86,DefaultDirectoryPermission
-0755
+{0755}
 
 FreeBSD-4-x86,DefaultFilePermission
-0755
+{0755}
 
 FreeBSD-4-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
 
 FreeBSD-4-x86,FallBackToConsole
-Yes
+{Yes}
 
 FreeBSD-4-x86,InstallDir
-<%Home%>/<%ShortAppName%>
+{<%Home%>/<%ShortAppName%>}
 
 FreeBSD-4-x86,InstallMode
-Standard
+{Standard}
 
 FreeBSD-4-x86,InstallType
-Typical
+{Typical}
 
 FreeBSD-4-x86,ProgramExecutable
 {}
 
 FreeBSD-4-x86,ProgramFolderAllUsers
-No
+{No}
 
 FreeBSD-4-x86,ProgramFolderName
-<%AppName%>
+{<%AppName%>}
 
 FreeBSD-4-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
+{<%InstallDir%>/LICENSE.txt}
 
 FreeBSD-4-x86,ProgramName
 {}
 
 FreeBSD-4-x86,ProgramReadme
-<%InstallDir%>/README.txt
+{<%InstallDir%>/README.txt}
 
 FreeBSD-4-x86,PromptForRoot
-Yes
+{Yes}
 
 FreeBSD-4-x86,RequireRoot
-No
+{No}
 
 FreeBSD-4-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
+{/usr/local/<%ShortAppName%>}
+
+FreeBSD-5-x86,Active
+{No}
+
+FreeBSD-5-x86,BuildSeparateArchives
+{No}
+
+FreeBSD-5-x86,DefaultDirectoryPermission
+{0755}
+
+FreeBSD-5-x86,DefaultFilePermission
+{0755}
+
+FreeBSD-5-x86,Executable
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
+
+FreeBSD-5-x86,FallBackToConsole
+{Yes}
+
+FreeBSD-5-x86,InstallDir
+{<%Home%>/<%ShortAppName%>}
+
+FreeBSD-5-x86,InstallMode
+{Standard}
+
+FreeBSD-5-x86,InstallType
+{Typical}
+
+FreeBSD-5-x86,ProgramExecutable
+{}
+
+FreeBSD-5-x86,ProgramFolderAllUsers
+{No}
+
+FreeBSD-5-x86,ProgramFolderName
+{<%AppName%>}
+
+FreeBSD-5-x86,ProgramLicense
+{<%InstallDir%>/LICENSE.txt}
+
+FreeBSD-5-x86,ProgramName
+{}
+
+FreeBSD-5-x86,ProgramReadme
+{<%InstallDir%>/README.txt}
+
+FreeBSD-5-x86,PromptForRoot
+{Yes}
+
+FreeBSD-5-x86,RequireRoot
+{No}
+
+FreeBSD-5-x86,RootInstallDir
+{/usr/local/<%ShortAppName%>}
+
+FreeBSD-6-x86,Active
+{No}
+
+FreeBSD-6-x86,BuildSeparateArchives
+{No}
+
+FreeBSD-6-x86,DefaultDirectoryPermission
+{0755}
+
+FreeBSD-6-x86,DefaultFilePermission
+{0755}
+
+FreeBSD-6-x86,Executable
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
+
+FreeBSD-6-x86,FallBackToConsole
+{Yes}
+
+FreeBSD-6-x86,InstallDir
+{<%Home%>/<%ShortAppName%>}
+
+FreeBSD-6-x86,InstallMode
+{Standard}
+
+FreeBSD-6-x86,InstallType
+{Typical}
+
+FreeBSD-6-x86,ProgramExecutable
+{}
+
+FreeBSD-6-x86,ProgramFolderAllUsers
+{No}
+
+FreeBSD-6-x86,ProgramFolderName
+{<%AppName%>}
+
+FreeBSD-6-x86,ProgramLicense
+{<%InstallDir%>/LICENSE.txt}
+
+FreeBSD-6-x86,ProgramName
+{}
+
+FreeBSD-6-x86,ProgramReadme
+{<%InstallDir%>/README.txt}
+
+FreeBSD-6-x86,PromptForRoot
+{Yes}
+
+FreeBSD-6-x86,RequireRoot
+{No}
+
+FreeBSD-6-x86,RootInstallDir
+{/usr/local/<%ShortAppName%>}
+
+FreeBSD-7-x86,Active
+{No}
+
+FreeBSD-7-x86,BuildSeparateArchives
+{No}
+
+FreeBSD-7-x86,DefaultDirectoryPermission
+{0755}
+
+FreeBSD-7-x86,DefaultFilePermission
+{0755}
+
+FreeBSD-7-x86,Executable
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
+
+FreeBSD-7-x86,FallBackToConsole
+{Yes}
+
+FreeBSD-7-x86,InstallDir
+{<%Home%>/<%ShortAppName%>}
+
+FreeBSD-7-x86,InstallMode
+{Standard}
+
+FreeBSD-7-x86,InstallType
+{Typical}
+
+FreeBSD-7-x86,ProgramExecutable
+{}
+
+FreeBSD-7-x86,ProgramFolderAllUsers
+{No}
+
+FreeBSD-7-x86,ProgramFolderName
+{<%AppName%>}
+
+FreeBSD-7-x86,ProgramLicense
+{<%InstallDir%>/LICENSE.txt}
+
+FreeBSD-7-x86,ProgramName
+{}
+
+FreeBSD-7-x86,ProgramReadme
+{<%InstallDir%>/README.txt}
+
+FreeBSD-7-x86,PromptForRoot
+{Yes}
+
+FreeBSD-7-x86,RequireRoot
+{No}
+
+FreeBSD-7-x86,RootInstallDir
+{/usr/local/<%ShortAppName%>}
 
 FreeBSD-x86,Active
-No
+{No}
 
 FreeBSD-x86,BuildSeparateArchives
-No
+{No}
 
 FreeBSD-x86,DefaultDirectoryPermission
-0755
+{0755}
 
 FreeBSD-x86,DefaultFilePermission
-0755
+{0755}
 
 FreeBSD-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
 
 FreeBSD-x86,FallBackToConsole
-Yes
+{Yes}
 
 FreeBSD-x86,InstallDir
-<%Home%>/<%ShortAppName%>
+{<%Home%>/<%ShortAppName%>}
 
 FreeBSD-x86,InstallMode
-Standard
+{Standard}
 
 FreeBSD-x86,InstallType
-Typical
+{Typical}
 
 FreeBSD-x86,ProgramExecutable
 {}
 
 FreeBSD-x86,ProgramFolderAllUsers
-No
+{No}
 
 FreeBSD-x86,ProgramFolderName
-<%AppName%>
+{<%AppName%>}
 
 FreeBSD-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
+{<%InstallDir%>/LICENSE.txt}
 
 FreeBSD-x86,ProgramName
 {}
 
 FreeBSD-x86,ProgramReadme
-<%InstallDir%>/README.txt
+{<%InstallDir%>/README.txt}
 
 FreeBSD-x86,PromptForRoot
-Yes
+{Yes}
 
 FreeBSD-x86,RequireRoot
-No
+{No}
 
 FreeBSD-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
+{/usr/local/<%ShortAppName%>}
 
 HPUX-hppa,Active
-No
+{No}
 
 HPUX-hppa,BuildSeparateArchives
-No
+{No}
 
 HPUX-hppa,DefaultDirectoryPermission
-0755
+{0755}
 
 HPUX-hppa,DefaultFilePermission
-0755
+{0755}
 
 HPUX-hppa,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
 
 HPUX-hppa,FallBackToConsole
-Yes
+{Yes}
 
 HPUX-hppa,InstallDir
-<%Home%>/<%ShortAppName%>
+{<%Home%>/<%ShortAppName%>}
 
 HPUX-hppa,InstallMode
-Standard
+{Standard}
 
 HPUX-hppa,InstallType
-Typical
+{Typical}
 
 HPUX-hppa,ProgramExecutable
 {}
 
 HPUX-hppa,ProgramFolderAllUsers
-No
+{No}
 
 HPUX-hppa,ProgramFolderName
-<%AppName%>
+{<%AppName%>}
 
 HPUX-hppa,ProgramLicense
-<%InstallDir%>/LICENSE.txt
+{<%InstallDir%>/LICENSE.txt}
 
 HPUX-hppa,ProgramName
 {}
 
 HPUX-hppa,ProgramReadme
-<%InstallDir%>/README.txt
+{<%InstallDir%>/README.txt}
 
 HPUX-hppa,PromptForRoot
-Yes
+{Yes}
 
 HPUX-hppa,RequireRoot
-No
+{No}
 
 HPUX-hppa,RootInstallDir
-/usr/local/<%ShortAppName%>
+{/usr/local/<%ShortAppName%>}
 
 Linux-x86,Active
-No
+{No}
 
 Linux-x86,BuildSeparateArchives
-No
+{No}
 
 Linux-x86,DefaultDirectoryPermission
-0755
+{0755}
 
 Linux-x86,DefaultFilePermission
-0755
+{0755}
 
 Linux-x86,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
 
 Linux-x86,FallBackToConsole
-Yes
+{Yes}
 
 Linux-x86,InstallDir
-<%Home%>/<%ShortAppName%>
+{<%Home%>/<%ShortAppName%>}
 
 Linux-x86,InstallMode
-Standard
+{Standard}
 
 Linux-x86,InstallType
-Typical
+{Typical}
 
 Linux-x86,ProgramExecutable
 {}
 
 Linux-x86,ProgramFolderAllUsers
-No
+{No}
 
 Linux-x86,ProgramFolderName
-<%AppName%>
+{<%AppName%>}
 
 Linux-x86,ProgramLicense
-<%InstallDir%>/LICENSE.txt
+{<%InstallDir%>/LICENSE.txt}
 
 Linux-x86,ProgramName
 {}
 
 Linux-x86,ProgramReadme
-<%InstallDir%>/README.txt
+{<%InstallDir%>/README.txt}
 
 Linux-x86,PromptForRoot
-Yes
+{Yes}
 
 Linux-x86,RequireRoot
-No
+{No}
 
 Linux-x86,RootInstallDir
-/usr/local/<%ShortAppName%>
+{/usr/local/<%ShortAppName%>}
+
+Linux-x86_64,Active
+{No}
+
+Linux-x86_64,BuildSeparateArchives
+{No}
+
+Linux-x86_64,DefaultDirectoryPermission
+{0755}
+
+Linux-x86_64,DefaultFilePermission
+{0755}
+
+Linux-x86_64,Executable
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
+
+Linux-x86_64,FallBackToConsole
+{Yes}
+
+Linux-x86_64,InstallDir
+{<%Home%>/<%ShortAppName%>}
+
+Linux-x86_64,InstallMode
+{Standard}
+
+Linux-x86_64,InstallType
+{Typical}
+
+Linux-x86_64,ProgramExecutable
+{}
+
+Linux-x86_64,ProgramFolderAllUsers
+{No}
+
+Linux-x86_64,ProgramFolderName
+{<%AppName%>}
+
+Linux-x86_64,ProgramLicense
+{<%InstallDir%>/LICENSE.txt}
+
+Linux-x86_64,ProgramName
+{}
+
+Linux-x86_64,ProgramReadme
+{<%InstallDir%>/README.txt}
+
+Linux-x86_64,PromptForRoot
+{Yes}
+
+Linux-x86_64,RequireRoot
+{No}
+
+Linux-x86_64,RootInstallDir
+{/usr/local/<%ShortAppName%>}
 
 Solaris-sparc,Active
-No
+{No}
 
 Solaris-sparc,BuildSeparateArchives
-No
+{No}
 
 Solaris-sparc,DefaultDirectoryPermission
-0755
+{0755}
 
 Solaris-sparc,DefaultFilePermission
-0755
+{0755}
 
 Solaris-sparc,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
 
 Solaris-sparc,FallBackToConsole
-Yes
+{Yes}
 
 Solaris-sparc,InstallDir
-<%Home%>/<%ShortAppName%>
+{<%Home%>/<%ShortAppName%>}
 
 Solaris-sparc,InstallMode
-Standard
+{Standard}
 
 Solaris-sparc,InstallType
-Typical
+{Typical}
 
 Solaris-sparc,ProgramExecutable
 {}
 
 Solaris-sparc,ProgramFolderAllUsers
-No
+{No}
 
 Solaris-sparc,ProgramFolderName
-<%AppName%>
+{<%AppName%>}
 
 Solaris-sparc,ProgramLicense
-<%InstallDir%>/LICENSE.txt
+{<%InstallDir%>/LICENSE.txt}
 
 Solaris-sparc,ProgramName
 {}
 
 Solaris-sparc,ProgramReadme
-<%InstallDir%>/README.txt
+{<%InstallDir%>/README.txt}
 
 Solaris-sparc,PromptForRoot
-Yes
+{Yes}
 
 Solaris-sparc,RequireRoot
-No
+{No}
 
 Solaris-sparc,RootInstallDir
-/usr/local/<%ShortAppName%>
+{/usr/local/<%ShortAppName%>}
+
+Solaris-x86,Active
+{No}
+
+Solaris-x86,BuildSeparateArchives
+{No}
+
+Solaris-x86,DefaultDirectoryPermission
+{0755}
+
+Solaris-x86,DefaultFilePermission
+{0755}
+
+Solaris-x86,Executable
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
+
+Solaris-x86,FallBackToConsole
+{Yes}
+
+Solaris-x86,InstallDir
+{<%Home%>/<%ShortAppName%>}
+
+Solaris-x86,InstallMode
+{Standard}
+
+Solaris-x86,InstallType
+{Typical}
+
+Solaris-x86,ProgramExecutable
+{}
+
+Solaris-x86,ProgramFolderAllUsers
+{No}
+
+Solaris-x86,ProgramFolderName
+{<%AppName%>}
+
+Solaris-x86,ProgramLicense
+{<%InstallDir%>/LICENSE.txt}
+
+Solaris-x86,ProgramName
+{}
+
+Solaris-x86,ProgramReadme
+{<%InstallDir%>/README.txt}
+
+Solaris-x86,PromptForRoot
+{Yes}
+
+Solaris-x86,RequireRoot
+{No}
+
+Solaris-x86,RootInstallDir
+{/usr/local/<%ShortAppName%>}
 
 TarArchive,Active
-No
+{No}
 
 TarArchive,BuildSeparateArchives
-No
+{No}
 
 TarArchive,CompressionLevel
-6
+{6}
 
 TarArchive,DefaultDirectoryPermission
-0755
+{0755}
 
 TarArchive,DefaultFilePermission
-0755
+{0755}
 
 TarArchive,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
 
 TarArchive,FallBackToConsole
-Yes
+{Yes}
 
 TarArchive,InstallDir
-<%Home%>/<%ShortAppName%>
+{<%Home%>/<%ShortAppName%>}
 
 TarArchive,InstallMode
-Standard
+{Standard}
 
 TarArchive,InstallType
-Typical
+{Typical}
 
 TarArchive,OutputFileName
-<%ShortAppName%>-<%Version%>.tar.gz
+{<%ShortAppName%>-<%Version%>.tar.gz}
 
 TarArchive,ProgramExecutable
 {}
 
 TarArchive,ProgramFolderAllUsers
-No
+{No}
 
 TarArchive,ProgramFolderName
-<%AppName%>
+{<%AppName%>}
 
 TarArchive,ProgramLicense
-<%InstallDir%>/LICENSE.txt
+{<%InstallDir%>/LICENSE.txt}
 
 TarArchive,ProgramName
 {}
 
 TarArchive,ProgramReadme
-<%InstallDir%>/README.txt
+{<%InstallDir%>/README.txt}
 
 TarArchive,PromptForRoot
-Yes
+{Yes}
 
 TarArchive,RequireRoot
-No
+{No}
 
 TarArchive,RootInstallDir
-/usr/local/<%ShortAppName%>
+{/usr/local/<%ShortAppName%>}
 
 TarArchive,VirtualTextMap
 {<%InstallDir%> <%ShortAppName%>}
 
 Windows,Active
-Yes
+{Yes}
 
 Windows,BuildSeparateArchives
-No
+{No}
 
 Windows,Executable
-<%ShortAppName%>-<%Version%>-Setup<%Ext%>
+{<%ShortAppName%>-<%Version%>-Setup<%Ext%>}
 
 Windows,FileDescription
 {<%AppName%> <%Version%> Setup}
 
 Windows,IncludeTWAPI
-Yes
+{Yes}
 
 Windows,InstallDir
-c:/Kesdipepe/<%ShortAppName%>
+{c:/OmniSpot/<%ShortAppName%>}
 
 Windows,InstallMode
-Standard
+{Standard}
 
 Windows,InstallType
-Typical
+{Typical}
 
 Windows,LastRequireAdministrator
-Yes
+{Yes}
 
 Windows,ProgramExecutable
-<%InstallDir%>/designer/launcher.exe
+{<%InstallDir%>/designer/launcher.exe}
 
 Windows,ProgramFolderAllUsers
-Yes
+{Yes}
 
 Windows,ProgramFolderName
-<%ShortAppName%>
+{<%ShortAppName%>}
 
 Windows,ProgramLicense
-<%InstallDir%>/docs/LICENSE.txt
+{<%InstallDir%>/docs/LICENSE.txt}
 
 Windows,ProgramName
 {}
 
 Windows,ProgramReadme
-<%InstallDir%>/docs/README.txt
+{<%InstallDir%>/docs/README.txt}
 
 Windows,RequireAdministrator
-Yes
+{Yes}
 
 Windows,UseUncompressedBinaries
-No
+{No}
 
 Windows,WindowsIcon
 {Setup Blue Screen.ico}
 
 ZipArchive,Active
-No
+{No}
 
 ZipArchive,BuildSeparateArchives
-No
+{No}
 
 ZipArchive,CompressionLevel
-6
+{6}
 
 ZipArchive,DefaultDirectoryPermission
-0755
+{0755}
 
 ZipArchive,DefaultFilePermission
-0755
+{0755}
 
 ZipArchive,Executable
-<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+{<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>}
 
 ZipArchive,FallBackToConsole
-Yes
+{Yes}
 
 ZipArchive,InstallDir
-<%Home%>/<%ShortAppName%>
+{<%Home%>/<%ShortAppName%>}
 
 ZipArchive,InstallMode
-Standard
+{Standard}
 
 ZipArchive,InstallType
-Typical
+{Typical}
 
 ZipArchive,OutputFileName
-<%ShortAppName%>-<%Version%>.zip
+{<%ShortAppName%>-<%Version%>.zip}
 
 ZipArchive,ProgramExecutable
 {}
 
 ZipArchive,ProgramFolderAllUsers
-No
+{No}
 
 ZipArchive,ProgramFolderName
-<%AppName%>
+{<%AppName%>}
 
 ZipArchive,ProgramLicense
-<%InstallDir%>/LICENSE.txt
+{<%InstallDir%>/LICENSE.txt}
 
 ZipArchive,ProgramName
 {}
 
 ZipArchive,ProgramReadme
-<%InstallDir%>/README.txt
+{<%InstallDir%>/README.txt}
 
 ZipArchive,PromptForRoot
-Yes
+{Yes}
 
 ZipArchive,RequireRoot
-No
+{No}
 
 ZipArchive,RootInstallDir
-/usr/local/<%ShortAppName%>
+{/usr/local/<%ShortAppName%>}
 
 ZipArchive,VirtualTextMap
 {<%InstallDir%> <%ShortAppName%>}
@@ -6195,16 +6493,16 @@ ZipArchive,VirtualTextMap
 
 ::msgcat::mcmset de {
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 }
 ::msgcat::mcmset en {
@@ -6212,28 +6510,28 @@ B6A030CE-CAD0-4B42-B505-03E642653B59,Message
 {Welcome to the Installation Wizard for <%AppName%>}
 
 0A0CAF06-2168-4087-8763-4824DF508DE7,Message
-<%UninstallStartupText%>
+{<%UninstallStartupText%>}
 
 0A0CAF06-2168-4087-8763-4824DF508DE7,Title
-<%UninstallApplicationText%>
+{<%UninstallApplicationText%>}
 
 0A8325CF-A4E2-4C8A-BEE1-6370E9DCD6D1,Text
-Port
+{Port}
 
 12F58043-152A-48EC-ADEE-493EB682DEF7,Description
-<%CustomInstallDescription%>
+{<%CustomInstallDescription%>}
 
 13227838-365D-43DE-819A-AF5929D0BEF8,Text
-<%CreateQuickLaunchShortcutText%>
+{<%CreateQuickLaunchShortcutText%>}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Caption
-<%ApplicationReadmeText%>
+{<%ApplicationReadmeText%>}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Message
 {}
 
 1C8DAD99-9C41-4E4A-9DFA-0CD831914C58,Title
-<%ApplicationReadmeText%>
+{<%ApplicationReadmeText%>}
 
 307EEF1C-9EDC-456D-BA85-9071734368B2,Caption
 {Define the host name of the Admin Console.
@@ -6250,13 +6548,13 @@ The port can be any number in the range [1 - 65535].}
 {Admin Console URL}
 
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 58542507-E2DE-4295-A41F-7958A9B30F4E,Description
-<%TypicalInstallDescription%>
+{<%TypicalInstallDescription%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 5D863203-4C89-4A75-B4AF-3EE1ED68CAAE,Description
 {Java Runtime Environment.
@@ -6264,18 +6562,24 @@ Required for the execution of all components.
 Leave unselected only if you are certain that you have a JRE 1.6+ installed on your system.}
 
 6B2DE117-92CC-463D-AD05-902AF4E6EEBF,Text
-<%ViewReadmeText%>
+{<%ViewReadmeText%>}
 
 6CC43A3D-AB2A-4986-9329-89A78CD7C28B,Text
-<%LaunchApplicationText%>
+{<%LaunchApplicationText%>}
 
 7D4DAF6D-ADB2-44FA-8732-2BE524D99C2E,Description
 {VLC media player.
 Required for the correct playback and rendering of media files.
 Leave unselected only if you are certain that you have the proper version of VLC installed on your system or if you want to only use MPlayer.}
 
+8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,Caption
+{OmniSpot Wizard Complete}
+
+8196FBE2-44DC-4E56-BBF6-BD6BCEEA022D,Message
+{The OmniSpot Wizard has successfully installed <%AppName%>.   Click Finish to exit the wizard.}
+
 8A8D796C-8051-4B6A-806E-BCF876E668BE,Text
-<%CreateQuickLaunchShortcutText%>
+{<%CreateQuickLaunchShortcutText%>}
 
 8BDABD09-9EAC-4D02-B2F8-EB3A0B3518C5,Description
 {MPlayer media player.
@@ -6291,22 +6595,22 @@ Required if you want to create content for deployment to remote players.}
 Required if you want to administer remote player and deployments from this machine.}
 
 9854CE5C-C2DC-4021-99AC-4F6692364FFA,Text
-<%ViewReadmeText%>
+{<%ViewReadmeText%>}
 
 A1E46153-1E9D-48D9-853B-41260853F7C1,Text
-<%CreateDesktopShortcutText%>
+{<%CreateDesktopShortcutText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B33CF277-A829-4756-91FD-AA4BABBCD46D,BrowseText
 {To continue, click Next.  If you would like to select a different folder, click Browse.}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 BA6E0F93-C95F-46C0-84B3-16A172FF56E7,Text
-<%CreateDesktopShortcutText%>
+{<%CreateDesktopShortcutText%>}
 
 BE428E56-F741-4F13-9110-25D0096D6F2C,Text
 {Host Name}
@@ -6323,10 +6627,10 @@ Admin Console:
             Port: <%ServerPort%>}
 
 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,Message
-<%InstallStartupText%>
+{<%InstallStartupText%>}
 
 D29A6C5D-0B92-45B5-8BC7-F1C7ABDB27D4,Title
-<%InstallApplicationText%>
+{<%InstallApplicationText%>}
 
 EF993EA7-4C82-4A8E-8583-1FAC884A3B8C,Caption
 {Installing required services}
@@ -6342,114 +6646,114 @@ Please, wait...}
 }
 ::msgcat::mcmset es {
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 }
 ::msgcat::mcmset fr {
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 }
 ::msgcat::mcmset hu {
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 }
 ::msgcat::mcmset it {
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 }
 ::msgcat::mcmset nl {
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 }
 ::msgcat::mcmset pl {
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 }
 ::msgcat::mcmset pt_br {
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 }
 ::msgcat::mcmset ru {
 5468CCC9-A8F6-4830-AD9C-CCAB94B15D5F,Message
-<%UninstallCompleteText%>
+{<%UninstallCompleteText%>}
 
 591C457B-4E9D-487C-997C-1EC720730ECE,Message
-<%InstallationCompleteText%>
+{<%InstallationCompleteText%>}
 
 B1C5265C-45C6-4388-96A7-93CA631DEC2F,Message
-<%UninstallingApplicationText%>
+{<%UninstallingApplicationText%>}
 
 B6A030CE-CAD0-4B42-B505-03E642653B59,Message
-<%InstallingApplicationText%>
+{<%InstallingApplicationText%>}
 
 }
 
