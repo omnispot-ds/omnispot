@@ -677,6 +677,21 @@ public class StreamUtils {
 	}
 
 	/**
+	 * Attempts to close the file, suppressing all exceptions.
+	 * 
+	 * @param raf
+	 *            the file
+	 * @param raf
+	 */
+	public static final void close(RandomAccessFile raf) {
+		try {
+			raf.close();
+		} catch (Exception e) {
+			// do nothing
+		}
+	}
+
+	/**
 	 * Attempts to close the stream, suppressing all exceptions.
 	 * 
 	 * @param out
