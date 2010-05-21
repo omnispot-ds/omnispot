@@ -2,6 +2,8 @@ package com.kesdip.designer;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
+import java.io.File;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
@@ -9,6 +11,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 
 import com.kesdip.designer.utils.DesignerLog;
+
+import com.kesdip.designer.preferences.PreferenceConstants;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -46,6 +50,8 @@ public class Activator extends AbstractUIPlugin {
 		} catch (BundleException e) {
 			DesignerLog.logError("Error starting 'org.eclipse.ui.net'", e); 
 		}
+		// make sure the MPlayer path corresponds to a valid value
+		checkMPlayerPath();
 	}
 
 	/*
@@ -79,5 +85,23 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	/**
+	 * Check the path of MPlayer and make sure it exists. If not, set it
+	 * properly, relatively to the current directory. The current directory is
+	 * "c:/OmniSpot/AdminServer".
+	 */
+	private final void checkMPlayerPath() {
+		String mPlayerPath = this.getPreferenceStore().getString(
+				PreferenceConstants.P_MPLAYER_FILE);
+		File mPlayerFile = new File(mPlayerPath);
+		if (!mPlayerFile.isFile()) {
+			mPlayerFile = new File(System.getProperty("user.dir"), "mplayer/mplayer.exe");
+			this.getPreferenceStore().setValue(
+					PreferenceConstants.P_MPLAYER_FILE,
+					mPlayerFile.getAbsolutePath());
+		}
+
 	}
 }

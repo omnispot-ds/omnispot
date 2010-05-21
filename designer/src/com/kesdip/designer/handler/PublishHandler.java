@@ -1,6 +1,5 @@
 package com.kesdip.designer.handler;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +23,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.progress.IProgressService;
 
+import com.kesdip.common.util.StreamUtils;
 import com.kesdip.designer.constenum.IFileNames;
 import com.kesdip.designer.editor.DeploymentEditor;
 import com.kesdip.designer.utils.DesignerLog;
@@ -52,8 +52,8 @@ public class PublishHandler extends AbstractHandler {
 			return false;
 		return !de.isDirty();
 	}
-	
-	private static boolean mustAbort;
+
+	private boolean mustAbort;
 
 	/**
 	 * Publish a deployment into a ZIP archive along with all dependent
@@ -79,23 +79,33 @@ public class PublishHandler extends AbstractHandler {
 			final DeploymentEditorInput dei = (DeploymentEditorInput) de
 					.getEditorInput();
 			final ExecutionEvent theEvent = event;
-			
+
 			mustAbort = false;
 
-			IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
+			IProgressService progressService = PlatformUI.getWorkbench()
+					.getProgressService();
 			progressService.busyCursorWhile(new IRunnableWithProgress() {
 				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException,
-						InterruptedException {
-					String reason = PlayerPreview.canPreview(dei.getPath());
-					if (reason != null) {
-						MessageDialog.openError(HandlerUtil.getActiveShell(theEvent),
-								"Unable to export deployment", reason);
-						mustAbort = true;
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
+					try {
+						String reason = PlayerPreview.canPreview(dei.getPath());
+						if (reason != null) {
+							MessageDialog.openError(HandlerUtil
+									.getActiveShell(theEvent),
+									"Unable to export deployment", reason);
+							mustAbort = true;
+						}
+					} catch (Exception e) {
+						MessageDialog.openError(HandlerUtil
+								.getActiveShell(theEvent),
+								"Unable to export deployment", e.getClass()
+										.getName()
+										+ ": " + e.getMessage());
 					}
 				}
 			});
-			
+
 			if (mustAbort)
 				return null;
 
@@ -111,28 +121,35 @@ public class PublishHandler extends AbstractHandler {
 
 			progressService.busyCursorWhile(new IRunnableWithProgress() {
 				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException,
-						InterruptedException {
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
 					try {
-						ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(
-								new FileOutputStream(path)));
+						ZipOutputStream zos = new ZipOutputStream(
+								new BufferedOutputStream(new FileOutputStream(
+										path)));
+						// Bug#139: no compression to increase speed
+						zos.setLevel(ZipOutputStream.STORED);
 						// set the proper XML file name
 						ZipEntry entry = new ZipEntry(IFileNames.DEPLOYMENT_XML);
 						zos.putNextEntry(entry);
 						dei.getDeployment().serialize(zos, true);
-						Set<String> resourcePaths = PlayerPreview.getResourcePaths(dei
-								.getPath());
+						Set<String> resourcePaths = PlayerPreview
+								.getResourcePaths(dei.getPath());
 						for (String resourcePath : resourcePaths) {
 							File f = new File(resourcePath);
 							entry = new ZipEntry(f.getName());
 							zos.putNextEntry(entry);
-							InputStream is = new BufferedInputStream(new FileInputStream(f));
-							byte[] buffer = new byte[8 * 1024];
-							int count;
-							while ((count = is.read(buffer)) != -1) {
-								zos.write(buffer, 0, count);
+							FileInputStream fis = null;
+							try {
+								fis = new FileInputStream(f);
+								StreamUtils.copyStream(fis, zos);
+							} finally {
+								try {
+									fis.close();
+								} catch (Exception e) {
+									// do nothing
+								}
 							}
-							is.close();
 						}
 						zos.close();
 					} catch (Exception e) {
@@ -141,7 +158,8 @@ public class PublishHandler extends AbstractHandler {
 				}
 			});
 		} catch (Exception e) {
-			DesignerLog.logError("Unable to export deployment for publishing", e);
+			DesignerLog.logError("Unable to export deployment for publishing",
+					e);
 		}
 		return null;
 	}

@@ -15,6 +15,8 @@ common/build
 common/dist
 demos/AdPlayerDemo/ad.mp4
 designer-preview/lib/*.jar
+designer/lib/*.jar
+designer/lib/*.war
 license-console/dist
 player/ad.mp4
 player/bin

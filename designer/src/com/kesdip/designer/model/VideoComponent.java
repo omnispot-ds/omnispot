@@ -43,37 +43,48 @@ public class VideoComponent extends ComponentModelElement {
 	public static final String VIDEO_ADDED_PROP = "Video.VideoAdded";
 	/** Property ID to use when a video is removed from this video component. */
 	public static final String VIDEO_REMOVED_PROP = "Video.VideoRemoved";
-	/** Player Implementation (vlc,mplayer)*/
+	/** Player Implementation (vlc,mplayer) */
 	public static final String VIDEO_PROVIDER_PROP = "Video.VideoProvider";
+	/** Playback quality (MPlayer only) */
+	public static final String VIDEO_QUALITY_PROP = "Video.QualityProp";
 
 	private static final String STRING_VLC = "VLC";
-	
+
 	private static final String STRING_MPLAYER = "MPlayer";
-	
+
+	private static final String STRING_HIGH_QUALITY = "High";
+
+	private static final String STRING_NORMAL_QUALITY = "Normal";
+
 	/* STATE */
 	private List<Resource> videos;
 	private boolean repeat;
 	private String provider;
+	private String quality;
 
 	public VideoComponent() {
 		videos = new ArrayList<Resource>();
 		repeat = false;
 		provider = STRING_MPLAYER;
+		quality = STRING_NORMAL_QUALITY;
 	}
 
 	protected Element serialize(Document doc, boolean isPublish) {
 		Element videoElement = doc.createElement("bean");
-		
-		if (provider.equals(STRING_VLC))
-			videoElement
-				.setAttribute("class", "com.kesdip.player.components.Video");
-		else if (provider.equals(STRING_MPLAYER))
-			videoElement.
-				setAttribute("class", "com.kesdip.player.components.media.FileVideo");
-		
+
+		if (provider.equals(STRING_VLC)) {
+			videoElement.setAttribute("class",
+					"com.kesdip.player.components.Video");
+		} else if (provider.equals(STRING_MPLAYER)) {
+			videoElement.setAttribute("class",
+					"com.kesdip.player.components.media.FileVideo");
+		}
+
 		super.serialize(doc, videoElement);
 		DOMHelpers.addProperty(doc, videoElement, "repeat", repeat ? "true"
 				: "false");
+		DOMHelpers.addProperty(doc, videoElement, "quality", quality
+				.equals(STRING_HIGH_QUALITY) ? "high" : "normal");
 		Element contentPropElement = DOMHelpers.addProperty(doc, videoElement,
 				"contents");
 		Element listElement = doc.createElement("list");
@@ -88,10 +99,21 @@ public class VideoComponent extends ComponentModelElement {
 	protected void deserialize(Document doc, Node componentNode) {
 		setPropertyValue(REPEAT_PROP, DOMHelpers.getSimpleProperty(
 				componentNode, "repeat"));
-		
-		String className = componentNode.getAttributes().getNamedItem("class").getNodeValue();
+		String qualityValue = DOMHelpers.getSimpleProperty(componentNode,
+				"quality");
+		if (qualityValue == null) {
+			qualityValue = STRING_NORMAL_QUALITY;
+		}
+		setPropertyValue(
+				VIDEO_QUALITY_PROP,
+				"high".equalsIgnoreCase(qualityValue) ? getQualityType(STRING_HIGH_QUALITY)
+						: getQualityType(STRING_NORMAL_QUALITY));
+
+		String className = componentNode.getAttributes().getNamedItem("class")
+				.getNodeValue();
 		if (className.equals("com.kesdip.player.components.media.FileVideo")) {
-			setPropertyValue(VIDEO_PROVIDER_PROP, getProviderType(STRING_MPLAYER));
+			setPropertyValue(VIDEO_PROVIDER_PROP,
+					getProviderType(STRING_MPLAYER));
 		} else if (className.equals("com.kesdip.player.components.Video")) {
 			setPropertyValue(VIDEO_PROVIDER_PROP, getProviderType(STRING_VLC));
 		}
@@ -120,6 +142,7 @@ public class VideoComponent extends ComponentModelElement {
 	public void save(IMemento memento) {
 		super.save(memento);
 		memento.putBoolean(TAG_REPEAT, repeat);
+		memento.putString(TAG_VIDEO_QUALITY, quality);
 		memento.putString(TAG_VIDEO_PROVIDER, provider);
 		/*
 		 * Do not save resources. for (Resource r : videos) { IMemento child =
@@ -130,6 +153,7 @@ public class VideoComponent extends ComponentModelElement {
 	public void load(IMemento memento) {
 		super.load(memento);
 		repeat = memento.getBoolean(TAG_REPEAT);
+		quality = memento.getString(TAG_VIDEO_QUALITY);
 		provider = memento.getString(TAG_VIDEO_PROVIDER);
 		IMemento[] children = memento.getChildren(TAG_RESOURCE);
 		for (IMemento child : children) {
@@ -144,7 +168,8 @@ public class VideoComponent extends ComponentModelElement {
 		super.checkEquivalence(other);
 		assert (other instanceof VideoComponent);
 		assert (repeat == ((VideoComponent) other).repeat);
-		assert (provider.equals( ((VideoComponent) other).provider));
+		assert (quality.equals(((VideoComponent) other).quality));
+		assert (provider.equals(((VideoComponent) other).provider));
 		for (int i = 0; i < videos.size(); i++) {
 			Resource resource = videos.get(i);
 			Resource otherResource = ((VideoComponent) other).videos.get(i);
@@ -164,13 +189,15 @@ public class VideoComponent extends ComponentModelElement {
 	static {
 		descriptors = new IPropertyDescriptor[] {
 				new ComboBoxPropertyDescriptor(VIDEO_PROVIDER_PROP, "Provider",
-						new String[]{STRING_MPLAYER, STRING_VLC}),
+						new String[] { STRING_MPLAYER, STRING_VLC }),
+				new ComboBoxPropertyDescriptor(VIDEO_QUALITY_PROP,
+						"Quality (MPlayer only)", new String[] {
+								STRING_NORMAL_QUALITY, STRING_HIGH_QUALITY }),
 				new ResourceListPropertyDescriptor(VIDEO_PROP, "Videos",
 						ResourceListCellEditorTypes.VIDEO_RESOURCE_LIST_EDITOR),
-				new CheckboxPropertyDescriptor(REPEAT_PROP, "Repeat") 
-				};
+				new CheckboxPropertyDescriptor(REPEAT_PROP, "Repeat") };
 		// use a custom cell editor validator for the array entries
-		for (int i = 0; i < descriptors.length ; i++) {
+		for (int i = 0; i < descriptors.length; i++) {
 			((PropertyDescriptor) descriptors[i]).setCategory("Behaviour");
 			((PropertyDescriptor) descriptors[i])
 					.setValidator(new ICellEditorValidator() {
@@ -197,14 +224,17 @@ public class VideoComponent extends ComponentModelElement {
 
 	@Override
 	public Object getPropertyValue(Object propertyId) {
-		if (VIDEO_PROP.equals(propertyId))
+		if (VIDEO_PROP.equals(propertyId)) {
 			return videos;
-		else if (REPEAT_PROP.equals(propertyId))
+		} else if (REPEAT_PROP.equals(propertyId)) {
 			return repeat;
-		else if (VIDEO_PROVIDER_PROP.equals(propertyId))
+		} else if (VIDEO_QUALITY_PROP.equals(propertyId)) {
+			return getQualityType(quality);
+		} else if (VIDEO_PROVIDER_PROP.equals(propertyId)) {
 			return getProviderType(provider);
-		else
+		} else {
 			return super.getPropertyValue(propertyId);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -225,29 +255,54 @@ public class VideoComponent extends ComponentModelElement {
 			Boolean oldValue = repeat;
 			repeat = ((Boolean) value).booleanValue();
 			firePropertyChange(REPEAT_PROP, oldValue, repeat);
-		} else if (VIDEO_PROVIDER_PROP.equals(propertyId)) {
-			if (value == null)
+		} else if (VIDEO_QUALITY_PROP.equals(propertyId)) {
+			if (value == null) {
 				value = 0;
+			}
+			int oldValue = getQualityType(quality);
+			int v = ((Integer) value).intValue();
+			if (v == 0) {
+				quality = STRING_NORMAL_QUALITY;
+			} else if (v == 1) {
+				quality = STRING_HIGH_QUALITY;
+			} else {
+				throw new RuntimeException("Unexpected provider type.");
+			}
+			firePropertyChange(VIDEO_QUALITY_PROP, oldValue, quality);
+		} else if (VIDEO_PROVIDER_PROP.equals(propertyId)) {
+			if (value == null) {
+				value = 0;
+			}
 			int oldValue = getProviderType(provider);
 			int v = ((Integer) value).intValue();
-			if (v == 0)
+			if (v == 0) {
 				provider = STRING_MPLAYER;
-			else if (v == 1)
+			} else if (v == 1) {
 				provider = STRING_VLC;
-			else
+			} else {
 				throw new RuntimeException("Unexpected provider type.");
+			}
 			firePropertyChange(VIDEO_PROVIDER_PROP, oldValue, provider);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}
-	
+
 	private int getProviderType(String t) {
-		if (t.equals(STRING_MPLAYER))
+		if (t.equals(STRING_MPLAYER)) {
 			return 0;
-		else if (t.equals(STRING_VLC))
+		} else if (t.equals(STRING_VLC)) {
 			return 1;
-		else
-			throw new RuntimeException("Unknown provider type.");		
+		} else
+			throw new RuntimeException("Unknown provider type.");
+	}
+
+	private int getQualityType(String t) {
+		if (t.equals(STRING_HIGH_QUALITY)) {
+			return 1;
+		} else if (t.equals(STRING_NORMAL_QUALITY)) {
+			return 0;
+		} else
+			throw new RuntimeException("Unknown quality type.");
 	}
 
 	/**
@@ -296,6 +351,7 @@ public class VideoComponent extends ComponentModelElement {
 		VideoComponent retVal = new VideoComponent();
 		retVal.deepCopy(this);
 		retVal.repeat = this.repeat;
+		retVal.quality = this.quality;
 		retVal.provider = this.provider;
 		for (Resource r : videos) {
 			retVal.videos.add(Resource.deepCopy(r));
