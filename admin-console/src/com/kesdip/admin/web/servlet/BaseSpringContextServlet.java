@@ -12,6 +12,7 @@ package com.kesdip.admin.web.servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import org.apache.log4j.Logger;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
 import com.kesdip.business.logic.InstallationLogic;
@@ -26,9 +27,15 @@ import com.kesdip.business.logic.InstallationLogic;
 public abstract class BaseSpringContextServlet extends HttpServlet {
 
 	/**
+	 * The logger.
+	 */
+	private static final Logger logger = Logger
+			.getLogger(BaseSpringContextServlet.class);
+
+	/**
 	 * The Spring context.
 	 */
-	private XmlWebApplicationContext springContext;
+	private XmlWebApplicationContext springContext = null;
 
 	@Override
 	public void init() throws ServletException {
@@ -59,14 +66,16 @@ public abstract class BaseSpringContextServlet extends HttpServlet {
 	}
 
 	/**
-	 * Release the Spring context.
+	 * Close the open spring context to make sure there are no leaks.
 	 * 
 	 * @see javax.servlet.GenericServlet#destroy()
 	 */
 	@Override
-	public final void destroy() {
+	public void destroy() {
 		super.destroy();
-		springContext.close();
-	}
-
-}
+		try {
+			springContext.close();
+		} catch (Exception e) {
+			logger.warn(e);
+		}
+	}}

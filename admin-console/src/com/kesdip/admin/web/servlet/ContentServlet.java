@@ -91,12 +91,16 @@ public class ContentServlet extends BaseSpringContextServlet {
 		// 1. treat as file
 		File file = getFileByName(pathInfo);
 		if (file != null) {
-			logger.debug("Located file");
+			if (logger.isDebugEnabled()) {
+				logger.debug("Located file: '" + file.getAbsolutePath() + "'");
+			} 
 		} else {
 			// 2. treat as UUID
 			file = getFileByUuid(pathInfo);
 			if (file != null) {
-				logger.debug("Located UUID");
+				if (logger.isDebugEnabled()) {
+					logger.debug("Located UUID: '" + pathInfo + "'");
+				}
 			}
 		}
 		// nothing found, return
@@ -130,7 +134,7 @@ public class ContentServlet extends BaseSpringContextServlet {
 		try {
 			fileName = FileUtils.getName(URLDecoder.decode(pathInfo, "UTF-8"));
 		} catch (UnsupportedEncodingException uee) {
-
+			// do nothing
 		}
 		File targetFile = new File(storageSettings.getContentFolder(), fileName);
 		return targetFile.isFile() ? targetFile : null;

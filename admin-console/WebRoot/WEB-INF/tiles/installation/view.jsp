@@ -121,6 +121,22 @@
 					</div>
 				</td>
 			</tr>
+			<!-- Last known IP -->
+			<tr>
+				<td class="label">
+					<label class="description">
+						<fmt:message bundle="${msg}" key="installation.ip" />
+					</label>
+				</td>
+				<td>
+					<div class="readonly_value">
+						<c:choose>
+							<c:when test="${not empty dataObject.lastKnownIP}">${dataObject.lastKnownIP}</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</div>
+				</td>
+			</tr>
 			<!-- Content -->
 			<tr>
 				<td class="label">

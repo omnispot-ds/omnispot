@@ -3,8 +3,9 @@
 	<name>admin-console</name>
 	<comment></comment>
 	<projects>
-		<project>common</project>
 		<project>business-logic</project>
+		<project>common</project>
+		<project>player</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
