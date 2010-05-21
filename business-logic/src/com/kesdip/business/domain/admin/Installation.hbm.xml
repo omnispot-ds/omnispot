@@ -54,6 +54,14 @@
 			</meta>
 		</property>
 
+		<property name="lastKnownIP" column="LAST_KNOWN_IP" type="java.lang.String"
+			length="20" not-null="false" lazy="false">
+			<meta attribute="use-in-tostring">true</meta>
+			<meta attribute="field-description">
+				The last known IP of the installation.
+			</meta>
+		</property>
+
 		<property name="screenType" column="SCR_TYPE" type="java.lang.String"
 			length="50" not-null="false" lazy="false">
 			<meta attribute="use-in-tostring">true</meta>

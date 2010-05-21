@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+  <bean class="com.kesdip.player.DeploymentSettings" id="deploymentSettings">
+    <property name="width" value="1280"/>
+    <property name="height" value="800"/>
+    <property name="bitDepth" value="24"/>
+    <property name="id" value="aa6dcd53-a3ed-48cd-b82c-97880fc07e43"/>
+    <property name="startTime">
+      <bean class="java.util.Date">
+        <constructor-arg type="long" value="1236192600000"/>
+      </bean>
+    </property>
+  </bean>
+  <bean class="com.kesdip.player.components.RootContainer" id="frame1_1">
+    <property name="x" value="22"/>
+    <property name="y" value="14"/>
+    <property name="width" value="423"/>
+    <property name="height" value="302"/>
+    <property name="locked" value="false"/>
+    <property name="backgroundColor">
+      <bean class="java.awt.Color">
+        <constructor-arg type="int" value="0"/>
+        <constructor-arg type="int" value="0"/>
+        <constructor-arg type="int" value="0"/>
+      </bean>
+    </property>
+    <property name="name" value="New Region"/>
+    <property name="isTransparent" value="false"/>
+    <property name="contents">
+      <list>
+        <bean class="com.kesdip.player.components.Ticker">
+          <property name="x" value="58"/>
+          <property name="y" value="232"/>
+          <property name="width" value="342"/>
+          <property name="height" value="50"/>
+          <property name="locked" value="false"/>
+          <property name="backgroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+            </bean>
+          </property>
+          <property name="speed" value="160.0"/>
+          <property name="foregroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="255"/>
+              <constructor-arg type="int" value="255"/>
+              <constructor-arg type="int" value="255"/>
+            </bean>
+          </property>
+          <property name="font">
+            <bean class="java.awt.Font">
+              <constructor-arg type="java.lang.String" value="Arial"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="24"/>
+            </bean>
+          </property>
+          <property name="tickerSource">
+            <bean class="com.kesdip.player.components.ticker.RssTickerSource">
+              <property name="rssUrl" value="file:///c:/tmp/stelios.xml"/>
+              <property name="showOnlyTitles" value="true"/>
+              <property name="itemSeparator" value=" - "/>
+              <property name="afterTitle" value=": "/>
+              <property name="refreshInterval" value="1"/>
+            </bean>
+          </property>
+        </bean>
+        <bean class="com.kesdip.player.components.Image">
+          <property name="duration" value="0"/>
+          <property name="x" value="58"/>
+          <property name="y" value="45"/>
+          <property name="width" value="50"/>
+          <property name="height" value="50"/>
+          <property name="locked" value="false"/>
+          <property name="backgroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+            </bean>
+          </property>
+          <property name="contents">
+            <list>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="image.jpg"/>
+                <property name="checksum" value="3518024426-5654528"/>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean class="com.kesdip.player.components.media.FileVideo">
+          <property name="x" value="267"/>
+          <property name="y" value="108"/>
+          <property name="width" value="50"/>
+          <property name="height" value="50"/>
+          <property name="locked" value="false"/>
+          <property name="backgroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+            </bean>
+          </property>
+          <property name="repeat" value="false"/>
+          <property name="contents">
+            <list>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="2.wmv"/>
+                <property name="checksum" value="1619073436-2234039"/>
+              </bean>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="3.wmv"/>
+                <property name="checksum" value="4191633299-2272341"/>
+              </bean>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="2.wmv"/>
+                <property name="checksum" value="1619073436-2234039"/>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean class="com.kesdip.player.DeploymentContents" id="deploymentContents">
+    <property name="layouts">
+      <list>
+        <bean class="com.kesdip.player.DeploymentLayout">
+          <property name="name" value="Layout"/>
+          <property name="showGrid" value="false"/>
+          <property name="snapToGeometry" value="false"/>
+          <property name="contentRoots">
+            <list>
+              <ref bean="frame1_1"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

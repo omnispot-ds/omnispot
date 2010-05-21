@@ -11,6 +11,7 @@ package com.kesdip.business.logic;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -48,6 +49,8 @@ import com.kesdip.business.domain.admin.generated.InstallationGroup;
 import com.kesdip.business.domain.admin.generated.Parameter;
 import com.kesdip.business.domain.admin.generated.Site;
 import com.kesdip.business.exception.ValidationException;
+import com.kesdip.business.exception.XmlParsingException;
+import com.kesdip.business.util.deployment.DeploymentResourceGatherer;
 import com.kesdip.common.exception.GenericSystemException;
 import com.kesdip.common.util.DateUtils;
 import com.kesdip.common.util.FileUtils;
@@ -80,7 +83,6 @@ public class ActionLogic extends BaseLogic {
 	 * @throws ValidationException
 	 *             on validation error
 	 */
-	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public Deployment deployContent(ContentDeploymentBean object)
 			throws ValidationException {
 
@@ -91,25 +93,65 @@ public class ActionLogic extends BaseLogic {
 		try {
 			// process the file
 			if ("xml".equalsIgnoreCase(suffix)) {
-				processedFile = handleXml(object.getContentFile()
-						.getInputStream(), object.getContentFile()
+				// copy media files
+				InputStream currentMediaStream = null;
+				InputStream xmlStream = object.getContentFile()
+						.getInputStream();
+				try {
+					Set<String> resourcePaths = getResourcePaths(xmlStream);
+					for (String path : resourcePaths) {
+						currentMediaStream = new FileInputStream(path);
+						handleMedia(currentMediaStream, path, StreamUtils
+								.getCrc(new File(path)).getValue(), object
+								.getPolicy());
+						StreamUtils.close(currentMediaStream);
+					}
+				} finally {
+					StreamUtils.close(xmlStream);
+					// just in case of exception
+					StreamUtils.close(currentMediaStream);
+				}
+				xmlStream = object.getContentFile().getInputStream();
+				// pre-process resource paths inside the XML
+				ByteArrayInputStream bais = new ByteArrayInputStream(
+						processDeploymentXml(xmlStream));
+				processedFile = handleXml(bais, object.getContentFile()
 						.getOriginalFilename());
 			} else {
 				processedFile = handleZip(object);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("Error opening XML file", e);
 			throw new GenericSystemException("Error opening XML file", e);
 		}
+		Set<Installation> installations = getInstallations(object);
 		// add the deployments in the DB
+		Deployment deployment = addDeploymentsInDb(processedFile,
+				installations, object.getName());
+		return deployment;
+	}
+
+	/**
+	 * Create the deployment entry in the DB.
+	 * 
+	 * @param processedFile
+	 *            the file
+	 * @param installations
+	 *            the set of relevant installations
+	 * @param deploymentName
+	 *            the name
+	 * @return Deployment the created deployment
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED, timeout = 120)
+	private Deployment addDeploymentsInDb(ProcessedXmlFile processedFile,
+			Set<Installation> installations, String deploymentName) {
 		Deployment deployment = null;
 		try {
 			logger.debug("Creating deployment in the DB");
-			Set<Installation> installations = getInstallations(object);
 			String contentBase = ApplicationSettings.getInstance()
 					.getServerSettings().getContentBaseUrl();
 			deployment = new Deployment();
-			deployment.setName(object.getName());
+			deployment.setName(deploymentName);
 			deployment
 					.setCrc(String.valueOf(processedFile.getCrc().getValue()));
 			deployment.setLocalFile(processedFile.getXmlFile()
@@ -301,7 +343,7 @@ public class ActionLogic extends BaseLogic {
 	 * @return ProcessedXmlFile the results of processing the XML
 	 */
 	private final ProcessedXmlFile handleXml(InputStream xmlStream,
-			String originalFileName) {
+			String originalFileName) throws IOException {
 		File contentFolder = new File(ApplicationSettings.getInstance()
 				.getFileStorageSettings().getContentFolder());
 		String uniqueName = FileUtils.getUniqueFileName(originalFileName);
@@ -315,6 +357,7 @@ public class ActionLogic extends BaseLogic {
 		} finally {
 			StreamUtils.close(xmlStream);
 		}
+
 		return new ProcessedXmlFile(destContent, crc, uniqueName);
 	}
 
@@ -343,10 +386,12 @@ public class ActionLogic extends BaseLogic {
 						.getName())) {
 					ByteArrayInputStream bais = new ByteArrayInputStream(
 							processDeploymentXml(input));
+					// do not process resources, policy ignored
 					deploymentXml = handleXml(bais,
 							IFileNamesEnum.DEPLOYMENT_XML);
 				} else {
-					handleMedia(input, zipEntry, object.getPolicy());
+					handleMedia(input, zipEntry.getName(), zipEntry.getCrc(),
+							object.getPolicy());
 				}
 				input.closeEntry();
 			}
@@ -362,18 +407,20 @@ public class ActionLogic extends BaseLogic {
 	 * 
 	 * @param input
 	 *            the media file stream
-	 * @param zipEntry
-	 *            the ZIP entry, may contain path info
+	 * @param originalFilename
+	 *            the original media file name
+	 * @param mediaCrc
+	 *            the media CRC
 	 * @param policy
 	 *            the overwrite policy
 	 * @see IMediaCopyPolicyEnum
 	 */
-	private final void handleMedia(InputStream input, ZipEntry zipEntry,
-			int policy) {
+	private final void handleMedia(InputStream input, String originalFilename,
+			long mediaCrc, int policy) {
 
 		File contentFolder = new File(ApplicationSettings.getInstance()
 				.getFileStorageSettings().getContentFolder());
-		String filename = FileUtils.getName(zipEntry.getName());
+		String filename = FileUtils.getName(originalFilename);
 		File destFile = new File(contentFolder, filename);
 
 		if (!destFile.exists()
@@ -385,7 +432,7 @@ public class ActionLogic extends BaseLogic {
 		} else {
 			// check CRC
 			CRC32 crc = StreamUtils.getCrc(destFile);
-			if (crc.getValue() != zipEntry.getCrc()) {
+			if (crc.getValue() != mediaCrc) {
 				StreamUtils.copyToFile(input, destFile);
 			}
 		}
@@ -430,6 +477,20 @@ public class ActionLogic extends BaseLogic {
 		}
 		matcher.appendTail(newXml);
 		return newXml.toString().getBytes("UTF-8");
+	}
+
+	/**
+	 * Process a deployment XML to gather its resources.
+	 * 
+	 * @param xmlStream
+	 *            the XML
+	 * @return Set the located resources
+	 */
+	final Set<String> getResourcePaths(InputStream xmlStream)
+			throws XmlParsingException {
+		DeploymentResourceGatherer resourceGatherer = new DeploymentResourceGatherer(
+				xmlStream);
+		return resourceGatherer.getResources();
 	}
 
 	/**

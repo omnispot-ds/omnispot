@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+  <bean class="com.kesdip.player.DeploymentSettings" id="deploymentSettings">
+    <property name="width" value="1280"/>
+    <property name="height" value="800"/>
+    <property name="bitDepth" value="24"/>
+    <property name="id" value="ab71008c-26fb-4663-b096-1802a62cccda"/>
+    <property name="startTime">
+      <bean class="java.util.Date">
+        <constructor-arg type="long" value="1236192600000"/>
+      </bean>
+    </property>
+  </bean>
+  <bean class="com.kesdip.player.components.RootContainer" id="frame1_1">
+    <property name="x" value="29"/>
+    <property name="y" value="21"/>
+    <property name="width" value="390"/>
+    <property name="height" value="256"/>
+    <property name="locked" value="false"/>
+    <property name="backgroundColor">
+      <bean class="java.awt.Color">
+        <constructor-arg type="int" value="0"/>
+        <constructor-arg type="int" value="0"/>
+        <constructor-arg type="int" value="0"/>
+      </bean>
+    </property>
+    <property name="name" value="New Region"/>
+    <property name="isTransparent" value="false"/>
+    <property name="contents">
+      <list>
+        <bean class="com.kesdip.player.components.media.FileVideo">
+          <property name="x" value="61"/>
+          <property name="y" value="49"/>
+          <property name="width" value="250"/>
+          <property name="height" value="131"/>
+          <property name="locked" value="false"/>
+          <property name="backgroundColor">
+            <bean class="java.awt.Color">
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+              <constructor-arg type="int" value="0"/>
+            </bean>
+          </property>
+          <property name="repeat" value="false"/>
+          <property name="contents">
+            <list>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="Piano.wmv"/>
+                <property name="checksum" value="2580761138-3519493"/>
+              </bean>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="turtuolis.wmv"/>
+                <property name="checksum" value="1566522192-5629708"/>
+              </bean>
+              <bean class="com.kesdip.player.components.Resource">
+                <property name="identifier" value="test.wmv"/>
+                <property name="checksum" value="2548988598-818444"/>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean class="com.kesdip.player.DeploymentContents" id="deploymentContents">
+    <property name="layouts">
+      <list>
+        <bean class="com.kesdip.player.DeploymentLayout">
+          <property name="name" value="Layout"/>
+          <property name="showGrid" value="false"/>
+          <property name="snapToGeometry" value="false"/>
+          <property name="contentRoots">
+            <list>
+              <ref bean="frame1_1"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

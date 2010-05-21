@@ -291,6 +291,37 @@ public class InstallationLogic extends BaseLogic {
 	}
 
 	/**
+	 * Updates the lastKnownIP of the installation identified by the UUID.
+	 * 
+	 * @param uuid
+	 *            the UUID of the installation
+	 * @param newIP
+	 *            the new IP
+	 */
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@SuppressWarnings("unchecked")
+	public void updateInstallationIP(String uuid, String newIP) {
+		if (logger.isTraceEnabled()) {
+			logger.trace("Updating Installation " + uuid + " with IP "
+					+ newIP);
+		}
+		// update object
+		List<Installation> installations = getHibernateTemplate().find(
+				"select i from " + Installation.class.getName()
+						+ " i where i.uuid = ?", new Object[] { uuid });
+		if (installations.size() != 0) {
+			// update ip
+			Installation installation = installations.get(0);
+			installation.setLastKnownIP(newIP);
+			getHibernateTemplate().update(installation);
+		} else {
+			logger.error("Player with installation id: " + uuid
+					+ " does not exist!");
+			return;
+		}
+	}
+	
+	/**
 	 * Update the status of the given DB object and create entries in the
 	 * StatusEntry table.
 	 * 

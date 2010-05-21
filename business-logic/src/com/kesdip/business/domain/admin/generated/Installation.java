@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.admin.generated;
-// Generated 11 Ιαν 2010 11:43:04 μμ by Hibernate Tools 3.2.0.b9
+// Generated 7 Μαϊ 2010 12:09:18 πμ by Hibernate Tools 3.2.0.b9
 
 
 import java.util.HashSet;
@@ -29,6 +29,11 @@ public class Installation  implements java.io.Serializable {
  * 			
      */
      private String uuid;
+     /**
+      * 				The last known IP of the installation.
+ * 			
+     */
+     private String lastKnownIP;
      /**
       * 				Tha type of the screen.
  * 			
@@ -90,9 +95,10 @@ public class Installation  implements java.io.Serializable {
         this.currentStatus = currentStatus;
         this.site = site;
     }
-    public Installation(String name, String uuid, String screenType, String comments, boolean active, short currentStatus, Set<AccessControl> accessingUsers, Set<StatusEntry> statusHistory, Set<Action> pendingActions, Set<Deployment> deployments, Site site, Set<InstallationGroup> groups) {
+    public Installation(String name, String uuid, String lastKnownIP, String screenType, String comments, boolean active, short currentStatus, Set<AccessControl> accessingUsers, Set<StatusEntry> statusHistory, Set<Action> pendingActions, Set<Deployment> deployments, Site site, Set<InstallationGroup> groups) {
        this.name = name;
        this.uuid = uuid;
+       this.lastKnownIP = lastKnownIP;
        this.screenType = screenType;
        this.comments = comments;
        this.active = active;
@@ -137,6 +143,17 @@ public class Installation  implements java.io.Serializable {
     
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+    /**       
+     *      * 				The last known IP of the installation.
+     * 			
+     */
+    public String getLastKnownIP() {
+        return this.lastKnownIP;
+    }
+    
+    public void setLastKnownIP(String lastKnownIP) {
+        this.lastKnownIP = lastKnownIP;
     }
     /**       
      *      * 				Tha type of the screen.
@@ -259,6 +276,7 @@ public class Installation  implements java.io.Serializable {
       buffer.append("id").append("='").append(getId()).append("' ");			
       buffer.append("name").append("='").append(getName()).append("' ");			
       buffer.append("uuid").append("='").append(getUuid()).append("' ");			
+      buffer.append("lastKnownIP").append("='").append(getLastKnownIP()).append("' ");			
       buffer.append("screenType").append("='").append(getScreenType()).append("' ");			
       buffer.append("comments").append("='").append(getComments()).append("' ");			
       buffer.append("active").append("='").append(isActive()).append("' ");			
@@ -282,6 +300,7 @@ public class Installation  implements java.io.Serializable {
          int result = 17;
          
          result = 37 * result + ( getId() == null ? 0 : this.getId().hashCode() );
+         
          
          
          

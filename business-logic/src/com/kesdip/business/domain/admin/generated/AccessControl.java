@@ -1,5 +1,5 @@
 package com.kesdip.business.domain.admin.generated;
-// Generated 11 Ιαν 2010 11:43:04 μμ by Hibernate Tools 3.2.0.b9
+// Generated 7 Μαϊ 2010 12:09:18 πμ by Hibernate Tools 3.2.0.b9
 
 
 
