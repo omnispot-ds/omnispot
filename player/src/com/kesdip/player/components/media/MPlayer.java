@@ -11,6 +11,7 @@ package com.kesdip.player.components.media;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,11 +19,12 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import com.kesdip.common.util.BufferedLineReadListener;
+import com.kesdip.common.util.BufferedLineReader;
 import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.StringUtils;
 import com.kesdip.common.util.process.ProcessExitDetector;
 import com.kesdip.common.util.process.ProcessExitListener;
-import com.kesdip.common.util.process.ProcessOutputListener;
 import com.kesdip.common.util.process.StreamLogger;
 import com.kesdip.player.components.media.VideoConfiguration.Playlist;
 import com.kesdip.player.constenum.VideoQualityTypes;
@@ -42,7 +44,7 @@ import com.kesdip.player.constenum.VideoQualityTypes;
  * @see http://www.mplayerhq.hu/DOCS/man/en/mplayer.1.html
  * @author gerogias
  */
-public class MPlayer implements ProcessExitListener, ProcessOutputListener {
+public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 
 	/**
 	 * The logger.
@@ -133,11 +135,14 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 					config.getPlayerName());
 			exitDetector.addProcessListener(this);
 			exitDetector.start();
-			new StreamLogger(config.getPlayerName(), process.getInputStream(),
-					Level.INFO).start();
-			new StreamLogger(config.getPlayerName(), process.getInputStream(),
-					Level.WARN).start();
-
+			StreamLogger inputLogger = new StreamLogger(config.getPlayerName(),
+					Level.INFO);
+			new MPlayerProcessReadingLoop(process.getInputStream(), inputLogger)
+					.start();
+			StreamLogger errorLogger = new StreamLogger(config.getPlayerName(),
+					Level.WARN);
+			new MPlayerProcessReadingLoop(process.getErrorStream(), errorLogger)
+					.start();
 		}
 		return mplayerIn;
 	}
@@ -163,10 +168,14 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 				videoConfig.getPlayerName());
 		exitDetector.addProcessListener(new CronPlaybackProcessListener());
 		exitDetector.start();
-		new StreamLogger(videoConfig.getPlayerName(), process.getInputStream(),
-				Level.INFO).start();
-		new StreamLogger(videoConfig.getPlayerName(), process.getInputStream(),
-				Level.WARN).start();
+		StreamLogger playerOut = new StreamLogger(videoConfig.getPlayerName(),
+				Level.INFO);
+		playerOut.setInputStream(process.getInputStream());
+		playerOut.start();
+		StreamLogger playerErr = new StreamLogger(videoConfig.getPlayerName(),
+				Level.WARN);
+		playerErr.setInputStream(process.getErrorStream());
+		playerErr.start();
 	}
 
 	/**
@@ -184,7 +193,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 		// no log output
 		// TODO: why StreamLogger does not consume process output fast enough?
 		// we should have -quiet here...
-		cmd.append(" -really-quiet");
+		cmd.append(" -quiet");
 		// do not capture mouse
 		cmd.append(" -nomouseinput");
 		if (!configuration.isFullScreen()) {
@@ -438,7 +447,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 
 	/**
 	 * @return boolean <code>true</code> if this is a progress line
-	 * @see com.kesdip.common.util.process.ProcessOutputListener#canProcessLine(java.lang.String)
+	 * @see BufferedLineReadListener#canProcessLine(String)
 	 */
 	@Override
 	public boolean canProcessLine(String line) {
@@ -448,7 +457,7 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 	/**
 	 * @param line
 	 *            the line to read the progress percentage from
-	 * @see com.kesdip.common.util.process.ProcessOutputListener#processLine(java.lang.String)
+	 * @see BufferedLineReadListener#processLine(String)
 	 */
 	@Override
 	public void processLine(String line) {
@@ -567,4 +576,58 @@ public class MPlayer implements ProcessExitListener, ProcessOutputListener {
 		}
 	}
 
+	/**
+	 * A utility class with an endless loop to read an MPlayer process output
+	 * (out or err).
+	 * 
+	 * @author gerogias
+	 */
+	private final class MPlayerProcessReadingLoop extends Thread {
+
+		/**
+		 * The stream.
+		 */
+		private InputStream inputStream;
+		/**
+		 * The associated StreamLogger.
+		 */
+		private StreamLogger logger;
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param input
+		 *            the input stream
+		 * @param logger
+		 *            the logger
+		 */
+		private MPlayerProcessReadingLoop(InputStream input, StreamLogger logger) {
+			this.inputStream = input;
+			this.logger = logger;
+		}
+
+		/**
+		 * @see java.lang.Thread#run()
+		 */
+		@Override
+		public void run() {
+			BufferedLineReader reader;
+			try {
+				reader = new BufferedLineReader(inputStream);
+				reader.addListener(MPlayer.this);
+				reader.addListener(logger);
+
+				while (true) {
+					reader.read();
+				}
+			} catch (Exception e) {
+				try {
+
+				} catch (Exception ex) {
+					// do nothing
+				}
+			}
+		}
+
+	}
 }

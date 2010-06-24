@@ -20,14 +20,12 @@ Copyright 2009-2010
 
    <windowImages i16="icons/display.png" i32="icons/display_large.png"/>
 
-
    <launcher>
       <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
@@ -37,6 +35,7 @@ Copyright 2009-2010
       <plugin id="com.kesdip.designer"/>
       <plugin id="com.kesdip.designer.help"/>
       <plugin id="com.kesdip.designer.preview"/>
+      <plugin id="com.springsource.org.apache.commons.logging"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
       <plugin id="org.apache.commons.el"/>
@@ -102,6 +101,7 @@ Copyright 2009-2010
       <plugin id="org.eclipse.ui.externaltools"/>
       <plugin id="org.eclipse.ui.forms"/>
       <plugin id="org.eclipse.ui.ide"/>
+      <plugin id="org.eclipse.ui.net"/>
       <plugin id="org.eclipse.ui.views"/>
       <plugin id="org.eclipse.ui.views.log"/>
       <plugin id="org.eclipse.ui.win32" fragment="true"/>
@@ -111,6 +111,7 @@ Copyright 2009-2010
       <plugin id="org.eclipse.update.core"/>
       <plugin id="org.eclipse.update.core.win32" fragment="true"/>
       <plugin id="org.eclipse.update.ui"/>
+      <plugin id="org.jboss.tools.xulrunner.initializer" fragment="true"/>
       <plugin id="org.sat4j.core"/>
       <plugin id="org.sat4j.pb"/>
    </plugins>

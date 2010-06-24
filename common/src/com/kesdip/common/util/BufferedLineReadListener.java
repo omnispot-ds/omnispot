@@ -11,7 +11,9 @@ package com.kesdip.common.util;
 
 /**
  * Listener for lines read. Implementations of the class can be notified by
- * {@link BufferedLineReader} for incoming lines of input.
+ * {@link BufferedLineReader} for incoming lines of input. Processing occuring
+ * in this method must be as fast and atomic as possible to avoid causing pipe
+ * contention issues on the OS layer.
  * 
  * @author gerogias
  */
@@ -28,10 +30,10 @@ public interface BufferedLineReadListener {
 	boolean canProcessLine(String line);
 
 	/**
-	 * Called by the {@link BufferedLineReader} to process a read
-	 * line. The method is only called if {@link #canProcessLine(String)}
-	 * returned <code>true</code> . It should be short in its processing as it
-	 * is called inline.
+	 * Called by the {@link BufferedLineReader} to process a read line. The
+	 * method is only called if {@link #canProcessLine(String)} returned
+	 * <code>true</code> . It should be short in its processing as it is called
+	 * inline.
 	 * 
 	 * @param line
 	 *            the line to process

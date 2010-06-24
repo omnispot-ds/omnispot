@@ -9,13 +9,13 @@
 
 package com.kesdip.player.configure;
 
-import java.io.InputStreamReader;
-
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import com.kesdip.common.configure.ApplicationContextBeanSetter;
 import com.kesdip.common.exception.FieldSetException;
+import com.kesdip.common.util.BufferedLineReadListener;
+import com.kesdip.common.util.BufferedLineReader;
 import com.kesdip.common.util.StringUtils;
 import com.kesdip.player.Player;
 
@@ -31,10 +31,7 @@ import com.kesdip.player.Player;
  * 
  * @author gerogias
  */
-public class DeploymentConfigurer implements Runnable {
-	
-	private final static int BUFFER_SIZE = 512;
-	private final static int THREAD_CHECK_INTERVAL = 100;
+public class DeploymentConfigurer implements Runnable, BufferedLineReadListener {
 
 	/**
 	 * The logger.
@@ -56,7 +53,7 @@ public class DeploymentConfigurer implements Runnable {
 	public DeploymentConfigurer(Player player) {
 		this.player = player;
 	}
-	
+
 	/**
 	 * Endless loop reading from the standard in.
 	 * 
@@ -64,77 +61,48 @@ public class DeploymentConfigurer implements Runnable {
 	 */
 	@Override
 	public void run() {
-		InputStreamReader isr = null;
-		
-		char[] cb = new char[BUFFER_SIZE];
-		StringBuilder s = new StringBuilder(BUFFER_SIZE);
-		String line = null;
-		
+
+		BufferedLineReader reader = null;
 		try {
-			isr = new InputStreamReader(System.in, "UTF-8");
-			while (true) {
-				
-				// wait until there is some input
-				while (!isr.ready()) {
-					Thread.sleep(THREAD_CHECK_INTERVAL);
-				}
-				
-				int n = isr.read(cb, 0, BUFFER_SIZE);
-				int nlIdx = -1;
-				int nextToBeConsumed = 0;
-				
-				// check if our newly received input has new lines in it and process them. 
-				for (int i = 0 ; i < n ; i++) {
-					if (cb[i] == '\n') {
-						
-						// remove CR if it exists
-						if (i > 0 && cb[i-1] == '\r') {
-							nlIdx = i - 1;
-						} else {
-							nlIdx = i;
-						}
-						
-						// assemble and process the line
-						s.append(cb, nextToBeConsumed, nlIdx - nextToBeConsumed);
-						line = s.toString();
-						
-						//logger.trace("consuming line |" + line + "|");
-						processLine(line);
-						
-						// empty the buffer
-						s.setLength(0);
-						
-						// remember where we are in processing the buffer
-						nextToBeConsumed = i + 1;
-					} 
-				}
-				
-				// append the remainder of the buffer to the string builder
-				if (nextToBeConsumed < n)
-					s.append(cb, nextToBeConsumed, n - nextToBeConsumed);
-				
-			}
+			reader = new BufferedLineReader(System.in, "UTF-8");
+			reader.addListener(this);
 			
+			while (true) {
+				reader.read();
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {
 			try {
-				isr.close();
+				reader.close();
 			} catch (Exception e) {
 				// do nothing
 			}
 		}
 	}
-	
-	private void processLine(String line) {
+
+	/**
+	 * @see com.kesdip.common.util.BufferedLineReadListener#canProcessLine(java.lang.String)
+	 */
+	@Override
+	public boolean canProcessLine(String line) {
 		// not a configuration line
 		if (StringUtils.isEmpty(line)) {
-			return;
+			return false;
 		}
 		if (line.indexOf('=') == -1) {
 			logger.warn("Ignoring line: " + line);
-			return;
+			return false;
 		}
+		return true;
+	}
+
+	/**
+	 * @see com.kesdip.common.util.BufferedLineReadListener#processLine(java.lang.String)
+	 */
+	@Override
+	public void processLine(String line) {
+
 		ApplicationContext context = player.getDeploymentContext();
 		if (context == null) {
 			logger.warn("Deployment context not yet initialized");
@@ -151,5 +119,5 @@ public class DeploymentConfigurer implements Runnable {
 			logger.warn("Error setting expression: " + parts[0]);
 		}
 	}
-	
+
 }

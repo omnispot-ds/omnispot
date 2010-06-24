@@ -27,8 +27,6 @@ public class RestartPlayerMessage extends Message {
 
 	private String actionId;
 	private static Process playerProcess;
-	private StreamLogger playerOut;
-	private StreamLogger playerErr;
 
 	@Override
 	public String getActionId() {
@@ -50,11 +48,6 @@ public class RestartPlayerMessage extends Message {
 
 	public void process() throws Exception {
 		logger.info("Restarting player");
-
-		// Destroy the old player process if it exists.
-		if (playerProcess != null) {
-			stopLoggers();
-		}
 
 		// kill all orphan media players
 		ProcessUtils.killAll("mplayer.exe");
@@ -91,11 +84,11 @@ public class RestartPlayerMessage extends Message {
 				cmdArray.toArray(new String[cmdArray.size()]), null,
 				new File(workingDir));
 
-		playerOut = new StreamLogger("Player Output", playerProcess
-				.getInputStream(), Level.INFO);
+		StreamLogger playerOut = new StreamLogger("Player Output", Level.INFO);
+		playerOut.setInputStream(playerProcess.getInputStream());
 		playerOut.start();
-		playerErr = new StreamLogger("Player Error", playerProcess
-				.getErrorStream(), Level.ERROR);
+		StreamLogger playerErr = new StreamLogger("Player Error", Level.ERROR);
+		playerErr.setInputStream(playerProcess.getErrorStream());
 		playerErr.start();
 	}
 
@@ -108,17 +101,5 @@ public class RestartPlayerMessage extends Message {
 	 */
 	public static Process getPlayerProcess() {
 		return playerProcess;
-	}
-
-	/**
-	 * Stop the logger threads.
-	 */
-	private final void stopLoggers() {
-		if (playerErr != null) {
-			playerErr.stopRunning();
-		}
-		if (playerOut != null) {
-			playerOut.stopRunning();
-		}
 	}
 }

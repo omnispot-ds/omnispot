@@ -15,6 +15,9 @@ common/build
 common/dist
 demos/AdPlayerDemo/ad.mp4
 designer-preview/lib/*.jar
+designer-preview/lib/comfyj.lic
+designer-preview/lib/jniwrap.dll
+designer-preview/lib/jniwrap.lic
 designer/lib/*.jar
 designer/lib/*.war
 etc/old-installer

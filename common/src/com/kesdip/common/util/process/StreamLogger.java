@@ -9,20 +9,23 @@
 
 package com.kesdip.common.util.process;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import com.kesdip.common.util.BufferedLineReadListener;
+import com.kesdip.common.util.BufferedLineReader;
+
 /**
- * Utility class to redirect a stream's out to a logger. The stream is assumed
- * to contain lines of output. The class is mainly intended to capture Process
- * output.
+ * Utility class to redirect incoming lines to a logger.
+ * <p>
+ * The class can work both a listener in the context of another thread or be
+ * used as a Thread. In the latter case, it creates a {@link BufferedLineReader}
+ * inside an endless loop adding itself as a listener. Before using it as a
+ * thread, the {@link StreamLogger#setInputStream(InputStream)} and
+ * {@link #setEncoding(String)} (default "UTF-8") must be called.
+ * </p>
  * <p>
  * Based on code found <a
  * href="http://beradrian.wordpress.com/2008/01/30/jmplayer/">here</a>.
@@ -30,18 +33,13 @@ import org.apache.log4j.Logger;
  * 
  * @author gerogias
  */
-public class StreamLogger extends Thread {
+public class StreamLogger extends Thread implements BufferedLineReadListener {
 
 	/**
 	 * Default logger to use if no other is defined.
 	 */
 	private static final Logger defaultLogger = Logger
 			.getLogger(StreamLogger.class);
-
-	/**
-	 * The output of the process.
-	 */
-	private BufferedReader input = null;
 
 	/**
 	 * The logger to use, external or default.
@@ -59,14 +57,14 @@ public class StreamLogger extends Thread {
 	private String name = null;
 
 	/**
-	 * Flag used in the polling loop.
+	 * Only when the class is used as a thread.
 	 */
-	private boolean running = true;
-	
+	private InputStream inputStream;
+
 	/**
-	 * Listeners for read lines.
+	 * The encoding for the stream.
 	 */
-	private List<ProcessOutputListener> listeners = new ArrayList<ProcessOutputListener>();
+	private String encoding = "UTF-8";
 
 	/**
 	 * Default constructor is private.
@@ -76,147 +74,135 @@ public class StreamLogger extends Thread {
 	}
 
 	/**
-	 * Logs the output of the given stream to the given logger with the
-	 * specified level.
+	 * Logs the output to the given logger with the specified level.
 	 * 
 	 * @param name
 	 *            the name of the logger
-	 * @param inputStream
-	 *            the input
 	 * @param logger
 	 *            the logger
 	 * @param level
 	 *            the level to use
 	 */
-	public StreamLogger(String name, InputStream inputStream, Logger logger,
-			Level level) {
+	public StreamLogger(String name, Logger logger, Level level) {
 		this.name = name;
-		// buffer is large enough to prevent parent thread from blocking 
-		input = new BufferedReader(new InputStreamReader(inputStream), 256 * 1024);
 		this.logger = logger;
 		this.logLevel = level;
 	}
 
 	/**
-	 * Logs the output of the given stream to the given logger with a log level
-	 * of {@link Level#INFO}.
+	 * Logs the output to the given logger with a log level of
+	 * {@link Level#INFO}.
 	 * 
 	 * @param name
 	 *            the name of the logger
-	 * @param inputStream
-	 *            the stream
 	 * @param logger
 	 *            the logger
 	 */
-	public StreamLogger(String name, InputStream inputStream, Logger logger) {
+	public StreamLogger(String name, Logger logger) {
 		this.name = name;
-		input = new BufferedReader(new InputStreamReader(inputStream));
 		this.logger = logger;
 		this.logLevel = Level.INFO;
 	}
 
 	/**
-	 * Logs the output of the given stream to the default logger with the given
-	 * log level.
+	 * Logs the output to the default logger with the given log level.
 	 * 
 	 * @param name
 	 *            the name of the logger
-	 * @param inputStream
-	 *            the stream
 	 * @param logger
 	 *            the logger
 	 */
-	public StreamLogger(String name, InputStream inputStream, Level level) {
+	public StreamLogger(String name, Level level) {
 		this.name = name;
-		input = new BufferedReader(new InputStreamReader(inputStream));
 		this.logger = defaultLogger;
 		this.logLevel = level;
 	}
 
 	/**
-	 * Logs the output of the given stream to the default logger with a log
-	 * level of {@link Level#INFO}.
+	 * Logs the output to the default logger with a log level of
+	 * {@link Level#INFO}.
 	 * 
 	 * @param name
 	 *            the name of the logger
-	 * @param inputStream
-	 *            the stream
 	 */
-	public StreamLogger(String name, InputStream inputStream) {
+	public StreamLogger(String name) {
 		this.name = name;
-		input = new BufferedReader(new InputStreamReader(inputStream));
 		this.logger = defaultLogger;
 		this.logLevel = Level.INFO;
+	}
+
+	/**
+	 * @see com.kesdip.common.util.BufferedLineReadListener#canProcessLine(java.lang.String)
+	 */
+	@Override
+	public boolean canProcessLine(String line) {
+		return true;
+	}
+
+	/**
+	 * @see com.kesdip.common.util.BufferedLineReadListener#processLine(java.lang.String)
+	 */
+	@Override
+	public void processLine(String line) {
+		if (logger.isEnabledFor(logLevel)) {
+			logger.log(logLevel, name + ": " + line);
+		}
+	}
+
+	/**
+	 * @return the inputStream
+	 */
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	/**
+	 * @param inputStream
+	 *            the inputStream to set
+	 */
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
+	}
+
+	/**
+	 * @return the encoding
+	 */
+	public String getEncoding() {
+		return encoding;
+	}
+
+	/**
+	 * @param encoding
+	 *            the encoding to set
+	 */
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	/**
 	 * Stream copying pump.
 	 * 
 	 * @see java.lang.Thread#run()
+	 * @throws IllegalStateException
+	 *             if the inputstream is not set
 	 */
-	public void run() {
+	public void run() throws IllegalStateException {
+
+		BufferedLineReader reader = null;
 		try {
-			String line = null;
-			while (isRunning()) {
-				// read line by line
-				line = input.readLine();
-				if (line == null) {
-					stopRunning();
-				} else {
-					if (logger.isEnabledFor(logLevel)) {
-						logger.log(logLevel, name + ": " + line);
-					}
-					if (!listeners.isEmpty()) {
-						notifyListeners(line);
-					}
-				}
+			reader = new BufferedLineReader(inputStream, encoding);
+			reader.addListener(this);
+			while (true) {
+				reader.read();
 			}
-		} catch (IOException ioe) {
-			defaultLogger.error("Error reading line", ioe);
-		}
-	}
-
-	public synchronized void stopRunning() {
-		this.running = false;
-	}
-
-	public synchronized boolean isRunning() {
-		return running;
-	}
-
-	/**
-	 * Calls all listeners to process the read line, if matching.
-	 * 
-	 * @param line
-	 *            the read line
-	 */
-	private final void notifyListeners(String line) {
-		for (ProcessOutputListener listener : listeners) {
-			if (listener.canProcessLine(line)) {
-				try {
-					listener.processLine(line);
-				} catch (Exception e) {
-					logger.error("Error processing line", e);
-				}
+		} catch (Exception ioe) {
+//			defaultLogger.error("Error reading line", ioe);
+			try {
+				reader.close();
+			} catch (Exception e) {
+				// do nothing
 			}
 		}
 	}
 
-	/**
-	 * @param listener
-	 *            to add
-	 */
-	public void addListener(ProcessOutputListener listener) {
-		if (!listeners.contains(listener)) {
-			listeners.add(listener);
-		}
-	}
-
-	/**
-	 * @param listener
-	 *            to remove
-	 */
-	public void removeListener(ProcessOutputListener listener) {
-		listeners.remove(listener);
-	}
 }
