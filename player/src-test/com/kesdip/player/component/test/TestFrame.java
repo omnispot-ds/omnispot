@@ -71,16 +71,16 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 
 	private final String MPLAYER_EXE = System.getProperty("MPLAYER_EXE");
 
-	private final String VIDEO1 = "C:/Documents and Settings/gerogias/Desktop/mail/WhoSaysWomenCan_tPark.wmv";
+	private final String VIDEO1 = "C:/Documents and Settings/gerogias/Desktop/mail/Accident on the Job.wmv";
 
-	private final String VIDEO2 = "C:/Documents and Settings/gerogias/Desktop/mail/chicken police (1).mpg";
+	private final String VIDEO2 = "C:/Documents and Settings/gerogias/Desktop/mail/Crazy Painting.wmv";
 
-	private final String VIDEO3 = "C:/Documents and Settings/gerogias/Desktop/mail/promenade(ch).wmv";
+	private final String VIDEO3 = "C:/Documents and Settings/gerogias/Desktop/mail/escape.wmv";
 
 	private final String CHANNEL = "48";
 
 	private final String CHANNELS_CONF = "C:/dbin/MPlayer-tv-directx/channels.conf";
-	
+
 	private final String PLAYER_EXE = "c:/dbin/mplayer/mplayer.exe";
 
 	private TestFrame() {
@@ -168,8 +168,8 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 	}
 
 	private void init() throws Exception {
-//		getEmbedded1MPlayer();
-//		getEmbedded2MPlayer();
+		// getEmbedded1MPlayer();
+		// getEmbedded2MPlayer();
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -191,7 +191,7 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 				MPlayer player = (src.equals(play1_1Button) || src
 						.equals(play1_2Button)) ? getEmbedded1MPlayer()
 						: getEmbedded2MPlayer();
-				player.playFile(video, true);
+//				player.playFile(video, false);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -252,6 +252,7 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 				MPlayer player = src.equals(pos1Button) ? getEmbedded1MPlayer()
 						: getEmbedded2MPlayer();
 				player.pollProgress();
+				player.pollFullScreen();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -266,6 +267,7 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 			config.setColorKey(Color.BLACK);
 			config.setWindowId(com.sun.jna.Native.getComponentID(canvas1));
 			config.setLoop(true);
+			config.addListener(this);
 			Playlist playlist = new Playlist("test");
 			playlist.setFullScreen(false);
 			playlist.addFile(VIDEO1);
@@ -284,6 +286,12 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 			config.setColorKey(Color.WHITE);
 			config.setWindowId(com.sun.jna.Native.getComponentID(canvas2));
 			config.setLoop(false);
+			config.addListener(this);
+			Playlist playlist = new Playlist("test2");
+			playlist.setFullScreen(false);
+			playlist.addFile(VIDEO3);
+			playlist.addFile(VIDEO1);
+			config.addPlaylist(playlist);
 			embedded2MPlayer = MPlayer.getInstance(config);
 			// embedded2MPlayer.addFile(VIDEO2);
 			// embedded2MPlayer.play();
@@ -368,5 +376,15 @@ public class TestFrame extends JFrame implements MPlayerEventListener {
 				System.exit(0);
 			}
 		}
+	}
+
+	/**
+	 * @see com.kesdip.player.components.media.MPlayerEventListener#fullScreenStatusChanged(java.lang.String,
+	 *      boolean)
+	 */
+	@Override
+	public void fullScreenStatusChanged(String playerName, boolean newStatus) {
+		System.out.println("------Full screen status changed: " + playerName
+				+ ", " + newStatus);
 	}
 }

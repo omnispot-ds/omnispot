@@ -59,7 +59,7 @@ public class StreamLogger extends Thread {
 	private String name = null;
 
 	/**
-	 * Flag used in the pollin loop.
+	 * Flag used in the polling loop.
 	 */
 	private boolean running = true;
 	
