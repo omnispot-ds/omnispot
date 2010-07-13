@@ -66,7 +66,7 @@ public abstract class MPlayerConfiguration implements Serializable {
 	private String playerExecutable = null;
 	
 	/**
-	 * The listeners for playbqack events.
+	 * The listeners for playback events.
 	 */
 	private List<MPlayerEventListener> listeners = new ArrayList<MPlayerEventListener>();
 
@@ -136,10 +136,11 @@ public abstract class MPlayerConfiguration implements Serializable {
 		clone.windowId = this.windowId;
 		clone.playerName = this.playerName;
 		clone.playerExecutable = this.playerExecutable;
+		clone.listeners.addAll(this.listeners); 
 	}
 
 	/**
-	 * Template metod for descendants.
+	 * Template method for descendants.
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
@@ -168,7 +169,7 @@ public abstract class MPlayerConfiguration implements Serializable {
 	 *            to add
 	 */
 	public void addListener(MPlayerEventListener listener) {
-		if (listeners.contains(listener)) {
+		if (!listeners.contains(listener)) {
 			listeners.add(listener);
 		}
 	}

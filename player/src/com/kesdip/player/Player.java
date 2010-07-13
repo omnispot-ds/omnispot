@@ -8,6 +8,7 @@ package com.kesdip.player;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Robot;
 import java.io.InputStream;
 import java.util.List;
@@ -394,6 +395,33 @@ public class Player implements Runnable {
 		backgroundFrame.pack();
 		backgroundFrame.setVisible(true);
 		backgroundFrame.requestFocus();
+	}
+
+	/**
+	 * Utility method. Brings the background frame to the foreground, hiding the
+	 * frame containing the layout. A case when this is useful is to hide the
+	 * active layout when full-screen videos are playing.
+	 * @see Bug#150
+	 */
+	public void hideActiveLayout() {
+		if (backgroundFrame.getState() != Frame.NORMAL) {
+			backgroundFrame.setState(Frame.NORMAL);
+		}
+		backgroundFrame.setAlwaysOnTop(true);
+		backgroundFrame.toFront();
+		backgroundFrame.repaint();
+	}
+
+	/**
+	 * Utility method. Puts the background frame to the background, showing the
+	 * active content frame again.
+	 */
+	public void unhideActiveLayout() {
+		if (backgroundFrame.getState() != Frame.NORMAL) {
+			backgroundFrame.setState(Frame.NORMAL);
+		}
+		backgroundFrame.setAlwaysOnTop(false);
+		backgroundFrame.toBack();
 	}
 
 	private void destroyBackgroundFrame() {

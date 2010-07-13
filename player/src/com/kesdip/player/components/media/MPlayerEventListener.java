@@ -25,13 +25,13 @@ public interface MPlayerEventListener {
 	void playbackCompleted(String playerName);
 
 	/**
-	 * The full item status of the player has changed.
+	 * Player has switched to fullscreen/normal mode.
 	 * 
 	 * @param playerName
 	 *            name of the player
 	 * @param newStatus
-	 *            the new full-screen status; <code>true</code> means the player
-	 *            has become fullscreen
+	 *            the new status; <code>true</code> means the player is now in
+	 *            fullscreen
 	 */
 	void fullScreenStatusChanged(String playerName, boolean newStatus);
 }

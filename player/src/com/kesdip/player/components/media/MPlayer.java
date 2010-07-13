@@ -13,8 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -27,6 +27,8 @@ import com.kesdip.common.util.process.ProcessExitDetector;
 import com.kesdip.common.util.process.ProcessExitListener;
 import com.kesdip.common.util.process.StreamLogger;
 import com.kesdip.player.components.media.VideoConfiguration.Playlist;
+import com.kesdip.player.components.media.loglistener.FullScreenLogReader;
+import com.kesdip.player.components.media.loglistener.PlaybackCompletedLogReader;
 import com.kesdip.player.constenum.VideoQualityTypes;
 
 /**
@@ -44,7 +46,7 @@ import com.kesdip.player.constenum.VideoQualityTypes;
  * @see http://www.mplayerhq.hu/DOCS/man/en/mplayer.1.html
  * @author gerogias
  */
-public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
+public class MPlayer implements ProcessExitListener {
 
 	/**
 	 * The logger.
@@ -56,12 +58,6 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 	 * Windows it is a double quote, in *X systems a single quote.
 	 */
 	private final char FILE_PATH_CHAR = '\\' == File.separatorChar ? '"' : '\'';
-
-	/**
-	 * Pattern for the video progress percent.
-	 */
-	private final Pattern VIDEO_POS_PATTERN = Pattern
-			.compile("ANS_percent_pos\\=(\\d+?)");
 
 	/**
 	 * The MPlayer instance command-line input. Never use this property directly
@@ -129,20 +125,8 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 			String cmdLine = createCommandLine(config);
 
 			Process process = Runtime.getRuntime().exec(cmdLine);
-
 			mplayerIn = new PrintStream(process.getOutputStream());
-			ProcessExitDetector exitDetector = new ProcessExitDetector(process,
-					config.getPlayerName());
-			exitDetector.addProcessListener(this);
-			exitDetector.start();
-			StreamLogger inputLogger = new StreamLogger(config.getPlayerName(),
-					Level.INFO);
-			new MPlayerProcessReadingLoop(process.getInputStream(), inputLogger)
-					.start();
-			StreamLogger errorLogger = new StreamLogger(config.getPlayerName(),
-					Level.WARN);
-			new MPlayerProcessReadingLoop(process.getErrorStream(), errorLogger)
-					.start();
+			createTrackers(process, this.config);
 		}
 		return mplayerIn;
 	}
@@ -163,19 +147,8 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 		String cmdLine = createCommandLine(videoConfig);
 
 		Process process = Runtime.getRuntime().exec(cmdLine);
-
-		ProcessExitDetector exitDetector = new ProcessExitDetector(process,
-				videoConfig.getPlayerName());
-		exitDetector.addProcessListener(new CronPlaybackProcessListener());
-		exitDetector.start();
-		StreamLogger playerOut = new StreamLogger(videoConfig.getPlayerName(),
-				Level.INFO);
-		playerOut.setInputStream(process.getInputStream());
-		playerOut.start();
-		StreamLogger playerErr = new StreamLogger(videoConfig.getPlayerName(),
-				Level.WARN);
-		playerErr.setInputStream(process.getErrorStream());
-		playerErr.start();
+		mplayerIn = new PrintStream(process.getOutputStream());
+		createTrackers(process, videoConfig);
 	}
 
 	/**
@@ -314,50 +287,6 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 	}
 
 	/**
-	 * Starts playback if the player was stopped, or goes to the next item in
-	 * the playlist if the player was playing.
-	 * 
-	 * @throws IllegalStateException
-	 *             if this is not a video player
-	 */
-	// public void play() {
-	// if (!(config instanceof VideoConfiguration)) {
-	// throw new IllegalStateException(
-	// "'play' is only allowed for a video file player");
-	// }
-	// try {
-	// PrintStream in = getMPlayerIn();
-	// in.print("\n\n");
-	// in.flush();
-	// stopped = false;
-	// paused = false;
-	// } catch (IOException e) {
-	// logger.error("Error stopping player", e);
-	// }
-	// }
-	/**
-	 * Adds a file at the end of the player's internal playlist, without
-	 * iterrupting playback.
-	 * 
-	 * @param fileName
-	 *            full path to the file to add
-	 * @throws IllegalStateException
-	 *             if this is not a video player
-	 */
-	// public void addFile(String fileName) {
-	// if (!(config instanceof VideoConfiguration)) {
-	// throw new IllegalStateException(
-	// "'addFile' is only allowed for a video file player");
-	// }
-	// try {
-	// PrintStream in = getMPlayerIn();
-	// in.print("loadfile \"" + fileName + "\" 1\n");
-	// in.flush();
-	// } catch (IOException e) {
-	// logger.error("Error playing file", e);
-	// }
-	// }
-	/**
 	 * Interrupts playback and plays the given file only once.
 	 * <p>
 	 * The player is terminated and a new, temporary player instance is created.
@@ -428,10 +357,24 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 		}
 		try {
 			PrintStream in = getMPlayerIn();
-			in.print("get_property percent_pos\n\n");
+			in.print("get_property percent_pos\n");
 			in.flush();
 		} catch (IOException e) {
 			logger.error("Error polling progress", e);
+		}
+	}
+
+	/**
+	 * Ask the MPlayer if it is currently in fullscreen. It will cause a
+	 * callback to all registered {@link MPlayerFullScreenStatusTracker}s.
+	 */
+	public void pollFullScreen() {
+		try {
+			PrintStream in = getMPlayerIn();
+			in.print("get_property fullscreen\n");
+			in.flush();
+		} catch (IOException e) {
+			logger.error("Error polling fullscreen", e);
 		}
 	}
 
@@ -443,32 +386,6 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 	public void processFinished(Process process, Object userObject) {
 		logger.warn("Player '" + config.getPlayerName() + "' finished");
 		mplayerIn = null;
-	}
-
-	/**
-	 * @return boolean <code>true</code> if this is a progress line
-	 * @see BufferedLineReadListener#canProcessLine(String)
-	 */
-	@Override
-	public boolean canProcessLine(String line) {
-		return VIDEO_POS_PATTERN.matcher(line).matches();
-	}
-
-	/**
-	 * @param line
-	 *            the line to read the progress percentage from
-	 * @see BufferedLineReadListener#processLine(String)
-	 */
-	@Override
-	public void processLine(String line) {
-		Matcher matcher = VIDEO_POS_PATTERN.matcher(line);
-		matcher.matches();
-		int progress = Integer.valueOf(matcher.group(1));
-		if (progress == 100 && !config.getListeners().isEmpty()) {
-			for (MPlayerEventListener listener : config.getListeners()) {
-				listener.playbackCompleted(config.getPlayerName());
-			}
-		}
 	}
 
 	/**
@@ -552,28 +469,35 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 	}
 
 	/**
-	 * Listener for cron playback exit events.
+	 * Utility method to create the various status trackers attached to the
+	 * external <code>Process</code> object.
 	 * 
-	 * @author gerogias
+	 * @param process
+	 *            the process
 	 */
-	private final class CronPlaybackProcessListener implements
-			ProcessExitListener {
-
-		/**
-		 * Starts playback of the main MPlayer.
-		 * 
-		 * @see com.kesdip.common.util.process.ProcessExitListener#processFinished(java.lang.Process,
-		 *      java.lang.Object)
-		 */
-		@Override
-		public void processFinished(Process process, Object userObject) {
-			logger.warn("Player '" + userObject + "' finished");
-			try {
-				MPlayer.this.mplayerIn = MPlayer.this.getMPlayerIn();
-			} catch (Exception e) {
-				logger.error("Error re-creating player", e);
-			}
-		}
+	private final void createTrackers(Process process,
+			MPlayerConfiguration config) {
+		ProcessExitDetector exitDetector = new ProcessExitDetector(process,
+				config.getPlayerName());
+		exitDetector.addProcessListener(this);
+		exitDetector.start();
+		// listeners for process info
+		Collection<BufferedLineReadListener> infoListeners = new ArrayList<BufferedLineReadListener>();
+		infoListeners.add(new StreamLogger(config.getPlayerName(), Level.INFO));
+		infoListeners.add(new FullScreenLogReader(config.getListeners(), config
+				.getPlayerName()));
+		infoListeners.add(new PlaybackCompletedLogReader(config.getListeners(),
+				config.getPlayerName()));
+		MPlayerProcessReadingLoop infoReadingLoop = new MPlayerProcessReadingLoop(
+				process.getInputStream(), infoListeners);
+		infoReadingLoop.start();
+		// listeners for error info
+		Collection<BufferedLineReadListener> errorListeners = new ArrayList<BufferedLineReadListener>();
+		errorListeners
+				.add(new StreamLogger(config.getPlayerName(), Level.WARN));
+		MPlayerProcessReadingLoop errorReadingLoop = new MPlayerProcessReadingLoop(
+				process.getErrorStream(), errorListeners);
+		errorReadingLoop.start();
 	}
 
 	/**
@@ -589,9 +513,9 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 		 */
 		private InputStream inputStream;
 		/**
-		 * The associated StreamLogger.
+		 * The listeners to notify.
 		 */
-		private StreamLogger logger;
+		private Collection<BufferedLineReadListener> listeners;
 
 		/**
 		 * Constructor.
@@ -601,9 +525,10 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 		 * @param logger
 		 *            the logger
 		 */
-		private MPlayerProcessReadingLoop(InputStream input, StreamLogger logger) {
+		private MPlayerProcessReadingLoop(InputStream input,
+				Collection<BufferedLineReadListener> listeners) {
 			this.inputStream = input;
-			this.logger = logger;
+			this.listeners = listeners;
 		}
 
 		/**
@@ -611,23 +536,22 @@ public class MPlayer implements ProcessExitListener, BufferedLineReadListener {
 		 */
 		@Override
 		public void run() {
-			BufferedLineReader reader;
+			BufferedLineReader reader = null;
 			try {
 				reader = new BufferedLineReader(inputStream);
-				reader.addListener(MPlayer.this);
-				reader.addListener(logger);
-
+				for (BufferedLineReadListener listener : listeners) {
+					reader.addListener(listener);
+				}
 				while (true) {
 					reader.read();
 				}
 			} catch (Exception e) {
 				try {
-
+					reader.close();
 				} catch (Exception ex) {
 					// do nothing
 				}
 			}
 		}
-
 	}
 }

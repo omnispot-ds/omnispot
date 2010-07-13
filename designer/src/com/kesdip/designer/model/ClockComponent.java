@@ -76,7 +76,7 @@ public class ClockComponent extends ComponentModelElement {
 	@Override
 	protected Element serialize(Document doc, boolean isPublish) {
 		Element clockElement = doc.createElement("bean");
-		clockElement.setAttribute("class", "com.kesdip.player.components.Clock");
+		clockElement.setAttribute("class", "com.kesdip.player.components.clock.Clock");
 		super.serialize(doc, clockElement);
 
 		DOMHelpers.addProperty(doc, clockElement, "dateFormat", dateFormat);

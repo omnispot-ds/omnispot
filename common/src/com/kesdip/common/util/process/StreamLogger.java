@@ -136,7 +136,7 @@ public class StreamLogger extends Thread implements BufferedLineReadListener {
 	 */
 	@Override
 	public boolean canProcessLine(String line) {
-		return true;
+		return logger.isEnabledFor(logLevel);
 	}
 
 	/**
@@ -144,9 +144,7 @@ public class StreamLogger extends Thread implements BufferedLineReadListener {
 	 */
 	@Override
 	public void processLine(String line) {
-		if (logger.isEnabledFor(logLevel)) {
-			logger.log(logLevel, name + ": " + line);
-		}
+		logger.log(logLevel, name + ": " + line);
 	}
 
 	/**

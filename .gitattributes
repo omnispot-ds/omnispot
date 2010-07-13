@@ -991,6 +991,8 @@ player/src/com/kesdip/player/components/media/MPlayerConfiguration.java -text
 player/src/com/kesdip/player/components/media/MPlayerEventListener.java -text
 player/src/com/kesdip/player/components/media/TunerVideo.java -text
 player/src/com/kesdip/player/components/media/VideoConfiguration.java -text
+player/src/com/kesdip/player/components/media/loglistener/FullScreenLogReader.java -text
+player/src/com/kesdip/player/components/media/loglistener/PlaybackCompletedLogReader.java -text
 player/src/com/kesdip/player/components/ticker/RefreshJob.java -text
 player/src/com/kesdip/player/components/ticker/RssTickerSource.java -text
 player/src/com/kesdip/player/components/ticker/StringTickerSource.java -text

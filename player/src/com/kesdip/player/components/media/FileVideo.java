@@ -12,6 +12,8 @@ package com.kesdip.player.components.media;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -33,7 +35,8 @@ import com.kesdip.player.helpers.PlayerUtils;
  * 
  * @author gerogias
  */
-public class FileVideo extends AbstractMPlayerVideo implements InitializingBean {
+public class FileVideo extends AbstractMPlayerVideo implements
+		InitializingBean, MPlayerEventListener {
 
 	/**
 	 * The logger.
@@ -54,7 +57,12 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	 * Play content in high/normal quality.
 	 */
 	private String quality = VideoQualityTypes.NORMAL;
-	
+
+	/**
+	 * Timer task to poll the full-screen status of the player.
+	 */
+	private Timer fullScreenPollingTimer = null;
+
 	/**
 	 * @see com.kesdip.player.components.media.AbstractMPlayerVideo#getPlayerConfiguration()
 	 */
@@ -63,13 +71,14 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 		VideoConfiguration config = new VideoConfiguration();
 		config.setPlayerExecutable(FileUtils.getNativePathName(Player
 				.getMPlayerFile()));
-		config.setPlayerName(super.id != null ? super.id : "FileVideo");
+		config.setPlayerName(getPlayerName());
 		config.setColorKey(getWindowComponent().getBackground());
 		config.setFullScreen(false);
 		config.setLoop(repeat);
 		config.setWindowId(com.sun.jna.Native
 				.getComponentID(getWindowComponent()));
 		config.setQuality(quality);
+		config.addListener(this);
 		// split resources into playlists
 		preparePlaylists(config);
 		return config;
@@ -172,7 +181,9 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 				config.addPlaylist(playlist);
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("Adding video to playlist: " + res.getIdentifier());
+				logger
+						.debug("Adding video to playlist: "
+								+ res.getIdentifier());
 			}
 			playlist.addFile(getResourcePath(res));
 			previousRes = res;
@@ -194,6 +205,9 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 		} catch (Exception e) {
 			throw new ComponentException("Unable to initialize component", e);
 		}
+		// see Bug#150
+		fullScreenPollingTimer = new Timer(getPlayerName());
+		fullScreenPollingTimer.scheduleAtFixedRate(new MPlayerPoller(), 2, 500);
 	}
 
 	/**
@@ -234,10 +248,84 @@ public class FileVideo extends AbstractMPlayerVideo implements InitializingBean 
 	}
 
 	/**
-	 * @param quality the quality to set
+	 * @param quality
+	 *            the quality to set
 	 */
 	public void setQuality(String quality) {
 		this.quality = quality;
 	}
 
+	/**
+	 * Toggle the background frame front and back in case there is a full-screen
+	 * video playing.
+	 * 
+	 * @see com.kesdip.player.components.media.MPlayerEventListener#fullScreenStatusChanged(java.lang.String,
+	 *      boolean)
+	 * @see Bug#150
+	 */
+	@Override
+	public void fullScreenStatusChanged(String playerName, boolean newStatus) {
+		if (newStatus) {
+			this.player.hideActiveLayout();
+			System.out.println("-------------Hiding layout");
+		} else {
+			this.player.unhideActiveLayout();
+			System.out.println("-------------Showing layout");
+		}
+	}
+
+	/**
+	 * Not implemented.
+	 * 
+	 * @see com.kesdip.player.components.media.MPlayerEventListener#playbackCompleted(java.lang.String)
+	 */
+	@Override
+	public void playbackCompleted(String playerName) {
+		// We are not interested in this method
+	}
+
+	/**
+	 * Terminates the full-screen polling thread.
+	 * 
+	 * @see com.kesdip.player.components.media.AbstractMPlayerVideo#releaseResources()
+	 */
+	@Override
+	public void releaseResources() {
+		super.releaseResources();
+
+		if (fullScreenPollingTimer != null) {
+			fullScreenPollingTimer.cancel();
+		}
+		// just in case we finished with the layout hidden
+		super.player.unhideActiveLayout();
+	}
+
+	/**
+	 * Performs polling of the MPlayer instance for changes in the full-screen
+	 * status.
+	 * 
+	 * @author gerogias
+	 * @see Bug#150
+	 */
+	private final class MPlayerPoller extends TimerTask {
+
+		/**
+		 * @see java.util.TimerTask#run()
+		 */
+		@Override
+		public void run() {
+			MPlayer player = FileVideo.this.getMPlayer();
+			if (player != null) {
+				player.pollFullScreen();
+			}
+		}
+
+	}
+
+	/**
+	 * @return String the player's name
+	 */
+	private final String getPlayerName() {
+		return super.id != null ? super.id : "FileVideo";
+	}
 }
