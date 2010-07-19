@@ -16,6 +16,7 @@ import org.videolan.jvlc.internal.LibVlc.libvlc_exception_t;
 import org.videolan.jvlc.internal.LibVlc.libvlc_log_message_t;
 
 import com.kesdip.common.util.ProcessUtils;
+import com.kesdip.common.util.StringUtils;
 import com.kesdip.player.Player;
 import com.kesdip.player.TimingMonitor;
 import com.kesdip.player.DeploymentLayout.CompletionStatus;
@@ -46,7 +47,13 @@ public abstract class AbstractVideo extends AbstractComponent {
 	 * The VLC executable name.
 	 */
 	public final String VLC_EXE_NAME = "vlc.exe";
-	
+
+	/* Spring state */
+	/**
+	 * Additional command-line args.
+	 */
+	private String extraArgs;
+
 	/* TRANSIENT STATE */
 	protected LibVlc libVlc;
 	protected libvlc_exception_t exception;
@@ -64,6 +71,8 @@ public abstract class AbstractVideo extends AbstractComponent {
 	 * @param fullscreen
 	 *            if <code>true</code> the instance is initialized as
 	 *            full-screen
+	 * @param extraArgs
+	 *            extra command-line arguments
 	 * @throws Exception
 	 *             on error
 	 * @see #createVLCInstance(Resource, boolean)
@@ -74,7 +83,7 @@ public abstract class AbstractVideo extends AbstractComponent {
 			this.fullScreen = fullscreen;
 
 			libVlc = LibVlc.SYNC_INSTANCE;
-	
+
 			logger.info("Starting VLC");
 			if (logger.isDebugEnabled()) {
 				logger.debug("Fullscreen: " + fullscreen);
@@ -82,13 +91,13 @@ public abstract class AbstractVideo extends AbstractComponent {
 				logger.debug("Changeset: " + libVlc.libvlc_get_changeset());
 				logger.debug("Compiler: " + libVlc.libvlc_get_compiler());
 			}
-	
+
 			exception = new LibVlc.libvlc_exception_t();
 			libVlc.libvlc_exception_init(exception);
 			assertOnException("initVLC.libvlc_exception_init");
-	
-			createVLCInstance(fullscreen);
-	
+
+			createVLCInstance(fullscreen, StringUtils.toArgArray(extraArgs, "\\|"));
+
 			libvlc_log = libVlc.libvlc_log_open(libvlc_instance_t, exception);
 			assertOnException("initVLC.libvlc_log_open");
 		}
@@ -101,10 +110,15 @@ public abstract class AbstractVideo extends AbstractComponent {
 	 * {@link #releaseResources()}.
 	 * </p>
 	 * 
+	 * @param fullscreen
+	 *            if the player should be full screen
+	 * @param extraArgArray
+	 *            extra command-line args
 	 * @throws Exception
 	 *             on error
 	 */
-	protected void createVLCInstance(boolean fullscreen) throws Exception {
+	protected void createVLCInstance(boolean fullscreen, String[] extraArgArray)
+			throws Exception {
 		File pluginsPath = new File(Player.getVlcPath() + File.separator
 				+ "plugins");
 		List<String> args = new ArrayList<String>();
@@ -129,6 +143,12 @@ public abstract class AbstractVideo extends AbstractComponent {
 		args.add("--plugin-path=" + pluginsPath.getAbsolutePath());
 		// full-screen mode
 		args.add(fullscreen ? "--fullscreen" : "--no-fullscreen");
+		// additional arguments
+		if (extraArgs != null) {
+			for (String arg : extraArgArray) {
+				args.add(arg.trim());
+			}
+		}
 		// init native component
 		String[] ma = args.toArray(new String[args.size()]);
 		libvlc_instance_t = libVlc.libvlc_new(ma.length, ma, exception);
@@ -399,9 +419,26 @@ public abstract class AbstractVideo extends AbstractComponent {
 	}
 
 	/**
-	 * @param fullScreen the fullScreen to set
+	 * @param fullScreen
+	 *            the fullScreen to set
 	 */
 	public void setFullScreen(boolean fullScreen) {
 		this.fullScreen = fullScreen;
 	}
+
+	/**
+	 * @return the extraArgs
+	 */
+	public String getExtraArgs() {
+		return extraArgs;
+	}
+
+	/**
+	 * @param extraArgs
+	 *            the extraArgs to set
+	 */
+	public void setExtraArgs(String extraArgs) {
+		this.extraArgs = extraArgs;
+	}
+
 }

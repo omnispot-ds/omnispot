@@ -60,10 +60,11 @@ public class TunerVideo extends AbstractVideo {
 	/**
 	 * Creates a new VLC instance.
 	 * 
-	 * @see com.kesdip.player.components.AbstractVideo#createVLCInstance(boolean)
+	 * @see com.kesdip.player.components.AbstractVideo#createVLCInstance(boolean,String[])
 	 */
 	@Override
-	protected void createVLCInstance(boolean fullscreen) throws Exception {
+	protected void createVLCInstance(boolean fullscreen, String[] extraArgArray)
+			throws Exception {
 		File pluginsPath = new File(Player.getVlcPath() + File.separator
 				+ "plugins");
 		List<String> args = new ArrayList<String>();
@@ -120,6 +121,12 @@ public class TunerVideo extends AbstractVideo {
 			// no overlays (no native accel.)
 			args.add("--no-overlay");
 		}
+		// extra arguments
+		if (extraArgArray != null) {
+			for (String arg : extraArgArray) {
+				args.add(arg);
+			}
+		}
 		// path to plugins folder
 		args.add("--plugin-path=" + pluginsPath.getAbsolutePath());
 		if (logger.isDebugEnabled()) {
@@ -154,13 +161,13 @@ public class TunerVideo extends AbstractVideo {
 	/**
 	 * Start a minimized and muted stand-alone instance of VLC and then kill it.
 	 * Absolutely no f@#$ing idea why this is needed!
+	 * 
 	 * @throws IOException
 	 *             on error
 	 */
-	private final void launchStandaloneVlc()
-			throws IOException {
-		Process vlcProcess = Runtime.getRuntime().exec(VLC_EXE_NAME,
-				null, new File(Player.getVlcPath()));
+	private final void launchStandaloneVlc() throws IOException {
+		Process vlcProcess = Runtime.getRuntime().exec(VLC_EXE_NAME, null,
+				new File(Player.getVlcPath()));
 		// wait 0,3 seconds
 		try {
 			Thread.sleep(300);

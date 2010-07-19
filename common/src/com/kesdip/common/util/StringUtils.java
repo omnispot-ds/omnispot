@@ -198,4 +198,28 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
 		}
 		return message.replace(ACTION_MESSAGE_DELIM, LINE_SEPARATOR);
 	}
+
+	/**
+	 * Split the given argValue using the splitExpression as delimiter.
+	 * 
+	 * @param argValue
+	 *            the arg value
+	 * @param splitExpr
+	 *            the delimiter
+	 * @return String[] the split value or an empty array if the value is
+	 *         null/empty
+	 * @throws IllegalArgumentException
+	 *             if the splitExpr is null/empty
+	 */
+	public static String[] toArgArray(String argValue, String splitExpr) {
+
+		if (isEmpty(splitExpr)) {
+			throw new IllegalArgumentException(
+					"Split expression cannot be empty");
+		}
+		if (isEmpty(argValue)) {
+			return new String[] {};
+		}
+		return argValue.split(splitExpr);
+	}
 }

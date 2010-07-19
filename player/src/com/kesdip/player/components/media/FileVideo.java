@@ -79,6 +79,7 @@ public class FileVideo extends AbstractMPlayerVideo implements
 				.getComponentID(getWindowComponent()));
 		config.setQuality(quality);
 		config.addListener(this);
+		config.setExtraArgs(StringUtils.toArgArray(getExtraArgs(), "\\|"));
 		// split resources into playlists
 		preparePlaylists(config);
 		return config;

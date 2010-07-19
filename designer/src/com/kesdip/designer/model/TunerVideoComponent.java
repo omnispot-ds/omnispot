@@ -53,6 +53,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	public static final String AUDIO_INPUT_PROP = "Tuner.AudioInputProp";
 	public static final String FULL_SCREEN_PROP = "Tuner.FullScreen";
 	public static final String VIDEO_PROVIDER_PROP = "Video.VideoProvider";
+	public static final String EXTRA_ARGS_PROP = "Tuner.ExtraArgsProp";
 
 	private static final String STRING_VLC = "VLC";
 
@@ -68,6 +69,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 	private int audioInput;
 	private String provider;
 	private boolean fullScreen;
+	private String extraArgs;
 
 	public TunerVideoComponent() {
 		type = AnalogVideoType;
@@ -79,6 +81,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		audioInput = 0;
 		provider = STRING_MPLAYER;
 		fullScreen = false;
+		extraArgs = "";
 	}
 
 	protected Element serialize(Document doc, boolean isPublish) {
@@ -95,16 +98,21 @@ public class TunerVideoComponent extends ComponentModelElement {
 		super.serialize(doc, videoElement);
 		DOMHelpers.addProperty(doc, videoElement, "type", type
 				.equals(AnalogVideoType) ? "1" : "2");
-		DOMHelpers.addProperty(doc, videoElement, "videoDevice", videoDevice);
 		DOMHelpers.addProperty(doc, videoElement, "audioDevice", audioDevice);
 		DOMHelpers.addProperty(doc, videoElement, "channel", channel);
 		DOMHelpers.addProperty(doc, videoElement, "country", country);
-		DOMHelpers.addProperty(doc, videoElement, "videoInput", String
-				.valueOf(videoInput));
-		DOMHelpers.addProperty(doc, videoElement, "audioInput", String
-				.valueOf(audioInput));
+		// serialize only for VLC
+		if (provider.equals(STRING_VLC)) {
+			DOMHelpers.addProperty(doc, videoElement, "videoDevice",
+					videoDevice);
+			DOMHelpers.addProperty(doc, videoElement, "videoInput", String
+					.valueOf(videoInput));
+			DOMHelpers.addProperty(doc, videoElement, "audioInput", String
+					.valueOf(audioInput));
+		}
 		DOMHelpers.addProperty(doc, videoElement, "fullScreen", Boolean
 				.toString(fullScreen));
+		DOMHelpers.addProperty(doc, videoElement, "extraArgs", extraArgs);
 		return videoElement;
 	}
 
@@ -136,6 +144,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 				"fullScreen");
 		setPropertyValue(FULL_SCREEN_PROP, fullScreenStr != null ? fullScreen
 				: "false");
+		setPropertyValue(EXTRA_ARGS_PROP, DOMHelpers.getSimpleProperty(
+				componentNode, "extraArgs"));
 		super.deserialize(doc, componentNode);
 	}
 
@@ -150,6 +160,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		memento.putInteger(TAG_AUDIO_INPUT, audioInput);
 		memento.putString(TAG_TUNER_VIDEO_PROVIDER, provider);
 		memento.putBoolean(TAG_TUNER_FULL_SCREEN, fullScreen);
+		memento.putString(TAG_EXTRA_ARGS, extraArgs);
 	}
 
 	public void load(IMemento memento) {
@@ -163,6 +174,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		audioInput = memento.getInteger(TAG_AUDIO_INPUT);
 		provider = memento.getString(TAG_TUNER_VIDEO_PROVIDER);
 		fullScreen = memento.getBoolean(TAG_TUNER_FULL_SCREEN);
+		extraArgs = memento.getString(TAG_EXTRA_ARGS);
 	}
 
 	@Override
@@ -178,6 +190,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		assert (audioInput == ((TunerVideoComponent) other).audioInput);
 		assert (provider.equals(((TunerVideoComponent) other).provider));
 		assert (fullScreen == ((TunerVideoComponent) other).fullScreen);
+		assert (extraArgs.equals(((TunerVideoComponent) other).extraArgs));
 	}
 
 	/*
@@ -200,12 +213,12 @@ public class TunerVideoComponent extends ComponentModelElement {
 				new TextPropertyDescriptor(COUNTRY_PROP, "Country code"),
 				new TextPropertyDescriptor(VIDEO_DEVICE_PROP,
 						"Video Device (VLC only)"),
-				new TextPropertyDescriptor(AUDIO_DEVICE_PROP,
-						"Audio Device (VLC only)"),
+				new TextPropertyDescriptor(AUDIO_DEVICE_PROP, "Audio Device"),
 				new TextPropertyDescriptor(VIDEO_INPUT_PROP,
 						"Video Input Pin (VLC only)"),
 				new TextPropertyDescriptor(AUDIO_INPUT_PROP,
-						"Audio Input Pin (VLC only)"), };
+						"Audio Input Pin (VLC only)"),
+				new TextPropertyDescriptor(EXTRA_ARGS_PROP, "Extra Arguments"), };
 		// use a custom cell editor validator for the array entries
 		for (int i = 0; i < descriptors.length; i++) {
 			((PropertyDescriptor) descriptors[i]).setCategory("Behaviour");
@@ -280,6 +293,8 @@ public class TunerVideoComponent extends ComponentModelElement {
 			return getProviderType(provider);
 		} else if (FULL_SCREEN_PROP.equals(propertyId)) {
 			return fullScreen;
+		} else if (EXTRA_ARGS_PROP.equals(propertyId)) {
+			return extraArgs;
 		} else {
 			return super.getPropertyValue(propertyId);
 		}
@@ -347,6 +362,10 @@ public class TunerVideoComponent extends ComponentModelElement {
 			Boolean oldValue = fullScreen;
 			fullScreen = ((Boolean) value).booleanValue();
 			firePropertyChange(FULL_SCREEN_PROP, oldValue, fullScreen);
+		} else if (EXTRA_ARGS_PROP.equals(propertyId)) {
+			String oldValue = extraArgs;
+			extraArgs = value.toString();
+			firePropertyChange(EXTRA_ARGS_PROP, oldValue, extraArgs);
 		} else {
 			super.setPropertyValue(propertyId, value);
 		}
@@ -379,6 +398,7 @@ public class TunerVideoComponent extends ComponentModelElement {
 		retVal.audioInput = this.audioInput;
 		retVal.provider = this.provider;
 		retVal.fullScreen = this.fullScreen;
+		retVal.extraArgs = this.extraArgs;
 		return retVal;
 	}
 

@@ -10,14 +10,14 @@
 package com.kesdip.player.components.media;
 
 import com.kesdip.common.util.FileUtils;
+import com.kesdip.common.util.StringUtils;
 import com.kesdip.player.Player;
 import com.kesdip.player.constenum.TunerReceptionTypes;
 
 /**
  * Displays video from the TV tuner (analog or DVB-T) using {@link MPlayer}.
  * 
- * TODO DVB-T not supported for now
- * TODO Analog TV has no sound support
+ * TODO DVB-T not supported for now TODO Analog TV has no sound support
  * 
  * @author gerogias
  * @see http://www.insomnia.gr/forum/showthread.php?t=253158
@@ -36,8 +36,8 @@ public class TunerVideo extends AbstractMPlayerVideo {
 	private String channel;
 
 	/**
-	 * Country code, used when mapping channels to frequencies. 
-	 * A 1 to 3 digit code, same as the international dialing number (e.g. 30 for Greece).
+	 * Country code, used when mapping channels to frequencies. A 1 to 3 digit
+	 * code, same as the international dialing number (e.g. 30 for Greece).
 	 */
 	private String country;
 
@@ -67,6 +67,7 @@ public class TunerVideo extends AbstractMPlayerVideo {
 			config.setWindowId(com.sun.jna.Native
 					.getComponentID(getWindowComponent()));
 		}
+		config.setExtraArgs(StringUtils.toArgArray(getExtraArgs(), "\\|"));
 		return config;
 	}
 
@@ -132,42 +133,11 @@ public class TunerVideo extends AbstractMPlayerVideo {
 		this.audioDevice = audioDevice;
 	}
 
-	// FIXME: the following are ignored, added because designer adds them
-
-	private String videoDevice = null;
-
-	private int videoInput = 0;
-
-	private int audioInput = 0;
-	
 	/**
-	 * @param videoDevice
-	 *            the device to set
-	 */
-	public void setVideoDevice(String videoDevice) {
-		this.videoDevice = videoDevice;
-	}
-
-	/**
-	 * @param input
-	 *            the input to set
-	 */
-	public void setVideoInput(int input) {
-		this.videoInput = input;
-	}
-
-	/**
-	 * @param country the country to set
+	 * @param country
+	 *            the country to set
 	 */
 	public void setCountry(String country) {
 		this.country = country;
 	}
-
-	/**
-	 * @param audioInput the audioInput to set
-	 */
-	public void setAudioInput(int audioInput) {
-		this.audioInput = audioInput;
-	}
-
 }

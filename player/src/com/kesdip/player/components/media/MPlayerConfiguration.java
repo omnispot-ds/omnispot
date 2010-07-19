@@ -64,11 +64,16 @@ public abstract class MPlayerConfiguration implements Serializable {
 	 * The absolute path to the player.
 	 */
 	private String playerExecutable = null;
-	
+
 	/**
 	 * The listeners for playback events.
 	 */
 	private List<MPlayerEventListener> listeners = new ArrayList<MPlayerEventListener>();
+	
+	/**
+	 * Extra command line arguments.
+	 */
+	private String[] extraArgs = null;
 
 	/**
 	 * @return the fullScreen
@@ -136,7 +141,8 @@ public abstract class MPlayerConfiguration implements Serializable {
 		clone.windowId = this.windowId;
 		clone.playerName = this.playerName;
 		clone.playerExecutable = this.playerExecutable;
-		clone.listeners.addAll(this.listeners); 
+		clone.listeners.addAll(this.listeners);
+		clone.extraArgs = this.extraArgs;
 	}
 
 	/**
@@ -213,10 +219,25 @@ public abstract class MPlayerConfiguration implements Serializable {
 	}
 
 	/**
-	 * @param playerExecutable the playerExecutable to set
+	 * @param playerExecutable
+	 *            the playerExecutable to set
 	 */
 	public void setPlayerExecutable(String playerExecutable) {
 		this.playerExecutable = playerExecutable;
+	}
+
+	/**
+	 * @return the extraArgs
+	 */
+	public String[] getExtraArgs() {
+		return extraArgs;
+	}
+
+	/**
+	 * @param extraArgs the extraArgs to set
+	 */
+	public void setExtraArgs(String[] extraArgs) {
+		this.extraArgs = extraArgs;
 	}
 
 }

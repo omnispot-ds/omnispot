@@ -11,6 +11,7 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
+import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,6 +48,8 @@ public class VideoComponent extends ComponentModelElement {
 	public static final String VIDEO_PROVIDER_PROP = "Video.VideoProvider";
 	/** Playback quality (MPlayer only) */
 	public static final String VIDEO_QUALITY_PROP = "Video.QualityProp";
+	/** Extra arguments */
+	public static final String EXTRA_ARGS_PROP = "Video.ExtraArgsProp";
 
 	private static final String STRING_VLC = "VLC";
 
@@ -61,12 +64,14 @@ public class VideoComponent extends ComponentModelElement {
 	private boolean repeat;
 	private String provider;
 	private String quality;
+	private String extraArgs;
 
 	public VideoComponent() {
 		videos = new ArrayList<Resource>();
 		repeat = false;
 		provider = STRING_MPLAYER;
 		quality = STRING_NORMAL_QUALITY;
+		extraArgs = "";
 	}
 
 	protected Element serialize(Document doc, boolean isPublish) {
@@ -83,8 +88,12 @@ public class VideoComponent extends ComponentModelElement {
 		super.serialize(doc, videoElement);
 		DOMHelpers.addProperty(doc, videoElement, "repeat", repeat ? "true"
 				: "false");
-		DOMHelpers.addProperty(doc, videoElement, "quality", quality
-				.equals(STRING_HIGH_QUALITY) ? "high" : "normal");
+		// do not serialize quality if not for MPlayer
+		if (provider.equals(STRING_MPLAYER)) {
+			DOMHelpers.addProperty(doc, videoElement, "quality", quality
+					.equals(STRING_HIGH_QUALITY) ? "high" : "normal");
+		}
+		DOMHelpers.addProperty(doc, videoElement, "extraArgs", extraArgs);
 		Element contentPropElement = DOMHelpers.addProperty(doc, videoElement,
 				"contents");
 		Element listElement = doc.createElement("list");
@@ -108,7 +117,8 @@ public class VideoComponent extends ComponentModelElement {
 				VIDEO_QUALITY_PROP,
 				"high".equalsIgnoreCase(qualityValue) ? getQualityType(STRING_HIGH_QUALITY)
 						: getQualityType(STRING_NORMAL_QUALITY));
-
+		setPropertyValue(EXTRA_ARGS_PROP, DOMHelpers.getSimpleProperty(
+				componentNode, "extraArgs"));
 		String className = componentNode.getAttributes().getNamedItem("class")
 				.getNodeValue();
 		if (className.equals("com.kesdip.player.components.media.FileVideo")) {
@@ -144,6 +154,7 @@ public class VideoComponent extends ComponentModelElement {
 		memento.putBoolean(TAG_REPEAT, repeat);
 		memento.putString(TAG_VIDEO_QUALITY, quality);
 		memento.putString(TAG_VIDEO_PROVIDER, provider);
+		memento.putString(TAG_EXTRA_ARGS, extraArgs);
 		/*
 		 * Do not save resources. for (Resource r : videos) { IMemento child =
 		 * memento.createChild(TAG_RESOURCE); r.save(child); }
@@ -155,6 +166,7 @@ public class VideoComponent extends ComponentModelElement {
 		repeat = memento.getBoolean(TAG_REPEAT);
 		quality = memento.getString(TAG_VIDEO_QUALITY);
 		provider = memento.getString(TAG_VIDEO_PROVIDER);
+		extraArgs = memento.getString(TAG_EXTRA_ARGS);
 		IMemento[] children = memento.getChildren(TAG_RESOURCE);
 		for (IMemento child : children) {
 			Resource r = new Resource("", "");
@@ -170,6 +182,7 @@ public class VideoComponent extends ComponentModelElement {
 		assert (repeat == ((VideoComponent) other).repeat);
 		assert (quality.equals(((VideoComponent) other).quality));
 		assert (provider.equals(((VideoComponent) other).provider));
+		assert (extraArgs.equals(((VideoComponent) other).extraArgs));
 		for (int i = 0; i < videos.size(); i++) {
 			Resource resource = videos.get(i);
 			Resource otherResource = ((VideoComponent) other).videos.get(i);
@@ -193,6 +206,7 @@ public class VideoComponent extends ComponentModelElement {
 				new ComboBoxPropertyDescriptor(VIDEO_QUALITY_PROP,
 						"Quality (MPlayer only)", new String[] {
 								STRING_NORMAL_QUALITY, STRING_HIGH_QUALITY }),
+				new TextPropertyDescriptor(EXTRA_ARGS_PROP, "Extra Arguments"),				
 				new ResourceListPropertyDescriptor(VIDEO_PROP, "Videos",
 						ResourceListCellEditorTypes.VIDEO_RESOURCE_LIST_EDITOR),
 				new CheckboxPropertyDescriptor(REPEAT_PROP, "Repeat") };
@@ -232,6 +246,8 @@ public class VideoComponent extends ComponentModelElement {
 			return getQualityType(quality);
 		} else if (VIDEO_PROVIDER_PROP.equals(propertyId)) {
 			return getProviderType(provider);
+		} else if (EXTRA_ARGS_PROP.equals(propertyId)) {
+			return extraArgs;
 		} else {
 			return super.getPropertyValue(propertyId);
 		}
@@ -283,6 +299,10 @@ public class VideoComponent extends ComponentModelElement {
 				throw new RuntimeException("Unexpected provider type.");
 			}
 			firePropertyChange(VIDEO_PROVIDER_PROP, oldValue, provider);
+		} else if (EXTRA_ARGS_PROP.equals(propertyId)) {
+			String oldValue = extraArgs;
+			extraArgs = value.toString();
+			firePropertyChange(EXTRA_ARGS_PROP, oldValue, extraArgs);
 		} else
 			super.setPropertyValue(propertyId, value);
 	}
@@ -353,6 +373,7 @@ public class VideoComponent extends ComponentModelElement {
 		retVal.repeat = this.repeat;
 		retVal.quality = this.quality;
 		retVal.provider = this.provider;
+		retVal.extraArgs = this.extraArgs;
 		for (Resource r : videos) {
 			retVal.videos.add(Resource.deepCopy(r));
 		}

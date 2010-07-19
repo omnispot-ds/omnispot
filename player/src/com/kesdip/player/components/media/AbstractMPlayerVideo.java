@@ -39,6 +39,11 @@ public abstract class AbstractMPlayerVideo extends AbstractComponent {
 	private MPlayer mPlayer = null;
 
 	/**
+	 * Additional command-line args.
+	 */
+	private String extraArgs = null;
+	
+	/**
 	 * @throws UnsupportedOperationException
 	 *             always
 	 * @see com.kesdip.player.components.Component#add(com.kesdip.player.components.Component)
@@ -142,6 +147,20 @@ public abstract class AbstractMPlayerVideo extends AbstractComponent {
 	}
 	public void setInput(int input) {
 		this.input = input;
+	}
+
+	/**
+	 * @return the extraArgs
+	 */
+	public String getExtraArgs() {
+		return extraArgs;
+	}
+
+	/**
+	 * @param extraArgs the extraArgs to set
+	 */
+	public void setExtraArgs(String extraArgs) {
+		this.extraArgs = extraArgs;
 	}
 
 

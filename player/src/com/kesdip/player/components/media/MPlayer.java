@@ -194,6 +194,12 @@ public class MPlayer implements ProcessExitListener {
 								.getQuality())) {
 			cmd.append(" -vo directx:noaccel");
 		}
+		// extra command line args
+		if (configuration.getExtraArgs() != null) {
+			for (String arg : configuration.getExtraArgs()) {
+				cmd.append(' ').append(arg);
+			}
+		}
 		if (configuration instanceof VideoConfiguration) {
 			// add files to the queue, if any
 			VideoConfiguration video = (VideoConfiguration) configuration;
