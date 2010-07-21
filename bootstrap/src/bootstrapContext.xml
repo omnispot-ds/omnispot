@@ -30,18 +30,18 @@
 	 <property name="dataSource" ref="bootstrapDataSource"/>
 	 <property name="mappingResources">  
 	  <list> 
-   			<value>com/kesdip/business/domain/AccessControl.hbm.xml</value>
-			<value>com/kesdip/business/domain/AccessRight.hbm.xml</value>
-			<value>com/kesdip/business/domain/Content.hbm.xml</value>
-			<value>com/kesdip/business/domain/Customer.hbm.xml</value>
-			<value>com/kesdip/business/domain/Deployment.hbm.xml</value>
-			<value>com/kesdip/business/domain/Installation.hbm.xml</value>
-			<value>com/kesdip/business/domain/User.hbm.xml</value>
-			<value>com/kesdip/business/domain/Action.hbm.xml</value>
-			<value>com/kesdip/business/domain/Parameter.hbm.xml</value>
-			<value>com/kesdip/business/domain/StatusEntry.hbm.xml</value>
-			<value>com/kesdip/business/domain/Site.hbm.xml</value>
-			<value>com/kesdip/business/domain/InstallationGroup.hbm.xml</value>
+   			<value>com/kesdip/business/domain/admin/AccessControl.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/AccessRight.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/Content.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/Customer.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/Deployment.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/Installation.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/User.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/Action.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/Parameter.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/StatusEntry.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/Site.hbm.xml</value>
+			<value>com/kesdip/business/domain/admin/InstallationGroup.hbm.xml</value>
 	  </list> 
 	 </property>
 	 <property name="hibernateProperties">

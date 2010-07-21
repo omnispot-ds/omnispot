@@ -188,6 +188,13 @@ public class Config {
 	}
 
 	/**
+	 * @return String the player's temp directory
+	 */
+	public String getPlayerTmpDir() {
+		return getPlayerWorkingDir() + "/tmp";
+	}
+	
+	/**
 	 * Get the interval that the manager thread sleeps before communicating with
 	 * the server
 	 * 

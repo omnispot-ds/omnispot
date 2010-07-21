@@ -13,6 +13,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import com.kesdip.bootstrap.Config;
+import com.kesdip.common.util.FileUtils;
 import com.kesdip.common.util.ProcessUtils;
 import com.kesdip.common.util.process.StreamLogger;
 
@@ -22,6 +23,9 @@ import com.kesdip.common.util.process.StreamLogger;
  * @author Pafsanias Ftakas
  */
 public class RestartPlayerMessage extends Message {
+	/**
+	 * The logger.
+	 */
 	private static final Logger logger = Logger
 			.getLogger(RestartPlayerMessage.class);
 
@@ -53,6 +57,9 @@ public class RestartPlayerMessage extends Message {
 		ProcessUtils.killAll("mplayer.exe");
 		ProcessUtils.killAll("vlc.exe");
 
+		// create the temp dir if it does not exist
+		createTempDir();
+
 		// Set up the command line
 		List<String> cmdArray = new ArrayList<String>();
 
@@ -60,10 +67,16 @@ public class RestartPlayerMessage extends Message {
 		// cmdArray.add("-Xdebug");
 		// cmdArray
 		// .add("-Xrunjdwp:transport=dt_socket,server=y,address=12999,suspend=n");
+		// memory args
 		cmdArray.add("-Xms32m");
 		cmdArray.add("-Xmx128m");
+		// classpath
 		cmdArray.add("-cp");
 		cmdArray.add(Config.getSingleton().getPlayerClasspath());
+		// system properties (tmp dir etc)
+		cmdArray.add("-Djava.io.tmpdir=\""
+				+ Config.getSingleton().getPlayerTmpDir() + '\"');
+		// main class
 		cmdArray.add(Config.getSingleton().getPlayerMainClass());
 
 		String workingDir = Config.getSingleton().getPlayerWorkingDir();
@@ -101,5 +114,16 @@ public class RestartPlayerMessage extends Message {
 	 */
 	public static Process getPlayerProcess() {
 		return playerProcess;
+	}
+
+	/**
+	 * Create the player's temp directory.
+	 */
+	private final void createTempDir() {
+		try {
+			FileUtils.getFolder(Config.getSingleton().getPlayerTmpDir());
+		} catch (Exception e) {
+			// do nothing
+		}
 	}
 }
