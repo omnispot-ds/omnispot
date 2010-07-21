@@ -1746,7 +1746,7 @@ FC9F1EF9-994A-4617-B1AD-EE6EEA8AB114,StatusText,subst
 1
 
 FC9F1EF9-994A-4617-B1AD-EE6EEA8AB114,ZipFile
-<%InstallDir%>/designer/plugins/com.kesdip.designer.preview_1.0.0.jar
+<%InstallDir%>/designer/plugins/com.kesdip.designer.preview_1.1.7.jar
 
 FreeBSD-4-x86,Active
 No

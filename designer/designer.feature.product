@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="OmniSpot Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.1.6" useFeatures="true">
+<product name="OmniSpot Designer" id="com.kesdip.designer.product" application="com.kesdip.designer.application" version="1.1.7" useFeatures="true">
 
    <aboutInfo>
       <image path="/com.kesdip.designer/splash.png"/>
       <text>
-         OmniSpot Designer (v.1.1.6) 
+         OmniSpot Designer (v.1.1.7) 
 Copyright 2009-2010
       </text>
    </aboutInfo>
@@ -26,6 +26,7 @@ Copyright 2009-2010
    </launcherArgs>
 
    <windowImages i16="icons/display.png" i32="icons/display_large.png"/>
+
 
    <launcher>
       <solaris/>

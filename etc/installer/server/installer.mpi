@@ -81,7 +81,7 @@ InstallPassword
 {}
 
 InstallVersion
-{0.0.0.0}
+{1.1.7.0}
 
 Language,ca
 {Yes}
@@ -4592,7 +4592,7 @@ array set Properties {
 {1}
 
 73634E37-3AA2-454B-9FA6-E1B6DABE478D,ZipFile
-{<%InstallDir%>/designer/plugins/com.kesdip.designer.preview_1.0.0.jar}
+{<%InstallDir%>/designer/plugins/com.kesdip.designer.preview_1.1.7.jar}
 
 7445C11C-4E1D-4992-858D-9931391E456B,Comment
 {Ask the user if they want to proceed with the uninstall.}
