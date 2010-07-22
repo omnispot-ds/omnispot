@@ -149,6 +149,13 @@ public abstract class AbstractVideo extends AbstractComponent {
 				args.add(arg.trim());
 			}
 		}
+		if (logger.isDebugEnabled()) {
+			StringBuilder cmd = new StringBuilder();
+			for (String item : args) {
+				cmd.append(item).append(' ');
+			}
+			logger.debug("VLC command line: " + cmd);
+		}
 		// init native component
 		String[] ma = args.toArray(new String[args.size()]);
 		libvlc_instance_t = libVlc.libvlc_new(ma.length, ma, exception);
